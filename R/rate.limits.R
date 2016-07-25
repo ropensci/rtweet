@@ -24,7 +24,6 @@ rate_limit <- function(token, query = NULL) {
   json.obj <- from_js(r)
 
   if (is.null(query)) {
-    json.obj[grepl(query, names(json.obj), ignore.case = TRUE)]
     rl_df <- as.data.frame(from_js(r), stringsAsFactors = FALSE)
     rl_df <- rl_df[!names(rl_df) == "access_token"]
 
@@ -37,8 +36,8 @@ rate_limit <- function(token, query = NULL) {
       stringsAsFactors = FALSE,
       row.names = NULL)
 
-    asdf$remaining <- as.POSIXct(asdf$remaining,
-      origin = "1970-01-01")
+    asdf$remaining <- as.Date(as.POSIXct(asdf$remaining,
+      origin = "1970-01-01"))
     asdf$names <- gsub(
       ".limit$|.reset$|.remaining$|", "", asdf$names)
 

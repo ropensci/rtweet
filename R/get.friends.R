@@ -30,7 +30,7 @@ get_friends <- function(user, token = NULL, page = "-1",
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- token[[1]]
+    token <- fetch_tokens(token, "friends/ids")
   }
 
   resp <- TWIT(get = TRUE, url, token)
