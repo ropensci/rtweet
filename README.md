@@ -1,6 +1,6 @@
 # rtweet
 
-## about tfse
+## about rtweet
 - R package consisting of functions designed to interact with twitter's API
 
 ## install
@@ -23,7 +23,7 @@ into the `get_token()` function (see demo below).
 
 |                 |                                         |
 |-----------------|-----------------------------------------|
-| Name            | tfse_app                                |
+| Name            | rtweet_app                                |
 | Description     | Twitter follows and selective exposure  |
 | Website         | http://twitter.com/kearneymw            |
 | Callback URL    | http://127.0.0.1:1410                   |
