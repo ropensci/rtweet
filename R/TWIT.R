@@ -23,11 +23,24 @@
 #' @return Response (json) object
 #' @import httr
 #' @export
-TWIT <- function(get = TRUE, url, ..., catch_error = FALSE) {
+TWIT <- function(get = TRUE, url, ..., timeout = NULL,
+                 filename = NULL, catch_error = FALSE) {
+
   if (get) {
     resp <- GET(url, ...)
   } else {
-    resp <- POST(url, ...)
+    if (!is.null(timeout)) {
+      if (!is.null(filename)) {
+        tryCatch(
+          POST(url, ...,
+            timeout(timeout),
+            write_disk(filename, overwrite = TRUE)),
+            error = function(e) return(invisible()))
+        return(invisible())
+      }
+    } else {
+      resp <- POST(url, ...)
+    }
   }
 
   if (catch_error) stop_for_status(resp)

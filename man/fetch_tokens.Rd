@@ -4,12 +4,15 @@
 \alias{fetch_tokens}
 \title{fetch_tokens}
 \usage{
-fetch_tokens(tokens, query)
+fetch_tokens(tokens, query, sleep = FALSE)
 }
 \arguments{
 \item{tokens}{list of oauth tokens}
 
 \item{query}{character vector, Twitter API query of interest}
+
+\item{sleep}{logical indicating whether to force system sleep if
+rate limit is exhausted. defaults to \code{sleep = FALSE}.}
 }
 \value{
 token with non-exhausted rate limit

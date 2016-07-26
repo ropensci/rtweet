@@ -13,13 +13,13 @@
 #' @return response Rate limit response object or specific value of
 #'   remaining requests
 #' @export
-rate_limit <- function(token, query = NULL) {
+rate_limit <- function(token, query = NULL, rest = TRUE) {
 
-  url <- make_url(restapi = TRUE,
+  url <- make_url(restapi = rest,
     query = "application/rate_limit_status",
     param = list(resources = "users,statuses,friends,search"))
 
-  r <- TWIT(get = TRUE, url, config = token, catch_error = TRUE)
+  r <- TWIT(get = TRUE, url, config = token, catch_error = FALSE)
 
   json.obj <- from_js(r)
 

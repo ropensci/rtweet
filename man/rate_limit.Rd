@@ -4,7 +4,7 @@
 \alias{rate_limit}
 \title{rate_limit}
 \usage{
-rate_limit(token, query = NULL)
+rate_limit(token, query = NULL, rest = TRUE)
 }
 \arguments{
 \item{token}{An OAuth token (1.0 or 2.0)}

@@ -4,7 +4,7 @@
 #' @details dplyr
 #' @export
 parse_status <- function(x) {
-  if (sum(x$is_quote_status) == 0) {
+  if (sum(x$is_quote_status, na.rm = TRUE) == 0) {
     x$quoted_status_id_str <- NA
   }
   df <- dplyr::data_frame(

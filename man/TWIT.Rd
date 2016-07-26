@@ -4,7 +4,8 @@
 \alias{TWIT}
 \title{TWIT}
 \usage{
-TWIT(get = TRUE, url, ..., catch_error = FALSE)
+TWIT(get = TRUE, url, ..., timeout = NULL, filename = NULL,
+  catch_error = FALSE)
 }
 \arguments{
 \item{get}{Locigical with the default, \code{get = TRUE},
