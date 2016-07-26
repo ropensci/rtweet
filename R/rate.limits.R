@@ -36,18 +36,19 @@ rate_limit <- function(token, query = NULL) {
       stringsAsFactors = FALSE,
       row.names = NULL)
 
-    asdf$remaining <- as.Date(as.POSIXct(asdf$remaining,
-      origin = "1970-01-01"))
+    asdf$remaining <- as.POSIXct(
+        as.numeric(asdf$remaining),
+        origin = "1970-01-01")
+
     asdf$names <- gsub(
       ".limit$|.reset$|.remaining$|", "", asdf$names)
 
     return(asdf[!duplicated(asdf[, 1]), ])
   }
-  else {
-    return(unlist(json.obj)[
+
+  return(unlist(json.obj)[
       grepl(paste0(query,
           ".[limit|remaining|reset]"),
         names(unlist(
           json.obj)))])
-  }
 }

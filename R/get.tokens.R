@@ -82,15 +82,28 @@ load_tokens <- function(pat) {
 #'   remaining is greater than 0.
 #' @param tokens list of oauth tokens
 #' @param query character vector, Twitter API query of interest
+#' @param sleep logical indicating whether to force system sleep if
+#'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
 #' @return token with non-exhausted rate limit
 #' @export
-fetch_tokens <- function(tokens, query) {
+fetch_tokens <- function(tokens, query, sleep = FALSE) {
   if (length(tokens) == 0) return(tokens)
 
   for (i in 1:length(tokens)) {
     token <- tokens[[i]]
     remain <- rate_limit(token, query)
-    if (remain[[2]] > 0) break
+    if (remain[[2]] > 0) return(token)
+  }
+
+  if (sleep) {
+    token <- tokens[[1]]
+    remain <- rate_limit(token, query)
+    wait.time <- as.POSIXct(remain[[3]]) - Sys.time()
+    Sys.sleep(wait.time[[1]] * 60)
+    return(token)
+
+  } else {
+    stop("rate limit exceeded - please wait")
   }
 
   token

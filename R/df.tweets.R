@@ -160,7 +160,7 @@ parse_user <- function(x) {
     "friends_count" = x$friends_count,
     "listed_count" = x$listed_count,
     "created_at" = as.POSIXct(
-      x$created_at,
+      as.numeric(x$created_at),
       format = "%a %b %d %H:%M:%S %z %Y"),
     "favourites_count" = x$favourites_count,
     "utc_offset" = x$utc_offset,
@@ -169,6 +169,7 @@ parse_user <- function(x) {
     "verified" = x$verified,
     "statuses_count" = x$statuses_count,
     "lang" = x$lang)
+
   user_df
 }
 
