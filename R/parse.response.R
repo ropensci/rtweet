@@ -4,9 +4,11 @@
 #' @details dplyr
 #' @export
 parse_status <- function(x) {
+
   if (sum(x$is_quote_status, na.rm = TRUE) == 0) {
     x$quoted_status_id_str <- NA
   }
+
   df <- dplyr::data_frame(
     status_id = x$id_str,
     text = x$text,
@@ -101,21 +103,21 @@ parse_place <- function(x) {
     "place_country_code" = x$country_code,
     "place_country" = x$country,
     "place_long1" = lapply(x$bounding_box$coordinates,
-                           function(x) x[1, 1, 1]),
+      function(x) x[1, 1, 1]),
     "place_long2" = lapply(x$bounding_box$coordinates,
-                           function(x) x[1, 2, 1]),
+      function(x) x[1, 2, 1]),
     "place_long3" = lapply(x$bounding_box$coordinates,
-                           function(x) x[1, 3, 1]),
+      function(x) x[1, 3, 1]),
     "place_long4" = lapply(x$bounding_box$coordinates,
-                           function(x) x[1, 4, 1]),
+      function(x) x[1, 4, 1]),
     "place_lat1" = lapply(x$bounding_box$coordinates,
-                          function(x) x[1, 1, 2]),
+      function(x) x[1, 1, 2]),
     "place_lat2" = lapply(x$bounding_box$coordinates,
-                          function(x) x[1, 2, 2]),
+      function(x) x[1, 2, 2]),
     "place_lat3" = lapply(x$bounding_box$coordinates,
-                          function(x) x[1, 3, 2]),
+      function(x) x[1, 3, 2]),
     "place_lat4" = lapply(x$bounding_box$coordinates,
-                          function(x) x[1, 4, 2]))
+      function(x) x[1, 4, 2]))
   place_df
 }
 
@@ -192,7 +194,7 @@ parse_user <- function(x) {
     c(x, rep(NA_character_, ncols - length(x))))
 
   x <- data.frame(matrix(unlist(x), ncol = ncols, byrow = TRUE),
-                  stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE)
 
   names(x) <- sapply(seq_len(ncols), function(x) paste0(".", x))
 

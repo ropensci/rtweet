@@ -68,8 +68,7 @@ stream_tweets <- function(stream, timeout = 20, token = NULL,
   url <- make_url(
     restapi = FALSE,
     "statuses/filter",
-    param = params
-    )
+    param = params)
 
   file.create(file_name)
 

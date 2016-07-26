@@ -58,12 +58,13 @@ get_friends <- function(user, token = NULL, page = "-1",
 #' @return list of friends for each of multiple users
 #' @export
 get_friends_max <- function(user_ids, tokens) {
+
   fds <- vector("list", length(tokens))
 
   for (i in seq_along(tokens)) {
-      fds[[i]] <- lapply(
-      user_ids[which_ids(i)],
-      function(x) get_friends(x, tokens[[i]]))
+    fds[[i]] <- lapply(
+    user_ids[which_ids(i)],
+    function(x) get_friends(x, tokens[[i]]))
   }
 
   do.call("c", fds)

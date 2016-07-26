@@ -42,10 +42,15 @@ get_tokens <- function() {
 #' @import httr
 #' @export
 create_token <- function(app, consumer_key, consumer_secret) {
-  token <- oauth_app(appname = app,
-                   key = consumer_key,
-                   secret = consumer_secret)
-  token <- oauth1.0_token(oauth_endpoints("twitter"), token)
+  token <- oauth_app(
+    appname = app,
+    key = consumer_key,
+    secret = consumer_secret)
+
+  token <- oauth1.0_token(
+    oauth_endpoints("twitter"),
+    token)
+
   token
 }
 
@@ -58,9 +63,9 @@ twitter_pat <- function() {
   pat <- Sys.getenv("TWITTER_PAT")
 
   if (identical(pat, "")) {
-    stop("Please set env var TWITTER_PAT to your
-         Twitter personal access token(s)",
-         call. = FALSE)
+    stop(
+      "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
+      call. = FALSE)
   }
   pat
 }
