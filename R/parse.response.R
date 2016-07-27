@@ -163,7 +163,7 @@ parse_user <- function(x) {
     "listed_count" = x$listed_count,
     "created_at" = as.POSIXct(
       as.numeric(x$created_at),
-      format = "%a %b %d %H:%M:%S %z %Y"),
+      origin = "1970-01-01"),
     "favourites_count" = x$favourites_count,
     "utc_offset" = x$utc_offset,
     "time_zone" = x$time_zone,
