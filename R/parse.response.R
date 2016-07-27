@@ -162,8 +162,8 @@ parse_user <- function(x) {
     "friends_count" = x$friends_count,
     "listed_count" = x$listed_count,
     "created_at" = as.POSIXct(
-      as.numeric(x$created_at),
-      origin = "1970-01-01"),
+      x$created_at,
+      format = "%a %b %d %H:%M:%S %z %Y"),
     "favourites_count" = x$favourites_count,
     "utc_offset" = x$utc_offset,
     "time_zone" = x$time_zone,

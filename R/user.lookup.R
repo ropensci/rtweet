@@ -19,7 +19,7 @@ user_lookup <- function(user_ids, token = NULL) {
     user_ids <- user_ids[1:100]
   }
 
-  params <- list(id = paste(user_ids, collapse = ","))
+  params <- list(user_id = paste(user_ids, collapse = ","))
 
   url <- make_url(
     restapi = TRUE,
@@ -28,7 +28,7 @@ user_lookup <- function(user_ids, token = NULL) {
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- fetch_tokens(token, "friends/ids")
+    token <- fetch_tokens(token, "users/lookup")
   }
 
   resp <- TWIT(get = TRUE, url, token)
@@ -52,7 +52,7 @@ user_lookup <- function(user_ids, token = NULL) {
 lookup_users <- function(ids, token = NULL) {
 
   if (class(ids) == "list") {
-    user_ids <- unlist(ids)
+    ids <- unlist(ids)
   }
 
   if (length(ids) > 18000) {
@@ -60,6 +60,7 @@ lookup_users <- function(ids, token = NULL) {
   }
 
   reqs <- 1:ceiling(length(ids) / 100)
+
   first <- 1
 
   usr_df <- dplyr::data_frame()
