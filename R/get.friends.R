@@ -43,29 +43,3 @@ get_friends <- function(user, token = NULL, page = "-1",
 
   fds["ids"]
 }
-
-
-#' get_friends_max
-#'
-#' Requests information from Twitter's REST API
-#' regarding a user's friend network (i.e., accounts followed
-#' by a user). To request information on followers of accounts.
-#' Maximizes return from get_friends() by returning max
-#' number of friend networks for available (selected) tokens.
-#'
-#' @param user_ids vector of user ids
-#' @param tokens list of OAuth tokens (1.0 or 2.0)
-#' @return list of friends for each of multiple users
-#' @export
-get_friends_max <- function(user_ids, tokens) {
-
-  fds <- vector("list", length(tokens))
-
-  for (i in seq_along(tokens)) {
-    fds[[i]] <- lapply(
-    user_ids[which_ids(i)],
-    function(x) get_friends(x, tokens[[i]]))
-  }
-
-  do.call("c", fds)
-}

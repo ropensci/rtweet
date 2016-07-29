@@ -65,17 +65,17 @@ parse_all_tweets <- function(x) {
   tweets_df <- parse_status(x)
 
   if (is.data.frame(x$place)) {
-    tweets_df <- dplyr::bind_rows(
+    tweets_df <- dplyr::bind_cols(
       tweets_df, parse_place(x$place))
   }
 
   if (is.data.frame(x$user)) {
-    tweets_df <- dplyr::bind_rows(
+    tweets_df <- dplyr::bind_cols(
       tweets_df, parse_user(x$user))
   }
 
   if (is.data.frame(x$retweeted_status)) {
-    tweets_df <- dplyr::bind_rows(
+    tweets_df <- dplyr::bind_cols(
       tweets_df, parse_retweet(x$retweeted_status))
   }
 
@@ -118,6 +118,7 @@ parse_place <- function(x) {
       function(x) x[1, 3, 2]),
     "place_lat4" = lapply(x$bounding_box$coordinates,
       function(x) x[1, 4, 2]))
+
   place_df
 }
 

@@ -2,7 +2,7 @@
 #'
 #' @description Call function used to load Twitter oauth tokens.
 #'   Since Twitter app key should be stored private, you are encouraged
-#'   to create and save an R user profile declearing the path to your
+#'   to create and save an R user profile declaring the path to your
 #'   Twitter tokens. This allows Tokens to be instantly  [re]loaded
 #'   for future sessions. It also makes it easier to write teh card -
 #'   allowing internals of the functions t call your tokens for you.
@@ -10,7 +10,7 @@
 #' @export
 get_tokens <- function() {
   if (is.null(.state$twitter_tokens)) {
-    load_tokens(twitter_pat())
+    load(twitter_pat(), .state)
   }
   .state$twitter_tokens
 }

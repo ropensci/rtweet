@@ -4,7 +4,7 @@
 \alias{stream_tweets}
 \title{stream_tweets}
 \usage{
-stream_tweets(stream, timeout = 20, token = NULL, delimited = FALSE,
+stream_tweets(stream, timeout = 60, token = NULL, delimited = FALSE,
   stall_warnings = FALSE, file_name = NULL)
 }
 \arguments{

@@ -3,3 +3,4 @@ packrat/lib*/
 packrat
 .Rprofile
 .Rproj.user
+tweets.json

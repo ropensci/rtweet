@@ -37,9 +37,15 @@
 #'   generates random file name and parses tweets.
 #' @import jsonlite
 #' @export
-stream_tweets <- function(stream, timeout = 20, token = NULL,
+stream_tweets <- function(stream, timeout = 60, token = NULL,
                           delimited = FALSE, stall_warnings = FALSE,
                           file_name = NULL) {
+
+  if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
+
+  if (is.null(token)) {
+    token <- get_tokens()[[1]]
+  }
 
   if (missing(stream)) stop("Must include stream search call.")
 
@@ -47,23 +53,13 @@ stream_tweets <- function(stream, timeout = 20, token = NULL,
 
   if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
     if (all(is.integer(as.integer(stream)))) {
-      api_type <- "follow"
+      params <- list(follow = stream)
     } else {
-      api_type <- "locations"
+      params <- list(locations = stream)
     }
   } else {
-    api_type <- "track"
+    params <- list(track = stream)
   }
-
-  if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
-
-  if (is.null(token)) {
-    token <- get_tokens()
-    token <- fetch_tokens(token, "statuses/filter")
-  }
-
-  params <- list(api_type = stream)
-  names(params) <- api_type
 
   url <- make_url(
     restapi = FALSE,
@@ -78,9 +74,9 @@ stream_tweets <- function(stream, timeout = 20, token = NULL,
     timeout = timeout,
     filename = file_name)
 
-  resp <- stream_in(file(file_name))
+  resp <- jsonlite::stream_in(file(file_name))
 
   if (is.null(file_name)) file.remove(file_name)
 
-  parse_status(resp)
+  parse_all_tweets(resp)
 }

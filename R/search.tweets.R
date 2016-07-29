@@ -33,7 +33,7 @@
 #'   sending (only ja is currently effective). This is intended for
 #'   language-specific consumers and the default should work in the
 #'   majority of cases.
-#' @param result_type optional, Specifies what type of search results
+#' @param type optional, Specifies what type of search results
 #'   you would prefer to receive. The current default is “mixed.”
 #'   Valid values include \code{'mixed'} to include both popular and
 #'   real time results in the response, \code{'recent'} to return
@@ -73,7 +73,7 @@
 #' @return json object
 #' @details dplyr
 #' @export
-search_tweets <- function(q, count = 100, result_type = "mixed",
+search_tweets <- function(q, count = 100, type = "mixed",
                           token = NULL, ...) {
 
   if (is.null(token)) {
@@ -83,7 +83,7 @@ search_tweets <- function(q, count = 100, result_type = "mixed",
 
   params <- list(
     q = q,
-    result_type = result_type,
+    result_type = type,
     count = "100",
     cursor = "-1",
     ...)

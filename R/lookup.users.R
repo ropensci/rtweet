@@ -51,32 +51,27 @@ user_lookup <- function(user_ids, token = NULL) {
 #' @export
 lookup_users <- function(ids, token = NULL) {
 
-  if (class(ids) == "list") {
-    ids <- unlist(ids)
-  }
-
   if (length(ids) > 18000) {
     ids <- ids[1:18000]
   }
 
   reqs <- 1:ceiling(length(ids) / 100)
-
-  first <- 1
+  from <- 1
 
   usr_df <- dplyr::data_frame()
 
   for (i in reqs) {
-    last <- first + 99
+    to <- from + 99
 
     usr_new <- user_lookup(
-      ids[first:last],
+      ids[from:to],
       token)
 
     usr_df <- dplyr::bind_rows(
       usr_df,
       usr_new)
 
-    first <- last + 1
+    from <- to + 1
   }
 
   usr_df

@@ -4,7 +4,7 @@
 \alias{search_tweets}
 \title{search_tweets}
 \usage{
-search_tweets(q, count = 100, result_type = "mixed", token = NULL, ...)
+search_tweets(q, count = 100, type = "mixed", token = NULL, ...)
 }
 \arguments{
 \item{q}{required, A UTF-8, URL-encoded search query of 500
@@ -15,7 +15,7 @@ additionally be limited by complexity.}
 up to a maximum of 100. Defaults to 15. This was formerly the
 “rpp” parameter in the old Search API.}
 
-\item{result_type}{optional, Specifies what type of search results
+\item{type}{optional, Specifies what type of search results
 you would prefer to receive. The current default is “mixed.”
 Valid values include \code{'mixed'} to include both popular and
 real time results in the response, \code{'recent'} to return
