@@ -42,30 +42,36 @@ from_js <- function(rsp) {
 #' @export
 rate_limit <- function(token, query = NULL, rest = TRUE) {
 
-  url <- make_url(restapi = rest,
+  params <- list(resources = "users,statuses,friends,search")
+
+  url <- make_url(
+    restapi = rest,
     query = "application/rate_limit_status",
-    param = list(resources = "users,statuses,friends,search"))
+    param = params)
 
   r <- TWIT(get = TRUE, url, config = token, catch_error = FALSE)
 
-  rl_df <- as.data.frame(from_js(r), stringsAsFactors = FALSE)
-  rl_df <- rl_df[!names(rl_df) == "access_token"]
+  rl_df <- as.data.frame(
+    from_js(r),
+    stringsAsFactors = FALSE)[, -1]
 
   rl_df <- data.frame(
-    query = gsub(
-      "resources.users..|resources.statuses..|resources.friends..|resources.search..",
-      "", unique(gsub(
-        ".limit$|.reset$|.remaining$|", "",
-        names(rl_df)))),
-    limit =  unlist(rl_df[seq(1, length(rl_df), 3)]),
-    remaining = unlist(rl_df[seq(2, length(rl_df), 3)]),
-    reset = unlist(rl_df[seq(3, length(rl_df), 3)]),
+    query = gsub(".*[.][.]", "", names(rl_df)),
+    limit =  unlist(rl_df[grepl(".limit", names(rl_df))]),
+    remaining = unlist(rl_df[, grepl(".remaining", names(rl_df))]),
+    reset = unlist(rl_df[, grepl(".reset", names(rl_df))]),
     stringsAsFactors = FALSE,
     row.names = NULL)
 
-  rl_df$reset <- as.POSIXct(
-    as.numeric(rl_df$reset),
-    origin = "1970-01-01")
+  rl_df <- rl_df[grepl(".limit", rl_df$query), ]
+
+  rl_df$reset <- difftime(
+    as.POSIXct(rl_df$reset,
+      origin = "1970-01-01"),
+    Sys.time(),
+    units = "mins")
+
+  rl_df$query <- sub(".limit", "", rl_df$query)
 
   if (!is.null(query)) {
     query <- gsub("[/]", ".", query)

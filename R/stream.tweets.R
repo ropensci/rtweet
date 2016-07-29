@@ -44,7 +44,8 @@ stream_tweets <- function(stream, timeout = 60, token = NULL,
   if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
 
   if (is.null(token)) {
-    token <- get_tokens()[[1]]
+    token <- get_tokens()
+    token <- fetch_tokens(token, "friends/ids")
   }
 
   if (missing(stream)) stop("Must include stream search call.")
