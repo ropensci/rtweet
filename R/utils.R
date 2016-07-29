@@ -42,13 +42,46 @@ from_js <- function(rsp) {
 #' @export
 rate_limit <- function(token, query = NULL, rest = TRUE) {
 
+<<<<<<< HEAD
   url <- make_url(
     restapi = rest,
     query = "application/rate_limit_status")
+=======
+  params <- list(resources = "users,statuses,friends,search")
+
+  url <- make_url(
+    restapi = rest,
+    query = "application/rate_limit_status",
+    param = params)
+>>>>>>> b713b5ab00508dac1e7e8326a3a7275dc4c5afee
 
   r <- TWIT(get = TRUE, url, config = token)
 
+<<<<<<< HEAD
   rl_df <- rl_df(r)
+=======
+  rl_df <- as.data.frame(
+    from_js(r),
+    stringsAsFactors = FALSE)[, -1]
+
+  rl_df <- data.frame(
+    query = gsub(".*[.][.]", "", names(rl_df)),
+    limit =  unlist(rl_df[grepl(".limit", names(rl_df))]),
+    remaining = unlist(rl_df[, grepl(".remaining", names(rl_df))]),
+    reset = unlist(rl_df[, grepl(".reset", names(rl_df))]),
+    stringsAsFactors = FALSE,
+    row.names = NULL)
+
+  rl_df <- rl_df[grepl(".limit", rl_df$query), ]
+
+  rl_df$reset <- difftime(
+    as.POSIXct(rl_df$reset,
+      origin = "1970-01-01"),
+    Sys.time(),
+    units = "mins")
+
+  rl_df$query <- sub(".limit", "", rl_df$query)
+>>>>>>> b713b5ab00508dac1e7e8326a3a7275dc4c5afee
 
   if (!is.null(query)) {
     rl_df <- rl_df[grep(query, rl_df$query), ]
