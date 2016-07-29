@@ -96,19 +96,23 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
   for (i in 1:length(tokens)) {
     token <- tokens[[i]]
-    remain <- rate_limit(token, query)
-    if (remain[[2]] > 0) return(token)
+
+    remaining <- rate_limit(token, query)[, "remaining"]
+
+    if (remaining > 0) return(token)
   }
 
   if (sleep) {
     token <- tokens[[1]]
-    remain <- rate_limit(token, query)
-    wait.time <- as.POSIXct(remain[[3]]) - Sys.time()
-    Sys.sleep(wait.time[[1]] * 60)
+
+    reset <- rate_limit(token, query)[, "reset"]
+
+    Sys.sleep(reset[[1]] * 60)
+
     return(token)
 
   } else {
-    stop("rate limit exceeded - please wait")
+    message("Rate limit exceeded - please wait!")
   }
 
   token

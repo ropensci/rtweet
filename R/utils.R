@@ -64,24 +64,22 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
 #' @param r rate limit response object
 #' @return cleaned up data frame of rate limit info
 rl_df <- function(r) {
+
   r <- from_js(r)
+
   data <- r$resources
 
   rl_df <- data.frame(
     query = gsub(".limit|.remaining|.reset", "",
-      gsub(".*[.][/]", "", names(unlist(data)))),
-    limit = unlist(lapply(data, function(x)
-      unlist(lapply(x, function(y) y['limit'])))),
-    remaining = unlist(lapply(data, function(x)
-      unlist(lapply(x, function(y) y['remaining'])))),
-    reset = unlist(lapply(data, function(x)
-      unlist(lapply(x, function(y) y['reset'])))),
+      gsub(".*[.][/]", "", grep(".limit$", names(unlist(data)), value = TRUE))),
+    limit = unlist(lapply(data, function(y)
+      lapply(y, function(x) getElement(x, "limit")))),
+    remaining = unlist(lapply(data, function(y)
+      lapply(y, function(x) getElement(x, "remaining")))),
+    reset = unlist(lapply(data, function(y)
+      lapply(y, function(x) getElement(x, "reset")))),
     row.names = NULL,
     stringsAsFactors = FALSE)
-
-  rl_df <- rl_df[!duplicated(rl_df$query), ]
-
-  row.names(rl_df) <- NULL
 
   rl_df$reset <- difftime(
     as.POSIXct(rl_df$reset,
