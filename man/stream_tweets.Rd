@@ -4,8 +4,7 @@
 \alias{stream_tweets}
 \title{stream_tweets}
 \usage{
-stream_tweets(stream, timeout = 60, token = NULL, delimited = FALSE,
-  stall_warnings = FALSE, file_name = NULL)
+stream_tweets(stream, timeout = 30, token = NULL, file_name = NULL)
 }
 \arguments{
 \item{stream}{either follower A comma separated list of
@@ -21,6 +20,9 @@ open while streaming/capturing tweets}
 
 \item{token}{OAuth token (1.0 or 2.0)}
 
+\item{file_name}{character name of file. By defaut, this
+generates random file name and parses tweets.}
+
 \item{delimited}{optional Specifies whether messages
 should be length-delimited. See delimited for more
 information.}
@@ -28,9 +30,6 @@ information.}
 \item{stall_warnings}{optional Specifies whether stall
 warnings should be delivered. See stall_warnings for
 more information.}
-
-\item{file_name}{character name of file. By defaut, this
-generates random file name and parses tweets.}
 }
 \value{
 json object

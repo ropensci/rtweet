@@ -37,11 +37,8 @@
 #'   generates random file name and parses tweets.
 #' @import jsonlite
 #' @export
-stream_tweets <- function(stream, timeout = 60, token = NULL,
-                          delimited = FALSE, stall_warnings = FALSE,
+stream_tweets <- function(stream, timeout = 30, token = NULL,
                           file_name = NULL) {
-
-  if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
 
   if (is.null(token)) {
     token <- get_tokens()
@@ -50,24 +47,18 @@ stream_tweets <- function(stream, timeout = 60, token = NULL,
 
   if (missing(stream)) stop("Must include stream search call.")
 
-  stream <- unlist(trimws(unlist(strsplit(stream, ","))))
-
-  if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
-    if (all(is.integer(as.integer(stream)))) {
-      params <- list(follow = stream)
-    } else {
-      params <- list(locations = stream)
-    }
-  } else {
-    params <- list(track = stream)
-  }
+  params <- stream_params(stream)
 
   url <- make_url(
     restapi = FALSE,
     "statuses/filter",
     param = params)
 
+  if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
+
   file.create(file_name)
+
+  message(paste0("Streaming tweets for ", timeout, " seconds..."))
 
   TWIT(
     get = FALSE, url,
@@ -75,9 +66,15 @@ stream_tweets <- function(stream, timeout = 60, token = NULL,
     timeout = timeout,
     filename = file_name)
 
-  resp <- jsonlite::stream_in(file(file_name))
+  resp <- jsonlite::stream_in(
+    file(file_name),
+    verbose = FALSE)
+
+  message(paste0("Collected ", nrow(resp), " tweets!"))
 
   if (is.null(file_name)) file.remove(file_name)
 
-  parse_all_tweets(resp)
+  if (nrow(resp) > 0) resp <- parse_all_tweets(resp)
+
+  resp
 }
