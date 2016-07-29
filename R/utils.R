@@ -42,36 +42,50 @@ from_js <- function(rsp) {
 #' @export
 rate_limit <- function(token, query = NULL, rest = TRUE) {
 
-  url <- make_url(restapi = rest,
-    query = "application/rate_limit_status",
-    param = list(resources = "users,statuses,friends,search"))
+  url <- make_url(
+    restapi = rest,
+    query = "application/rate_limit_status")
 
-  r <- TWIT(get = TRUE, url, config = token, catch_error = FALSE)
+  r <- TWIT(get = TRUE, url, config = token)
 
-  rl_df <- as.data.frame(from_js(r), stringsAsFactors = FALSE)
-  rl_df <- rl_df[!names(rl_df) == "access_token"]
-
-  rl_df <- data.frame(
-    query = gsub(
-      "resources.users..|resources.statuses..|resources.friends..|resources.search..",
-      "", unique(gsub(
-        ".limit$|.reset$|.remaining$|", "",
-        names(rl_df)))),
-    limit =  unlist(rl_df[seq(1, length(rl_df), 3)]),
-    remaining = unlist(rl_df[seq(2, length(rl_df), 3)]),
-    reset = unlist(rl_df[seq(3, length(rl_df), 3)]),
-    stringsAsFactors = FALSE,
-    row.names = NULL)
-
-  rl_df$reset <- as.POSIXct(
-    as.numeric(rl_df$reset),
-    origin = "1970-01-01")
+  rl_df <- rl_df(r)
 
   if (!is.null(query)) {
-    query <- gsub("[/]", ".", query)
     rl_df <- rl_df[grep(query, rl_df$query), ]
     row.names(rl_df) <- NULL
   }
+
+  rl_df
+}
+
+#' rl_df
+#'
+#' Returns integer values. Used for get_friends function.
+#' @param r rate limit response object
+#' @return cleaned up data frame of rate limit info
+rl_df <- function(r) {
+  r <- from_js(r)
+  data <- r$resources
+
+  rl_df <- data.frame(
+    query = gsub(".limit|.remaining|.reset", "",
+      gsub(".*[.][/]", "", names(unlist(data)))),
+    limit = unlist(lapply(data, function(x)
+      unlist(lapply(x, function(y) y['limit'])))),
+    remaining = unlist(lapply(data, function(x)
+      unlist(lapply(x, function(y) y['remaining'])))),
+    reset = unlist(lapply(data, function(x)
+      unlist(lapply(x, function(y) y['reset'])))),
+    row.names = NULL,
+    stringsAsFactors = FALSE)
+
+  rl_df <- rl_df[seq(1, nrow(rl_df), 3), ]
+
+  rl_df$reset <- difftime(
+    as.POSIXct(rl_df$reset,
+      origin = "1970-01-01"),
+    Sys.time(),
+    units = "mins")
 
   rl_df
 }
