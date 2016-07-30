@@ -1,5 +1,8 @@
 #' TWIT
 #'
+#' @description Base function responsible for formulating GET and
+#'   POST requests to Twitter API's.
+#'
 #' @param get Logical with the default, \code{get = TRUE},
 #'   indicating whether the provided url should be passed along via
 #'   a GET or POST request.

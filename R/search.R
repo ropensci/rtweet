@@ -29,7 +29,7 @@ search_tweets <- function(q, count = 100, type = "mixed",
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- fetch_tokens(token, "search/tweets")
+    token <- .fetch_tokens(token, "search/tweets")
   }
 
   params <- list(
@@ -51,7 +51,7 @@ search_tweets <- function(q, count = 100, type = "mixed",
 
   while (nrows < count) {
     qresp <- TWIT(get = TRUE, url, config = token)
-    qresp <- from_js(qresp)
+    qresp <- .from_js(qresp)
 
     tw_df <- dplyr::bind_rows(tw_df,
       parse_status(qresp$statuses))

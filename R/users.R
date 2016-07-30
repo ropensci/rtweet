@@ -1,4 +1,4 @@
-#' user_lookup
+#' .user_lookup
 #'
 #' @param users Screen name or user id of target users.
 #' @param token OAuth token (1.0 or 2.0). By default
@@ -7,7 +7,7 @@
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return json response object
-user_lookup <- function(users, token = NULL) {
+.user_lookup <- function(users, token = NULL) {
 
   if (class(users) == "list") {
     users <- unlist(users)
@@ -26,12 +26,12 @@ user_lookup <- function(users, token = NULL) {
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- fetch_tokens(token, "users/lookup")
+    token <- .fetch_tokens(token, "users/lookup")
   }
 
   resp <- TWIT(get = TRUE, url, token)
 
-  resp <- from_js(resp)
+  resp <- .from_js(resp)
 
   parse_user(resp)
 }
@@ -63,7 +63,7 @@ lookup_users <- function(users, token = NULL) {
   for (i in increments) {
     to <- from + 99
 
-    usr_new <- user_lookup(
+    usr_new <- .user_lookup(
       users[from:to],
       token)
 

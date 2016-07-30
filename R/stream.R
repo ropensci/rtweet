@@ -29,12 +29,12 @@ stream_tweets <- function(stream, timeout = 30, token = NULL,
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- fetch_tokens(token, "friends/ids")
+    token <- .fetch_tokens(token, "friends/ids")
   }
 
   if (missing(stream)) stop("Must include stream search call.")
 
-  params <- stream_params(stream)
+  params <- .stream_params(stream)
 
   url <- make_url(
     restapi = FALSE,

@@ -36,7 +36,8 @@ etc, passed on to modify_url in the httr package.}
 json response object
 }
 \description{
-TWIT
+Base function responsible for formulating GET and
+  POST requests to Twitter API's.
 }
 \note{
 Occasionally Twitter does recommend using POST requests

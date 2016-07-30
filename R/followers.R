@@ -1,4 +1,4 @@
-#' followers_get
+#' .followers_get
 #'
 #' @description Returns follower ids response
 #'
@@ -15,7 +15,7 @@
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return user ids
-followers_get <- function(user, token = NULL, page = "-1",
+.followers_get <- function(user, token = NULL, page = "-1",
                           stringify = TRUE) {
 
   params <- list(
@@ -30,12 +30,12 @@ followers_get <- function(user, token = NULL, page = "-1",
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- fetch_tokens(token, "followers/ids")
+    token <- .fetch_tokens(token, "followers/ids")
   }
 
   resp <- TWIT(get = TRUE, url, token)
 
-  flw <- from_js(resp)
+  flw <- .from_js(resp)
 
   flw
 }
@@ -56,7 +56,7 @@ get_followers <- function(user, token = NULL, page = "-1") {
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- fetch_tokens(token, "followers/ids")
+    token <- .fetch_tokens(token, "followers/ids")
   }
 
   remaining <- rate_limit(token, "followers/ids")[, "remaining"]
@@ -65,7 +65,7 @@ get_followers <- function(user, token = NULL, page = "-1") {
 
   for (i in 1:remaining) {
 
-    flw_new <- followers_get(user, token, page)
+    flw_new <- .followers_get(user, token, page)
 
     flw <- append(flw, getElement(flw_new, "ids"))
 

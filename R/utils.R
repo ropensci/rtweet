@@ -1,8 +1,9 @@
-#' from_js
+#' .from_js
 #'
+#' @keywords internal
 #' @param rsp json object
 #' @import httr jsonlite
-from_js <- function(rsp) {
+.from_js <- function(rsp) {
   if (http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
@@ -11,6 +12,7 @@ from_js <- function(rsp) {
 
 #' .id_type
 #'
+#' @keywords internal
 #' @param x Twitter user id or screen name
 #' @return Character vector of either screen_name or user_id
 .id_type <- function(x) {
@@ -48,7 +50,7 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
 
   r <- TWIT(get = TRUE, url, config = token)
 
-  rl_df <- rl_df(r)
+  rl_df <- .rl_df(r)
 
   if (!is.null(query)) {
     rl_df <- rl_df[grep(query, rl_df$query), ]
@@ -58,13 +60,14 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
   rl_df
 }
 
-#' rl_df
+#' .rl_df
 #'
+#' @keywords internal
 #' @param r Data frame response object from rate limit TWIT request.
 #' @return Oranized data frame of rate limit info
-rl_df <- function(r) {
+.rl_df <- function(r) {
 
-  r <- from_js(r)
+  r <- .from_js(r)
 
   data <- r$resources
 
@@ -89,22 +92,10 @@ rl_df <- function(r) {
   rl_df
 }
 
-#' which_ids
-#'
+
 #' Returns integer values. Used for get_friends function.
-#' @param n starting number for users
-#' @param max_users max number of user ids (if rate limit exceeds
-#'   remaining number of users, this sets upper ceiling and reduces
-#'   likelihood of API request errors)
-#' @param token Specify token if there is reason to believe
-#'   current remaning friend list request is below the rate limit
-#'   max of 15. This rate limit resets every 15 minutes,
-#'   so this is usually not necessary. Checking rate limits
-#'   does not reduce the number of available requests, but
-#'   it does slow things down.
-#' @return integers used to identify 15 (or token max given
-#'   rate limits) users from provided list of user ids
-which_ids <- function(n, max_users, token = NULL) {
+#' @keywords internal
+.which_ids <- function(n, max_users, token = NULL) {
   if (!is.null(token)) {
     total <- rate_limit(token, "friends/ids")
     if (total == 0) {
@@ -127,12 +118,13 @@ which_ids <- function(n, max_users, token = NULL) {
   n:end
 }
 
-#' stream_params
+#' .stream_params
 #'
-#' Returns stream param.
+#' @keywords internal
+#' @description Returns stream param.
 #' @param stream character stream query
 #' @return param character vector
-stream_params <- function(stream) {
+.stream_params <- function(stream) {
   stream <- unlist(trimws(unlist(strsplit(stream, ","))))
 
   if (!all(suppressWarnings(is.na(as.numeric(stream))))) {

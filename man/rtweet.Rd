@@ -7,8 +7,8 @@
 \title{rtweet: collecting Twitter data}
 \description{
 rtweet provides users a range of functions
-designed to extract data from Twitter's REST and
-streaming APIs.
+  designed to extract data from Twitter's REST and
+  streaming APIs.
 
 It has three main goals:
 

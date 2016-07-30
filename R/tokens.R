@@ -10,7 +10,7 @@
 #' @export
 get_tokens <- function() {
   if (is.null(.state$twitter_tokens)) {
-    load(twitter_pat(), .state)
+    load(.twitter_pat(), .state)
   }
   .state$twitter_tokens
 }
@@ -50,11 +50,11 @@ create_token <- function(app, consumer_key, consumer_secret) {
   token
 }
 
-#' twitter_pat
+#' .twitter_pat
 #'
 #' @description Write .Rprofile file with path to saved tokens object
 #' @return path character vector with path to tokens
-twitter_pat <- function() {
+.twitter_pat <- function() {
   pat <- Sys.getenv("TWITTER_PAT")
 
   if (identical(pat, "")) {
@@ -65,18 +65,18 @@ twitter_pat <- function() {
   pat
 }
 
-#' load_tokens
+#' .load_tokens
 #'
 #' @description Load twitter tokens from previously saved tokens
 #'    (directed internally by previously created path locator files)
 #' @param pat path character vector with path to tokens
 #' @return loads Twitter oauth token(s)
-load_tokens <- function(pat) {
+.load_tokens <- function(pat) {
   load(pat, .state)
 }
 
 
-#' fetch_tokens
+#' .fetch_tokens
 #'
 #' @description Fetch tokens based on remaining rate limit. Use this
 #'   function to cycle through multiple tokens until rate limit
@@ -86,7 +86,7 @@ load_tokens <- function(pat) {
 #' @param sleep logical indicating whether to force system sleep if
 #'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
 #' @return token with non-exhausted rate limit
-fetch_tokens <- function(tokens, query, sleep = FALSE) {
+.fetch_tokens <- function(tokens, query, sleep = FALSE) {
   if (length(tokens) == 0) return(tokens)
 
   for (i in 1:length(tokens)) {

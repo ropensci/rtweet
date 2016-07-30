@@ -36,16 +36,13 @@ parse_status <- function(x) {
   df
 }
 
-#' parse_retweet
+#' .parse_retweet
 #'
 #' @param x json response object as in
 #'   \code{json_object$retweet_status}.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#'
-#' @return data_frame
 #' @import dplyr
-parse_retweet <- function(x) {
-  extend_label_df(parse_status(x), "retweet")
+.parse_retweet <- function(x) {
+  .extend_label_df(parse_status(x), "retweet")
 }
 
 
@@ -63,7 +60,7 @@ parse_all_tweets <- function(x) {
 
   if (is.data.frame(x$place)) {
     tweets_df <- bind_cols(
-      tweets_df, parse_place(x$place))
+      tweets_df, .parse_place(x$place))
   }
 
   if (is.data.frame(x$user)) {
@@ -73,22 +70,19 @@ parse_all_tweets <- function(x) {
 
   if (is.data.frame(x$retweeted_status)) {
     tweets_df <- bind_cols(
-      tweets_df, parse_retweet(x$retweeted_status))
+      tweets_df, .parse_retweet(x$retweeted_status))
   }
 
   tweets_df
 }
 
 
-#' parse_place
+#' .parse_place
 #'
 #' @param x json resposne object from user lookup Twitter
 #'   API call.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#'
-#' @return data frame
 #' @import dplyr
-parse_place <- function(x) {
+.parse_place <- function(x) {
   place_df <- data_frame(
     "place_id" = x$id,
     "place_url" = x$url,
@@ -117,17 +111,13 @@ parse_place <- function(x) {
   place_df
 }
 
-#' extend_label_df
+#' .extend_label_df
 #'
 #' @param dff Extended data.frame within larger json
 #'   response object
 #' @param label New label to represent the other data.frame
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#'
-#' @return data_frame
 #' @import dplyr
-#' @export
-extend_label_df <- function(dff, label = "other") {
+.extend_label_df <- function(dff, label = "other") {
   names(dff) <- vapply(
     names(dff),
     function(x) paste0(label, "_", unlist(x)),
