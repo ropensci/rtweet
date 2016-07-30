@@ -2,9 +2,7 @@
 
 - R package for collecting Twitter data using Twitter's REST and stream APIs.
 
-## Using `rtweet`
-
-### Install
+## Install
 - to install `rtweet` run the following code in R:
 ```{r}
 if (packageVersion("devtools") < 1.6) {
@@ -13,7 +11,7 @@ if (packageVersion("devtools") < 1.6) {
 devtools::install_github("mkearney/rtweet")
 ```
 
-### Obtaining access tokens
+## Obtaining access tokens
 1. To create Twitter app(s) [and secure access to oauth tokens necessary for API queries]
 visit http://apps.twitter.com/app/new
 2. Enter information in `Name`, `Description`, `Website`, and `Callback URL` 
@@ -29,7 +27,7 @@ into the `create_token()` function (see demo below).
 | Website         | http://twitter.com/kearneymw            |
 | Callback URL    | http://127.0.0.1:1410                   |
 
-### Using Tokens in R
+## Using Tokens in R
 - Using the information obtained from `obtaining access tokens`
 above, generate a token via the `create_token` function.
 - Modify the code below by replacing `appX_name` with name of your 
