@@ -1,9 +1,10 @@
 # rtweet
 
-## about rtweet
 - R package for collecting Twitter data using Twitter's REST and stream APIs.
 
-## install
+## Using `rtweet`
+
+### Install
 - to install `rtweet` run the following code in R:
 ```{r}
 if (packageVersion("devtools") < 1.6) {
@@ -12,7 +13,7 @@ if (packageVersion("devtools") < 1.6) {
 devtools::install_github("mkearney/rtweet")
 ```
 
-## Obtaining access tokens
+### Obtaining access tokens
 1. To create Twitter app(s) [and secure access to oauth tokens necessary for API queries]
 visit http://apps.twitter.com/app/new
 2. Enter information in `Name`, `Description`, `Website`, and `Callback URL` 
@@ -28,15 +29,12 @@ into the `create_token()` function (see demo below).
 | Website         | http://twitter.com/kearneymw            |
 | Callback URL    | http://127.0.0.1:1410                   |
 
-## Creating tokens in R
-
+### Using Tokens in R
 - Using the information obtained from `obtaining access tokens`
 above, generate a token via the `create_token` function.
-
 - Modify the code below by replacing `appX_name` with name of your 
 application and `xxxx...` with the appropriate alpha-numeric keys 
 associated with your app (see: 'obtaining access tokens').
-
 - If this is the first time running `create_token` for an app, a 
 web browser will automatically pop up. Select yes/agree to 
 authorize once for each app. 
@@ -61,7 +59,9 @@ object like this:
 
 ```{r, echo = TRUE, eval = FALSE}
 home_directory <- normalizePath("~/")
+
 file_name <- paste0(home_directory, "/", "twitter_tokens")
+
 save(twitter_tokens, file = file_name)
 ```
 
@@ -94,6 +94,7 @@ and then call the `get_tokens` function.
 
 ```{r, echo = TRUE, eval = FALSE}
 library(rtweet)
+
 tokens <- get_tokens()
 ```
 
@@ -102,6 +103,8 @@ don't have to load your tokens at all. The `rtweet` functions will fetch
 your tokens for you!
 
 ```{r, echo = TRUE, eval = FALSE}
+library(rtweet)
+
 elect16 <- search_tweets(q = "election2016", count = 500)
 elect16
 ```
