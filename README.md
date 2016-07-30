@@ -37,15 +37,26 @@ into the `create_token()` function (see demo below).
 
 ## demo
 ```{r}
-library(rtweet)
 ```
 
 ### create_token()
+
+- Using the information obtained from the app creation process
+above, generate a token via the `create_token` function.
+
+- If this is the first time running `create_token` function 
+for the app, a web browser should pop up. Select yes/agree to 
+authorize once for each app. In the example below, you should
+replace 'appX_name' with name of your application 
+(see: 'obtaining access tokens') and replace 'xxxx...' with 
+alpha-numeric keys associated with your apps, which you can find by
+clicking a link that says something like 'managing keys and access 
+tokens') on the screen that pops up after submitting/creating a 
+new Twitter app.
+
 ```{r, echo = TRUE, eval = FALSE}
-### first time running create_token() function should open web browser 
-### select yes/agree to authorize each app
-### replace 'appX_name' with name of your application (see: 'obtaining access tokens')
-### replace 'xxxx' with alpha-numeric keys associated with your apps
+library(rtweet)
+
 tokens <- c(
   create_token(app = "app1_name",
     consumer_key = "xxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -53,23 +64,41 @@ tokens <- c(
   create_token(app = "app2_name",
     consumer_key = "xxxxxxxxxxxxxxxxxxxxxxxxx",
     consumer_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
-### save tokens for easy use in future sessions
-### according to Dr. Hadley Wickham best practice for save location...
+```
+
+- Create an environmental variable using [steps outlined by Hadley](https://github.com/hadley/httr/blob/master/vignettes/api-packages.Rmd).
+Translated to this particular application, open a blank plain text 
+document, which you can do in TextEdit, Notepad, or RStudio 
+(File > New File > Text File) and type the following:
+
+```
+TWITTER_PAT=blahblahblahblahblahblah
+```
+
+where 'blahblahblahblahblahblah' is the path to wherever you've saved 
+the token(s). Since it's recommended that you save the plain text file 
+in your home directory, I saved my tokens there as well (as seen in 
+code below). You can find your home directory by entering 
+`normalizePath("~/")` in the R console. Finally, save the text file
+you just created to the home directory as well, and you're basically
+done.
+
+```{r, echo = TRUE, eval = FALSE}
 filename <- normalizePath("~/")
 save(tokens, file = filename)
 ```
 
+- Restart R so it can register your new file/path and then load your
+tokens using the `get_tokens` function.
+
 ```{r, echo = TRUE, eval = FALSE}
-### to load tokens in new session
 tokens <- get_tokens()
-### or don't even do this - functions are built to fetch your tokens for you!
 ```
 
-### search_tweets()
+Or, more conveiently, don't load your tokens and instead let 
+`rtweet` functions fetch your tokens for you!
+
 ```{r, echo = TRUE, eval = FALSE}
-### search tweets via REST API
-### (number of tweets returned varies; broader searchers are best)
-elect16 <- search_tweets(
-  q = "election2016", count = 500)
+elect16 <- search_tweets(q = "election2016", count = 500)
 elect16
 ```
