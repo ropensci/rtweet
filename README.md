@@ -96,6 +96,9 @@ and then call the `get_tokens` function.
 library(rtweet)
 
 tokens <- get_tokens()
+
+elect16 <- search_tweets(q = "election2016", count = 500, tokens[[1]])
+elect16
 ```
 
 - Or, more conveniently, if you followed the steps above correctly, you 
