@@ -1,5 +1,6 @@
 #' parse_status
 #'
+#' @description Converts Twitter status object to neat data_frame.
 #' @param x json object
 #' @import dplyr
 #' @export
@@ -47,6 +48,10 @@ parse_status <- function(x) {
 
 
 #' parse_all_tweets
+#'
+#' @description Converts Twitter status object to neat data_frame.
+#'   This function subsumes the parse_status function and also
+#'   converts place and user objects.
 #'
 #' @param x json response object from tweet/status
 #'   Twitter API request.
@@ -129,6 +134,7 @@ parse_all_tweets <- function(x) {
 
 #' parse_user
 #'
+#' @description Converts Twitter user object to neat data_frame.
 #' @param x json resposne object from user lookup Twitter API call.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'

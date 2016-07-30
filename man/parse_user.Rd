@@ -13,7 +13,7 @@ parse_user(x)
 data frame
 }
 \description{
-parse_user
+Converts Twitter user object to neat data_frame.
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}

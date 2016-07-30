@@ -14,7 +14,9 @@ Twitter API request.}
 data_frame
 }
 \description{
-parse_all_tweets
+Converts Twitter status object to neat data_frame.
+  This function subsumes the parse_status function and also
+  converts place and user objects.
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}

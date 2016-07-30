@@ -39,6 +39,9 @@
 
 #' lookup_users
 #'
+#' @description Returns Twitter user data_frame object for
+#'   specified user_ids or screen_names.
+#'
 #' @param users User id or screen name of target user.
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from

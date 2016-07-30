@@ -1,8 +1,8 @@
 #' get_friends
 #'
-#' Requests information from Twitter's REST API
-#' regarding a user's friend network (i.e., accounts followed
-#' by a user). To request information on followers of accounts
+#' @description Requests information from Twitter's REST API
+#'   regarding a user's friend network (i.e., accounts followed
+#'   by a user). To request information on followers of accounts
 #'
 #' @param user Screen name or user id of target user.
 #' @param token OAuth token (1.0 or 2.0). By default

@@ -27,7 +27,8 @@ Data frame with rate limit respones details. If query
   is specified, only relevant rows are returned.
 }
 \description{
-rate_limit
+Returns rate limit information for Twitter
+  access tokens.
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}

@@ -17,7 +17,8 @@ an environment variable @describeIn tokens.}
 json response object (max is 18000 per token)
 }
 \description{
-lookup_users
+Returns Twitter user data_frame object for
+  specified user_ids or screen_names.
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}

@@ -25,6 +25,9 @@
 
 #' rate_limit
 #'
+#' @description Returns rate limit information for Twitter
+#'   access tokens.
+#'
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable.

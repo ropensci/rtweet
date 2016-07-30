@@ -10,6 +10,6 @@ parse_status(x)
 \item{x}{json object}
 }
 \description{
-parse_status
+Converts Twitter status object to neat data_frame.
 }
 

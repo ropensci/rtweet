@@ -1,6 +1,6 @@
 #' .followers_get
 #'
-#' @description Returns follower ids response
+#' @description Returns follower ids of specified Twitter user.
 #'
 #' @param user Screen name or user id of target user.
 #' @param token OAuth token (1.0 or 2.0). By default
