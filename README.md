@@ -53,8 +53,8 @@ twitter_tokens <- c(
     consumer_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
 ```
 
-- You save your token(s) object anywhere, but it's important to know
-where exactly it is saved. For that reason, I recommend saving your
+- You can save your token(s) object anywhere, but it's important to know
+*where* you saved it. For that reason, I recommend saving your
 token(s) object in your home directory. To locate your home directory
 enter `normalizePath("~/")` into your R console. Save the token(s)
 object like this:
