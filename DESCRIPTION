@@ -2,9 +2,31 @@ Package: rtweet
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Date: 2016-07-29
+Title: rtweet
+Authors@R: person("Mike", "Kearney", email = "mwk@ku.edu",
+    role = c("aut", "cre"))
+Description: An implementation of calls designed to extract
+    and organize Twitter data via Twitter's REST and stream
+    API's. GET and POST requests are specified to return
+    [json] objects. Functions then convert the objects to more
+    user friendly formats, e.g., data frames or lists. Specific
+    consideration is given to functions that use more than
+    one OAuth personal access token.
+Depends:
+    R (>= 3.1.0)
+Imports:
+    dplyr,
+    httr,
+    jsonlite
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+License: MIT + file LICENSE
 LazyData: TRUE
+URL:
+    https://github.com/mkearney/rtweet/,
+    https://dev.twitter.com/overview/documentation
+BugReports: https://github.com/mkearney/rtweet/issues
 RoxygenNote: 5.0.1
