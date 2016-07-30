@@ -82,7 +82,7 @@ TWITTER_PAT=blahblahblahblahblahblah
 
 ```
 
-- Save the file to your home directory, which, again, you can find your 
+- Save the file to your home directory, which, again, you can find 
 by entering `normalizePath("~/")` in the R console.
 
 ```{r, echo = TRUE, eval = FALSE}
@@ -93,6 +93,7 @@ normalizePath("~/")
 and then call the `get_tokens` function.
 
 ```{r, echo = TRUE, eval = FALSE}
+library(rtweet)
 tokens <- get_tokens()
 ```
 
