@@ -28,7 +28,7 @@ into the `create_token()` function (see demo below).
 | Website         | http://twitter.com/kearneymw            |
 | Callback URL    | http://127.0.0.1:1410                   |
 
-## create_token()
+## Creating tokens in R
 
 - Using the information obtained from `obtaining access tokens`
 above, generate a token via the `create_token` function.
