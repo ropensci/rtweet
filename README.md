@@ -1,7 +1,7 @@
 # rtweet
 
 ## about rtweet
-- R package consisting of functions designed to interact with twitter's API
+- R package for collecting Twitter data using Twitter's REST and stream API.
 
 ## install
 - to install `rtweet` run the following code in R:
