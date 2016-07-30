@@ -12,7 +12,7 @@ if (packageVersion("devtools") < 1.6) {
 devtools::install_github("mkearney/rtweet")
 ```
 
-## obtaining access tokens
+## Obtaining access tokens
 1. To create Twitter app(s) [and secure access to oauth tokens necessary for API queries]
 visit http://apps.twitter.com/app/new
 2. Enter information in `Name`, `Description`, `Website`, and `Callback URL` 
@@ -28,24 +28,13 @@ into the `create_token()` function (see demo below).
 | Website         | http://twitter.com/kearneymw            |
 | Callback URL    | http://127.0.0.1:1410                   |
 
-## contact
-- email me at mkearney@ku.edu
+## create_token()
 
-----------------------------------------
-----------------------------------------
-
-
-## demo
-```{r}
-```
-
-### create_token()
-
-- Using the information obtained from the app creation process
+- Using the information obtained from `obtaining access tokens`
 above, generate a token via the `create_token` function.
 
-- If this is the first time running `create_token` function 
-for the app, a web browser should pop up. Select yes/agree to 
+- If this is the first time running `create_token` for an
+app, a web browser should pop up. Select yes/agree to 
 authorize once for each app. In the example below, you should
 replace 'appX_name' with name of your application 
 (see: 'obtaining access tokens') and replace 'xxxx...' with 
@@ -102,3 +91,9 @@ Or, more conveiently, don't load your tokens and instead let
 elect16 <- search_tweets(q = "election2016", count = 500)
 elect16
 ```
+
+## contact
+- email me at mkearney@ku.edu
+
+----------------------------------------
+----------------------------------------
