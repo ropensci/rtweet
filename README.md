@@ -22,7 +22,7 @@ the following: `http://127.0.0.1:1410`
 3. Once the app is created, copy and paste `consumer key` and `consumer secret key` 
 into the `create_token()` function (see demo below).
 
-|                 |                                         |
+| Field           | Enter                                   |
 |-----------------|-----------------------------------------|
 | Name            | rtweet_app                              |
 | Description     | Twitter follows and selective exposure  |
