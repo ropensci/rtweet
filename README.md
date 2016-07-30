@@ -84,7 +84,7 @@ tokens using the `get_tokens` function.
 tokens <- get_tokens()
 ```
 
-Or, more conveiently, don't load your tokens and instead let 
+Or, more conveniently, don't load your tokens and instead let 
 `rtweet` functions fetch your tokens for you!
 
 ```{r, echo = TRUE, eval = FALSE}
