@@ -1,25 +1,23 @@
 #' user_lookup
 #'
 #' @param users Screen name or user id of target users.
-#' @param token OAuth tokens (1.0 or 2.0)
-#' @param df logical, indicating whether to format response
-#' as data frame
-#' @seealso See \url{https://dev.twitter.com/overview/
-#' documentation} for more
-#'   information on using Twitter's API.
-#' @return response object
-#' @export
-user_lookup <- function(user_ids, token = NULL) {
+#' @param token OAuth token (1.0 or 2.0). By default
+#'   \code{token = NULL} fetches a non-exhausted token from
+#'   an environment variable.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
+#' @return json response object
+user_lookup <- function(users, token = NULL) {
 
-  if (class(user_ids) == "list") {
-    user_ids <- unlist(user_ids)
+  if (class(users) == "list") {
+    users <- unlist(users)
   }
 
-  if (length(user_ids) > 100) {
-    user_ids <- user_ids[1:100]
+  if (length(users) > 100) {
+    users <- users[1:100]
   }
 
-  params <- list(user_id = paste(user_ids, collapse = ","))
+  params <- list(user_id = paste(users, collapse = ","))
 
   url <- make_url(
     restapi = TRUE,
@@ -41,30 +39,32 @@ user_lookup <- function(user_ids, token = NULL) {
 
 #' lookup_users
 #'
-#' @param ids User id or screen name of target user.
-#' @param token OAuth tokens (1.0 or 2.0)
-#' @seealso See \url{https://dev.twitter.com/overview/
-#'   documentation} for more information on using
-#'   Twitter's API.
-#' @return response object (max is 18000 per token)
+#' @param users User id or screen name of target user.
+#' @param token OAuth token (1.0 or 2.0). By default
+#'   \code{token = NULL} fetches a non-exhausted token from
+#'   an environment variable @describeIn tokens.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
+#' @return json response object (max is 18000 per token)
 #' @import dplyr
 #' @export
-lookup_users <- function(ids, token = NULL) {
+lookup_users <- function(users, token = NULL) {
 
-  if (length(ids) > 18000) {
-    ids <- ids[1:18000]
+  if (length(users) > 18000) {
+    users <- users[1:18000]
   }
 
-  reqs <- 1:ceiling(length(ids) / 100)
+  increments <- 1:ceiling(length(users) / 100)
+
   from <- 1
 
   usr_df <- dplyr::data_frame()
 
-  for (i in reqs) {
+  for (i in increments) {
     to <- from + 99
 
     usr_new <- user_lookup(
-      ids[from:to],
+      users[from:to],
       token)
 
     usr_df <- dplyr::bind_rows(

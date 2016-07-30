@@ -12,7 +12,4 @@ from_js(rsp)
 \description{
 from_js
 }
-\details{
-jsonlite
-}
 

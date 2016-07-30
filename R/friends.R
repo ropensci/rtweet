@@ -5,15 +5,18 @@
 #' by a user). To request information on followers of accounts
 #'
 #' @param user Screen name or user id of target user.
-#' @param token OAuth token (1.0 or 2.0)
-#' @param page Default \code{page = -1} specifies first page
-#'   of json results. Other pages specified via cursor values
+#' @param token OAuth token (1.0 or 2.0). By default
+#'   \code{token = NULL} fetches a non-exhausted token from
+#'   an environment variable.
+#' @param page Numeric or character vector used as cursor value.
+#'   Default \code{page = -1} specifies first page of json results,
+#'   or first 5000 friends. Other pages specified via cursor values
 #'   supplied by Twitter API response object.
-#' @param stringify logical, indicating whether to return user
+#' @param stringify Logical, indicating whether to return user
 #'   ids as strings (some ids are too long to be read as numeric).
-#'   Defaults to \code{TRUE}
-#' @seealso See \url{https://dev.twitter.com/overview/documentation}
-#'   for more information on using Twitter's API.
+#'   Defaults to \code{TRUE}.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
 #' @return friends User ids for everyone a user follows.
 #' @export
 get_friends <- function(user, token = NULL, page = "-1",

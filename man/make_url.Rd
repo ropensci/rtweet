@@ -17,10 +17,7 @@ Although the httr package refers to this as "path",
 query is used here to maintain consistency with
 Twitter API's excellent documentation.}
 
-\item{ver}{API version (default, 1.1, was most current
-at time of writing this package).}
-
-\item{params}{Additional parameters (arguments) passed
+\item{param}{Additional parameters (arguments) passed
 along. If none, NULL (default).}
 }
 \value{

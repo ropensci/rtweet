@@ -9,15 +9,18 @@ get_friends(user, token = NULL, page = "-1", stringify = TRUE)
 \arguments{
 \item{user}{Screen name or user id of target user.}
 
-\item{token}{OAuth token (1.0 or 2.0)}
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
 
-\item{page}{Default \code{page = -1} specifies first page
-of json results. Other pages specified via cursor values
+\item{page}{Numeric or character vector used as cursor value.
+Default \code{page = -1} specifies first page of json results,
+or first 5000 friends. Other pages specified via cursor values
 supplied by Twitter API response object.}
 
-\item{stringify}{logical, indicating whether to return user
+\item{stringify}{Logical, indicating whether to return user
 ids as strings (some ids are too long to be read as numeric).
-Defaults to \code{TRUE}}
+Defaults to \code{TRUE}.}
 }
 \value{
 friends User ids for everyone a user follows.
@@ -28,7 +31,6 @@ regarding a user's friend network (i.e., accounts followed
 by a user). To request information on followers of accounts
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/documentation}
-  for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

@@ -7,12 +7,12 @@
 rl_df(r)
 }
 \arguments{
-\item{r}{rate limit response object}
+\item{r}{Data frame response object from rate limit TWIT request.}
 }
 \value{
-cleaned up data frame of rate limit info
+Oranized data frame of rate limit info
 }
 \description{
-Returns integer values. Used for get_friends function.
+rl_df
 }
 

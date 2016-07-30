@@ -7,12 +7,9 @@
 parse_status(x)
 }
 \arguments{
-\item{x}{json object from search tweets}
+\item{x}{json object}
 }
 \description{
 parse_status
-}
-\details{
-dplyr
 }
 

@@ -7,48 +7,35 @@
 stream_tweets(stream, timeout = 30, token = NULL, file_name = NULL)
 }
 \arguments{
-\item{stream}{either follower A comma separated list of
-user IDs, indicating the users to return statuses for in
-the stream. See follow for more information. track
-Keywords to track. Phrases of keywords are specified by
-a comma-separated list. See track for more information.
-Or locations Specifies a set of bounding boxes to track.
-See locations for more information.}
+\item{stream}{Character vector with desired phrases and keywords
+used to filter tweets, a comma separated list of desired
+user IDs to track, or a set of bounding boxes to track.}
 
-\item{timeout}{numeric time in seconds to leave connection
-open while streaming/capturing tweets}
+\item{timeout}{Numeric specifying amount of time, in seconds,
+to leave connection open while streaming/capturing tweets.
+By default, this is set at 30 seconds.}
 
-\item{token}{OAuth token (1.0 or 2.0)}
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
 
-\item{file_name}{character name of file. By defaut, this
+\item{file_name}{Character with name of file. By default, this
 generates random file name and parses tweets.}
-
-\item{delimited}{optional Specifies whether messages
-should be length-delimited. See delimited for more
-information.}
-
-\item{stall_warnings}{optional Specifies whether stall
-warnings should be delivered. See stall_warnings for
-more information.}
 }
 \value{
-json object
+Tweets data returned as a tibble data_frame
 }
 \description{
-Returns public statuses that match one or more
-  filter predicates. Multiple parameters may be specified which
-  allows most clients to use a single connection to the Streaming
-  API. Both GET and POST requests are supported, but GET requests
-  with too many parameters may cause the request to be rejected
-  for excessive URL length. Use a POST request to avoid
-  long URLs.
-  The track, follow, and locations fields should be considered
-  to be combined with an OR operator. track=foo&follow=1234
-  returns Tweets matching “foo” OR created by user 1234.
-  The default access level allows up to 400 track
-  keywords, 5,000 follow userids and 25 0.1-360 degree
-  location boxes. If you need elevated access to the
-  Streaming API, you can contact Gnip.
+Returns public statuses via one of three methods
+  described below. By default, this function deciphers which
+  method is when processing the \code{stream} argument.
+
+  1. Filtering via a search-like query (up to 400 keywords)
+  2. Tracking via vector of user ids (up to 5000 user_ids)
+  3. Location via geo coordinates (1-360 degree location boxes)
+}
+\details{
+jsonlite
 }
 \seealso{
 \url{https://stream.twitter.com/1.1/statuses/filter.json}

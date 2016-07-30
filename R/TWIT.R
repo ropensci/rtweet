@@ -1,26 +1,42 @@
 #' TWIT
 #'
-#' @param get Locigical with the default, \code{get = TRUE},
+#' @param get Logical with the default, \code{get = TRUE},
 #'   indicating whether the provided url should be passed along via
 #'   a GET or POST request.
 #' @param url Character vector designed to operate like
-#'   \code{parse_url()} and \code{build_url()} functions in the
-#'   httr package. The easiest way to do this is to work through
+#'   parse_url and build_url functions in the httr package.
+#'   The easiest way to do this is to work through
 #'   the call-specific functions as they are designed to simplify
 #'   the process. However, if one were interested in reverse-
 #'   engingeering such a thing, I would recommend checking out
-#'   \code{\link{makeurl}}.
-#' @param Further named parameters, such as \code{token},
-#'   \code{timeout}, etc, passed on to \code{modify_url} in
-#'   httr. Unnamed parameters will be combined with
-#'   {\link{config}}.
+#'   \code{make_url}.
+#' @param \dots Further named parameters, such as config, token,
+#'   etc, passed on to modify_url in the httr package.
+#' @param timeout Numeric, used only when streaming tweets,
+#'   specifying the number of seconds to stream tweets.
+#' @param filename Character, used only when streaming tweets,
+#'   name of file to save json tweets object.
+#' @param catch_error Logical indicating whether to call stop for
+#'   status function following GET or POST requests.
 #' @note Occasionally Twitter does recommend using POST requests
 #'   for data retrieval calls. This is usually the case when requests
 #'   can involve long strings (containing up to 100 user_ids). For
 #'   the most part, or at least for any function-specific requests
 #'   (e.g., \code{get_friends}, take reflect these changes.
+#' @examples
+#' \dontrun{
+#' tokens <- get_tokens()
 #'
-#' @return Response (json) object
+#' params <- list(q = "rstats", result_type = "recent")
+#'
+#' url <- make_url(restapi = TRUE,
+#'   "search/tweets",
+#'   param = params)
+#'
+#' r <- TWIT(get = TRUE, url,
+#'   config = tokens[[1]])
+#' }
+#' @return json response object
 #' @import httr
 #' @export
 TWIT <- function(get = TRUE, url, ..., timeout = NULL,
@@ -54,13 +70,11 @@ TWIT <- function(get = TRUE, url, ..., timeout = NULL,
 #'   indicates the provided URL components should be
 #'   specify Twitter's REST API. Set this to FALSE if you wish
 #'   to make a request URL designed for Twitter's streaming api.
-#' @param ver API version (default, 1.1, was most current
-#'   at time of writing this package).
 #' @param query Twitter's subsetting/topic identifiers.
 #'   Although the httr package refers to this as "path",
 #'   query is used here to maintain consistency with
 #'   Twitter API's excellent documentation.
-#' @param params Additional parameters (arguments) passed
+#' @param param Additional parameters (arguments) passed
 #'   along. If none, NULL (default).
 #' @return URL used in httr call.
 #' @export
@@ -86,4 +100,3 @@ make_url <- function(restapi = TRUE, query, param = NULL) {
 
   alst
 }
-

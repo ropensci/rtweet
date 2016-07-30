@@ -7,10 +7,10 @@
 extend_label_df(dff, label = "other")
 }
 \arguments{
-\item{dff}{other, extended data.frame within larger json
+\item{dff}{Extended data.frame within larger json
 response object}
 
-\item{new}{label to represent the other data.frame}
+\item{label}{New label to represent the other data.frame}
 }
 \value{
 data_frame
@@ -18,11 +18,7 @@ data_frame
 \description{
 extend_label_df
 }
-\details{
-dplyr
-}
 \seealso{
-See \url{https://dev.twitter.com/overview/documentation}
-for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

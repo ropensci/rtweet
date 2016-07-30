@@ -7,25 +7,29 @@
 rate_limit(token, query = NULL, rest = TRUE)
 }
 \arguments{
-\item{token}{An OAuth token (1.0 or 2.0)}
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
 
 \item{query}{If null, returns entire rate limit request object as
 data frame. otherwise, query returns specific values matching
-the query of interest; e.g., \code{query = "lookup"} returns
+the query of interest; e.g., \code{query = "lookup/users"} returns
 remaining limit for user lookup requests;
-\code{type = "followers"} returns remaining limit for
-follower id requests; \code{type = "friends"} returns
+\code{type = "followers/ids"} returns remaining limit for
+follower id requests; \code{type = "friends/ids"} returns
 remaining limit for friend id requests.}
+
+\item{rest}{Logical indicating whether to send request to REST
+API. At this time, this should always be TRUE.}
 }
 \value{
-response Rate limit response object or specific value of
-  remaining requests
+Data frame with rate limit respones details. If query
+  is specified, only relevant rows are returned.
 }
 \description{
 rate_limit
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/documentation}
-  for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

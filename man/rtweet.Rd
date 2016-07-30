@@ -23,8 +23,5 @@ It has three main goals:
 \item Make extracting data from Twitter seem a little
   easier.
 }
-
-To learn more about rtweet, start with the vignette:
-\code{browseVignettes(package = "rtweet")}
 }
 

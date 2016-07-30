@@ -1,6 +1,4 @@
-packrat/lib*/
 .Rproj
-packrat
 .Rprofile
 .Rproj.user
 tweets.json

@@ -8,7 +8,7 @@ parse_retweet(x)
 }
 \arguments{
 \item{x}{json response object as in
-json_object$retweet_status}
+\code{json_object$retweet_status}.}
 }
 \value{
 data_frame
@@ -16,12 +16,7 @@ data_frame
 \description{
 parse_retweet
 }
-\details{
-dplyr
-}
 \seealso{
-See \url{https://dev.twitter.com/overview/
-documentation}
-for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

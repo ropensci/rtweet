@@ -18,13 +18,9 @@
 #'   easier.
 #' }
 #'
-#' To learn more about rtweet, start with the vignette:
-#' \code{browseVignettes(package = "rtweet")}
-#'
 #' @docType package
 #' @name rtweet
-#' @import httr
-#' @importFrom jsonlite fromJSON
+#' @import httr jsonlite dplyr
 NULL
 
 .state <- new.env(parent = emptyenv())

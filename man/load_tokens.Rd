@@ -6,8 +6,11 @@
 \usage{
 load_tokens(pat)
 }
+\arguments{
+\item{pat}{path character vector with path to tokens}
+}
 \value{
-path character vector with path to tokens
+loads Twitter oauth token(s)
 }
 \description{
 Load twitter tokens from previously saved tokens

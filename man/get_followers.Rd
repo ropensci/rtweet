@@ -7,18 +7,20 @@
 get_followers(user, token = NULL, page = "-1")
 }
 \arguments{
-\item{user}{Screen name or user id of target user}
+\item{user}{Screen name or user id of target user.}
 
-\item{tokens}{OAuth tokens (1.0 or 2.0)}
-}
-\value{
-user ids and page number for additional calls
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
+
+\item{page}{Default \code{page = -1} specifies first page of json
+results. Other pages specified via cursor values supplied by
+Twitter API response object.}
 }
 \description{
 Returns max followers per token
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/documentation}
-  for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

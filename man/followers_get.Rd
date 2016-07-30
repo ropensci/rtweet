@@ -9,7 +9,9 @@ followers_get(user, token = NULL, page = "-1", stringify = TRUE)
 \arguments{
 \item{user}{Screen name or user id of target user.}
 
-\item{token}{OAuth token (1.0 or 2.0)}
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
 
 \item{page}{Default \code{page = -1} specifies first page of json
 results. Other pages specified via cursor values supplied by
@@ -26,7 +28,6 @@ user ids
 Returns follower ids response
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/documentation}
-  for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

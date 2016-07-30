@@ -4,25 +4,22 @@
 \alias{user_lookup}
 \title{user_lookup}
 \usage{
-user_lookup(user_ids, token = NULL)
+user_lookup(users, token = NULL)
 }
 \arguments{
-\item{token}{OAuth tokens (1.0 or 2.0)}
-
 \item{users}{Screen name or user id of target users.}
 
-\item{df}{logical, indicating whether to format response
-as data frame}
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
 }
 \value{
-response object
+json response object
 }
 \description{
 user_lookup
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/
-documentation} for more
-  information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

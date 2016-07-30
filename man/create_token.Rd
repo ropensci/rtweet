@@ -14,31 +14,23 @@ create_token(app, consumer_key, consumer_secret)
 \item{consumer_secret}{Application API secret User-owned
 app must have \code{Read and write} access level
 and \code{Callback URL} of \code{http://127.0.0.1:1410}.}
-
-\item{oauth1.0}{logical defaults to TRUE such that requests
-are made for 1.0 access tokens. For 2.0 tokens, set to FALSE.}
 }
 \value{
-twitter oauth 1.0 token
+Twitter personal access token object
 }
 \description{
-Sends request to generate oauth 1.0 tokens.Twitter
+Sends request to generate oauth 1.0 tokens. Twitter
    also allows uers to create user-only (oauth 2.0) access token.
    Unlike the 1.0 tokens, oath 2.0 tokens are not at all centered
    on a host user. Which means these tokens cannot be used to
    send information (follow requests, Twitter statuses, etc.).
    If you have no interest in those capabilities, then 2.0 oauth
-   tokens do offer some higher rate limits. At the time of
-   writing this, the difference seemed trivial, so I haven't taken
-   verified oauth 2.0 token method. Consquently, I encourage you
-   to use 1.0 tokens.
-}
-\details{
-dependencies: httr
+   tokens do offer some higher rate limits. At the current time,
+   the difference given the functions in this package is trivial,
+   so I have yet to  verified oauth 2.0 token method.
+   Consequently, I encourage you to use 1.0 tokens.
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/
-  documentation} for more information on using Twitter's
-  API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

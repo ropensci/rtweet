@@ -1,22 +1,18 @@
 #' from_js
 #'
 #' @param rsp json object
-#' @import httr
-#' @details jsonlite
-#' @export
+#' @import httr jsonlite
 from_js <- function(rsp) {
   if (http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  jsonlite::fromJSON(content(rsp, as = "text"))
+  fromJSON(content(rsp, as = "text"))
 }
 
 #' .id_type
 #'
 #' @param x Twitter user id or screen name
-#' @return logical value indicating whether object is
-#'   screen name [or user ID]
-#' @export
+#' @return Character vector of either screen_name or user_id
 .id_type <- function(x) {
   if (suppressWarnings(is.na(as.numeric(x)))) {
     return("screen_name")
@@ -27,18 +23,22 @@ from_js <- function(rsp) {
 
 #' rate_limit
 #'
-#' @param token An OAuth token (1.0 or 2.0)
+#' @param token OAuth token (1.0 or 2.0). By default
+#'   \code{token = NULL} fetches a non-exhausted token from
+#'   an environment variable.
 #' @param query If null, returns entire rate limit request object as
 #'   data frame. otherwise, query returns specific values matching
-#'   the query of interest; e.g., \code{query = "lookup"} returns
+#'   the query of interest; e.g., \code{query = "lookup/users"} returns
 #'   remaining limit for user lookup requests;
-#'   \code{type = "followers"} returns remaining limit for
-#'   follower id requests; \code{type = "friends"} returns
+#'   \code{type = "followers/ids"} returns remaining limit for
+#'   follower id requests; \code{type = "friends/ids"} returns
 #'   remaining limit for friend id requests.
-#' @seealso See \url{https://dev.twitter.com/overview/documentation}
-#'   for more information on using Twitter's API.
-#' @return response Rate limit response object or specific value of
-#'   remaining requests
+#' @param rest Logical indicating whether to send request to REST
+#'   API. At this time, this should always be TRUE.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
+#' @return Data frame with rate limit respones details. If query
+#'   is specified, only relevant rows are returned.
 #' @export
 rate_limit <- function(token, query = NULL, rest = TRUE) {
 
@@ -60,9 +60,8 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
 
 #' rl_df
 #'
-#' Returns integer values. Used for get_friends function.
-#' @param r rate limit response object
-#' @return cleaned up data frame of rate limit info
+#' @param r Data frame response object from rate limit TWIT request.
+#' @return Oranized data frame of rate limit info
 rl_df <- function(r) {
 
   r <- from_js(r)
@@ -95,17 +94,16 @@ rl_df <- function(r) {
 #' Returns integer values. Used for get_friends function.
 #' @param n starting number for users
 #' @param max_users max number of user ids (if rate limit exceeds
-#' remaining number of users, this sets upper ceiling and reduces
-#' likelihood of API request errors)
+#'   remaining number of users, this sets upper ceiling and reduces
+#'   likelihood of API request errors)
 #' @param token Specify token if there is reason to believe
-#' current remaning friend list request is below the rate limit
-#' max of 15. This rate limit resets every 15 minutes,
-#' so this is usually not necessary. Checking rate limits
-#' does not reduce the number of available requests, but
-#' it does slow things down.
+#'   current remaning friend list request is below the rate limit
+#'   max of 15. This rate limit resets every 15 minutes,
+#'   so this is usually not necessary. Checking rate limits
+#'   does not reduce the number of available requests, but
+#'   it does slow things down.
 #' @return integers used to identify 15 (or token max given
-#' rate limits) users from provided list of user ids
-#' @export
+#'   rate limits) users from provided list of user ids
 which_ids <- function(n, max_users, token = NULL) {
   if (!is.null(token)) {
     total <- rate_limit(token, "friends/ids")

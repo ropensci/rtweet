@@ -22,7 +22,7 @@ it does slow things down.}
 }
 \value{
 integers used to identify 15 (or token max given
-rate limits) users from provided list of user ids
+  rate limits) users from provided list of user ids
 }
 \description{
 Returns integer values. Used for get_friends function.

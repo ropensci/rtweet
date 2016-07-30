@@ -1,7 +1,7 @@
 #' parse_status
 #'
-#' @param x json object from search tweets
-#' @details dplyr
+#' @param x json object
+#' @import dplyr
 #' @export
 parse_status <- function(x) {
 
@@ -9,7 +9,7 @@ parse_status <- function(x) {
     x$quoted_status_id_str <- NA
   }
 
-  df <- dplyr::data_frame(
+  df <- data_frame(
     status_id = x$id_str,
     text = x$text,
     in_reply_to_status_id = x$in_reply_to_status_id_str,
@@ -39,13 +39,11 @@ parse_status <- function(x) {
 #' parse_retweet
 #'
 #' @param x json response object as in
-#' json_object$retweet_status
-#' @seealso See \url{https://dev.twitter.com/overview/
-#' documentation}
-#' for more information on using Twitter's API.
+#'   \code{json_object$retweet_status}.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
 #' @return data_frame
-#' @details dplyr
-#' @export
+#' @import dplyr
 parse_retweet <- function(x) {
   extend_label_df(parse_status(x), "retweet")
 }
@@ -54,28 +52,27 @@ parse_retweet <- function(x) {
 #' parse_all_tweets
 #'
 #' @param x json response object from tweet/status
-#' Twitter API request.
-#' @seealso See \url{https://dev.twitter.com/overview/
-#' documentation}
-#' for more information on using Twitter's API.
+#'   Twitter API request.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
 #' @return data_frame
-#' @details dplyr
+#' @import dplyr
 #' @export
 parse_all_tweets <- function(x) {
   tweets_df <- parse_status(x)
 
   if (is.data.frame(x$place)) {
-    tweets_df <- dplyr::bind_cols(
+    tweets_df <- bind_cols(
       tweets_df, parse_place(x$place))
   }
 
   if (is.data.frame(x$user)) {
-    tweets_df <- dplyr::bind_cols(
+    tweets_df <- bind_cols(
       tweets_df, parse_user(x$user))
   }
 
   if (is.data.frame(x$retweeted_status)) {
-    tweets_df <- dplyr::bind_cols(
+    tweets_df <- bind_cols(
       tweets_df, parse_retweet(x$retweeted_status))
   }
 
@@ -86,15 +83,13 @@ parse_all_tweets <- function(x) {
 #' parse_place
 #'
 #' @param x json resposne object from user lookup Twitter
-#' API call.
-#' @seealso See \url{https://dev.twitter.com/overview/
-#' documentation} for more information on using
-#' Twitter's API.
+#'   API call.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
 #' @return data frame
-#' @details dplyr
-#' @export
+#' @import dplyr
 parse_place <- function(x) {
-  place_df <- dplyr::data_frame(
+  place_df <- data_frame(
     "place_id" = x$id,
     "place_url" = x$url,
     "place_type" = x$place_type,
@@ -124,13 +119,13 @@ parse_place <- function(x) {
 
 #' extend_label_df
 #'
-#' @param dff other, extended data.frame within larger json
-#' response object
-#' @param new label to represent the other data.frame
-#' @seealso See \url{https://dev.twitter.com/overview/documentation}
-#' for more information on using Twitter's API.
+#' @param dff Extended data.frame within larger json
+#'   response object
+#' @param label New label to represent the other data.frame
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
 #' @return data_frame
-#' @details dplyr
+#' @import dplyr
 #' @export
 extend_label_df <- function(dff, label = "other") {
   names(dff) <- vapply(
@@ -145,13 +140,13 @@ extend_label_df <- function(dff, label = "other") {
 #' parse_user
 #'
 #' @param x json resposne object from user lookup Twitter API call.
-#' @seealso See \url{https://dev.twitter.com/overview/documentation}
-#' for more information on using Twitter's API.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
 #' @return data frame
-#' @details dplyr
+#' @import dplyr
 #' @export
 parse_user <- function(x) {
-  user_df <- dplyr::data_frame(
+  user_df <- data_frame(
     "user_id" = x$id_str,
     "name" = x$name,
     "screen_name" = x$screen_name,
@@ -180,7 +175,6 @@ parse_user <- function(x) {
 #' .prep_list
 #'
 #' @param x data to be vectorized
-#' @export
 .prep_list <- function(x) {
 
   if (!is.null(dim(x))) return(x)

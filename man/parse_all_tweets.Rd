@@ -16,12 +16,7 @@ data_frame
 \description{
 parse_all_tweets
 }
-\details{
-dplyr
-}
 \seealso{
-See \url{https://dev.twitter.com/overview/
-documentation}
-for more information on using Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

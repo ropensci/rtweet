@@ -4,22 +4,22 @@
 \alias{lookup_users}
 \title{lookup_users}
 \usage{
-lookup_users(ids, token = NULL)
+lookup_users(users, token = NULL)
 }
 \arguments{
-\item{ids}{User id or screen name of target user.}
+\item{users}{User id or screen name of target user.}
 
-\item{token}{OAuth tokens (1.0 or 2.0)}
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable @describeIn tokens.}
 }
 \value{
-response object (max is 18000 per token)
+json response object (max is 18000 per token)
 }
 \description{
 lookup_users
 }
 \seealso{
-See \url{https://dev.twitter.com/overview/
-  documentation} for more information on using
-  Twitter's API.
+\url{https://dev.twitter.com/overview/documentation}
 }
 

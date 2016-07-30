@@ -8,25 +8,32 @@ TWIT(get = TRUE, url, ..., timeout = NULL, filename = NULL,
   catch_error = FALSE)
 }
 \arguments{
-\item{get}{Locigical with the default, \code{get = TRUE},
+\item{get}{Logical with the default, \code{get = TRUE},
 indicating whether the provided url should be passed along via
 a GET or POST request.}
 
 \item{url}{Character vector designed to operate like
-\code{parse_url()} and \code{build_url()} functions in the
-httr package. The easiest way to do this is to work through
+parse_url and build_url functions in the httr package.
+The easiest way to do this is to work through
 the call-specific functions as they are designed to simplify
 the process. However, if one were interested in reverse-
 engingeering such a thing, I would recommend checking out
-\code{\link{makeurl}}.}
+\code{make_url}.}
 
-\item{Further}{named parameters, such as \code{token},
-\code{timeout}, etc, passed on to \code{modify_url} in
-httr. Unnamed parameters will be combined with
-{\link{config}}.}
+\item{timeout}{Numeric, used only when streaming tweets,
+specifying the number of seconds to stream tweets.}
+
+\item{filename}{Character, used only when streaming tweets,
+name of file to save json tweets object.}
+
+\item{catch_error}{Logical indicating whether to call stop for
+status function following GET or POST requests.}
+
+\item{\dots}{Further named parameters, such as config, token,
+etc, passed on to modify_url in the httr package.}
 }
 \value{
-Response (json) object
+json response object
 }
 \description{
 TWIT
@@ -37,5 +44,19 @@ Occasionally Twitter does recommend using POST requests
   can involve long strings (containing up to 100 user_ids). For
   the most part, or at least for any function-specific requests
   (e.g., \code{get_friends}, take reflect these changes.
+}
+\examples{
+\dontrun{
+tokens <- get_tokens()
+
+params <- list(q = "rstats", result_type = "recent")
+
+url <- make_url(restapi = TRUE,
+  "search/tweets",
+  param = params)
+
+r <- TWIT(get = TRUE, url,
+  config = tokens[[1]])
+}
 }
 
