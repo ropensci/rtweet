@@ -72,7 +72,7 @@ editor like TextEdit or Notepad. Or, if you're using Rstudio,
 (File > New File > Text File).
 
 - In the blank plain text document, type the text below where 
-'blahblahblahblahblahblah' is the path to wherever you've saved 
+`blahblahblahblahblahblah` is the path to wherever you've saved 
 the token(s). On my mac, for example, it looks like this: 
 `TWITTER_PAT=/Users/mwk/twitter_tokens`. Make sure the last line
 of the document is left empty, otherwise R won't read the file.
@@ -82,8 +82,8 @@ TWITTER_PAT=blahblahblahblahblahblah
 
 ```
 
-- Save this file in your home directory, Again, you can find your 
-home directory by entering `normalizePath("~/")` in the R console. 
+- Save the file to your home directory, which, again, you can find your 
+by entering `normalizePath("~/")` in the R console.
 
 ```{r, echo = TRUE, eval = FALSE}
 normalizePath("~/")
