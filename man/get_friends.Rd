@@ -30,6 +30,18 @@ Requests information from Twitter's REST API
   regarding a user's friend network (i.e., accounts followed
   by a user). To request information on followers of accounts
 }
+\examples{
+\dontrun{
+# get ids of users followed by the president of the US
+pres <- get_friends(user = "potus")
+pres
+
+# get ids of users followed by the Environmental Protection Agency
+epa <- get_friends(user = "epa")
+epa
+}
+
+}
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 }

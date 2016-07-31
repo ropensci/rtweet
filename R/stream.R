@@ -20,6 +20,16 @@
 #' @param file_name Character with name of file. By default, this
 #'   generates random file name and parses tweets.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
+#' @examples
+#' \dontrun{
+#' # stream tweets mentioning Hillary Clinton for 60 seconds
+#' hrc <- stream_tweets(stream = "hillaryclinton", timeout = 60)
+#' hrc
+#'
+#' # stream tweets mentioning Donald Trump for 60 seconds
+#' djt <- search_tweets(q = "realdonaldtrump", timeout = 60)
+#' djt
+#' }
 #'
 #' @return Tweets data returned as a tibble data_frame
 #' @details jsonlite

@@ -38,6 +38,17 @@ Returns a collection of relevant Tweets matching a
 \details{
 dplyr
 }
+\examples{
+\dontrun{
+# search for 1000 tweets mentioning Hillary Clinton
+hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+hrc
+
+# search for 1000 tweets mentioning Donald Trump
+djt <- search_tweets(q = "realdonaldtrump", count = 1000)
+djt
+}
+}
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 }

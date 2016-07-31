@@ -16,6 +16,16 @@
 #'   ids as strings (some ids are too long to be read as numeric).
 #'   Defaults to \code{TRUE}.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @examples
+#' \dontrun{
+#' # get ids of users followed by the president of the US
+#' pres <- get_friends(user = "potus")
+#' pres
+#'
+#' # get ids of users followed by the Environmental Protection Agency
+#' epa <- get_friends(user = "epa")
+#' epa
+#' }
 #'
 #' @return friends User ids for everyone a user follows.
 #' @export

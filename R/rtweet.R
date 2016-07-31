@@ -7,10 +7,9 @@
 #' It has three main goals:
 #'
 #' \itemize{
-#' \item Compose and request calls to
-#'   \url{https://api.twitter.com} following (the best
-#'   practices for writing an API package)
-#'   [https://cran.r-project.org/web/packages/httr/
+#' \item Compose and request calls to Twitter's API
+#'   following (the best practices for writing an API
+#'   package) [https://cran.r-project.org/web/packages/httr/
 #'   vignettes/api-packages.html].
 #' \item Provide functions that can acccept multiple
 #'   personal access tokens.

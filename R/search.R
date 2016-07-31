@@ -20,7 +20,16 @@
 #'   an environment variable tokens.
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @examples
+#' \dontrun{
+#' # search for 1000 tweets mentioning Hillary Clinton
+#' hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+#' hrc
 #'
+#' # search for 1000 tweets mentioning Donald Trump
+#' djt <- search_tweets(q = "realdonaldtrump", count = 1000)
+#' djt
+#' }
 #' @return Tweets data returned as a tibble data_frame
 #' @details dplyr
 #' @export

@@ -17,8 +17,26 @@ an environment variable.}
 results. Other pages specified via cursor values supplied by
 Twitter API response object.}
 }
+\value{
+list of follower ids and next page value (presumably
+  this would be used in loops extracting more than 75,000
+  followers using either multiple tokens or by waiting out
+  rate limits)
+}
 \description{
 Returns max followers per token
+}
+\examples{
+\dontrun{
+# get ids of users following the president of the US
+pres <- get_followers(user = "potus")
+pres
+
+# get ids of users following the Environmental Protection Agency
+epa <- get_followers(user = "epa")
+epa
+}
+
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
