@@ -1,32 +1,26 @@
 Package: rtweet
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Collecting Twitter Data in R
 Version: 0.1.0
 Date: 2016-07-29
 Title: rtweet
-Authors@R: person("Mike", "Kearney", email = "mwk@ku.edu",
-    role = c("aut", "cre"))
+Author: Michael W. Kearney
+Maintainer: Michael W. Kearney <mkearney@ku.edu>
 Description: An implementation of calls designed to extract
     and organize Twitter data via Twitter's REST and stream
-    API's. GET and POST requests are specified to return
-    [json] objects. Functions then convert the objects to more
-    user friendly formats, e.g., data frames or lists. Specific
-    consideration is given to functions that use more than
-    one OAuth personal access token.
+    API's. Functions formulate GET and POST requests and
+    convert response objects to more user friendly structures,
+    e.g., data frames or lists. Specific consideration is
+    given to functions designed to return tweets, friends,
+    and followers.
 Depends:
     R (>= 3.1.0)
 Imports:
     dplyr,
     httr,
     jsonlite
-Suggests:
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
 License: MIT + file LICENSE
 LazyData: TRUE
-URL:
-    https://github.com/mkearney/rtweet/,
-    https://dev.twitter.com/overview/documentation
+URL: https://github.com/mkearney/rtweet/
 BugReports: https://github.com/mkearney/rtweet/issues
 RoxygenNote: 5.0.1

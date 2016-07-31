@@ -4,7 +4,7 @@
 \name{rtweet}
 \alias{rtweet}
 \alias{rtweet-package}
-\title{rtweet: collecting Twitter data}
+\title{rtweet}
 \description{
 rtweet provides users a range of functions
   designed to extract data from Twitter's REST and
