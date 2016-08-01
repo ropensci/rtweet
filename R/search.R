@@ -63,7 +63,7 @@ search_tweets <- function(q, count = 100, type = "mixed",
     qresp <- .from_js(qresp)
 
     tw_df <- dplyr::bind_rows(tw_df,
-      parse_status(qresp$statuses))
+      parse_all_tweets(qresp$statuses))
 
     nrows <- nrow(tw_df)
 

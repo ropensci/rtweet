@@ -4,24 +4,24 @@
 #' @param x json object
 #' @import dplyr
 #' @export
-parse_status <- function(x) {
+parse_status <- function(x, retweet = FALSE) {
 
   if (sum(x$is_quote_status, na.rm = TRUE) == 0) {
     x$quoted_status_id_str <- NA
   }
 
   df <- data_frame(
-    status_id = x$id_str,
-    text = x$text,
-    in_reply_to_status_id = x$in_reply_to_status_id_str,
-    in_reply_to_user_id  = x$in_reply_to_user_id_str,
-    in_reply_to_screen_name = x$in_reply_to_screen_name,
-    is_quote_status = x$is_quote_status,
-    retweet_count = x$retweet_count,
-    favorite_count = x$favorite_count,
-    lang = x$lang,
-    quoted_status_id = x$quoted_status_id_str,
-    hashtags = I(
+    "status_id" = x$id_str,
+    "text" = x$text,
+    "in_reply_to_status_id" = x$in_reply_to_status_id_str,
+    "in_reply_to_user_id"  = x$in_reply_to_user_id_str,
+    "in_reply_to_screen_name" = x$in_reply_to_screen_name,
+    "is_quote_status" = x$is_quote_status,
+    "retweet_count" = x$retweet_count,
+    "favorite_count" = x$favorite_count,
+    "lang" = x$lang,
+    "quoted_status_id" = x$quoted_status_id_str,
+    "hashtags" = I(
       lapply(x$entities$hashtags,
         function(x) getElement(x, "text"))),
     user_mentions_screen_name = I(
@@ -43,7 +43,30 @@ parse_status <- function(x) {
 #'   \code{json_object$retweet_status}.
 #' @import dplyr
 .parse_retweet <- function(x) {
-  .extend_label_df(parse_status(x), "retweet")
+  df <- data_frame(
+    "status_id" = x$id_str,
+    "text" = x$text,
+    "in_reply_to_status_id" = x$in_reply_to_status_id_str,
+    "in_reply_to_user_id"  = x$in_reply_to_user_id_str,
+    "in_reply_to_screen_name" = x$in_reply_to_screen_name,
+    "is_quote_status" = x$is_quote_status,
+    "retweet_count" = x$retweet_count,
+    "favorite_count" = x$favorite_count,
+    "lang" = x$lang,
+    "hashtags" = I(
+      lapply(x$entities$hashtags,
+        function(x) getElement(x, "text"))),
+    user_mentions_screen_name = I(
+      lapply(x$entities$user_mentions,
+        function(x) getElement(x, "screen_name"))),
+    user_mentions_user_id = I(
+      lapply(x$entities$user_mentions,
+        function(x) getElement(x, "id_str"))),
+    urls_expanded_url = I(
+      lapply(x$entities$urls,
+        function(x) getElement(x, "expanded_url"))))
+
+  .extend_label_df(df, "retweet")
 }
 
 

@@ -4,7 +4,7 @@
 \alias{parse_status}
 \title{parse_status}
 \usage{
-parse_status(x)
+parse_status(x, retweet = FALSE)
 }
 \arguments{
 \item{x}{json object}
