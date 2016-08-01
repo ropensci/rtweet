@@ -20,15 +20,15 @@ Twitter personal access token object
 }
 \description{
 Sends request to generate oauth 1.0 tokens. Twitter
-   also allows uers to create user-only (oauth 2.0) access token.
-   Unlike the 1.0 tokens, oath 2.0 tokens are not at all centered
-   on a host user. Which means these tokens cannot be used to
-   send information (follow requests, Twitter statuses, etc.).
-   If you have no interest in those capabilities, then 2.0 oauth
-   tokens do offer some higher rate limits. At the current time,
-   the difference given the functions in this package is trivial,
-   so I have yet to  verified oauth 2.0 token method.
-   Consequently, I encourage you to use 1.0 tokens.
+  also allows uers to create user-only (oauth 2.0) access token.
+  Unlike the 1.0 tokens, oath 2.0 tokens are not at all centered
+  on a host user. Which means these tokens cannot be used to
+  send information (follow requests, Twitter statuses, etc.).
+  If you have no interest in those capabilities, then 2.0 oauth
+  tokens do offer some higher rate limits. At the current time,
+  the difference given the functions in this package is trivial,
+  so I have yet to  verified oauth 2.0 token method.
+  Consequently, I encourage you to use 1.0 tokens.
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
