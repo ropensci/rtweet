@@ -16,7 +16,7 @@
 #'
 #' @return user ids
 .followers_get <- function(user, token = NULL, page = "-1",
-                          stringify = TRUE) {
+                           stringify = TRUE) {
 
   params <- list(
     id_type = user,
