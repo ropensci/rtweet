@@ -10,7 +10,7 @@
 #' @export
 get_tokens <- function() {
   if (is.null(.state$twitter_tokens)) {
-    load(.twitter_pat(), .state)
+    .load_tokens(.twitter_pat())
   }
   .state$twitter_tokens
 }
@@ -58,9 +58,13 @@ create_token <- function(app, consumer_key, consumer_secret) {
   pat <- Sys.getenv("TWITTER_PAT")
 
   if (identical(pat, "")) {
-    stop(
-      "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
-      call. = FALSE)
+    if (file.exists(".httr-oauth")) {
+      pat <- ".httr-oauth"
+    } else {
+      stop(
+        "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
+        call. = FALSE)
+    }
   }
   pat
 }
@@ -72,7 +76,11 @@ create_token <- function(app, consumer_key, consumer_secret) {
 #' @param pat path character vector with path to tokens
 #' @return loads Twitter oauth token(s)
 .load_tokens <- function(pat) {
-  load(pat, .state)
+  if (identical(pat, ".httr-oauth")) {
+    .state$twitter_tokens <- readRDS(pat)
+  } else {
+    load(pat, .state)
+  }
 }
 
 
@@ -87,9 +95,8 @@ create_token <- function(app, consumer_key, consumer_secret) {
 #'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
 #' @return token with non-exhausted rate limit
 .fetch_tokens <- function(tokens, query, sleep = FALSE) {
-  if (length(tokens) == 0) return(tokens)
 
-  for (i in 1:length(tokens)) {
+  for (i in seq_along(tokens)) {
     token <- tokens[[i]]
 
     remaining <- rate_limit(token, query)[, "remaining"]
