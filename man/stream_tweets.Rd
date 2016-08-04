@@ -34,9 +34,6 @@ Returns public statuses via one of three methods
   2. Tracking via vector of user ids (up to 5000 user_ids)
   3. Location via geo coordinates (1-360 degree location boxes)
 }
-\details{
-jsonlite
-}
 \examples{
 \dontrun{
 # stream tweets mentioning Hillary Clinton for 60 seconds

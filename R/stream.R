@@ -32,7 +32,7 @@
 #' }
 #'
 #' @return Tweets data returned as a tibble data_frame
-#' @details jsonlite
+#' @import jsonlite
 #' @export
 stream_tweets <- function(stream, timeout = 30, token = NULL,
                           file_name = NULL) {
@@ -65,7 +65,7 @@ stream_tweets <- function(stream, timeout = 30, token = NULL,
     timeout = timeout,
     filename = file_name)
 
-  resp <- jsonlite::stream_in(
+  resp <- stream_in(
     file(file_name),
     verbose = FALSE)
 
@@ -73,7 +73,7 @@ stream_tweets <- function(stream, timeout = 30, token = NULL,
 
   if (is.null(file_name)) file.remove(file_name)
 
-  if (nrow(resp) > 0) resp <- parse_all_tweets(resp)
+  if (nrow(resp) > 0) resp <- .return_statuses(resp)
 
   resp
 }

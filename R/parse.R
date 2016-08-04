@@ -24,13 +24,13 @@ parse_status <- function(x, retweet = FALSE) {
     "hashtags" = I(
       lapply(x$entities$hashtags,
         function(x) getElement(x, "text"))),
-    user_mentions_screen_name = I(
+    "user_mentions_screen_name" = I(
       lapply(x$entities$user_mentions,
         function(x) getElement(x, "screen_name"))),
-    user_mentions_user_id = I(
+    "user_mentions_user_id" = I(
       lapply(x$entities$user_mentions,
         function(x) getElement(x, "id_str"))),
-    urls_expanded_url = I(
+    "urls_expanded_url" = I(
       lapply(x$entities$urls,
         function(x) getElement(x, "expanded_url"))))
 
@@ -56,13 +56,13 @@ parse_status <- function(x, retweet = FALSE) {
     "hashtags" = I(
       lapply(x$entities$hashtags,
         function(x) getElement(x, "text"))),
-    user_mentions_screen_name = I(
+    "user_mentions_screen_name" = I(
       lapply(x$entities$user_mentions,
         function(x) getElement(x, "screen_name"))),
-    user_mentions_user_id = I(
+    "user_mentions_user_id" = I(
       lapply(x$entities$user_mentions,
         function(x) getElement(x, "id_str"))),
-    urls_expanded_url = I(
+    "urls_expanded_url" = I(
       lapply(x$entities$urls,
         function(x) getElement(x, "expanded_url"))))
 
@@ -112,13 +112,13 @@ parse_all_tweets <- function(x) {
 #' @import dplyr
 .parse_place <- function(x) {
   place_df <- data_frame(
-    "place_id" = x$id,
-    "place_url" = x$url,
-    "place_type" = x$place_type,
-    "place_name" = x$name,
-    "place_full_name" = x$full_name,
-    "place_country_code" = x$country_code,
-    "place_country" = x$country,
+    "place_id" = .ifna(x, "id"),
+    "place_url" = .ifna(x, "url"),
+    "place_type" = .ifna(x, "place_type"),
+    "place_name" = .ifna(x, "name"),
+    "place_full_name" = .ifna(x, "full_name"),
+    "place_country_code" = .ifna(x, "country_code"),
+    "place_country" = .ifna(x, "country"),
     "place_long1" = lapply(x$bounding_box$coordinates,
       function(x) x[1, 1, 1]),
     "place_long2" = lapply(x$bounding_box$coordinates,
@@ -155,6 +155,14 @@ parse_all_tweets <- function(x) {
   dff
 }
 
+
+.ifna <- function(x, y) {
+  if (!y %in% names(x)) {
+    return(NA)
+  }
+  x[[y]]
+}
+
 #' parse_user
 #'
 #' @description Converts Twitter user object to neat data_frame.
@@ -165,38 +173,39 @@ parse_all_tweets <- function(x) {
 #' @import dplyr
 #' @export
 parse_user <- function(x) {
+
   user_df <- data_frame(
-    "user_id" = x$id_str,
-    "name" = x$name,
-    "screen_name" = x$screen_name,
-    "location" = x$location,
-    "description" = x$description,
-    "url" = x$url,
-    "protected" = x$protected,
-    "followers_count" = x$followers_count,
-    "friends_count" = x$friends_count,
-    "listed_count" = x$listed_count,
-    "created_at" = as.POSIXct(
-      x$created_at,
+    "user_id" = .ifna(x, "id_str"),
+    "name" = .ifna(x, "name"),
+    "screen_name" = .ifna(x, "screen_name"),
+    "location" = .ifna(x, "location"),
+    "description" = .ifna(x, "description"),
+    "url" = .ifna(x, "url"),
+    "protected" = .ifna(x, "protected"),
+    "followers_count" = .ifna(x, "followers_count"),
+    "friends_count" = .ifna(x, "friends_count"),
+    "listed_count" = .ifna(x, "listed_count"),
+    "created_at" = as.POSIXct(.ifna(x, "created_at"),
       format = "%a %b %d %H:%M:%S %z %Y"),
-    "favourites_count" = x$favourites_count,
-    "utc_offset" = x$utc_offset,
-    "time_zone" = x$time_zone,
-    "geo_enabled" = x$geo_enabled,
-    "verified" = x$verified,
-    "statuses_count" = x$statuses_count,
-    "lang" = x$lang)
+    "favourites_count" = .ifna(x, "favourites_count"),
+    "utc_offset" = .ifna(x, "utc_offset"),
+    "time_zone" = .ifna(x, "time_zone"),
+    "geo_enabled" = .ifna(x, "geo_enabled"),
+    "verified" = .ifna(x, "verified"),
+    "statuses_count" = .ifna(x, "statuses_count"),
+    "lang" = .ifna(x, "lang"))
 
   user_df
 }
 
-
+x <- list(list = data.frame(replicate(3, rnorm(10))), list =  data.frame(replicate(3, rnorm(10))))
 #' .prep_list
 #'
 #' @param x data to be vectorized
 .prep_list <- function(x) {
 
-  if (!is.null(dim(x))) return(x)
+  if (!is.list(x)) return(NA)
+  if (!is.null(dim(x))) return(NA)
 
   ncols <- max(unlist(lapply(x, length)), na.rm = TRUE)
 

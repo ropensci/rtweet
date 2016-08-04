@@ -59,19 +59,20 @@ search_tweets <- function(q, count = 100, type = "mixed",
   message("Searching for tweets...")
 
   while (nrows < count) {
-    qresp <- TWIT(get = TRUE, url, config = token)
-    qresp <- .from_js(qresp)
+    res <- TWIT(get = TRUE, url, config = token)
+    res <- .from_js(res)
 
     tw_df <- dplyr::bind_rows(tw_df,
-      parse_all_tweets(qresp$statuses))
+      .return_statuses(res))
 
     nrows <- nrow(tw_df)
 
-    if (length(qresp$search_metadata$next_results) == 0) break
-    if (qresp$search_metadata$next_results == 0) break
+    if (length(res$search_metadata$next_results) == 0) break
+    if (res$search_metadata$next_results == 0) break
 
-    url <- make_url(restapi = TRUE, "search/tweets",
-      sub("[?]", "", qresp$search_metadata$next_results))
+    url <- make_url(
+      restapi = TRUE, "search/tweets",
+      sub("[?]", "", res$search_metadata$next_results))
   }
 
   message(paste0("Collected ", nrows, " tweets!"))

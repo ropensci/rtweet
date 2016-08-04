@@ -2,7 +2,8 @@
 #'
 #' @keywords internal
 #' @param rsp json object
-#' @import httr jsonlite
+#' @import httr
+#' @importFrom jsonlite fromJSON
 .from_js <- function(rsp) {
   if (http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
@@ -93,32 +94,6 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
     units = "mins")
 
   rl_df
-}
-
-
-#' Returns integer values. Used for get_friends function.
-#' @keywords internal
-.which_ids <- function(n, max_users, token = NULL) {
-  if (!is.null(token)) {
-    total <- rate_limit(token, "friends/ids")
-    if (total == 0) {
-      return(invisible())
-    }
-  } else {
-    total <- 15
-  }
-  remain <- total - 1
-
-  n <- n * (remain + 1) - remain
-  end <- n + remain
-
-  if (!missing(max_users)) {
-    if (end > max_users) {
-      end <- max_users
-    }
-  }
-
-  n:end
 }
 
 #' .stream_params
