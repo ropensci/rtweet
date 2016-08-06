@@ -9,7 +9,7 @@ install.packages("rtweet")
 library(rtweet)
 ```
 
-To install the most recent version of `rtweet` run the following code in R:
+To install the most recent development version of `rtweet` run the following code in R:
 ```{r}
 if (packageVersion("devtools") < 1.6) {
   install.packages("devtools")
@@ -119,4 +119,4 @@ elect16
 ```
 
 ## contact
-email me at mkearney@ku.edu
+Email me at mkearney@ku.edu
