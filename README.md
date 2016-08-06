@@ -1,6 +1,6 @@
 # rtweet: Collecting Twitter Data
 
-R package for collecting Twitter Data via Twitter's REST and stream API's
+R package for collecting Twitter data via Twitter's REST and stream API's
 
 Key features
 
