@@ -2,14 +2,6 @@
 
 R package for collecting Twitter data via Twitter's REST and stream API's.
 
-More technical description: An implementation of calls designed to extract
-and organize Twitter data via Twitter's REST and stream
-API's. Functions formulate GET and POST requests and
-convert response objects to more user friendly structures,
-e.g., data frames or lists. Specific consideration is
-given to functions designed to return tweets, friends,
-and followers.
-
 Key features
 
 - Gather **tweet** data by searching `search_tweets()` past tweets or 
@@ -148,6 +140,16 @@ library(rtweet)
 elect16 <- search_tweets(q = "election2016", count = 500)
 elect16
 ```
+
+## Package description
+
+More technical description: An implementation of calls designed to extract
+and organize Twitter data via Twitter's REST and stream
+API's. Functions formulate GET and POST requests and
+convert response objects to more user friendly structures,
+e.g., data frames or lists. Specific consideration is
+given to functions designed to return tweets, friends,
+and followers.
 
 ## Contact
 Email me at mkearney@ku.edu
