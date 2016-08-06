@@ -13,7 +13,7 @@ on specific Twitter users. Easily return data on thousands of users
 at a time.
 
 - Organized and easily translatable data formats. Functions return
-data frames that are *ready* for data analysis right when you get them.
+data frames that are **ready** for data analysis right when you get them.
 
 - Tweet data functions return not only text of tweets, but a host of 
 other variables, including the number of times a tweet has been 
