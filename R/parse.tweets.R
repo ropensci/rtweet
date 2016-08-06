@@ -169,9 +169,7 @@ make_coords <- function(x) {
   coords_df
 }
 
-#' tweets_place_df
 #' @importFrom dplyr data_frame
-#' @export
 tweets_place_df <- function(dat, n = NULL) {
 
   if (missing(dat)) {

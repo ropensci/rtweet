@@ -26,12 +26,12 @@
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- .fetch_tokens(token, "users/lookup")
+    token <- fetch_tokens(token, "users/lookup")
   }
 
   resp <- TWIT(get = TRUE, url, token)
 
-  resp <- .from_js(resp)
+  resp <- from_js(resp)
 
   user_df(resp)
 }

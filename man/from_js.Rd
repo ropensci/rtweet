@@ -6,8 +6,11 @@
 \usage{
 from_js(rsp)
 }
+\arguments{
+\item{rsp}{json response object}
+}
 \description{
-from_js
+Convert json object to nested list.
 }
 \keyword{internal}
 

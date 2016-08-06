@@ -91,9 +91,7 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
 }
 
 
-#' user_entities_df
 #' @importFrom dplyr data_frame
-#' @export
 user_entities_df <- function(dat, n = NULL) {
 
   dat <- check_user_obj(dat)

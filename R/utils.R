@@ -1,12 +1,19 @@
 #' from_js
 #'
+#' @description Convert json object to nested list.
+#'
+#' @param rsp json response object
+#'
 #' @keywords internal
-#' @importFrom httr content
+#' @import httr
 #' @importFrom jsonlite fromJSON
+#' @export
 from_js <- function(rsp) {
+
   if (http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
+
   fromJSON(content(rsp, as = "text"))
 }
 
@@ -47,9 +54,6 @@ stream_params <- function(stream) {
 
 
 
-#' format_date
-#'
-#' @export
 format_date <- function(x, date = TRUE) {
   x <- as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",

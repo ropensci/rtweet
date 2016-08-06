@@ -7,7 +7,7 @@ Author: Michael W. Kearney
 Maintainer: Michael W. Kearney <mkearney@ku.edu>
 Description: An implementation of calls designed to extract
     and organize Twitter data via Twitter's REST and stream
-    API's. Functions formulate GET and POST requests and
+    APIs. Functions formulate GET and POST requests and
     convert response objects to more user friendly structures,
     e.g., data frames or lists. Specific consideration is
     given to functions designed to return tweets, friends,
