@@ -1,3 +1,27 @@
+#' user_df
+#'
+#' @description Converts user object (nested list converted from
+#'   json object) into a [tibble] data frame.
+#'
+#' @param dat User object or nested list. Usually this is the
+#'   return object produced by \code{\link{from_js}} and
+#'   \code{\link{lookup_users}}..
+#'
+#' @importFrom dplyr bind_cols
+#' @export
+user_df <- function(dat) {
+
+  if ("user" %in% names(dat)) {
+    dat <- dat[["user"]]
+  }
+
+  user_df <- bind_cols(
+    user_toplevel_df(dat),
+    user_entities_df(dat))
+
+  user_df
+}
+
 check_user_obj <- function(x) {
 
   if ("user" %in% names(x)) {
@@ -33,14 +57,22 @@ usr_ent_urls <- function(x, list = FALSE) {
   x
 }
 
+#' @importFrom dplyr tbl_df
+user_toplevel_df <- function(x, n = NULL, names = NULL,
+                             add.names = NULL) {
 
-user_toplevel_df <- function(x, n = NULL) {
+  if (is.null(names)) {
+    toplevel <- c("id_str", "name", "screen_name",
+      "location", "description", "url", "protected",
+      "followers_count", "friends_count", "listed_count",
+      "created_at", "favourites_count", "utc_offset",
+      "time_zone", "geo_enabled", "verified",
+      "statuses_count", "lang")
+  }
 
-  toplevel <- c(
-    "id_str", "name", "screen_name", "location", "description",
-    "url", "protected", "followers_count", "friends_count", "listed_count",
-    "created_at", "favourites_count", "utc_offset", "time_zone",
-    "geo_enabled", "verified", "statuses_count", "lang")
+  if (!is.null(add.names)) {
+    toplevel <- c(toplevel, add.names)
+  }
 
   x <- check_response_obj(x)
 
@@ -55,11 +87,12 @@ user_toplevel_df <- function(x, n = NULL) {
       toplevel_df[["created_at"]], date = FALSE)
   }
 
-  dplyr::tbl_df(toplevel_df)
+  tbl_df(toplevel_df)
 }
 
 
 #' user_entities_df
+#' @importFrom dplyr data_frame
 #' @export
 user_entities_df <- function(dat, n = NULL) {
 
@@ -67,7 +100,7 @@ user_entities_df <- function(dat, n = NULL) {
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  user_ent_df <- dplyr::data_frame(
+  user_ent_df <- data_frame(
     url = rep(NA_character_, n),
     description_urls = as.list(rep(NA_character_, n)))
 
@@ -97,18 +130,5 @@ user_entities_df <- function(dat, n = NULL) {
 }
 
 
-#' user_df
-#' @export
-user_df <- function(dat) {
 
-  if ("user" %in% names(dat)) {
-    dat <- dat[["user"]]
-  }
-
-  user_df <- dplyr::bind_cols(
-    user_toplevel_df(dat),
-    user_entities_df(dat))
-
-  user_df
-}
 

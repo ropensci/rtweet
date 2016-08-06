@@ -43,16 +43,21 @@ get_friends <- function(user, token = NULL, page = "-1",
 
   if (is.null(token)) {
     token <- get_tokens()
-    token <- .fetch_tokens(token, "friends/ids")
+    token <- fetch_tokens(token, "friends/ids")
   }
 
   resp <- TWIT(get = TRUE, url, token)
 
-  fds <- .from_js(resp)
+  fds <- from_js(resp)
 
   if (is.null(fds["ids"])) {
     return(list(ids = NA))
   }
 
-  fds["ids"]
+  if (all(c("ids", "next_cursor_str") %in% names(fds))) {
+    fds$next_cursor <- fds$next_cursor_str
+    fds <- fds[c("ids", "next_cursor")]
+  }
+
+  fds
 }

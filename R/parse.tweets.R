@@ -1,81 +1,100 @@
-#' return_with_NA
+#' tweets_df
 #'
+#' @description Converts tweets object (nested list converted from
+#'   json object) into a [tibble] data frame.
+#'
+#' @param dat Tweets object or nested list. Usually this is the
+#'   return object produced by \code{\link{from_js}} and
+#'   \code{\link{search_tweets}} or \code{\link{stream_tweets}}.
+#'
+#' @importFrom dplyr bind_cols
 #' @export
-return_with_NA <- function(x, n) {
-  if (is.character(x)) {
-    myNA <- NA_character_
-  } else if (is.logical(x)) {
-    myNA <- NA
-  } else if (is.integer(x)) {
-    myNA <- NA_integer_
-  } else {
-    myNA <- NA_character_
+tweets_df <- function(dat) {
+
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
   }
-  if (any(is.null(x), identical(x, ""))) {
-    x <- rep(NA, n)
+
+  if ("statuses" %in% names(dat)) {
+    dat <- dat[["statuses"]]
   }
-  for (i in seq_along(x)) {
-    if (any(is.null(x[[i]]), identical(x[[i]], ""))) {
-      x[[i]] <- NA
-    }
-  }
-  x
+
+  tweets_df <- bind_cols(
+    tweets_toplevel_df(dat),
+    tweets_entities_df(dat),
+    tweets_retweet_df(dat),
+    tweets_place_df(dat))
+
+  tweets_df
 }
 
-#' return_with_NA
-#'
-#' @export
-check_response_obj <- function(x) {
-  if (all(c("statuses", "search_metadata") %in% names(x))) {
-    x <- x[["statuses"]]
+
+
+check_response_obj <- function(dat) {
+
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
   }
 
-  if (!"id_str" %in% names(x)) {
-    if ("id" %in% names(x)) {
-      x$id_str <- x$id
+  if (all(c("statuses", "search_metadata") %in% names(dat))) {
+    dat <- dat[["statuses"]]
+  }
+
+  if (!"id_str" %in% names(dat)) {
+    if ("id" %in% names(dat)) {
+      dat$id_str <- dat$id
     } else {
       stop("object does not contain ID variable.", call. = FALSE)
     }
   }
-  x
+
+  dat
 }
 
-#' statuses_toplevel_df
-#'
-#' @export
-statuses_toplevel_df <- function(x, n = NULL) {
+tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
+                               add.names = NULL) {
 
-  toplevel <- c(
-    "created_at", "id_str", "retweet_count", "favorite_count",
-    "text", "in_reply_to_status_id_str", "in_reply_to_user_id_str",
-    "is_quote_status", "quoted_status_id_str", "lang")
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
+  }
 
-  x <- check_response_obj(x)
+  if (is.null(names)) {
+    toplevel <- c("created_at", "id_str", "retweet_count",
+      "favorite_count", "text", "in_reply_to_status_id_str",
+      "in_reply_to_user_id_str", "is_quote_status",
+      "quoted_status_id_str", "lang")
+  }
 
-  if (is.null(n)) n <- length(x[["id_str"]])
+  if (!is.null(add.names)) {
+    toplevel <- c(toplevel, add.names)
+  }
 
-  toplevel_df <- lapply(x[toplevel], return_with_NA)
-  toplevel_df$user_id <- check_user_id(x)
+  dat <- check_response_obj(dat)
+
+  if (is.null(n)) n <- length(dat[["id_str"]])
+
+  toplevel_df <- lapply(dat[toplevel], return_with_NA)
+  toplevel_df$user_id <- check_user_id(dat)
 
   if ("created_at" %in% names(toplevel_df)) {
     toplevel_df[["created_at"]] <- format_date(
       toplevel_df[["created_at"]], date = FALSE)
   }
 
-  dplyr::tbl_df(toplevel_df)
+  tbl_df(toplevel_df)
 }
 
+tweets_entities_df <- function(dat, n = NULL) {
 
-#' statuses_entities_df
-#'
-#' @export
-statuses_entities_df <- function(dat, n = NULL) {
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
+  }
 
   dat <- check_response_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  ent_df <- dplyr::data_frame(
+  ent_df <- data_frame(
     user_mentions = as.list(rep(NA_character_, n)),
     hashtags = as.list(rep(NA_character_, n)),
     urls = as.list(rep(NA_character_, n)))
@@ -102,16 +121,18 @@ statuses_entities_df <- function(dat, n = NULL) {
   ent_df
 }
 
-#' statuses_retweet_df
-#'
-#' @export
-statuses_retweet_df <- function(dat, n = NULL) {
+#' @importFrom dplyr data_frame
+tweets_retweet_df <- function(dat, n = NULL) {
+
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
+  }
 
   dat <- check_response_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  retweet_df <- dplyr::data_frame(
+  retweet_df <- data_frame(
     is_retweet = rep(NA, n),
     retweet_status_id = rep(NA_character_, n))
 
@@ -130,10 +151,7 @@ statuses_retweet_df <- function(dat, n = NULL) {
   retweet_df
 }
 
-#' .make_coords
-#'
-#' @export
-.make_coords <- function(x) {
+make_coords <- function(x) {
 
   if (is.array(x)) {
     coords_df <- data.frame(matrix(as.numeric(x), 1, 8))
@@ -151,16 +169,20 @@ statuses_retweet_df <- function(dat, n = NULL) {
   coords_df
 }
 
-#' statuses_place_df
-#'
+#' tweets_place_df
+#' @importFrom dplyr data_frame
 #' @export
-statuses_place_df <- function(dat, n = NULL) {
+tweets_place_df <- function(dat, n = NULL) {
+
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
+  }
 
   dat <- check_response_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  place_df <- dplyr::data_frame(
+  place_df <- data_frame(
     place_name = rep(NA_character_, n),
     country = rep(NA_character_, n),
     long1 = rep(NA_real_, n),
@@ -187,52 +209,16 @@ statuses_place_df <- function(dat, n = NULL) {
 
       if ("coordinates" %in% names(bounding_box)) {
         coordinates <- bounding_box[["coordinates"]]
-        coordinates <- lapply(coordinates, .make_coords)
+        coordinates <- lapply(coordinates, make_coords)
 
         for (i in seq_along(coordinates)) {
-          place_df[i, 3:10] <- coordinates[[i]]
+          place_df[, names(coordinates)[i]] <- coordinates[[i]]
         }
       }
     }
   }
+
   place_df
 }
 
-check_user_id <- function(dat, n = NULL) {
 
-  dat <- check_response_obj(dat)
-
-  if (is.null(n)) n <- length(dat[["id_str"]])
-
-  user_id <- rep(NA_character_, n)
-
-  if ("user" %in% names(dat)) {
-    user <- dat[["user"]]
-
-    if ("id_str" %in% names(user)) {
-      user_id <- user[["id_str"]]
-    }
-  }
-
-  user_id
-}
-
-
-
-
-#' statuses_df
-#' @export
-statuses_df <- function(dat) {
-
-  if ("statuses" %in% names(dat)) {
-    dat <- dat[["statuses"]]
-  }
-
-  status_df <- dplyr::bind_cols(
-    statuses_toplevel_df(dat),
-    statuses_entities_df(dat),
-    statuses_retweet_df(dat),
-    statuses_place_df(dat))
-
-  status_df
-}

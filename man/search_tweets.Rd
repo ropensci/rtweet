@@ -35,9 +35,6 @@ Tweets data returned as a tibble data_frame
 Returns a collection of relevant Tweets matching a
   specified query.
 }
-\details{
-dplyr
-}
 \examples{
 \dontrun{
 # search for 1000 tweets mentioning Hillary Clinton

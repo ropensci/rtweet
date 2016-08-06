@@ -10,7 +10,7 @@
 #' @export
 get_tokens <- function() {
   if (is.null(.state$twitter_tokens)) {
-    .load_tokens(.twitter_pat())
+    load_tokens(twitter_pat())
   }
   .state$twitter_tokens
 }
@@ -50,11 +50,7 @@ create_token <- function(app, consumer_key, consumer_secret) {
   token
 }
 
-#' .twitter_pat
-#'
-#' @description Write .Rprofile file with path to saved tokens object
-#' @return path character vector with path to tokens
-.twitter_pat <- function() {
+twitter_pat <- function() {
   pat <- Sys.getenv("TWITTER_PAT")
 
   if (identical(pat, "")) {
@@ -69,13 +65,7 @@ create_token <- function(app, consumer_key, consumer_secret) {
   pat
 }
 
-#' .load_tokens
-#'
-#' @description Load twitter tokens from previously saved tokens
-#'   (directed internally by previously created path locator files)
-#' @param pat path character vector with path to tokens
-#' @return loads Twitter oauth token(s)
-.load_tokens <- function(pat) {
+load_tokens <- function(pat) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
   } else {
@@ -84,17 +74,23 @@ create_token <- function(app, consumer_key, consumer_secret) {
 }
 
 
-#' .fetch_tokens
+#' fetch_tokens
 #'
-#' @description Fetch tokens based on remaining rate limit. Use this
-#'   function to cycle through multiple tokens until rate limit
-#'   remaining is greater than 0.
-#' @param tokens list of oauth tokens
+#' @description Fetches tokens based on remaining rate limit.
+#'   Use this function to cycle through multiple access tokens
+#'   until rate limit remaining is greater than 0.
+#'
+#' @param tokens List of oauth tokens
 #' @param query character vector, Twitter API query of interest
 #' @param sleep logical indicating whether to force system sleep if
 #'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
 #' @return token with non-exhausted rate limit
-.fetch_tokens <- function(tokens, query, sleep = FALSE) {
+#' @export
+fetch_tokens <- function(tokens, query, sleep = FALSE) {
+
+  if (missing(query)) {
+    stop("Must specify Twitter API query of interest", call. = FALSE)
+  }
 
   for (i in seq_along(tokens)) {
     token <- tokens[[i]]
