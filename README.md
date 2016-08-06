@@ -9,7 +9,7 @@ by streaming `stream_tweets()` live tweets. Easily return data on
 thousands of tweets at a time.
 
 - Gather **user** data by looking up `lookup_users()` information
-on specific Twitter users. Easy return data on thousands of users
+on specific Twitter users. Easily return data on thousands of users
 at a time.
 
 - Organized and easily translatable data formats. Functions return
