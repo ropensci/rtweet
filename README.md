@@ -1,6 +1,14 @@
 # rtweet: Collecting Twitter Data
 
-R package for collecting Twitter data via Twitter's REST and stream API's
+R package for collecting Twitter data via Twitter's REST and stream API's.
+
+More technical description: An implementation of calls designed to extract
+and organize Twitter data via Twitter's REST and stream
+API's. Functions formulate GET and POST requests and
+convert response objects to more user friendly structures,
+e.g., data frames or lists. Specific consideration is
+given to functions designed to return tweets, friends,
+and followers.
 
 Key features
 
@@ -13,26 +21,17 @@ on specific Twitter users. Easily return data on thousands of users
 at a time.
 
 - Organized and easily translatable data formats. Functions return
-data frames that are **ready** for data analysis right when you get them.
+data frames that are **ready** for data analysis the moment they
+are received.
 
 - Tweet data functions return not only text of tweets, but a host of 
 other variables, including the number of times a tweet has been 
 retweeted (`retweet_count`) and favorited (`favorite_count`).
 To gauge user interactions, there are also seperate variables that
 identify replies by source tweet (`in_reply_to_status_id_str`) 
-and by source user ID (`in_reply_to_status_id_str`). Also indicates
-whether the tweet quotes another tweet (`is_quote_status`), and, 
-if so, the quoted tweet ID (`quoted_status_id_str`).
-
-## More technical description
-
-An implementation of calls designed to extract
-and organize Twitter data via Twitter's REST and stream
-API's. Functions formulate GET and POST requests and
-convert response objects to more user friendly structures,
-e.g., data frames or lists. Specific consideration is
-given to functions designed to return tweets, friends,
-and followers.
+and by source user ID (`in_reply_to_status_id_str`). Variables also
+indicate whether the tweet quotes another tweet (`is_quote_status`), 
+and, if so, the quoted tweet ID (`quoted_status_id_str`).
 
 ## Install
 To get the current released version from CRAN:
