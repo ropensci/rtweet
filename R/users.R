@@ -33,7 +33,7 @@
 
   resp <- .from_js(resp)
 
-  parse_user(resp)
+  user_df(resp)
 }
 
 

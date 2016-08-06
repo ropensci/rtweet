@@ -55,7 +55,7 @@ statuses_toplevel_df <- function(x, n = NULL) {
   if (is.null(n)) n <- length(x[["id_str"]])
 
   toplevel_df <- lapply(x[toplevel], return_with_NA)
-  toplevel_df$user_id <- statuses_user_id(x)
+  toplevel_df$user_id <- check_user_id(x)
 
   if ("created_at" %in% names(toplevel_df)) {
     toplevel_df[["created_at"]] <- format_date(
@@ -198,7 +198,7 @@ statuses_place_df <- function(dat, n = NULL) {
   place_df
 }
 
-statuses_user_id <- function(dat, n = NULL) {
+check_user_id <- function(dat, n = NULL) {
 
   dat <- check_response_obj(dat)
 
