@@ -186,7 +186,7 @@ statuses_place_df <- function(dat, n = NULL) {
       bounding_box <- place[["bounding_box"]]
 
       if ("coordinates" %in% names(bounding_box)) {
-        coordinates <- bounding_b ox[["coordinates"]]
+        coordinates <- bounding_box[["coordinates"]]
         coordinates <- lapply(coordinates, .make_coords)
 
         for (i in seq_along(coordinates)) {
