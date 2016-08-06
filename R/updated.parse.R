@@ -1,265 +1,238 @@
-#' .rna
+#' return_with_NA
 #'
 #' @export
-.rna <- function(x, n) {
-  if (is.null(x) | identical(x, "")) {
+return_with_NA <- function(x, n) {
+  if (is.character(x)) {
+    myNA <- NA_character_
+  } else if (is.logical(x)) {
+    myNA <- NA
+  } else if (is.integer(x)) {
+    myNA <- NA_integer_
+  } else {
+    myNA <- NA_character_
+  }
+  if (any(is.null(x), identical(x, ""))) {
     x <- rep(NA, n)
   }
-  x[x == ""] <- NA
+  for (i in seq_along(x)) {
+    if (any(is.null(x[[i]]), identical(x[[i]], ""))) {
+      x[[i]] <- NA
+    }
+  }
   x
 }
 
-#' .ret_ply
+#' return_with_NA
 #'
 #' @export
-.ret_ply <- function(x, n = NULL) {
+check_response_obj <- function(x) {
+  if (all(c("statuses", "search_metadata") %in% names(x))) {
+    x <- x[["statuses"]]
+  }
+
+  if (!"id_str" %in% names(x)) {
+    if ("id" %in% names(x)) {
+      x$id_str <- x$id
+    } else {
+      stop("object does not contain ID variable.", call. = FALSE)
+    }
+  }
+  x
+}
+
+#' statuses_toplevel_df
+#'
+#' @export
+statuses_toplevel_df <- function(x, n = NULL) {
+
   toplevel <- c(
     "created_at", "id_str", "retweet_count", "favorite_count",
     "text", "in_reply_to_status_id_str", "in_reply_to_user_id_str",
     "is_quote_status", "quoted_status_id_str", "lang")
 
+  x <- check_response_obj(x)
+
   if (is.null(n)) n <- length(x[["id_str"]])
 
-  ret_df <- lapply(toplevel, function(i) .rna(x[[i]], n))
+  toplevel_df <- lapply(x[toplevel], return_with_NA)
+  toplevel_df$user_id <- statuses_user_id(x)
 
-  names(ret_df) <- toplevel
-  if ("created_at" %in% names(ret_df)) {
-    ret_df[["created_at"]] <- as.Date(as.POSIXct(
-      ret_df[["created_at"]],
-      format = "%a %b %d %H:%M:%S %z %Y"))
+  if ("created_at" %in% names(toplevel_df)) {
+    toplevel_df[["created_at"]] <- format_date(
+      toplevel_df[["created_at"]], date = FALSE)
   }
-  dplyr::tbl_df(ret_df)
+
+  dplyr::tbl_df(toplevel_df)
 }
 
-#' .make_entities
+
+#' statuses_entities_df
 #'
 #' @export
-.make_entities <- function(dat, n = NULL) {
+statuses_entities_df <- function(dat, n = NULL) {
+
+  dat <- check_response_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  if (!"entitites" %in% names(dat)) {
-    ent_df <- dplyr::data_frame(
-      user_mentions = as.list(rep(NA_character_, n)),
-      hashtags = as.list(rep(NA_character_, n)),
-      urls = as.list(rep(NA_character_, n)))
+  ent_df <- dplyr::data_frame(
+    user_mentions = as.list(rep(NA_character_, n)),
+    hashtags = as.list(rep(NA_character_, n)),
+    urls = as.list(rep(NA_character_, n)))
 
-  } else {
+  if ("entities" %in% names(dat)) {
     entities <- dat[["entities"]]
 
-    user_mentions <- .rna(entities[["user_mentions"]], n)
-    hashtags <- .rna(entities[["hashtags"]], n)
-    urls <- .rna(entities[["urls"]], n)
+    if ("user_mentions" %in% names(entities)) {
+      ent_df$user_mentions <- lapply(entities[["user_mentions"]],
+        function(x) return_with_NA(x[["id_str"]], 1))
+    }
 
-    ent_df <- dplyr::data_frame(
-      user_mentions = lapply(user_mentions, function(i) .rna(i[["id_str"]], 1)),
-      hashtags = lapply(hashtags, function(i) .rna(i[["text"]], 1)),
-      urls = lapply(urls, function(i) .rna(i[["expanded_url"]], 1)))
+    if ("hashtags" %in% names(entities)) {
+      ent_df$hashtags <- lapply(entities[["hashtags"]],
+        function(x) return_with_NA(x[["text"]], 1))
+    }
+
+    if ("urls" %in% names(entities)) {
+      ent_df$urls <- lapply(entities[["urls"]],
+        function(x) return_with_NA(x[["expanded_url"]], 1))
+    }
   }
 
   ent_df
 }
 
-#' .make_retweeted
+#' statuses_retweet_df
 #'
 #' @export
-.make_retweeted <- function(dat, n = NULL) {
+statuses_retweet_df <- function(dat, n = NULL) {
+
+  dat <- check_response_obj(dat)
+
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  if (!"retweeted_status" %in% names(dat)) {
-    retweeted_df <- dplyr::data_frame(
-      is_retweet = rep(NA, n),
-      retweet_status_id = rep(NA_character_, n))
-  } else {
+  retweet_df <- dplyr::data_frame(
+    is_retweet = rep(NA, n),
+    retweet_status_id = rep(NA_character_, n))
+
+  if (is.null(n)) n <- length(dat[["id_str"]])
+
+  if ("retweeted_status" %in% names(dat)) {
     retweeted_status <- dat[["retweeted_status"]]
 
-    retweeted_df <- dplyr::data_frame(
-      is_retweet = !is.na(.rna(retweeted_status[["id_str"]], n)),
-      retweet_status_id = .rna(retweeted_status[["id_str"]], n))
+    retweet_df$is_retweet = !is.na(return_with_NA(
+      retweeted_status[["id_str"]], n))
+
+    retweet_df$retweet_status_id = return_with_NA(
+      retweeted_status[["id_str"]], n)
   }
-  retweeted_df
+
+  retweet_df
 }
 
 #' .make_coords
 #'
 #' @export
 .make_coords <- function(x) {
-  x <- data.frame(matrix(as.numeric(x), 1, 8))
-  names(x) <- c(
-    "long1", "long2", "long3", "long4",
-    "lat1", "lat2", "lat3", "lat4")
-  x
-}
 
-#' .place_nadf
-#'
-#' @export
-.place_nadf <- function(n, all = TRUE) {
-  if (all) {
-    place_df <- dplyr::data_frame(
-      place_name = rep(NA_character_, n),
-      country = rep(NA_character_, n),
-      long1 = rep(NA_character_, n),
-      long2 = rep(NA_character_, n),
-      long3 = rep(NA_character_, n),
-      long4 = rep(NA_character_, n),
-      lat1 = rep(NA_character_, n),
-      lat2 = rep(NA_character_, n),
-      lat3 = rep(NA_character_, n),
-      lat4 = rep(NA_character_, n))
+  if (is.array(x)) {
+    coords_df <- data.frame(matrix(as.numeric(x), 1, 8))
+    names(coords_df) <- c(
+      "long1", "long2", "long3", "long4",
+      "lat1", "lat2", "lat3", "lat4")
   } else {
-    place_df <- dplyr::data_frame(
-      long1 = rep(NA_character_, n),
-      long2 = rep(NA_character_, n),
-      long3 = rep(NA_character_, n),
-      long4 = rep(NA_character_, n),
-      lat1 = rep(NA_character_, n),
-      lat2 = rep(NA_character_, n),
-      lat3 = rep(NA_character_, n),
-      lat4 = rep(NA_character_, n))
+    coords_df <- data.frame(matrix(rep(NA_real_, 8), 1, 8))
+
+    names(coords_df) <- c(
+      "long1", "long2", "long3", "long4",
+      "lat1", "lat2", "lat3", "lat4")
   }
 
-  place_df
+  coords_df
 }
 
-#' .make_place
+#' statuses_place_df
 #'
 #' @export
-.make_place <- function(dat, n = NULL) {
+statuses_place_df <- function(dat, n = NULL) {
+
+  dat <- check_response_obj(dat)
+
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  if (!"place" %in% names(dat)) {
-    place_df <- .place_nadf(n)
-  } else {
+  place_df <- dplyr::data_frame(
+    place_name = rep(NA_character_, n),
+    country = rep(NA_character_, n),
+    long1 = rep(NA_real_, n),
+    long2 = rep(NA_real_, n),
+    long3 = rep(NA_real_, n),
+    long4 = rep(NA_real_, n),
+    lat1 = rep(NA_real_, n),
+    lat2 = rep(NA_real_, n),
+    lat3 = rep(NA_real_, n),
+    lat4 = rep(NA_real_, n))
+
+  if ("place" %in% names(dat)) {
     place <- dat[["place"]]
 
-    if (!is.data.frame(place)) {
-      place_df <- dplyr::data_frame(
-        place_name = rep(NA_character_, n),
-        place_country = rep(NA_character_, n))
-    } else {
-      place_df <- dplyr::data_frame(
-        place_name = .rna(place[["full_name"]], n),
-        place_country = .rna(place[["country"]], n))
+    if ("full_name" %in% names(place)) {
+      place_df$place_name = return_with_NA(place[["full_name"]], n)
+    }
+    if ("country" %in% names(place)) {
+      place_df$country = return_with_NA(place[["country"]], n)
     }
 
-    if (!"bounding_box" %in% names(place)) {
-      coordinates_df <- .place_nadf(n, all = FALSE)
-    } else {
+    if ("bounding_box" %in% names(place)) {
       bounding_box <- place[["bounding_box"]]
 
-      if (!is.data.frame(bounding_box)) {
-        coordinates_df <- .place_nadf(n, all = FALSE)
-      } else
-        if (!"coordinates" %in% names(bounding_box)) {
-          coordinates_df <- .place_nadf(n, all = FALSE)
-          } else {
-          coordinates <- bounding_box[["coordinates"]]
+      if ("coordinates" %in% names(bounding_box)) {
+        coordinates <- bounding_b ox[["coordinates"]]
+        coordinates <- lapply(coordinates, .make_coords)
 
-          coordinates_df <- dplyr::bind_rows(lapply(coordinates, .make_coords))
-          }
+        for (i in seq_along(coordinates)) {
+          place_df[i, 3:10] <- coordinates[[i]]
+        }
       }
-    place_df <- dplyr::bind_cols(place_df, coordinates_df)
     }
+  }
   place_df
 }
 
+statuses_user_id <- function(dat, n = NULL) {
 
-#' .return_statuses
+  dat <- check_response_obj(dat)
+
+  if (is.null(n)) n <- length(dat[["id_str"]])
+
+  user_id <- rep(NA_character_, n)
+
+  if ("user" %in% names(dat)) {
+    user <- dat[["user"]]
+
+    if ("id_str" %in% names(user)) {
+      user_id <- user[["id_str"]]
+    }
+  }
+
+  user_id
+}
+
+
+
+
+#' statuses_df
 #' @export
-.return_statuses <- function(dat) {
+statuses_df <- function(dat) {
 
   if ("statuses" %in% names(dat)) {
     dat <- dat[["statuses"]]
   }
 
   status_df <- dplyr::bind_cols(
-    .ret_ply(dat),
-    .make_entities(dat),
-    .make_retweeted(dat),
-    .make_place(dat),
-    .make_user(dat))
+    statuses_toplevel_df(dat),
+    statuses_entities_df(dat),
+    statuses_retweet_df(dat),
+    statuses_place_df(dat))
 
   status_df
-}
-
-#' .user_ent
-#' @export
-.user_ent <- function(x) {
-  if ("expanded_url" %in% names(x)) {
-    return(as.character(x[["expanded_url"]]))
-  } else {
-    return(NA_character_)
-  }
-}
-
-#' .make_user_url
-#' @export
-.make_user_url <- function(dat, n = NULL) {
-
-  if (is.null(n)) n <- length(dat[["id_str"]])
-
-  if ("user" %in% names(dat)) {
-    user <- dat[["user"]]
-    if ("entities" %in% names(user)) {
-      entities <- user[["entities"]]
-      if ("url" %in% names(entities)) {
-        ent_url <- entities[["url"]]
-        if ("urls" %in% names(ent_url)) {
-          urls <- ent_url[["urls"]]
-          expanded_url <- lapply(urls, .user_ent)
-        }
-      }
-    }
-  }
-  else {
-    expanded_url <- as.list(rep(NA_character_, n))
-  }
-  expanded_url
-}
-
-#' .make_user
-#' @export
-.make_user <- function(dat, n = NULL) {
-
-  toplevel <- c(
-    "id_str", "name", "screen_name", "location", "description",
-    "url", "protected", "followers_count", "friends_count", "listed_count",
-    "created_at", "favourites_count", "utc_offset", "time_zone",
-    "geo_enabled", "verified", "statuses_count", "lang")
-
-  if (is.null(n)) n <- length(dat[["id_str"]])
-
-  if (!"user" %in% names(dat)) {
-    user_df <- dplyr::data_frame(
-      user_id = rep(NA_character_, n),
-      name = rep(NA_character_, n),
-      screen_name = rep(NA_character_, n),
-      location = rep(NA_character_, n),
-      description = rep(NA_character_, n),
-      user_url = rep(NA_character_, n),
-      protected = rep(NA, n),
-      followers_count = rep(NA_integer_, n),
-      friends_count = rep(NA_integer_, n),
-      listed_count = rep(NA_integer_, n),
-      account_created_at = rep(NA_character_, n),
-      user_favourites_count = rep(NA_integer_, n),
-      utc_offset = rep(NA_character_, n),
-      time_zone = rep(NA_character_, n),
-      geo_enabled = rep(NA, n),
-      verified = rep(NA, n),
-      statuses_count = rep(NA_integer_, n),
-      user_lang = rep(NA, n))
-  } else {
-    user <- dat[["user"]]
-    user_df <- lapply(toplevel, function(i) .rna(user[[i]], n))
-    names(user_df) <- c(
-      "user_id", "name", "screen_name", "location",
-      "description", "user_url", "protected", "followers_count",
-      "friends_count", "listed_count", "account_created_at",
-      "user_favourites_count", "utc_offset", "time_zone",
-      "geo_enabled", "verified", "statuses_count", "user_lang")
-    user_df <- dplyr::tbl_df(user_df)
-  }
-  user_df
 }

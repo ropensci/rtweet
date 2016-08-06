@@ -4,7 +4,7 @@
 \alias{make_url}
 \title{make_url}
 \usage{
-make_url(restapi = TRUE, query, param = NULL)
+make_url(restapi = TRUE, query, param = NULL, version = "1.1")
 }
 \arguments{
 \item{restapi}{logical Default \code{restapi = TRUE}
@@ -19,6 +19,11 @@ Twitter API's excellent documentation.}
 
 \item{param}{Additional parameters (arguments) passed
 along. If none, NULL (default).}
+
+\item{version}{Twitter API version number. Defaults to most
+recent version, which at the current time is
+\code{version = "1.1"}. Functions not tested on older
+versions.}
 }
 \value{
 URL used in httr call.

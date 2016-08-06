@@ -43,7 +43,7 @@
 #' @import httr
 #' @export
 TWIT <- function(get = TRUE, url, ..., timeout = NULL,
-                 filename = NULL, catch_error = FALSE) {
+                 filename = NULL, catch_error = TRUE) {
 
   if (get) {
     resp <- GET(url, ...)
@@ -60,6 +60,13 @@ TWIT <- function(get = TRUE, url, ..., timeout = NULL,
     } else {
       resp <- POST(url, ...)
     }
+  }
+
+  if (!exists("resp")) {
+    stop(paste0(
+        "no response object returned. ",
+        "Please try again later or check httr request."),
+      call. = FALSE)
   }
 
   if (catch_error) stop_for_status(resp)
@@ -79,9 +86,13 @@ TWIT <- function(get = TRUE, url, ..., timeout = NULL,
 #'   Twitter API's excellent documentation.
 #' @param param Additional parameters (arguments) passed
 #'   along. If none, NULL (default).
+#' @param version Twitter API version number. Defaults to most
+#'   recent version, which at the current time is
+#'   \code{version = "1.1"}. Functions not tested on older
+#'   versions.
 #' @return URL used in httr call.
 #' @export
-make_url <- function(restapi = TRUE, query, param = NULL) {
+make_url <- function(restapi = TRUE, query, param = NULL, version = "1.1") {
   if (restapi) {
     hostname <- "api.twitter.com"
   } else {
@@ -93,7 +104,7 @@ make_url <- function(restapi = TRUE, query, param = NULL) {
       scheme = "https",
       hostname = hostname,
       port = NULL,
-      path = paste0("1.1/", query, ".json"),
+      path = paste0(version, "/", query, ".json"),
       query = param,
       params = NULL,
       fragment = NULL,

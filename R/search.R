@@ -63,7 +63,7 @@ search_tweets <- function(q, count = 100, type = "mixed",
     res <- .from_js(res)
 
     tw_df <- dplyr::bind_rows(tw_df,
-      .return_statuses(res))
+      statuses_df(res))
 
     nrows <- nrow(tw_df)
 

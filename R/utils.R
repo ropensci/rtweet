@@ -116,3 +116,18 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
   }
   params
 }
+
+
+
+#' format_date
+#'
+#' @export
+format_date <- function(x, date = TRUE) {
+  x <- as.POSIXct(x,
+    format = "%a %b %d %H:%M:%S %z %Y",
+    tz = Sys.timezone())
+  if (date) {
+    x <- as.Date(x)
+  }
+  x
+}

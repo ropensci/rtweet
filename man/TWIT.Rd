@@ -5,7 +5,7 @@
 \title{TWIT}
 \usage{
 TWIT(get = TRUE, url, ..., timeout = NULL, filename = NULL,
-  catch_error = FALSE)
+  catch_error = TRUE)
 }
 \arguments{
 \item{get}{Logical with the default, \code{get = TRUE},
