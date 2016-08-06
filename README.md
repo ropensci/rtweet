@@ -1,15 +1,47 @@
 # rtweet: Collecting Twitter Data
 
-R package for collecting Twitter Data in R via Twitter's REST and stream API's
+R package for collecting Twitter Data via Twitter's REST and stream API's
+
+Key features
+
+- Gather **tweet** data by searching `search_tweets()` past tweets or 
+by streaming `stream_tweets()` live tweets. Easily return data on 
+thousands of tweets at a time.
+
+- Gather **user** data by looking up `lookup_users()` information
+on specific Twitter users. Easy return data on thousands of users
+at a time.
+
+- Organized and easily translatable data formats. Functions return
+data frames that are *ready* for data analysis right when you get them.
+
+- Tweet data functions return not only text of tweets, but a host of 
+other variables, including the number of times a tweet has been 
+retweeted (`retweet_count`) and favorited (`favorite_count`).
+To gauge user interactions, there are also seperate variables that
+identify replies by source tweet (`in_reply_to_status_id_str`) 
+and by source user ID (`in_reply_to_status_id_str`). Also indicates
+whether the tweet quotes another tweet (`is_quote_status`), and, 
+if so, the quoted tweet ID (`quoted_status_id_str`).
+
+## More technical description
+
+An implementation of calls designed to extract
+and organize Twitter data via Twitter's REST and stream
+API's. Functions formulate GET and POST requests and
+convert response objects to more user friendly structures,
+e.g., data frames or lists. Specific consideration is
+given to functions designed to return tweets, friends,
+and followers.
 
 ## Install
-To install `rtweet` run the following code in R:
+To get the current released version from CRAN:
 ```{r}
 install.packages("rtweet")
 library(rtweet)
 ```
 
-To install the most recent development version of `rtweet` run the following code in R:
+To get the current development version from github:
 ```{r}
 if (packageVersion("devtools") < 1.6) {
   install.packages("devtools")
@@ -118,5 +150,5 @@ elect16 <- search_tweets(q = "election2016", count = 500)
 elect16
 ```
 
-## contact
+## Contact
 Email me at mkearney@ku.edu
