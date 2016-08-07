@@ -4,7 +4,8 @@
 \alias{get_friends}
 \title{get_friends}
 \usage{
-get_friends(user, token = NULL, page = "-1", stringify = TRUE)
+get_friends(user, token = NULL, page = "-1", stringify = TRUE,
+  recode_error = FALSE)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -21,6 +22,14 @@ supplied by Twitter API response object.}
 \item{stringify}{Logical, indicating whether to return user
 ids as strings (some ids are too long to be read as numeric).
 Defaults to \code{TRUE}.}
+
+\item{recode_error}{Logical, indicating whether to report errors
+for missing users. By default \code{recode.errors = FALSE}
+returns API return errors. This argument can be useful when
+tracking accounts over time. Instead of reporting an error,
+if you know you have the correct id, setting
+\code{recode.errors = TRUE} will code friend networks as
+\code{NA}.}
 }
 \value{
 friends User ids for everyone a user follows.

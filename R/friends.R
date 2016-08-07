@@ -15,6 +15,13 @@
 #' @param stringify Logical, indicating whether to return user
 #'   ids as strings (some ids are too long to be read as numeric).
 #'   Defaults to \code{TRUE}.
+#' @param recode_error Logical, indicating whether to report errors
+#'   for missing users. By default \code{recode.errors = FALSE}
+#'   returns API return errors. This argument can be useful when
+#'   tracking accounts over time. Instead of reporting an error,
+#'   if you know you have the correct id, setting
+#'   \code{recode.errors = TRUE} will code friend networks as
+#'   \code{NA}.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -30,7 +37,7 @@
 #' @return friends User ids for everyone a user follows.
 #' @export
 get_friends <- function(user, token = NULL, page = "-1",
-                        stringify = TRUE) {
+                        stringify = TRUE, recode_error = FALSE) {
 
   params <- list(
     id_type = user,
@@ -46,7 +53,7 @@ get_friends <- function(user, token = NULL, page = "-1",
     token <- fetch_tokens(token, "friends/ids")
   }
 
-  resp <- TWIT(get = TRUE, url, token)
+  resp <- TWIT(get = TRUE, url, token, catch_error = !recode_error)
 
   fds <- from_js(resp)
 
