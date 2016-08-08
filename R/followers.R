@@ -28,10 +28,7 @@ followers_get <- function(user, token = NULL, page = "-1",
 
   url <- make_url(restapi = TRUE, "followers/ids", params)
 
-  if (is.null(token)) {
-    token <- get_tokens()
-    token <- fetch_tokens(token, "followers/ids")
-  }
+  token <- check_token(token, "followers/ids")
 
   resp <- TWIT(get = TRUE, url, token)
 

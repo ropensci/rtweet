@@ -15,6 +15,39 @@ get_tokens <- function() {
   .state$twitter_tokens
 }
 
+is.token <- function(x) {
+  any(class(x) == "Token", class(x) == "Token1.0")
+}
+
+
+check_token <- function(token, query = NULL) {
+
+  if (is.null(token)) {
+    token <- get_tokens()
+
+    if (!is.null(query)) {
+      token <- fetch_tokens(token, query)
+    }
+  }
+
+  if (is.list(token)) {
+    token <- token[[1]]
+  }
+
+  if (identical(class(token), "OAuth")) {
+    token <- create_token(
+      sample(letters, 8),
+      token$consumerKey,
+      token$consumerSecret)
+  }
+
+  if (!is.token(token)) {
+    stop("Not a valid access token.")
+  }
+
+  token
+}
+
 #' create_token
 #'
 #' @description Sends request to generate oauth 1.0 tokens. Twitter

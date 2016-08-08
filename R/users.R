@@ -24,10 +24,7 @@
     "users/lookup",
     params)
 
-  if (is.null(token)) {
-    token <- get_tokens()
-    token <- fetch_tokens(token, "users/lookup")
-  }
+  token <- check_token(token, query = "users/lookup")
 
   resp <- TWIT(get = TRUE, url, token)
 
@@ -49,7 +46,7 @@
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return json response object (max is 18000 per token)
-#' @import dplyr
+#' @importFrom dplyr bind_rows data_frame
 #' @export
 lookup_users <- function(users, token = NULL) {
 
@@ -61,7 +58,7 @@ lookup_users <- function(users, token = NULL) {
 
   from <- 1
 
-  usr_df <- dplyr::data_frame()
+  usr_df <- data_frame()
 
   for (i in increments) {
     to <- from + 99
@@ -70,7 +67,7 @@ lookup_users <- function(users, token = NULL) {
       users[from:to],
       token)
 
-    usr_df <- dplyr::bind_rows(
+    usr_df <- bind_rows(
       usr_df,
       usr_new)
 

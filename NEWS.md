@@ -1,3 +1,13 @@
+# rtweet 0.1.6
+
+* Added `recode_error` argument to `get_friends` function. This is
+especially useful for tracking networks over time.
+
+* Further integrated `ROAuth` methods/objects to increase 
+compatibility with `twitteR` authorization procedures.
+
+* Improved token checking procedures.
+
 # rtweet 0.1.4
 
 * Added `NEWS.md` file

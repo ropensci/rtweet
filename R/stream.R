@@ -37,10 +37,7 @@
 stream_tweets <- function(stream, timeout = 30, token = NULL,
                           file_name = NULL) {
 
-  if (is.null(token)) {
-    token <- get_tokens()
-    token <- fetch_tokens(token, "friends/ids")
-  }
+  token <- check_token(token)
 
   if (missing(stream)) stop("Must include stream search call.")
 

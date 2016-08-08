@@ -48,10 +48,7 @@ get_friends <- function(user, token = NULL, page = "-1",
 
   url <- make_url(restapi = TRUE, "friends/ids", params)
 
-  if (is.null(token)) {
-    token <- get_tokens()
-    token <- fetch_tokens(token, "friends/ids")
-  }
+  token <- check_token(token, "friends/ids")
 
   resp <- TWIT(get = TRUE, url, token, catch_error = !recode_error)
 

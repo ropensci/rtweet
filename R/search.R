@@ -36,10 +36,7 @@
 search_tweets <- function(q, count = 100, type = "mixed",
                           token = NULL, ...) {
 
-  if (is.null(token)) {
-    token <- get_tokens()
-    token <- fetch_tokens(token, "search/tweets")
-  }
+  token <- check_token(token, query = "search/tweets")
 
   params <- list(
     q = q,
