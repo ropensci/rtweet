@@ -27,7 +27,8 @@ addition to generic search terms.}
 list object top words
 }
 \description{
-clean_tweets
+Returns list of cleaned words for each observation.
+  Useful in analysis of tweet text.
 }
 \examples{
 \dontrun{
