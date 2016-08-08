@@ -1,12 +1,4 @@
-#' .user_lookup
-#'
-#' @param users Screen name or user id of target users.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#'
-#' @return json response object
+
 .user_lookup <- function(users, token = NULL) {
 
   if (class(users) == "list") {

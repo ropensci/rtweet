@@ -99,7 +99,9 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
 
   toplevel_df <- lapply(x[toplevel], return_with_NA)
 
-  toplevel_df$user_id <- check_user_id(x)
+  names(toplevel_df) <- gsub("_str", "", names(toplevel_df))
+
+  names(toplevel_df)[names(toplevel_df) == "id"] <- "user_id"
 
   if ("created_at" %in% names(toplevel_df)) {
     toplevel_df[["created_at"]] <- format_date(

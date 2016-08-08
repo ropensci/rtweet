@@ -51,6 +51,7 @@ check_response_obj <- function(dat) {
   dat
 }
 
+
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
                                add.names = NULL) {
 
@@ -92,7 +93,12 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   }
 
   toplevel_df <- lapply(dat[toplevel], return_with_NA)
+
   toplevel_df$user_id <- check_user_id(dat)
+
+  names(toplevel_df) <- gsub("_str", "", names(toplevel_df))
+
+  names(toplevel_df)[names(toplevel_df) == "id"] <- "status_id"
 
   if ("created_at" %in% names(toplevel_df)) {
     toplevel_df[["created_at"]] <- format_date(
