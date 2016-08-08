@@ -12,6 +12,24 @@
 #'   \code{stopwords = NULL}, uses a generic list of stopwords.
 #' @param exclude_words Character, other words to exclude in
 #'   addition to generic search terms.
+#' @examples
+#' \dontrun{
+#' # search for 1000 tweets mentioning Hillary Clinton
+#' hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+#'
+#' # lookup returned user_id values
+#' users <- lookup_users(hrc$user_id)
+#' users
+#'
+#' # merge data objects
+#' dat <- dplyr::left_join(hrc, users, by = "user_id")
+#' dat
+#'
+#' # clean tweet text for each user
+#' dat$words <- clean_tweets(dat, exclude_words = "hillaryclinton")
+#' dat$words
+#' }
+#'
 #' @return list object top words
 #' @export
 clean_tweets <- function(tweets, min = 0, stopwords = NULL,

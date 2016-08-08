@@ -29,4 +29,23 @@ list object top words
 \description{
 clean_tweets
 }
+\examples{
+\dontrun{
+# search for 1000 tweets mentioning Hillary Clinton
+hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+
+# lookup returned user_id values
+users <- lookup_users(hrc$user_id)
+users
+
+# merge data objects
+dat <- dplyr::left_join(hrc, users, by = "user_id")
+dat
+
+# clean tweet text for each user
+dat$words <- clean_tweets(dat, exclude_words = "hillaryclinton")
+dat$words
+}
+
+}
 

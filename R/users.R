@@ -36,6 +36,19 @@
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable @describeIn tokens.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @examples
+#' \dontrun{
+#' # search for 1000 tweets mentioning Hillary Clinton
+#' hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+#'
+#' # lookup returned user_id values
+#' users <- lookup_users(hrc$user_id)
+#' users
+#'
+#' # merge data objects
+#' dat <- dplyr::left_join(hrc, users, by = "user_id")
+#' dat
+#' }
 #'
 #' @return json response object (max is 18000 per token)
 #' @importFrom dplyr bind_rows data_frame
