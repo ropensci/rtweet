@@ -10,7 +10,7 @@ citEntry(
   key          = "rtweet-package",
   textVersion  = paste(
     "Kearney, M. W. (2016). rtweet: Collecting Twitter",
-    "Data in R. R package version 0.1.7. Retrieved from",
+    "Data. R package version 0.1.7. Retrieved from",
     "https://github.com/mkearney/rtweet",
     sep = "\n")
 )
