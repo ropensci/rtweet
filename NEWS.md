@@ -1,3 +1,11 @@
+# rtweet 0.1.7
+
+* Fixed parsing issue for return objects with omitted variables
+
+* Added `clean_tweets` convenience function for text analysis
+
+* More examples included in documentation.
+
 # rtweet 0.1.6
 
 * Added `recode_error` argument to `get_friends` function. This is

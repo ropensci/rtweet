@@ -2,15 +2,15 @@ citHeader("To cite rtweet use:")
 
 citEntry(
   entry        = "Manual",
-  title        = "rtweet: Collecting Twitter Data in R",
+  title        = "rtweet: Collecting Twitter Data",
   author       = as.person("Michael Wayne Kearney"),
   year         = "2016",
-  note         = "R package version 0.1.0",
+  note         = "R package version 0.1.7",
   url          = "https://github.com/mkearney/rtweet",
   key          = "rtweet-package",
   textVersion  = paste(
     "Kearney, M. W. (2016). rtweet: Collecting Twitter",
-    "Data in R. R package version 0.1.0. Retrieved from",
+    "Data in R. R package version 0.1.7. Retrieved from",
     "https://github.com/mkearney/rtweet",
     sep = "\n")
 )
