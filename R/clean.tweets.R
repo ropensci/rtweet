@@ -1,5 +1,8 @@
 #' clean_tweets
 #'
+#' @description Returns list of cleaned words for each observation.
+#'   Useful in analysis of tweet text.
+#'
 #' @param tweets Character vector of tweets text. May also provide
 #'   data frame or list object with "text" named object containing
 #'   tweet text.
