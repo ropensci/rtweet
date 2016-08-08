@@ -78,6 +78,25 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
 
   if (is.null(n)) n <- length(x[["id_str"]])
 
+  for (i in toplevel) {
+    if (!i %in% names(x)) {
+
+      if (i %in% c("id_str", "name", "screen_name", "location",
+        "description", "url", "created_at", "favourites_count",
+        "utc_offset", "time_zone", "lang")) {
+        x[[i]] <- rep(NA_character_, n)
+      } else if (i %in% c("followers_count", "friends_count", "listed_count",
+        "favourites_count", "favorite_count", "statuses_count")) {
+        x[[i]] <- rep(NA_integer_, n)
+      } else if (i == c("protected", "geo_enabled", "verified")) {
+        x[[i]] <- rep(NA, n)
+      } else {
+        x[[i]] <- rep(NA, n)
+      }
+
+    }
+  }
+
   toplevel_df <- lapply(x[toplevel], return_with_NA)
 
   toplevel_df$user_id <- check_user_id(x)

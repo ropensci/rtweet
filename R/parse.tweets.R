@@ -36,7 +36,7 @@ check_response_obj <- function(dat) {
     stop("Must specify tweets object, dat.", call. = TRUE)
   }
 
-  if (all(c("statuses", "search_metadata") %in% names(dat))) {
+  if ("statuses" %in% names(dat)) {
     dat <- dat[["statuses"]]
   }
 
@@ -72,6 +72,24 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   dat <- check_response_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
+
+  for (i in toplevel) {
+    if (!i %in% names(dat)) {
+
+      if (i %in% c("created_at", "id_str", "text",
+        "in_reply_to_status_id_str","in_reply_to_user_id_str",
+        "quoted_status_id_str", "lang")) {
+        dat[[i]] <- rep(NA_character_, n)
+      } else if (i %in% c("retweet_count", "favorite_count")) {
+        dat[[i]] <- rep(NA_integer_, n)
+      } else if (i == "is_quote_status") {
+        dat[[i]] <- rep(NA, n)
+      } else {
+        dat[[i]] <- rep(NA, n)
+      }
+
+    }
+  }
 
   toplevel_df <- lapply(dat[toplevel], return_with_NA)
   toplevel_df$user_id <- check_user_id(dat)
