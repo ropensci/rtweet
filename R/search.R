@@ -51,10 +51,16 @@ search_tweets <- function(q, count = 100, type = "mixed",
 
   token <- check_token(token, query = "search/tweets")
 
+  if (count < 100) {
+    counter <- count
+  } else {
+    counter <- 100
+  }
+
   params <- list(
     q = q,
     result_type = type,
-    count = "100",
+    count = counter,
     cursor = "-1",
     ...)
 
@@ -63,8 +69,7 @@ search_tweets <- function(q, count = 100, type = "mixed",
     "search/tweets",
     param = params)
 
-  tw_df <- data_frame()
-  nrows <- 0
+  tw <- vector("list", ceiling(count / 100))
 
   message("Searching for tweets...")
 
@@ -72,14 +77,15 @@ search_tweets <- function(q, count = 100, type = "mixed",
     message("It takes a little longer to collect this many tweets.")
   }
 
-  while (nrows < count) {
-    res <- TWIT(get = TRUE, url, config = token)
-    res <- from_js(res)
+  for (i in seq_along(tw)) {
 
-    tw_df <- bind_rows(tw_df,
-      tweets_df(res))
+    if (all((i * 100) > count, i > 1)) {
+      url$query <- gsub("count=100", paste0("count=", count %% 100), url$query)
+    }
 
-    nrows <- nrow(tw_df)
+    res <- from_js(TWIT(get = TRUE, url, config = token))
+
+    tw[[i]] <- tweets_df(res)
 
     if (!"search_metadata" %in% names(res)) break
     if (!"next_results" %in% names(res$search_metadata)) break
@@ -91,7 +97,9 @@ search_tweets <- function(q, count = 100, type = "mixed",
       sub("[?]", "", res$search_metadata$next_results))
   }
 
-  message(paste0("Collected ", nrows, " tweets!"))
+  tw <- bind_rows(tw)
 
-  tw_df
+  message(paste0("Collected ", nrow(tw), " tweets!"))
+
+  tw
 }

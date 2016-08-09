@@ -1,7 +1,7 @@
 
 .user_lookup <- function(users, token = NULL) {
 
-  if (class(users) == "list") {
+  if (is.list(users)) {
     users <- unlist(users)
   }
 
@@ -9,7 +9,9 @@
     users <- users[1:100]
   }
 
-  params <- list(user_id = paste(users, collapse = ","))
+  params <- list(id_type = paste(users, collapse = ","))
+
+  names(params)[1] <- .ids_type(users)
 
   url <- make_url(
     restapi = TRUE,
@@ -55,29 +57,37 @@
 #' @export
 lookup_users <- function(users, token = NULL) {
 
+  if (is.list(users)) {
+    users <- unlist(users)
+  }
+
   if (length(users) > 18000) {
     users <- users[1:18000]
   }
 
-  increments <- 1:ceiling(length(users) / 100)
+  n.batch <- seq_len(ceiling(length(users) / 100))
 
   from <- 1
 
-  usr_df <- data_frame()
+  usr <- vector("list", max(n.batch))
 
-  for (i in increments) {
+  for (i in n.batch) {
     to <- from + 99
 
-    usr_new <- .user_lookup(
+    if (to > length(users)) {
+      to <- length(users)
+    }
+
+    usr[[i]] <- .user_lookup(
       users[from:to],
       token)
 
-    usr_df <- bind_rows(
-      usr_df,
-      usr_new)
+    usr <- bind_rows(usr)
 
     from <- to + 1
+
+    if (from > length(users)) break
   }
 
-  usr_df
+  usr
 }

@@ -1,3 +1,11 @@
+# rtweet 0.1.8
+
+* Added `get_timeline` function that returns tweets from selected user
+
+* Added vignettes covering tokens and search tweets
+
+* Fixed issue with `count` argument in search and user functions
+
 # rtweet 0.1.7
 
 * Fixed parsing issue for return objects with omitted variables

@@ -17,6 +17,21 @@ from_js <- function(rsp) {
   fromJSON(content(rsp, as = "text"))
 }
 
+#' .ids_type
+#'
+#' @keywords internal
+#' @return Character vector of either screen_name or user_id
+.ids_type <- function(x) {
+  if (is.list(x)) x <- unlist(x)
+  for (i in seq_along(x)) {
+    x[i] <- .id_type(x[i])
+  }
+  if (length(unique(x)) > 1) {
+    stop("user object must contain user_ids OR only scree_names, but not both.")
+  }
+  unique(x)
+}
+
 #' .id_type
 #'
 #' @keywords internal
