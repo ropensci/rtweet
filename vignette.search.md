@@ -122,5 +122,6 @@ ggplot(srch_df, aes(x = hillary, y = donald, fill = factor(withher), alpha = .9)
   geom_jitter(size = 3, shape = 21) + 
   theme(legend.position = "none")
 ```
-
-<img align="center" src="vignette.search_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="plot">
+<p align="center">
+<img src="vignette.search_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="plot">
+</p>
