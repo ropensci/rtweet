@@ -1,0 +1,51 @@
+---
+title: "Retrieving Tweets via Twitter's Search and Stream APIs"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#devtools::install_github("mkearney/rtweet")
+library(rtweet)
+```
+
+## Search tweets
+
+```{r srch_df}
+srch_df <- search_tweets(q = "election", count = 1000, type = "recent", lang = "en")
+srch_df
+```
+
+### Analyze text of Tweets
+
+```{r}
+wrds <- clean_tweets(srch_df, min = 2, exclude_words = "election")
+wrds[1:3]
+```
+
+```{r}
+srch_df$text[1:3]
+```
+
+
+```{r}
+srch_df$hillary <- sapply(srch_df$user_mentions, function(x) sum(grepl("1339835893", unlist(x)), na.rm = TRUE)) + 
+  sapply(wrds, function(x) sum(grepl("hillary|clinton", unlist(x)), na.rm = TRUE))
+
+srch_df$donald <- sapply(srch_df$user_mentions, function(x) sum(grepl("25073877", unlist(x)), na.rm = TRUE)) + 
+  sapply(wrds, function(x) sum(grepl("donald|trump", unlist(x)), na.rm = TRUE))
+
+srch_df$withher <- as.numeric(srch_df$hillary > srch_df$donald)
+srch_df$withher <- srch_df$withher - as.numeric(srch_df$hillary < srch_df$donald)
+library(ggplot2)
+theme_set(theme_minimal())
+ggplot(srch_df, aes(x = hillary, y = donald, fill = factor(withher), alpha = .9)) + 
+  geom_jitter(size = 3, shape = 21) + 
+  theme(legend.position = "none")
+```
+
+
