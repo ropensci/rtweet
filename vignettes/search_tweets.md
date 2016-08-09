@@ -1,13 +1,23 @@
-Retrieving Tweets via Twitter's Search API
-================
+##### rtweet: Collecting Twitter data
+
+## Retrieving Tweets via Twitter's Search API
+
+This vignette demonstrates the `search_tweets()` function found in 
+the `rtweet` package.
+
+To get started, make sure you've installed rtweets and then load the package.
 
 ``` r
+#install from CRAN
+#install.packages("rtweet")
+
+#install the github version
 #devtools::install_github("mkearney/rtweet")
+
 library(rtweet)
 ```
 
-Search tweets
--------------
+#### Search tweets
 
 In order to use [Twitter's search API](https://dev.twitter.com/rest/public/search), 
 you'll need to [create and store your personal access token](https://github.com/mkearney/rtweet/blob/master/README.md).
@@ -112,6 +122,8 @@ srch_df$withher <- as.numeric(srch_df$hillary > srch_df$donald)
 srch_df$withher <- srch_df$withher - as.numeric(srch_df$hillary < srch_df$donald)
 ```
 
+#### Plotting
+
 I then plotted these new variables using `ggplot2` (a cheat code package for 
 generating pretty plots).
 
@@ -123,5 +135,5 @@ ggplot(srch_df, aes(x = hillary, y = donald, fill = factor(withher), alpha = .9)
   theme(legend.position = "none")
 ```
 <p align="center">
-<img src="vignette.search_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="plot">
+<img src="files/search_tweets_plot1.png" alt="plot">
 </p>
