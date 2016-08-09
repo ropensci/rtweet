@@ -26,7 +26,13 @@ the most popular results in the response.}
 \code{token = NULL} fetches a non-exhausted token from
 an environment variable tokens.}
 
-\item{\dots}{Futher arguments passed on to \code{make_url}.}
+\item{\dots}{Futher arguments passed on to \code{make_url}.
+All named arguments that do not match the above arguments
+(i.e., count, type, etc.) will be built into the request.
+To return only English language tweets, for example, use
+\code{lang = "en"}. Or, to exclude retweets, use
+\code{include_rts = FALSE}. For more options see Twitter's
+API documentation.}
 }
 \value{
 Tweets data returned as a tibble data_frame
@@ -34,6 +40,15 @@ Tweets data returned as a tibble data_frame
 \description{
 Returns a collection of relevant Tweets matching a
   specified query.
+}
+\details{
+Twitter API document recommends limiting searches to
+  10 keywords and operators. Complex queries may also produce
+  API errors preventing recovery of information related to
+  the query.
+  It should also be noted Twitter's search API does not consist
+  of an index of all Tweets. At the time of searching, the
+  search API index includes between only 6-9 days of Tweets.
 }
 \examples{
 \dontrun{
