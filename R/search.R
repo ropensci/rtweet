@@ -19,7 +19,20 @@
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable tokens.
 #' @param \dots Futher arguments passed on to \code{make_url}.
+#'   All named arguments that do not match the above arguments
+#'   (i.e., count, type, etc.) will be built into the request.
+#'   To return only English language tweets, for example, use
+#'   \code{lang = "en"}. Or, to exclude retweets, use
+#'   \code{include_rts = FALSE}. For more options see Twitter's
+#'   API documentation.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @details Twitter API document recommends limiting searches to
+#'   10 keywords and operators. Complex queries may also produce
+#'   API errors preventing recovery of information related to
+#'   the query.
+#'   It should also be noted Twitter's search API does not consist
+#'   of an index of all Tweets. At the time of searching, the
+#'   search API index includes between only 6-9 days of Tweets.
 #' @examples
 #' \dontrun{
 #' # search for 1000 tweets mentioning Hillary Clinton
