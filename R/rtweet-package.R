@@ -19,7 +19,6 @@
 #'
 #' @docType package
 #' @name rtweet
-#' @import httr jsonlite dplyr
 NULL
 
 .state <- new.env(parent = emptyenv())

@@ -5,6 +5,8 @@
 #'
 #' @param user Screen name or user id of target user.
 #' @param count Numeric, number of tweets to return.
+#' @param max_id Character, status_id from which returned tweets
+#'   should be older than
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable.
@@ -14,7 +16,8 @@
 #'
 #' @return user ids
 #' @export
-get_timeline <- function(user, count = 200, token = NULL, ...) {
+get_timeline <- function(user, count = 200, max_id = NULL,
+                         token = NULL, ...) {
 
   if (count < 200) {
     counter <- count
@@ -22,8 +25,8 @@ get_timeline <- function(user, count = 200, token = NULL, ...) {
     counter <- 200
   }
 
-  if (count > 36000) {
-    count <- 36000
+  if (count > 200) {
+    count <- 200
   }
 
   if (is.list(user)) user <- unlist(user)
@@ -35,7 +38,7 @@ get_timeline <- function(user, count = 200, token = NULL, ...) {
   params <- list(
     id_type = user,
     count = counter,
-    max_id = NULL,
+    max_id = max_id,
     ...)
 
   names(params)[1] <- .id_type(user)
@@ -44,25 +47,11 @@ get_timeline <- function(user, count = 200, token = NULL, ...) {
 
   token <- check_token(token, "statuses/user_timeline")
 
-  tml <- vector("list", ceiling(count / 200))
+  res <- TWIT(get = TRUE, url, token)
 
-  for (i in seq_along(tml)) {
+  res <- from_js(res)
 
-    if (all((i * 200) > count, i > 1)) {
-      params$count <- count %% 200
-      url <- make_url(restapi = TRUE, "statuses/user_timeline", params)
-    }
+  tml_df <- tweets_df(res)
 
-    res <- from_js(TWIT(get = TRUE, url, token))
-
-    tml[[i]] <- tweets_df(res)
-
-    params$max_id <- tail(tml[[i]][["status_id"]], 1)
-
-    url <- make_url(restapi = TRUE, "search/tweets", params)
-  }
-
-  tml <- bind_rows(tml)
-
-  tml
+  tml_df
 }

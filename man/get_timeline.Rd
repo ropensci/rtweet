@@ -4,12 +4,15 @@
 \alias{get_timeline}
 \title{get_timeline}
 \usage{
-get_timeline(user, count = 200, token = NULL, ...)
+get_timeline(user, count = 200, max_id = NULL, token = NULL, ...)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
 
 \item{count}{Numeric, number of tweets to return.}
+
+\item{max_id}{Character, status_id from which returned tweets
+should be older than}
 
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
