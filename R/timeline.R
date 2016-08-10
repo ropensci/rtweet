@@ -19,39 +19,60 @@
 get_timeline <- function(user, count = 200, max_id = NULL,
                          token = NULL, ...) {
 
-  if (count < 200) {
-    counter <- count
-  } else {
-    counter <- 200
+  tml <- vector("list", ceiling(count / 200))
+
+  for (i in seq_along(tml)) {
+    tml[[i]] <- tryCatch(timeline(
+      user = user,
+      count = count,
+      token = token,
+      max_id = max_id,
+      ...),
+      error = function(e) return(NULL))
+
+    if (is.null(tml[[i]])) break
+
+    count <- count - 200
+
+    if (identical(tail(tml[[i]]$status_id, 1), max_id)) break
+
+    max_id <- tail(tml[[i]]$status_id, 1)
   }
 
-  if (count > 200) {
-    count <- 200
-  }
+  bind_rows(tml)
+}
 
-  if (is.list(user)) user <- unlist(user)
+
+timeline <- function(user, count = 200, max_id = NULL,
+                         token = NULL, ...) {
+
+  query <- "statuses/user_timeline"
+
+  stopifnot(is.numeric(count), is.atomic(user), is.atomic(max_id))
 
   if (length(user) > 1) {
-    stop("too many users. Please provide users one at a time.", call. = FALSE)
+    stop("can only return tweets for one user at a time.", call. = FALSE)
+  }
+
+  if (count < 200) {
+    count <- count
+  } else {
+    count <- 200
   }
 
   params <- list(
     id_type = user,
-    count = counter,
+    count = count,
     max_id = max_id,
     ...)
 
   names(params)[1] <- .id_type(user)
 
-  url <- make_url(restapi = TRUE, "statuses/user_timeline", params)
+  res <- TWIT(
+    url = make_url(restapi = TRUE, query, params),
+    config = check_token(token, query))
 
-  token <- check_token(token, "statuses/user_timeline")
-
-  res <- TWIT(get = TRUE, url, token)
-
-  res <- from_js(res)
-
-  tml_df <- tweets_df(res)
+  tml_df <- tweets_df(from_js(res))
 
   tml_df
 }
