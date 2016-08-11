@@ -47,29 +47,9 @@
 #' @importFrom dplyr data_frame bind_rows
 #' @export
 search_tweets <- function(q, count = 100, type = "mixed",
-                          token = NULL, ...) {
+  max_id = NULL, token = NULL, ...) {
 
-  token <- check_token(token, query = "search/tweets")
-
-  if (count < 100) {
-    counter <- count
-  } else {
-    counter <- 100
-  }
-
-  params <- list(
-    q = q,
-    result_type = type,
-    count = counter,
-    cursor = "-1",
-    ...)
-
-  url <- make_url(
-    restapi = TRUE,
-    "search/tweets",
-    param = params)
-
-  tw <- vector("list", ceiling(count / 100))
+  tw <- vector("list", ceiling(count / 100) + 1)
 
   message("Searching for tweets...")
 
@@ -78,23 +58,27 @@ search_tweets <- function(q, count = 100, type = "mixed",
   }
 
   for (i in seq_along(tw)) {
+    r <- tryCatch(searchtweets(
+      q = q,
+      result_type = type,
+      count = count,
+      max_id = max_id,
+      ...),
+      error = function(e) return(NULL))
 
-    if (all((i * 100) > count, i > 1)) {
-      url$query <- gsub("count=100", paste0("count=", count %% 100), url$query)
-    }
+    if (is.null(r)) break
 
-    res <- from_js(TWIT(get = TRUE, url, config = token))
+    tw[[i]] <- tweets_df(from_js(r))
 
-    tw[[i]] <- tweets_df(res)
+    tw[[i]] <- tw[[i]][!duplicated(tw[[i]]), ]
 
-    if (!"search_metadata" %in% names(res)) break
-    if (!"next_results" %in% names(res$search_metadata)) break
-    if (length(res$search_metadata$next_results) == 0) break
-    if (res$search_metadata$next_results == 0) break
+    count <- count - nrow(tw[[i]])
 
-    url <- make_url(
-      restapi = TRUE, "search/tweets",
-      sub("[?]", "", res$search_metadata$next_results))
+    if (count <= 0) break
+
+    if (identical(tail(tw[[i]]$status_id, 1), max_id)) break
+
+    max_id <- tail(tw[[i]]$status_id, 1)
   }
 
   tw <- bind_rows(tw)
@@ -103,3 +87,44 @@ search_tweets <- function(q, count = 100, type = "mixed",
 
   tw
 }
+
+
+searchtweets <- function(q, count = 100, type = "mixed",
+  max_id = NULL, token = NULL, ...) {
+
+  query <- "search/tweets"
+
+  stopifnot(is.numeric(count), is.atomic(q), is.atomic(max_id))
+
+  if (length(type) > 1) {
+    stop("can only select one search type. Try type = 'mixed'.",
+      call. = FALSE)
+  }
+
+  if (!tolower(type) %in% c("mixed", "recent", "popular")) {
+    stop("invalid search type - must be mixed, recent, or popular.",
+      call. = FALSE)
+  }
+
+  if (count < 100) {
+    count <- count
+  } else {
+    count <- 100
+  }
+
+  params <- list(
+    q = q,
+    result_type = type,
+    count = count,
+    max_id = max_id,
+    ...)
+
+  tw <- TWIT(
+    url = make_url(restapi = TRUE, query, params),
+    config = check_token(token, query))
+
+  tw
+}
+
+
+

@@ -4,7 +4,8 @@
 \alias{search_tweets}
 \title{search_tweets}
 \usage{
-search_tweets(q, count = 100, type = "mixed", token = NULL, ...)
+search_tweets(q, count = 100, type = "mixed", max_id = NULL,
+  token = NULL, ...)
 }
 \arguments{
 \item{q}{Character vector search query of no greater than

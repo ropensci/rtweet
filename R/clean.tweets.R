@@ -45,24 +45,23 @@ clean_tweets <- function(tweets, min = 0, stopwords = NULL,
       stop("Must supply character vector of tweets.", call. = FALSE)
     }
   }
-
   tweets <- tweets[!is.na(tweets)]
-  tweets <- gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", tweets)
+  tweets <- gsub("(RT|via)", "", tweets)
   tweets <- gsub("@\\w+", "", tweets)
-  tweets <- gsub("'t|'ve|'m", "", tweets)
-  tweets <- gsub("[[:punct:]]", " ", tweets)
-  tweets <- gsub("[[:digit:]]", "", tweets)
+  tweets <- gsub("\\w+'\\w+", "", tweets)
+  tweets <- gsub("[[:punct:]]", "", tweets)
   tweets <- gsub("htt\\w+", "", tweets)
   tweets <- gsub("\\n", "", tweets)
-  tweets <- trimws(tweets)
+  tweets <- gsub("[[:digit:]]", "", tweets)
+  tweets <- gsub("[^[:alnum:] ]", "", tweets)
   tweets <- tolower(tweets)
   tweets <- lapply(tweets, function(x)
-    unlist(strsplit(x, split = " ")))
+    unlist(strsplit(trimws(x), split = " ")))
 
   if (is.null(stopwords)) {
-    stopwords <- c("a", "a's", "able", "about", "above", "according", "im",
+    stopwords <- c("a", "a's", "able", "about", "above", "according",
       "accordingly", "across", "actually", "after", "afterwards",
-      "again", "against", "ain't", "all", "allow", "allows",
+      "again", "against", "ain't", "all", "allow", "allows", "im",
       "almost", "alone", "along", "already", "also", "although",
       "always", "am", "among", "amongst", "an", "and", "another",
       "any", "anybody", "anyhow", "anyone", "anything", "anyway",
