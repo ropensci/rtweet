@@ -67,14 +67,13 @@ Email me at mkearney@ku.edu
 ## To Do List
 
 - API Functions
-  - `get_timeline()` Retrieve user timelines
+  - `get_retweeters()` Retrieve users retweeting a status (in progress)
   - `list_users()` Retrieve users in list
   - `search_users()` Search for users by name, interest, etc.
-  - `get_retweets()` Retrieve users retweeting a status
-
+  - Add `source` variable to tweets object
+ 
 - Vignettes
-  - Creating/using access tokens
-  - Guide to `stream_tweets()` and `search_tweets()`
+  - Guide to `stream_tweets()`
   - Guide to `get_friends()` and `get_followers()`
   - Data analysis demonstration (regression)
   - Text analysis demonstration (word cloud)
