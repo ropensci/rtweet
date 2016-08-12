@@ -37,7 +37,7 @@ parser <- function(x, n = NULL) {
 }
 
 #' @importFrom httr stop_for_status
-scroller <- function(url, n, catch_error = FALSE, ...) {
+scroller <- function(url, n, ..., catch_error = FALSE) {
 
   stopifnot(is.numeric(n), is.list(url))
 

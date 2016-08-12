@@ -91,13 +91,9 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
       call. = FALSE)
   }
 
-  if (n > 100) {
-    count <- 100
-  }
-
   params <- list(q = q,
     result_type = type,
-    count = count,
+    count = 100,
     max_id = max_id,
     ...)
 

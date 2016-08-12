@@ -3,8 +3,7 @@ parse_tweets <- function(x) {
 
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
-  }
-  if ("status" %in% names(x)) {
+  } else if ("status" %in% names(x)) {
     x <- x[["status"]]
   }
 
@@ -80,7 +79,7 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
     toplevel <- c("created_at", "id_str", "retweet_count",
       "favorite_count", "text", "in_reply_to_status_id_str",
       "in_reply_to_user_id_str", "is_quote_status",
-      "quoted_status_id_str", "lang")
+      "quoted_status_id_str", "source", "lang")
   }
 
   if (!is.null(add.names)) {
@@ -120,6 +119,11 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   if ("created_at" %in% names(toplevel_df)) {
     toplevel_df[["created_at"]] <- format_date(
       toplevel_df[["created_at"]], date = FALSE)
+  }
+  if ("source" %in% names(toplevel_df)) {
+    toplevel_df[["source"]] <- sapply(
+      strsplit(toplevel_df[["source"]], "<|>"),
+      function(x) x[3])
   }
 
   tbl_df(toplevel_df)
