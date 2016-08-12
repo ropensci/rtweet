@@ -74,11 +74,17 @@ Twitter API document recommends limiting searches to
 \dontrun{
 # search for 1000 tweets mentioning Hillary Clinton
 hrc <- search_tweets(q = "hillaryclinton", n = 1000)
-hrc
+
+# data frame where each observation (row) is a different tweet
+hrc$tweets
+
+# data frame where each observation (row) is a different user
+hrc$users
 
 # search for 1000 tweets mentioning Donald Trump
 djt <- search_tweets(q = "realdonaldtrump", n = 1000)
-djt
+djt$tweets
+djt$users
 }
 }
 \seealso{

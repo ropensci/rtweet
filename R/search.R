@@ -53,11 +53,17 @@
 #' \dontrun{
 #' # search for 1000 tweets mentioning Hillary Clinton
 #' hrc <- search_tweets(q = "hillaryclinton", n = 1000)
-#' hrc
+#'
+#' # data frame where each observation (row) is a different tweet
+#' hrc$tweets
+#'
+#' # data frame where each observation (row) is a different user
+#' hrc$users
 #'
 #' # search for 1000 tweets mentioning Donald Trump
 #' djt <- search_tweets(q = "realdonaldtrump", n = 1000)
-#' djt
+#' djt$tweets
+#' djt$users
 #' }
 #' @return List object with tweets and users each returned as
 #'   tibble data_frame.
@@ -69,7 +75,9 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 
   stopifnot(is.numeric(n), is.atomic(q), is.atomic(max_id))
 
-  if (nchar(q) > 500) stop("q cannot exceed 500 characters.")
+  if (nchar(q) > 500) {
+    stop("q cannot exceed 500 characters.", call. = FALSE)
+  }
 
   if (length(type) > 1) {
     stop("can only select one search type. Try type = 'mixed'.",
