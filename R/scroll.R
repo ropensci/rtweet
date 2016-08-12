@@ -57,13 +57,14 @@ parse_users <- function(x) {
 #' @importFrom dplyr bind_rows
 #' @export
 parser <- function(x) {
+
   tweets <- bind_rows(lapply(x, parse_tweets))
-  tweets <- tweets[!duplicated(tweets), ]
 
   users <- bind_rows(lapply(x, parse_users))
-  users <- users[!duplicated(users), ]
 
-  list(tweets = tweets, users = users)
+  list(
+    tweets = tweets[!duplicated(tweets), ], 
+    users = users[!duplicated(users), ])
 }
 
 #' scroll
@@ -72,11 +73,14 @@ parser <- function(x) {
 #' @export
 scroll <- function(url, n, ...) {
 
-  n <- ceiling(n / as.numeric(url$query$count))
+  stopifnot(is.double(n), is.list(url))
 
   x <- list()
 
-  for (i in seq_len(n)) {
+  count <- n
+
+  while (count > 0) {
+
     r <- tryCatch(TWIT(get = TRUE, url = url, ...),
       error = function(e) NULL)
 
@@ -86,22 +90,34 @@ scroll <- function(url, n, ...) {
 
     if (break_check(r, url)) break
 
+    count <- count - unique_id_count(r)
+
     url$query$max_id <- get_max_id(r)
 
     x[[i]] <- r
+
   }
+
   x
 }
 
 
 
+unique_id_count <- function(x) {
 
+  if ("statuses" %in% tolower(names(x))) {
+    x <- x[["statuses"]]
+  }
+  
+  length(unique(x$id_str[!is.na(nanull(x$id_str))]))
+}
 
 #' get_max_id
 #'
 #'
 #'
 get_max_id <- function(x) {
+
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
