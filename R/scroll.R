@@ -22,14 +22,16 @@ rtweet <- function(url, n, parse = TRUE, ...) {
 #'
 #'
 parse_tweets <- function(x) {
+
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
   }
+
   if (!"friends_count" %in% names(x)) {
     return(tweets_df(x))
-  } else {
-    return(invisible())
-  }
+  } 
+
+  return(invisible()
 }
 
 #' parse_users
@@ -37,17 +39,20 @@ parse_tweets <- function(x) {
 #'
 #'
 parse_users <- function(x) {
+
   if ("friends_count" %in% names(x)) {
     return(user_df(x))
   }
+
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
   }
+
   if ("user" %in% names(x)) {
     return(user_df(x[["user"]]))
-  } else {
-    return(invisible())
   }
+  
+  return(invisible()
 }
 
 #' parser
@@ -90,12 +95,11 @@ scroll <- function(url, n, ...) {
 
     if (break_check(r, url)) break
 
+    x[[length(x) + 1]] <- r
+
     count <- count - unique_id_count(r)
 
     url$query$max_id <- get_max_id(r)
-
-    x[[i]] <- r
-
   }
 
   x
