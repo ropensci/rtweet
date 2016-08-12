@@ -13,7 +13,7 @@ rtweet <- function(url, n, parse = TRUE, ...) {
     url = url,
     n = n, ...)
 
-  if (parse) x <- parser(x)
+  if (parse) x <- parser(x, n)
 
   x
 }
@@ -24,7 +24,7 @@ rtweet <- function(url, n, parse = TRUE, ...) {
 #' @export
 scroll <- function(url, n, ...) {
 
-  stopifnot(is.double(n), is.list(url))
+  stopifnot(is.numeric(n), is.list(url))
 
   x <- list()
 
@@ -99,15 +99,33 @@ parse_users <- function(x) {
 #'
 #' @importFrom dplyr bind_rows
 #' @export
-parser <- function(x) {
+parser <- function(x, n = NULL) {
 
   tweets <- bind_rows(lapply(x, parse_tweets))
+  tweets <- tweets[!duplicated(tweets), ]
+
+  if (!is.null(n)) {
+    if (is.data.frame(tweets)) {
+      if (nrow(tweets) > n) {
+        tweets <- tweets[seq_len(n), ]
+      }
+    }
+  }
 
   users <- bind_rows(lapply(x, parse_users))
+  users <- users[!duplicated(users), ]
+
+  if (!is.null(n)) {
+    if (is.data.frame(users)) {
+      if (nrow(users) > n) {
+        users <- users[seq_len(n), ]
+      }
+    }
+  }
 
   list(
-    tweets = tweets[!duplicated(tweets), ],
-    users = users[!duplicated(users), ])
+    tweets = tweets,
+    users = users)
 }
 
 
@@ -116,7 +134,7 @@ unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
-  unique(x$id_str)
+  x$id_str
 }
 
 unique_id_count <- function(x) {

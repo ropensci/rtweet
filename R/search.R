@@ -1,20 +1,24 @@
 #' search_tweets
 #'
-#' @description Returns a collection of relevant Tweets matching a
-#'   specified query.
+#' @description Returns two data frames (tweets data and users data)
+#'   using a provided search query.
 #'
-#' @param q Character vector search query of no greater than
+#' @param q Character, search query of no greater than
 #'   500 characters maximum.
-#' @param count Numeric specifying the number of desired tweets to
-#'   return per page. Defaults to maximum, which is 100.
+#' @param n Numeric, specifying the total number of desired tweets to
+#'   return. Defaults to 100. Maximum number of tweets returned from
+#'   a single token is 18,000. See details for more information.
 #' @param type Character, specifies what type of search results
 #'   you would prefer to receive. The current default is
-#'   \code{type = "mixed"}.
-#'   Valid values include \code{type = "mixed"} to include both
-#'   popular and real time results in the response,
-#'   \code{type = "recent"} to return only the most recent results
-#'   in the response, and \code{type = "popular"} to return only
-#'   the most popular results in the response.
+#'   \code{type = "mixed"}, which is a mix between the other two
+#'   valid values \code{type = "recent"} and \code{type = "popular"}.
+#' @param max_id Character, specifying the [oldest] status id beyond
+#'   which results should resume returning.
+#' @param parse Logical, indicating whether to return parsed
+#'   (data.frames) or nested list (fromJSON) object. By default,
+#'   \code{parse = TRUE} saves users from the time
+#'   [and frustrations] associated with disentangling the Twitter
+#'   API return objects.
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable tokens.
@@ -33,68 +37,39 @@
 #'   It should also be noted Twitter's search API does not consist
 #'   of an index of all Tweets. At the time of searching, the
 #'   search API index includes between only 6-9 days of Tweets.
+#'
+#'
+#'   Number of tweets returned will often be less than what was
+#'   specified by the user. This can happen because (a) the search
+#'   query did not return many results (the search pool is already
+#'   thinned out from the population of tweets to begin with) or
+#'   (b) because you hit your rate limit for a given token. Even if
+#'   the query has lots of hits and the rate limit should be able to
+#'   max out at 18,000, the returned number of tweets may be lower,
+#'   but that's only because the functions filter out duplicates
+#'   (e.g., 18,000 tweets were actually returned, but 30 of them were
+#'   removed because they were repeats).
 #' @examples
 #' \dontrun{
 #' # search for 1000 tweets mentioning Hillary Clinton
-#' hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+#' hrc <- search_tweets(q = "hillaryclinton", n = 1000)
 #' hrc
 #'
 #' # search for 1000 tweets mentioning Donald Trump
-#' djt <- search_tweets(q = "realdonaldtrump", count = 1000)
+#' djt <- search_tweets(q = "realdonaldtrump", n = 1000)
 #' djt
 #' }
-#' @return Tweets data returned as a tibble data_frame
-#' @importFrom dplyr data_frame bind_rows
+#' @return List object with tweets and users each returned as
+#'   tibble data_frame.
 #' @export
-search_tweets <- function(q, count = 100, type = "mixed",
-  max_id = NULL, token = NULL, ...) {
-
-  tw <- vector("list", ceiling(count / 100) + 1)
-
-  message("Searching for tweets...")
-
-  if (count > 1000) {
-    message("It takes a little longer to collect this many tweets.")
-  }
-
-  for (i in seq_along(tw)) {
-    r <- tryCatch(searchtweets(
-      q = q,
-      result_type = type,
-      count = count,
-      max_id = max_id,
-      ...),
-      error = function(e) return(NULL))
-
-    if (is.null(r)) break
-
-    tw[[i]] <- tweets_df(from_js(r))
-
-    tw[[i]] <- tw[[i]][!duplicated(tw[[i]]), ]
-
-    count <- count - nrow(tw[[i]])
-
-    if (count <= 0) break
-
-    if (identical(tail(tw[[i]]$status_id, 1), max_id)) break
-
-    max_id <- tail(tw[[i]]$status_id, 1)
-  }
-
-  tw <- bind_rows(tw)
-
-  message(paste0("Collected ", nrow(tw), " tweets!"))
-
-  tw
-}
-
-
-searchtweets <- function(q, count = 100, type = "mixed",
-  max_id = NULL, token = NULL, ...) {
+search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
+  parse = TRUE, token = NULL, ...) {
 
   query <- "search/tweets"
 
-  stopifnot(is.numeric(count), is.atomic(q), is.atomic(max_id))
+  stopifnot(is.numeric(n), is.atomic(q), is.atomic(max_id))
+
+  if (nchar(q) > 500) stop("q cannot exceed 500 characters.")
 
   if (length(type) > 1) {
     stop("can only select one search type. Try type = 'mixed'.",
@@ -106,38 +81,13 @@ searchtweets <- function(q, count = 100, type = "mixed",
       call. = FALSE)
   }
 
-  if (count < 100) {
-    count <- count
-  } else {
+  if (n > 100) {
     count <- 100
   }
 
-  params <- list(
-    q = q,
-    result_type = type,
-    count = count,
-    max_id = max_id,
-    ...)
-
-  tw <- TWIT(
-    url = make_url(restapi = TRUE, query, params),
-    config = check_token(token, query))
-
-  tw
-}
-
-
-#' search_twitter
-#'
-#' @export
-search_twitter <- function(q, n, type = "mixed", max_id = NULL,
-  parse = TRUE, token = NULL, ...) {
-
-  query <- "search/tweets"
-
   params <- list(q = q,
     result_type = type,
-    count = n,
+    count = count,
     max_id = max_id,
     ...)
 

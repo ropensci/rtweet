@@ -4,7 +4,7 @@
 \alias{parser}
 \title{parser}
 \usage{
-parser(x)
+parser(x, n = NULL)
 }
 \description{
 parser

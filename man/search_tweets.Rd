@@ -4,24 +4,30 @@
 \alias{search_tweets}
 \title{search_tweets}
 \usage{
-search_tweets(q, count = 100, type = "mixed", max_id = NULL,
+search_tweets(q, n = 100, type = "mixed", max_id = NULL, parse = TRUE,
   token = NULL, ...)
 }
 \arguments{
-\item{q}{Character vector search query of no greater than
+\item{q}{Character, search query of no greater than
 500 characters maximum.}
 
-\item{count}{Numeric specifying the number of desired tweets to
-return per page. Defaults to maximum, which is 100.}
+\item{n}{Numeric, specifying the total number of desired tweets to
+return. Defaults to 100. Maximum number of tweets returned from
+a single token is 18,000. See details for more information.}
 
 \item{type}{Character, specifies what type of search results
 you would prefer to receive. The current default is
-\code{type = "mixed"}.
-Valid values include \code{type = "mixed"} to include both
-popular and real time results in the response,
-\code{type = "recent"} to return only the most recent results
-in the response, and \code{type = "popular"} to return only
-the most popular results in the response.}
+\code{type = "mixed"}, which is a mix between the other two
+valid values \code{type = "recent"} and \code{type = "popular"}.}
+
+\item{max_id}{Character, specifying the [oldest] status id beyond
+which results should resume returning.}
+
+\item{parse}{Logical, indicating whether to return parsed
+(data.frames) or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves users from the time
+[and frustrations] associated with disentangling the Twitter
+API return objects.}
 
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
@@ -36,11 +42,12 @@ To return only English language tweets, for example, use
 API documentation.}
 }
 \value{
-Tweets data returned as a tibble data_frame
+List object with tweets and users each returned as
+  tibble data_frame.
 }
 \description{
-Returns a collection of relevant Tweets matching a
-  specified query.
+Returns two data frames (tweets data and users data)
+  using a provided search query.
 }
 \details{
 Twitter API document recommends limiting searches to
@@ -50,15 +57,27 @@ Twitter API document recommends limiting searches to
   It should also be noted Twitter's search API does not consist
   of an index of all Tweets. At the time of searching, the
   search API index includes between only 6-9 days of Tweets.
+
+
+  Number of tweets returned will often be less than what was
+  specified by the user. This can happen because (a) the search
+  query did not return many results (the search pool is already
+  thinned out from the population of tweets to begin with) or
+  (b) because you hit your rate limit for a given token. Even if
+  the query has lots of hits and the rate limit should be able to
+  max out at 18,000, the returned number of tweets may be lower,
+  but that's only because the functions filter out duplicates
+  (e.g., 18,000 tweets were actually returned, but 30 of them were
+  removed because they were repeats).
 }
 \examples{
 \dontrun{
 # search for 1000 tweets mentioning Hillary Clinton
-hrc <- search_tweets(q = "hillaryclinton", count = 1000)
+hrc <- search_tweets(q = "hillaryclinton", n = 1000)
 hrc
 
 # search for 1000 tweets mentioning Donald Trump
-djt <- search_tweets(q = "realdonaldtrump", count = 1000)
+djt <- search_tweets(q = "realdonaldtrump", n = 1000)
 djt
 }
 }
