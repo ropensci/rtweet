@@ -75,6 +75,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 
   stopifnot(is.numeric(n), is.atomic(q), is.atomic(max_id))
 
+  token <- check_token(token, query)
+
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
@@ -103,6 +105,9 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
     query = query,
     param = params)
 
-  rtweet(url = url, n = n, parse = parse,
-    config = check_token(token, query))
+  tw <- scroller(url, n, token)
+
+  if (parse) tw <- parser(tw, n)
+
+  tw
 }

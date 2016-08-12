@@ -1,5 +1,5 @@
 
-.user_lookup <- function(users, token = NULL) {
+.user_lookup <- function(users, token = NULL, parse) {
 
   if (is.list(users)) {
     users <- unlist(users)
@@ -24,7 +24,9 @@
 
   resp <- from_js(resp)
 
-  user_df(resp)
+  if (parse) resp <- user_df(resp)
+
+  resp
 }
 
 
@@ -37,6 +39,8 @@
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable @describeIn tokens.
+#' @param parse Logical, indicating whether or not to parse
+#'   return object into data frame(s)
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -55,7 +59,7 @@
 #' @return json response object (max is 18000 per token)
 #' @importFrom dplyr bind_rows data_frame
 #' @export
-lookup_users <- function(users, token = NULL) {
+lookup_users <- function(users, token = NULL, parse = TRUE) {
 
   if (is.list(users)) {
     users <- unlist(users)
@@ -80,9 +84,9 @@ lookup_users <- function(users, token = NULL) {
 
     usr[[i]] <- .user_lookup(
       users[from:to],
-      token)
+      token, parse = parse)
 
-    usr <- bind_rows(usr)
+    if (parse) usr <- bind_rows(usr)
 
     from <- to + 1
 

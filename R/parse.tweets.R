@@ -1,3 +1,20 @@
+
+parse_tweets <- function(x) {
+
+  if ("statuses" %in% names(x)) {
+    x <- x[["statuses"]]
+  }
+  if ("status" %in% names(x)) {
+    x <- x[["status"]]
+  }
+
+  if (!"friends_count" %in% names(x)) {
+    return(tweets_df(x))
+  }
+
+  return(invisible())
+}
+
 #' tweets_df
 #'
 #' @description Converts tweets object (nested list converted from

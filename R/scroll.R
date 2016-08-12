@@ -1,106 +1,14 @@
-#' rtweet
-#'
-#' @description base function.
-#' @param url list output object from make_url
-#' @param n numeric, number of desired tweets to return
-#' @param parse logical, indicating whether to return parsed or
-#'   unparsed (json) object
-#' @param \dots named arguments passed on to httr request
-#' @export
-rtweet <- function(url, n, parse = TRUE, ...) {
-
-  x <- scroll(
-    url = url,
-    n = n, ...)
-
-  if (parse) x <- parser(x, n)
-
-  x
-}
-
-#' scroll
-#'
-#'
-#' @export
-scroll <- function(url, n, ...) {
-
-  stopifnot(is.numeric(n), is.list(url))
-
-  x <- list()
-
-  i <- 1
-
-  count <- n
-
-  while (count > 0) {
-
-    r <- tryCatch(TWIT(get = TRUE, url = url, ...),
-      error = function(e) NULL)
-
-    if (is.null(r)) break
-
-    r <- from_js(r)
-
-    if (break_check(r, url)) break
-
-    x[[i]] <- r
-
-    i <- i + 1
-
-    count <- n - unique_id_count(x)
-
-    url$query$max_id <- get_max_id(r)
-  }
-
-  x
-}
-
-#' parse_tweets
-#'
-#'
-#'
-parse_tweets <- function(x) {
-
-  if ("statuses" %in% names(x)) {
-    x <- x[["statuses"]]
-  }
-
-  if (!"friends_count" %in% names(x)) {
-    return(tweets_df(x))
-  }
-
-  return(invisible())
-}
-
-#' parse_users
-#'
-#'
-#'
-parse_users <- function(x) {
-
-  if ("friends_count" %in% names(x)) {
-    return(user_df(x))
-  }
-
-  if ("statuses" %in% names(x)) {
-    x <- x[["statuses"]]
-  }
-
-  if ("user" %in% names(x)) {
-    return(user_df(x[["user"]]))
-  }
-
-  return(invisible())
-}
-
 #' parser
 #'
+#' @description Parses tweets and users objects. Returns data frames
+#'   for each.
 #'
+#' @param x List, fromJSON nested list object
+#' @param n Numeric, number of desired tweets to return
 #'
 #' @importFrom dplyr bind_rows
 #' @export
 parser <- function(x, n = NULL) {
-
   tweets <- bind_rows(lapply(x, parse_tweets))
   tweets <- tweets[!duplicated(tweets), ]
 
@@ -128,6 +36,44 @@ parser <- function(x, n = NULL) {
     users = users)
 }
 
+#' @importFrom httr stop_for_status
+scroller <- function(url, n, catch_error = FALSE, ...) {
+
+  stopifnot(is.numeric(n), is.list(url))
+
+  x <- list()
+
+  i <- 1
+
+  count <- n
+
+  while (count > 0) {
+
+    r <- tryCatch(
+      TWIT(get = TRUE, url, ...),
+      error = function(e) NULL)
+
+    if (catch_error) {
+      stop_for_status(r)
+    }
+
+    if (is.null(r)) break
+
+    r <- from_js(r)
+
+    if (break_check(r, url)) break
+
+    x[[i]] <- r
+
+    i <- i + 1
+
+    count <- n - unique_id_count(x)
+
+    url$query$max_id <- get_max_id(r)
+  }
+
+  x
+}
 
 
 unique_id <- function(x) {
@@ -142,10 +88,8 @@ unique_id_count <- function(x) {
   length(unique(x))
 }
 
-#' get_max_id
-#'
-#'
-#'
+
+#' @importFrom utils tail
 get_max_id <- function(x) {
 
   if ("statuses" %in% tolower(names(x))) {
@@ -155,10 +99,7 @@ get_max_id <- function(x) {
   tail(x$id_str[!is.na(nanull(x$id_str))], 1)
 }
 
-#' nanull
-#'
-#'
-#'
+
 nanull <- function(x) {
   if (is.null(x)) return(NA)
   if (identical(x, "")) return(NA)
@@ -168,10 +109,6 @@ nanull <- function(x) {
   x
 }
 
-#' break_check
-#'
-#'
-#'
 #' @importFrom dplyr bind_rows
 break_check <- function(r, url) {
 

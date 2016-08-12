@@ -4,8 +4,7 @@
 \alias{TWIT}
 \title{TWIT}
 \usage{
-TWIT(get = TRUE, url, ..., timeout = NULL, filename = NULL,
-  catch_error = TRUE)
+TWIT(get = TRUE, url, ..., timeout = NULL, filename = NULL)
 }
 \arguments{
 \item{get}{Logical with the default, \code{get = TRUE},
@@ -26,9 +25,6 @@ specifying the number of seconds to stream tweets.}
 \item{filename}{Character, used only when streaming tweets,
 name of file to save json tweets object.}
 
-\item{catch_error}{Logical indicating whether to call stop for
-status function following GET or POST requests.}
-
 \item{\dots}{Further named parameters, such as config, token,
 etc, passed on to modify_url in the httr package.}
 }
@@ -45,19 +41,5 @@ Occasionally Twitter does recommend using POST requests
   can involve long strings (containing up to 100 user_ids). For
   the most part, or at least for any function-specific requests
   (e.g., \code{get_friends}, take reflect these changes.
-}
-\examples{
-\dontrun{
-tokens <- get_tokens()
-
-params <- list(q = "rstats", result_type = "recent")
-
-url <- make_url(restapi = TRUE,
-  "search/tweets",
-  param = params)
-
-r <- TWIT(get = TRUE, url,
-  config = tokens[[1]])
-}
 }
 

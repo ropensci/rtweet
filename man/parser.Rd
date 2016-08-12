@@ -6,7 +6,13 @@
 \usage{
 parser(x, n = NULL)
 }
+\arguments{
+\item{x}{List, fromJSON nested list object}
+
+\item{n}{Numeric, number of desired tweets to return}
+}
 \description{
-parser
+Parses tweets and users objects. Returns data frames
+  for each.
 }
 

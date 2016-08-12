@@ -19,59 +19,28 @@
 #'   specifying the number of seconds to stream tweets.
 #' @param filename Character, used only when streaming tweets,
 #'   name of file to save json tweets object.
-#' @param catch_error Logical indicating whether to call stop for
-#'   status function following GET or POST requests.
 #' @note Occasionally Twitter does recommend using POST requests
 #'   for data retrieval calls. This is usually the case when requests
 #'   can involve long strings (containing up to 100 user_ids). For
 #'   the most part, or at least for any function-specific requests
 #'   (e.g., \code{get_friends}, take reflect these changes.
-#' @examples
-#' \dontrun{
-#' tokens <- get_tokens()
-#'
-#' params <- list(q = "rstats", result_type = "recent")
-#'
-#' url <- make_url(restapi = TRUE,
-#'   "search/tweets",
-#'   param = params)
-#'
-#' r <- TWIT(get = TRUE, url,
-#'   config = tokens[[1]])
-#' }
 #' @return json response object
 #' @import httr
 #' @export
-TWIT <- function(get = TRUE, url, ..., timeout = NULL,
-                 filename = NULL, catch_error = TRUE) {
+TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
 
-  if (get) {
-    resp <- GET(url, ...)
+  if (all(is.null(timeout), is.null(filename))) {
+    if (get) {
+    return(GET(url, ...))
   } else {
-    if (!is.null(timeout)) {
-      if (!is.null(filename)) {
-        tryCatch(
-          POST(url, ...,
-            timeout(timeout),
-            write_disk(filename, overwrite = TRUE)),
-            error = function(e) return(invisible()))
-        return(invisible())
-      }
-    } else {
-      resp <- POST(url, ...)
-    }
+    return(POST(url, ...))
   }
-
-  if (!exists("resp")) {
-    stop(paste0(
-        "no response object returned. ",
-        "Please try again later or check httr request."),
-      call. = FALSE)
+  } else {
+    tryCatch(POST(url, ...,
+      timeout(timeout),
+      write_disk(filename, overwrite = TRUE)),
+      error = function(e) return(invisible()))
   }
-
-  if (catch_error) stop_for_status(resp)
-
-  resp
 }
 
 #' make_url
@@ -86,31 +55,26 @@ TWIT <- function(get = TRUE, url, ..., timeout = NULL,
 #'   Twitter API's excellent documentation.
 #' @param param Additional parameters (arguments) passed
 #'   along. If none, NULL (default).
-#' @param version Twitter API version number. Defaults to most
-#'   recent version, which at the current time is
-#'   \code{version = "1.1"}. Functions not tested on older
-#'   versions.
 #' @return URL used in httr call.
 #' @export
-make_url <- function(restapi = TRUE, query, param = NULL, version = "1.1") {
+make_url <- function(restapi = TRUE, query, param = NULL) {
+
   if (restapi) {
     hostname <- "api.twitter.com"
   } else {
     hostname <- "stream.twitter.com"
   }
 
-  alst <- structure(
+  structure(
     list(
       scheme = "https",
       hostname = hostname,
       port = NULL,
-      path = paste0(version, "/", query, ".json"),
+      path = paste0("1.1/", query, ".json"),
       query = param,
       params = NULL,
       fragment = NULL,
       username = NULL,
       password = NULL),
     class = "url")
-
-  alst
 }

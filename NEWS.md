@@ -1,3 +1,12 @@
+# rtweet 0.1.9
+
+* Improved scrolling methods such that `search_tweets` and 
+`get_timeline` should return a lot more now
+
+* Added `parser` function to return status (tweets) AND user (users)
+data frames when available. As a result, the parsed output for some 
+functions now comes as a list containing two data frames.
+
 # rtweet 0.1.8
 
 * Added `get_timeline` function that returns tweets from selected user

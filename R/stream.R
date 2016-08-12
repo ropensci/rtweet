@@ -70,7 +70,7 @@ stream_tweets <- function(stream, timeout = 30, token = NULL,
 
   if (is.null(file_name)) file.remove(file_name)
 
-  if (nrow(resp) > 0) resp <- tweets_df(resp)
+  #if (nrow(resp) > 0) resp <- tweets_df(resp)
 
   resp
 }

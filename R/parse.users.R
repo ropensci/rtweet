@@ -1,3 +1,26 @@
+
+parse_users <- function(x) {
+
+  if ("statuses" %in% names(x)) {
+    x <- x[["statuses"]]
+  }
+
+  if ("friends_count" %in% names(x)) {
+    return(user_df(x))
+  }
+
+  if ("statuses" %in% names(x)) {
+    x <- x[["statuses"]]
+  }
+
+  if ("user" %in% names(x)) {
+    return(user_df(x[["user"]]))
+  }
+
+  return(invisible())
+}
+
+
 #' user_df
 #'
 #' @description Converts user object (nested list converted from
