@@ -60,7 +60,7 @@ parser <- function(x) {
   users <- bind_rows(lapply(x, parse_users))
   users <- users[!duplicated(users), ]
 
-  list(tweets, users)
+  list(tweets = tweets, users = users)
 }
 
 #' scroll
@@ -81,7 +81,7 @@ scroll <- function(url, n, ...) {
 
     r <- from_js(r)
 
-    if (max_breaker(r, url)) break
+    if (break_check(r, url)) break
 
     url$query$max_id <- get_max_id(r)
 
@@ -102,9 +102,8 @@ get_max_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
-  max_id <- tail(x$id_str[!is.na(nanull(x$id_str))], 1)
-
-  max_id
+  
+  tail(x$id_str[!is.na(nanull(x$id_str))], 1)
 }
 
 #' nanull
@@ -120,12 +119,12 @@ nanull <- function(x) {
   x
 }
 
-#' max_breaker
+#' break_check
 #'
 #'
 #'
 #' @importFrom dplyr bind_rows
-max_breaker <- function(r, url) {
+break_check <- function(r, url) {
   if (is.null(r)) return(TRUE)
 
   x <- get_max_id(r)
