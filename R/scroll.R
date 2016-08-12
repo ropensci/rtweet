@@ -31,7 +31,7 @@ parse_tweets <- function(x) {
     return(tweets_df(x))
   } 
 
-  return(invisible()
+  return(invisible())
 }
 
 #' parse_users
@@ -52,7 +52,7 @@ parse_users <- function(x) {
     return(user_df(x[["user"]]))
   }
   
-  return(invisible()
+  return(invisible())
 }
 
 #' parser
