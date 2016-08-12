@@ -8,11 +8,49 @@
 #' @param \dots named arguments passed on to httr request
 #' @export
 rtweet <- function(url, n, parse = TRUE, ...) {
+
   x <- scroll(
     url = url,
     n = n, ...)
 
   if (parse) x <- parser(x)
+
+  x
+}
+
+#' scroll
+#'
+#'
+#' @export
+scroll <- function(url, n, ...) {
+
+  stopifnot(is.double(n), is.list(url))
+
+  x <- list()
+
+  i <- 1
+
+  count <- n
+
+  while (count > 0) {
+
+    r <- tryCatch(TWIT(get = TRUE, url = url, ...),
+      error = function(e) NULL)
+
+    if (is.null(r)) break
+
+    r <- from_js(r)
+
+    if (break_check(r, url)) break
+
+    x[[i]] <- r
+
+    i <- i + 1
+
+    count <- n - unique_id_count(x)
+
+    url$query$max_id <- get_max_id(r)
+  }
 
   x
 }
@@ -29,7 +67,7 @@ parse_tweets <- function(x) {
 
   if (!"friends_count" %in% names(x)) {
     return(tweets_df(x))
-  } 
+  }
 
   return(invisible())
 }
@@ -51,7 +89,7 @@ parse_users <- function(x) {
   if ("user" %in% names(x)) {
     return(user_df(x[["user"]]))
   }
-  
+
   return(invisible())
 }
 
@@ -68,56 +106,22 @@ parser <- function(x) {
   users <- bind_rows(lapply(x, parse_users))
 
   list(
-    tweets = tweets[!duplicated(tweets), ], 
+    tweets = tweets[!duplicated(tweets), ],
     users = users[!duplicated(users), ])
 }
 
-#' scroll
-#'
-#'
-#' @export
-scroll <- function(url, n, ...) {
-
-  stopifnot(is.double(n), is.list(url))
-
-  x <- list()
-
-  i <- 0
-
-  count <- n
-
-  while (count > 0) {
-
-    r <- tryCatch(TWIT(get = TRUE, url = url, ...),
-      error = function(e) NULL)
-
-    if (is.null(r)) break
-
-    r <- from_js(r)
-
-    if (break_check(r, url)) break
-
-    x[[i]] <- r
-
-    i <- i + 1
-
-    count <- count - unique_id_count(r)
-
-    url$query$max_id <- get_max_id(r)
-  }
-
-  x
-}
 
 
-
-unique_id_count <- function(x) {
-
+unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
-  
-  length(unique(x$id_str[!is.na(nanull(x$id_str))]))
+  unique(x$id_str)
+}
+
+unique_id_count <- function(x) {
+  x <- unlist(lapply(x, unique_id))
+  length(unique(x))
 }
 
 #' get_max_id
@@ -129,7 +133,7 @@ get_max_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
-  
+
   tail(x$id_str[!is.na(nanull(x$id_str))], 1)
 }
 
@@ -152,13 +156,16 @@ nanull <- function(x) {
 #'
 #' @importFrom dplyr bind_rows
 break_check <- function(r, url) {
+
   if (is.null(r)) return(TRUE)
 
   x <- get_max_id(r)
 
   if (is.null(x)) return(TRUE)
   if (any(x == 0, x == "0")) return(TRUE)
+
   if ("max_id" %in% names(url$query)) {
+    if (is.null(url$query$max_id)) return(FALSE)
     if (x == url$query$max_id) return(TRUE)
   }
 

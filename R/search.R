@@ -130,8 +130,8 @@ searchtweets <- function(q, count = 100, type = "mixed",
 #' search_twitter
 #'
 #' @export
-search_twitter <- function(q, n, type = "mixed", max_id = NULL, 
-  parse = TRUE, token = NULL) {
+search_twitter <- function(q, n, type = "mixed", max_id = NULL,
+  parse = TRUE, token = NULL, ...) {
 
   query <- "search/tweets"
 
@@ -145,7 +145,6 @@ search_twitter <- function(q, n, type = "mixed", max_id = NULL,
     query = query,
     param = params)
 
-  rtweet(url = url, n = n,
-    config = check_token(token, query),
-    parse = parse)
+  rtweet(url = url, n = n, parse = parse,
+    config = check_token(token, query))
 }
