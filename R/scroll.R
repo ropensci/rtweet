@@ -37,6 +37,9 @@ parse_tweets <- function(x) {
 #'
 #'
 parse_users <- function(x) {
+  if ("friends_count" %in% names(x)) {
+    return(user_df(x))
+  }
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
   }
