@@ -82,6 +82,8 @@ scroll <- function(url, n, ...) {
 
   x <- list()
 
+  i <- 0
+
   count <- n
 
   while (count > 0) {
@@ -95,7 +97,9 @@ scroll <- function(url, n, ...) {
 
     if (break_check(r, url)) break
 
-    x[[length(x) + 1]] <- r
+    x[[i]] <- r
+
+    i <- i + 1
 
     count <- count - unique_id_count(r)
 
