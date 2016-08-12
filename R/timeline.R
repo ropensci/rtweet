@@ -76,3 +76,4 @@ timeline <- function(user, count = 200, max_id = NULL,
 
   tml_df
 }
+
