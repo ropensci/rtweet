@@ -1,6 +1,6 @@
-##### rtweet: Collecting Twitter data
+### rtweet: Collecting Twitter data
 
-## Obtaining and Using Twitter API Access Tokens
+# Obtaining and Using Twitter API Access Tokens
 
 This vignette covers how to obtain and use Twitter API 
 access tokens for use in the `rtweet` package.
@@ -15,7 +15,7 @@ access tokens for use in the `rtweet` package.
 library(rtweet)
 ```
 
-#### Create Twitter App
+## Create Twitter App
 
 To create a Twitter app, go to [http://apps.twitter.com/app/new](http://apps.twitter.com/app/new) 
 and provide a `Name`, `Description`, `Website`, and `Callback URL`.
@@ -50,7 +50,7 @@ of time). Abusing Twitter rate limits can even result in Twitter
 completely revoking your API access. Fortunately, using a small 
 number of tokens seems to fall well below their threshold of concern.
 
-#### Using Tokens with `rtweet`
+## Using Tokens with `rtweet`
 
 For this example, I created two Twitter apps to demonstrate how to 
 store more than one access token. The steps are basically the same
@@ -70,7 +70,7 @@ twitter_tokens <- c(
   )
 ```
 
-#### Saving Tokens
+## Saving Tokens
 
 Technically, you now have enough to start using `rtweet` functions--
 you'd just need to set the token argument within functions to the
@@ -93,7 +93,7 @@ file_name <- paste0(home_directory, "/", "twitter_tokens")
 save(twitter_tokens, file = file_name)
 ```
 
-#### Environment Variable
+## Environment Variable
 
 To easily access your token(s) in future sessions (a best practice [recommended by Hadley](https://github.com/hadley/httr/blob/master/vignettes/api-packages.Rmd)), 
 create a plain text file containing the path where you saved your token object. 

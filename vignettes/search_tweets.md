@@ -1,6 +1,6 @@
-##### rtweet: Collecting Twitter data
+### rtweet: Collecting Twitter data
 
-## Retrieving Tweets via Twitter's Search API
+# Retrieving Tweets via Twitter's Search API
 
 This vignette demonstrates the `search_tweets()` function found in 
 the `rtweet` package.
@@ -17,7 +17,7 @@ To get started, make sure you've installed rtweets and then load the package.
 library(rtweet)
 ```
 
-#### Search tweets
+## Search tweets
 
 In order to use [Twitter's search API](https://dev.twitter.com/rest/public/search), 
 you'll need to [create and store your personal access token](https://github.com/mkearney/rtweet/blob/master/README.md).
@@ -67,7 +67,7 @@ srch_df
     ## #   country <chr>, long1 <dbl>, long2 <dbl>, long3 <dbl>, long4 <dbl>,
     ## #   lat1 <dbl>, lat2 <dbl>, lat3 <dbl>, lat4 <dbl>
 
-### Analyze text of Tweets
+## Analyze text of Tweets
 
 Returning a data set of search results makes it easy to perform a variety 
 of approaches to analyze the Twitter data. If, for example, you wanted to
@@ -122,7 +122,7 @@ srch_df$withher <- as.numeric(srch_df$hillary > srch_df$donald)
 srch_df$withher <- srch_df$withher - as.numeric(srch_df$hillary < srch_df$donald)
 ```
 
-#### Plotting
+## Plotting
 
 I then plotted these new variables using `ggplot2` (a cheat code package for 
 generating pretty plots).
