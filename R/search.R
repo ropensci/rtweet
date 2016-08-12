@@ -145,7 +145,7 @@ search_twitter <- function(q, n, type = "mixed", max_id = NULL,
     query = query,
     param = params)
 
-  rtweet(url = url,
+  rtweet(url = url, n = n,
     config = check_token(token, query),
     parse = parse)
 }
