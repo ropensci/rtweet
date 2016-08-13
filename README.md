@@ -12,17 +12,17 @@ Key features
 for the users responsible for the returned tweets. If you look up
 users, you also get the most recent tweet for each user.
 
-- Gather **tweet** data by searching `search_tweets()` past tweets, 
-streaming `stream_tweets()` live tweets, or collecting tweets from 
+- Gather **tweet** data by searching past tweets `search_tweets()`, 
+streaming live tweets `stream_tweets()`, or collecting tweets from 
 a user's timeline `get_timeline()`. Easily return data on 
 **thousands** of tweets at a time.
 
-- Gather **user** data by looking up `lookup_users()` Twitter users.
+- Gather **user** data by looking up Twitter users `lookup_users()`.
 Easily return data on thousands of users.
 
 - Gather **followers** and **friends** data by collecting the ids of 
-accounts *following* a user (`get_followers()`) or the ids of 
-accounts *followed by* a user (`get_friends()`)
+accounts *following* a user `get_followers()` or the ids of 
+accounts *followed by* a user `get_friends()`.
 
 - Organized and easily translatable data formats. Functions return
 tibble data tables **ready** for data analysis.
