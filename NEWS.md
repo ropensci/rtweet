@@ -1,3 +1,13 @@
+# rtweet 0.2.0
+
+* Since previous CRAN release, numerous new features and improvements
+to functions returning tweets, user data, and ids.
+
+* Search function now optimized to return more tweets per search.
+
+* Numerous improvements to stability, error checks, and namespace
+management.
+
 # rtweet 0.1.91
 
 * Improvements to `get_friends` and `get_followers`. Returns list 
