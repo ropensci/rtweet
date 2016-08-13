@@ -73,9 +73,11 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 
   query <- "search/tweets"
 
-  stopifnot(is.numeric(n), is.atomic(q), is.atomic(max_id))
+  stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
 
   token <- check_token(token, query)
+
+  n.times <- rate_limit(token, query)[["remaining"]]
 
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -101,7 +103,11 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
     query = query,
     param = params)
 
-  tw <- scroller(url, n, token)
+  message("Searching for tweets...")
+
+  tw <- scroller(url, n, n.times, token)
+
+  message(paste0("Collected ", nrow(tw), " tweets!"))
 
   if (parse) tw <- parser(tw, n)
 

@@ -120,3 +120,25 @@ return_with_NA <- function(x, n) {
   }
   x
 }
+
+is_n <- function(n) {
+  if (is.character(n)) n <- suppressWarnings(as.numeric(n))
+  if (all(
+    length(n) == 1,
+    is.numeric(n),
+    identical(n %% 1, 0),
+    n > 0)) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+is_url <- function(url) {
+  if (all(length(url) > 1, is.list(url),
+    c("scheme", "hostname", "port", "path", "query") %in% names(url))) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}

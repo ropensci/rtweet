@@ -5,6 +5,8 @@
     users <- unlist(users)
   }
 
+  stopifnot(is.atomic(users))
+
   if (length(users) > 100) {
     users <- users[1:100]
   }
@@ -14,17 +16,14 @@
   names(params)[1] <- .ids_type(users)
 
   url <- make_url(
-    restapi = TRUE,
-    "users/lookup",
-    params)
+    query = query,
+    param = params)
 
   token <- check_token(token, query = "users/lookup")
 
   resp <- TWIT(get = TRUE, url, token)
 
-  resp <- from_js(resp)
-
-  resp
+  from_js(resp)
 }
 
 
@@ -67,13 +66,13 @@ lookup_users <- function(users, token = NULL, parse = TRUE) {
     users <- users[1:18000]
   }
 
-  n.batch <- seq_len(ceiling(length(users) / 100))
+  n.times <- ceiling(length(users) / 100)
 
   from <- 1
 
-  usr <- vector("list", max(n.batch))
+  usr <- vector("list", n.times)
 
-  for (i in n.batch) {
+  for (i in seq_len(n.times)) {
     to <- from + 99
 
     if (to > length(users)) {

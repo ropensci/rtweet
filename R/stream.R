@@ -59,7 +59,7 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
 
   if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
 
-  if (grepl(".json", file_name)) file_name <- paste0(file_name, ".json")
+  if (!grepl(".json", file_name)) file_name <- paste0(file_name, ".json")
 
   if (!file.exists(file_name)) file.create(file_name)
 

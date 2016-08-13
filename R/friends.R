@@ -5,23 +5,15 @@
 #'   by a user). To request information on followers of accounts
 #'
 #' @param user Screen name or user id of target user.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable.
-#' @param page Numeric or character vector used as cursor value.
-#'   Default \code{page = -1} specifies first page of json results,
-#'   or first 5000 friends. Other pages specified via cursor values
-#'   supplied by Twitter API response object.
-#' @param stringify Logical, indicating whether to return user
-#'   ids as strings (some ids are too long to be read as numeric).
-#'   Defaults to \code{TRUE}.
-#' @param recode_error Logical, indicating whether to report errors
-#'   for missing users. By default \code{recode.errors = FALSE}
-#'   returns API return errors. This argument can be useful when
-#'   tracking accounts over time. Instead of reporting an error,
-#'   if you know you have the correct id, setting
-#'   \code{recode.errors = TRUE} will code friend networks as
-#'   \code{NA}.
+#' @param n Number of friends to return. For max return, enter
+#'   \code{n = "all"} or \code{n = 75000} (max per token).
+#' @param page Default \code{page = -1} specifies first page of json
+#'   results. Other pages specified via cursor values supplied by
+#'   Twitter API response object.
+#' @param parse Logical, indicating whether to return parsed
+#'   vector or nested list (fromJSON) object. By default,
+#'   \code{parse = TRUE} saves you the time [and frustrations]
+#'   associated with disentangling the Twitter API return objects.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -36,32 +28,42 @@
 #'
 #' @return friends User ids for everyone a user follows.
 #' @export
-get_friends <- function(user, token = NULL, page = "-1",
-                        stringify = TRUE, recode_error = FALSE) {
+get_friends <- function(user, n = 75000, page = "-1", parse = TRUE,
+  token = NULL) {
+
+  query <- "friends/ids"
+
+  if (n == "all") {
+    n <- 75000
+  }
+
+  stopifnot(is_n(n), is.atomic(user), is.atomic(page))
+
+  if (length(user) > 1) {
+    stop("can only return friends for one user at a time.", call. = FALSE)
+  }
+
+  token <- check_token(token, query)
+
+  n.times <- rate_limit(token, query)[["remaining"]]
 
   params <- list(
-    id_type = user,
+    user_type = user,
+    count = 5000,
     cursor = page,
-    stringify = stringify)
+    stringify = TRUE)
 
   names(params)[1] <- .id_type(user)
 
-  url <- make_url(restapi = TRUE, "friends/ids", params)
+  url <- make_url(
+    query = query,
+    param = params)
 
-  token <- check_token(token, "friends/ids")
+  f <- scroller(url, n, n.times, token)
 
-  resp <- TWIT(get = TRUE, url, token, catch_error = !recode_error)
+  f <- f[!sapply(f, is.null)]
 
-  fds <- from_js(resp)
+  if (parse) f <- parse_fs(f, n)
 
-  if (is.null(fds["ids"])) {
-    return(list(ids = NA))
-  }
-
-  if (all(c("ids", "next_cursor_str") %in% names(fds))) {
-    fds$next_cursor <- fds$next_cursor_str
-    fds <- fds[c("ids", "next_cursor")]
-  }
-
-  fds
+  f
 }

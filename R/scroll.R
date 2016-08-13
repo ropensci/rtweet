@@ -51,10 +51,14 @@ n_rows <- function(x, n = NULL) {
 }
 
 #' @importFrom httr warn_for_status
-scroller <- function(url, n, ..., catch_error = FALSE) {
-  stopifnot(is.numeric(n), is.list(url))
+#' @export
+scroller <- function(url, n, n.times, ..., catch_error = FALSE) {
 
-  x <- vector("list", n / 60)
+  stopifnot(is_n(n), is_url(url))
+
+  if (missing(n.times)) n.times <- 1
+
+  x <- vector("list", n.times)
 
   for (i in seq_along(x)) {
 
@@ -74,7 +78,11 @@ scroller <- function(url, n, ..., catch_error = FALSE) {
 
     if (break_check(x[[i]], url, count)) break
 
-    url$query$max_id <- get_max_id(x[[i]])
+    if ("cursor" %in% names(url$query)) {
+      url$query$cursor <- get_max_id(x[[i]])
+    } else {
+      url$query$max_id <- get_max_id(x[[i]])
+    }
   }
 
   x
@@ -87,6 +95,14 @@ unique_id <- function(x) {
   }
   if ("id_str" %in% names(x)) {
     return(x[["id_str"]])
+  }
+  if ("ids" %in% names(x)) {
+    return(x[["ids"]])
+  }
+  if (is.null(names(x))) {
+    if ("ids" %in% names(x[[1]])) {
+      return(x[[1]][["ids"]])
+    }
   }
   if ("status_id" %in% names(x)) {
     return(x[["status_id"]])
@@ -114,6 +130,12 @@ get_max_id <- function(x) {
   }
   if ("id_str" %in% names(x)) {
     x <- x[["id_str"]]
+  } else if ("ids" %in% names(x)) {
+    return(x[["next_cursor_str"]])
+  } else if (is.null(names(x))) {
+    if ("ids" %in% names(x[[1]])) {
+      return(x[[1]][["next_cursor_str"]])
+    }
   } else if ("status_id" %in% names(x)) {
     x <- x[["status_id"]]
   } else if ("user_id" %in% names(x)) {
@@ -122,7 +144,6 @@ get_max_id <- function(x) {
   return_last(x)
 }
 
-#' @noRd
 return_last <- function(x, n = 1) {
   x <- rev(x)
   x[seq_along(n)]

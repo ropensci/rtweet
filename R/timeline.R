@@ -28,13 +28,15 @@ get_timeline <- function(user, n = 200, max_id = NULL,
 
   query <- "statuses/user_timeline"
 
-  stopifnot(is.numeric(n), is.atomic(user), is.atomic(max_id))
+  stopifnot(is_n(n), is.atomic(user), is.atomic(max_id))
 
   if (length(user) > 1) {
     stop("can only return tweets for one user at a time.", call. = FALSE)
   }
 
   token <- check_token(token, query)
+
+  n.times <- rate_limit(token, query)[["remaining"]]
 
   params <- list(
     user_type = user,
@@ -48,7 +50,7 @@ get_timeline <- function(user, n = 200, max_id = NULL,
     query = query,
     param = params)
 
-  tm <- scroller(url, n, token)
+  tm <- scroller(url, n, n.times, token)
 
   if (parse) tm <- parser(tm, n)
 

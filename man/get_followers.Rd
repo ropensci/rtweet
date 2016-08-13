@@ -4,25 +4,26 @@
 \alias{get_followers}
 \title{get_followers}
 \usage{
-get_followers(user, n = 75000, stringify = TRUE, parse = TRUE,
-  max_id = NULL, token = NULL)
+get_followers(user, n = 75000, page = "-1", parse = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
 
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves users from the time
-[and frustrations] associated with disentangling the Twitter
-API return objects.}
-
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable.}
+\item{n}{Number of followers to return. For max return, enter
+\code{n = "all"} or \code{n = 75000} (max per token).}
 
 \item{page}{Default \code{page = -1} specifies first page of json
 results. Other pages specified via cursor values supplied by
 Twitter API response object.}
+
+\item{parse}{Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves you the time [and frustrations]
+associated with disentangling the Twitter API return objects.}
+
+\item{token}{OAuth token (1.0 or 2.0). By default
+\code{token = NULL} fetches a non-exhausted token from
+an environment variable.}
 }
 \value{
 list of follower ids and next page value (presumably

@@ -15,6 +15,7 @@ get_tokens <- function() {
   .state$twitter_tokens
 }
 
+
 is.token <- function(x) {
   any(class(x) == "Token", class(x) == "Token1.0")
 }
