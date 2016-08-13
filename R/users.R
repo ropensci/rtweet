@@ -24,8 +24,6 @@
 
   resp <- from_js(resp)
 
-  if (parse) resp <- user_df(resp)
-
   resp
 }
 
@@ -86,12 +84,12 @@ lookup_users <- function(users, token = NULL, parse = TRUE) {
       users[from:to],
       token, parse = parse)
 
-    if (parse) usr <- bind_rows(usr)
-
     from <- to + 1
 
     if (from > length(users)) break
   }
+
+  if (parse) usr <- parser(usr)
 
   usr
 }

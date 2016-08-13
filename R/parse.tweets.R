@@ -35,6 +35,10 @@ tweets_df <- function(dat) {
     dat <- dat[["statuses"]]
   }
 
+  if ("status" %in% names(dat)) {
+    dat <- dat[["status"]]
+  }
+
   tweets_df <- bind_cols(
     tweets_toplevel_df(dat),
     tweets_entities_df(dat),
@@ -59,8 +63,6 @@ check_response_obj <- function(dat) {
   if (!"id_str" %in% names(dat)) {
     if ("id" %in% names(dat)) {
       dat$id_str <- dat$id
-    } else {
-      stop("object does not contain ID variable.", call. = FALSE)
     }
   }
 
