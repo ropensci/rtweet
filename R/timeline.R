@@ -4,76 +4,53 @@
 #'   Twitter user.
 #'
 #' @param user Screen name or user id of target user.
-#' @param count Numeric, number of tweets to return.
+#' @param n Numeric, number of tweets to return.
 #' @param max_id Character, status_id from which returned tweets
 #'   should be older than
+#' @param parse Logical, indicating whether to return parsed
+#'   (data.frames) or nested list (fromJSON) object. By default,
+#'   \code{parse = TRUE} saves users from the time
+#'   [and frustrations] associated with disentangling the Twitter
+#'   API return objects.
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable.
 #' @param \dots Other arguments passed on to \code{make_url}.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#' @importFrom dplyr bind_rows
 #'
-#' @return user ids
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'
+#' @return List consisting of two data frames. One with the tweets
+#'   data for a specified user and the second is a single row for
+#'   the user provided.
 #' @export
-get_timeline <- function(user, count = 200, max_id = NULL,
-                         token = NULL, ...) {
-
-  tml <- vector("list", ceiling(count / 200))
-
-  for (i in seq_along(tml)) {
-    tml[[i]] <- tryCatch(timeline(
-      user = user,
-      count = count,
-      token = token,
-      max_id = max_id,
-      ...),
-      error = function(e) return(NULL))
-
-    if (is.null(tml[[i]])) break
-
-    count <- count - 200
-
-    if (identical(tail(tml[[i]]$status_id, 1), max_id)) break
-
-    max_id <- tail(tml[[i]]$status_id, 1)
-  }
-
-  bind_rows(tml)
-}
-
-
-timeline <- function(user, count = 200, max_id = NULL,
-                         token = NULL, ...) {
+get_timeline <- function(user, n = 200, max_id = NULL,
+  parse = TRUE, token = NULL, ...) {
 
   query <- "statuses/user_timeline"
 
-  stopifnot(is.numeric(count), is.atomic(user), is.atomic(max_id))
+  stopifnot(is.numeric(n), is.atomic(user), is.atomic(max_id))
 
   if (length(user) > 1) {
     stop("can only return tweets for one user at a time.", call. = FALSE)
   }
 
-  if (count < 200) {
-    count <- count
-  } else {
-    count <- 200
-  }
+  token <- check_token(token, query)
 
   params <- list(
-    id_type = user,
-    count = count,
+    user_type = user,
+    count = 200,
     max_id = max_id,
     ...)
 
   names(params)[1] <- .id_type(user)
 
-  res <- TWIT(
-    url = make_url(restapi = TRUE, query, params),
-    config = check_token(token, query))
+  url <- make_url(
+    query = query,
+    param = params)
 
-  tml_df <- tweets_df(from_js(res))
+  tm <- scroller(url, n, token)
 
-  tml_df
+  if (parse) tm <- parser(tm, n)
+
+  tm
 }
-

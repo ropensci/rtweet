@@ -4,15 +4,22 @@
 \alias{get_timeline}
 \title{get_timeline}
 \usage{
-get_timeline(user, count = 200, max_id = NULL, token = NULL, ...)
+get_timeline(user, n = 200, max_id = NULL, parse = TRUE, token = NULL,
+  ...)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
 
-\item{count}{Numeric, number of tweets to return.}
+\item{n}{Numeric, number of tweets to return.}
 
 \item{max_id}{Character, status_id from which returned tweets
 should be older than}
+
+\item{parse}{Logical, indicating whether to return parsed
+(data.frames) or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves users from the time
+[and frustrations] associated with disentangling the Twitter
+API return objects.}
 
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
@@ -21,7 +28,9 @@ an environment variable.}
 \item{\dots}{Other arguments passed on to \code{make_url}.}
 }
 \value{
-user ids
+List consisting of two data frames. One with the tweets
+  data for a specified user and the second is a single row for
+  the user provided.
 }
 \description{
 Returns timeline of tweets from a specified
