@@ -1,6 +1,8 @@
 
 .user_lookup <- function(users, token = NULL, parse) {
 
+  query <- "users/lookup"
+
   if (is.list(users)) {
     users <- unlist(users)
   }

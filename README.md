@@ -7,26 +7,35 @@ R package for collecting Twitter data via Twitter's REST and stream API's.
 
 Key features
 
-- Gather **tweet** data by searching `search_tweets()` past tweets or 
-by streaming `stream_tweets()` live tweets. Easily return data on 
-thousands of tweets at a time.
+- *UPDATE*: Most functions now return data tables for both tweets
+**and** users. So, if you search for tweets, you also get data
+for the users responsible for the returned tweets. If you look up
+users, you also get the most recent tweet for each user.
 
-- Gather **user** data by looking up `lookup_users()` information
-on specific Twitter users. Easily return data on thousands of users
-at a time.
+- Gather **tweet** data by searching `search_tweets()` past tweets, 
+streaming `stream_tweets()` live tweets, or collecting tweets from 
+a user's timeline `get_timeline()`. Easily return data on 
+**thousands** of tweets at a time.
+
+- Gather **user** data by looking up `lookup_users()` Twitter users.
+Easily return data on thousands of users.
+
+- Gather **followers** and **friends** data by collecting the ids of 
+accounts *following* a user (`get_followers()`) or the ids of 
+accounts *followed by* a user (`get_friends()`)
 
 - Organized and easily translatable data formats. Functions return
-data frames that are **ready** for data analysis the moment they
-are received.
+tibble data tables **ready** for data analysis.
 
 - Tweet data functions return not only text of tweets, but a host of 
-other variables, including the number of times a tweet has been 
-retweeted (`retweet_count`) and favorited (`favorite_count`).
-To gauge user interactions, there are also seperate variables that
-identify replies by source tweet (`in_reply_to_status_id_str`) 
-and by source user ID (`in_reply_to_status_id_str`). Variables also
-indicate whether the tweet quotes another tweet (`is_quote_status`), 
-and, if so, the quoted tweet ID (`quoted_status_id_str`).
+other variables (up t 27 columns), including the number of times 
+a tweet has been retweeted (`retweet_count`) and 
+favorited (`favorite_count`). To gauge user interactions, there are 
+also seperate variables that identify replies by source tweet 
+(`in_reply_to_status_id_str`) and by source user ID 
+(`in_reply_to_status_id_str`). Variables also indicate whether the 
+tweet quotes another tweet (`is_quote_status`), and, if so, the 
+quoted tweet ID (`quoted_status_id_str`).
 
 ## Install
 To get the current released version from CRAN:

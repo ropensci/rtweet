@@ -1,3 +1,13 @@
+# rtweet 0.1.91
+
+* Improvements to `get_friends` and `get_followers`. Returns list 
+with value (`next_cursor`) used for next page of results. When
+this value is 0, all results have been returned.
+
+* Functions `get_friends` and `get_followers` now return the list
+of user ids as a tibble data table, which makes the print out much
+cleaner.
+
 # rtweet 0.1.9
 
 * Improved scrolling methods such that `search_tweets` and 
