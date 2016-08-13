@@ -14,6 +14,9 @@
 #'   vector or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves you the time [and frustrations]
 #'   associated with disentangling the Twitter API return objects.
+#' @param token OAuth token (1.0 or 2.0). By default
+#'   \code{token = NULL} fetches a non-exhausted token from
+#'   an environment variable.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{

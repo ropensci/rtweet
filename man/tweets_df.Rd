@@ -8,8 +8,8 @@ tweets_df(dat)
 }
 \arguments{
 \item{dat}{Tweets object or nested list. Usually this is the
-return object produced by \code{\link{from_js}} and
-\code{\link{search_tweets}} or \code{\link{stream_tweets}}.}
+return object produced by \code{\link{search_tweets}} or
+\code{\link{stream_tweets}}.}
 }
 \description{
 Converts tweets object (nested list converted from

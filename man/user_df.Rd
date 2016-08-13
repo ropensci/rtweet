@@ -8,8 +8,7 @@ user_df(dat)
 }
 \arguments{
 \item{dat}{User object or nested list. Usually this is the
-return object produced by \code{\link{from_js}} and
-\code{\link{lookup_users}}..}
+return object produced by \code{\link{lookup_users}}.}
 }
 \description{
 Converts user object (nested list converted from

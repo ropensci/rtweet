@@ -4,8 +4,8 @@
 #'   json object) into a [tibble] data frame.
 #'
 #' @param dat Tweets object or nested list. Usually this is the
-#'   return object produced by \code{\link{from_js}} and
-#'   \code{\link{search_tweets}} or \code{\link{stream_tweets}}.
+#'   return object produced by \code{\link{search_tweets}} or
+#'   \code{\link{stream_tweets}}.
 #'
 #' @importFrom dplyr bind_cols
 #' @export
@@ -38,8 +38,7 @@ tweets_df <- function(dat) {
 #'   json object) into a [tibble] data frame.
 #'
 #' @param dat User object or nested list. Usually this is the
-#'   return object produced by \code{\link{from_js}} and
-#'   \code{\link{lookup_users}}..
+#'   return object produced by \code{\link{lookup_users}}.
 #'
 #' @importFrom dplyr bind_cols
 #' @export
