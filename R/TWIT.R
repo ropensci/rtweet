@@ -26,7 +26,7 @@
 #'   (e.g., \code{get_friends}, take reflect these changes.
 #' @return json response object
 #' @import httr
-#' @export
+#' @noRd
 TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
 
   if (all(is.null(timeout), is.null(filename))) {
@@ -56,7 +56,7 @@ TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
 #' @param param Additional parameters (arguments) passed
 #'   along. If none, NULL (default).
 #' @return URL used in httr call.
-#' @export
+#' @noRd
 make_url <- function(restapi = TRUE, query, param = NULL) {
 
   if (restapi) {

@@ -17,7 +17,7 @@
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return user ids
-#' @export
+#' @noRd
 get_retweeters <- function(status, page = "-1", token = NULL,
                            stringify = TRUE) {
 

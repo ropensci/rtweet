@@ -83,3 +83,20 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
 
   s
 }
+
+
+#' @keywords internal
+stream_params <- function(stream) {
+  stream <- unlist(trimws(unlist(strsplit(stream, ","))))
+
+  if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
+    if (all(is.integer(as.integer(stream)))) {
+      params <- list(follow = stream)
+    } else {
+      params <- list(locations = stream)
+    }
+  } else {
+    params <- list(track = stream)
+  }
+  params
+}

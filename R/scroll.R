@@ -1,57 +1,4 @@
-#' parser
-#'
-#' @description Parses tweets and users objects. Returns data frames
-#'   for each.
-#'
-#' @param x List, fromJSON nested list object
-#' @param n Numeric, number of desired tweets to return
-#'
-#' @importFrom dplyr bind_rows
-#' @export
-parser <- function(x, n = NULL) {
-  if (is.data.frame(x)) {
-    tweets <- parse_tweets(x)
-    users <- parse_users(x)
-  } else {
-    stopifnot(is.list(x))
-
-    tweets <- bply(x, parse_tweets)
-    tweets <- n_rows(tweets, n)
-
-    users <- bply(x, parse_users)
-    users <- n_rows(users, n)
-  }
-
-  list(
-    tweets = tweets,
-    users = users)
-}
-
-
-#' @importFrom dplyr bind_rows
-#' @noRd
-bply <- function(x, f) {
-  x <- bind_rows(lapply(x, f))
-  x[!duplicated(x), ]
-}
-
-#' @importFrom dplyr tbl_df
-#' @noRd
-n_rows <- function(x, n = NULL) {
-  stopifnot(is.data.frame(x))
-  if (!is.null(n)) {
-    if (nrow(x) > n) {
-      x <- x[seq_len(n), ]
-    }
-  }
-  if (!"tibble" %in% class(x)) {
-    x <- tbl_df(x)
-  }
-  x
-}
-
 #' @importFrom httr warn_for_status
-#' @export
 scroller <- function(url, n, n.times, ..., catch_error = FALSE) {
 
   stopifnot(is_n(n), is_url(url))
@@ -112,6 +59,7 @@ unique_id <- function(x) {
   }
 }
 
+
 unique_id_count <- function(x) {
   if (is.data.frame(x)) {
     x <- unique_id(x)
@@ -122,7 +70,7 @@ unique_id_count <- function(x) {
 }
 
 
-#' @importFrom utils tail
+
 get_max_id <- function(x) {
 
   if ("statuses" %in% tolower(names(x))) {
@@ -144,24 +92,8 @@ get_max_id <- function(x) {
   return_last(x)
 }
 
-return_last <- function(x, n = 1) {
-  x <- rev(x)
-  x[seq_along(n)]
-}
-
-#' @noRd
-nanull <- function(x) {
-  if (is.null(x)) return(NA)
-  if (identical(x, "")) return(NA)
-  if (length(x) == 0) return(NA)
-  x[x == ""] <- NA
-  x[is.null(x)] <- NA
-  x
-}
-
 
 #' @importFrom dplyr bind_rows
-#' @noRd
 break_check <- function(r, url, count = NULL) {
   if (!is.null(count)) {
     if (count <= 0) return(TRUE)

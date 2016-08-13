@@ -1,34 +1,3 @@
-
-.user_lookup <- function(users, token = NULL, parse) {
-
-  query <- "users/lookup"
-
-  if (is.list(users)) {
-    users <- unlist(users)
-  }
-
-  stopifnot(is.atomic(users))
-
-  if (length(users) > 100) {
-    users <- users[1:100]
-  }
-
-  params <- list(id_type = paste(users, collapse = ","))
-
-  names(params)[1] <- .ids_type(users)
-
-  url <- make_url(
-    query = query,
-    param = params)
-
-  token <- check_token(token, query = "users/lookup")
-
-  resp <- TWIT(get = TRUE, url, token)
-
-  from_js(resp)
-}
-
-
 #' lookup_users
 #'
 #' @description Returns Twitter user data_frame object for
@@ -93,4 +62,33 @@ lookup_users <- function(users, token = NULL, parse = TRUE) {
   if (parse) usr <- parser(usr)
 
   usr
+}
+
+.user_lookup <- function(users, token = NULL, parse) {
+
+  query <- "users/lookup"
+
+  if (is.list(users)) {
+    users <- unlist(users)
+  }
+
+  stopifnot(is.atomic(users))
+
+  if (length(users) > 100) {
+    users <- users[1:100]
+  }
+
+  params <- list(id_type = paste(users, collapse = ","))
+
+  names(params)[1] <- .ids_type(users)
+
+  url <- make_url(
+    query = query,
+    param = params)
+
+  token <- check_token(token, query = "users/lookup")
+
+  resp <- TWIT(get = TRUE, url, token)
+
+  from_js(resp)
 }

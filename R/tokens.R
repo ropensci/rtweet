@@ -15,40 +15,6 @@ get_tokens <- function() {
   .state$twitter_tokens
 }
 
-
-is.token <- function(x) {
-  any(class(x) == "Token", class(x) == "Token1.0")
-}
-
-
-check_token <- function(token, query = NULL) {
-
-  if (is.null(token)) {
-    token <- get_tokens()
-
-    if (!is.null(query)) {
-      token <- fetch_tokens(token, query)
-    }
-  }
-
-  if (is.list(token)) {
-    token <- token[[1]]
-  }
-
-  if (identical(class(token), "OAuth")) {
-    token <- create_token(
-      sample(letters, 8),
-      token$consumerKey,
-      token$consumerSecret)
-  }
-
-  if (!is.token(token)) {
-    stop("Not a valid access token.")
-  }
-
-  token
-}
-
 #' create_token
 #'
 #' @description Sends request to generate oauth 1.0 tokens. Twitter
@@ -84,30 +50,6 @@ create_token <- function(app, consumer_key, consumer_secret) {
   token
 }
 
-twitter_pat <- function() {
-  pat <- Sys.getenv("TWITTER_PAT")
-
-  if (identical(pat, "")) {
-    if (file.exists(".httr-oauth")) {
-      pat <- ".httr-oauth"
-    } else {
-      stop(
-        "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
-        call. = FALSE)
-    }
-  }
-  pat
-}
-
-load_tokens <- function(pat) {
-  if (identical(pat, ".httr-oauth")) {
-    .state$twitter_tokens <- readRDS(pat)
-  } else {
-    load(pat, .state)
-  }
-}
-
-
 #' fetch_tokens
 #'
 #' @description Fetches tokens based on remaining rate limit.
@@ -119,7 +61,7 @@ load_tokens <- function(pat) {
 #' @param sleep logical indicating whether to force system sleep if
 #'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
 #' @return token with non-exhausted rate limit
-#' @export
+#' @noRd
 fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
   if (missing(query)) {
@@ -148,4 +90,62 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
   }
 
   token
+}
+
+is.token <- function(x) {
+  any(class(x) == "Token", class(x) == "Token1.0")
+}
+
+
+check_token <- function(token, query = NULL) {
+
+  if (is.null(token)) {
+    token <- get_tokens()
+
+    if (!is.null(query)) {
+      token <- fetch_tokens(token, query)
+    }
+  }
+
+  if (is.list(token)) {
+    token <- token[[1]]
+  }
+
+  if (identical(class(token), "OAuth")) {
+    token <- create_token(
+      sample(letters, 8),
+      token$consumerKey,
+      token$consumerSecret)
+  }
+
+  if (!is.token(token)) {
+    stop("Not a valid access token.")
+  }
+
+  token
+}
+
+
+
+twitter_pat <- function() {
+  pat <- Sys.getenv("TWITTER_PAT")
+
+  if (identical(pat, "")) {
+    if (file.exists(".httr-oauth")) {
+      pat <- ".httr-oauth"
+    } else {
+      stop(
+        "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
+        call. = FALSE)
+    }
+  }
+  pat
+}
+
+load_tokens <- function(pat) {
+  if (identical(pat, ".httr-oauth")) {
+    .state$twitter_tokens <- readRDS(pat)
+  } else {
+    load(pat, .state)
+  }
 }

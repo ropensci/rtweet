@@ -1,4 +1,3 @@
-
 parse_tweets <- function(x) {
 
   if ("statuses" %in% names(x)) {
@@ -13,42 +12,6 @@ parse_tweets <- function(x) {
 
   return(invisible())
 }
-
-#' tweets_df
-#'
-#' @description Converts tweets object (nested list converted from
-#'   json object) into a [tibble] data frame.
-#'
-#' @param dat Tweets object or nested list. Usually this is the
-#'   return object produced by \code{\link{from_js}} and
-#'   \code{\link{search_tweets}} or \code{\link{stream_tweets}}.
-#'
-#' @importFrom dplyr bind_cols
-#' @export
-tweets_df <- function(dat) {
-
-  if (missing(dat)) {
-    stop("Must specify tweets object, dat.", call. = TRUE)
-  }
-
-  if ("statuses" %in% names(dat)) {
-    dat <- dat[["statuses"]]
-  }
-
-  if ("status" %in% names(dat)) {
-    dat <- dat[["status"]]
-  }
-
-  tweets_df <- bind_cols(
-    tweets_toplevel_df(dat),
-    tweets_entities_df(dat),
-    tweets_retweet_df(dat),
-    tweets_place_df(dat))
-
-  tweets_df
-}
-
-
 
 check_response_obj <- function(dat) {
 
@@ -68,7 +31,6 @@ check_response_obj <- function(dat) {
 
   dat
 }
-
 
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
                                add.names = NULL) {
@@ -265,5 +227,3 @@ tweets_place_df <- function(dat, n = NULL) {
 
   place_df
 }
-
-

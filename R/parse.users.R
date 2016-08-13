@@ -1,4 +1,3 @@
-
 parse_users <- function(x) {
 
   if ("statuses" %in% names(x)) {
@@ -20,46 +19,6 @@ parse_users <- function(x) {
   return(invisible())
 }
 
-
-#' user_df
-#'
-#' @description Converts user object (nested list converted from
-#'   json object) into a [tibble] data frame.
-#'
-#' @param dat User object or nested list. Usually this is the
-#'   return object produced by \code{\link{from_js}} and
-#'   \code{\link{lookup_users}}..
-#'
-#' @importFrom dplyr bind_cols
-#' @export
-user_df <- function(dat) {
-
-  if ("user" %in% names(dat)) {
-    dat <- dat[["user"]]
-  }
-
-  user_df <- bind_cols(
-    user_toplevel_df(dat),
-    user_entities_df(dat))
-
-  user_df
-}
-
-check_user_obj <- function(x) {
-
-  if ("user" %in% names(x)) {
-    x <- x[["user"]]
-  }
-
-  if (!"id_str" %in% names(x)) {
-    if ("id" %in% names(x)) {
-      x$id_str <- x$id
-    } else {
-      stop("object does not contain ID variable.", call. = FALSE)
-    }
-  }
-  x
-}
 
 usr_ent_urls <- function(x, list = FALSE) {
 

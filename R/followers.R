@@ -70,22 +70,3 @@ get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
 
   f
 }
-
-#' @export
-#' @importFrom dplyr tbl_df
-parse_fs <- function(x, n = NULL) {
-  if (length(x) == 1) {
-    next_cursor <- x[[1]][["next_cursor_str"]]
-    x <- x[[1]][["ids"]]
-  } else if (length(x) > 1) {
-    next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]))
-    next_cursor <- return_last(next_cursor)
-    x <- unlist(lapply(x, function(x) x[["ids"]]))
-  }
-  if (!is.null(n)) {
-    if (n < length(x)) {
-      x <- x[seq_along(n)]
-    }
-  }
-  list(next_cursor = next_cursor, ids = tbl_df(x))
-}
