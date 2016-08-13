@@ -7,7 +7,7 @@ R package for collecting Twitter data via Twitter's REST and stream API's.
 
 Key features
 
-- *UPDATE*: Most functions now return data tables for both tweets
+- ***UPDATE***: Most functions now return data tables for both tweets
 **and** users. So, if you search for tweets, you also get data
 for the users responsible for the returned tweets. If you look up
 users, you also get the most recent tweet for each user.
