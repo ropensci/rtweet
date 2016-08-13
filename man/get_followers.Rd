@@ -4,10 +4,17 @@
 \alias{get_followers}
 \title{get_followers}
 \usage{
-get_followers(user, token = NULL, page = "-1")
+get_followers(user, n = 75000, stringify = TRUE, parse = TRUE,
+  max_id = NULL, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
+
+\item{parse}{Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves users from the time
+[and frustrations] associated with disentangling the Twitter
+API return objects.}
 
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from

@@ -124,7 +124,7 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   }
   if ("source" %in% names(toplevel_df)) {
     toplevel_df[["source"]] <- sapply(
-      strsplit(toplevel_df[["source"]], "<|>"),
+      strsplit(as.character(toplevel_df[["source"]]), "[<]|[>]"),
       function(x) x[3])
   }
 

@@ -4,16 +4,23 @@
 \alias{stream_tweets}
 \title{stream_tweets}
 \usage{
-stream_tweets(stream, timeout = 30, token = NULL, file_name = NULL)
+stream_tweets(q, timeout = 30, parse = TRUE, token = NULL,
+  file_name = NULL)
 }
 \arguments{
-\item{stream}{Character vector with desired phrases and keywords
+\item{q}{Character vector with desired phrases and keywords
 used to filter tweets, a comma separated list of desired
 user IDs to track, or a set of bounding boxes to track.}
 
 \item{timeout}{Numeric specifying amount of time, in seconds,
 to leave connection open while streaming/capturing tweets.
 By default, this is set at 30 seconds.}
+
+\item{parse}{Logical, indicating whether to return parsed
+(data.frames) or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves users from the time
+[and frustrations] associated with disentangling the Twitter
+API return objects.}
 
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
@@ -37,11 +44,11 @@ Returns public statuses via one of three methods
 \examples{
 \dontrun{
 # stream tweets mentioning Hillary Clinton for 60 seconds
-hrc <- stream_tweets(stream = "hillaryclinton", timeout = 60)
+hrc <- stream_tweets(q = "hillaryclinton", timeout = 60)
 hrc
 
 # stream tweets mentioning Donald Trump for 60 seconds
-djt <- search_tweets(q = "realdonaldtrump", timeout = 60)
+djt <- stream_tweets(q = "realdonaldtrump", timeout = 60)
 djt
 }
 

@@ -9,26 +9,17 @@
 #' @importFrom dplyr bind_rows
 #' @export
 parser <- function(x, n = NULL) {
-  tweets <- bind_rows(lapply(x, parse_tweets))
-  tweets <- tweets[!duplicated(tweets), ]
+  if (is.data.frame(x)) {
+    tweets <- parse_tweets(x)
+    users <- parse_users(x)
+  } else {
+    stopifnot(is.list(x))
 
-  if (!is.null(n)) {
-    if (is.data.frame(tweets)) {
-      if (nrow(tweets) > n) {
-        tweets <- tweets[seq_len(n), ]
-      }
-    }
-  }
+    tweets <- bply(x, parse_tweets)
+    tweets <- n_rows(tweets, n)
 
-  users <- bind_rows(lapply(x, parse_users))
-  users <- users[!duplicated(users), ]
-
-  if (!is.null(n)) {
-    if (is.data.frame(users)) {
-      if (nrow(users) > n) {
-        users <- users[seq_len(n), ]
-      }
-    }
+    users <- bply(x, parse_users)
+    users <- n_rows(users, n)
   }
 
   list(
@@ -36,40 +27,54 @@ parser <- function(x, n = NULL) {
     users = users)
 }
 
-#' @importFrom httr stop_for_status
-scroller <- function(url, n, ..., catch_error = FALSE) {
 
+#' @importFrom dplyr bind_rows
+#' @noRd
+bply <- function(x, f) {
+  x <- bind_rows(lapply(x, f))
+  x[!duplicated(x), ]
+}
+
+#' @importFrom dplyr tbl_df
+#' @noRd
+n_rows <- function(x, n = NULL) {
+  stopifnot(is.data.frame(x))
+  if (!is.null(n)) {
+    if (nrow(x) > n) {
+      x <- x[seq_len(n), ]
+    }
+  }
+  if (!"tibble" %in% class(x)) {
+    x <- tbl_df(x)
+  }
+  x
+}
+
+#' @importFrom httr warn_for_status
+scroller <- function(url, n, ..., catch_error = FALSE) {
   stopifnot(is.numeric(n), is.list(url))
 
-  x <- list()
+  x <- vector("list", n / 60)
 
-  i <- 1
-
-  count <- n
-
-  while (count > 0) {
+  for (i in seq_along(x)) {
 
     r <- tryCatch(
       TWIT(get = TRUE, url, ...),
       error = function(e) NULL)
 
-    if (catch_error) {
-      stop_for_status(r)
-    }
-
     if (is.null(r)) break
 
-    r <- from_js(r)
+    if (catch_error) {
+      warn_for_status(r)
+    }
 
-    if (break_check(r, url)) break
-
-    x[[i]] <- r
-
-    i <- i + 1
+    x[[i]] <- from_js(r)
 
     count <- n - unique_id_count(x)
 
-    url$query$max_id <- get_max_id(r)
+    if (break_check(x[[i]], url, count)) break
+
+    url$query$max_id <- get_max_id(x[[i]])
   }
 
   x
@@ -80,11 +85,23 @@ unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
-  x$id_str
+  if ("id_str" %in% names(x)) {
+    return(x[["id_str"]])
+  }
+  if ("status_id" %in% names(x)) {
+    return(x[["status_id"]])
+  }
+  if ("user_id" %in% names(x)) {
+    return(x[["user_id"]])
+  }
 }
 
 unique_id_count <- function(x) {
-  x <- unlist(lapply(x, unique_id))
+  if (is.data.frame(x)) {
+    x <- unique_id(x)
+  } else {
+    x <- unlist(lapply(x, unique_id))
+  }
   length(unique(x))
 }
 
@@ -95,11 +112,23 @@ get_max_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
   }
-
-  tail(x$id_str[!is.na(nanull(x$id_str))], 1)
+  if ("id_str" %in% names(x)) {
+    x <- x[["id_str"]]
+  } else if ("status_id" %in% names(x)) {
+    x <- x[["status_id"]]
+  } else if ("user_id" %in% names(x)) {
+    x <- x[["user_id"]]
+  }
+  return_last(x)
 }
 
+#' @noRd
+return_last <- function(x, n = 1) {
+  x <- rev(x)
+  x[seq_along(n)]
+}
 
+#' @noRd
 nanull <- function(x) {
   if (is.null(x)) return(NA)
   if (identical(x, "")) return(NA)
@@ -109,8 +138,13 @@ nanull <- function(x) {
   x
 }
 
+
 #' @importFrom dplyr bind_rows
-break_check <- function(r, url) {
+#' @noRd
+break_check <- function(r, url, count = NULL) {
+  if (!is.null(count)) {
+    if (count <= 0) return(TRUE)
+  }
 
   if (is.null(r)) return(TRUE)
 
