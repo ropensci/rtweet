@@ -23,6 +23,19 @@ n_rows <- function(x, n = NULL) {
   x
 }
 
+n_row <- function(x) {
+  if (is.null(nrow(x))) {
+    if ("statuses" %in% names(x[[1]])) {
+      return(sum(vapply(x, function(x) nrow(x[["statuses"]]),
+        FUN.VALUE = vector("numeric", 1)), na.rm = TRUE))
+    }
+  }
+  if (all(names(c("tweets", "users") %in% names(x)))) {
+    return(nrow(x[[1]]))
+  }
+  nrow(x)
+}
+
 nanull <- function(x) {
   if (is.null(x)) return(NA)
   if (identical(x, "")) return(NA)
