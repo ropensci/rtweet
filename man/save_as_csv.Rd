@@ -20,7 +20,10 @@ file_name, the ".csv" extension will be added when writing file
 to disk.}
 
 \item{file_name}{Path/file name where object(s) is to be saved.
-\code{file_name = "tweets.csv"}.}
+If object includes both tweets and users data then provided
+file_name will be used as base for the two saved files.
+For example, \code{file_name = "election"} would save files
+as "election.tweets.csv" and "election.users.csv".}
 }
 \description{
 Converts and saves data table generated from rtweet
