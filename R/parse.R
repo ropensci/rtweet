@@ -29,7 +29,7 @@ tweets_df <- function(dat) {
     tweets_retweet_df(dat),
     tweets_place_df(dat))
 
-  tweets_df
+  tweets_df[!duplicated(tweets_df), ]
 }
 
 #' user_df
@@ -52,7 +52,7 @@ user_df <- function(dat) {
     user_toplevel_df(dat),
     user_entities_df(dat))
 
-  user_df
+  user_df[!duplicated(user_df), ]
 }
 
 #' parser
