@@ -7,17 +7,24 @@ R package for collecting Twitter data via Twitter's REST and stream API's.
 
 Key features
 
+- ***SAVING DATA AS CSV***: Several people have asked how to save data
+as a CSV file (or something they can open with Excel). There is now a 
+`save_as_csv` function in the development (github) version of `rtweet`.
+If you'd like to save CSV files using the CRAN version, then 
+[use this code](https://gist.github.com/mkearney/7474b64f9db177435de540f5fa63a087)
+until the next update is posted to CRAN.
+
 - ***UPDATE***: Most functions now return data tables for both tweets
 **and** users. So, if you search for tweets, you also get data
 for the users responsible for the returned tweets. If you look up
 users, you also get the most recent tweet for each user.
 
-- Gather **tweet** data by searching past tweets `search_tweets()`, 
+- Gather **tweet data** by searching past tweets `search_tweets()`, 
 streaming live tweets `stream_tweets()`, or collecting tweets from 
 a user's timeline `get_timeline()`. Easily return data on 
 **thousands** of tweets at a time.
 
-- Gather **user** data by looking up Twitter users `lookup_users()`.
+- Gather **user data** by looking up Twitter users `lookup_users()`.
 Easily return data on thousands of users.
 
 - Gather **followers** and **friends** data by collecting the ids of 
