@@ -1,8 +1,10 @@
+skip_on_cran()
+
 library(rtweet)
 
 context("Get timelines")
 
-n <- 175
+n <- 25
 d <- get_timeline("kearneymw", n = n)
 
 test_that("get_timeline returns two data frames", {

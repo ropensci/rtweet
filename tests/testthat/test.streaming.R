@@ -4,10 +4,7 @@ library(rtweet)
 
 context("Stream tweets")
 
-strm <- stream_tweets(
-  "tweet",
-  timeout = 15,
-  verbose = FALSE)
+strm <- stream_tweets("r", timeout = 3, verbose = FALSE)
 
 test_that("stream_tweets returns two data frames", {
   expect_equal(length(strm), 2)

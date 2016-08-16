@@ -4,12 +4,10 @@ library(rtweet)
 
 context("Search tweets")
 
-n <- 175
+n <- 25
 srch <- search_tweets(
-  "twitter",
-  n = n,
+  "twitter", n = n,
   lang = "en",
-  parse = TRUE,
   verbose = FALSE)
 
 test_that("search_tweets returns two data frames", {
