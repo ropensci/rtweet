@@ -75,11 +75,12 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
     file(file_name),
     verbose = FALSE)
 
-  message(paste0("Collected ", n_row(s), " tweets!"))
-
   if (is.null(file_name)) file.remove(file_name)
 
-  if (parse) s <- parser(s)
+  if (parse) {
+    s <- parser(s)
+    message(paste0("Collected ", n_row(s), " tweets!"))
+  }
 
   s
 }
