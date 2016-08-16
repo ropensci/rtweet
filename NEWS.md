@@ -1,3 +1,12 @@
+# rtweet 0.2.1
+
+* Output for `get_friends()` and `get_followers()` is now a tibble 
+of "ids". To retrieve next cursor value, use new `next_cursor()`
+function.
+
+* Major stability improvements via testthat tests for every major
+function.
+
 # rtweet 0.2.0
 
 * Since previous CRAN release, numerous new features and improvements

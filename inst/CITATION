@@ -5,7 +5,7 @@ citEntry(
   title        = "rtweet: Collecting Twitter Data",
   author       = as.person("Michael Wayne Kearney"),
   year         = "2016",
-  note         = "R package version 0.2.0",
+  note         = "R package version 0.2.1",
   url          = "https://github.com/mkearney/rtweet",
   key          = "rtweet-package",
   textVersion  = paste(
