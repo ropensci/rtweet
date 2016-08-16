@@ -13,14 +13,12 @@ exclude_list_null <- function(x) {
   x
 }
 
-#' @importFrom dplyr tbl_df
+#' @importFrom dplyr data_frame
 return_n_rows <- function(x, n = NULL) {
-  stopifnot(is.data.frame(x))
-  x <- x[seq_n_rows(n), ]
   if (!any(c("tbl_df", "tibble", "tbl") %in% class(x))) {
-    x <- tbl_df(x)
+    x <- data_frame(x)
   }
-  x
+  x[seq_n_rows(n), ]
 }
 
 seq_n_rows <- function(n) {

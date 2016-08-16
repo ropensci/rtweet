@@ -103,7 +103,6 @@ parser <- function(x, n = NULL) {
 #'   parent function used to generate x input).
 #'
 #' @noRd
-#' @importFrom dplyr tbl_df
 parse_fs <- function(x, n = NULL) {
   if (length(x) == 1) {
     next_cursor <- x[[1]][["next_cursor_str"]]
@@ -113,12 +112,13 @@ parse_fs <- function(x, n = NULL) {
     next_cursor <- return_last(next_cursor)
     x <- unlist(lapply(x, function(x) x[["ids"]]))
   }
-  if (!is.null(n)) {
-    if (n < length(x)) {
-      x <- x[seq_along(n)]
-    }
-  }
-  list(next_cursor = next_cursor, ids = tbl_df(x))
+  x <- return_n_rows(x, n)
+
+  names(x) <- "ids"
+
+  attr(x, "next_cursor") <- next_cursor
+
+  x
 }
 
 #' parse_tweets
