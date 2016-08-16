@@ -22,6 +22,8 @@
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable tokens.
+#' @param verbose Logical, indicating whether or not to output
+#'   processing/retrieval messages.
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.
@@ -69,7 +71,7 @@
 #'   tibble data_frame.
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
-  parse = TRUE, token = NULL, ...) {
+  parse = TRUE, token = NULL, verbose = TRUE, ...) {
 
   query <- "search/tweets"
 
@@ -103,13 +105,16 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
     query = query,
     param = params)
 
-  message("Searching for tweets...")
+  if (verbose) message("Searching for tweets...")
 
   tw <- scroller(url, n, n.times, token)
 
   if (parse) {
     tw <- parser(tw, n)
-    message(paste0("Collected ", n_row(tw), " tweets!"))
+  }
+
+  if (verbose) {
+    message(paste0("Collected ", n_tweets(tw), " tweets!"))
   }
 
   tw

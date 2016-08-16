@@ -24,6 +24,8 @@
 #'   an environment variable.
 #' @param file_name Character with name of file. By default, this
 #'   generates random file name and parses tweets.
+#' @param verbose Logical, indicating whether or not to output
+#'   processing/retrieval messages.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
 #' @examples
 #' \dontrun{
@@ -40,7 +42,8 @@
 #' @importFrom jsonlite stream_in
 #' @export
 stream_tweets <- function(q, timeout = 30, parse = TRUE,
-                          token = NULL, file_name = NULL) {
+                          token = NULL, file_name = NULL,
+                          verbose = TRUE) {
 
   token <- check_token(token)
 
@@ -59,11 +62,15 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
 
   if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
 
-  if (!grepl(".json", file_name)) file_name <- paste0(file_name, ".json")
+  if (!grepl(".json", file_name)) {
+    file_name <- paste0(file_name, ".json")
+  }
 
   if (!file.exists(file_name)) file.create(file_name)
 
-  message(paste0("Streaming tweets for ", timeout, " seconds..."))
+  if (verbose) {
+    message(paste0("Streaming tweets for ", timeout, " seconds..."))
+  }
 
   TWIT(
     get = FALSE, url,
@@ -77,9 +84,10 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
 
   if (is.null(file_name)) file.remove(file_name)
 
-  if (parse) {
-    s <- parser(s)
-    message(paste0("Collected ", n_row(s), " tweets!"))
+  if (parse) s <- parser(s)
+
+  if (verbose) {
+    message(paste0("Collected ", n_tweets(s), " tweets!"))
   }
 
   s

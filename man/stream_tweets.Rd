@@ -5,7 +5,7 @@
 \title{stream_tweets}
 \usage{
 stream_tweets(q, timeout = 30, parse = TRUE, token = NULL,
-  file_name = NULL)
+  file_name = NULL, verbose = TRUE)
 }
 \arguments{
 \item{q}{Character vector with desired phrases and keywords
@@ -28,6 +28,9 @@ an environment variable.}
 
 \item{file_name}{Character with name of file. By default, this
 generates random file name and parses tweets.}
+
+\item{verbose}{Logical, indicating whether or not to output
+processing/retrieval messages.}
 }
 \value{
 Tweets data returned as a tibble data_frame

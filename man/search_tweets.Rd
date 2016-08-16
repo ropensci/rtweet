@@ -5,7 +5,7 @@
 \title{search_tweets}
 \usage{
 search_tweets(q, n = 100, type = "mixed", max_id = NULL, parse = TRUE,
-  token = NULL, ...)
+  token = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{q}{Character, search query of no greater than
@@ -32,6 +32,9 @@ API return objects.}
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
 an environment variable tokens.}
+
+\item{verbose}{Logical, indicating whether or not to output
+processing/retrieval messages.}
 
 \item{\dots}{Futher arguments passed on to \code{make_url}.
 All named arguments that do not match the above arguments
