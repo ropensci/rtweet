@@ -40,11 +40,10 @@ get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
     n <- 75000
   }
 
-  stopifnot(is_n(n), is.atomic(user), is.atomic(page))
-
-  if (length(user) > 1) {
-    stop("can only return followers for one user at a time.", call. = FALSE)
-  }
+  stopifnot(is_n(n),
+    is.atomic(user),
+    is.atomic(page),
+    isTRUE(length(user) == 1))
 
   token <- check_token(token, query)
 
