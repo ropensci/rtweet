@@ -1,31 +1,10 @@
-parse_users <- function(x) {
-
-  if ("statuses" %in% names(x)) {
-    x <- x[["statuses"]]
-  }
-
-  if ("friends_count" %in% names(x)) {
-    return(user_df(x))
-  }
-
-  if ("statuses" %in% names(x)) {
-    x <- x[["statuses"]]
-  }
-
-  if ("user" %in% names(x)) {
-    return(user_df(x[["user"]]))
-  }
-
-  return(invisible())
-}
-
 
 usr_ent_urls <- function(x, list = FALSE) {
 
   if (is.data.frame(x)) {
     if ("expanded_url" %in% names(x)) {
       if (list) {
-        x <- as.character(x[["expanded_url"]])
+        x <- as.list(x[["expanded_url"]])
       } else {
         x <- x[["expanded_url"]]
       }
@@ -103,7 +82,7 @@ user_entities_df <- function(dat, n = NULL) {
 
   user_ent_df <- data_frame(
     url = rep(NA_character_, n),
-    description_urls = as.list(rep(NA_character_, n)))
+    description_urls = rep(NA_character_, n))
 
   if ("entities" %in% names(dat)) {
     entities <- dat[["entities"]]

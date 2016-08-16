@@ -19,7 +19,7 @@
 #'   file_name will be used as base for the two saved files.
 #'   For example, \code{file_name = "election"} would save files
 #'   as "election.tweets.csv" and "election.users.csv".
-#'
+#' @importFrom utils write.csv
 #' @export
 save_as_csv <- function(x, file_name) {
   if (missing(file_name)) {

@@ -1,17 +1,3 @@
-parse_tweets <- function(x) {
-
-  if ("statuses" %in% names(x)) {
-    x <- x[["statuses"]]
-  } else if ("status" %in% names(x)) {
-    x <- x[["status"]]
-  }
-
-  if (!"friends_count" %in% names(x)) {
-    return(tweets_df(x))
-  }
-
-  return(invisible())
-}
 
 check_response_obj <- function(dat) {
 

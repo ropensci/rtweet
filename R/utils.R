@@ -6,38 +6,29 @@ return_last <- function(x, n = 1) {
 #' @importFrom dplyr bind_rows
 bply <- function(x, f) {
   x <- bind_rows(lapply(x, f))
-  x[!duplicated(x), ]
+}
+
+exclude_list_null <- function(x) {
+  if (is.list(x)) x <- x[!sapply(x, is.null)]
+  x
 }
 
 #' @importFrom dplyr tbl_df
-n_rows <- function(x, n = NULL) {
+return_n_rows <- function(x, n = NULL) {
   stopifnot(is.data.frame(x))
-  if (!is.null(n)) {
-    if (nrow(x) > n) {
-      x <- x[seq_len(n), ]
-    }
-  }
-  if (!"tibble" %in% class(x)) {
+  x <- x[seq_n_rows(n), ]
+  if (!any(c("tbl_df", "tibble", "tbl") %in% class(x))) {
     x <- tbl_df(x)
   }
   x
 }
 
-n_tweets <- function(x) {
-  tryCatch(tweet_counter(x),
-    error = function(e) return(NULL))
-}
-
-tweet_counter <- function(x) {
-  if (is.null(names(x))) {
-    return(unique_id_count(x))
+seq_n_rows <- function(n) {
+  if (is.null(n)) {
+    return(TRUE)
+  } else {
+    seq_len(n)
   }
-  if (identical("tweets", names(x)[1])) {
-    return(nrow(x$tweets))
-  }
-  stopifnot(is.data.frame(x))
-
-  nrow(x)
 }
 
 nanull <- function(x) {
@@ -133,6 +124,20 @@ return_with_NA <- function(x, n) {
     }
   }
   x
+}
+
+is_na <- function(x) {
+  if (is.list(x)) {
+    sapply(x, is.null)
+  } else {
+    is.na(x)
+  }
+}
+
+filter_na_rows <- function(x) {
+  foo <- function(x) all(is_na(x))
+  stopifnot(is.data.frame(x))
+  x[!apply(x, 1, foo), ]
 }
 
 #' @keywords internal

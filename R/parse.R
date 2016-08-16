@@ -55,33 +55,39 @@ user_df <- function(dat) {
   user_df[!duplicated(user_df), ]
 }
 
-#' parser
+#' rtweet_parser
 #'
 #' @description Parses tweets and users objects. Returns data frames
 #'   for each.
 #'
 #' @param x List, fromJSON nested list object
-#' @param n Numeric, number of desired tweets to return
+#' @param n Numeric, number of rows to return for tweets object
 #'
+#' @return Parsed data frame
+#' @export
+rtweet_parser <- function(x, n = NULL) {
+  parser(x, n)
+}
+
 #' @importFrom dplyr bind_rows
-#' @noRd
 parser <- function(x, n = NULL) {
-  if (is.data.frame(x)) {
+  tweets <- data.frame()
+  users <- data.frame()
+
+  if (all(is.data.frame(x), "id_str" %in% names(x))) {
     tweets <- parse_tweets(x)
     users <- parse_users(x)
   } else {
     stopifnot(is.list(x))
-
     tweets <- bply(x, parse_tweets)
-    tweets <- n_rows(tweets, n)
-
     users <- bply(x, parse_users)
-    users <- n_rows(users, n)
   }
 
-  list(
-    tweets = tweets,
-    users = users)
+  tweets <- return_n_rows(tweets, n)
+  users <- return_n_rows(users, n)
+  users <- filter_na_rows(users)
+
+  list(tweets = tweets, users = users)
 }
 
 #' parse_fs
@@ -115,6 +121,14 @@ parse_fs <- function(x, n = NULL) {
   list(next_cursor = next_cursor, ids = tbl_df(x))
 }
 
+#' parse_tweets
+#'
+#' @description Converts nested json list object to tweets
+#'   data_frame
+#' @param x Nested json list object
+#'
+#' @return Tweets data as tbl (tibble) data table
+#' @export
 parse_tweets <- function(x) {
 
   if ("statuses" %in% names(x)) {
@@ -125,6 +139,35 @@ parse_tweets <- function(x) {
 
   if (!"friends_count" %in% names(x)) {
     return(tweets_df(x))
+  }
+
+  return(invisible())
+}
+
+#' parse_users
+#'
+#' @description Converts nested json list object to users
+#'   data_frame
+#' @param x Nested json list object
+#'
+#' @return Users data as tbl (tibble) data table
+#' @export
+parse_users <- function(x) {
+
+  if ("statuses" %in% names(x)) {
+    x <- x[["statuses"]]
+  }
+
+  if ("friends_count" %in% names(x)) {
+    return(user_df(x))
+  }
+
+  if ("statuses" %in% names(x)) {
+    x <- x[["statuses"]]
+  }
+
+  if ("user" %in% names(x)) {
+    return(user_df(x[["user"]]))
   }
 
   return(invisible())

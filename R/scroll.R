@@ -31,8 +31,7 @@ scroller <- function(url, n, n.times, ..., catch_error = FALSE) {
       url$query$max_id <- get_max_id(x[[i]])
     }
   }
-
-  x
+  exclude_list_null(x)
 }
 
 

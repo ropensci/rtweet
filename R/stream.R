@@ -87,7 +87,7 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
   if (parse) s <- parser(s)
 
   if (verbose) {
-    message(paste0("Collected ", n_tweets(s), " tweets!"))
+    message("Finished collecting tweets!")
   }
 
   s

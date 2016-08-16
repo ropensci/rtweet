@@ -114,7 +114,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   }
 
   if (verbose) {
-    message(paste0("Collected ", n_tweets(tw), " tweets!"))
+    message("Finished collecting tweets!")
   }
 
   tw
