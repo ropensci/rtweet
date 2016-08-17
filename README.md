@@ -60,51 +60,16 @@ token <- create_token(app = "rtweet_tokens", # whatever you named app
 tw <- search_tweets("r", n = 1200, token = token, lang = "en")
 #> Searching for tweets...
 #> Finished collecting tweets!
-tw
-#> # A tibble: 1,200 x 27
-#>             created_at          status_id retweet_count favorite_count
-#>                 <time>              <chr>         <int>          <int>
-#> 1  2016-08-16 19:57:06 765714031621451777          1334           2215
-#> 2  2016-08-16 17:26:22 765676100747833345          1711           7831
-#> 3  2016-08-15 23:16:23 765401795258482689          1907           6685
-#> 4  2016-08-16 20:57:47 765729303002685441             0              0
-#> 5  2016-08-16 20:57:46 765729301702606848             0              0
-#> 6  2016-08-16 20:57:46 765729301560000513          1466              0
-#> 7  2016-08-16 20:57:46 765729300427464704             2              0
-#> 8  2016-08-16 20:57:46 765729300255428608             0              0
-#> 9  2016-08-16 20:57:46 765729299676758016             2              0
-#> 10 2016-08-16 20:57:46 765729299374731265             0              0
-#> # ... with 1,190 more rows, and 23 more variables: text <chr>,
-#> #   in_reply_to_status_id <chr>, in_reply_to_user_id <chr>,
-#> #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
-#> #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
-#> #   urls <list>, is_retweet <lgl>, retweet_status_id <chr>,
-#> #   place_name <chr>, country <chr>, long1 <dbl>, long2 <dbl>,
-#> #   long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>, lat3 <dbl>,
-#> #   lat4 <dbl>
 ```
 
 ``` r
+tw
+```
+
+-   `search_tweets()` also returns a users data frame (users who posted the tweets identified via search). To call users data, use the `users_data()` function.
+
+``` r
 users_data(tw)
-#> # A tibble: 1,200 x 19
-#>       user_id                name     screen_name
-#>         <chr>               <chr>           <chr>
-#> 1   109303622 Pretty Little Liars     PLLTVSeries
-#> 2   910874659             RiceGum         RiceGum
-#> 3    75641903       Carrie Fisher   carrieffisher
-#> 4   559943767        Blondes R Us     Blonds_R_US
-#> 5  3324160841   CaramelApple Chey   cheyennelanee
-#> 6   300487221         lil bitty ♊️    BureenuhDuhh
-#> 7    30004264        gayleen gray      ggatguelph
-#> 8   267558200    Reddit Beertrade redditbeertrade
-#> 9    28910724          JoeBucsFan      JoeBucsFan
-#> 10 3995336123      Sprint Forward   sprintforward
-#> # ... with 1,190 more rows, and 16 more variables: location <chr>,
-#> #   description <chr>, url <chr>, protected <lgl>, followers_count <int>,
-#> #   friends_count <int>, listed_count <int>, created_at <time>,
-#> #   favourites_count <int>, utc_offset <int>, time_zone <chr>,
-#> #   geo_enabled <lgl>, verified <lgl>, statuses_count <int>, lang <chr>,
-#> #   description_urls <list>
 ```
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs)
