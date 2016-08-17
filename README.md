@@ -54,50 +54,11 @@ token <- create_token(app = "rtweet_tokens", # whatever you named app
 # I xxx'd out the secret key, but you get the idea
 ```
 
--   Specify token in call
+-   To use it, specify token in the token argument in your function call like the example below:
 
 ``` r
 tw <- search_tweets("r", n = 1200, token = token, lang = "en")
-#> Searching for tweets...
-#> Finished collecting tweets!
 ```
-
-``` r
-tw
-```
-
-    #> # A tibble: 3 x 27
-    #>            created_at          status_id retweet_count favorite_count
-    #>                <time>              <chr>         <int>          <int>
-    #> 1 2016-08-16 19:57:06 765714031621451777          1363           2279
-    #> 2 2016-08-16 17:26:22 765676100747833345          1719           7866
-    #> 3 2016-08-15 23:16:23 765401795258482689          1907           6685
-    #> # ... with 23 more variables: text <chr>, in_reply_to_status_id <chr>,
-    #> #   in_reply_to_user_id <chr>, is_quote_status <lgl>,
-    #> #   quoted_status_id <chr>, source <chr>, lang <chr>, user_id <chr>,
-    #> #   user_mentions <list>, hashtags <list>, urls <list>, is_retweet <lgl>,
-    #> #   retweet_status_id <chr>, place_name <chr>, country <chr>, long1 <dbl>,
-    #> #   long2 <dbl>, long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>,
-    #> #   lat3 <dbl>, lat4 <dbl>
-
--   `search_tweets()` also returns a users data frame (users who posted the tweets identified via search). To call users data, use the `users_data()` function.
-
-``` r
-users_data(tw)
-```
-
-    #> # A tibble: 3 x 19
-    #>     user_id                name   screen_name
-    #>       <chr>               <chr>         <chr>
-    #> 1 109303622 Pretty Little Liars   PLLTVSeries
-    #> 2 910874659             RiceGum       RiceGum
-    #> 3  75641903       Carrie Fisher carrieffisher
-    #> # ... with 16 more variables: location <chr>, description <chr>,
-    #> #   url <chr>, protected <lgl>, followers_count <int>,
-    #> #   friends_count <int>, listed_count <int>, created_at <time>,
-    #> #   favourites_count <int>, utc_offset <int>, time_zone <chr>,
-    #> #   geo_enabled <lgl>, verified <lgl>, statuses_count <int>, lang <chr>,
-    #> #   description_urls <list>
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs)
 
