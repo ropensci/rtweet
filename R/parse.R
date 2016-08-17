@@ -1,3 +1,65 @@
+#' next_cursor
+#'
+#' @description Returns next cursor from ids object.
+#'
+#' @param x Ids object (typically the output from
+#'   \link{\code{get_friends}}) or \link{\code{get_followers}}).
+#'
+#' @return Next cursor character string used in page argument
+#' @export
+next_cursor <- function(x) {
+  attr(x, "next_cursor")
+}
+
+attr_tweetusers <- function(x) {
+  stopifnot(is.list(x), isTRUE(length(x) == 2))
+  if (all.equal(names(x)[1], "tweets")) {
+    d <- x$tweets
+    attr(d, "users") <- x$users
+  } else if (all.equal(names(x)[1], "users")) {
+    d <- x$users
+    attr(d, "tweets") <- x$tweets
+  }
+  d
+}
+
+#' users_data
+#'
+#' @description Returns users data from rtweet function output.
+#'
+#' @param x Data frame from \link{\code{search_tweets}} or
+#'   \link{\code{stream_tweets}}.
+#'
+#' @return Users data tibble
+#' @export
+users_data <- function(x) {
+  stopifnot(is.data.frame(x))
+  if (any(c("friends_count", "user_id") %in% names(x))) {
+    return(x)
+  } else {
+    return(attr(x, "users"))
+  }
+}
+
+#' tweets_data
+#'
+#' @description Returns tweets data from rtweet function output.
+#'
+#' @param x Data frame from \link{\code{lookup_users}} or
+#'   \link{\code{get_tweets}}.
+#'
+#' @return Tweets data tibble
+#' @export
+tweets_data <- function(x) {
+  stopifnot(is.data.frame(x))
+  if (any(c("is_quote_status", "status_id") %in% names(x))) {
+    return(x)
+  } else {
+    return(attr(x, "tweets"))
+  }
+}
+
+
 #' tweets_df
 #'
 #' @description Converts tweets object (nested list converted from
