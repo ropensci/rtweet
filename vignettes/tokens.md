@@ -20,7 +20,8 @@ library(rtweet)
 To create a Twitter app, go to [http://apps.twitter.com/app/new](http://apps.twitter.com/app/new) 
 and provide a `Name`, `Description`, `Website`, and `Callback URL`.
 The first three fields are up to you (notes: app name must be unique and
-URL must be real--usisng your Twitter profile link works). However, for `Callback URL`, make sure to
+URL must be real--usisng your Twitter profile link works). 
+However, for `Callback URL`, make sure to
 enter the following: `http://127.0.0.1:1410`
 
 <p align="center">
@@ -61,10 +62,10 @@ function and store the output as `twitter_tokens`.
 
 ``` r
 twitter_tokens <- c(
-  create_token(app = rtweet_tokens, 
+  create_token(app = "rtweet_tokens", 
     consumer_key = "XZgqotgOZNKlLFJqFbd8NjUtL",
     consumer_secret = "1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"),
-  create_token(app = rtweet_roauth,
+  create_token(app = "rtweet_roauth",
     consumer_key = "XZgqotgOZNKlLFJqFbd8NjUtL",
     consumer_secret = "1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   )
