@@ -46,7 +46,7 @@ Getting started
 
 -   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md). However, for a quick start (note: much slower in long term), you can also follow the instructions below.
 
--   First, you'll need to [create a Twitter app](http://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
+-   First, you'll need to [create a Twitter app](https://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
 
 -   Once you've created an app, record your consumer (api) and secret keys.
 
@@ -66,8 +66,6 @@ tw <- search_tweets("r", n = 1200, token = twitter_token, lang = "en")
 ```
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
-
--   Function demo: [Collecting and analyzing tweets](https://github.com/mkearney/rtweet/blob/master/vignettes/search_tweets.md) using the `search_tweets()` function (a vignette showing how to use the `search_tweets()` function).
 
 Package description
 -------------------
