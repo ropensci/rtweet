@@ -18,7 +18,18 @@
 #' @param \dots Other arguments passed on to \code{make_url}.
 #'
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @examples
+#' \dontrun{
+#' # get 2000 from Donald Trump's account
+#' djt <- get_timeline("realDonaldTrump", n = 2000)
 #'
+#' # data frame where each observation (row) is a different tweet
+#' djt
+#'
+#' # users data for realDonaldTrump is also retrieved.
+#' # access it via users_data() users_data(hrc)
+#' users_data(djt)
+#' }
 #' @return List consisting of two data frames. One with the tweets
 #'   data for a specified user and the second is a single row for
 #'   the user provided.

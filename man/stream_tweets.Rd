@@ -46,13 +46,19 @@ Returns public statuses via one of three methods
 }
 \examples{
 \dontrun{
-# stream tweets mentioning Hillary Clinton for 60 seconds
-hrc <- stream_tweets(q = "hillaryclinton", timeout = 60)
-hrc
+# stream tweets mentioning "election" for 90 seconds
+e <- stream_tweets("election", timeout = 90)
 
-# stream tweets mentioning Donald Trump for 60 seconds
-djt <- stream_tweets(q = "realdonaldtrump", timeout = 60)
-djt
+# data frame where each observation (row) is a different tweet
+e
+
+# users data also retrieved. can access it via users_data()
+users_data(e)
+
+# stream tweets mentioning Obama for 30 seconds
+djt <- stream_tweets("realdonaldtrump", timeout = 30)
+djt # prints tweets data preview
+users_data(djt) # prints users data preview
 }
 
 }

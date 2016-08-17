@@ -36,6 +36,19 @@ List consisting of two data frames. One with the tweets
 Returns timeline of tweets from a specified
   Twitter user.
 }
+\examples{
+\dontrun{
+# get 2000 from Donald Trump's account
+djt <- get_timeline("realDonaldTrump", n = 2000)
+
+# data frame where each observation (row) is a different tweet
+djt
+
+# users data for realDonaldTrump is also retrieved.
+# access it via users_data() users_data(hrc)
+users_data(djt)
+}
+}
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 }

@@ -79,15 +79,15 @@ Twitter API document recommends limiting searches to
 hrc <- search_tweets(q = "hillaryclinton", n = 1000)
 
 # data frame where each observation (row) is a different tweet
-hrc$tweets
+hrc
 
-# data frame where each observation (row) is a different user
-hrc$users
+# users data also retrieved. can access it via users_data()
+users_data(hrc)
 
-# search for 1000 tweets mentioning Donald Trump
-djt <- search_tweets(q = "realdonaldtrump", n = 1000)
-djt$tweets
-djt$users
+# search for 1000 tweets in English
+djt <- search_tweets(q = "realdonaldtrump", n = 1000, lang = "en")
+djt # prints tweets data preview
+users_data(djt) # prints users data preview
 }
 }
 \seealso{
