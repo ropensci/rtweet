@@ -114,7 +114,7 @@ user_df <- function(dat) {
     user_toplevel_df(dat),
     user_entities_df(dat))
 
-  user_df[!duplicated(user_df), ]
+  user_df <- user_df[!duplicated(user_df), ]
 }
 
 #' rtweet_parser

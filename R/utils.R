@@ -6,6 +6,7 @@ return_last <- function(x, n = 1) {
 #' @importFrom dplyr bind_rows
 bply <- function(x, f) {
   x <- bind_rows(lapply(x, f))
+  x <- x[!duplicated(x), ]
 }
 
 exclude_list_null <- function(x) {
@@ -124,12 +125,21 @@ return_with_NA <- function(x, n) {
   x
 }
 
+is_empty_list <- function(x) {
+  if (is.list(x)) {
+    is.null(unlist(x))
+  }
+}
+
 is_na <- function(x) {
   if (is.list(x)) {
-    sapply(x, is.null)
+    x <- unlist(lapply(x, function(x)
+      any(is.null(x), suppressWarnings(is.na(x)), is_empty_list(x))),
+      recursive = FALSE)
   } else {
-    is.na(x)
+    x <- is.na(x)
   }
+  x
 }
 
 filter_na_rows <- function(x) {
