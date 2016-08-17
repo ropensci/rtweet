@@ -111,6 +111,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 
   if (parse) {
     tw <- parser(tw, n)
+    tw <- attr_tweetusers(tw)
   }
 
   if (verbose) {
