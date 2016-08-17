@@ -8,7 +8,7 @@ next_cursor(x)
 }
 \arguments{
 \item{x}{Ids object (typically the output from
-\link{\code{get_friends}}) or \link{\code{get_followers}}).}
+\code{get_friends} or \code{get_followers}).}
 }
 \value{
 Next cursor character string used in page argument

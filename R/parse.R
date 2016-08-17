@@ -3,7 +3,7 @@
 #' @description Returns next cursor from ids object.
 #'
 #' @param x Ids object (typically the output from
-#'   \link{\code{get_friends}}) or \link{\code{get_followers}}).
+#'   \code{get_friends} or \code{get_followers}).
 #'
 #' @return Next cursor character string used in page argument
 #' @export
@@ -27,8 +27,8 @@ attr_tweetusers <- function(x) {
 #'
 #' @description Returns users data from rtweet function output.
 #'
-#' @param x Data frame from \link{\code{search_tweets}} or
-#'   \link{\code{stream_tweets}}.
+#' @param x Data frame from \code{search_tweets} or
+#'   \code{stream_tweets}.
 #'
 #' @return Users data tibble
 #' @export
@@ -45,8 +45,8 @@ users_data <- function(x) {
 #'
 #' @description Returns tweets data from rtweet function output.
 #'
-#' @param x Data frame from \link{\code{lookup_users}} or
-#'   \link{\code{get_tweets}}.
+#' @param x Data frame from \code{lookup_users} or
+#'   \code{get_tweets}.
 #'
 #' @return Tweets data tibble
 #' @export

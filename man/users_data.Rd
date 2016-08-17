@@ -7,8 +7,8 @@
 users_data(x)
 }
 \arguments{
-\item{x}{Data frame from \link{\code{search_tweets}} or
-\link{\code{stream_tweets}}.}
+\item{x}{Data frame from \code{search_tweets} or
+\code{stream_tweets}.}
 }
 \value{
 Users data tibble
