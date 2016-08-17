@@ -5,24 +5,27 @@ library(rtweet)
 context("Get timelines")
 
 n <- 25
-d <- get_timeline("kearneymw", n = n)
+x <- get_timeline("kearneymw", n = n)
 
-test_that("get_timeline returns two data frames", {
-  expect_equal(length(d), 2)
-  expect_named(d, c("tweets", "users"))
+test_that("search_tweets returns tweets data", {
+  expect_equal(is.data.frame(x), TRUE)
+  expect_named(x)
+  expect_true("status_id" %in% names(x))
 })
 
-tweets <- d[["tweets"]]
-users <- d[["users"]]
-
-test_that(paste0("tweets df contains ", n, " rows and > 23 columns"), {
-  expect_equal(nrow(tweets), n)
-  expect_gt(ncol(tweets), 23)
-  expect_named(tweets)
+test_that(paste0("tweets data contains ", n, " rows and 27 columns"), {
+  expect_equal(nrow(x), n)
+  expect_gt(ncol(x), 23)
 })
 
-test_that(paste0("users df contains > 1 rows and 19 columns"), {
-  expect_gt(nrow(users), 0)
-  expect_gt(ncol(users), 15)
-  expect_named(users)
+test_that("search_tweets object contains users attribute", {
+  expect_true("users" %in% names(attributes(x)))
+  expect_true(is.data.frame(attr(x, "users")))
+  expect_true(is.data.frame(users_data(x)))
+})
+
+test_that(paste0("users data contains > 0 rows and 19 columns"), {
+  expect_gt(nrow(users_data(x)), 0)
+  expect_gt(ncol(users_data(x)), 15)
+  expect_named(users_data(x))
 })

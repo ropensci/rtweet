@@ -52,7 +52,10 @@ get_timeline <- function(user, n = 200, max_id = NULL,
 
   tm <- scroller(url, n, n.times, token)
 
-  if (parse) tm <- parser(tm, n)
+  if (parse) {
+    tm <- parser(tm, n)
+    tm <- attr_tweetusers(tm)
+  }
 
   tm
 }

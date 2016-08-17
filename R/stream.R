@@ -84,7 +84,10 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
 
   if (is.null(file_name)) file.remove(file_name)
 
-  if (parse) s <- parser(s)
+  if (parse) {
+    s <- parser(s)
+    s <- attr_tweetusers(s)
+  }
 
   if (verbose) {
     message("Finished collecting tweets!")

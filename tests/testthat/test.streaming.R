@@ -4,24 +4,27 @@ library(rtweet)
 
 context("Stream tweets")
 
-strm <- stream_tweets("r", timeout = 3, verbose = FALSE)
+x <- stream_tweets("r", timeout = 3, verbose = FALSE)
 
-test_that("stream_tweets returns two data frames", {
-  expect_equal(length(strm), 2)
-  expect_named(strm, c("tweets", "users"))
+test_that("stream_tweets returns tweets data", {
+  expect_equal(is.data.frame(x), TRUE)
+  expect_named(x)
+  expect_true("status_id" %in% names(x))
 })
 
-tweets <- strm[["tweets"]]
-users <- strm[["users"]]
-
-test_that("tweets df contains > 0 rows and 27 columns", {
-  expect_gt(nrow(tweets), 0)
-  expect_gt(ncol(tweets), 23)
-  expect_named(tweets)
+test_that("tweets data contains > 0 rows and 27 columns", {
+  expect_gt(nrow(x), 0)
+  expect_gt(ncol(x), 23)
 })
 
-test_that(paste0("users df contains > 0 rows and 19 columns"), {
-  expect_gt(nrow(users), 0)
-  expect_gt(ncol(users), 15)
-  expect_named(users)
+test_that("stream_tweets returns users attribute", {
+  expect_true("users" %in% names(attributes(x)))
+  expect_true(is.data.frame(attr(x, "users")))
+  expect_true(is.data.frame(users_data(x)))
+})
+
+test_that(paste0("users data contains > 0 rows and 19 columns"), {
+  expect_gt(nrow(users_data(x)), 0)
+  expect_gt(ncol(users_data(x)), 15)
+  expect_named(users_data(x))
 })
