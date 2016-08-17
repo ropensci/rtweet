@@ -1,23 +1,3 @@
-
-check_response_obj <- function(dat) {
-
-  if (missing(dat)) {
-    stop("Must specify tweets object, dat.", call. = TRUE)
-  }
-
-  if ("statuses" %in% names(dat)) {
-    dat <- dat[["statuses"]]
-  }
-
-  if (!"id_str" %in% names(dat)) {
-    if ("id" %in% names(dat)) {
-      dat$id_str <- dat$id
-    }
-  }
-
-  dat
-}
-
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
                                add.names = NULL) {
 

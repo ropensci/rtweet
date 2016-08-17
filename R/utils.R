@@ -57,7 +57,7 @@ from_js <- function(rsp) {
     x[i] <- .id_type(x[i])
   }
   if (length(unique(x)) > 1) {
-    stop("user object must contain user_ids OR only scree_names, but not both.")
+    stop("users must be user_ids OR screen_names, not both.")
   }
   unique(x)
 }
@@ -163,4 +163,24 @@ is_url <- function(url) {
   } else {
     return(FALSE)
   }
+}
+
+
+check_response_obj <- function(dat) {
+
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
+  }
+
+  if ("statuses" %in% names(dat)) {
+    dat <- dat[["statuses"]]
+  }
+
+  if (!"id_str" %in% names(dat)) {
+    if ("id" %in% names(dat)) {
+      dat$id_str <- dat$id
+    }
+  }
+
+  dat
 }

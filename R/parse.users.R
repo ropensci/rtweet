@@ -46,8 +46,9 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
         "description", "url", "created_at", "favourites_count",
         "utc_offset", "time_zone", "lang")) {
         x[[i]] <- rep(NA_character_, n)
-      } else if (i %in% c("followers_count", "friends_count", "listed_count",
-        "favourites_count", "favorite_count", "statuses_count")) {
+      } else if (i %in% c("followers_count", "friends_count",
+        "listed_count", "favourites_count", "favorite_count",
+        "statuses_count")) {
         x[[i]] <- rep(NA_integer_, n)
       } else if (i == c("protected", "geo_enabled", "verified")) {
         x[[i]] <- rep(NA, n)
