@@ -44,21 +44,25 @@ devtools::install_github("mkearney/rtweet")
 Getting started
 ---------------
 
--   ***Quick authorization method***: [create a Twitter app](http://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
+-   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md). But, for a quick start, you can also follow the instructions below.
 
--   Record your consumer (api) and secret keys and use them with the `create_token()` function.
+-   First, you'll need to [create a Twitter app](http://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
+
+-   Once you've created an app, record your consumer (api) and secret keys.
+
+-   Generate a token by using the `create_token()` function.
 
 ``` r
-token <- create_token(app = "rtweet_tokens", # whatever you named app
+twitter_token <- create_token(app = "rtweet_tokens", # whatever you named app
   consumer_key = "XZgqotgOZNKlLFJqFbd8NjUtL",
   consumer_secret = "1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 # I xxx'd out the secret key, but you get the idea
 ```
 
--   To use it, specify token in the token argument in your function call like the example below:
+-   Make sure to specify `twitter_token` every time you use a data retrieval function, like the example below:
 
 ``` r
-tw <- search_tweets("r", n = 1200, token = token, lang = "en")
+tw <- search_tweets("r", n = 1200, token = twitter_token, lang = "en")
 ```
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
