@@ -13,7 +13,7 @@ next_cursor <- function(x) {
 
 attr_tweetusers <- function(x) {
   stopifnot(is.list(x), isTRUE(length(x) == 2))
-  if (all.equal(names(x)[1], "tweets")) {
+  if (identical(names(x)[1], "tweets")) {
     d <- x$tweets
     attr(d, "users") <- x$users
   } else if (all.equal(names(x)[1], "users")) {
@@ -215,10 +215,6 @@ parse_tweets <- function(x) {
 #' @return Users data as tbl (tibble) data table
 #' @export
 parse_users <- function(x) {
-
-  if ("statuses" %in% names(x)) {
-    x <- x[["statuses"]]
-  }
 
   if ("friends_count" %in% names(x)) {
     return(user_df(x))

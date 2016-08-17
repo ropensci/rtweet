@@ -59,7 +59,10 @@ lookup_users <- function(users, token = NULL, parse = TRUE) {
     if (from > length(users)) break
   }
 
-  if (parse) usr <- parser(usr)
+  if (parse) {
+    usr <- parser(usr)
+    usr <- attr_tweetusers(usr[c("users", "tweets")])
+  }
 
   usr
 }
