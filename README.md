@@ -62,7 +62,7 @@ tw <- search_tweets("r", n = 1200, token = token, lang = "en")
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs)
 
--   Function demo: [Collecting and analyzing tweets using the `search_tweets()` function](https://github.com/mkearney/rtweet/blob/master/vignettes/search_tweets.md) (vignette showing how to use the `search_tweets()` function)
+-   Function demo: [Collecting and analyzing tweets](https://github.com/mkearney/rtweet/blob/master/vignettes/search_tweets.md) using the `search_tweets()` function (a vignette showing how to use the `search_tweets()` function)
 
 Package description
 -------------------
