@@ -1,10 +1,14 @@
 ---
-title: Obtaining and using access tokens
+title: "Obtaining and using access tokens"
 subtitle: "rtweet: Collecting Twitter Data"
 output:
   prettydoc::html_pretty:
     theme: architect
     highlight: github
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 # 
