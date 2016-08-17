@@ -1,3 +1,18 @@
+# rtweet 0.2.2
+
+* Output for `search_tweets()`, `stream_tweets()`, and 
+`get_timeline()` now consists of tweets data and contains users data
+attribute.
+
+* Output for `lookup_users()` now consists of users data and contains
+tweets data attribute.
+
+* To access users data from a tweets object or vice-versa, use
+`users_data()` and `tweets_data()` functions on objects outputed 
+by major rtweet retrieval functions.
+
+* Updated testthat tests
+
 # rtweet 0.2.1
 
 * Output for `get_friends()` and `get_followers()` is now a tibble 
