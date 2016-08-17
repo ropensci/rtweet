@@ -44,7 +44,7 @@ devtools::install_github("mkearney/rtweet")
 Getting started
 ---------------
 
--   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md). However, for a quick start (note: much slower in long term), you can also follow the instructions below.
+-   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd). However, for a quick start (note: much slower in long term), you can also follow the instructions below.
 
 -   First, you'll need to [create a Twitter app](https://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
 
@@ -65,7 +65,7 @@ twitter_token <- create_token(app = "rtweet_tokens", # whatever you named app
 tw <- search_tweets("r", n = 1200, token = twitter_token, lang = "en")
 ```
 
--   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
+-   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
 
 Package description
 -------------------
