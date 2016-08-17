@@ -1,6 +1,4 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-``` ``{r, echo = FALSE} knitr::opts_chunk$set(   collapse = TRUE,   comment = "#>",   fig.path = "README-" ) ```\`\`
-
 rtweet: Collecting Twitter Data
 ===============================
 
@@ -60,79 +58,72 @@ token <- create_token(app = "rtweet_tokens", # whatever you named app
 
 ``` r
 tw <- search_tweets("r", n = 1200, token = token, lang = "en")
-```
-
-    ## Searching for tweets...
-
-    ## Finished collecting tweets!
-
-``` r
+#> Searching for tweets...
+#> Finished collecting tweets!
 print(tw[1:5, ], width = 250)
+#> # A tibble: 5 x 27
+#>            created_at          status_id retweet_count favorite_count
+#>                <time>              <chr>         <int>          <int>
+#> 1 2016-08-16 19:57:06 765714031621451777          1300           2145
+#> 2 2016-08-16 17:26:22 765676100747833345          1709           7787
+#> 3 2016-08-15 23:16:23 765401795258482689          1904           6685
+#> 4 2016-08-16 20:52:13 765727903266971651             0              0
+#> 5 2016-08-16 20:52:13 765727902755270656          6226              0
+#>                                                                                                                                           text
+#>                                                                                                                                          <chr>
+#> 1                                                                        H A L E B\nF O R E V E R.\n#PrettyLittleLiars https://t.co/SxM0NznqfC
+#> 2 NEW VIDEO!Which side R U on? I WAS BORED SO I JUST MADE A DISS TRACK #Justindeactivatedparty #SelenaEndedJustinParty https://t.co/jvxEuBDVXn
+#> 3                                                                                        Rest in Peace R 2 ❤️ D 2️⃣...... https://t.co/oOPGmWlbM6
+#> 4         Girl in the middle under the gas station red light. Look like she nice and drunk enough to "make a mistake". https://t.co/LXL9W5NsE4
+#> 5 RT @Khairykj: Such a champion. First thing he says, "Chief, I'm sorry it wasn't gold." Don't be sorry @AzizulAWANG. We salute you. https://…
+#>   in_reply_to_status_id
+#>                   <chr>
+#> 1                  <NA>
+#> 2                  <NA>
+#> 3                  <NA>
+#> 4                  <NA>
+#> 5                  <NA>
+#> # ... with 21 more variables: in_reply_to_user_id <chr>,
+#> #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
+#> #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
+#> #   urls <list>, is_retweet <lgl>, retweet_status_id <chr>,
+#> #   place_name <chr>, country <chr>, long1 <dbl>, long2 <dbl>,
+#> #   long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>, lat3 <dbl>,
+#> #   lat4 <dbl>
 ```
-
-    ## # A tibble: 5 x 27
-    ##            created_at          status_id retweet_count favorite_count
-    ##                <time>              <chr>         <int>          <int>
-    ## 1 2016-08-16 19:57:06 765714031621451777          1296           2131
-    ## 2 2016-08-16 17:26:22 765676100747833345          1709           7774
-    ## 3 2016-08-15 23:16:23 765401795258482689          1904           6684
-    ## 4 2016-08-16 20:51:06 765727622043086849             1              0
-    ## 5 2016-08-16 20:51:06 765727621812482048             1              0
-    ##                                                                                                                                           text
-    ##                                                                                                                                          <chr>
-    ## 1                                                                        H A L E B\nF O R E V E R.\n#PrettyLittleLiars https://t.co/SxM0NznqfC
-    ## 2 NEW VIDEO!Which side R U on? I WAS BORED SO I JUST MADE A DISS TRACK #Justindeactivatedparty #SelenaEndedJustinParty https://t.co/jvxEuBDVXn
-    ## 3                                                                                        Rest in Peace R 2 ❤️ D 2️⃣...... https://t.co/oOPGmWlbM6
-    ## 4       RT @Ranal55: @livingyourhappy,@Arshi_Anwar,@GypsyPiaf_Padam,@DebTheLibrarian - Thanx for the retweets. Most encouraging.  Regards,  R.
-    ## 5                                               RT @RealStrongfacts: $217 USD is what the government of Zimbabwe had in the bank in Jan, 2013.
-    ##   in_reply_to_status_id
-    ##                   <chr>
-    ## 1                  <NA>
-    ## 2                  <NA>
-    ## 3                  <NA>
-    ## 4                  <NA>
-    ## 5                  <NA>
-    ## # ... with 21 more variables: in_reply_to_user_id <chr>,
-    ## #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
-    ## #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
-    ## #   urls <list>, is_retweet <lgl>, retweet_status_id <chr>,
-    ## #   place_name <chr>, country <chr>, long1 <dbl>, long2 <dbl>,
-    ## #   long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>, lat3 <dbl>,
-    ## #   lat4 <dbl>
 
 ``` r
 print(users_data(tw)[1:5, ], width = 250)
+#> # A tibble: 5 x 27
+#>            created_at          status_id retweet_count favorite_count
+#>                <time>              <chr>         <int>          <int>
+#> 1 2016-08-16 19:57:06 765714031621451777          1300           2145
+#> 2 2016-08-16 17:26:22 765676100747833345          1709           7787
+#> 3 2016-08-15 23:16:23 765401795258482689          1904           6685
+#> 4 2016-08-16 20:52:13 765727903266971651             0              0
+#> 5 2016-08-16 20:52:13 765727902755270656          6226              0
+#>                                                                                                                                           text
+#>                                                                                                                                          <chr>
+#> 1                                                                        H A L E B\nF O R E V E R.\n#PrettyLittleLiars https://t.co/SxM0NznqfC
+#> 2 NEW VIDEO!Which side R U on? I WAS BORED SO I JUST MADE A DISS TRACK #Justindeactivatedparty #SelenaEndedJustinParty https://t.co/jvxEuBDVXn
+#> 3                                                                                        Rest in Peace R 2 ❤️ D 2️⃣...... https://t.co/oOPGmWlbM6
+#> 4         Girl in the middle under the gas station red light. Look like she nice and drunk enough to "make a mistake". https://t.co/LXL9W5NsE4
+#> 5 RT @Khairykj: Such a champion. First thing he says, "Chief, I'm sorry it wasn't gold." Don't be sorry @AzizulAWANG. We salute you. https://…
+#>   in_reply_to_status_id
+#>                   <chr>
+#> 1                  <NA>
+#> 2                  <NA>
+#> 3                  <NA>
+#> 4                  <NA>
+#> 5                  <NA>
+#> # ... with 21 more variables: in_reply_to_user_id <chr>,
+#> #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
+#> #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
+#> #   urls <list>, is_retweet <lgl>, retweet_status_id <chr>,
+#> #   place_name <chr>, country <chr>, long1 <dbl>, long2 <dbl>,
+#> #   long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>, lat3 <dbl>,
+#> #   lat4 <dbl>
 ```
-
-    ## # A tibble: 5 x 27
-    ##            created_at          status_id retweet_count favorite_count
-    ##                <time>              <chr>         <int>          <int>
-    ## 1 2016-08-16 19:57:06 765714031621451777          1296           2131
-    ## 2 2016-08-16 17:26:22 765676100747833345          1709           7774
-    ## 3 2016-08-15 23:16:23 765401795258482689          1904           6684
-    ## 4 2016-08-16 20:51:06 765727622043086849             1              0
-    ## 5 2016-08-16 20:51:06 765727621812482048             1              0
-    ##                                                                                                                                           text
-    ##                                                                                                                                          <chr>
-    ## 1                                                                        H A L E B\nF O R E V E R.\n#PrettyLittleLiars https://t.co/SxM0NznqfC
-    ## 2 NEW VIDEO!Which side R U on? I WAS BORED SO I JUST MADE A DISS TRACK #Justindeactivatedparty #SelenaEndedJustinParty https://t.co/jvxEuBDVXn
-    ## 3                                                                                        Rest in Peace R 2 ❤️ D 2️⃣...... https://t.co/oOPGmWlbM6
-    ## 4       RT @Ranal55: @livingyourhappy,@Arshi_Anwar,@GypsyPiaf_Padam,@DebTheLibrarian - Thanx for the retweets. Most encouraging.  Regards,  R.
-    ## 5                                               RT @RealStrongfacts: $217 USD is what the government of Zimbabwe had in the bank in Jan, 2013.
-    ##   in_reply_to_status_id
-    ##                   <chr>
-    ## 1                  <NA>
-    ## 2                  <NA>
-    ## 3                  <NA>
-    ## 4                  <NA>
-    ## 5                  <NA>
-    ## # ... with 21 more variables: in_reply_to_user_id <chr>,
-    ## #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
-    ## #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
-    ## #   urls <list>, is_retweet <lgl>, retweet_status_id <chr>,
-    ## #   place_name <chr>, country <chr>, long1 <dbl>, long2 <dbl>,
-    ## #   long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>, lat3 <dbl>,
-    ## #   lat4 <dbl>
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs)
 
