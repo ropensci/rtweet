@@ -44,7 +44,8 @@ devtools::install_github("mkearney/rtweet")
 Getting started
 ---------------
 
--   *Quick authorization method*: go [here](http://apps.twitter.com/app/new) and create a Twitter app. In the callback field, enter: `http://127.0.0.1:1410`
+-   *Quick authorization method*: [create a Twitter app](http://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`
+
 -   Enter your consumer (api) and secret keys
 
 ``` r
