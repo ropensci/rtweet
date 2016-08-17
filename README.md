@@ -60,29 +60,23 @@ token <- create_token(app = "rtweet_tokens", # whatever you named app
 tw <- search_tweets("r", n = 1200, token = token, lang = "en")
 #> Searching for tweets...
 #> Finished collecting tweets!
-print(tw[1:5, ], width = 250)
-#> # A tibble: 5 x 27
+print(tw[1:3, ], width = 250)
+#> # A tibble: 3 x 27
 #>            created_at          status_id retweet_count favorite_count
 #>                <time>              <chr>         <int>          <int>
-#> 1 2016-08-16 19:57:06 765714031621451777          1300           2145
-#> 2 2016-08-16 17:26:22 765676100747833345          1709           7787
-#> 3 2016-08-15 23:16:23 765401795258482689          1904           6685
-#> 4 2016-08-16 20:52:13 765727903266971651             0              0
-#> 5 2016-08-16 20:52:13 765727902755270656          6226              0
+#> 1 2016-08-16 19:57:06 765714031621451777          1323           2198
+#> 2 2016-08-16 17:26:22 765676100747833345          1711           7817
+#> 3 2016-08-15 23:16:23 765401795258482689          1906           6685
 #>                                                                                                                                           text
 #>                                                                                                                                          <chr>
 #> 1                                                                        H A L E B\nF O R E V E R.\n#PrettyLittleLiars https://t.co/SxM0NznqfC
 #> 2 NEW VIDEO!Which side R U on? I WAS BORED SO I JUST MADE A DISS TRACK #Justindeactivatedparty #SelenaEndedJustinParty https://t.co/jvxEuBDVXn
 #> 3                                                                                        Rest in Peace R 2 ❤️ D 2️⃣...... https://t.co/oOPGmWlbM6
-#> 4         Girl in the middle under the gas station red light. Look like she nice and drunk enough to "make a mistake". https://t.co/LXL9W5NsE4
-#> 5 RT @Khairykj: Such a champion. First thing he says, "Chief, I'm sorry it wasn't gold." Don't be sorry @AzizulAWANG. We salute you. https://…
 #>   in_reply_to_status_id
 #>                   <chr>
 #> 1                  <NA>
 #> 2                  <NA>
 #> 3                  <NA>
-#> 4                  <NA>
-#> 5                  <NA>
 #> # ... with 21 more variables: in_reply_to_user_id <chr>,
 #> #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
 #> #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
@@ -93,36 +87,32 @@ print(tw[1:5, ], width = 250)
 ```
 
 ``` r
-print(users_data(tw)[1:5, ], width = 250)
-#> # A tibble: 5 x 27
-#>            created_at          status_id retweet_count favorite_count
-#>                <time>              <chr>         <int>          <int>
-#> 1 2016-08-16 19:57:06 765714031621451777          1300           2145
-#> 2 2016-08-16 17:26:22 765676100747833345          1709           7787
-#> 3 2016-08-15 23:16:23 765401795258482689          1904           6685
-#> 4 2016-08-16 20:52:13 765727903266971651             0              0
-#> 5 2016-08-16 20:52:13 765727902755270656          6226              0
-#>                                                                                                                                           text
-#>                                                                                                                                          <chr>
-#> 1                                                                        H A L E B\nF O R E V E R.\n#PrettyLittleLiars https://t.co/SxM0NznqfC
-#> 2 NEW VIDEO!Which side R U on? I WAS BORED SO I JUST MADE A DISS TRACK #Justindeactivatedparty #SelenaEndedJustinParty https://t.co/jvxEuBDVXn
-#> 3                                                                                        Rest in Peace R 2 ❤️ D 2️⃣...... https://t.co/oOPGmWlbM6
-#> 4         Girl in the middle under the gas station red light. Look like she nice and drunk enough to "make a mistake". https://t.co/LXL9W5NsE4
-#> 5 RT @Khairykj: Such a champion. First thing he says, "Chief, I'm sorry it wasn't gold." Don't be sorry @AzizulAWANG. We salute you. https://…
-#>   in_reply_to_status_id
-#>                   <chr>
-#> 1                  <NA>
-#> 2                  <NA>
-#> 3                  <NA>
-#> 4                  <NA>
-#> 5                  <NA>
-#> # ... with 21 more variables: in_reply_to_user_id <chr>,
-#> #   is_quote_status <lgl>, quoted_status_id <chr>, source <chr>,
-#> #   lang <chr>, user_id <chr>, user_mentions <list>, hashtags <list>,
-#> #   urls <list>, is_retweet <lgl>, retweet_status_id <chr>,
-#> #   place_name <chr>, country <chr>, long1 <dbl>, long2 <dbl>,
-#> #   long3 <dbl>, long4 <dbl>, lat1 <dbl>, lat2 <dbl>, lat3 <dbl>,
-#> #   lat4 <dbl>
+print(users_data(tw)[1:3, ], width = 250)
+#> # A tibble: 3 x 19
+#>     user_id                name   screen_name
+#>       <chr>               <chr>         <chr>
+#> 1 109303622 Pretty Little Liars   PLLTVSeries
+#> 2 910874659             RiceGum       RiceGum
+#> 3  75641903       Carrie Fisher carrieffisher
+#>                        location
+#>                           <chr>
+#> 1                          <NA>
+#> 2   ↓Bored? Watch My New Video↓
+#> 3          Los Angeles & London
+#>                                                                                                        description
+#>                                                                                                              <chr>
+#> 1 The official Twitter handle for @FreeformTV's Pretty Little Liars. Don't miss ALL NEW episodes Tuesdays at 8/7c.
+#> 2           Bryan Le | 3.7M+ Subscribers on YouTube |https://t.co/6dT9i5t0ih | Add THE MOST LIT Snapchat: RiceGums
+#> 3                                                         theres no room for demons when you're self possessed....
+#>                          url protected followers_count
+#>                        <chr>     <lgl>           <int>
+#> 1     http://PLLTVSeries.com     FALSE         3677871
+#> 2 http://YouTube.com/RiceGum     FALSE          874624
+#> 3   http://carriefisher.com/     FALSE         1054946
+#> # ... with 11 more variables: friends_count <int>, listed_count <int>,
+#> #   created_at <time>, favourites_count <int>, utc_offset <int>,
+#> #   time_zone <chr>, geo_enabled <lgl>, verified <lgl>,
+#> #   statuses_count <int>, lang <chr>, description_urls <list>
 ```
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.md) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs)

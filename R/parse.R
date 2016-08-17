@@ -34,7 +34,7 @@ attr_tweetusers <- function(x) {
 #' @export
 users_data <- function(x) {
   stopifnot(is.data.frame(x))
-  if (any(c("friends_count", "user_id") %in% names(x))) {
+  if (!"users" %in% names(attributes(x))) {
     return(x)
   } else {
     return(attr(x, "users"))
@@ -52,7 +52,7 @@ users_data <- function(x) {
 #' @export
 tweets_data <- function(x) {
   stopifnot(is.data.frame(x))
-  if (any(c("is_quote_status", "status_id") %in% names(x))) {
+  if (!"tweets" %in% names(attributes(x))) {
     return(x)
   } else {
     return(attr(x, "tweets"))
