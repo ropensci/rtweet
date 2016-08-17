@@ -46,7 +46,7 @@ Getting started
 
 -   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd). However, for a quick start (note: much slower in long term), you can also follow the instructions below.
 
--   First, you'll need to [create a Twitter app](https://apps.twitter.com/app/new). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
+-   First, you'll need to [create a Twitter app](https://apps.twitter.com/). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
 
 -   Once you've created an app, record your consumer (api) and secret keys.
 

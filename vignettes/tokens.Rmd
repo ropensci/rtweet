@@ -23,7 +23,7 @@ library(rtweet)
 
 ## Create Twitter App
 
-- To create a Twitter app, [click here](http://apps.twitter.com/app/new) 
+- To create a Twitter app, [click here](https://apps.twitter.com/) 
 and decide on a `Name`, `Description`, and `Website` for your app (example screenshot provided below).
 - **Important** In the `Callback URL` field, make sure to enter the following: `http://127.0.0.1:1410`
 - Check yes if you agree and then click "Create your Twitter application".
