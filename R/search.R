@@ -120,3 +120,96 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 
   tw
 }
+
+
+
+#' search_users
+#'
+#' @description Returns data frame of users data using a provided
+#'   search query.
+#'
+#' @param q Character, search query of no greater than
+#'   500 characters maximum.
+#' @param n Numeric, specifying the total number of desired users to
+#'   return. Defaults to 100. Maximum number of users returned from
+#'   a single search is 1,000.
+#' @param parse Logical, indicating whether to return parsed
+#'   (data.frames) or nested list (fromJSON) object. By default,
+#'   \code{parse = TRUE} saves users from the time
+#'   [and frustrations] associated with disentangling the Twitter
+#'   API return objects.
+#' @param token OAuth token (1.0 or 2.0). By default
+#'   \code{token = NULL} fetches a non-exhausted token from
+#'   an environment variable tokens.
+#' @param verbose Logical, indicating whether or not to output
+#'   processing/retrieval messages.
+#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @examples
+#' \dontrun{
+#' # search for 1000 tweets mentioning Hillary Clinton
+#' pc <- search_users(q = "political communication", n = 1000)
+#'
+#' # data frame where each observation (row) is a different user
+#' pc
+#'
+#' # tweets data also retrieved. can access it via tweets_data()
+#' users_data(hrc)
+#' }
+#' @return Data table (tibble) of users returned by query.
+#' @export
+search_users <- function(q, n = 20, parse = TRUE, token = NULL,
+	verbose = TRUE) {
+
+	query <- "users/search"
+
+	stopifnot(is_n(n), is.atomic(q))
+
+	token <- check_token(token, query)
+
+	n.times <- rate_limit(token, query)[["remaining"]]
+	if (n.times > 50) n.times <- 50
+
+	if (nchar(q) > 500) {
+		stop("q cannot exceed 500 characters.", call. = FALSE)
+	}
+
+	params <- list(q = q,
+		count = 20,
+		page = 1)
+
+	url <- make_url(
+		query = query,
+		param = params)
+
+	if (verbose) message("Searching for users...")
+
+	usr <- list()
+
+	for (i in seq_len(n.times)) {
+		r <- tryCatch(
+			TWIT(get = TRUE, url, token),
+			error = function(e) NULL)
+
+		if (is.null(r)) break
+
+		usr[[i]] <- from_js(r)
+
+		if (count_users_returned(usr) >= n) break
+
+		url$query$page <- (i + 1)
+	}
+
+	if (parse) {
+		usr <- parser(usr, n)
+		usr <- usr[c("users", "tweets")]
+		usr <- attr_tweetusers(usr)
+	}
+
+	if (verbose) {
+		message("Finished collecting users!")
+	}
+
+	usr
+}
+
+count_users_returned <- function(x) length(unique(unlist(lapply(x, function(x) x[["id_str"]]))))
