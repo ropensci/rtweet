@@ -72,6 +72,10 @@ rtweet_parser <- function(x, n = NULL) {
   parser(x, n)
 }
 
+#' parser
+#'
+#' @param x nested list of API data returned from fromJSON
+#' @param n desired number to return
 #' @importFrom dplyr bind_rows
 #' @keywords internal
 #' @export

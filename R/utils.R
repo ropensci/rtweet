@@ -39,6 +39,9 @@ nanull <- function(x) {
   x
 }
 
+#' from_js
+#'
+#' @param rsp API respose object
 #' @keywords internal
 #' @import httr
 #' @importFrom jsonlite fromJSON

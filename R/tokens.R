@@ -97,6 +97,11 @@ is.token <- function(x) {
   any(class(x) == "Token", class(x) == "Token1.0")
 }
 
+#' check_token
+#'
+#' @param token user token
+#' @param query user of interest
+#'
 #' @keywords internal
 #' @export
 check_token <- function(token, query = NULL) {

@@ -27,7 +27,7 @@
 #'   collection efforts that were interrupted by API rate limits.
 #'   Modify previous data request function by entering the returned
 #'   value from \code{next_cursor} for the \code{page} argument.
-#' @aliases user_data data_user data_users
+#' @aliases next_page cursor_next
 #' @family users
 #' @export
 next_cursor <- function(ids) {
