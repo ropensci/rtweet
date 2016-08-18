@@ -13,12 +13,14 @@ next_cursor <- function(x) {
 
 attr_tweetusers <- function(x) {
   stopifnot(is.list(x), isTRUE(length(x) == 2))
+	d <- data.frame()
   if (identical(names(x)[1], "tweets")) {
-    d <- x$tweets
-    attr(d, "users") <- x$users
-  } else if (all.equal(names(x)[1], "users")) {
-    d <- x$users
-    attr(d, "tweets") <- x$tweets
+    d <- x[["tweets"]]
+    attr(d, "users") <- x[["users"]]
+  }
+  if (identical(names(x)[1], "users")) {
+    d <- x[["users"]]
+    attr(d, "tweets") <- x[["tweets"]]
   }
   d
 }

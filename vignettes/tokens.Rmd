@@ -3,12 +3,16 @@ title: "Obtaining and using access tokens"
 subtitle: "rtweet: Collecting Twitter Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Obtaining and using access tokens}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
-# 
+```{r, include = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+##
 
 This vignette covers how to obtain and use Twitter API 
 access tokens for use in the `rtweet` package.
