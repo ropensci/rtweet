@@ -1,65 +1,4 @@
-#' next_cursor
-#'
-#' @description Returns next cursor from ids object.
-#'
-#' @param x Ids object (typically the output from
-#'   \code{get_friends} or \code{get_followers}).
-#'
-#' @return Next cursor character string used in page argument
-#' @export
-next_cursor <- function(x) {
-  attr(x, "next_cursor")
-}
 
-attr_tweetusers <- function(x) {
-  stopifnot(is.list(x), isTRUE(length(x) == 2))
-	d <- data.frame()
-  if (identical(names(x)[1], "tweets")) {
-    d <- x[["tweets"]]
-    attr(d, "users") <- x[["users"]]
-  }
-  if (identical(names(x)[1], "users")) {
-    d <- x[["users"]]
-    attr(d, "tweets") <- x[["tweets"]]
-  }
-  d
-}
-
-#' users_data
-#'
-#' @description Returns users data from rtweet function output.
-#'
-#' @param x Data frame from \code{search_tweets} or
-#'   \code{stream_tweets}.
-#'
-#' @return Users data tibble
-#' @export
-users_data <- function(x) {
-  stopifnot(is.data.frame(x))
-  if (!"users" %in% names(attributes(x))) {
-    return(x)
-  } else {
-    return(attr(x, "users"))
-  }
-}
-
-#' tweets_data
-#'
-#' @description Returns tweets data from rtweet function output.
-#'
-#' @param x Data frame from \code{lookup_users} or
-#'   \code{get_tweets}.
-#'
-#' @return Tweets data tibble
-#' @export
-tweets_data <- function(x) {
-  stopifnot(is.data.frame(x))
-  if (!"tweets" %in% names(attributes(x))) {
-    return(x)
-  } else {
-    return(attr(x, "tweets"))
-  }
-}
 
 
 #' tweets_df
@@ -134,6 +73,8 @@ rtweet_parser <- function(x, n = NULL) {
 }
 
 #' @importFrom dplyr bind_rows
+#' @keywords internal
+#' @export
 parser <- function(x, n = NULL) {
   tweets <- data.frame()
   users <- data.frame()

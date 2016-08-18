@@ -61,7 +61,8 @@ create_token <- function(app, consumer_key, consumer_secret) {
 #' @param sleep logical indicating whether to force system sleep if
 #'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
 #' @return token with non-exhausted rate limit
-#' @noRd
+#' @keywords internal
+#' @export
 fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
   if (missing(query)) {
@@ -96,7 +97,8 @@ is.token <- function(x) {
   any(class(x) == "Token", class(x) == "Token1.0")
 }
 
-
+#' @keywords internal
+#' @export
 check_token <- function(token, query = NULL) {
 
   if (is.null(token)) {

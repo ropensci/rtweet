@@ -42,6 +42,7 @@ nanull <- function(x) {
 #' @keywords internal
 #' @import httr
 #' @importFrom jsonlite fromJSON
+#' @export
 from_js <- function(rsp) {
 
   if (http_type(rsp) != "application/json") {
