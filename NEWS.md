@@ -1,3 +1,8 @@
+# rtweet 0.2.3
+
+* Added new `search_users()` function! Search for users by keyword,
+name, or interest and return data on the first 1000 hits.
+
 # rtweet 0.2.2
 
 * Output for `search_tweets()`, `stream_tweets()`, and 
