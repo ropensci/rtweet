@@ -10,6 +10,22 @@
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable tokens.
 #'
+#' @examples
+#' \dontrun{
+#' # Retrieve available trends
+#' trends <- available_trends()
+#' trends
+#'
+#' # Store WOEID for Worldwide trends
+#' worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
+#'
+#' # Retrieve worldwide trends datadata
+#' ww_trends <- get_trends(woeid = Worldwide)
+#'
+#' # Preview Worldwide trends data
+#' ww_trends
+#' }
+#'
 #' @return Trend data for a given location.
 #' @export
 get_trends <- function(woeid, exclude = FALSE, token = NULL) {
@@ -77,6 +93,22 @@ format_trend_date <- function(x, date = FALSE) {
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
+#'
+#' @examples
+#' \dontrun{
+#' # Retrieve available trends
+#' trends <- available_trends()
+#' trends
+#'
+#' # Store WOEID for Worldwide trends
+#' worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
+#'
+#' # Retrieve worldwide trends datadata
+#' ww_trends <- get_trends(woeid = Worldwide)
+#'
+#' # Preview Worldwide trends data
+#' ww_trends
+#' }
 #'
 #' @return Data frame with WOEIDs. WOEID is a Yahoo! Where On
 #'   Earth ID.

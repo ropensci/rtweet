@@ -23,4 +23,21 @@ Trend data for a given location.
 \description{
 Returns Twitter trends
 }
+\examples{
+\dontrun{
+# Retrieve available trends
+trends <- available_trends()
+trends
+
+# Store WOEID for Worldwide trends
+worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
+
+# Retrieve worldwide trends datadata
+ww_trends <- get_trends(woeid = Worldwide)
+
+# Preview Worldwide trends data
+ww_trends
+}
+
+}
 

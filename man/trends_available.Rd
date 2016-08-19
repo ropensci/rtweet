@@ -24,4 +24,21 @@ Data frame with WOEIDs. WOEID is a Yahoo! Where On
 \description{
 Returns Twitter trends based on requested WOEID.
 }
+\examples{
+\dontrun{
+# Retrieve available trends
+trends <- available_trends()
+trends
+
+# Store WOEID for Worldwide trends
+worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
+
+# Retrieve worldwide trends datadata
+ww_trends <- get_trends(woeid = Worldwide)
+
+# Preview Worldwide trends data
+ww_trends
+}
+
+}
 
