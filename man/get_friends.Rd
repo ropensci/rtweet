@@ -4,13 +4,10 @@
 \alias{get_friends}
 \title{get_friends}
 \usage{
-get_friends(user, n = 75000, page = "-1", parse = TRUE, token = NULL)
+get_friends(user, page = "-1", parse = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
-
-\item{n}{Number of friends to return. For max return, enter
-\code{n = "all"} or \code{n = 75000} (max per token).}
 
 \item{page}{Default \code{page = -1} specifies first page of json
 results. Other pages specified via cursor values supplied by

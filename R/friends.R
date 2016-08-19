@@ -5,8 +5,6 @@
 #'   by a user). To request information on followers of accounts
 #'
 #' @param user Screen name or user id of target user.
-#' @param n Number of friends to return. For max return, enter
-#'   \code{n = "all"} or \code{n = 75000} (max per token).
 #' @param page Default \code{page = -1} specifies first page of json
 #'   results. Other pages specified via cursor values supplied by
 #'   Twitter API response object.
@@ -31,18 +29,12 @@
 #'
 #' @return friends User ids for everyone a user follows.
 #' @export
-get_friends <- function(user, n = 75000, page = "-1", parse = TRUE,
+get_friends <- function(user, page = "-1", parse = TRUE,
   token = NULL) {
 
   query <- "friends/ids"
 
-  if (n == "all") {
-    n <- 75000
-  }
-
-  stopifnot(is_n(n),
-    is.atomic(user),
-    is.atomic(page),
+  stopifnot(is.atomic(user), is.atomic(page),
     isTRUE(length(user) == 1))
 
   token <- check_token(token, query)
@@ -61,7 +53,7 @@ get_friends <- function(user, n = 75000, page = "-1", parse = TRUE,
     query = query,
     param = params)
 
-  f <- scroller(url, n, n.times, token)
+  f <- scroller(url, 1, n.times, token)
 
   f <- f[!sapply(f, is.null)]
 
