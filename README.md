@@ -2,8 +2,7 @@
 rtweet: Collecting Twitter Data
 ===============================
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
-![Downloads](http://cranlogs.r-pkg.org/badges/rtweet)
+[![CRAN Version](http://www.r-pkg.org/badges/version/rtweet)](http://cran.r-project.org/package=rtweet) ![Downloads](http://cranlogs.r-pkg.org/badges/rtweet)
 
 R package for collecting Twitter data via Twitter's REST and stream API's.
 
@@ -81,16 +80,8 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
--   API Functions
--   `get_retweeters()` Retrieve users retweeting a status (in progress)
--   `get_list()` Retrieve users in list
--   `search_users()` Search for users by name, interest, etc.
--   `lookup_tweets()` Look up tweets via status\_id.
+**API Functions** - `get_retweeters()` Retrieve users retweeting a status (in progress) - `get_list()` Retrieve users in list - `lookup_tweets()` Look up tweets via status\_id.
 
--   Vignettes
--   Guide to `stream_tweets()`
--   Guide to `get_friends()` and `get_followers()`
+**Vignettes** - Guide to `stream_tweets()` - Guide to `get_friends()` and `get_followers()`
 
--   Documentation
--   Search query syntax
--   Stream syntax i.e., filter vs tracking vs location
+**Documentation** - Search query syntax - Stream syntax i.e., filter vs tracking vs location
