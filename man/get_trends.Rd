@@ -7,8 +7,9 @@
 get_trends(woeid, exclude = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
-\item{woeid}{Character, WOEID is a Yahoo! Where On
-Earth ID.}
+\item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or
+character string of desired town or country. To browse all
+available trend places, see \code{\link{available_trends}}}
 
 \item{exclude}{Logical, indicating whether or not to exclude
 hashtags}

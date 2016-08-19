@@ -2,8 +2,9 @@
 #'
 #' @description Returns Twitter trends
 #'
-#' @param woeid Character, WOEID is a Yahoo! Where On
-#'   Earth ID.
+#' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
+#'   character string of desired town or country. To browse all
+#'   available trend places, see \code{\link{available_trends}}
 #' @param exclude Logical, indicating whether or not to exclude
 #'   hashtags
 #' @param token OAuth token (1.0 or 2.0). By default
@@ -36,6 +37,8 @@ get_trends <- function(woeid, exclude = FALSE, token = NULL,
 	stopifnot(is.atomic(woeid), length(woeid) == 1)
 
 	woeid <- check_woeid(woeid)
+
+	stopifnot(woeid)
 
 	query <- "trends/place"
 
