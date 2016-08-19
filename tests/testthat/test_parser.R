@@ -2,7 +2,7 @@ library(rtweet)
 
 context("Parse tweets")
 
-d <- readr::read_rds(".test_data")
+d <- readr::read_rds("twitter_data")
 d <- rtweet_parser(d)
 
 test_that("rtweet_parser returns two data frames", {
