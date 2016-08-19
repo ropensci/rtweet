@@ -80,8 +80,18 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
-**API Functions** - `get_retweeters()` Retrieve users retweeting a status (in progress) - `get_list()` Retrieve users in list - `lookup_tweets()` Look up tweets via status\_id.
+**API Functions**
 
-**Vignettes** - Guide to `stream_tweets()` - Guide to `get_friends()` and `get_followers()`
+-   `get_retweeters()` Retrieve users retweeting a status (in progress)
+-   `get_list()` Retrieve users in list
+-   `lookup_tweets()` Look up tweets via status\_id.
 
-**Documentation** - Search query syntax - Stream syntax i.e., filter vs tracking vs location
+**Vignettes**
+
+-   Guide to `stream_tweets()`
+-   Guide to `get_friends()` and `get_followers()`
+
+**Documentation**
+
+-   Search query syntax
+-   Stream syntax i.e., filter vs tracking vs location
