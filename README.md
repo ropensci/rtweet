@@ -2,7 +2,8 @@
 rtweet: Collecting Twitter Data
 ===============================
 
-[![CRAN Version](http://www.r-pkg.org/badges/version/rtweet)](http://cran.r-project.org/package=rtweet) ![Downloads](http://cranlogs.r-pkg.org/badges/rtweet)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
+![Downloads](http://cranlogs.r-pkg.org/badges/rtweet)
 
 R package for collecting Twitter data via Twitter's REST and stream API's.
 
