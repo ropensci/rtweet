@@ -9,6 +9,8 @@
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable tokens.
+#' @param parse Logical, indicating whether or not to parse return
+#'   trends data.
 #'
 #' @examples
 #' \dontrun{
@@ -28,11 +30,14 @@
 #'
 #' @return Trend data for a given location.
 #' @export
-get_trends <- function(woeid, exclude = FALSE, token = NULL) {
+get_trends <- function(woeid, exclude = FALSE, token = NULL,
+	parse = TRUE) {
+
+	stopifnot(is.atomic(woeid), length(woeid) == 1)
+
+	woeid <- check_woeid(woeid)
 
 	query <- "trends/place"
-
-	stopifnot(is.atomic(woeid))
 
 	token <- check_token(token, query)
 
@@ -64,6 +69,7 @@ get_trends <- function(woeid, exclude = FALSE, token = NULL) {
 parse_trends <- function(x) {
 	trends <- tbl_df(x$trends[[1]])
 	rows <- nrow(trends)
+	names(trends)[names(trends) == "name"] <- "trend"
 	bind_cols(trends, data_frame(
 		as_of = format_trend_date(rep(x$as_of, rows)),
 		created_at = format_trend_date(rep(x$created_at, rows)),
@@ -134,6 +140,8 @@ trends_available <- function(token = NULL, parse = TRUE) {
 #' @importFrom dplyr bind_cols tbl_df
 #' @export
 parse_trends_available <- function(x) {
-	bind_cols(tbl_df(x[names(x) != "placeType"]),
+	p <- bind_cols(tbl_df(x[names(x) != "placeType"]),
 		tbl_df(x[["placeType"]]))
+	names(p)[ncol(p)] <- "place_type"
+	p
 }

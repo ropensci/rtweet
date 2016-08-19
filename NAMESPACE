@@ -2,9 +2,11 @@
 
 export(TWIT)
 export(check_token)
+export(check_woeid)
 export(clean_tweets)
 export(create_token)
 export(fetch_tokens)
+export(find_woeid)
 export(from_js)
 export(get_followers)
 export(get_friends)

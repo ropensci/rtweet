@@ -4,7 +4,7 @@
 \alias{get_trends}
 \title{get_trends}
 \usage{
-get_trends(woeid, exclude = FALSE, token = NULL)
+get_trends(woeid, exclude = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{woeid}{Character, WOEID is a Yahoo! Where On
@@ -16,6 +16,9 @@ hashtags}
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
 an environment variable tokens.}
+
+\item{parse}{Logical, indicating whether or not to parse return
+trends data.}
 }
 \value{
 Trend data for a given location.
@@ -33,9 +36,9 @@ trends
 worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
 
 # Retrieve worldwide trends datadata
-ww_trends <- get_trends(woeid = Worldwide)
+ww_trends <- get_trends(woeid = worldwide)
 
-# Preview Worldwide trends data
+# Preview trends data
 ww_trends
 }
 
