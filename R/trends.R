@@ -20,9 +20,9 @@
 #' worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
 #'
 #' # Retrieve worldwide trends datadata
-#' ww_trends <- get_trends(woeid = Worldwide)
+#' ww_trends <- get_trends(woeid = worldwide)
 #'
-#' # Preview Worldwide trends data
+#' # Preview trends data
 #' ww_trends
 #' }
 #'
