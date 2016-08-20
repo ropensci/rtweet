@@ -7,16 +7,19 @@
 #' @export
 find_woeid <- function(x) {
 	woeid <- NULL
-
 	if (length(woeid_towns(x)) == 1) {
 		woeid <- woeid_countries(x)
 	}
-
 	if (length(woeid_towns(x)) == 1) {
 		if (!is.null(woeid)) {
 			woeid <- c(woeid, woeid_towns(x))
 		} else {
 			woeid <- woeid_towns(x)
+		}
+	}
+	if (is.null(woeid)) {
+		if (isTRUE(grepl("world", x, ignore.case = TRUE))) {
+			woeid <- 1
 		}
 	}
 	woeid
@@ -34,9 +37,14 @@ check_woeid <- function(x) {
 	if (is.na(woeid)) {
 		woeid <- find_woeid(x)
 	}
+	if (is_zero(woeid)) {
+		woeid <- 1
+	}
 	stopifnot(is.numeric(woeid))
 	woeid
 }
+
+is_zero <- function(x) isTRUE(identical(length(x), 0L))
 
 woeid_countries <- function(x) {
   names <- c("United Arab Emirates", "Algeria", "Argentina",

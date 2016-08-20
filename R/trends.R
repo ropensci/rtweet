@@ -31,14 +31,12 @@
 #'
 #' @return Trend data for a given location.
 #' @export
-get_trends <- function(woeid, exclude = FALSE, token = NULL,
+get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
 	parse = TRUE) {
 
 	stopifnot(is.atomic(woeid), length(woeid) == 1)
 
 	woeid <- check_woeid(woeid)
-
-	stopifnot(woeid)
 
 	query <- "trends/place"
 
