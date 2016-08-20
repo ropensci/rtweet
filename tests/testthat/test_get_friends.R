@@ -2,7 +2,7 @@ skip_on_cran()
 
 library(rtweet)
 
-context("Get friends")
+context("get_friends")
 
 f <- get_friends("kearneymw")
 

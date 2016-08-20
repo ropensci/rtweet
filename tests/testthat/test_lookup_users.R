@@ -2,7 +2,7 @@ skip_on_cran()
 
 library(rtweet)
 
-context("Lookup users")
+context("lookup_users")
 
 n <- 4
 x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))

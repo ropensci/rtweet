@@ -1,6 +1,6 @@
 library(rtweet)
 
-context("Parse tweets")
+context("parser")
 
 d <- readr::read_rds("twitter_data")
 d <- rtweet_parser(d)

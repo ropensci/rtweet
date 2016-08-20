@@ -2,7 +2,7 @@ skip_on_cran()
 
 library(rtweet)
 
-context("Get timelines")
+context("get_timelines")
 
 n <- 25
 x <- get_timeline("kearneymw", n = n)

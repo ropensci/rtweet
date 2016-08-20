@@ -2,7 +2,7 @@ skip_on_cran()
 
 library(rtweet)
 
-context("Stream tweets")
+context("stream_tweets")
 
 x <- stream_tweets("lol", timeout = 2, verbose = FALSE)
 

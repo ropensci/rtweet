@@ -2,7 +2,7 @@ skip_on_cran()
 
 library(rtweet)
 
-context("Search users")
+context("search_users")
 
 n <- 3
 x <- search_users("twitter", n = n, verbose = FALSE)

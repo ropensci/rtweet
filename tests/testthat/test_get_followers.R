@@ -2,7 +2,7 @@ skip_on_cran()
 
 library(rtweet)
 
-context("Get followers")
+context("get_followers")
 
 f <- get_followers("HillaryClinton", n = 10000)
 
