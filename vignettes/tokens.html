@@ -142,7 +142,9 @@ file_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(home_dire
 <li><p>To create a plain text file in R, modify the code below. Change the TWITTER_PAT location to match the path you used earlier (in the example below, you’d want to change “/Users/mwk/twitter_tokens”). You can also create a plain text document in any text editor like TextEdit or Notepad. If you’re using Rstudio, select File &gt; New File &gt; Text File.</p></li>
 <li><p><strong>Important</strong>: Make sure the last line of “.Renviron” is blank. I achieved this in the code below by including <code>\n</code>.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;TWITTER_PAT=/Users/mwk/twitter_tokens</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">file =</span> <span class="kw">paste0</span>(home_directory, <span class="st">&quot;/.Renviron&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;TWITTER_PAT=/Users/mwk/twitter_tokens</span><span class="ch">\n</span><span class="st">&quot;</span>, 
+  <span class="dt">file =</span> <span class="kw">paste0</span>(home_directory, <span class="st">&quot;/.Renviron&quot;</span>),
+  <span class="dt">append =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <ul>
 <li><p>Restart R so it can process the environment variable.</p></li>
 <li><p>If you completed the steps successfully, you should be able to use <code>rtweet</code> functions without specifying [or even <em>thinking</em> about] tokens [ever again]. If you have more than one token, rtweet will even quickly cycle through tokens to navigate API rate limits.</p></li>

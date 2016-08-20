@@ -123,7 +123,9 @@ New File > Text File.
 achieved this in the code below by including `\n`.
 
 ``` r
-cat("TWITTER_PAT=/Users/mwk/twitter_tokens\n", file = paste0(home_directory, "/.Renviron"))
+cat("TWITTER_PAT=/Users/mwk/twitter_tokens\n", 
+  file = paste0(home_directory, "/.Renviron"),
+  append = TRUE)
 ```
 
 - Restart R so it can process the environment variable. 
