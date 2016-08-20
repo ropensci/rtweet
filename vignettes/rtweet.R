@@ -6,7 +6,7 @@
 #  # extract data on the users who posted the tweets
 #  users_data(team_rstats)
 #  
-#  # return 200 tweets from @potus's timeline
+#  # return 200 tweets from @KyloR3n's timeline
 #  kylo_is_a_mole <- get_timeline("KyloR3n", n = 200)
 #  kylo_is_a_mole
 #  
