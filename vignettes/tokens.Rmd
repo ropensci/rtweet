@@ -17,7 +17,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 This vignette covers how to obtain and use Twitter API 
 access tokens for use in the `rtweet` package.
 
-``` r
+```{r, eval=FALSE}
 # install from CRAN
 install.packages("rtweet")
 
@@ -63,7 +63,7 @@ number of tokens seems to fall well below their threshold of concern.
 
 - With the access keys identified earlier, use `create_token()` and store the output as `twitter_tokens`.
 
-``` r
+```{r, eval=FALSE}
 twitter_tokens <- c(
   create_token(app = "rtweet_tokens", #whatever you named your app
     consumer_key = "XZgqotgOZNKlLFJqFbd8NjUtL",
@@ -122,7 +122,7 @@ New File > Text File.
 - **Important**: Make sure the last line of ".Renviron" is blank. I 
 achieved this in the code below by including `\n`.
 
-``` r
+```{r, eval=FALSE}
 cat("TWITTER_PAT=/Users/mwk/twitter_tokens\n", 
   file = paste0(home_directory, "/.Renviron"),
   append = TRUE)
