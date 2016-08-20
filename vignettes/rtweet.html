@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Michael W. Kearney" />
+
+<meta name="date" content="2016-08-19" />
+
+<title>Intro to rtweet: Collecting Twitter Data</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Intro to rtweet: Collecting Twitter Data</h1>
+<h4 class="author"><em>Michael W. Kearney</em></h4>
+<h4 class="date"><em>2016-08-19</em></h4>
+
+
+
+<p>This vignettes provides a quick tour of rtweet: Collecting Twitter Data.</p>
+<div id="accessing-twitters-api" class="section level2">
+<h2>Accessing Twitter’s API</h2>
+<p>Before you can start collecting data, you must first obtain a user access token. To do this, I recommend following the vignette on <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and setting up user access tokens</a>. However, if you’re in a hurry, the <a href="https://github.com/mkearney/rtweet/blob/master/README.md">quick guide found here</a> works as well.</p>
+</div>
+<div id="retrieving-tweets" class="section level2">
+<h2>Retrieving Tweets</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># search for 500 tweets using the #rstats hashtag</span>
+team_rstats &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(<span class="st">&quot;#rstats&quot;</span>, <span class="dt">n =</span> <span class="dv">500</span>)
+team_rstats
+
+<span class="co"># extract data on the users who posted the tweets</span>
+<span class="kw">users_data</span>(team_rstats)
+
+<span class="co"># return 200 tweets from @potus's timeline</span>
+kylo_is_a_mole &lt;-<span class="st"> </span><span class="kw">get_timeline</span>(<span class="st">&quot;KyloR3n&quot;</span>, <span class="dt">n =</span> <span class="dv">200</span>)
+kylo_is_a_mole
+
+<span class="co"># extract emo kylo ren's user data</span>
+<span class="kw">users_data</span>(kylo_is_a_mole)
+
+<span class="co"># stream tweets mentioning @HillaryClinton for 2 minutes (120 sec)</span>
+imwithher &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<span class="st">&quot;HillaryClinton&quot;</span>, <span class="dt">timeout =</span> <span class="dv">120</span>)
+imwithher
+
+<span class="co"># extract data on the users who posted the tweets</span>
+<span class="kw">users_data</span>(imwithher)</code></pre></div>
+</div>
+<div id="retrieving-users" class="section level2">
+<h2>Retrieving Users</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># search for 500 users using &quot;social science&quot; as a keyword</span>
+harder_science &lt;-<span class="st"> </span><span class="kw">search_users</span>(<span class="st">&quot;social science&quot;</span>, <span class="dt">n =</span> <span class="dv">500</span>)
+harder_science
+
+<span class="co"># extract most recent tweets data from the social scientists</span>
+<span class="kw">tweets_data</span>(harder_science)
+
+<span class="co"># lookup users by screen_name or user_id</span>
+users &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;KimKardashian&quot;</span>, <span class="st">&quot;justinbieber&quot;</span>, <span class="st">&quot;taylorswift13&quot;</span>,
+    <span class="st">&quot;espn&quot;</span>, <span class="st">&quot;JoelEmbiid&quot;</span>, <span class="st">&quot;cstonehoops&quot;</span>, <span class="st">&quot;KUHoops&quot;</span>,
+    <span class="st">&quot;upshotnyt&quot;</span>, <span class="st">&quot;fivethirtyeight&quot;</span>, <span class="st">&quot;hadleywickham&quot;</span>,
+    <span class="st">&quot;cnn&quot;</span>, <span class="st">&quot;foxnews&quot;</span>, <span class="st">&quot;msnbc&quot;</span>, <span class="st">&quot;maddow&quot;</span>, <span class="st">&quot;seanhannity&quot;</span>, 
+    <span class="st">&quot;potus&quot;</span>, <span class="st">&quot;epa&quot;</span>, <span class="st">&quot;hillaryclinton&quot;</span>, <span class="st">&quot;realdonaldtrump&quot;</span>, 
+    <span class="st">&quot;natesilver538&quot;</span>, <span class="st">&quot;ezraklein&quot;</span>, <span class="st">&quot;annecoulter&quot;</span>)
+famous_tweeters &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(users)
+
+<span class="co"># extract most recent tweets data from the famous tweeters</span>
+<span class="kw">tweets_data</span>(famous_tweeters)
+
+<span class="co"># or get user IDs of people following stephen colbert</span>
+colbert_nation &lt;-<span class="st"> </span><span class="kw">get_followers</span>(<span class="st">&quot;stephenathome&quot;</span>, <span class="dt">n =</span> <span class="dv">18000</span>)
+
+<span class="co"># get even more by using the next_cursor function</span>
+page &lt;-<span class="st"> </span><span class="kw">next_cursor</span>(colbert_nation)
+
+<span class="co"># use the page object to continue where you left off</span>
+colbert_nation_ii &lt;-<span class="st"> </span><span class="kw">get_followers</span>(<span class="st">&quot;stephenathome&quot;</span>, <span class="dt">n =</span> <span class="dv">18000</span>, <span class="dt">page =</span> page)
+colbert_nation &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">unlist</span>(colbert_nation), <span class="kw">unlist</span>(colbert_nation_ii))
+
+<span class="co"># and then lookup data on those users (if hit rate limit, run as two parts)</span>
+colbert_nation &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(colbert_nation)
+colbert_nation
+
+<span class="co"># or get user IDs of people followed *by* President Obama</span>
+obama1 &lt;-<span class="st"> </span><span class="kw">get_friends</span>(<span class="st">&quot;BarackObama&quot;</span>)
+obama2 &lt;-<span class="st"> </span><span class="kw">get_friends</span>(<span class="st">&quot;BarackObama&quot;</span>, <span class="dt">page =</span> <span class="kw">next_cursor</span>(obama1))
+
+<span class="co"># and lookup data on Obama's friends</span>
+<span class="kw">lookup_users</span>(<span class="kw">c</span>(<span class="kw">unlist</span>(obama1), <span class="kw">unlist</span>(obama2)))</code></pre></div>
+</div>
+<div id="retrieving-trends" class="section level2">
+<h2>Retrieving Trends</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get trending hashtags, mentions, and topics worldwide</span>
+prestige_worldwide &lt;-<span class="st"> </span><span class="kw">get_trends</span>()
+prestige_worldwide
+
+<span class="co"># or narrow down to a particular country</span>
+usa_usa_usa &lt;-<span class="st"> </span><span class="kw">get_trends</span>(<span class="st">&quot;United States&quot;</span>)
+usa_usa_usa
+
+<span class="co"># or narrow down to a popular city</span>
+CHIEFS &lt;-<span class="st"> </span><span class="kw">get_trends</span>(<span class="st">&quot;Kansas City&quot;</span>)
+CHIEFS</code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
