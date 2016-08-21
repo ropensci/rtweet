@@ -1,3 +1,13 @@
+# rtweet 0.2.4
+
+* Added new trends functions. Find what trending locations are
+available with `trends_available()` and/or search for trends 
+worldwide or by geogaphical location using `get_trends()`.
+
+* Stability improvements including integration with Travis CI and 
+code analysis via codecov. Token encryption method also means API 
+testing conducted on multiple machines and systems.
+
 # rtweet 0.2.3
 
 * Added new `search_users()` function! Search for users by keyword,
