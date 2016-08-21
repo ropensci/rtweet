@@ -4,7 +4,7 @@ test_that("search_tweets with twitter_token returns tweets data", {
 	skip_on_cran()
 
 	token <- readRDS("twitter_tokens")
-	x <- search_tweets("twitter", token = token)
+	x <- search_tweets("twitter")
 
 	expect_equal(is.data.frame(x), TRUE)
 	expect_named(x)
