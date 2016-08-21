@@ -25,15 +25,38 @@ save_as_csv <- function(x, file_name) {
   if (missing(file_name)) {
     stop("must provide file_name.", call. = FALSE)
   }
-  if (all(c("tweets", "users") %in% names(x))) {
-    write_as_csv(x$tweets,
-      modify_file_name(file_name, "tweets"))
+	tweets_names <- c(
+		"in_reply_to_status_id",
+		"is_quote_status",
+		"retweet_count",
+		"is_retweet")
+	users_names <- c(
+		"followers_count",
+		"description",
+		"statuses count",
+		"friends_count")
 
-    write_as_csv(x$users,
-      modify_file_name(file_name, "users"))
-  } else {
-    write_as_csv(x, modify_file_name(file_name))
-  }
+	if (any(tweets_names %in% names(x))) {
+		write_as_csv(x,
+			modify_file_name(file_name, "tweets"))
+
+		if ("users" %in% names(attributes(x))) {
+			write_as_csv(users_data(x),
+				modify_file_name(file_name, "users"))
+		}
+
+	} else if (any(users_names %in% names(x))) {
+		write_as_csv(x,
+			modify_file_name(file_name, "users"))
+
+		if ("tweets" %in% names(attributes(x))) {
+			write_as_csv(tweets_data(x),
+				modify_file_name(file_name, "tweets"))
+		}
+
+	} else {
+		write_as_csv(x, modify_file_name(file_name))
+	}
 }
 
 modify_file_name <- function(file_name, ext = NULL) {
