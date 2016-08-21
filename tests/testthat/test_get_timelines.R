@@ -1,15 +1,12 @@
-library(rtweet)
-
 context("get_timelines")
-
-skip_on_cran()
-skip_on_travis()
-n <- 25
-x <- get_timeline("kearneymw", n = n)
 
 test_that("search_tweets returns tweets data", {
 	skip_on_cran()
 	skip_on_travis()
+
+	n <- 25
+	x <- get_timeline("kearneymw", n = n)
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))

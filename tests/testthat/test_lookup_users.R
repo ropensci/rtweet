@@ -1,15 +1,12 @@
-library(rtweet)
-
 context("lookup_users")
-
-skip_on_cran()
-skip_on_travis()
-n <- 4
-x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
 
 test_that("lookup_users returns users data", {
 	skip_on_cran()
 	skip_on_travis()
+
+	n <- 4
+	x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("user_id" %in% names(x))

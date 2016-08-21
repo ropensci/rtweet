@@ -1,15 +1,12 @@
-library(rtweet)
-
 context("search_tweets")
-
-skip_on_cran()
-skip_on_travis()
-n <- 3
-x <- search_tweets("twitter", n = n, lang = "en", verbose = FALSE)
 
 test_that("search_tweets returns tweets data", {
 	skip_on_cran()
 	skip_on_travis()
+
+	n <- 3
+	x <- search_tweets("twitter", n = n, lang = "en", verbose = FALSE)
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))

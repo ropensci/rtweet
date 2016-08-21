@@ -1,17 +1,12 @@
-skip_on_cran()
-skip_on_travis()
-
-library(rtweet)
-
 context("get_trends")
 
-skip_on_cran()
-skip_on_travis()
-x <- get_trends()
 
 test_that("get_trends returns trends data", {
 	skip_on_cran()
 	skip_on_travis()
+
+	x <- get_trends()
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true(all(c("trend", "promoted_content") %in% names(x)))

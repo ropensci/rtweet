@@ -1,15 +1,12 @@
-library(rtweet)
-
 context("search_users")
-
-skip_on_cran()
-skip_on_travis()
-n <- 3
-x <- search_users("twitter", n = n, verbose = FALSE)
 
 test_that("search_users returns users data", {
 	skip_on_cran()
 	skip_on_travis()
+
+	n <- 3
+	x <- search_users("twitter", n = n, verbose = FALSE)
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("user_id" %in% names(x))
