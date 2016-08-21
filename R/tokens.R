@@ -9,6 +9,9 @@
 #' @return path
 #' @export
 get_tokens <- function() {
+	if (all(is.null(.state$twitter_tokens), !is.null(.state$twitter_token))) {
+		.state$twitter_tokens <- .state$twitter_token
+	}
   if (is.null(.state$twitter_tokens)) {
     load_tokens(twitter_pat())
   }
@@ -63,7 +66,6 @@ create_token <- function(app, consumer_key, consumer_secret) {
 #' @return token with non-exhausted rate limit
 #' @keywords internal
 #' @noRd
-#' @export
 fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
   if (missing(query)) {

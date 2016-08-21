@@ -147,7 +147,6 @@ trends_available <- function(token = NULL, parse = TRUE) {
 #' @importFrom dplyr bind_cols tbl_df
 #' @keywords internal
 #' @noRd
-#' @export
 parse_trends_available <- function(x) {
 	p <- bind_cols(tbl_df(x[names(x) != "placeType"]),
 		tbl_df(x[["placeType"]]))
