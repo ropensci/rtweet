@@ -12,7 +12,7 @@
 
 <meta name="author" content="Michael W. Kearney" />
 
-<meta name="date" content="2016-08-19" />
+<meta name="date" content="2016-08-20" />
 
 <title>Intro to rtweet: Collecting Twitter Data</title>
 
@@ -70,14 +70,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Intro to rtweet: Collecting Twitter Data</h1>
 <h4 class="author"><em>Michael W. Kearney</em></h4>
-<h4 class="date"><em>2016-08-19</em></h4>
+<h4 class="date"><em>2016-08-20</em></h4>
 
 
 
-<p>This vignettes provides a quick tour of rtweet: Collecting Twitter Data.</p>
+<p>This vignettes provides a <em>very</em> quick tour of rtweet: Collecting Twitter Data.</p>
 <div id="accessing-twitters-api" class="section level2">
 <h2>Accessing Twitter’s API</h2>
 <p>Before you can start collecting data, you must first obtain a user access token. To do this, I recommend following the vignette on <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and setting up user access tokens</a>. However, if you’re in a hurry, the <a href="https://github.com/mkearney/rtweet/blob/master/README.md">quick guide found here</a> works as well.</p>
+</div>
+<div id="install-and-load" class="section level2">
+<h2>Install and Load</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">packageVersion</span>(<span class="st">&quot;devtools&quot;</span>) &lt;<span class="st"> </span><span class="fl">1.6</span>) {
+  <span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
+}
+devtools::<span class="kw">install_github</span>(<span class="st">&quot;mkearney/rtweet&quot;</span>)
+<span class="kw">library</span>(rtweet)</code></pre></div>
 </div>
 <div id="retrieving-tweets" class="section level2">
 <h2>Retrieving Tweets</h2>
@@ -119,6 +127,7 @@ users &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&
     <span class="st">&quot;potus&quot;</span>, <span class="st">&quot;epa&quot;</span>, <span class="st">&quot;hillaryclinton&quot;</span>, <span class="st">&quot;realdonaldtrump&quot;</span>, 
     <span class="st">&quot;natesilver538&quot;</span>, <span class="st">&quot;ezraklein&quot;</span>, <span class="st">&quot;annecoulter&quot;</span>)
 famous_tweeters &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(users)
+famous_tweeters
 
 <span class="co"># extract most recent tweets data from the famous tweeters</span>
 <span class="kw">tweets_data</span>(famous_tweeters)

@@ -9,13 +9,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignettes provides a quick tour of rtweet: Collecting Twitter Data.
+This vignettes provides a *very* quick tour of rtweet: Collecting Twitter Data.
 
 ## Accessing Twitter's API
 
 Before you can start collecting data, you must first obtain a user access token. 
 To do this, I recommend following the vignette on [obtaining and setting up user access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd). 
 However, if you're in a hurry, the [quick guide found here](https://github.com/mkearney/rtweet/blob/master/README.md) works as well.
+
+## Install and Load
+
+```{r, eval=FALSE}
+if (packageVersion("devtools") < 1.6) {
+  install.packages("devtools")
+}
+devtools::install_github("mkearney/rtweet")
+library(rtweet)
+```
 
 ## Retrieving Tweets
 
@@ -60,6 +70,7 @@ users <- c("KimKardashian", "justinbieber", "taylorswift13",
 	"potus", "epa", "hillaryclinton", "realdonaldtrump", 
 	"natesilver538", "ezraklein", "annecoulter")
 famous_tweeters <- lookup_users(users)
+famous_tweeters
 
 # extract most recent tweets data from the famous tweeters
 tweets_data(famous_tweeters)

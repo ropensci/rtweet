@@ -1,4 +1,11 @@
 ## ---- eval=FALSE---------------------------------------------------------
+#  if (packageVersion("devtools") < 1.6) {
+#    install.packages("devtools")
+#  }
+#  devtools::install_github("mkearney/rtweet")
+#  library(rtweet)
+
+## ---- eval=FALSE---------------------------------------------------------
 #  # search for 500 tweets using the #rstats hashtag
 #  team_rstats <- search_tweets("#rstats", n = 500)
 #  team_rstats
@@ -36,6 +43,7 @@
 #  	"potus", "epa", "hillaryclinton", "realdonaldtrump",
 #  	"natesilver538", "ezraklein", "annecoulter")
 #  famous_tweeters <- lookup_users(users)
+#  famous_tweeters
 #  
 #  # extract most recent tweets data from the famous tweeters
 #  tweets_data(famous_tweeters)
