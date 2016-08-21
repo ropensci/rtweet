@@ -4,12 +4,9 @@ library(rtweet)
 
 context("twitter_token")
 
-twitter_tokens <- readRDS("twitter_tokens")
-
 x <- search_tweets(
 	q = "twitter",
-	verbose = FALSE,
-	token = twitter_tokens)
+	verbose = FALSE)
 
 test_that("search_tweets with twitter_token returns tweets data", {
   expect_equal(is.data.frame(x), TRUE)
