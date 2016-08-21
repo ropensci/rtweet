@@ -4,7 +4,7 @@
 #'
 #' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
 #'   character string of desired town or country. To browse all
-#'   available trend places, see \code{\link{available_trends}}
+#'   available trend places, see \code{\link{trends_available}}
 #' @param exclude Logical, indicating whether or not to exclude
 #'   hashtags
 #' @param token OAuth token (1.0 or 2.0). By default
@@ -66,6 +66,7 @@ get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
 #' @param x Nexted list fromJSON of trends data.
 #'
 #' @importFrom dplyr data_frame tbl_df bind_cols
+#' @keywords internal
 #' @export
 parse_trends <- function(x) {
 	trends <- tbl_df(x$trends[[1]])
@@ -119,7 +120,7 @@ format_trend_date <- function(x, date = FALSE) {
 #'
 #' @return Data frame with WOEIDs. WOEID is a Yahoo! Where On
 #'   Earth ID.
-#' @export
+#' @noRd
 trends_available <- function(token = NULL, parse = TRUE) {
 
 	query <- "trends/available"
@@ -138,7 +139,14 @@ trends_available <- function(token = NULL, parse = TRUE) {
 	trd
 }
 
+#' parse_trends_available
+#'
+#' @description parse trends data
+#'
+#' @param x trends data fromJSON
 #' @importFrom dplyr bind_cols tbl_df
+#' @keywords internal
+#' @noRd
 #' @export
 parse_trends_available <- function(x) {
 	p <- bind_cols(tbl_df(x[names(x) != "placeType"]),
