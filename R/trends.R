@@ -120,7 +120,7 @@ format_trend_date <- function(x, date = FALSE) {
 #'
 #' @return Data frame with WOEIDs. WOEID is a Yahoo! Where On
 #'   Earth ID.
-#' @noRd
+#' @export
 trends_available <- function(token = NULL, parse = TRUE) {
 
 	query <- "trends/available"
