@@ -5,4 +5,4 @@ sudo: false
 cache: packages
 before_install:
 - openssl aes-256-cbc -K $encrypted_39c05ab0bd98_key -iv $encrypted_39c05ab0bd98_iv
-  -in tests/testthat/twitter_tokens.enc -out tests/testthat/.httr-oauth -d
+  -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
