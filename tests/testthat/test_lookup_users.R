@@ -2,7 +2,6 @@ context("lookup_users")
 
 test_that("lookup_users returns users data", {
 	skip_on_cran()
-	skip_on_travis()
 
 	n <- 4
 	token <- readRDS("twitter_tokens")

@@ -2,7 +2,6 @@ context("get_friends")
 
 test_that("get_friends returns tibble with ids", {
 	skip_on_cran()
-	skip_on_travis()
 
 	token <- readRDS("twitter_tokens")
 	f <- get_friends("kearneymw", token = token)

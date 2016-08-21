@@ -2,7 +2,6 @@ context("stream_tweets")
 
 test_that("stream_tweets returns tweets data", {
 	skip_on_cran()
-	skip_on_travis()
 
 	token <- readRDS("twitter_tokens")
 	x <- stream_tweets("tweets", timeout = 2, verbose = FALSE,

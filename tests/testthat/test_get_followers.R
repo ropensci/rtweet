@@ -2,7 +2,6 @@ context("get_followers")
 
 test_that("get_followers returns tibble with ids", {
 	skip_on_cran()
-	skip_on_travis()
 
 	token <- readRDS("twitter_tokens")
 	f <- get_followers("HillaryClinton", n = 10000, token = token)
