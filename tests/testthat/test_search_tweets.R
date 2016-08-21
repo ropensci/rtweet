@@ -5,7 +5,9 @@ test_that("search_tweets returns tweets data", {
 	skip_on_travis()
 
 	n <- 3
-	x <- search_tweets("twitter", n = n, lang = "en", verbose = FALSE)
+	token <- readRDS("twitter_tokens")
+	x <- search_tweets("twitter", n = n,
+		lang = "en", verbose = FALSE, token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

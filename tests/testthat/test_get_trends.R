@@ -5,7 +5,8 @@ test_that("get_trends returns trends data", {
 	skip_on_cran()
 	skip_on_travis()
 
-	x <- get_trends()
+	token <- readRDS("twitter_tokens")
+	x <- get_trends(token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

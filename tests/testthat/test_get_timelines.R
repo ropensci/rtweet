@@ -5,7 +5,8 @@ test_that("search_tweets returns tweets data", {
 	skip_on_travis()
 
 	n <- 25
-	x <- get_timeline("kearneymw", n = n)
+	token <- readRDS("twitter_tokens")
+	x <- get_timeline("kearneymw", n = n, token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

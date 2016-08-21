@@ -4,7 +4,9 @@ test_that("stream_tweets returns tweets data", {
 	skip_on_cran()
 	skip_on_travis()
 
-	x <- stream_tweets("tweets", timeout = 2, verbose = FALSE)
+	token <- readRDS("twitter_tokens")
+	x <- stream_tweets("tweets", timeout = 2, verbose = FALSE,
+		token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

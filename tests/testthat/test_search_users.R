@@ -5,7 +5,8 @@ test_that("search_users returns users data", {
 	skip_on_travis()
 
 	n <- 3
-	x <- search_users("twitter", n = n, verbose = FALSE)
+	token <- readRDS("twitter_tokens")
+	x <- search_users("twitter", n = n, verbose = FALSE, token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

@@ -4,7 +4,8 @@ test_that("get_friends returns tibble with ids", {
 	skip_on_cran()
 	skip_on_travis()
 
-	f <- get_friends("kearneymw")
+	token <- readRDS("twitter_tokens")
+	f <- get_friends("kearneymw", token = token)
 
   expect_true(any(c("tbl_df", "tbl") %in% class(f)))
   expect_named(f, "ids")
