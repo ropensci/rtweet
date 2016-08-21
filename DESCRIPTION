@@ -17,13 +17,15 @@ Depends:
 Imports:
     dplyr,
     httr,
-    jsonlite
+    jsonlite,
+    utils
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://github.com/mkearney/rtweet/
 BugReports: https://github.com/mkearney/rtweet/issues
 RoxygenNote: 5.0.1
-Suggests: testthat,
+Suggests:
+		testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr

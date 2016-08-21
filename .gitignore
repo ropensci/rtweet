@@ -7,4 +7,4 @@ cran-comments.md
 README_cache
 README.Rmd
 inst/doc
-tests/testthat/twitter_token
+tests/testthat/twitter_tokens
