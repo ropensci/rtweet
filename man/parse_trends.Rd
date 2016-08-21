@@ -12,4 +12,5 @@ parse_trends(x)
 \description{
 Returns tibble data frame of trends data.
 }
+\keyword{internal}
 

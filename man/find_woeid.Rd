@@ -12,5 +12,13 @@ find_woeid(x)
 \description{
 Returns WOEID number for desired town or country.
 }
+\details{
+WOEID matching funcitons are offered for convenience.
+  They are not nearly exhaustive and may sometimes imprecise
+  (especially when multiple locations are matched to the provided
+  string). To ensure validity, I recommend looking up the desired
+  WOEID using one of the many different tools easily found via
+  Google search.
+}
 \keyword{internal}
 

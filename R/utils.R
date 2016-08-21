@@ -39,23 +39,16 @@ nanull <- function(x) {
   x
 }
 
-#' from_js
-#'
-#' @param rsp API respose object
-#' @keywords internal
 #' @import httr
 #' @importFrom jsonlite fromJSON
-#' @export
 from_js <- function(rsp) {
-
   if (http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-
   fromJSON(content(rsp, as = "text"))
 }
 
-#' @keywords internal
+
 .ids_type <- function(x) {
   if (is.list(x)) x <- unlist(x)
   for (i in seq_along(x)) {
@@ -67,7 +60,7 @@ from_js <- function(rsp) {
   unique(x)
 }
 
-#' @keywords internal
+
 .id_type <- function(x) {
   if (suppressWarnings(is.na(as.numeric(x)))) {
     return("screen_name")
@@ -76,7 +69,7 @@ from_js <- function(rsp) {
   }
 }
 
-#' @keywords internal
+
 format_date <- function(x, date = TRUE) {
   x <- as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",
@@ -87,7 +80,6 @@ format_date <- function(x, date = TRUE) {
   x
 }
 
-#' @keywords internal
 check_user_id <- function(dat, n = NULL) {
 
   dat <- check_response_obj(dat)
@@ -107,7 +99,7 @@ check_user_id <- function(dat, n = NULL) {
   user_id
 }
 
-#' @keywords internal
+
 return_with_NA <- function(x, n) {
   if (is.character(x)) {
     myNA <- NA_character_
@@ -152,7 +144,6 @@ filter_na_rows <- function(x) {
   x[!apply(x, 1, foo), ]
 }
 
-#' @keywords internal
 is_n <- function(n) {
   if (is.character(n)) {
     n <- suppressWarnings(as.numeric(n))
@@ -168,7 +159,6 @@ is_n <- function(n) {
   }
 }
 
-#' @keywords internal
 is_url <- function(url) {
   url_names <- c("scheme", "hostname", "port", "path", "query")
   if (all(length(url) > 1, is.list(url),
@@ -178,7 +168,6 @@ is_url <- function(url) {
     return(FALSE)
   }
 }
-
 
 check_response_obj <- function(dat) {
 

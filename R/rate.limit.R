@@ -39,7 +39,6 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
 }
 
 
-#' @keywords internal
 .rl_df <- function(r) {
 
   r <- from_js(r)
