@@ -4,3 +4,4 @@
 ^cran-comments\.md$
 README.Rmd
 ^\.travis\.yml$
+tests/testthat/twitter_token.enc
