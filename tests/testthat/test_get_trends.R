@@ -13,6 +13,6 @@ test_that("get_trends returns trends data", {
   expect_gt(nrow(x), 10)
   expect_gt(ncol(x), 5)
 	expect_equal(check_woeid("world"), 1)
-	expect_equal(check_woeid("kansas"), 2430683)
-	expect_equal(check_woeid("new york"), 2459115)
+	expect_equal(check_woeid("kansas"), 2347575)
+	expect_equal(check_woeid("new york"), 2347591)
 })
