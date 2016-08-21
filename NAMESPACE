@@ -2,7 +2,6 @@
 
 export(TWIT)
 export(check_woeid)
-export(clean_tweets)
 export(create_token)
 export(find_woeid)
 export(get_followers)
