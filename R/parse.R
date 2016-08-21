@@ -58,20 +58,6 @@ user_df <- function(dat) {
   user_df <- user_df[!duplicated(user_df), ]
 }
 
-#' rtweet_parser
-#'
-#' @description Parses tweets and users objects. Returns data frames
-#'   for each.
-#'
-#' @param x List, fromJSON nested list object
-#' @param n Numeric, number of rows to return for tweets object
-#'
-#' @return Parsed data frame
-#' @export
-rtweet_parser <- function(x, n = NULL) {
-  parser(x, n)
-}
-
 #' parser
 #'
 #' @param x nested list of API data returned from fromJSON
