@@ -13,10 +13,12 @@ get_tokens <- function() {
 		.state$twitter_tokens <- .state$twitter_token
 	}
   if (is.null(.state$twitter_tokens)) {
-    load_tokens(twitter_pat())
+    .state$twitter_tokens <- load_tokens(twitter_pat())
   }
   .state$twitter_tokens
 }
+
+
 
 #' create_token
 #'
@@ -146,10 +148,20 @@ twitter_pat <- function() {
   pat
 }
 
+if_load <- function(x) {
+	suppressWarnings(
+		tryCatch(load(x),
+			error = function(e) (return(FALSE))))
+}
+
 load_tokens <- function(pat) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
+  } else if (if_load(pat)) {
+  	x <- load(pat)
+  	.state$twitter_tokens <- get(x)
   } else {
-    load(pat, .state)
+  	.state$twitter_tokens <- readRDS(pat)
   }
+	.state$twitter_tokens
 }
