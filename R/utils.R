@@ -42,7 +42,7 @@ nanull <- function(x) {
 #' @import httr
 #' @importFrom jsonlite fromJSON
 from_js <- function(rsp) {
-  if (http_type(rsp) != "application/json") {
+  if (httr::http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
   fromJSON(content(rsp, as = "text"))
