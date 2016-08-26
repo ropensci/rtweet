@@ -80,7 +80,17 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
-**Display Functions** - `print()` - `plot()` - `summary()` - `write()`
+**Internals**
+
+-   `S4` class
+-   Parse with `%>%` (pipes)
+-   Make it purrr
+
+**Display Functions**
+
+-   `summary()` and `print()` functions
+-   `plot()` for tweets, users, and/or both
+-   Change `save_as_csv()` to `write()`
 
 **API Functions**
 
