@@ -19,6 +19,7 @@ return_n_rows <- function(x, n = NULL) {
   if (!any(c("tbl_df", "tibble", "tbl") %in% class(x))) {
     x <- data_frame(x)
   }
+	x <- unique(x)
   x[seq_n_rows(n), ]
 }
 

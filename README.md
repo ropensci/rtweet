@@ -80,6 +80,8 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
+**Display Functions** - `print()` - `plot()` - `summary()` - `write()`
+
 **API Functions**
 
 -   `get_retweeters()` Retrieve users retweeting a status (in progress)
