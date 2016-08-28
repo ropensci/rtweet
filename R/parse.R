@@ -1,6 +1,3 @@
-
-
-
 #' tweets_df
 #'
 #' @description Converts tweets object (nested list converted from

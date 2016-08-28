@@ -26,6 +26,8 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
     restapi = rest,
     query = "application/rate_limit_status")
 
+  token <- check_token(token)
+
   r <- TWIT(get = TRUE, url, config = token)
 
   rl_df <- .rl_df(r)
@@ -58,7 +60,7 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
     stringsAsFactors = FALSE)
 
   rl_df$reset <- difftime(
-    as.POSIXct(rl_df$reset,
+    as.POSIXct(as.numeric(rl_df$reset),
       origin = "1970-01-01"),
     Sys.time(),
     units = "mins")
