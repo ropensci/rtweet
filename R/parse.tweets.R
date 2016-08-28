@@ -41,6 +41,7 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   toplevel_df <- lapply(dat[toplevel], return_with_NA)
 
   toplevel_df$user_id <- check_user_id(dat)
+  toplevel_df$screen_name <- check_screen_name(dat)
 
   names(toplevel_df) <- gsub("_str", "", names(toplevel_df))
 

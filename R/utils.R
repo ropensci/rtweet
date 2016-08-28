@@ -100,6 +100,25 @@ check_user_id <- function(dat, n = NULL) {
   user_id
 }
 
+check_screen_name <- function(dat, n = NULL) {
+
+	dat <- check_response_obj(dat)
+
+	if (is.null(n)) n <- length(dat[["id_str"]])
+
+	screen_name <- rep(NA_character_, n)
+
+	if ("user" %in% names(dat)) {
+		user <- dat[["user"]]
+
+		if ("screen_name" %in% names(user)) {
+			screen_name <- user[["screen_name"]]
+		}
+	}
+
+	screen_name
+}
+
 
 return_with_NA <- function(x, n) {
   if (is.character(x)) {
