@@ -39,6 +39,8 @@ tweets <- setClass("tweets", slots = c(
 #'make_tweets
 #'@description convert to S4 class
 #'@param x Tweets data frame
+#'@importFrom dplyr left_join
+#'@importFrom methods new
 #'@export
 make_tweets <- function(x) {
 	ux <- users_data(x)
