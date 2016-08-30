@@ -1,7 +1,7 @@
 
-#' @importFrom methods setClass
+#' @import methods
 #' @export
-tweets <- methods::setClass("tweets", slots = c(
+tweets <- setClass("tweets", slots = c(
 	created_at = "POSIXct",
 	status_id = "character",
 	user_id = "character",
@@ -37,12 +37,12 @@ tweets <- methods::setClass("tweets", slots = c(
 	lat3 = "numeric",
 	lat4 = "numeric"))
 
-#'make_tweets
-#'@description convert to S4 class
-#'@param x Tweets data frame
-#'@importFrom dplyr left_join
-#'@importFrom methods new
-#'@export
+#' make_tweets
+#' @description convert to S4 class
+#' @param x Tweets data frame
+#' @import methods
+#' @importFrom dplyr left_join
+#' @export
 make_tweets <- function(x) {
 	ux <- users_data(x)
 	ux <- ux[, !names(ux) %in% c("lang", "screen_name", "created_at")]
@@ -52,7 +52,7 @@ make_tweets <- function(x) {
 	user_mentions <- sapply(x$user_mentions, paste, collapse = " ")
 	hashtags <- sapply(x$hashtags, paste, collapse = " ")
 
-	methods::new("tweets",
+	new("tweets",
 		created_at = as.POSIXct(x$created_at),
 		status_id = as.character(x$status_id),
 		user_id = as.character(x$user_id),
@@ -94,7 +94,7 @@ trunc_text <- function(txt, n) {
 }
 
 
-methods::setMethod("show",
+setMethod("show",
 	"tweets",
 	function(object) {
 		x <- object
