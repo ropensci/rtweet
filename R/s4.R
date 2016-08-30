@@ -1,6 +1,7 @@
 
-#'@export
-tweets <- setClass("tweets", slots = c(
+#' @importFrom methods setClass
+#' @export
+tweets <- methods::setClass("tweets", slots = c(
 	created_at = "POSIXct",
 	status_id = "character",
 	user_id = "character",
@@ -51,7 +52,7 @@ make_tweets <- function(x) {
 	user_mentions <- sapply(x$user_mentions, paste, collapse = " ")
 	hashtags <- sapply(x$hashtags, paste, collapse = " ")
 
-	new("tweets",
+	methods::new("tweets",
 		created_at = as.POSIXct(x$created_at),
 		status_id = as.character(x$status_id),
 		user_id = as.character(x$user_id),
@@ -92,8 +93,8 @@ trunc_text <- function(txt, n) {
 	paste0(strtrim(encodeString(txt), width = n), " ...")
 }
 
-#'@export
-setMethod("show",
+
+methods::setMethod("show",
 	"tweets",
 	function(object) {
 		x <- object
