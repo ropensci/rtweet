@@ -139,8 +139,8 @@ trunc_text <- function(txt, n) {
 	paste0(strtrim(encodeString(txt), width = n), " ...")
 }
 
-
-
+##' @import methods
+##' @export
 setMethod("show",
 	"tweets",
 	function(object) {
