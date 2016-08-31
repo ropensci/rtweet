@@ -30,17 +30,18 @@
 #' @export
 TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
 
-  if (all(is.null(timeout), is.null(filename))) {
+  if (is.null(timeout)) {
     if (get) {
     return(GET(url, ...))
   } else {
     return(POST(url, ...))
   }
   } else {
-    tryCatch(POST(url, ...,
+    GET(url, ...,
       timeout(timeout),
-      write_disk(filename, overwrite = TRUE)),
-      error = function(e) return(invisible()))
+      write_disk(filename, overwrite = TRUE),
+    	progress())
+    	#error = function(e) return(NULL))
   }
 }
 

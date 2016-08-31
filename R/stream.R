@@ -78,15 +78,14 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
     message(paste0("Streaming tweets for ", timeout, " seconds..."))
   }
 
-  TWIT(
-    get = FALSE, url,
-    config = token,
-    timeout = timeout,
-    filename = file_name)
+  r <- tryCatch(GET(url = url,
+  	config = token, write_disk(file_name, overwrite = TRUE),
+  	progress(), timeout(timeout)),
+  	error = function(e) return(invisible()))
 
   s <- stream_in(
     file(file_name),
-    verbose = FALSE)
+    verbose = TRUE)
 
   if (is.null(file_name)) file.remove(file_name)
 
@@ -116,5 +115,6 @@ stream_params <- function(stream) {
   } else {
     params <- list(track = stream)
   }
-  params
+
+  c(params, filter_level = "low")
 }
