@@ -15,11 +15,11 @@ Description: An implementation of calls designed to extract
 Depends:
     R (>= 3.1.0)
 Imports:
-    dplyr (>= 0.5.0),
+    dplyr (>= 0.4.3),
     httr (>= 1.2.1),
-    jsonlite (>= 1.0),
+    jsonlite (>= 0.9),
     utils (>= 3.3.1),
-    methods (>= 3.3.1)
+    methods (>= 3.1.2)
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://github.com/mkearney/rtweet/
