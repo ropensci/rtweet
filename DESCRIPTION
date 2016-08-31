@@ -19,14 +19,14 @@ Imports:
     httr (>= 1.2.1),
     jsonlite (>= 1.0),
     utils (>= 3.3.1),
-    methods (>= 3.3.1)
+    methods (>= 3.1.2)
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://github.com/mkearney/rtweet/
 BugReports: https://github.com/mkearney/rtweet/issues
 RoxygenNote: 5.0.1
 Suggests:
-		testthat,
+    testthat,
     knitr,
     rmarkdown,
     ggplot2
