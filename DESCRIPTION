@@ -19,7 +19,8 @@ Imports:
     httr (>= 1.2.1),
     jsonlite (>= 1.0),
     utils (>= 3.3.1),
-    methods (>= 3.1.2)
+    methods (>= 3.1.2),
+    ggplot2
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://github.com/mkearney/rtweet/
@@ -28,6 +29,5 @@ RoxygenNote: 5.0.1
 Suggests:
     testthat,
     knitr,
-    rmarkdown,
-    ggplot2
+    rmarkdown
 VignetteBuilder: knitr
