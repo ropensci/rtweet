@@ -71,7 +71,7 @@
 #'   tibble data_frame.
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
-  parse = TRUE, token = NULL, verbose = TRUE, ...) {
+  parse = TRUE, token = NULL, verbose = TRUE, dev = FALSE, ...) {
 
   query <- "search/tweets"
 
@@ -112,6 +112,11 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   if (parse) {
     tw <- parser(tw, n)
     tw <- attr_tweetusers(tw)
+  }
+
+  if (dev) {
+  	tw <- make_tweets(tw)
+  	tw <- rt_data(tw)
   }
 
   if (verbose) {

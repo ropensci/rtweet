@@ -1,3 +1,7 @@
+# rtweet 0.2.5
+
+* S4 class and methods integration
+
 # rtweet 0.2.4
 
 * Added new trends functions. Find what trending locations are

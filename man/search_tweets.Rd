@@ -5,7 +5,7 @@
 \title{search_tweets}
 \usage{
 search_tweets(q, n = 100, type = "mixed", max_id = NULL, parse = TRUE,
-  token = NULL, verbose = TRUE, ...)
+  token = NULL, verbose = TRUE, dev = FALSE, ...)
 }
 \arguments{
 \item{q}{Character, search query of no greater than

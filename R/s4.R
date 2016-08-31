@@ -3,7 +3,7 @@
 ##' @description Plots tweets data
 ##'
 ##' @param x tweets data
-##' @import ggplot
+##' @import ggplot2
 ##' @export
 plot.rt_df <- function(x) {
   x$group <- sample(c("a", "b", "c", "d", "e"), nrow(x), replace = TRUE)
