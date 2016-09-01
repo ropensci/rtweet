@@ -36,6 +36,8 @@ an environment variable tokens.}
 \item{verbose}{Logical, indicating whether or not to output
 processing/retrieval messages.}
 
+\item{dev}{Logical, for development purposes.}
+
 \item{\dots}{Futher arguments passed on to \code{make_url}.
 All named arguments that do not match the above arguments
 (i.e., count, type, etc.) will be built into the request.

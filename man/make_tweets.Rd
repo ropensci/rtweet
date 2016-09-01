@@ -10,6 +10,7 @@ make_tweets(x)
 \item{x}{Tweets data frame}
 }
 \description{
-convert to S4 class
+Convert API data to S4 Class list object
 }
+\keyword{classes}
 

@@ -2,14 +2,16 @@
 % Please edit documentation in R/s4.R
 \name{plot.rt_df}
 \alias{plot.rt_df}
-\title{plot.rt_df}
+\title{plot tweets}
 \usage{
-\method{plot}{rt_df}(x)
+\method{plot}{rt_df}(x, ...)
 }
 \arguments{
-\item{x}{tweets data}
+\item{x}{tweets data frame object}
+
+\item{\dots}{Other arguments passed to plot}
 }
 \description{
-Plots tweets data
+Plot tweets class data
 }
 

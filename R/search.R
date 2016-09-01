@@ -24,6 +24,7 @@
 #'   an environment variable tokens.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
+#' @param dev Logical, for development purposes.
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.

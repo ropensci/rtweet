@@ -2,13 +2,11 @@
 % Please edit documentation in R/s4.R
 \docType{class}
 \name{rt_df-class}
+\alias{rt_df}
 \alias{rt_df-class}
 \title{Class "rt_df" for Tweets data}
 \description{
 Tweets data frame
-}
-\section{Class functions}{
-
 }
 \examples{
 
