@@ -7,23 +7,22 @@
 #' @import ggplot2
 #' @export
 plot.rt_df <- function(x, ...) {
-  x$group <- sample(c("a", "b", "c", "d", "e"), nrow(x), replace = TRUE)
-  x$followers_count <- log(x$followers_count + 2)
-  x$friends_count <- log(x$friends_count + 2)
-  ggplot(x, aes_string(x = "friends_count", y = "followers_count",
-      color = "group", alpha = .85)) +
-    theme_minimal() + geom_point(size = 5) +
-    labs(x = "# of Friends", y = "# of Followers",
-      title = "rtweet: Collecting Twitter Data") +
-    theme(legend.position = "none",
-    	plot.title = element_text(hjust = .45),
-      text = element_text(
-      	family = "Georgia", size = 14,
-        face = "bold", color = "#555555"),
-      axis.text = element_blank())
+	x$group <- sample(c("a", "b", "c", "d", "e"), nrow(x), replace = TRUE)
+	x$followers_count <- log(x$followers_count + 2)
+	x$friends_count <- log(x$friends_count + 2)
+	ggplot(x, aes_string(x = "friends_count", y = "followers_count",
+		color = "group", alpha = .85)) +
+		theme_minimal() + geom_point(size = 5) +
+		labs(x = "# of Friends", y = "# of Followers",
+			title = "rtweet: Collecting Twitter Data") +
+		theme(legend.position = "none",
+			plot.title = element_text(hjust = .45),
+			text = element_text(
+				family = "Georgia", size = 14,
+				face = "bold", color = "#555555"),
+			axis.text = element_blank())
 }
 
-<<<<<<< HEAD
 #' Class "rt_df" for Tweets data
 #'
 #' @description Tweets data frame
@@ -52,33 +51,14 @@ rt_df <- setClass("rt_df", contains = "data.frame")
 #' }
 #' @importFrom dplyr as_data_frame
 #' @export
-=======
-##' Class "rt_df" for Tweets data
-##'
-##' Tweets data frame
-##'
-##' @name rt_df-class
-##' @docType class
-setClass("rt_df", contains = "data.frame")
-
-##' rt_data
-##'
-##' @description make data frame
-##'
-##' @param object tweets data
-##'
-##' @importFrom dplyr as_data_frame
-##' @export
->>>>>>> 5500909961c8890645ba69810e01add73271459e
 rt_data <- function(object) {
 	cols <- slotNames(object)
 	data <- lapply(cols, function(x) slot(object, x))
-  names(data) <- cols
-  data <- as_data_frame(data)
-  new("rt_df", data)
+	names(data) <- cols
+	data <- as_data_frame(data)
+	new("rt_df", data)
 }
 
-<<<<<<< HEAD
 
 #' Class-tweets
 #'
@@ -87,11 +67,6 @@ rt_data <- function(object) {
 #' @docType class
 #' @keywords classes
 #' @export
-=======
-##' @name tweets-class
-##' @import methods
-##' @export
->>>>>>> 5500909961c8890645ba69810e01add73271459e
 tweets <- setClass("tweets", slots = c(
 	created_at = "POSIXct",
 	status_id = "character",
@@ -129,7 +104,6 @@ tweets <- setClass("tweets", slots = c(
 	lat4 = "numeric"))
 
 
-<<<<<<< HEAD
 #' make_tweets
 #'
 #' @description Convert API data to S4 Class list object
@@ -140,18 +114,6 @@ tweets <- setClass("tweets", slots = c(
 #' @import methods
 #' @importFrom dplyr left_join
 #' @export
-=======
-
-##' make_tweets
-##'
-##' @description convert to S4 class
-##'
-##' @param x Tweets data frame
-##'
-##' @import methods
-##' @importFrom dplyr left_join
-##' @export
->>>>>>> 5500909961c8890645ba69810e01add73271459e
 make_tweets <- function(x) {
 	ux <- users_data(x)
 	ux <- ux[, !names(ux) %in% c("lang", "screen_name", "created_at")]
@@ -219,33 +181,33 @@ setMethod("show",  "tweets", function(object) print.tweets(object))
 #' @param \dots Other arguments passed to print
 #' @export
 print.tweets <- function(x, ...) {
-  n <- floor((getOption("width") - nchar("Tweets")) / 2.75)
+	n <- floor((getOption("width") - nchar("Tweets")) / 2.75)
 
-  twt_df <- data.frame(
-    created_at = x@created_at,
-    retweets = x@retweet_count,
-    favorites = x@favorite_count,
-    text = trunc_text(x@text, 40))
+	twt_df <- data.frame(
+		created_at = x@created_at,
+		retweets = x@retweet_count,
+		favorites = x@favorite_count,
+		text = trunc_text(x@text, 40))
 
-  usr_df <- data.frame(
-    screen_name = x@screen_name,
-    followers = x@followers_count,
-    friends = x@friends_count,
-    statuses = x@statuses_count,
-    location = x@location,
-    verified = x@verified)
+	usr_df <- data.frame(
+		screen_name = x@screen_name,
+		followers = x@followers_count,
+		friends = x@friends_count,
+		statuses = x@statuses_count,
+		location = x@location,
+		verified = x@verified)
 
-  stars <- paste(rep("*", n), collapse = "")
+	stars <- paste(rep("*", n), collapse = "")
 
-  cat(stars, "Tweets", stars, fill = TRUE)
+	cat(stars, "Tweets", stars, fill = TRUE)
 
-  print(twt_df, row.names = TRUE,
-    print.gap = 1L, max = 40, na.print = "NA")
+	print(twt_df, row.names = TRUE,
+		print.gap = 1L, max = 40, na.print = "NA")
 
-  cat("\n")
-  cat(stars, "Users", stars, fill = TRUE)
+	cat("\n")
+	cat(stars, "Users", stars, fill = TRUE)
 
-  print(usr_df, row.names = TRUE,
-    print.gap = 1L, max = 60, na.print = "NA")
-  cat("\n")
+	print(usr_df, row.names = TRUE,
+		print.gap = 1L, max = 60, na.print = "NA")
+	cat("\n")
 }
