@@ -23,15 +23,14 @@ plot.rt_df <- function(x) {
 ##'
 ##' @name rt_df-class
 ##' @docType class
-##' @section Class functions
-##' @keywords classes
-##' @examples
-##'
-##' showClass("rt_df")
-##' methods(class = "rt_df")
-##' @export
 setClass("rt_df", contains = "data.frame")
 
+##' rt_data
+##'
+##' @description make data frame
+##'
+##' @param object tweets data
+##'
 ##' @importFrom dplyr as_data_frame
 ##' @export
 rt_data <- function(object) {
@@ -42,6 +41,7 @@ rt_data <- function(object) {
   new("rt_df", data)
 }
 
+##' @name tweets-class
 ##' @import methods
 ##' @export
 tweets <- setClass("tweets", slots = c(
@@ -83,8 +83,11 @@ tweets <- setClass("tweets", slots = c(
 
 
 ##' make_tweets
+##'
 ##' @description convert to S4 class
+##'
 ##' @param x Tweets data frame
+##'
 ##' @import methods
 ##' @importFrom dplyr left_join
 ##' @export
