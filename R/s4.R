@@ -23,6 +23,7 @@ plot.rt_df <- function(x, ...) {
       axis.text = element_blank())
 }
 
+<<<<<<< HEAD
 #' Class "rt_df" for Tweets data
 #'
 #' @description Tweets data frame
@@ -51,6 +52,24 @@ rt_df <- setClass("rt_df", contains = "data.frame")
 #' }
 #' @importFrom dplyr as_data_frame
 #' @export
+=======
+##' Class "rt_df" for Tweets data
+##'
+##' Tweets data frame
+##'
+##' @name rt_df-class
+##' @docType class
+setClass("rt_df", contains = "data.frame")
+
+##' rt_data
+##'
+##' @description make data frame
+##'
+##' @param object tweets data
+##'
+##' @importFrom dplyr as_data_frame
+##' @export
+>>>>>>> 5500909961c8890645ba69810e01add73271459e
 rt_data <- function(object) {
 	cols <- slotNames(object)
 	data <- lapply(cols, function(x) slot(object, x))
@@ -59,6 +78,7 @@ rt_data <- function(object) {
   new("rt_df", data)
 }
 
+<<<<<<< HEAD
 
 #' Class-tweets
 #'
@@ -67,6 +87,11 @@ rt_data <- function(object) {
 #' @docType class
 #' @keywords classes
 #' @export
+=======
+##' @name tweets-class
+##' @import methods
+##' @export
+>>>>>>> 5500909961c8890645ba69810e01add73271459e
 tweets <- setClass("tweets", slots = c(
 	created_at = "POSIXct",
 	status_id = "character",
@@ -104,6 +129,7 @@ tweets <- setClass("tweets", slots = c(
 	lat4 = "numeric"))
 
 
+<<<<<<< HEAD
 #' make_tweets
 #'
 #' @description Convert API data to S4 Class list object
@@ -114,6 +140,18 @@ tweets <- setClass("tweets", slots = c(
 #' @import methods
 #' @importFrom dplyr left_join
 #' @export
+=======
+
+##' make_tweets
+##'
+##' @description convert to S4 class
+##'
+##' @param x Tweets data frame
+##'
+##' @import methods
+##' @importFrom dplyr left_join
+##' @export
+>>>>>>> 5500909961c8890645ba69810e01add73271459e
 make_tweets <- function(x) {
 	ux <- users_data(x)
 	ux <- ux[, !names(ux) %in% c("lang", "screen_name", "created_at")]
