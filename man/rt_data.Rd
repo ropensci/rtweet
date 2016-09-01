@@ -10,7 +10,7 @@ rt_data(object)
 \item{object}{Tweets class list object}
 }
 \description{
-Convert tweets list to rt_df
+Convert tweets list to rtweet_df
 }
 \examples{
 \dontrun{

@@ -7,9 +7,9 @@
 \method{print}{tweets}(x, ...)
 }
 \arguments{
-\item{x}{tweets class object}
+\item{x}{Object of class \code{tweets}.}
 
-\item{\dots}{Other arguments passed to print}
+\item{\dots}{Other arguments passed to \code{print}.}
 }
 \description{
 print tweets class object
