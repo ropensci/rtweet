@@ -1,5 +1,24 @@
 # rtweet 0.2.5
 
+* Added `lookup_statuses()` function, which is the counterpart to 
+`lookup_users()`. Supply a vector of status IDs and return tweet data
+for each status. `lookup_statuses()` is particularly powerful when 
+combined with other methods designed to collect older Tweets. Early 
+experiments with doing this all through R have turned out surprisingly 
+well, but packaging it in a way that makes it easy to do on other 
+machines is unlikely to happen in the short term.
+
+* Removed dplyr dependencies. Everyone should install and use `dplyr`, 
+but for sake of parsimony, it's been removed from rtweet.
+
+* Continued development of S4 classes and methods. Given removal of 
+dplyr dependencies, I've started to integrate print/show methods that
+will limit the number of rows (and width of columns) when printed. 
+Given the amount of data returned in a relatively short period of time,
+printing entire data frames quickly becomes headache-inducing.
+
+# rtweet 0.2.5
+
 * S4 class and methods integration
 
 # rtweet 0.2.4
