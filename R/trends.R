@@ -65,14 +65,13 @@ get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
 #'
 #' @param x Nexted list fromJSON of trends data.
 #'
-#' @importFrom dplyr data_frame tbl_df bind_cols
 #' @keywords internal
 #' @export
 parse_trends <- function(x) {
-	trends <- tbl_df(x$trends[[1]])
+	trends <- data_frame_(x$trends[[1]])
 	rows <- nrow(trends)
 	names(trends)[names(trends) == "name"] <- "trend"
-	bind_cols(trends, data_frame(
+	cbind_(trends, data_frame_(
 		as_of = format_trend_date(rep(x$as_of, rows)),
 		created_at = format_trend_date(rep(x$created_at, rows)),
 		place = rep(x$locations[[1]]$name, rows),
@@ -144,12 +143,11 @@ trends_available <- function(token = NULL, parse = TRUE) {
 #' @description parse trends data
 #'
 #' @param x trends data fromJSON
-#' @importFrom dplyr bind_cols tbl_df
 #' @keywords internal
 #' @noRd
 parse_trends_available <- function(x) {
-	p <- bind_cols(tbl_df(x[names(x) != "placeType"]),
-		tbl_df(x[["placeType"]]))
+	p <- cbind_(data_frame_(x[names(x) != "placeType"]),
+		data_frame_(x[["placeType"]]))
 	names(p)[ncol(p)] <- "place_type"
 	p
 }

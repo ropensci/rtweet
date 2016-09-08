@@ -7,7 +7,6 @@
 #'   return object produced by \code{\link{search_tweets}} or
 #'   \code{\link{stream_tweets}}.
 #'
-#' @importFrom dplyr bind_cols
 #' @export
 tweets_df <- function(dat) {
 
@@ -23,7 +22,7 @@ tweets_df <- function(dat) {
     dat <- dat[["status"]]
   }
 
-  tweets_df <- bind_cols(
+  tweets_df <- cbind_(
     tweets_toplevel_df(dat),
     tweets_entities_df(dat),
     tweets_retweet_df(dat),
@@ -40,7 +39,6 @@ tweets_df <- function(dat) {
 #' @param dat User object or nested list. Usually this is the
 #'   return object produced by \code{\link{lookup_users}}.
 #'
-#' @importFrom dplyr bind_cols
 #' @export
 user_df <- function(dat) {
 
@@ -48,7 +46,7 @@ user_df <- function(dat) {
     dat <- dat[["user"]]
   }
 
-  user_df <- bind_cols(
+  user_df <- cbind_(
     user_toplevel_df(dat),
     user_entities_df(dat))
 
@@ -59,7 +57,6 @@ user_df <- function(dat) {
 #'
 #' @param x nested list of API data returned from fromJSON
 #' @param n desired number to return
-#' @importFrom dplyr bind_rows
 #' @keywords internal
 #' @export
 parser <- function(x, n = NULL) {
@@ -105,12 +102,12 @@ parse_fs <- function(x, n = NULL) {
     next_cursor <- return_last(next_cursor)
     x <- unlist(lapply(x, function(x) x[["ids"]]))
   }
-  x <- return_n_rows(x, n)
 
+  x <- return_n_rows(x, n)
+  x <- data_frame_(x)
   names(x) <- "ids"
 
   attr(x, "next_cursor") <- next_cursor
-
   x
 }
 

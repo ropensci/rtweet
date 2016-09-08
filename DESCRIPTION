@@ -1,7 +1,7 @@
 Package: rtweet
 Type: Package
 Title: Collecting Twitter Data
-Version: 0.2.5
+Version: 0.2.6
 Date: 2016-08-21
 Author: Michael W. Kearney
 Maintainer: Michael W. Kearney <mkearney@ku.edu>
@@ -15,12 +15,10 @@ Description: An implementation of calls designed to extract
 Depends:
     R (>= 3.1.0)
 Imports:
-    dplyr (>= 0.4.0),
     httr (>= 1.2.0),
     jsonlite,
     utils,
-    methods,
-    ggplot2
+    methods
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://github.com/mkearney/rtweet/

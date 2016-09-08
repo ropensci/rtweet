@@ -5,49 +5,24 @@
 #' @param x tweets data frame object
 #' @param ggplot Logical indicating whether to plot using \pkg{ggplot2}
 #' @param \dots Other arguments passed to plot
-#' @import ggplot2
 #' @importFrom grDevices hcl
 #' @importFrom graphics par plot
 #' @export
 plot.rtweet_df <- function(x, ggplot = TRUE, ...) {
-	x$group <- sample(c("a", "b", "c", "d", "e"), nrow(x), replace = TRUE)
-	x$followers_count <- log(x$followers_count + 2)
-	x$friends_count <- log(x$friends_count + 2)
+  x$group <- sample(c("a", "b", "c", "d", "e"), nrow(x), replace = TRUE)
+  x$followers_count <- log(x$followers_count + 2)
+  x$friends_count <- log(x$friends_count + 2)
 
-  if (all(requireNamespace("ggplot2", quietly = TRUE), ggplot)) {
-    ggplot2::ggplot(x, aes_string(
-        x = "friends_count",
-        y = "followers_count",
-  		  color = "group",
-        alpha = .85)) +
-  		ggplot2::theme_minimal() +
-      ggplot2::geom_point(size = 5) +
-  		ggplot2::labs(
-        x = "# of Friends",
-        y = "# of Followers",
-  			title = "rtweet: Collecting Twitter Data") +
-  		ggplot2::theme(
-        legend.position = "none",
-  			plot.title = ggplot2::element_text(hjust = .45),
-  			text = ggplot2::element_text(
-  				family = "serif", size = 16,
-  				face = "bold", color = "#555555"),
-  			axis.text = ggplot2::element_blank())
-  } else {
-    cols <- paste(gg_cols(5), "99", sep = "")
-    par(family = "serif", xaxt = "n", yaxt = "n",
-      font = 2L, col.main = "#555555",
-      col.lab = "#555555",
-      cex.main = 2,
-      cex.lab = 1.25,
-      font.lab = 2L)
-    plot(x$friends_count, x$followers_count,
-      pch = 16,
-      xlab = "# of Friends", ylab = "# of Followers",
-      main = "rtweet: Collecting Twitter Data",
-      col = sample(cols, nrow(x), replace = TRUE),
-      bty = "n", cex = 2.5)
-  }
+  cols <- paste(gg_cols(5), "99", sep = "")
+  par(family = "serif", xaxt = "n", yaxt = "n",
+    font = 2L, col.main = "#555555",
+    col.lab = "#555555", cex.main = 2,
+    cex.lab = 1.25, font.lab = 2L)
+  plot(x$friends_count, x$followers_count,
+    pch = 16, xlab = "# of Friends", ylab = "# of Followers",
+    main = "rtweet: Collecting Twitter Data",
+    col = sample(cols, nrow(x), replace = TRUE),
+    bty = "n", cex = 2.5)
 }
 
 #' gg_cols
@@ -94,13 +69,12 @@ rtweet_df <- setClass("rtweet_df", contains = "data.frame")
 #' tw <- rt_data(tw)
 #' tw
 #' }
-#' @importFrom dplyr as_data_frame
 #' @export
 rt_data <- function(object) {
 	cols <- slotNames(object)
 	data <- lapply(cols, function(x) slot(object, x))
 	names(data) <- cols
-	data <- as_data_frame(data)
+	data <- data_frame_(data)
 	new("rtweet_df", data)
 }
 
@@ -156,52 +130,51 @@ tweets <- setClass("tweets", slots = c(
 #' @param x Tweets data frame
 #' @keywords classes
 #' @import methods
-#' @importFrom dplyr left_join
 #' @export
 make_tweets <- function(x) {
-	ux <- users_data(x)
-	ux <- ux[, !names(ux) %in% c("lang", "screen_name", "created_at")]
-	x <- left_join(x, ux, by = "user_id")
+  ux <- users_data(x)
+  ux <- ux[, !names(ux) %in% c("lang", "screen_name", "created_at")]
+  x <- merge(x, ux, by = "user_id", all = TRUE)
 
-	urls <- sapply(x$urls, paste, collapse = " ")
-	user_mentions <- sapply(x$user_mentions, paste, collapse = " ")
-	hashtags <- sapply(x$hashtags, paste, collapse = " ")
+  urls <- sapply(x$urls, paste, collapse = " ")
+  user_mentions <- sapply(x$user_mentions, paste, collapse = " ")
+  hashtags <- sapply(x$hashtags, paste, collapse = " ")
 
-	new("tweets",
-		created_at = as.POSIXct(x$created_at),
-		status_id = as.character(x$status_id),
-		user_id = as.character(x$user_id),
-		screen_name = as.character(x$screen_name),
-		followers_count = as.double(x$followers_count),
-		friends_count = as.double(x$friends_count),
-		statuses_count = as.double(x$statuses_count),
-		location = as.character(x$location),
-		verified = as.logical(x$verified),
-		text = as.character(x$text),
-		retweet_count = as.double(x$retweet_count),
-		favorite_count = as.double(x$favorite_count),
-		in_reply_to_status_id = as.character(x$in_reply_to_status_id),
-		in_reply_to_user_id = as.character(x$in_reply_to_user_id),
-		#in_reply_to_screen_name = as.character(x$in_reply_to_screen_name),
-		is_quote_status = as.logical(x$is_quote_status),
-		quoted_status_id = as.character(x$quoted_status_id),
-		source = as.character(x$source),
-		lang = as.character(x$lang),
-		user_mentions = as.character(x$user_mentions),
-		hashtags = as.character(x$hashtags),
-		urls = as.character(x$urls),
-		is_retweet = as.logical(x$is_retweet),
-		retweet_status_id = as.character(x$retweet_status_id),
-		place_name = as.character(x$place_name),
-		country = as.character(x$country),
-		long1 = as.numeric(x$long1),
-		long2 = as.numeric(x$long2),
-		long3 = as.numeric(x$long3),
-		long4 = as.numeric(x$long4),
-		lat1 = as.numeric(x$lat1),
-		lat2 = as.numeric(x$lat2),
-		lat3 = as.numeric(x$lat3),
-		lat4 = as.numeric(x$lat4))
+  new("tweets",
+	created_at = as.POSIXct(x$created_at),
+	status_id = as.character(x$status_id),
+	user_id = as.character(x$user_id),
+	screen_name = as.character(x$screen_name),
+	followers_count = as.double(x$followers_count),
+	friends_count = as.double(x$friends_count),
+	statuses_count = as.double(x$statuses_count),
+	location = as.character(x$location),
+	verified = as.logical(x$verified),
+	text = as.character(x$text),
+	retweet_count = as.double(x$retweet_count),
+	favorite_count = as.double(x$favorite_count),
+	in_reply_to_status_id = as.character(x$in_reply_to_status_id),
+	in_reply_to_user_id = as.character(x$in_reply_to_user_id),
+	#in_reply_to_screen_name = as.character(x$in_reply_to_screen_name),
+	is_quote_status = as.logical(x$is_quote_status),
+	quoted_status_id = as.character(x$quoted_status_id),
+	source = as.character(x$source),
+	lang = as.character(x$lang),
+	user_mentions = as.character(x$user_mentions),
+	hashtags = as.character(x$hashtags),
+	urls = as.character(x$urls),
+	is_retweet = as.logical(x$is_retweet),
+	retweet_status_id = as.character(x$retweet_status_id),
+	place_name = as.character(x$place_name),
+	country = as.character(x$country),
+	long1 = as.numeric(x$long1),
+	long2 = as.numeric(x$long2),
+	long3 = as.numeric(x$long3),
+	long4 = as.numeric(x$long4),
+	lat1 = as.numeric(x$lat1),
+	lat2 = as.numeric(x$lat2),
+	lat3 = as.numeric(x$lat3),
+	lat4 = as.numeric(x$lat4))
 }
 
 
@@ -215,7 +188,7 @@ make_tweets <- function(x) {
 setMethod("show", "rtweet_df", function(object) print.tweets(object))
 
 trunc_text <- function(txt, n) {
-	paste0(strtrim(encodeString(txt), width = n), " ...")
+  paste0(strtrim(encodeString(txt), width = n), " ...")
 }
 
 #' print tweets
@@ -225,39 +198,26 @@ trunc_text <- function(txt, n) {
 #' @param \dots Other arguments passed to \code{print}.
 #' @export
 print.tweets <- function(x, ...) {
-  x$created_at <- as.Date(x$created_at)
-  x$text <- trunc_text(x$text, 21)
-  twt_cols <- c(
-    "screen_name",
-    "retweet_count",
-    "favorite_count",
-    "text")
-  usr_cols <- c(
-    "screen_name",
-    "followers_count",
-    "friends_count",
-    "statuses_count",
-    "verified"
-    )
-  if (nrow(x) > 10) {
-    n_rows <- 10
-  } else {
-    n_rows <- nrow(x)
-  }
-	n <- floor((getOption("width") - nchar("Tweets")) / 2.1)
-	stars <- paste(rep("-", n), collapse = "")
+  mp <- getOption("max.print")
+  options(max.print = 200)
 
   cat("rtweet", fill = TRUE)
-  cat("rtweet_df:",
-    paste0(nrow(x),
-      " tweets (rows) x ",
-      nrow(x), " variables (columns)"),
+  cat("tweet data:",
+    paste0(nrow(x), " tweets (rows) x ",
+      ncol(x), " variables (columns)"),
     fill = TRUE)
   cat("\n")
-	cat(stars, "Tweets", stars, fill = TRUE)
-	print(data.frame(x[seq_len(n_rows), twt_cols]), row.names = FALSE, na.print = "NA")
 
-  stars <- paste(rep("-", n + 1), collapse = "")
-	cat(stars, "Users", stars, fill = TRUE)
-	print(data.frame(x[seq_len(n_rows), usr_cols]), row.names = TRUE, max = 60, na.print = "NA")
+  x$created_at <- trunc_text(x$created_at, 10)
+  x$text <- trunc_text(x$text, 16)
+  x$location <- trunc_text(x$location, 10)
+  x$urls <- trunc_text(x$urls, 10)
+  x$hashtags <- trunc_text(x$hashtags, 10)
+  x$user_mentions <- trunc_text(x$user_mentions, 10)
+  x$place_name <- trunc_text(x$place_name, 10)
+  x$source <- trunc_text(x$source, 10)
+
+  print(x, na.print = "NA")
+
+  options(max.print = mp)
 }

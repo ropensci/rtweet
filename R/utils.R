@@ -3,9 +3,8 @@ return_last <- function(x, n = 1) {
   x[seq_along(n)]
 }
 
-#' @importFrom dplyr bind_rows
 bply <- function(x, f) {
-  x <- bind_rows(lapply(x, f))
+  x <- rbind_(lapply(x, f))
   x <- x[!duplicated(x), ]
 }
 
@@ -14,13 +13,13 @@ exclude_list_null <- function(x) {
   x
 }
 
-#' @importFrom dplyr data_frame
 return_n_rows <- function(x, n = NULL) {
-  if (!any(c("tbl_df", "tibble", "tbl") %in% class(x))) {
-    x <- data_frame(x)
-  }
 	x <- unique(x)
-  x[seq_n_rows(n), ]
+	if (is.data.frame(x)) {
+		return(x[seq_n_rows(n), ])
+	} else {
+		return(x[seq_n_rows(n)])
+	}
 }
 
 seq_n_rows <- function(n) {

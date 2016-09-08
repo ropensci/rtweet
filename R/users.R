@@ -24,7 +24,6 @@
 #' }
 #'
 #' @return json response object (max is 18000 per token)
-#' @importFrom dplyr bind_rows data_frame
 #' @export
 lookup_users <- function(users, token = NULL, parse = TRUE) {
 

@@ -92,7 +92,6 @@ get_max_id <- function(x) {
 }
 
 
-#' @importFrom dplyr bind_rows
 break_check <- function(r, url, count = NULL) {
   if (!is.null(count)) {
     if (count <= 0) return(TRUE)

@@ -107,7 +107,7 @@ tweets_data <- function(users) {
 
 attr_tweetusers <- function(x) {
 	stopifnot(is.list(x), isTRUE(length(x) == 2))
-	d <- data.frame()
+	d <- data_frame_()
 	if (identical(names(x)[1], "tweets")) {
 		d <- x[["tweets"]]
 		attr(d, "users") <- x[["users"]]

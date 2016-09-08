@@ -57,7 +57,7 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
       function(x) x[3])
   }
 
-  tbl_df(toplevel_df)
+  data_frame_(toplevel_df)
 }
 
 tweets_entities_df <- function(dat, n = NULL) {
@@ -70,10 +70,10 @@ tweets_entities_df <- function(dat, n = NULL) {
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  ent_df <- data_frame(
-    user_mentions = as.list(rep(NA_character_, n)),
-    hashtags = as.list(rep(NA_character_, n)),
-    urls = as.list(rep(NA_character_, n)))
+  ent_df <- data_frame_(
+    user_mentions = I(as.list(rep(NA_character_, n))),
+    hashtags = I(as.list(rep(NA_character_, n))),
+    urls = I(as.list(rep(NA_character_, n))))
 
   if ("entities" %in% names(dat)) {
     entities <- dat[["entities"]]
@@ -97,7 +97,6 @@ tweets_entities_df <- function(dat, n = NULL) {
   ent_df
 }
 
-#' @importFrom dplyr data_frame
 tweets_retweet_df <- function(dat, n = NULL) {
 
   if (missing(dat)) {
@@ -108,7 +107,7 @@ tweets_retweet_df <- function(dat, n = NULL) {
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  retweet_df <- data_frame(
+  retweet_df <- data_frame_(
     is_retweet = rep(NA, n),
     retweet_status_id = rep(NA_character_, n))
 
@@ -130,12 +129,12 @@ tweets_retweet_df <- function(dat, n = NULL) {
 make_coords <- function(x) {
 
   if (is.array(x)) {
-    coords_df <- data.frame(matrix(as.numeric(x), 1, 8))
+    coords_df <- data_frame_(matrix(as.numeric(x), 1, 8))
     names(coords_df) <- c(
       "long1", "long2", "long3", "long4",
       "lat1", "lat2", "lat3", "lat4")
   } else {
-    coords_df <- data.frame(matrix(rep(NA_real_, 8), 1, 8))
+    coords_df <- data_frame_(matrix(rep(NA_real_, 8), 1, 8))
 
     names(coords_df) <- c(
       "long1", "long2", "long3", "long4",
@@ -145,7 +144,7 @@ make_coords <- function(x) {
   coords_df
 }
 
-#' @importFrom dplyr data_frame
+
 tweets_place_df <- function(dat, n = NULL) {
 
   if (missing(dat)) {
@@ -156,7 +155,7 @@ tweets_place_df <- function(dat, n = NULL) {
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  place_df <- data_frame(
+  place_df <- data_frame_(
     place_name = rep(NA_character_, n),
     country = rep(NA_character_, n),
     long1 = rep(NA_real_, n),

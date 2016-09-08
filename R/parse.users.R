@@ -18,7 +18,6 @@ usr_ent_urls <- function(x, list = FALSE) {
   x
 }
 
-#' @importFrom dplyr tbl_df
 user_toplevel_df <- function(x, n = NULL, names = NULL,
                              add.names = NULL) {
 
@@ -70,18 +69,29 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
       toplevel_df[["created_at"]], date = FALSE)
   }
 
-  tbl_df(toplevel_df)
+  data_frame_(toplevel_df)
 }
 
+data_frame_ <- function(...) {
+  data.frame(..., stringsAsFactors = FALSE)
+}
+rbindr_ <- function(...) {
+  rbind(..., stringsAsFactors = FALSE)
+}
+rbind_ <- function(...) {
+  do.call("rbindr_", ...)
+}
+cbind_ <- function(...) {
+  cbind(..., stringsAsFactors = FALSE)
+}
 
-#' @importFrom dplyr data_frame
 user_entities_df <- function(dat, n = NULL) {
 
   dat <- check_user_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  user_ent_df <- data_frame(
+  user_ent_df <- data_frame_(
     url = rep(NA_character_, n),
     description_urls = rep(NA_character_, n))
 
