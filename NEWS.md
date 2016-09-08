@@ -1,4 +1,4 @@
-# rtweet 0.2.5
+# rtweet 0.2.6
 
 * Added `lookup_statuses()` function, which is the counterpart to 
 `lookup_users()`. Supply a vector of status IDs and return tweet data
