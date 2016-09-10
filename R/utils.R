@@ -45,7 +45,7 @@ from_js <- function(rsp) {
   if (httr::http_type(rsp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  fromJSON(content(rsp, as = "text"))
+  fromJSON(content(rsp, as = "text", encoding = "UTF-8"))
 }
 
 
