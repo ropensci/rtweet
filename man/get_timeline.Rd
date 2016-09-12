@@ -25,7 +25,13 @@ API return objects.}
 \code{token = NULL} fetches a non-exhausted token from
 an environment variable.}
 
-\item{\dots}{Other arguments passed on to \code{make_url}.}
+\item{\dots}{Futher arguments passed on to \code{make_url}.
+All named arguments that do not match the above arguments
+(i.e., count, type, etc.) will be built into the request.
+To return only English language tweets, for example, use
+\code{lang = "en"}. Or, to exclude retweets, use
+\code{include_rts = FALSE}. For more options see Twitter's
+API documentation.}
 }
 \value{
 List consisting of two data frames. One with the tweets

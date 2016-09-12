@@ -15,7 +15,13 @@
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable.
-#' @param \dots Other arguments passed on to \code{make_url}.
+#' @param \dots Futher arguments passed on to \code{make_url}.
+#'   All named arguments that do not match the above arguments
+#'   (i.e., count, type, etc.) will be built into the request.
+#'   To return only English language tweets, for example, use
+#'   \code{lang = "en"}. Or, to exclude retweets, use
+#'   \code{include_rts = FALSE}. For more options see Twitter's
+#'   API documentation.
 #'
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
