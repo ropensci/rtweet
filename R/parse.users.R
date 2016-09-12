@@ -76,7 +76,7 @@ data_frame_ <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
 rbindr_ <- function(...) {
-  rbind(..., stringsAsFactors = FALSE)
+  rbind(...)
 }
 rbind_ <- function(...) {
   do.call("rbindr_", ...)

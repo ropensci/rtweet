@@ -74,7 +74,7 @@ format_date <- function(x, date = TRUE) {
   x <- as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",
     tz = Sys.timezone(),
-    origin = Sys.time() - as.numeric(Sys.time()))
+    origin = "1970-01-01")
   if (date) {
     x <- as.Date(x)
   }
