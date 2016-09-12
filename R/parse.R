@@ -96,7 +96,7 @@ parser <- function(x, n = NULL) {
 parse_fs <- function(x, n = NULL) {
   if (length(x) == 1) {
     next_cursor <- x[[1]][["next_cursor_str"]]
-    x <- x[[1]][["ids"]]
+    x <- as.character(x[[1]][["ids"]])
   } else if (length(x) > 1) {
     next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]))
     next_cursor <- return_last(next_cursor)
