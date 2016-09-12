@@ -4,12 +4,15 @@
 \alias{tweets_df}
 \title{tweets_df}
 \usage{
-tweets_df(dat)
+tweets_df(dat, clean_tweets = TRUE)
 }
 \arguments{
 \item{dat}{Tweets object or nested list. Usually this is the
 return object produced by \code{\link{search_tweets}} or
 \code{\link{stream_tweets}}.}
+
+\item{clean_tweets}{Logical indicating whether to convert
+text to ASCII.}
 }
 \description{
 Converts tweets object (nested list converted from

@@ -1,5 +1,6 @@
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
-                               add.names = NULL) {
+                               add.names = NULL,
+                               clean.tweets = FALSE) {
 
   if (missing(dat)) {
     stop("Must specify tweets object, dat.", call. = TRUE)
@@ -16,6 +17,8 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
     toplevel <- c(toplevel, add.names)
   }
 
+  clean_tweets <- clean.tweets
+
   dat <- check_response_obj(dat)
 
   if (is.null(n)) n <- length(dat[["id_str"]])
@@ -23,8 +26,9 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   for (i in toplevel) {
     if (!i %in% names(dat)) {
 
-      if (i %in% c("created_at", "id_str", "text",
-        "in_reply_to_status_id_str","in_reply_to_user_id_str",
+      if (i %in% c("created_at", "id_str",
+        "text", "in_reply_to_status_id_str",
+        "in_reply_to_user_id_str",
         "quoted_status_id_str", "lang")) {
         dat[[i]] <- rep(NA_character_, n)
       } else if (i %in% c("retweet_count", "favorite_count")) {
@@ -36,6 +40,9 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
       }
 
     }
+  }
+  if (clean_tweets) {
+    dat[["text"]] <- clean_tweets(dat[["text"]])
   }
 
   toplevel_df <- lapply(dat[toplevel], return_with_NA)

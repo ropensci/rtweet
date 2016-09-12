@@ -6,9 +6,10 @@
 #' @param dat Tweets object or nested list. Usually this is the
 #'   return object produced by \code{\link{search_tweets}} or
 #'   \code{\link{stream_tweets}}.
-#'
+#' @param clean_tweets Logical indicating whether to convert
+#'   text to ASCII.
 #' @export
-tweets_df <- function(dat) {
+tweets_df <- function(dat, clean_tweets = TRUE) {
 
   if (missing(dat)) {
     stop("Must specify tweets object, dat.", call. = TRUE)
@@ -28,7 +29,20 @@ tweets_df <- function(dat) {
     tweets_retweet_df(dat),
     tweets_place_df(dat))
 
-  tweets_df[!duplicated(tweets_df), ]
+  if (clean_tweets) {
+    tweets_df[["text"]] <- clean_tweets(tweets_df[["text"]])
+  }
+  unique(tweets_df)
+}
+
+#' clean_tweets
+#'
+#' @description Converts tweets to to ASCII
+#' @param x Twitter text
+#'
+#' @export
+clean_tweets <- function(x) {
+  iconv(x, "UTF-8", "ASCII", "")
 }
 
 #' user_df
