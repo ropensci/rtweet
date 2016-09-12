@@ -73,7 +73,8 @@ from_js <- function(rsp) {
 format_date <- function(x, date = TRUE) {
   x <- as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",
-    tz = Sys.timezone())
+    tz = Sys.timezone(),
+    origin = Sys.time() - as.numeric(Sys.time()))
   if (date) {
     x <- as.Date(x)
   }
