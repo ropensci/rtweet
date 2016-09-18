@@ -2,24 +2,74 @@
 #'
 #' @description Plot tweets class data
 #'
-#' @param x tweets data frame object
-#' @param ggplot Logical indicating whether to plot using \pkg{ggplot2}
+#' @param x tweets object
 #' @param \dots Other arguments passed to plot
 #' @importFrom grDevices hcl
 #' @importFrom graphics par plot
 #' @export
-plot.rtweet_df <- function(x, ggplot = TRUE, ...) {
-  x$group <- sample(c("a", "b", "c", "d", "e"), nrow(x), replace = TRUE)
-  x$followers_count <- log(x$followers_count + 2)
-  x$friends_count <- log(x$friends_count + 2)
+plot.tweets <- function(x, ...) {
+  x <- rt_data(x)
+  x$group <- sample(c("a", "b", "c", "d", "e"),
+    nrow(x), replace = TRUE)
+
+  if ("followers_count" %in% names(x)) {
+    x$xvar <- log(x$friends_count + 2)
+    x$yvar <- log(x$followers_count + 2)
+    xvar <- "# of Friends"
+    ylab <- "# of Followers"
+  } else {
+    x$xvar <- log(x$favorite_count + 2)
+    x$yvar <- log(x$retweet_count + 2)
+    xlab <- "# of Favorites"
+    ylab <- "# of Retweets"
+  }
+
 
   cols <- paste(gg_cols(5), "99", sep = "")
   par(family = "serif", xaxt = "n", yaxt = "n",
-    font = 2L, col.main = "#555555",
-    col.lab = "#555555", cex.main = 2,
+    font = 2L, col.main = "#333333",
+    col.lab = "#333333", cex.main = 2,
     cex.lab = 1.25, font.lab = 2L)
-  plot(x$friends_count, x$followers_count,
-    pch = 16, xlab = "# of Friends", ylab = "# of Followers",
+  plot(x$xvar, x$yvar,
+    pch = 16, xlab = xlab, ylab = ylab,
+    main = "rtweet: Collecting Twitter Data",
+    col = sample(cols, nrow(x), replace = TRUE),
+    bty = "n", cex = 2.5)
+}
+
+#' plot users
+#'
+#' @description Plot users class data
+#'
+#' @param x users object
+#' @param \dots Other arguments passed to plot
+#' @importFrom grDevices hcl
+#' @importFrom graphics par plot
+#' @export
+plot.users <- function(x, ...) {
+  x <- rt_data(x)
+  x$group <- sample(c("a", "b", "c", "d", "e"),
+    nrow(x), replace = TRUE)
+
+  if ("followers_count" %in% names(x)) {
+    x$xvar <- log(x$friends_count + 2)
+    x$yvar <- log(x$followers_count + 2)
+    xlab <- "# of Friends"
+    ylab <- "# of Followers"
+  } else {
+    x$xvar <- log(x$favorite_count + 2)
+    x$yvar <- log(x$retweet_count + 2)
+    xlab <- "# of Favorites"
+    ylab <- "# of Retweets"
+  }
+
+  cols <- paste(gg_cols(5), "99", sep = "")
+  par(family = "serif", xaxt = "n", yaxt = "n",
+    font = 2L, col.main = "#333333",
+    col.lab = "#333333", cex.main = 2,
+    cex.lab = 1.25, font.lab = 2L)
+  plot(x$xvar, x$yvar,
+    pch = 16, xlab = xlab, ylab = ylab,
     main = "rtweet: Collecting Twitter Data",
     col = sample(cols, nrow(x), replace = TRUE),
     bty = "n", cex = 2.5)
@@ -35,6 +85,7 @@ plot.rtweet_df <- function(x, ggplot = TRUE, ...) {
 #' @examples
 #'
 #' gg_cols(8)
+#' @keywords internal
 #' @export
 gg_cols <- function(n) {
   hues = seq(15, 375, length = n + 1)
@@ -42,24 +93,10 @@ gg_cols <- function(n) {
 }
 
 
-#' rtweet_df
-#'
-#' @description Class containing rtweet [data frame] object converted
-#'  from \code{\link{tweets}} class.
-#'
-#' @keywords classes
-#' @examples
-#'
-#' showClass("rtweet_df")
-#' methods(class = "rtweet_df")
-#' @export
-rtweet_df <- setClass("rtweet_df", contains = "data.frame")
-
-
-
 #' rt_data
 #'
-#' @description Convert tweets list to rtweet_df
+#' @description Convert tweets and users objects
+#'   to data frames
 #'
 #' @param object Tweets class list object
 #' @keywords classes
@@ -72,11 +109,40 @@ rtweet_df <- setClass("rtweet_df", contains = "data.frame")
 #' @export
 rt_data <- function(object) {
 	cols <- slotNames(object)
-	data <- lapply(cols, function(x) slot(object, x))
+	data <- lapply(cols, function(.) slot(object, .))
 	names(data) <- cols
-	data <- data_frame_(data)
-	new("rtweet_df", data)
+	#data <- data_frame_(data)
+  data_frame_(data)
+	#rtweet_table(data)
 }
+
+#' Class-users
+#'
+#' @description Users data list class
+#'
+#' @keywords classes
+#' @export
+users <- setClass("users",
+  slots = c(
+    user_id = "character",
+    name = "character",
+    screen_name = "character",
+    location = "character",
+    description = "character",
+    url = "character",
+    protected = "logical",
+    followers_count = "integer",
+    friends_count = "integer",
+    listed_count = "integer",
+    favourites_count = "integer",
+    statuses_count = "integer",
+    created_at = "POSIXct",
+    utc_offset = "character",
+    time_zone = "character",
+    geo_enabled = "logical",
+    verified = "logical",
+    lang = "character",
+    description_urls = "matrix"))
 
 
 #' Class-tweets
@@ -85,46 +151,35 @@ rt_data <- function(object) {
 #'
 #' @keywords classes
 #' @export
-tweets <- setClass("tweets", slots = c(
-	created_at = "POSIXct",
-	status_id = "character",
-	user_id = "character",
-	screen_name = "character",
-	followers_count = "numeric",
-	friends_count = "numeric",
-	statuses_count = "numeric",
-	location = "character",
-	verified = "logical",
-	text = "character",
-	retweet_count = "numeric",
-	favorite_count = "numeric",
-	in_reply_to_status_id = "character",
-	in_reply_to_user_id = "character",
-	#in_reply_to_screen_name = "character",
-	is_quote_status = "logical",
-	quoted_status_id = "character",
-	source = "character",
-	lang = "character",
-	user_mentions = "character",
-	hashtags = "character",
-	urls = "character",
-	is_retweet = "logical",
-	retweet_status_id = "character",
-	place_name = "character",
-	country = "character",
-	long1 = "numeric",
-	long2 = "numeric",
-	long3 = "numeric",
-	long4 = "numeric",
-	lat1 = "numeric",
-	lat2 = "numeric",
-	lat3 = "numeric",
-	lat4 = "numeric"))
-
+tweets <- setClass("tweets",
+  slots = c(
+  	created_at = "POSIXct",
+    user_id = "character",
+    screen_name = "character",
+    status_id = "character",
+  	retweet_count = "integer",
+  	favorite_count = "integer",
+    text = "character",
+  	in_reply_to_status_id = "character",
+  	in_reply_to_user_id = "character",
+  	in_reply_to_screen_name = "character",
+  	is_quote_status = "logical",
+  	quoted_status_id = "character",
+  	source = "character",
+  	lang = "character",
+  	mentions_user_id = "matrix",
+    mentions_screen_name = "matrix",
+  	hashtags = "matrix",
+  	urls = "matrix",
+  	is_retweet = "logical",
+  	retweet_status_id = "character",
+  	place_name = "character",
+  	country = "character",
+  	coordinates = "matrix"))
 
 #' make_tweets
 #'
-#' @description Convert API data to S4 Class list object
+#' @description Convert data to S4 tweets object
 #'
 #' @name make_tweets
 #' @param x Tweets data frame
@@ -136,59 +191,102 @@ make_tweets <- function(x) {
   ux <- ux[, !names(ux) %in% c("lang", "screen_name", "created_at")]
   x <- merge(x, ux, by = "user_id", all = TRUE)
 
-  urls <- sapply(x$urls, paste, collapse = " ")
-  user_mentions <- sapply(x$user_mentions, paste, collapse = " ")
-  hashtags <- sapply(x$hashtags, paste, collapse = " ")
-
   new("tweets",
-	created_at = as.POSIXct(x$created_at),
-	status_id = as.character(x$status_id),
-	user_id = as.character(x$user_id),
-	screen_name = as.character(x$screen_name),
-	followers_count = as.double(x$followers_count),
-	friends_count = as.double(x$friends_count),
-	statuses_count = as.double(x$statuses_count),
-	location = as.character(x$location),
-	verified = as.logical(x$verified),
-	text = as.character(x$text),
-	retweet_count = as.double(x$retweet_count),
-	favorite_count = as.double(x$favorite_count),
-	in_reply_to_status_id = as.character(x$in_reply_to_status_id),
-	in_reply_to_user_id = as.character(x$in_reply_to_user_id),
-	#in_reply_to_screen_name = as.character(x$in_reply_to_screen_name),
-	is_quote_status = as.logical(x$is_quote_status),
-	quoted_status_id = as.character(x$quoted_status_id),
-	source = as.character(x$source),
-	lang = as.character(x$lang),
-	user_mentions = as.character(x$user_mentions),
-	hashtags = as.character(x$hashtags),
-	urls = as.character(x$urls),
-	is_retweet = as.logical(x$is_retweet),
-	retweet_status_id = as.character(x$retweet_status_id),
-	place_name = as.character(x$place_name),
-	country = as.character(x$country),
-	long1 = as.numeric(x$long1),
-	long2 = as.numeric(x$long2),
-	long3 = as.numeric(x$long3),
-	long4 = as.numeric(x$long4),
-	lat1 = as.numeric(x$lat1),
-	lat2 = as.numeric(x$lat2),
-	lat3 = as.numeric(x$lat3),
-	lat4 = as.numeric(x$lat4))
+  	created_at = as.POSIXct(x$created_at),
+    user_id = as.character(x$user_id),
+    screen_name = as.character(x$screen_name),
+  	status_id = as.character(x$status_id),
+    retweet_count = as.integer(x$retweet_count),
+    favorite_count = as.integer(x$favorite_count),
+  	text = as.character(x$text),
+  	in_reply_to_status_id = as.character(x$in_reply_to_status_id),
+  	in_reply_to_user_id = as.character(x$in_reply_to_user_id),
+  	in_reply_to_screen_name = as.character(x$in_reply_to_screen_name),
+  	is_quote_status = as.logical(x$is_quote_status),
+  	quoted_status_id = as.character(x$quoted_status_id),
+  	source = as.character(x$source),
+  	lang = as.character(x$lang),
+  	mentions_user_id = as.matrix(x$mentions_user_id),
+    mentions_screen_name = as.matrix(x$mentions_screen_name),
+  	hashtags = as.matrix(x$hashtags),
+  	urls = as.matrix(x$urls),
+  	is_retweet = as.logical(x$is_retweet),
+  	retweet_status_id = as.character(x$retweet_status_id),
+  	place_name = as.character(x$place_name),
+  	country = as.character(x$country),
+  	coordinates = matrix(x$coordinates))
 }
 
-
+#' make_users
+#'
+#' @description Convert data to S4 users object
+#'
+#' @name make_users
+#' @param x Users data frame
+#' @keywords classes
+#' @import methods
+#' @export
+make_users <- function(x) {
+  new("users",
+    user_id = as.character(x$user_id),
+    name = as.character(x$name),
+    screen_name = as.character(x$screen_name),
+    location = as.character(x$location),
+    description = as.character(x$description),
+    url = as.character(x$url),
+    protected = as.logical(x$protected),
+    followers_count = as.integer(x$followers_count),
+    friends_count = as.integer(x$friends_count),
+    listed_count = as.integer(x$listed_count),
+    favourites_count = as.integer(x$favourites_count),
+    statuses_count = as.integer(x$statuses_count),
+    created_at = as.POSIXct(x$created_at),
+    utc_offset = as.character(x$utc_offset),
+    time_zone = as.character(x$time_zone),
+    geo_enabled = as.logical(x$geo_enabled),
+    verified = as.logical(x$verified),
+    lang = as.character(x$lang),
+    description_urls = as.matrix(x$description_urls))
+}
 
 #' Method show
 #'
-#' @description Show method for class \code{rtweet_df}
+#' @description Show method for class \code{tweets}
 #' @param object tweets object
 #'
 #' @exportMethod show
-setMethod("show", "rtweet_df", function(object) print.tweets(object))
+setMethod("show", "tweets",
+  function(object) print.tweets(object))
 
 trunc_text <- function(txt, n) {
-  paste0(strtrim(encodeString(txt), width = n), " ...")
+  chars <- unlist(lapply(encodeString(txt), nchar))
+  dots <- rep("", length(chars))
+  dots[chars > n] <- ".."
+  paste0(strtrim(
+    gsub('"', "", gsub("c[(]|[)]|['']", "",
+      encodeString(txt))),
+    width = n), dots)
+}
+
+#' Method show
+#'
+#' @description Show method for class \code{users}
+#' @param object users object
+#'
+#' @exportMethod show
+setMethod("show", "users",
+  function(object) print.users(object))
+
+spacer <- function(.) paste(rep(" ", .), collapse = "")
+
+#' print users
+#'
+#' @description print users class object
+#' @param x Object of class \code{users}.
+#' @param \dots Other arguments passed to \code{print}.
+#' @export
+print.users <- function(x, ...) {
+  print(rt_data(x), max = 100)
 }
 
 #' print tweets
@@ -198,26 +296,63 @@ trunc_text <- function(txt, n) {
 #' @param \dots Other arguments passed to \code{print}.
 #' @export
 print.tweets <- function(x, ...) {
-  mp <- getOption("max.print")
-  options(max.print = 200)
 
-  cat("rtweet", fill = TRUE)
-  cat("tweet data:",
-    paste0(nrow(x), " tweets (rows) x ",
-      ncol(x), " variables (columns)"),
-    fill = TRUE)
+  cat("tweets-class [rtweet]", fill = TRUE)
   cat("\n")
 
-  x$created_at <- trunc_text(x$created_at, 10)
-  x$text <- trunc_text(x$text, 16)
-  x$location <- trunc_text(x$location, 10)
-  x$urls <- trunc_text(x$urls, 10)
-  x$hashtags <- trunc_text(x$hashtags, 10)
-  x$user_mentions <- trunc_text(x$user_mentions, 10)
-  x$place_name <- trunc_text(x$place_name, 10)
-  x$source <- trunc_text(x$source, 10)
+  cat(paste0(length(x@status_id), " tweets (rows) x ",
+      length(slotNames(x)), " variables (columns)"),
+    fill = TRUE)
+  cat("\n")
+  cat("Variable Names:", fill = TRUE)
 
-  print(x, na.print = "NA")
 
-  options(max.print = mp)
+  pp1 <- paste("\t", slotNames(x)[1:12])
+  max <- max(sapply(pp1, nchar))
+
+  s <- sapply(max - sapply(pp1, nchar), spacer)
+
+  pp2 <- c(paste("\t", slotNames(x)[13:23]), "")
+  pp <- mapply(function(., s, j) paste(., s, j, "\n"),
+    pp1, s, pp2)
+  cat(pp)
+  cat("\n")
+
+  cat("Number of unique users =",
+    length(unique(x@user_id)), fill = TRUE)
+  cat("Number of retweet statuses =",
+    sum(x@is_retweet, na.rm = TRUE), fill = TRUE)
+  cat("Number of quote statuses =",
+    sum(x@is_quote_status, na.rm = TRUE), fill = TRUE)
+  cat("Average number of favorites =",
+    round(mean(x@favorite_count,
+      na.rm = TRUE), 0), fill = TRUE)
+  cat("Average number of retweets =",
+    round(mean(x@retweet_count,
+      na.rm = TRUE), 0), fill = TRUE)
+  cat("Total number of hashtags =",
+    length(unlist(x@hashtags)), fill = TRUE)
+  cat("Total number of mentions =",
+    length(unlist(x@mentions_user_id)), fill = TRUE)
+  cat("First tweet = ")
+  print(min(x@created_at, na.rm = TRUE))
+  cat("Last tweet = ")
+  print(max(x@created_at, na.rm = TRUE))
+  cat("\n")
+
+  cat("Preview:", fill = TRUE)
+
+  print(data.frame(
+    date = as.Date(x@created_at),
+    screen_name = x@screen_name,
+    rtweets = x@retweet_count,
+    favorites = x@favorite_count,
+    hashtags = trunc_text(x@hashtags, 10),
+    text = trunc_text(x@text, 60)),
+    quote = FALSE,
+    right = FALSE,
+    max = 30,
+    print.gap = 2L,
+    na.print = NULL)
 }
+

@@ -75,6 +75,9 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
 data_frame_ <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
+as_data_frame_ <- function(...) {
+  as.data.frame(..., stringsAsFactors = FALSE)
+}
 rbindr_ <- function(...) {
   rbind(...)
 }

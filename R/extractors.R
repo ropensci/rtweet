@@ -103,18 +103,47 @@ tweets_data <- function(users) {
 	}
 }
 
-
+#' meta_data
+#'
+#' @description Returns meta data search information.
+#'
+#' @param x Data frame of class rtweet_table.
+#'
+#' @examples
+#' \dontrun{
+#' # search for 100 tweets containing the letter r
+#' r <- search_tweets("r")
+#'
+#' # print tweets data (only first 10 rows are shown)
+#' r
+#'
+#' # extract users data
+#' users_data(r)
+#'
+#' # extract meta datadata
+#' meta_data(r)
+#' }
+#'
+#' @return List of parameters used in \code{search_users}.
+#'
+#' @export
+meta_data <- function(x) {
+	attr(x, "meta_data")
+}
 
 attr_tweetusers <- function(x) {
-	stopifnot(is.list(x), isTRUE(length(x) == 2))
-	d <- data_frame_()
+
+	stopifnot(is.list(x))
+
 	if (identical(names(x)[1], "tweets")) {
 		d <- x[["tweets"]]
 		attr(d, "users") <- x[["users"]]
+		attr(d, "meta_search") <- x[["meta_search"]]
 	}
 	if (identical(names(x)[1], "users")) {
 		d <- x[["users"]]
 		attr(d, "tweets") <- x[["tweets"]]
+		attr(d, "meta_search") <- x[["meta_search"]]
 	}
 	d
 }

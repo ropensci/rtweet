@@ -4,7 +4,8 @@
 \alias{search_users}
 \title{search_users}
 \usage{
-search_users(q, n = 20, parse = TRUE, token = NULL, verbose = TRUE)
+search_users(q, n = 20, parse = TRUE, token = NULL, verbose = TRUE,
+  dev = FALSE)
 }
 \arguments{
 \item{q}{Character, search query of no greater than
@@ -26,6 +27,8 @@ an environment variable tokens.}
 
 \item{verbose}{Logical, indicating whether or not to output
 processing/retrieval messages.}
+
+\item{dev}{Logical, for development purposes.}
 }
 \value{
 Data table (tibble) of users returned by query.

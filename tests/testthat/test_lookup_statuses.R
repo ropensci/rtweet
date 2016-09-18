@@ -1,13 +1,14 @@
-context("get_timelines")
+context("lookup_statuses")
 
-test_that("search_tweets returns tweets data", {
-  skip_on_cran()
+test_that("lookup_statuses returns users data", {
+	skip_on_cran()
 
-  n <- 25
-  token <- readRDS("twitter_tokens")
-  x <- get_timeline("kearneymw", n = n, token = token)
+	n <- 3
+	token <- readRDS("twitter_tokens")
+	x <- lookup_statuses(c("558115838503690243",
+		"760182486005583872", "776053079540166657"), token = token)
 
-  expect_equal(is.data.frame(x), TRUE)
+	expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))
   expect_equal(nrow(x), n)

@@ -10,7 +10,8 @@ rt_data(object)
 \item{object}{Tweets class list object}
 }
 \description{
-Convert tweets list to rtweet_df
+Convert tweets and users objects
+  to data frames
 }
 \examples{
 \dontrun{

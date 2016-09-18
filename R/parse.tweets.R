@@ -9,8 +9,9 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   if (is.null(names)) {
     toplevel <- c("created_at", "id_str", "retweet_count",
       "favorite_count", "text", "in_reply_to_status_id_str",
-      "in_reply_to_user_id_str", "is_quote_status",
-      "quoted_status_id_str", "source", "lang")
+      "in_reply_to_user_id_str", "in_reply_to_screen_name",
+      "is_quote_status", "quoted_status_id_str",
+      "source", "lang")
   }
 
   if (!is.null(add.names)) {
@@ -29,6 +30,7 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
       if (i %in% c("created_at", "id_str",
         "text", "in_reply_to_status_id_str",
         "in_reply_to_user_id_str",
+        "in_reply_to_screen_name",
         "quoted_status_id_str", "lang")) {
         dat[[i]] <- rep(NA_character_, n)
       } else if (i %in% c("retweet_count", "favorite_count")) {
@@ -141,19 +143,19 @@ tweets_retweet_df <- function(dat, n = NULL) {
 make_coords <- function(x) {
 
   if (is.array(x)) {
-    coords_df <- data_frame_(matrix(as.numeric(x), 1, 8))
-    names(coords_df) <- c(
-      "long1", "long2", "long3", "long4",
-      "lat1", "lat2", "lat3", "lat4")
+    coords <- matrix(as.numeric(x), 1, 8)
+    #names(coords_df) <- c(
+    #  "long1", "long2", "long3", "long4",
+    #  "lat1", "lat2", "lat3", "lat4")
   } else {
-    coords_df <- data_frame_(matrix(rep(NA_real_, 8), 1, 8))
+    coords <- matrix(rep(NA_real_, 8), 1, 8)
 
-    names(coords_df) <- c(
-      "long1", "long2", "long3", "long4",
-      "lat1", "lat2", "lat3", "lat4")
+    #names(coords_df) <- c(
+    #  "long1", "long2", "long3", "long4",
+    #  "lat1", "lat2", "lat3", "lat4")
   }
 
-  coords_df
+  coords
 }
 
 
@@ -170,14 +172,15 @@ tweets_place_df <- function(dat, n = NULL) {
   place_df <- data_frame_(
     place_name = rep(NA_character_, n),
     country = rep(NA_character_, n),
-    long1 = rep(NA_real_, n),
-    long2 = rep(NA_real_, n),
-    long3 = rep(NA_real_, n),
-    long4 = rep(NA_real_, n),
-    lat1 = rep(NA_real_, n),
-    lat2 = rep(NA_real_, n),
-    lat3 = rep(NA_real_, n),
-    lat4 = rep(NA_real_, n))
+    coordinates = rep(NA_character_, n))
+    #long1 = rep(NA_real_, n),
+    #long2 = rep(NA_real_, n),
+    #long3 = rep(NA_real_, n),
+    #long4 = rep(NA_real_, n),
+    #lat1 = rep(NA_real_, n),
+    #lat2 = rep(NA_real_, n),
+    #lat3 = rep(NA_real_, n),
+    #lat4 = rep(NA_real_, n))
 
   if ("place" %in% names(dat)) {
     place <- dat[["place"]]
@@ -197,7 +200,7 @@ tweets_place_df <- function(dat, n = NULL) {
         coordinates <- lapply(coordinates, make_coords)
 
         for (i in seq_along(coordinates)) {
-          place_df[, names(coordinates)[i]] <- coordinates[[i]]
+          place_df$coordinates <- coordinates
         }
       }
     }

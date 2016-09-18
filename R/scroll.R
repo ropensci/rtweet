@@ -1,5 +1,6 @@
 #' @importFrom httr warn_for_status
-scroller <- function(url, n, n.times, ..., catch_error = FALSE) {
+scroller <- function(url, n, n.times, ...,
+  catch_error = FALSE) {
 
   stopifnot(is_n(n), is_url(url))
 

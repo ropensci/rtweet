@@ -1,3 +1,11 @@
+# rtweet 0.2.8
+* Added `get_favorites()` function
+* Update tests
+* Exports tweets and users classes with show and plot methods
+
+# rtweet 0.2.7
+* Added screen_name variable for user mentions (in addition to user_id).
+
 # rtweet 0.2.6
 
 * Added `lookup_statuses()` function, which is the counterpart to 

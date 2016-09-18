@@ -116,8 +116,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   }
 
   if (dev) {
-  	tw <- make_tweets(tw)
-  	tw <- rt_data(tw)
+    tw <- make_users(tw)
   }
 
   if (verbose) {
@@ -149,6 +148,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #'   an environment variable tokens.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
+#' @param dev Logical, for development purposes.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -164,7 +164,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' @return Data table (tibble) of users returned by query.
 #' @export
 search_users <- function(q, n = 20, parse = TRUE, token = NULL,
-	verbose = TRUE) {
+	verbose = TRUE, dev = FALSE) {
 
 	query <- "users/search"
 
@@ -208,8 +208,12 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	if (parse) {
 		usr <- parser(usr, n)
 		usr <- usr[c("users", "tweets")]
-		usr <- attr_tweetusers(usr)
+    usr <- attr_tweetusers(usr)
 	}
+
+  if (dev) {
+    usr <- make_users(usr)
+  }
 
 	if (verbose) {
 		message("Finished collecting users!")

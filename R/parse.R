@@ -32,6 +32,7 @@ tweets_df <- function(dat, clean_tweets = TRUE) {
   if (clean_tweets) {
     tweets_df[["text"]] <- clean_tweets(tweets_df[["text"]])
   }
+  #new("tweets", unique(tweets_df))
   unique(tweets_df)
 }
 
@@ -43,6 +44,17 @@ tweets_df <- function(dat, clean_tweets = TRUE) {
 #' @export
 clean_tweets <- function(x) {
   iconv(x, "UTF-8", "ASCII", "")
+}
+
+#' utf8_tweets
+#'
+#' @description Converts tweets to to UTF-8
+#' @param x Twitter text
+#'
+#' @export
+utf8_tweets <- function(x) {
+	unlist(lapply(x, function(.) if (Encoding(.) != "UTF-8") enc2utf8(x)),
+		recursive = FALSE)
 }
 
 #' user_df
@@ -64,7 +76,8 @@ user_df <- function(dat) {
     user_toplevel_df(dat),
     user_entities_df(dat))
 
-  user_df <- user_df[!duplicated(user_df), ]
+  #new("users", unique(user_df))
+  unique(user_df)
 }
 
 #' parser
