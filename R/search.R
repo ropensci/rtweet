@@ -116,7 +116,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   }
 
   if (dev) {
-    tw <- make_users(tw)
+    tw <- make_tweets(tw)
   }
 
   if (verbose) {

@@ -77,7 +77,7 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
   for (i in seq_along(tokens)) {
     token <- tokens[[i]]
 
-    remaining <- rate_limit(token, query)[, "remaining"]
+    remaining <- rate_limit(token, query)[["remaining"]]
 
     if (remaining > 0) return(token)
   }
@@ -92,7 +92,7 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
     return(token)
 
   } else {
-    message("Rate limit exceeded - please wait!")
+    stop("Rate limit exceeded - please wait!", call. = FALSE)
   }
 
   token

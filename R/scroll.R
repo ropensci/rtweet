@@ -22,6 +22,8 @@ scroller <- function(url, n, n.times, ...,
 
     x[[i]] <- from_js(r)
 
+    if (identical(length(x[[i]][["statuses"]]), 0L)) break
+
     count <- n - unique_id_count(x)
 
     if (break_check(x[[i]], url, count)) break

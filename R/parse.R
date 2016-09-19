@@ -102,8 +102,9 @@ parser <- function(x, n = NULL) {
   tweets <- return_n_rows(tweets, n)
   tweets <- tweets[!is.na(tweets$status_id), ]
   users <- return_n_rows(users, n)
-  users <- filter_na_rows(users)
-
+  if (is.data.frame(users)) {
+  	users <- filter_na_rows(users)
+  }
   list(tweets = tweets, users = users)
 }
 

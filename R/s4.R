@@ -24,7 +24,6 @@ plot.tweets <- function(x, ...) {
     ylab <- "# of Retweets"
   }
 
-
   cols <- paste(gg_cols(5), "99", sep = "")
   par(family = "serif", xaxt = "n", yaxt = "n",
     font = 2L, col.main = "#333333",

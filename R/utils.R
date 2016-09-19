@@ -39,13 +39,28 @@ nanull <- function(x) {
   x
 }
 
-#' @import httr
+is_response <- function(x) {
+  identical(class(x), "response")
+}
+is_json <- function (x) {
+  stopifnot(is_response(x))
+  grepl("application/json", x$headers[["content-type"]])
+}
+
 #' @importFrom jsonlite fromJSON
-from_js <- function(rsp) {
-  if (httr::http_type(rsp) != "application/json") {
+#' @importFrom httr content
+from_js <- function(rsp, check_rate_limit = TRUE) {
+  if (!is_json(rsp)) {
     stop("API did not return json", call. = FALSE)
   }
-  fromJSON(content(rsp, as = "text", encoding = "UTF-8"))
+  rsp <- fromJSON(content(rsp, as = "text", encoding = "UTF-8"))
+  if (check_rate_limit) {
+    if (any(identical(names(rsp), "errors"),
+      identical(rsp$errors[["message"]], "Rate limit exceeded"))) {
+      stop("rate limit exceeded.", call. = FALSE)
+    }
+  }
+  return(rsp)
 }
 
 
