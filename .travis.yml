@@ -6,9 +6,13 @@ cache: packages
 before_install:
 - openssl aes-256-cbc -K $encrypted_39c05ab0bd98_key -iv $encrypted_39c05ab0bd98_iv
   -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
+#- openssl aes-256-cbc -K $encrypted_39c05ab0bd98_key -iv $encrypted_39c05ab0bd98_iv
+#  -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
 
 r_github_packages:
 - jimhester/covr
 
 after_success:
-- Rscript -e 'covr::codecov(function_exclusions = c("create_token", "get_tokens", "fetch_tokens", "twitter_pat", "load_tokens"))'
+- Rscript -e 'covr::codecov(function_exclusions =
+  c("create_token", "get_tokens", "fetch_tokens", "twitter_pat", "load_tokens",
+    "make_tweets", "rt_data", "make_users"))'

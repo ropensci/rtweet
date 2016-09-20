@@ -10,3 +10,4 @@ inst/doc
 tests/testthat/twitter_tokens
 .Rapp.history
 .Rhistory
+.httr-oauth
