@@ -2,13 +2,14 @@
 #'
 #' @description Posts status update to user's Twitter account
 #'
-#' @param status Character, tweet status. Must be fewer than 140
-#'   characters.
-#' @param \dots Other arguments passed along to POST request. See
-#'   Twitter API documentation for geo-tagging features.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable tokens.
+#' @param status Character, tweet status. Must be 140
+#'   characters or less.
+#' @param \dots Other arguments passed to POST request. See
+#'   Twitter API documentation for geo-tagging and other
+#'   available options.
+#' @param token OAuth token. By default \code{token = NULL}
+#'   fetches a non-exhausted token from an environment
+#'   variable tokens.
 #'
 #' @examples
 #' \dontrun{

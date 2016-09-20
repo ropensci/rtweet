@@ -7,15 +7,16 @@
 post_tweet(status = "my first rtweet #rstats", ..., token = NULL)
 }
 \arguments{
-\item{status}{Character, tweet status. Must be fewer than 140
-characters.}
+\item{status}{Character, tweet status. Must be 140
+characters or less.}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable tokens.}
+\item{token}{OAuth token. By default \code{token = NULL}
+fetches a non-exhausted token from an environment
+variable tokens.}
 
-\item{\dots}{Other arguments passed along to POST request. See
-Twitter API documentation for geo-tagging features.}
+\item{\dots}{Other arguments passed to POST request. See
+Twitter API documentation for geo-tagging and other
+available options.}
 }
 \description{
 Posts status update to user's Twitter account
