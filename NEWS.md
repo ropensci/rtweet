@@ -1,3 +1,6 @@
+# rtweet 0.2.9
+* Added `post_tweet()` function. Users can now post tweets from their R console.
+
 # rtweet 0.2.8
 * Added `get_favorites()` function
 * Update tests
