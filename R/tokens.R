@@ -108,7 +108,7 @@ check_token <- function(token, query = NULL) {
   if (is.null(token)) {
     token <- get_tokens()
 
-    if (all(is.null(token), !is.null(query))) {
+    if (!is.null(query)) {
       token <- fetch_tokens(token, query)
     }
   }

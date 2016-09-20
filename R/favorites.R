@@ -54,6 +54,7 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
   token <- check_token(token, query)
 
   n.times <- rate_limit(token, query)[["remaining"]]
+  if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
 
   params <- list(
     user_type = user,
