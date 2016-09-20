@@ -42,7 +42,7 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
   query <- "favorites/list"
 
   if (n > 3000) {
-    warning("Exceeds max per token. Setting n = 3000",
+    warning("n exceeds max favs returned per token. Setting n to 3000...",
       call. = FALSE)
     n <- 3000
   }
