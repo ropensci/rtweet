@@ -76,7 +76,7 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
-**Data Analysis Helpers*
+**Data Analysis Helpers**
 -   Network analysis matrices and edge lists data structures
 -   Text cleaner/utility functions
 -   Data base management (SQL) integration for big data
