@@ -9,19 +9,16 @@ R client for collecting data via Twitter's REST and stream API's.
 Key features
 
 -   ***NEW***: Now tweet from your R console using the `post_tweet()` function!
--   SAVING DATA AS CSV: Several people have asked how to save data as a CSV file (or something they can open with Excel). There is now a `save_as_csv` function in the development (github) version of `rtweet`. If you'd like to save CSV files using the CRAN version, then [use this code](https://gist.github.com/mkearney/7474b64f9db177435de540f5fa63a087) until the next update is posted to CRAN.
 
--   ***UPDATE***: Most functions now return data tables for both tweets **and** users. So, if you search for tweets, you also get data for the users responsible for the returned tweets. If you look up users, you also get the most recent tweet for each user.
+-   Save as CSV: If you'd like to open Twitter data in Excel or SPSS, open with Excel, use the `save_as_csv` function.
 
--   Gather **tweet data** by searching past tweets `search_tweets()`, streaming live tweets `stream_tweets()`, or collecting tweets from a user's timeline `get_timeline()`. Easily return data on **thousands** of tweets at a time.
+-   Gather **tweet data** by searching past tweets `search_tweets()`, streaming live tweets `stream_tweets()`, collecting tweets from a user's timeline `get_timeline()`, or gathering all the tweets favorited by a user `get_favorites()`.
 
 -   Gather **user data** by looking up Twitter users `lookup_users()`. Easily return data on thousands of users.
 
 -   Gather **followers** and **friends** data by collecting the ids of accounts *following* a user `get_followers()` or the ids of accounts *followed by* a user `get_friends()`.
 
--   Organized and easily translatable data formats. Functions return tibble data tables **ready** for data analysis.
-
--   Tweet data functions return not only text of tweets, but a host of other variables (up t 27 columns), including the number of times a tweet has been retweeted (`retweet_count`) and favorited (`favorite_count`). To gauge user interactions, there are also seperate variables that identify replies by source tweet (`in_reply_to_status_id_str`) and by source user ID (`in_reply_to_status_id_str`). Variables also indicate whether the tweet quotes another tweet (`is_quote_status`), and, if so, the quoted tweet ID (`quoted_status_id_str`).
+-   Organized and easily translatable data formats. Functions return tidy data frames **ready** for data analysis.
 
 Install
 -------
@@ -35,10 +32,8 @@ library(rtweet)
 
 To get the current development version from github:
 
-``` r
-if (packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
+```{r}
+install.packages("devtools")
 devtools::install_github("mkearney/rtweet")
 ```
 
@@ -81,30 +76,24 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
-**Internals**
-
--   `S4` class
--   Parse with `%>%` (pipes)
--   Make it purrr
-
-**Display Functions**
-
--   `summary()` and `print()` functions
--   `plot()` for tweets, users, and/or both
--   Change `save_as_csv()` to `write()`
+**Data Analysis Helpers*
+-   Network analysis matrices and edge lists data structures
+-   Text cleaner/utility functions
+-   Data base management (SQL) integration for big data
 
 **API Functions**
 
 -   `get_retweeters()` Retrieve users retweeting a status (in progress)
 -   `get_list()` Retrieve users in list
--   `lookup_tweets()` Look up tweets via status\_id.
 
 **Vignettes**
 
--   Guide to `stream_tweets()`
--   Guide to `get_friends()` and `get_followers()`
+-   Word cloud, textual analysis
+-   Network analysis featuring `get_friends()` and `get_followers()`
 
 **Documentation**
 
+-   More examples, more details, and list return columns with descriptions
 -   Search query syntax
 -   Stream syntax i.e., filter vs tracking vs location
+-   Geo-based and date-specific queries
