@@ -49,7 +49,7 @@
 #' @return Tweets data returned as a tibble data_frame
 #' @importFrom jsonlite stream_in
 #' @export
-stream_tweets <- function(q, timeout = 30, parse = TRUE,
+stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
                           token = NULL, file_name = NULL,
                           verbose = TRUE) {
 

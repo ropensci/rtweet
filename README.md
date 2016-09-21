@@ -32,7 +32,7 @@ library(rtweet)
 
 To get the current development version from github:
 
-```{r}
+``` r
 install.packages("devtools")
 devtools::install_github("mkearney/rtweet")
 ```
@@ -76,10 +76,7 @@ Email me at <mkearney@ku.edu>
 To Do List
 ----------
 
-**Data Analysis Helpers**
--   Network analysis matrices and edge lists data structures
--   Text cleaner/utility functions
--   Data base management (SQL) integration for big data
+**Data Analysis Helpers** - Network analysis matrices and edge lists data structures - Text cleaner/utility functions - Data base management (SQL) integration for big data
 
 **API Functions**
 

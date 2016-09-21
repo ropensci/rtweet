@@ -1,4 +1,10 @@
 # rtweet 0.2.9
+* Added sample method for `stream_tweets()` function. By default, 
+the streaming query argument, `q`, is now set to an empty string, 
+`q = ""`, which returns a random sample of all Tweets 
+(pretty cool, right?).
+
+# rtweet 0.2.9
 * Added `post_tweet()` function. Users can now post tweets from their R console.
 
 # rtweet 0.2.8
