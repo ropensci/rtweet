@@ -10,7 +10,9 @@ stream_tweets(q, timeout = 30, parse = TRUE, token = NULL,
 \arguments{
 \item{q}{Character vector with desired phrases and keywords
 used to filter tweets, a comma separated list of desired
-user IDs to track, or a set of bounding boxes to track.}
+user IDs to track, or a set of bounding boxes to track. If
+left empty, the default \code{q = ""}, stream function will
+return sample of all tweets.}
 
 \item{timeout}{Numeric specifying amount of time, in seconds,
 to leave connection open while streaming/capturing tweets.

@@ -10,7 +10,9 @@
 #'
 #' @param q Character vector with desired phrases and keywords
 #'   used to filter tweets, a comma separated list of desired
-#'   user IDs to track, or a set of bounding boxes to track.
+#'   user IDs to track, or a set of bounding boxes to track. If
+#'   left empty, the default \code{q = ""}, stream function will
+#'   return sample of all tweets.
 #' @param timeout Numeric specifying amount of time, in seconds,
 #'   to leave connection open while streaming/capturing tweets.
 #'   By default, this is set at 30 seconds.
@@ -59,11 +61,17 @@ stream_tweets <- function(q, timeout = 30, parse = TRUE,
 
   if (missing(q)) stop("Must include a stream search call (q).")
 
-  params <- stream_params(q)
+  if (identical(q, "")) {
+    query <- "statuses/sample"
+    params <- NULL
+  } else {
+    query <- "statuses/filter"
+    params <- stream_params(q)
+  }
 
   url <- make_url(
     restapi = FALSE,
-    "statuses/filter",
+    query,
     param = params)
 
   if (is.null(file_name)) file_name <- tempfile(fileext = ".json")

@@ -84,16 +84,28 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
   }
 }
 
+is.na.quiet <- function(x) {
+	suppressWarnings(is.na(x))
+}
 
 format_date <- function(x, date = TRUE) {
-  x <- as.POSIXct(x,
+  o <- tryCatch(as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",
     tz = Sys.timezone(),
-    origin = "1970-01-01")
-  if (date) {
-    x <- as.Date(x)
+    origin = "1970-01-01"),
+  	error = function(e) return(NULL))
+  if (any(is.null(o), all(is.na.quiet(o)))) {
+  	o <- tryCatch(as.POSIXct(x,
+  		format = "%a %b %d %H:%M:%S %z %Y"),
+  		error = function(e) return(NULL))
+  	if (any(is.null(o), all(is.na.quiet(o)))) {
+  		o <- x
+  	}
   }
-  x
+  if (date) {
+    o <- as.Date(o)
+  }
+  o
 }
 
 check_user_id <- function(dat, n = NULL) {
