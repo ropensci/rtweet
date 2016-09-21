@@ -59,7 +59,7 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
     is.numeric(timeout), timeout > 0,
     is.atomic(q), is.atomic(file_name))
 
-  if (missing(q)) stop("Must include a stream search call (q).")
+  if (missing(q)) q <- ""
 
   if (identical(q, "")) {
     query <- "statuses/sample"
