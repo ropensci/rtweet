@@ -5,7 +5,7 @@ test_that("get_tokens returns tokens", {
 	skip_on_cran()
 
 	twitter_tokens <- readRDS("twitter_tokens")
-	save(twitter_tokens, file = ".httr_oauth")
+	saveRDS(twitter_tokens, file = ".httr_oauth")
 	tokens <- get_tokens()
 	lol <- search_tweets("lol")
 	file.remove(".httr_oauth")
