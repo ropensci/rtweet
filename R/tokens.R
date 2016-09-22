@@ -125,7 +125,7 @@ check_token <- function(token, query = NULL) {
   }
 
   if (!is.token(token)) {
-    stop("Not a valid access token.")
+    stop("Not a valid access token.", call. = FALSE)
   }
 
   token

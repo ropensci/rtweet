@@ -88,7 +88,7 @@ is.na.quiet <- function(x) {
 	suppressWarnings(is.na(x))
 }
 
-format_date <- function(x, date = TRUE) {
+format_date <- function(x, date = FALSE) {
   o <- tryCatch(as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",
     tz = Sys.timezone(),

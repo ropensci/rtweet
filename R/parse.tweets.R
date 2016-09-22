@@ -27,16 +27,17 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   for (i in toplevel) {
     if (!i %in% names(dat)) {
 
-      if (i %in% c("created_at", "id_str",
-        "text", "in_reply_to_status_id_str",
-        "in_reply_to_user_id_str",
-        "in_reply_to_screen_name",
-        "quoted_status_id_str", "lang")) {
+      if (i %in% c("created_at", "id_str", "in_reply_to_status_id_str",
+      	"in_reply_to_user_id_str", "quoted_status_id_str",
+        "text", "in_reply_to_screen_name", "lang")) {
         dat[[i]] <- rep(NA_character_, n)
       } else if (i %in% c("retweet_count", "favorite_count")) {
         dat[[i]] <- rep(NA_integer_, n)
       } else if (i == "is_quote_status") {
         dat[[i]] <- rep(NA, n)
+      #} else if (i == c("id_str", "in_reply_to_status_id_str",
+      	#"in_reply_to_user_id_str", "quoted_status_id_str")) {
+      	#dat[[i]] <- rep(NA_real_, n)
       } else {
         dat[[i]] <- rep(NA, n)
       }
@@ -65,6 +66,16 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
       strsplit(as.character(toplevel_df[["source"]]), "[<]|[>]"),
       function(x) x[3])
   }
+  toplevel_df[["status_id"]] <- as.double(
+  	toplevel_df[["status_id"]])
+  toplevel_df[["user_id"]] <- as.double(
+  	toplevel_df[["user_id"]])
+  toplevel_df[["quoted_status_id"]] <- as.double(
+  	toplevel_df[["quoted_status_id"]])
+  toplevel_df[["in_reply_to_status_id"]] <- as.double(
+  	toplevel_df[["in_reply_to_status_id"]])
+  toplevel_df[["in_reply_to_user_id"]] <- as.double(
+  	toplevel_df[["in_reply_to_user_id"]])
 
   data_frame_(toplevel_df)
 }
@@ -80,7 +91,7 @@ tweets_entities_df <- function(dat, n = NULL) {
   if (is.null(n)) n <- length(dat[["id_str"]])
 
   ent_df <- data_frame_(
-    mentions_user_id = I(as.list(rep(NA_character_, n))),
+    mentions_user_id = I(as.list(rep(NA_real_, n))),
   	mentions_screen_name = I(as.list(rep(NA_character_, n))),
     hashtags = I(as.list(rep(NA_character_, n))),
     urls = I(as.list(rep(NA_character_, n))))
@@ -91,6 +102,8 @@ tweets_entities_df <- function(dat, n = NULL) {
     if ("user_mentions" %in% names(entities)) {
       ent_df$mentions_user_id <- lapply(entities[["user_mentions"]],
         function(x) return_with_NA(x[["id_str"]], 1))
+      ent_df$mentions_user_id <- lapply(ent_df$mentions_user_id,
+      	as.double)
     }
     if ("user_mentions" %in% names(entities)) {
     	ent_df$mentions_screen_name <- lapply(entities[["user_mentions"]],
