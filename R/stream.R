@@ -26,6 +26,8 @@
 #'   an environment variable.
 #' @param file_name Character with name of file. By default, this
 #'   generates random file name and parses tweets.
+#' @param gzip Logical indicating whether to request gzip compressed
+#'   stream data.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
@@ -47,11 +49,10 @@
 #' }
 #'
 #' @return Tweets data returned as a tibble data_frame
-#' @importFrom jsonlite stream_in
 #' @export
 stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
                           token = NULL, file_name = NULL,
-                          verbose = TRUE) {
+                          gzip = FALSE, verbose = TRUE) {
 
   token <- check_token(token)
 
@@ -74,7 +75,12 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
     query,
     param = params)
 
-  if (is.null(file_name)) file_name <- tempfile(fileext = ".json")
+  tmp <- FALSE
+
+  if (is.null(file_name)) {
+  	tmp <- TRUE
+  	file_name <- tempfile(fileext = ".json")
+  }
 
   if (!grepl(".json", file_name)) {
     file_name <- paste0(file_name, ".json")
@@ -86,29 +92,74 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
     message(paste0("Streaming tweets for ", timeout, " seconds..."))
   }
 
-  r <- tryCatch(GET(url = url,
-  	config = token, write_disk(file_name, overwrite = TRUE),
-  	progress(), timeout(timeout)),
-  	error = function(e) return(invisible()))
+  r <- NULL
 
-  s <- stream_in(
-    file(file_name),
-    verbose = TRUE)
+  if (gzip) {
+  	r <- tryCatch(GET(url = url,
+  		config = token, write_disk(file_name, overwrite = TRUE),
+  		add_headers(`Accept-Encoding` = "deflate, gzip"),
+  		progress(), timeout(timeout)),
+  		error = function(e) return(NULL))
+  } else {
+  	r <- tryCatch(GET(url = url,
+  		config = token, write_disk(file_name, overwrite = TRUE),
+  		progress(), timeout(timeout)),
+  		error = function(e) return(NULL))
+  }
 
-  if (is.null(file_name)) file.remove(file_name)
-
-  if (parse) {
-    s <- parser(s)
-    s <- attr_tweetusers(s)
+  if (!is.null(r)) {
+  	return(r)
   }
 
   if (verbose) {
-    message("Finished collecting tweets!")
+  	message("Finished streaming tweets!")
   }
 
-  s
+  if (parse) {
+  	out <- parse_stream(file_name)
+  	if (tmp) file.remove(file_name)
+  	return(out)
+  } else {
+  	invisible()
+  }
 }
 
+
+
+#' parse_stream
+#'
+#' @param file_name name of file to be parsed. NOTE: if file
+#'   was created via \code{\link{stream_tweets}}, then it will
+#'   end in ".json" (see example below)
+#'
+#' @return Parsed tweets data with users data attribute.
+#'
+#' @examples
+#' \dontrun{
+#' stream_tweets(q = "", file_name = "tw", parse = FALSE)
+#' tw <- parse_stream("tw.json")
+#' tw
+#' }
+#' @importFrom jsonlite stream_in
+#' @export
+parse_stream <- function(file_name) {
+
+	s <- tryCatch(stream_in(file(file_name),
+		verbose = TRUE), error = function(e) return(NULL))
+
+	if (is.null(s)) {
+		rl <- readLines(file_name)
+		cat(rl[[seq_len(length(rl) - 1)]], file = file_name)
+
+		s <- tryCatch(stream_in(file(file_name),
+			verbose = TRUE), error = function(e)
+				stop("it's not right. -luther", call. = FALSE))
+	}
+
+	s <- parser(s)
+
+	attr_tweetusers(s)
+}
 
 #' @keywords internal
 stream_params <- function(stream) {
@@ -124,5 +175,5 @@ stream_params <- function(stream) {
     params <- list(track = stream)
   }
 
-  c(params, filter_level = "low")
+  c(params, filter_level = "low", count = 10000)
 }

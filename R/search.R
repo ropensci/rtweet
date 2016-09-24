@@ -24,7 +24,6 @@
 #'   an environment variable tokens.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
-#' @param dev Logical, for development purposes.
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.
@@ -72,7 +71,7 @@
 #'   tibble data_frame.
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
-  parse = TRUE, token = NULL, verbose = TRUE, dev = FALSE, ...) {
+  parse = TRUE, token = NULL, verbose = TRUE, ...) {
 
   query <- "search/tweets"
 
@@ -115,10 +114,6 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
     tw <- attr_tweetusers(tw)
   }
 
-  if (dev) {
-    tw <- make_tweets(tw)
-  }
-
   if (verbose) {
     message("Finished collecting tweets!")
   }
@@ -148,7 +143,6 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #'   an environment variable tokens.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
-#' @param dev Logical, for development purposes.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -164,7 +158,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' @return Data table (tibble) of users returned by query.
 #' @export
 search_users <- function(q, n = 20, parse = TRUE, token = NULL,
-	verbose = TRUE, dev = FALSE) {
+	verbose = TRUE) {
 
 	query <- "users/search"
 
@@ -210,10 +204,6 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 		usr <- usr[c("users", "tweets")]
     usr <- attr_tweetusers(usr)
 	}
-
-  if (dev) {
-    usr <- make_users(usr)
-  }
 
 	if (verbose) {
 		message("Finished collecting users!")

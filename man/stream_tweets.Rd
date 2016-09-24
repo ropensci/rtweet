@@ -5,7 +5,7 @@
 \title{stream_tweets}
 \usage{
 stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
-  file_name = NULL, verbose = TRUE)
+  file_name = NULL, gzip = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{q}{Character vector with desired phrases and keywords
@@ -30,6 +30,9 @@ an environment variable.}
 
 \item{file_name}{Character with name of file. By default, this
 generates random file name and parses tweets.}
+
+\item{gzip}{Logical indicating whether to request gzip compressed
+stream data.}
 
 \item{verbose}{Logical, indicating whether or not to output
 processing/retrieval messages.}

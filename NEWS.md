@@ -1,4 +1,7 @@
-# rtweet 0.2.9
+# rtweet 0.2.92
+* Added gzip option for `stream_tweets()`
+
+# rtweet 0.2.91
 * Added sample method for `stream_tweets()` function. By default, 
 the streaming query argument, `q`, is now set to an empty string, 
 `q = ""`, which returns a random sample of all Tweets 
