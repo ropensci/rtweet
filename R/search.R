@@ -67,8 +67,8 @@
 #' djt # prints tweets data preview
 #' users_data(djt) # prints users data preview
 #' }
-#' @return List object with tweets and users each returned as
-#'   tibble data_frame.
+#' @return List object with tweets and users each returned as a
+#'   data frame.
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   parse = TRUE, token = NULL, verbose = TRUE, ...) {

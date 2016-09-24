@@ -45,8 +45,8 @@ To return only English language tweets, for example, use
 API documentation.}
 }
 \value{
-List object with tweets and users each returned as
-  tibble data_frame.
+List object with tweets and users each returned as a
+  data frame.
 }
 \description{
 Returns two data frames (tweets data and users data)
