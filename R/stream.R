@@ -95,13 +95,13 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   r <- NULL
 
   if (gzip) {
-  	r <- tryCatch(GET(url = url,
+  	r <- tryCatch(POST(url = url,
   		config = token, write_disk(file_name, overwrite = TRUE),
   		add_headers(`Accept-Encoding` = "deflate, gzip"),
   		progress(), timeout(timeout)),
   		error = function(e) return(NULL))
   } else {
-  	r <- tryCatch(GET(url = url,
+  	r <- tryCatch(POST(url = url,
   		config = token, write_disk(file_name, overwrite = TRUE),
   		progress(), timeout(timeout)),
   		error = function(e) return(NULL))
@@ -152,9 +152,9 @@ parse_stream <- function(file_name) {
 		cat(rl[[seq_len(length(rl) - 1)]], file = file_name)
 
 		s <- tryCatch(stream_in(file(file_name),
-			verbose = TRUE), error = function(e)
-				stop("it's not right. -luther", call. = FALSE))
+			verbose = TRUE), error = function(e) return(NULL))
 	}
+	if (is.null(s)) stop("it's not right. -luther", call. = FALSE)
 
 	s <- parser(s)
 
@@ -163,7 +163,7 @@ parse_stream <- function(file_name) {
 
 #' @keywords internal
 stream_params <- function(stream) {
-  stream <- unlist(trimws(unlist(strsplit(stream, ","))))
+  #stream <- unlist(trimws(unlist(strsplit(stream, ","))))
 
   if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
     if (all(is.integer(as.integer(stream)))) {
@@ -175,5 +175,6 @@ stream_params <- function(stream) {
     params <- list(track = stream)
   }
 
-  c(params, filter_level = "low", count = 10000)
+  params[["filter_level"]] <- "low"
+  params
 }
