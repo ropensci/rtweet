@@ -41,6 +41,7 @@ f2 <- get_followers("potus", n = 75000, page = page)
 
 }
 \seealso{
-Other users: \code{\link{users_data}}
+Other ids: \code{\link{get_followers}},
+  \code{\link{get_friends}}
 }
 

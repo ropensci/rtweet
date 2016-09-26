@@ -21,9 +21,10 @@ should be older than}
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{\dots}{Futher arguments passed on to \code{make_url}.
 All named arguments that do not match the above arguments
@@ -57,5 +58,10 @@ users_data(djt)
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
+
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_data}}
 }
 

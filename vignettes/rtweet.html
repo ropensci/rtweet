@@ -12,7 +12,7 @@
 
 <meta name="author" content="Michael W. Kearney" />
 
-<meta name="date" content="2016-09-18" />
+<meta name="date" content="2016-09-25" />
 
 <title>Intro to rtweet: Collecting Twitter Data</title>
 
@@ -70,22 +70,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Intro to rtweet: Collecting Twitter Data</h1>
 <h4 class="author"><em>Michael W. Kearney</em></h4>
-<h4 class="date"><em>2016-09-18</em></h4>
+<h4 class="date"><em>2016-09-25</em></h4>
 
 
 
-<p>This vignettes provides a <em>very</em> quick tour of rtweet: Collecting Twitter Data.</p>
+<p>This vignettes provides a <em>very</em> quick tour of the R package <code>rtweet: Collecting Twitter Data</code>. Before getting to the tour, however, I want to explain the philosophy behind rtweet.</p>
+<div id="package-philosophy" class="section level2">
+<h2>Package Philosophy</h2>
+<p>I started <code>rtweet</code> so I could collect data for my dissertation. I considered using one of a few open-source packages that had already been developed—e.g., <code>twitteR</code>, <code>streamR</code>, <code>tweepy</code>—to collect data. The most up-to-date of these libraries were the ones on Python, which I had just started to learn. I was surprised to discover there wasn’t a equally up-to-date option on R. The Python lirbaries seemed to work well, but an R package would allow me to collect and analyze data within the same environment. So, I decided that if I created my own functions in R, I would avoid the problem of bouncing back and forth between environments. Plus, it meant that I would have the flexibility to wrangle the data in whatever way I chose.</p>
+<p>Communication studies has an abundance of critical thinking, but a shortage of computer programming. As I developed <code>rtweet</code> I realized I could contribute to the field by making this awesome Twitter data more accessible and more approachable to communication scholars. Accordingly, the underlying philosophy of <code>rtweet</code> is simple. It is to make Twitter data more accessible to more people.</p>
+<pre><code>rtweet philosophy: make Twitter data more accessible to more people.</code></pre>
+<p>With that in mind, I want to encourage any feedback or suggestions you have. If you use github, I’d encourage you to <a href="https://github.com/mkearney/rtweet/issues">create an new issue</a>. Otherwise, feel free to email me at <a href="mailto:mkearney@ku.edu">mkearney@ku.edu</a>.</p>
+</div>
 <div id="accessing-twitters-api" class="section level2">
 <h2>Accessing Twitter’s API</h2>
 <p>Before you can start collecting data, you must first obtain a user access token. To do this, I recommend following the vignette on <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and setting up user access tokens</a>. However, if you’re in a hurry, the <a href="https://github.com/mkearney/rtweet/blob/master/README.md">quick guide found here</a> works as well.</p>
 </div>
 <div id="install-and-load" class="section level2">
 <h2>Install and Load</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">packageVersion</span>(<span class="st">&quot;devtools&quot;</span>) &lt;<span class="st"> </span><span class="fl">1.6</span>) {
-  <span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
-}
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
 devtools::<span class="kw">install_github</span>(<span class="st">&quot;mkearney/rtweet&quot;</span>)
 <span class="kw">library</span>(rtweet)</code></pre></div>
+</div>
+<div id="posting-tweets" class="section level2">
+<h2>Posting Tweets</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">post_tweet</span>(<span class="st">&quot;my first rtweet #rstats&quot;</span>)</code></pre></div>
 </div>
 <div id="retrieving-tweets" class="section level2">
 <h2>Retrieving Tweets</h2>
@@ -96,25 +105,53 @@ team_rstats
 <span class="co"># extract data on the users who posted the tweets</span>
 <span class="kw">users_data</span>(team_rstats)
 
+<span class="co"># view search meta data</span>
+<span class="kw">meta_data</span>(team_rstats)
+
 <span class="co"># return 200 tweets from @KyloR3n's timeline</span>
-kylo_is_a_mole &lt;-<span class="st"> </span><span class="kw">get_timeline</span>(<span class="st">&quot;KyloR3n&quot;</span>, <span class="dt">n =</span> <span class="dv">200</span>)
-kylo_is_a_mole
+kylo_is_a_mole &lt;-<span class="st"> </span><span class="kw">get_timeline</span>(<span class="st">&quot;KyloR3n&quot;</span>, <span class="dt">n =</span> <span class="dv">2000</span>)
+<span class="kw">head</span>(kylo_is_a_mole)
 
 <span class="co"># extract emo kylo ren's user data</span>
-<span class="kw">users_data</span>(kylo_is_a_mole)
+<span class="kw">head</span>(<span class="kw">users_data</span>(kylo_is_a_mole))
 
 <span class="co"># stream tweets mentioning @HillaryClinton for 2 minutes (120 sec)</span>
 imwithher &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<span class="st">&quot;HillaryClinton&quot;</span>, <span class="dt">timeout =</span> <span class="dv">120</span>)
-imwithher
+<span class="kw">head</span>(imwithher)
 
 <span class="co"># extract data on the users who posted the tweets</span>
-<span class="kw">users_data</span>(imwithher)</code></pre></div>
+<span class="kw">head</span>(<span class="kw">users_data</span>(imwithher))
+
+<span class="co"># stream 3 random samples of tweets</span>
+for (in in <span class="kw">seq_len</span>(<span class="dv">3</span>)) {
+    <span class="kw">stream_tweets</span>(<span class="dt">q =</span> <span class="st">&quot;&quot;</span>, <span class="dt">timeout =</span> <span class="dv">60</span>, 
+        <span class="dt">file_name =</span> <span class="kw">paste0</span>(<span class="st">&quot;rtw&quot;</span>, i), <span class="dt">parse =</span> <span class="ot">FALSE</span>)
+    if (i ==<span class="st"> </span><span class="dv">3</span>) {
+        <span class="kw">message</span>(<span class="st">&quot;all done!&quot;</span>)
+        break
+    } else {
+        <span class="co"># wait between 0 and 300 secs before next stream</span>
+        <span class="kw">Sys.sleep</span>(<span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">300</span>))
+    }
+}
+
+<span class="co"># parse the samples</span>
+tw &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="st">&quot;rtw1.json&quot;</span>, <span class="st">&quot;rtw2.json&quot;</span>, <span class="st">&quot;rtw3.json&quot;</span>), parse_stream)
+
+<span class="co"># collapse lists into single data frame</span>
+tw &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>, tw)
+
+<span class="co"># preview data</span>
+<span class="kw">head</span>(tw)</code></pre></div>
 </div>
 <div id="retrieving-users" class="section level2">
 <h2>Retrieving Users</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># search for 500 users using &quot;social science&quot; as a keyword</span>
 harder_science &lt;-<span class="st"> </span><span class="kw">search_users</span>(<span class="st">&quot;social science&quot;</span>, <span class="dt">n =</span> <span class="dv">500</span>)
 harder_science
+
+<span class="co"># view search meta data</span>
+<span class="kw">meta_data</span>(harder_science)
 
 <span class="co"># extract most recent tweets data from the social scientists</span>
 <span class="kw">tweets_data</span>(harder_science)

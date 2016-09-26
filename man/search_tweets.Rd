@@ -29,9 +29,10 @@ which results should resume returning.}
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable tokens.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{verbose}{Logical, indicating whether or not to output
 processing/retrieval messages.}
@@ -92,5 +93,10 @@ users_data(djt) # prints users data preview
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
+
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{get_timeline}},
+  \code{\link{lookup_statuses}},
+  \code{\link{stream_tweets}}, \code{\link{tweets_data}}
 }
 

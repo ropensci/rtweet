@@ -1,6 +1,6 @@
 context("get_friends")
 
-test_that("get_friends returns tibble with ids", {
+test_that("get_friends returns data frame with ids", {
 	skip_on_cran()
 
 	token <- readRDS("twitter_tokens")

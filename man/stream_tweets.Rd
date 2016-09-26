@@ -14,40 +14,51 @@ user IDs to track, or a set of bounding boxes to track. If
 left empty, the default \code{q = ""}, stream function will
 return sample of all tweets.}
 
-\item{timeout}{Numeric specifying amount of time, in seconds,
+\item{timeout}{Numeric scalar specifying amount of time, in seconds,
 to leave connection open while streaming/capturing tweets.
 By default, this is set at 30 seconds.}
 
-\item{parse}{Logical, indicating whether to return parsed
-(data.frames) or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves users from the time
-[and frustrations] associated with disentangling the Twitter
-API return objects.}
+\item{parse}{Logical, indicating whether to return parsed data.
+By default, \code{parse = TRUE}, this function does the parsing for
+you. However, for larger streams, or for automated scripts designed
+to continuously collect data, this should be set to false as the
+parsing process can eat up processing resources and time. For other
+uses, setting parse to TRUE saves you from having to sort and parse
+the messy list structure returned by Twitter. (Note: if you set parse
+to false, you can use the \code{\link{parse_stream}} function to
+parse the json file at a later point in time.)}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
-\item{file_name}{Character with name of file. By default, this
-generates random file name and parses tweets.}
+\item{file_name}{Character with name of file. By default, a temporary
+file is created, tweets are parsed and returned to parent environment,
+and the temporary file is deleted.}
 
 \item{gzip}{Logical indicating whether to request gzip compressed
-stream data.}
+stream data. By default this is set to FALSE. After performing some
+tests, it appears gzip requires less bandwidth, but also returns
+slightly fewer tweets. Use of gzip option should, in theory, make
+connection more reliable (by hogging less bandwidth, there's less of
+a chance Twitter cuts you off for getting behind).}
 
-\item{verbose}{Logical, indicating whether or not to output
+\item{verbose}{Logical, indicating whether or not to include output
 processing/retrieval messages.}
 }
 \value{
-Tweets data returned as a tibble data_frame
+Tweets data returned as data frame with users data as attribute.
 }
 \description{
 Returns public statuses via one of three methods
-  described below. By default, this function deciphers which
-  method is when processing the \code{stream} argument.
-
-  1. Filtering via a search-like query (up to 400 keywords)
-  2. Tracking via vector of user ids (up to 5000 user_ids)
-  3. Location via geo coordinates (1-360 degree location boxes)
+  described below. By design, this function deciphers which
+  method to use when processing the \code{stream} argument.
+\itemize{
+  \item 1. Filtering via a search-like query (up to 400 keywords)
+  \item 2. Tracking via vector of user ids (up to 5000 user_ids)
+  \item 3. Location via geo coordinates (1-360 degree location boxes)
+}
 }
 \examples{
 \dontrun{
@@ -64,10 +75,28 @@ users_data(e)
 djt <- stream_tweets("realdonaldtrump", timeout = 30)
 djt # prints tweets data preview
 users_data(djt) # prints users data preview
+
+# store large amount of tweets in files using continuous streams
+# by default, stream_tweets() returns a random sample of all tweets
+# leave the query field blank for the random sample of all tweets.
+stream_tweets(timeout = (60 * 10), parse = FALSE, file_name = "tweets1")
+stream_tweets(timeout = (60 * 10), parse = FALSE, file_name = "tweets2")
+
+# parse tweets at a later time using parse_stream function
+tw1 <- parse_stream("tweets1.json")
+tw1
+
+tw2 <- parse_stream("tweets2.json")
+tw2
 }
 
 }
 \seealso{
 \url{https://stream.twitter.com/1.1/statuses/filter.json}
+
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{get_timeline}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{tweets_data}}
 }
 

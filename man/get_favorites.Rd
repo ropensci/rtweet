@@ -30,12 +30,13 @@ vector or nested list (fromJSON) object. By default,
 \code{parse = TRUE} saves you the time [and frustrations]
 associated with disentangling the Twitter API return objects.}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 }
 \value{
-tweets
+Tweets data frame.
 }
 \description{
 Returns the 20 most recent Tweets liked by
@@ -51,9 +52,13 @@ pres
 epa <- get_followers(user = "epa")
 epa
 }
-
 }
 \seealso{
 \url{https://api.twitter.com/1.1/favorites/list.json}
+
+Other tweets: \code{\link{get_timeline}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_data}}
 }
 

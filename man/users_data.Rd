@@ -15,12 +15,11 @@ users_data(tweets)
 \code{\link{stream_tweets}}.}
 }
 \value{
-Tibble data frame of Twitter statuses (tweets) from users
-  found in a tweets data object.
+Users data frame from tweets returned in a tweets data object.
 }
 \description{
-Returns users data table (tibble) from tweets data
-  object.
+Returns users data frame from returned tweets
+  data object.
 }
 \examples{
 \dontrun{
@@ -36,6 +35,7 @@ users_data(r)
 
 }
 \seealso{
-Other users: \code{\link{next_cursor}}
+Other users: \code{\link{lookup_users}},
+  \code{\link{search_users}}
 }
 

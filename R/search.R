@@ -19,9 +19,10 @@
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable tokens.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
 #' @param \dots Futher arguments passed on to \code{make_url}.
@@ -69,6 +70,7 @@
 #' }
 #' @return List object with tweets and users each returned as a
 #'   data frame.
+#' @family tweets
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   parse = TRUE, token = NULL, verbose = TRUE, ...) {
@@ -111,6 +113,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 
   if (parse) {
     tw <- parser(tw, n)
+    tw[["meta_search"]] <- list(query = q, functions = "search_tweets()")
     tw <- attr_tweetusers(tw)
   }
 
@@ -138,9 +141,10 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable tokens.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
@@ -155,7 +159,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' # tweets data also retrieved. can access it via tweets_data()
 #' users_data(hrc)
 #' }
-#' @return Data table (tibble) of users returned by query.
+#' @return Data frame of users returned by query.
+#' @family users
 #' @export
 search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	verbose = TRUE) {
@@ -202,6 +207,7 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	if (parse) {
 		usr <- parser(usr, n)
 		usr <- usr[c("users", "tweets")]
+		usr[["meta_search"]] <- list(query = q, functions = "search_users()")
     usr <- attr_tweetusers(usr)
 	}
 

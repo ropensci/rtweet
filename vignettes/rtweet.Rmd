@@ -9,7 +9,19 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignettes provides a *very* quick tour of rtweet: Collecting Twitter Data.
+This vignettes provides a *very* quick tour of the R package `rtweet: Collecting Twitter Data`. Before getting to the tour, however, I want to explain the philosophy behind rtweet.
+
+## Package Philosophy
+
+I started `rtweet` so I could collect data for my dissertation. I considered using one of a few open-source packages that had already been developed---e.g., `twitteR`, `streamR`, `tweepy`---to collect data. The most up-to-date of these libraries were the ones on Python, which I had just started to learn. I was surprised to discover there wasn't a equally up-to-date option on R. The Python lirbaries seemed to work well, but an R package would allow me to collect and analyze data within the same environment. So, I decided that if I created my own functions in R, I would avoid the problem of bouncing back and forth between environments. Plus, it meant that I would have the flexibility to wrangle the data in whatever way I chose. 
+
+Communication studies has an abundance of critical thinking, but a shortage of computer programming. As I developed `rtweet` I realized I could contribute to the field by making this awesome Twitter data more accessible and more approachable to communication scholars. Accordingly, the underlying philosophy of `rtweet` is simple. It is to make Twitter data more accessible to more people. 
+
+```
+rtweet philosophy: make Twitter data more accessible to more people.
+```
+
+With that in mind, I want to encourage any feedback or suggestions you have. If you use github, I'd encourage you to [create an new issue](https://github.com/mkearney/rtweet/issues). Otherwise, feel free to email me at mkearney@ku.edu.
 
 ## Accessing Twitter's API
 
@@ -20,11 +32,15 @@ However, if you're in a hurry, the [quick guide found here](https://github.com/m
 ## Install and Load
 
 ```{r, eval=FALSE}
-if (packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
+install.packages("devtools")
 devtools::install_github("mkearney/rtweet")
 library(rtweet)
+```
+
+## Posting Tweets
+
+```{r, eval=FALSE}
+post_tweet("my first rtweet #rstats")
 ```
 
 ## Retrieving Tweets
@@ -37,19 +53,44 @@ team_rstats
 # extract data on the users who posted the tweets
 users_data(team_rstats)
 
+# view search meta data
+meta_data(team_rstats)
+
 # return 200 tweets from @KyloR3n's timeline
-kylo_is_a_mole <- get_timeline("KyloR3n", n = 200)
-kylo_is_a_mole
+kylo_is_a_mole <- get_timeline("KyloR3n", n = 2000)
+head(kylo_is_a_mole)
 
 # extract emo kylo ren's user data
-users_data(kylo_is_a_mole)
+head(users_data(kylo_is_a_mole))
 
 # stream tweets mentioning @HillaryClinton for 2 minutes (120 sec)
 imwithher <- stream_tweets("HillaryClinton", timeout = 120)
-imwithher
+head(imwithher)
 
 # extract data on the users who posted the tweets
-users_data(imwithher)
+head(users_data(imwithher))
+
+# stream 3 random samples of tweets
+for (in in seq_len(3)) {
+	stream_tweets(q = "", timeout = 60, 
+		file_name = paste0("rtw", i), parse = FALSE)
+	if (i == 3) {
+		message("all done!")
+		break
+	} else {
+		# wait between 0 and 300 secs before next stream
+		Sys.sleep(runif(1, 0, 300))
+	}
+}
+
+# parse the samples
+tw <- lapply(c("rtw1.json", "rtw2.json", "rtw3.json"), parse_stream)
+
+# collapse lists into single data frame
+tw <- do.call("rbind", tw)
+
+# preview data
+head(tw)
 ```
 
 ## Retrieving Users
@@ -58,6 +99,9 @@ users_data(imwithher)
 # search for 500 users using "social science" as a keyword
 harder_science <- search_users("social science", n = 500)
 harder_science
+
+# view search meta data
+meta_data(harder_science)
 
 # extract most recent tweets data from the social scientists
 tweets_data(harder_science)

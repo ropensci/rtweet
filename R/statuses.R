@@ -24,6 +24,7 @@
 #' }
 #'
 #' @return json response object (max is 18000 per token)
+#' @family tweets
 #' @export
 lookup_statuses <- function(statuses, token = NULL, parse = TRUE) {
 

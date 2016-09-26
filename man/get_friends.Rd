@@ -18,9 +18,10 @@ vector or nested list (fromJSON) object. By default,
 \code{parse = TRUE} saves you the time [and frustrations]
 associated with disentangling the Twitter API return objects.}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 }
 \value{
 friends User ids for everyone a user follows.
@@ -44,5 +45,8 @@ epa
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
+
+Other ids: \code{\link{get_followers}},
+  \code{\link{next_cursor}}
 }
 

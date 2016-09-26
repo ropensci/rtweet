@@ -4,6 +4,9 @@
 \name{rtweet}
 \alias{rtweet}
 \alias{rtweet-package}
+\alias{rtweets}
+\alias{rtwitter}
+\alias{tokens}
 \title{rtweet}
 \description{
 rtweet provides users a range of functions
@@ -22,5 +25,16 @@ It has three main goals:
 \item Make extracting data from Twitter seem a little
   easier.
 }
+}
+\examples{
+\dontrun{
+# for instructions on access tokens, see the tokens vignette
+vignette("tokens")
+
+# for a quick demo check the rtweet vignette
+vignette("rtweet")
+}
+
+
 }
 

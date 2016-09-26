@@ -10,13 +10,15 @@
 #'   string). To ensure validity, I recommend looking up the desired
 #'   WOEID using one of the many different tools easily found via
 #'   Google search.
+#' @family trends
 #' @export
 find_woeid <- function(x) {
   out <- NA_real_
   if (length(match_woeid(x)) > 0) {
   	out <- match_woeid(x)
   } else {
-  	warning("unable to find matching location. Finding trends Worldwide instead.")
+  	warning("unable to find matching location. Using WOEID for
+    Worldwide trends instead.")
   	out <- 1
   }
   if (length(out) > 1) {
@@ -25,13 +27,6 @@ find_woeid <- function(x) {
   out
 }
 
-#' check_woeid
-#'
-#' @description Returns WOEID number for desired town or country.
-#'
-#' @param x Character string, place
-#' @keywords internal
-#' @export
 check_woeid <- function(x) {
 	out <- suppressWarnings(as.numeric(x))
   if (is.na(out)) {

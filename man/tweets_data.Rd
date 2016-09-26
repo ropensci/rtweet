@@ -14,12 +14,12 @@ tweets_data(users)
 \code{lookup_users} or \code{search_users}.}
 }
 \value{
-Tibble data frame of most recent tweets (if available)
-  of accounts found in users data object.
+Tweets data frame.
 }
 \description{
-Returns tweets data table (tibble) from users data
-  object.
+Tweets data frame from users returned in a users data object.
+  Typically, this involves the most recent tweet of each user, though
+  in some cases the most recent tweet may not be available.
 }
 \examples{
 \dontrun{
@@ -33,5 +33,11 @@ r
 users_data(r)
 }
 
+}
+\seealso{
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{get_timeline}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}}
 }
 

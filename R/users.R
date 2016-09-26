@@ -24,6 +24,7 @@
 #' }
 #'
 #' @return json response object (max is 18000 per token)
+#' @family users
 #' @export
 lookup_users <- function(users, token = NULL, parse = TRUE) {
 

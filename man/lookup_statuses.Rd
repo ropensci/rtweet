@@ -39,5 +39,9 @@ tweets_data(twt_df)
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
+
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{get_timeline}}, \code{\link{search_tweets}},
+  \code{\link{stream_tweets}}, \code{\link{tweets_data}}
 }
 

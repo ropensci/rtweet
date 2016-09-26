@@ -1,6 +1,6 @@
 context("trends_available")
 
-test_that("trends_available returns tibble", {
+test_that("trends_available returns data frame", {
 	skip_on_cran()
 
 	token <- readRDS("twitter_tokens")

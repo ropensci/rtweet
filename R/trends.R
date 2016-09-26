@@ -7,9 +7,10 @@
 #'   available trend places, see \code{\link{trends_available}}
 #' @param exclude Logical, indicating whether or not to exclude
 #'   hashtags
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable tokens.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param parse Logical, indicating whether or not to parse return
 #'   trends data.
 #'
@@ -30,6 +31,7 @@
 #' }
 #'
 #' @return Trend data for a given location.
+#' @family trends
 #' @export
 get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
 	parse = TRUE) {
@@ -59,14 +61,7 @@ get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
 	gt
 }
 
-#' parse_trends
-#'
-#' @description Returns tibble data frame of trends data.
-#'
-#' @param x Nexted list fromJSON of trends data.
-#'
-#' @keywords internal
-#' @export
+
 parse_trends <- function(x) {
 	trends <- data_frame_(x$trends[[1]])
 	rows <- nrow(trends)
@@ -92,9 +87,10 @@ format_trend_date <- function(x, date = FALSE) {
 #'
 #' @description Returns Twitter trends based on requested WOEID.
 #'
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable tokens.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves users from the time
@@ -119,6 +115,7 @@ format_trend_date <- function(x, date = FALSE) {
 #'
 #' @return Data frame with WOEIDs. WOEID is a Yahoo! Where On
 #'   Earth ID.
+#' @family trends
 #' @export
 trends_available <- function(token = NULL, parse = TRUE) {
 
@@ -138,13 +135,7 @@ trends_available <- function(token = NULL, parse = TRUE) {
 	trd
 }
 
-#' parse_trends_available
-#'
-#' @description parse trends data
-#'
-#' @param x trends data fromJSON
-#' @keywords internal
-#' @noRd
+
 parse_trends_available <- function(x) {
 	p <- cbind_(data_frame_(x[names(x) != "placeType"]),
 		data_frame_(x[["placeType"]]))

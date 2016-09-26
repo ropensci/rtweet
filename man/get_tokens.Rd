@@ -17,4 +17,7 @@ Call function used to load Twitter oauth tokens.
   for future sessions. It also makes it easier to write teh card -
   allowing internals of the functions t call your tokens for you.
 }
+\seealso{
+Other tokens: \code{\link{create_token}}
+}
 

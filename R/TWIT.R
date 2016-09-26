@@ -27,7 +27,7 @@
 #' @return json response object
 #' @import httr
 #' @keywords internal
-#' @export
+#' @noRd
 TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
 
   if (is.null(timeout)) {
@@ -59,7 +59,7 @@ TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
 #'   along. If none, NULL (default).
 #' @return URL used in httr call.
 #' @keywords internal
-#' @export
+#' @noRd
 make_url <- function(restapi = TRUE, query, param = NULL) {
 
   if (restapi) {

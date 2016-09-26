@@ -28,7 +28,7 @@
 #'   Modify previous data request function by entering the returned
 #'   value from \code{next_cursor} for the \code{page} argument.
 #' @aliases next_page cursor_next
-#' @family users
+#' @family ids
 #' @export
 next_cursor <- function(ids) {
 	attr(ids, "next_cursor")
@@ -36,8 +36,8 @@ next_cursor <- function(ids) {
 
 #' users_data
 #'
-#' @description Returns users data table (tibble) from tweets data
-#'   object.
+#' @description Returns users data frame from returned tweets
+#'   data object.
 #'
 #' @param tweets Data frame of Twitter statuses (tweets) generated via
 #'   \code{\link{get_timeline}}, \code{\link{search_tweets}}, or
@@ -55,8 +55,7 @@ next_cursor <- function(ids) {
 #' users_data(r)
 #' }
 #'
-#' @return Tibble data frame of Twitter statuses (tweets) from users
-#'   found in a tweets data object.
+#' @return Users data frame from tweets returned in a tweets data object.
 #' @aliases user_data data_user data_users
 #' @family users
 #' @export
@@ -71,8 +70,9 @@ users_data <- function(tweets) {
 
 #' tweets_data
 #'
-#' @description Returns tweets data table (tibble) from users data
-#'   object.
+#' @description Tweets data frame from users returned in a users data object.
+#'   Typically, this involves the most recent tweet of each user, though
+#'   in some cases the most recent tweet may not be available.
 #'
 #' @param users Data frame of Twitter users generated via
 #'   \code{lookup_users} or \code{search_users}.
@@ -89,10 +89,10 @@ users_data <- function(tweets) {
 #' users_data(r)
 #' }
 #'
-#' @return Tibble data frame of most recent tweets (if available)
-#'   of accounts found in users data object.
+#' @return Tweets data frame.
 #'
 #' @aliases tweet_data data_tweet data_tweets
+#' @family tweets
 #' @export
 tweets_data <- function(users) {
 	stopifnot(is.data.frame(users))
@@ -128,7 +128,7 @@ tweets_data <- function(users) {
 #'
 #' @export
 meta_data <- function(x) {
-	attr(x, "meta_data")
+	attr(x, "meta_search")
 }
 
 attr_tweetusers <- function(x) {

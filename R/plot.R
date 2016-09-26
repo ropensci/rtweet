@@ -1,4 +1,4 @@
-#' tsplot
+#' plot.rtweet
 #'
 #' @param x Tweets data frame
 #' @param by Unit of time, e.g., \code{secs, days, weeks,
@@ -7,15 +7,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' x <- stream_tweets()
+#' # stream tweets mentioning presidential debates hashtag
+#' #   for 5 minutes
+#' x <- stream_tweets(q = "debates2016", timeout = (60 * 5))
 #' tsplot(x)
 #' }
 #' @importFrom graphics plot
 #' @export
-tsplot <- function(x, by = "days", ...) {
+plot.rtweet <- function(x, by = "days", ...) {
 	cut <- cut.POSIXt(x$created_at, breaks = by)
 	x <- as.data.frame(table(cut))
 	Time <- as.POSIXct(x$cut)
 	Freq <- x$Freq
 	plot(data.frame(Time, Freq), type = "l", ...)
 }
+
+

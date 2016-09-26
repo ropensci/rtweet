@@ -12,9 +12,10 @@
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.
@@ -39,6 +40,7 @@
 #' @return List consisting of two data frames. One with the tweets
 #'   data for a specified user and the second is a single row for
 #'   the user provided.
+#' @family tweets
 #' @export
 get_timeline <- function(user, n = 200, max_id = NULL,
   parse = TRUE, token = NULL, ...) {

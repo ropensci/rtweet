@@ -7,9 +7,10 @@
 trends_available(token = NULL, parse = TRUE)
 }
 \arguments{
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable tokens.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list (fromJSON) object. By default,
@@ -40,5 +41,9 @@ ww_trends <- get_trends(woeid = Worldwide)
 ww_trends
 }
 
+}
+\seealso{
+Other trends: \code{\link{find_woeid}},
+  \code{\link{get_trends}}
 }
 

@@ -7,9 +7,10 @@
 rate_limit(token, query = NULL, rest = TRUE)
 }
 \arguments{
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{query}{If null, returns entire rate limit request object as
 data frame. otherwise, query returns specific values matching

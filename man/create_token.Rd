@@ -32,5 +32,7 @@ Sends request to generate oauth 1.0 tokens. Twitter
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
+
+Other tokens: \code{\link{get_tokens}}
 }
 

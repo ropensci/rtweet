@@ -1,9 +1,10 @@
 ## ---- eval=FALSE---------------------------------------------------------
-#  if (packageVersion("devtools") < 1.6) {
-#    install.packages("devtools")
-#  }
+#  install.packages("devtools")
 #  devtools::install_github("mkearney/rtweet")
 #  library(rtweet)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  post_tweet("my first rtweet #rstats")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  # search for 500 tweets using the #rstats hashtag
@@ -13,24 +14,52 @@
 #  # extract data on the users who posted the tweets
 #  users_data(team_rstats)
 #  
+#  # view search meta data
+#  meta_data(team_rstats)
+#  
 #  # return 200 tweets from @KyloR3n's timeline
-#  kylo_is_a_mole <- get_timeline("KyloR3n", n = 200)
-#  kylo_is_a_mole
+#  kylo_is_a_mole <- get_timeline("KyloR3n", n = 2000)
+#  head(kylo_is_a_mole)
 #  
 #  # extract emo kylo ren's user data
-#  users_data(kylo_is_a_mole)
+#  head(users_data(kylo_is_a_mole))
 #  
 #  # stream tweets mentioning @HillaryClinton for 2 minutes (120 sec)
 #  imwithher <- stream_tweets("HillaryClinton", timeout = 120)
-#  imwithher
+#  head(imwithher)
 #  
 #  # extract data on the users who posted the tweets
-#  users_data(imwithher)
+#  head(users_data(imwithher))
+#  
+#  # stream 3 random samples of tweets
+#  for (in in seq_len(3)) {
+#  	stream_tweets(q = "", timeout = 60,
+#  		file_name = paste0("rtw", i), parse = FALSE)
+#  	if (i == 3) {
+#  		message("all done!")
+#  		break
+#  	} else {
+#  		# wait between 0 and 300 secs before next stream
+#  		Sys.sleep(runif(1, 0, 300))
+#  	}
+#  }
+#  
+#  # parse the samples
+#  tw <- lapply(c("rtw1.json", "rtw2.json", "rtw3.json"), parse_stream)
+#  
+#  # collapse lists into single data frame
+#  tw <- do.call("rbind", tw)
+#  
+#  # preview data
+#  head(tw)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  # search for 500 users using "social science" as a keyword
 #  harder_science <- search_users("social science", n = 500)
 #  harder_science
+#  
+#  # view search meta data
+#  meta_data(harder_science)
 #  
 #  # extract most recent tweets data from the social scientists
 #  tweets_data(harder_science)

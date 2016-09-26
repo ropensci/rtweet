@@ -10,6 +10,6 @@ utf8_tweets(x)
 \item{x}{Twitter text}
 }
 \description{
-Converts tweets to to UTF-8
+Converts tweets to UTF-8 encoding
 }
 

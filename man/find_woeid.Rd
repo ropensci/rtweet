@@ -20,5 +20,9 @@ WOEID matching funcitons are offered for convenience.
   WOEID using one of the many different tools easily found via
   Google search.
 }
+\seealso{
+Other trends: \code{\link{get_trends}},
+  \code{\link{trends_available}}
+}
 \keyword{internal}
 

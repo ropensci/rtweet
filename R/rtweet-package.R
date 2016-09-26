@@ -16,13 +16,23 @@
 #' \item Make extracting data from Twitter seem a little
 #'   easier.
 #' }
+#' @examples
+#' \dontrun{
+#' # for instructions on access tokens, see the tokens vignette
+#' vignette("tokens")
+#'
+#' # for a quick demo check the rtweet vignette
+#' vignette("rtweet")
+#' }
+#'
 #'
 #' @docType package
+#' @aliases tokens rtwitter rtweets
 #' @name rtweet
 NULL
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("Welcome to rtweet v0.2.91!")
+  packageStartupMessage("Welcome to rtweet v0.3.0!")
 }
 
 .state <- new.env(parent = emptyenv())

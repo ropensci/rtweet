@@ -20,15 +20,16 @@ a single search is 1,000.}
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable tokens.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{verbose}{Logical, indicating whether or not to output
 processing/retrieval messages.}
 }
 \value{
-Data table (tibble) of users returned by query.
+Data frame of users returned by query.
 }
 \description{
 Returns data frame of users data using a provided
@@ -48,5 +49,8 @@ users_data(hrc)
 }
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
+
+Other users: \code{\link{lookup_users}},
+  \code{\link{users_data}}
 }
 

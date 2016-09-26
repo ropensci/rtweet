@@ -11,9 +11,10 @@
 #'   vector or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves you the time [and frustrations]
 #'   associated with disentangling the Twitter API return objects.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -30,6 +31,7 @@
 #'   this would be used in loops extracting more than 75,000
 #'   followers using either multiple tokens or by waiting out
 #'   rate limits)
+#' @family ids
 #' @export
 get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
                           token = NULL) {

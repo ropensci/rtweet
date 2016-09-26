@@ -7,6 +7,7 @@
 #'   for future sessions. It also makes it easier to write teh card -
 #'   allowing internals of the functions t call your tokens for you.
 #' @return path
+#' @family tokens
 #' @export
 get_tokens <- function() {
 	if (all(is.null(.state$twitter_tokens), !is.null(.state$twitter_token))) {
@@ -41,6 +42,7 @@ get_tokens <- function() {
 #'
 #' @return Twitter personal access token object
 #' @import httr
+#' @family tokens
 #' @export
 create_token <- function(app, consumer_key, consumer_secret) {
   token <- oauth_app(
@@ -85,7 +87,7 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
   if (sleep) {
     token <- tokens[[1]]
 
-    reset <- rate_limit(token, query)[, "reset"]
+    reset <- rate_limit(token, query)[["reset"]]
 
     Sys.sleep(reset[[1]] * 60)
 

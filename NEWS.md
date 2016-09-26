@@ -1,3 +1,10 @@
+# rtweet 0.3.0
+* New CRAN version!
+* Lots of improvements to stability and entirely new functions to 
+play around with (see previous news updates for more info).
+* Added more documentation all round, including help features, examples, and 
+vignette infrastructure.
+
 # rtweet 0.2.92
 * Added gzip option for `stream_tweets()`
 

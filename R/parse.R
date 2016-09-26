@@ -1,14 +1,4 @@
-#' tweets_df
-#'
-#' @description Converts tweets object (nested list converted from
-#'   json object) into a [tibble] data frame.
-#'
-#' @param dat Tweets object or nested list. Usually this is the
-#'   return object produced by \code{\link{search_tweets}} or
-#'   \code{\link{stream_tweets}}.
-#' @param clean_tweets Logical indicating whether to convert
-#'   text to ASCII.
-#' @export
+
 tweets_df <- function(dat, clean_tweets = TRUE) {
 
   if (missing(dat)) {
@@ -32,7 +22,6 @@ tweets_df <- function(dat, clean_tweets = TRUE) {
   if (clean_tweets) {
     tweets_df[["text"]] <- clean_tweets(tweets_df[["text"]])
   }
-  #new("tweets", unique(tweets_df))
   unique(tweets_df)
 }
 
@@ -48,7 +37,7 @@ clean_tweets <- function(x) {
 
 #' utf8_tweets
 #'
-#' @description Converts tweets to to UTF-8
+#' @description Converts tweets to UTF-8 encoding
 #' @param x Twitter text
 #'
 #' @export
@@ -57,15 +46,7 @@ utf8_tweets <- function(x) {
 		recursive = FALSE)
 }
 
-#' user_df
-#'
-#' @description Converts user object (nested list converted from
-#'   json object) into a [tibble] data frame.
-#'
-#' @param dat User object or nested list. Usually this is the
-#'   return object produced by \code{\link{lookup_users}}.
-#'
-#' @export
+
 user_df <- function(dat) {
 
   if ("user" %in% names(dat)) {
@@ -76,7 +57,6 @@ user_df <- function(dat) {
     user_toplevel_df(dat),
     user_entities_df(dat))
 
-  #new("users", unique(user_df))
   unique(user_df)
 }
 
@@ -109,19 +89,7 @@ parser <- function(x, n = NULL) {
   list(tweets = tweets, users = users)
 }
 
-#' parse_fs
-#'
-#' @description Returns next_cursor and tibble data frame of user
-#'   ids.
-#'
-#' @param x List, nested fromJSON object.
-#' @param n Numeric, number of desired ids to return.
-#' @return List of length 2, containing next_cursor (to be used
-#'   with \code{page} argument in loops to collect maxiimum ids)
-#'   and ids data frame (of followers or friends depending on
-#'   parent function used to generate x input).
-#'
-#' @noRd
+
 parse_fs <- function(x, n = NULL) {
   if (length(x) == 1) {
     next_cursor <- x[[1]][["next_cursor_str"]]
@@ -140,14 +108,6 @@ parse_fs <- function(x, n = NULL) {
   x
 }
 
-#' parse_tweets
-#'
-#' @description Converts nested json list object to tweets
-#'   data_frame
-#' @param x Nested json list object
-#'
-#' @return Tweets data as tbl (tibble) data table
-#' @export
 parse_tweets <- function(x) {
 
   if ("statuses" %in% names(x)) {
@@ -163,14 +123,6 @@ parse_tweets <- function(x) {
   return(invisible())
 }
 
-#' parse_users
-#'
-#' @description Converts nested json list object to users
-#'   data_frame
-#' @param x Nested json list object
-#'
-#' @return Users data as tbl (tibble) data table
-#' @export
 parse_users <- function(x) {
 
   if ("friends_count" %in% names(x)) {
