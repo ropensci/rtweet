@@ -9,8 +9,7 @@
 #' \itemize{
 #' \item Compose and request calls to Twitter's API
 #'   following (the best practices for writing an API
-#'   package) [https://cran.r-project.org/web/packages/httr/
-#'   vignettes/api-packages.html].
+#'   package) [https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html].
 #' \item Provide functions that can acccept multiple
 #'   personal access tokens.
 #' \item Make extracting data from Twitter seem a little
