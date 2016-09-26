@@ -1,4 +1,4 @@
-#' plot.rtweet
+#' ts_plot
 #'
 #' @param x Tweets data frame
 #' @param by Unit of time, e.g., \code{secs, days, weeks,
@@ -14,12 +14,10 @@
 #' }
 #' @importFrom graphics plot
 #' @export
-plot.rtweet <- function(x, by = "days", ...) {
+ts_plot <- function(x, by = "days", ...) {
 	cut <- cut.POSIXt(x$created_at, breaks = by)
 	x <- as.data.frame(table(cut))
 	Time <- as.POSIXct(x$cut)
 	Freq <- x$Freq
 	plot(data.frame(Time, Freq), type = "l", ...)
 }
-
-
