@@ -10,6 +10,8 @@ Key features
 
 -   ***NEW***: Now tweet from your R console using the `post_tweet()` function!
 
+- Stream a random sample of tweets using `stream_tweets()`. The function default, `q = ""`, now streams a random sample of all tweets.
+
 -   Save as CSV: If you'd like to open Twitter data in Excel or SPSS, use the `save_as_csv` function.
 
 -   Gather **tweet data** by searching past tweets `search_tweets()`, streaming live tweets `stream_tweets()`, collecting tweets from a user's timeline `get_timeline()`, or gathering all the tweets favorited by a user `get_favorites()`.
