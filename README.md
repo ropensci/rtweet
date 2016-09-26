@@ -2,7 +2,7 @@
 rtweet: Collecting Twitter Data
 ===============================
 
-[![CRAN Version](https://CRAN.R-project.org/package=rtweet)](http://cran.r-project.org/package=rtweet) ![Downloads](http://cranlogs.r-pkg.org/badges/rtweet) [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![codecov](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet)
+[![CRAN Version](https://CRAN.R-project.org/package=rtweet)](http://CRAN.R-project.org/package=rtweet) ![Downloads](http://cranlogs.r-pkg.org/badges/rtweet) [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![codecov](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet)
 
 R client for collecting data via Twitter's REST and stream API's.
 
@@ -10,7 +10,7 @@ Key features
 
 -   ***NEW***: Now tweet from your R console using the `post_tweet()` function!
 
-- Stream a random sample of tweets using `stream_tweets()`. The function default, `q = ""`, now streams a random sample of all tweets.
+-   Stream a random sample of tweets using `stream_tweets()`. The function default, `q = ""`, now streams a random sample of all tweets.
 
 -   Save as CSV: If you'd like to open Twitter data in Excel or SPSS, use the `save_as_csv` function.
 
