@@ -19,7 +19,7 @@ Imports:
     jsonlite
 License: MIT + file LICENSE
 LazyData: TRUE
-URL: https://github.com/mkearney/rtweet/
+URL: https://CRAN.R-project.org/package=rtweet
 BugReports: https://github.com/mkearney/rtweet/issues
 RoxygenNote: 5.0.1
 Suggests:
