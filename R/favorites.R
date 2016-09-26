@@ -23,7 +23,6 @@
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
 #'   tokens vignette (in r, send \code{?tokens} to console).
-#' @seealso \url{https://api.twitter.com/1.1/favorites/list.json}
 #' @examples
 #' \dontrun{
 #' # get ids of users following the president of the US

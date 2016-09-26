@@ -54,8 +54,6 @@ epa
 }
 }
 \seealso{
-\url{https://api.twitter.com/1.1/favorites/list.json}
-
 Other tweets: \code{\link{get_timeline}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
