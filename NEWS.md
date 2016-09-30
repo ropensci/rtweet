@@ -1,5 +1,8 @@
 # rtweet 0.3.1
-* include_retweets
+* `include_retweets` arg added to `search_tweets()` function.
+* `user_id` class changed to double when parsed. double is significantly 
+faster and consumes less space. it's also capable of handling the length of 
+id scalars, so the only downside is truncated printing.
 
 # rtweet 0.3.0
 * New CRAN version!
