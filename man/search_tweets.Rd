@@ -4,8 +4,8 @@
 \alias{search_tweets}
 \title{search_tweets}
 \usage{
-search_tweets(q, n = 100, type = "mixed", max_id = NULL, parse = TRUE,
-  token = NULL, verbose = TRUE, ...)
+search_tweets(q, n = 100, type = "mixed", max_id = NULL,
+  include_rts = TRUE, parse = TRUE, token = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{q}{Character, search query of no greater than
@@ -22,6 +22,9 @@ valid values \code{type = "recent"} and \code{type = "popular"}.}
 
 \item{max_id}{Character, specifying the [oldest] status id beyond
 which results should resume returning.}
+
+\item{include_rts}{Logical, indicating whether to include retweets
+in search results.}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list (fromJSON) object. By default,
@@ -41,8 +44,7 @@ processing/retrieval messages.}
 All named arguments that do not match the above arguments
 (i.e., count, type, etc.) will be built into the request.
 To return only English language tweets, for example, use
-\code{lang = "en"}. Or, to exclude retweets, use
-\code{include_rts = FALSE}. For more options see Twitter's
+\code{lang = "en"}. For more options see Twitter's
 API documentation.}
 }
 \value{

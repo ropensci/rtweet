@@ -35,9 +35,6 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
         dat[[i]] <- rep(NA_integer_, n)
       } else if (i == "is_quote_status") {
         dat[[i]] <- rep(NA, n)
-      #} else if (i == c("id_str", "in_reply_to_status_id_str",
-      	#"in_reply_to_user_id_str", "quoted_status_id_str")) {
-      	#dat[[i]] <- rep(NA_real_, n)
       } else {
         dat[[i]] <- rep(NA, n)
       }

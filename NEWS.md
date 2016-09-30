@@ -1,3 +1,6 @@
+# rtweet 0.3.1
+* include_retweets
+
 # rtweet 0.3.0
 * New CRAN version!
 * Lots of improvements to stability and entirely new functions to 

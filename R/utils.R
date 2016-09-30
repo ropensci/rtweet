@@ -1,15 +1,18 @@
 return_last <- function(x, n = 1) {
-  x <- rev(x)
+	x <- rev(x)
   x[seq_along(n)]
 }
 
 bply <- function(x, f) {
-  x <- rbind_(lapply(x, f))
-  x <- x[!duplicated(x), ]
+  rbind_(lapply(x, f))
+  #x[!duplicated(x), ]
 }
 
 exclude_list_null <- function(x) {
-  if (is.list(x)) x <- x[!sapply(x, is.null)]
+  if (is.list(x)) {
+  	x <- x[!unlist(lapply(x, is.null), use.names = FALSE,
+  		recursive = FALSE)]
+  }
   x
 }
 

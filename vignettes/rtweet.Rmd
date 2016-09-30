@@ -25,7 +25,7 @@ With that in mind, I want to encourage any feedback or suggestions you have. If 
 
 ## Accessing Twitter's API
 
-Before you can start collecting data, you must first obtain a user access token.
+In order to collect data, you must first obtain a user access token.
 To do this, I recommend following the vignette on [obtaining and setting up user access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd).
 However, if you're in a hurry, the [quick guide found here](https://github.com/mkearney/rtweet/blob/master/README.md) works as well.
 

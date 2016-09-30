@@ -69,6 +69,9 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
       toplevel_df[["created_at"]], date = FALSE)
   }
 
+  toplevel_df[["user_id"]] <- as.double(
+  	toplevel_df[["user_id"]])
+
   data_frame_(toplevel_df)
 }
 

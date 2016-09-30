@@ -12,6 +12,8 @@
 #'   you would prefer to receive. The current default is
 #'   \code{type = "mixed"}, which is a mix between the other two
 #'   valid values \code{type = "recent"} and \code{type = "popular"}.
+#' @param include_rts Logical, indicating whether to include retweets
+#'   in search results.
 #' @param max_id Character, specifying the [oldest] status id beyond
 #'   which results should resume returning.
 #' @param parse Logical, indicating whether to return parsed
@@ -29,8 +31,7 @@
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.
 #'   To return only English language tweets, for example, use
-#'   \code{lang = "en"}. Or, to exclude retweets, use
-#'   \code{include_rts = FALSE}. For more options see Twitter's
+#'   \code{lang = "en"}. For more options see Twitter's
 #'   API documentation.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @details Twitter API document recommends limiting searches to
@@ -72,8 +73,10 @@
 #'   data frame.
 #' @family tweets
 #' @export
-search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
-  parse = TRUE, token = NULL, verbose = TRUE, ...) {
+search_tweets <- function(q,
+	n = 100, type = "mixed", max_id = NULL,
+	include_rts = TRUE, parse = TRUE,
+	token = NULL, verbose = TRUE, ...) {
 
   query <- "search/tweets"
 
@@ -96,6 +99,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
     stop("invalid search type - must be mixed, recent, or popular.",
       call. = FALSE)
   }
+
+  if (include_rts) q <- paste0(q, " -RT")
 
   params <- list(q = q,
     result_type = type,
@@ -218,4 +223,27 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	usr
 }
 
-count_users_returned <- function(x) length(unique(unlist(lapply(x, function(x) x[["id_str"]]))))
+count_users_returned <- function(x) {
+	length(unique(unlist(lapply(x, function(x) x[["id_str"]]))))
+}
+
+
+
+#' Get value for max_id
+#'
+#' @param df Tweets data frame with "created_at" and "status_id" variables.
+#'
+#' @return Character string of max_id to be used in future function calls.
+#' @export
+#'
+next_id <- function(df) {
+	if (!all(names(df) %in% c("created_at", "status_id"))) {
+		stop("wrong data frame - should be tweets data")
+	}
+	if (any(grepl("posix", class(df$created_at), ignore.case = TRUE))) {
+		df$created_at <- format_date(df$created_at)
+	}
+	df <- df[!any(is.na(df$created_at), is.na(df$status_id)), ]
+	df <- df[order(df$created_at), ]
+	df$status_id[1]
+}
