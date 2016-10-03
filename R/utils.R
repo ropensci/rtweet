@@ -5,7 +5,6 @@ return_last <- function(x, n = 1) {
 
 bply <- function(x, f) {
   rbind_(lapply(x, f))
-  #x[!duplicated(x), ]
 }
 
 exclude_list_null <- function(x) {
@@ -17,7 +16,6 @@ exclude_list_null <- function(x) {
 }
 
 return_n_rows <- function(x, n = NULL) {
-	x <- unique(x)
 	if (is.data.frame(x)) {
 		return(x[seq_n_rows(n), ])
 	} else {
@@ -68,10 +66,8 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
 
 
 .ids_type <- function(x) {
-  if (is.list(x)) x <- unlist(x)
-  for (i in seq_along(x)) {
-    x[i] <- .id_type(x[i])
-  }
+  if (is.list(x)) x <- unlist(x, use.names = FALSE)
+  x <- .id_type(x)
   if (length(unique(x)) > 1) {
     stop("users must be user_ids OR screen_names, not both.")
   }
@@ -80,11 +76,16 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
 
 
 .id_type <- function(x) {
-  if (suppressWarnings(is.na(as.numeric(x)))) {
-    return("screen_name")
-  } else {
-    return("user_id")
-  }
+	x <- suppressWarnings(is.na(as.numeric(x)))
+	if (length(unique(x)) > 1) {
+		stop("users must be user_ids OR screen_names, not both.")
+	}
+	x <- unique(x)
+	if (x) {
+		return("screen_name")
+	} else {
+		return("user_id")
+	}
 }
 
 is.na.quiet <- function(x) {

@@ -151,20 +151,11 @@ tweets_retweet_df <- function(dat, n = NULL) {
 }
 
 make_coords <- function(x) {
-
   if (is.array(x)) {
     coords <- matrix(as.numeric(x), 1, 8)
-    #names(coords_df) <- c(
-    #  "long1", "long2", "long3", "long4",
-    #  "lat1", "lat2", "lat3", "lat4")
   } else {
-    coords <- matrix(rep(NA_real_, 8), 1, 8)
-
-    #names(coords_df) <- c(
-    #  "long1", "long2", "long3", "long4",
-    #  "lat1", "lat2", "lat3", "lat4")
+    coords <- matrix(NA_real_, 1, 8)
   }
-
   coords
 }
 
@@ -182,24 +173,16 @@ tweets_place_df <- function(dat, n = NULL) {
   place_df <- data_frame_(
     place_name = rep(NA_character_, n),
     country = rep(NA_character_, n),
-    coordinates = rep(NA_character_, n))
-    #long1 = rep(NA_real_, n),
-    #long2 = rep(NA_real_, n),
-    #long3 = rep(NA_real_, n),
-    #long4 = rep(NA_real_, n),
-    #lat1 = rep(NA_real_, n),
-    #lat2 = rep(NA_real_, n),
-    #lat3 = rep(NA_real_, n),
-    #lat4 = rep(NA_real_, n))
+    coordinates = I(matrix(rep(matrix(NA_real_, 1, 8), n), ncol = 8)))
 
   if ("place" %in% names(dat)) {
     place <- dat[["place"]]
 
     if ("full_name" %in% names(place)) {
-      place_df$place_name = return_with_NA(place[["full_name"]], n)
+      place_df$place_name <- return_with_NA(place[["full_name"]], n)
     }
     if ("country" %in% names(place)) {
-      place_df$country = return_with_NA(place[["country"]], n)
+      place_df$country <- return_with_NA(place[["country"]], n)
     }
 
     if ("bounding_box" %in% names(place)) {
@@ -207,11 +190,7 @@ tweets_place_df <- function(dat, n = NULL) {
 
       if ("coordinates" %in% names(bounding_box)) {
         coordinates <- bounding_box[["coordinates"]]
-        coordinates <- lapply(coordinates, make_coords)
-
-        for (i in seq_along(coordinates)) {
-          place_df$coordinates <- coordinates
-        }
+        place_df$coordinates <- t(sapply(coordinates, make_coords))
       }
     }
   }

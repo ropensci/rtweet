@@ -1,3 +1,8 @@
+# rtweet 0.3.2
+* Added built-in, encrypted tokens
+* Fixed issues with tweets parsing and reading streams
+* Numerous speed improvements
+
 # rtweet 0.3.1
 * `include_retweets` arg added to `search_tweets()` function.
 * `user_id` class changed to double when parsed. double is significantly 

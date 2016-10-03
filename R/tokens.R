@@ -72,15 +72,14 @@ create_token <- function(app, consumer_key, consumer_secret) {
 fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
   if (missing(query)) {
-    stop("Must specify Twitter API query of interest", call. = FALSE)
+    stop("Must specify Twitter API query of interest",
+    	call. = FALSE)
   }
 
-  for (i in seq_along(tokens)) {
-    token <- tokens[[i]]
+  for (i in tokens) {
+    remaining <- rate_limit(i, query)[["remaining"]]
 
-    remaining <- rate_limit(token, query)[["remaining"]]
-
-    if (remaining > 0) return(token)
+    if (remaining > 0) return(i)
   }
 
   if (sleep) {
@@ -93,7 +92,8 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
     return(token)
 
   } else {
-    stop("Rate limit exceeded - please wait!", call. = FALSE)
+    stop("Rate limit exceeded - please wait!",
+    	call. = FALSE)
   }
 
   token
@@ -143,7 +143,8 @@ twitter_pat <- function() {
     } else {
     	pat <- "system"
       warning(
-        "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
+        paste0("Please set env var TWITTER_PAT to your ",
+        	"Twitter personal access token(s)"),
         call. = FALSE)
     }
   }
@@ -156,18 +157,29 @@ if_load <- function(x) {
 			error = function(e) (return(FALSE))))
 }
 
-#' @importFrom openssl rsa_encrypt
-system_token <- function() {
-	create_token("rtweet_rstats",
-		rsa_encrypt(sysdat$cipher_pubkey, sysdat$cipher_key),
-		rsa_encrypt(sysdat$cipher_secret, sysdat$cipher_key))
+#' @importFrom openssl rsa_decrypt
+system_tokens <- function(y) {
+	x <- y$tokens
+	x[[1]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[1]],
+		y$cipher_key))
+	x[[2]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[2]],
+		y$cipher_key))
+	x[[3]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[3]],
+		y$cipher_key))
+	x[[1]]$credentials$oauth_token_secret <- rawToChar(rsa_decrypt(
+		y$cipher_tknsecret[[1]], y$cipher_key))
+	x[[2]]$credentials$oauth_token_secret <- rawToChar(rsa_decrypt(
+		y$cipher_tknsecret[[2]], y$cipher_key))
+	x[[3]]$credentials$oauth_token_secret <- rawToChar(rsa_decrypt(
+		y$cipher_tknsecret[[3]], y$cipher_key))
+	x
 }
 
 load_tokens <- function(pat) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
   } else if (identical(pat, "system")) {
-  	.state$twitter_tokens <- system_token()
+  	.state$twitter_tokens <- system_tokens(sysdat)
   } else if (if_load(pat)) {
   	x <- load(pat)
   	.state$twitter_tokens <- get(x)

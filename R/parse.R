@@ -22,7 +22,7 @@ tweets_df <- function(dat, clean_tweets = TRUE) {
   if (clean_tweets) {
     tweets_df[["text"]] <- clean_tweets(tweets_df[["text"]])
   }
-  unique(tweets_df)
+  tweets_df[!duplicated(tweets_df[, c(2, 13)]), ]
 }
 
 #' clean_tweets
@@ -43,7 +43,7 @@ clean_tweets <- function(x) {
 #' @export
 utf8_tweets <- function(x) {
 	unlist(lapply(x, function(.) if (Encoding(.) != "UTF-8") enc2utf8(x)),
-		recursive = FALSE)
+		recursive = FALSE, use.names = FALSE)
 }
 
 
@@ -81,7 +81,7 @@ parser <- function(x, n = NULL) {
 
   tweets <- return_n_rows(tweets, n)
   tweets <- tweets[!is.na(tweets$status_id), ]
-  tweets <- unique(tweets)
+
   users <- return_n_rows(users, n)
   if (is.data.frame(users)) {
   	users <- filter_na_rows(users)
@@ -95,9 +95,10 @@ parse_fs <- function(x, n = NULL) {
     next_cursor <- x[[1]][["next_cursor_str"]]
     x <- as.double(x[[1]][["ids"]])
   } else if (length(x) > 1) {
-    next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]))
+    next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]),
+    	use.names = FALSE)
     next_cursor <- return_last(next_cursor)
-    x <- unlist(lapply(x, function(x) x[["ids"]]))
+    x <- unlist(lapply(x, function(x) x[["ids"]]), use.names = FALSE)
   }
 
   x <- return_n_rows(x, n)

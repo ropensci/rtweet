@@ -109,7 +109,8 @@ user_entities_df <- function(dat, n = NULL) {
 
       if ("urls" %in% names(ent_url)) {
         user_ent_df$url <- unlist(lapply(
-          ent_url[["urls"]], usr_ent_urls))
+          ent_url[["urls"]], usr_ent_urls),
+        	use.names = FALSE)
         }
       }
 

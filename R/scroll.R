@@ -10,17 +10,17 @@ scroller <- function(url, n, n.times, ...,
 
   for (i in seq_along(x)) {
 
-    r <- tryCatch(
+  	x[[i]] <- tryCatch(
       TWIT(get = TRUE, url, ...),
       error = function(e) NULL)
 
-    if (is.null(r)) break
+    if (is.null(x[[i]])) break
 
     if (catch_error) {
-      warn_for_status(r)
+      warn_for_status(x[[i]])
     }
 
-    x[[i]] <- from_js(r)
+    x[[i]] <- from_js(x[[i]])
 
     if ("statuses" %in% names(x[[i]])) {
     	if (identical(length(x[[i]][["statuses"]]), 0L)) break
@@ -68,7 +68,7 @@ unique_id_count <- function(x) {
   if (is.data.frame(x)) {
     x <- unique_id(x)
   } else {
-    x <- unlist(lapply(x, unique_id))
+    x <- unlist(lapply(x, unique_id), use.names = FALSE)
   }
   length(unique(x))
 }
