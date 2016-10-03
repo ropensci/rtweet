@@ -20,7 +20,6 @@ get_tokens <- function() {
 }
 
 
-
 #' create_token
 #'
 #' @description Sends request to generate oauth 1.0 tokens. Twitter
@@ -142,7 +141,8 @@ twitter_pat <- function() {
     if (file.exists(".httr-oauth")) {
       pat <- ".httr-oauth"
     } else {
-      stop(
+    	pat <- "system"
+      warning(
         "Please set env var TWITTER_PAT to your Twitter personal access token(s)",
         call. = FALSE)
     }
@@ -156,9 +156,18 @@ if_load <- function(x) {
 			error = function(e) (return(FALSE))))
 }
 
+#' @importFrom openssl rsa_encrypt
+system_token <- function() {
+	create_token("rtweet_rstats",
+		rsa_encrypt(sysdat$cipher_pubkey, sysdat$cipher_key),
+		rsa_encrypt(sysdat$cipher_secret, sysdat$cipher_key))
+}
+
 load_tokens <- function(pat) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
+  } else if (identical(pat, "system")) {
+  	.state$twitter_tokens <- system_token()
   } else if (if_load(pat)) {
   	x <- load(pat)
   	.state$twitter_tokens <- get(x)

@@ -44,9 +44,11 @@ is_zero <- function(x) isTRUE(identical(length(x), 0L))
 match_woeid <- function(x) {
 	if (tolower(x) %in% c("world", "worldwide", "world wide", "all")) {
 		return(1)
+	} else if (tolower(x) %in% c("us", "u.s.", "u s")) {
+		x <- "united states"
 	} else {
-		places <- woeid[["name"]]
-		woeids <- as.numeric(woeid[["woeid"]])
+		places <- sysdat$woeid[["name"]]
+		woeids <- as.numeric(sysdat$woeid[["woeid"]])
 		woeids[tolower(places) == tolower(x)]
 	}
 }

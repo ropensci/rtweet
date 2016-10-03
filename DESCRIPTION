@@ -15,8 +15,10 @@ Description: An implementation of calls designed to extract
 Depends:
     R (>= 3.1.0)
 Imports:
-    httr (>= 1.2.0),
-    jsonlite
+		httpuv,
+    httr (>= 1.0.0),
+    jsonlite,
+    openssl
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://CRAN.R-project.org/package=rtweet

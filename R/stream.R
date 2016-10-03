@@ -178,6 +178,12 @@ parse_stream <- function(file_name) {
 		s <- tryCatch(stream_in(file(file_name),
 			verbose = TRUE), error = function(e) return(NULL))
 	}
+	if (is.null(s)) {
+		cat("\n", file = file_name, append = TRUE)
+
+		s <- tryCatch(stream_in(file(file_name),
+			verbose = TRUE), error = function(e) return(NULL))
+	}
 	if (is.null(s)) stop("it's not right. -luther", call. = FALSE)
 
 	s <- parser(s)
