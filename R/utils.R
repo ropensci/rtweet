@@ -41,7 +41,8 @@ nanull <- function(x) {
 }
 
 is_response <- function(x) {
-  identical(class(x), "response")
+  any(identical(class(x), "response"),
+  	all(c("content", "headers") %in% names(x)))
 }
 is_json <- function (x) {
   stopifnot(is_response(x))
