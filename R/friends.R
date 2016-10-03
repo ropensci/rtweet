@@ -65,7 +65,7 @@ get_friends <- function(user, page = "-1", parse = TRUE,
   	f[["ids"]] <- NA_real_
   } else {
   	if (parse) {
-  		f <- parse_fs(f)
+  		f <- parse_fs(from_js(f))
   	}
   }
   f

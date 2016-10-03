@@ -90,6 +90,28 @@ parser <- function(x, n = NULL) {
 }
 
 parse_fs <- function(x, n = NULL) {
+	if (length(x) == 1) {
+		next_cursor <- x[[1]][["next_cursor_str"]]
+		x <- as.double(x[[1]][["ids"]])
+	} else if (all(c("ids", "next_cursor_str") %in% names(x))) {
+		next_cursor <- x[["next_cursor_str"]]
+		x <- as.double(x[["ids"]])
+	} else if (length(x) > 1) {
+		next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]),
+			use.names = FALSE)
+		next_cursor <- return_last(next_cursor)
+		x <- unlist(lapply(x, function(x) x[["ids"]]), use.names = FALSE)
+	}
+
+	x <- return_n_rows(x, n)
+	x <- data_frame_(x)
+	names(x) <- "ids"
+
+	attr(x, "next_cursor") <- next_cursor
+	x
+}
+
+parse_fs2 <- function(x, n = NULL) {
 	x <- rawToChar(x$content)
 	if (grepl("errors", x)) {
 		x <- NA_real_
