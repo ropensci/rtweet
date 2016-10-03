@@ -8,7 +8,9 @@ R client for collecting data via Twitter's REST and stream API's.
 
 Key features
 
--   ***NEW***: Now tweet from your R console using the `post_tweet()` function!
+-   ***NEW*** (dev version on Github): Out of the box functionality! Start using `rtweet` the moment you install the package. Limited authorization access provided for users looking to test-drive the package before [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd).
+
+-   Tweet from your R console using the `post_tweet()` function!
 
 -   Stream a random sample of tweets using `stream_tweets()`. The function default, `q = ""`, now streams a random sample of all tweets.
 
