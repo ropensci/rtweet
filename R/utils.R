@@ -9,8 +9,7 @@ bply <- function(x, f) {
 
 exclude_list_null <- function(x) {
   if (is.list(x)) {
-  	x <- x[!unlist(lapply(x, is.null), use.names = FALSE,
-  		recursive = FALSE)]
+  	x <- x[!unlist(lapply(x, is.null), use.names = FALSE)]
   }
   x
 }
@@ -96,18 +95,15 @@ is.na.quiet <- function(x) {
 
 
 format_date <- function(x, date = FALSE) {
-
   o <- tryCatch(as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",
     tz = "UTC", origin = "1970-01-01"),
   	error = function(e) return(NULL))
-
   if (any(is.null(o), all(is.na.quiet(o)))) {
   	o <- tryCatch(as.POSIXct(x,
   		format = "%a %b %d %H:%M:%S %z %Y"),
   		error = function(e) return(NULL))
   }
-
   if (any(is.null(o), all(is.na.quiet(o)))) {
   	curLocale <- Sys.getlocale("LC_TIME")
   	on.exit(Sys.setlocale("LC_TIME", curLocale), add = TRUE)
@@ -117,27 +113,22 @@ format_date <- function(x, date = FALSE) {
   		format="%a, %d %b %Y %H:%M:%S +0000"),
   		error = function(e) return(NULL))
   }
-
   if (any(is.null(o), all(is.na.quiet(o)))) {
   	o <- tryCatch(as.POSIXct(x, tz = 'UTC',
   		format="%a %b %d %H:%M:%S +0000 %Y"),
   		error = function(e) return(NULL))
   }
-
   if (any(is.null(o), all(is.na.quiet(o)))) {
   	o <- tryCatch(as.POSIXct(x,
   		format = "%a %b %d %H:%M:%S %z %Y"),
   		error = function(e) return(NULL))
   }
-
   if (any(is.null(o), all(is.na.quiet(o)))) {
   	o <- x
   }
-
   if (date) {
     o <- as.Date(o)
   }
-
   o
 }
 
@@ -203,7 +194,7 @@ return_with_NA <- function(x, n) {
 
 is_empty_list <- function(x) {
   if (is.list(x)) {
-    is.null(unlist(x))
+    is.null(unlist(x, use.names = FALSE))
   }
 }
 
@@ -211,7 +202,7 @@ is_na <- function(x) {
   if (is.list(x)) {
     x <- unlist(lapply(x, function(x)
       any(is.null(x), suppressWarnings(is.na(x)), is_empty_list(x))),
-      recursive = FALSE)
+      use.names = FALSE)
   } else {
     x <- is.na(x)
   }

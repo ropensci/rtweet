@@ -224,7 +224,8 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 }
 
 count_users_returned <- function(x) {
-	length(unique(unlist(lapply(x, function(x) x[["id_str"]]))))
+	length(unique(unlist(lapply(x, function(x) x[["id_str"]]),
+		use.names = FALSE)))
 }
 
 
@@ -237,13 +238,13 @@ count_users_returned <- function(x) {
 #' @export
 #'
 next_id <- function(df) {
-	if (!all(names(df) %in% c("created_at", "status_id"))) {
-		stop("wrong data frame - should be tweets data")
+	if (!all(c("created_at", "status_id") %in% names(df))) {
+		stop("wrong data frame - function requires tweets data")
 	}
 	if (any(grepl("posix", class(df$created_at), ignore.case = TRUE))) {
 		df$created_at <- format_date(df$created_at)
 	}
-	df <- df[!any(is.na(df$created_at), is.na(df$status_id)), ]
+	df <- df[!is.na(df$status_id), ]
 	df <- df[order(df$created_at), ]
 	df$status_id[1]
 }
