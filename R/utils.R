@@ -1,6 +1,6 @@
 return_last <- function(x, n = 1) {
 	x <- rev(x)
-  x[seq_along(n)]
+  x[seq_len(n)]
 }
 
 bply <- function(x, f) {
@@ -17,10 +17,13 @@ exclude_list_null <- function(x) {
 
 return_n_rows <- function(x, n = NULL) {
 	if (is.data.frame(x)) {
-		return(x[seq_n_rows(n), ])
-	} else {
-		return(x[seq_n_rows(n)])
-	}
+    if (is.null(n)) return(x)
+    if (nrow(x) > n) {
+      x <- x[seq_n_rows(n), ]
+    }
+    rownames(x) <- NULL
+  }
+  return(x)
 }
 
 seq_n_rows <- function(n) {
