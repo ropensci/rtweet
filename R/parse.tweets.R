@@ -88,33 +88,32 @@ tweets_entities_df <- function(dat, n = NULL) {
   if (is.null(n)) n <- length(dat[["id_str"]])
 
   ent_df <- data_frame_(
-    mentions_user_id = I(as.list(rep(NA_real_, n))),
-  	mentions_screen_name = I(as.list(rep(NA_character_, n))),
-    hashtags = I(as.list(rep(NA_character_, n))),
-    urls = I(as.list(rep(NA_character_, n))))
+    mentions_user_id = rep(NA_real_, n),
+  	mentions_screen_name = rep(NA_character_, n),
+    hashtags = rep(NA_character_, n),
+    urls = rep(NA_character_, n))
 
   if ("entities" %in% names(dat)) {
     entities <- dat[["entities"]]
 
     if ("user_mentions" %in% names(entities)) {
-      ent_df$mentions_user_id <- lapply(entities[["user_mentions"]],
-        function(x) return_with_NA(x[["id_str"]], 1))
-      ent_df$mentions_user_id <- lapply(ent_df$mentions_user_id,
-      	as.double)
+      ent_df$mentions_user_id <- flatten(lapply(entities[["user_mentions"]],
+        function(x) return_with_NA(x[["id_str"]], 1)))
     }
     if ("user_mentions" %in% names(entities)) {
-    	ent_df$mentions_screen_name <- lapply(entities[["user_mentions"]],
-    		function(x) return_with_NA(x[["screen_name"]], 1))
+    	ent_df$mentions_screen_name <- flatten(lapply(
+        entities[["user_mentions"]],
+    		function(x) return_with_NA(x[["screen_name"]], 1)))
     }
 
     if ("hashtags" %in% names(entities)) {
-      ent_df$hashtags <- lapply(entities[["hashtags"]],
-        function(x) return_with_NA(x[["text"]], 1))
+      ent_df$hashtags <- flatten(lapply(entities[["hashtags"]],
+        function(x) return_with_NA(x[["text"]], 1)))
     }
 
     if ("urls" %in% names(entities)) {
-      ent_df$urls <- lapply(entities[["urls"]],
-        function(x) return_with_NA(x[["expanded_url"]], 1))
+      ent_df$urls <- flatten(lapply(entities[["urls"]],
+        function(x) return_with_NA(x[["expanded_url"]], 1)))
     }
   }
 

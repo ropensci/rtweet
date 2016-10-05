@@ -9,7 +9,8 @@ bply <- function(x, f) {
 
 exclude_list_null <- function(x) {
   if (is.list(x)) {
-  	x <- x[!unlist(lapply(x, is.null), use.names = FALSE)]
+  	x <- x[!unlist(lapply(x, function(x) length(x) == 0L),
+      use.names = FALSE)]
   }
   x
 }
@@ -193,9 +194,13 @@ return_with_NA <- function(x, n) {
 }
 
 is_empty_list <- function(x) {
+  if (is.null) return(TRUE)
   if (is.list(x)) {
-    is.null(unlist(x, use.names = FALSE))
+    return(is.null(unlist(x, use.names = FALSE)))
+  } else {
+    if (length(x) == 0) return(TRUE)
   }
+  return(FALSE)
 }
 
 is_na <- function(x) {
@@ -211,8 +216,10 @@ is_na <- function(x) {
 
 filter_na_rows <- function(x) {
   foo <- function(x) all(is_na(x))
-  stopifnot(is.data.frame(x))
-  x[!apply(x, 1, foo), ]
+  if (is.data.frame(x)) {
+    x[!unlist(apply(x, 1, foo), use.names = FALSE), ]
+  }
+
 }
 
 is_n <- function(n) {

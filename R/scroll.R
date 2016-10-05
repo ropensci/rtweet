@@ -70,6 +70,7 @@ unique_id_count <- function(x) {
   } else {
     x <- unlist(lapply(x, unique_id), use.names = FALSE)
   }
+  if (any(is.null(x), length(x) == 0)) return(0)
   length(unique(x))
 }
 

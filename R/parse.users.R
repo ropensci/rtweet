@@ -3,11 +3,7 @@ usr_ent_urls <- function(x, list = FALSE) {
 
   if (is.data.frame(x)) {
     if ("expanded_url" %in% names(x)) {
-      if (list) {
-        x <- as.list(x[["expanded_url"]])
-      } else {
-        x <- x[["expanded_url"]]
-      }
+      x <- x[["expanded_url"]]
     } else {
       x <- NA_character_
     }
@@ -16,6 +12,15 @@ usr_ent_urls <- function(x, list = FALSE) {
   }
 
   x
+}
+
+unlister <- function(x) {
+  unlist(x, use.names = FALSE, recursive = TRUE)
+}
+
+flatten <- function(x) {
+  vapply(x, function(i) paste0(unlister(i), collapse = ","),
+    vector("character", 1), USE.NAMES = FALSE)
 }
 
 user_toplevel_df <- function(x, n = NULL, names = NULL,
@@ -108,9 +113,7 @@ user_entities_df <- function(dat, n = NULL) {
       ent_url <- entities[["url"]]
 
       if ("urls" %in% names(ent_url)) {
-        user_ent_df$url <- unlist(lapply(
-          ent_url[["urls"]], usr_ent_urls),
-        	use.names = FALSE)
+        user_ent_df$url <- flatten(ent_url[["urls"]])
         }
       }
 
@@ -118,8 +121,7 @@ user_entities_df <- function(dat, n = NULL) {
         ent_url <- entities[["description"]]
 
         if ("urls" %in% names(ent_url)) {
-          user_ent_df$description_urls <- lapply(
-            ent_url[["urls"]], usr_ent_urls)
+          user_ent_df$description_urls <- flatten(ent_url[["urls"]])
         }
       }
 

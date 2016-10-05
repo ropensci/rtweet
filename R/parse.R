@@ -64,27 +64,41 @@ user_df <- function(dat) {
 #'
 #' @param x nested list of API data returned from fromJSON
 #' @param n desired number to return
+#' @param tweets logical indicating whether to return tweets data
+#'   object.
+#' @param users logical indicating whether to return users data
+#'   object.
 #' @keywords internal
 #' @export
-parser <- function(x, n = NULL) {
+parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
   tweets <- data.frame()
   users <- data.frame()
 
   if (all(is.data.frame(x), "id_str" %in% names(x))) {
-    tweets <- parse_tweets(x)
-    users <- parse_users(x)
+    if (return_tweets) {
+      tweets <- parse_tweets(x)
+    }
+    if (return_users) {
+      users <- parse_users(x)
+    }
   } else {
     stopifnot(is.list(x))
-    tweets <- bply(x, parse_tweets)
-    users <- bply(x, parse_users)
+    if (return_tweets) {
+      tweets <- bply(x, parse_tweets)
+    }
+    if (return_users) {
+      users <- bply(x, parse_tweets)
+    }
   }
-
-  tweets <- return_n_rows(tweets, n)
-  tweets <- tweets[!is.na(tweets$status_id), ]
-
-  users <- return_n_rows(users, n)
-  if (is.data.frame(users)) {
-  	users <- filter_na_rows(users)
+  if (return_tweets) {
+    tweets <- return_n_rows(tweets, n)
+    tweets <- tweets[!is.na(tweets$status_id), ]
+  }
+  if (return_users) {
+    users <- return_n_rows(users, n)
+    if (is.data.frame(users)) {
+      users <- filter_na_rows(users)
+    }
   }
   list(tweets = tweets, users = users)
 }
