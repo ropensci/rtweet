@@ -137,13 +137,21 @@ attr_tweetusers <- function(x) {
 
 	if (identical(names(x)[1], "tweets")) {
 		d <- x[["tweets"]]
-		attr(d, "users") <- x[["users"]]
-		attr(d, "meta_search") <- x[["meta_search"]]
+		if ("users" %in% names(x)) {
+			attr(d, "users") <- x[["users"]]
+		}
+		if ("meta_search" %in% names(x)) {
+			attr(d, "meta_search") <- x[["meta_search"]]
+		}
 	}
 	if (identical(names(x)[1], "users")) {
 		d <- x[["users"]]
-		attr(d, "tweets") <- x[["tweets"]]
-		attr(d, "meta_search") <- x[["meta_search"]]
+		if ("tweets" %in% names(x)) {
+			attr(d, "tweets") <- x[["tweets"]]
+		}
+		if ("meta_search" %in% names(x)) {
+			attr(d, "meta_search") <- x[["meta_search"]]
+		}
 	}
 	d
 }

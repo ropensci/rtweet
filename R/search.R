@@ -120,7 +120,8 @@ search_tweets <- function(q,
     tw <- parser(tw, n)
     if (!is.null(tw)) {
       if (is.list(tw)) {
-        tw[["meta_search"]] <- list(query = q, functions = "search_tweets()")
+        tw[["meta_search"]] <- list("query" = q,
+          "fun" = "search_tweets()")
         tw <- attr_tweetusers(tw)
       }
     }
@@ -213,12 +214,17 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 		url$query$page <- (i + 1)
 	}
 
-	if (parse) {
-		usr <- parser(usr, n)
-		usr <- usr[c("users", "tweets")]
-		usr[["meta_search"]] <- list(query = q, functions = "search_users()")
-    usr <- attr_tweetusers(usr)
-	}
+  if (parse) {
+    usr <- parser(usr, n)
+    if (!is.null(usr)) {
+      if (is.list(usr)) {
+        usr <- usr[c(2, 1)]
+        usr[["meta_search"]] <- list(query = q,
+          fun = "search_users()")
+        usr <- attr_tweetusers(usr)
+      }
+    }
+  }
 
 	if (verbose) {
 		message("Finished collecting users!")
