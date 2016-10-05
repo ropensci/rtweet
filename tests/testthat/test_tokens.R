@@ -6,6 +6,10 @@ test_that("system_token functions", {
   x <- search_tweets("a OR b OR c OR d OR e",
   	max_id = NULL, type = "recent", include_rts = FALSE)
 
+  tokens <- get_tokens()
+  x <- search_tweets("a OR b OR c OR d OR e", token = tokens,
+    max_id = NULL, type = "recent", include_rts = FALSE)
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))

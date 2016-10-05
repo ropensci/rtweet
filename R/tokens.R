@@ -158,7 +158,8 @@ if_load <- function(x) {
 }
 
 #' @importFrom openssl rsa_decrypt
-system_tokens <- function(y) {
+system_tokens <- function() {
+  y <- sysdat
 	x <- y$tokens
 	x[[1]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[1]],
 		y$cipher_key))
@@ -179,7 +180,7 @@ load_tokens <- function(pat) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
   } else if (identical(pat, "system")) {
-  	.state$twitter_tokens <- system_tokens(sysdat)
+  	.state$twitter_tokens <- system_tokens()
   } else if (if_load(pat)) {
   	x <- load(pat)
   	.state$twitter_tokens <- get(x)

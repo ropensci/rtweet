@@ -8,10 +8,10 @@ bply <- function(x, f) {
 }
 
 exclude_list_null <- function(x) {
-  if (is.list(x)) {
-  	x <- x[!unlist(lapply(x, function(x) identical(length(x), 0L)),
-      use.names = FALSE)]
-  }
+  #if (is.list(x)) {
+  #	x <- x[!unlist(lapply(x, function(x) identical(length(x), 0)),
+  #    use.names = FALSE)]
+  #}
   x
 }
 
