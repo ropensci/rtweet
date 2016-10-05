@@ -92,7 +92,11 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
   }
   if (return_tweets) {
     tweets <- return_n_rows(tweets, n)
-    tweets <- tweets[!is.na(tweets$status_id), ]
+    if ("status_id" %in% names(tweets)) {
+      if (!is.null(tweets$status_id)) {
+        tweets <- tweets[!is.na(tweets$status_id), ]
+      }
+    }
   }
   if (return_users) {
     users <- return_n_rows(users, n)
