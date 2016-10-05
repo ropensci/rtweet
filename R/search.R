@@ -118,8 +118,12 @@ search_tweets <- function(q,
 
   if (parse) {
     tw <- parser(tw, n)
-    tw[["meta_search"]] <- list(query = q, functions = "search_tweets()")
-    tw <- attr_tweetusers(tw)
+    if (!is.null(tw)) {
+      if (is.list(tw)) {
+        tw[["meta_search"]] <- list(query = q, functions = "search_tweets()")
+        tw <- attr_tweetusers(tw)
+      }
+    }
   }
 
   if (verbose) {
