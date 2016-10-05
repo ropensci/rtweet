@@ -4,12 +4,18 @@
 \alias{parser}
 \title{parser}
 \usage{
-parser(x, n = NULL)
+parser(x, n = NULL, return_tweets = TRUE, return_users = TRUE)
 }
 \arguments{
 \item{x}{nested list of API data returned from fromJSON}
 
 \item{n}{desired number to return}
+
+\item{return_tweets}{logical indicating whether to return tweets data
+object.}
+
+\item{return_users}{logical indicating whether to return users data
+object.}
 }
 \description{
 parser

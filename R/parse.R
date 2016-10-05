@@ -64,9 +64,9 @@ user_df <- function(dat) {
 #'
 #' @param x nested list of API data returned from fromJSON
 #' @param n desired number to return
-#' @param tweets logical indicating whether to return tweets data
+#' @param return_tweets logical indicating whether to return tweets data
 #'   object.
-#' @param users logical indicating whether to return users data
+#' @param return_users logical indicating whether to return users data
 #'   object.
 #' @keywords internal
 #' @export
