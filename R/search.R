@@ -100,7 +100,7 @@ search_tweets <- function(q,
       call. = FALSE)
   }
 
-  if (include_rts) q <- paste0(q, " -RT")
+  if (!include_rts) q <- paste0(q, " -RT")
 
   params <- list(q = q,
     result_type = type,
