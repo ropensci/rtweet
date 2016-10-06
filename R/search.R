@@ -114,7 +114,7 @@ search_tweets <- function(q,
 
   if (verbose) message("Searching for tweets...")
 
-  tw <- scroller(url, n, n.times, token)
+  tw <- scroller(url, n, n.times, token, search = TRUE)
 
   if (parse) {
     tw <- parser(tw, n)

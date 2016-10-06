@@ -91,7 +91,7 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
     return(token)
 
-  } else {
+  } else if (remaining == 0) {
     stop("Rate limit exceeded - please wait!",
     	call. = FALSE)
   }

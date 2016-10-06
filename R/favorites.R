@@ -66,7 +66,7 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
     query = query,
     param = params)
 
-  fav <- scroller(url, n, n.times, token)
+  fav <- scroller(url, n, n.times, token, search = FALSE)
 
   if (parse) {
     fav <- parser(fav, n)

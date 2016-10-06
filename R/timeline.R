@@ -69,7 +69,7 @@ get_timeline <- function(user, n = 200, max_id = NULL,
     query = query,
     param = params)
 
-  tm <- scroller(url, n, n.times, token)
+  tm <- scroller(url, n, n.times, token, search = FALSE)
 
   if (parse) {
     tm <- parser(tm, n)

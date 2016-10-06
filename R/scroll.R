@@ -1,6 +1,6 @@
 #' @importFrom httr warn_for_status
-scroller <- function(url, n, n.times, ...,
-  catch_error = FALSE) {
+scroller <- function(url, n, n.times, search = FALSE,
+  ..., catch_error = FALSE) {
 
   stopifnot(is_n(n), is_url(url))
 
@@ -26,7 +26,7 @@ scroller <- function(url, n, n.times, ...,
     	if (identical(length(x[[i]][["statuses"]]), 0L)) break
     }
 
-    count <- n - unique_id_count(x)
+    count <- n - unique_id_count(x, search = search)
 
     if (break_check(x[[i]], url, count)) break
 
@@ -64,13 +64,14 @@ unique_id <- function(x) {
 }
 
 
-unique_id_count <- function(x) {
+unique_id_count <- function(x, search = FALSE) {
+  if (search) return(100L)
   if (is.data.frame(x)) {
     x <- unique_id(x)
   } else {
     x <- unlist(lapply(x, unique_id), use.names = FALSE)
   }
-  if (any(is.null(x), length(x) == 0)) return(0)
+  if (any(is.null(x), identical(length(x), 0L))) return(0)
   length(unique(x))
 }
 
@@ -108,11 +109,11 @@ break_check <- function(r, url, count = NULL) {
   x <- get_max_id(r)
 
   if (is.null(x)) return(TRUE)
-  if (any(x == 0, x == "0")) return(TRUE)
+  if (any(identical(x, 0), identical(x, "0"))) return(TRUE)
 
   if ("max_id" %in% names(url$query)) {
     if (is.null(url$query$max_id)) return(FALSE)
-    if (x == url$query$max_id) return(TRUE)
+    if (identical(x, url$query$max_id)) return(TRUE)
   }
 
   FALSE

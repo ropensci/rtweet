@@ -63,7 +63,7 @@ get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
     query = query,
     param = params)
 
-  f <- scroller(url, n, n.times, token)
+  f <- scroller(url, n, n.times, token, search = FALSE)
 
   f <- f[!sapply(f, is.null)]
 
