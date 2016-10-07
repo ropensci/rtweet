@@ -7,3 +7,7 @@ README.Rmd
 tests/testthat/twitter_tokens.enc
 ^\.httr-oauth$
 .build.timestamp
+rtweet.Rmd
+satweets.Rmd
+tokens.Rmd
+timeseries.Rmd
