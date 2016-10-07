@@ -1,19 +1,13 @@
----
-title: "satweets"
-author: "Vignette Author"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Sentiment analysis of tweets}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
+# satweets
+Vignette Author  
+`r Sys.Date()`  
 
 ## Sentiment Analysis with rtweet
 
 Install and load necessary packages.
 
-```{r, eval=FALSE}
+
+```r
 # install packages as necessary
 install.packages(c("syuzhet", "rtweet", "ggplot2", "reshape2"))
 
@@ -23,7 +17,8 @@ library(ggplot2)
 ```
 ### Tweets about Donald Trump
 
-```{r, eval=FALSE}
+
+```r
 # search for 10,000 tweets mentioning realdonaldtrump
 dt <- search_tweets("realdonaldtrump", n = 10000)
 
@@ -69,7 +64,8 @@ dev.off()
 
 ### Tweets about Hillary Clinton
 
-```{r, eval=FALSE}
+
+```r
 # search for 10,000 tweets mentioning hillaryclinton
 hc <- search_tweets("hillaryclinton", n = 10000)
 

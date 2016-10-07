@@ -1,21 +1,14 @@
----
-title: "Intro to rtweet: Collecting Twitter Data"
-author: "Michael W. Kearney"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Intro to rtweet}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
+# Intro to rtweet: Collecting Twitter Data
+Michael W. Kearney  
+`r Sys.Date()`  
 
 This vignettes provides a *very* quick tour of the R package `rtweet: Collecting Twitter Data`. Before getting to the tour, however, I want to explain the philosophy behind rtweet.
 
 ## Package Philosophy
 
-I started `rtweet` so I could collect data for my dissertation. I considered using one of a few open-source packages that had already been developed---e.g., `twitteR`, `streamR`, `tweepy`---to collect data. The most up-to-date of these libraries were the ones on Python, which I had just started to learn. I was surprised to discover there wasn't a equally up-to-date option on R. The Python lirbaries seemed to work well, but an R package would allow me to collect and analyze data within the same environment. So, I decided that if I created my own functions in R, I would avoid the problem of bouncing back and forth between environments. Plus, it meant that I would have the flexibility to wrangle the data in whatever way I chose. 
+I started `rtweet` so I could collect data for my dissertation. I considered using one of a few open-source packages that had already been developed---e.g., `twitteR`, `streamR`, `tweepy`---to collect data. The most up-to-date of these libraries were the ones on Python, which I had just started to learn. I was surprised to discover there wasn't a equally up-to-date option on R. The Python lirbaries seemed to work well, but an R package would allow me to collect and analyze data within the same environment. So, I decided that if I created my own functions in R, I would avoid the problem of bouncing back and forth between environments. Plus, it meant that I would have the flexibility to wrangle the data in whatever way I chose.
 
-Communication studies has an abundance of critical thinking, but a shortage of computer programming. As I developed `rtweet` I realized I could contribute to the field by making this awesome Twitter data more accessible and more approachable to communication scholars. Accordingly, the underlying philosophy of `rtweet` is simple. It is to make Twitter data more accessible to more people. 
+Communication studies has an abundance of critical thinking, but a shortage of computer programming. As I developed `rtweet` I realized I could contribute to the field by making this awesome Twitter data more accessible and more approachable to communication scholars. Accordingly, the underlying philosophy of `rtweet` is simple. It is to make Twitter data more accessible to more people.
 
 ```
 rtweet philosophy: make Twitter data more accessible to more people.
@@ -31,7 +24,8 @@ However, if you're in a hurry, the [quick guide found here](https://github.com/m
 
 ## Install and Load
 
-```{r, eval=FALSE}
+
+```r
 install.packages("devtools")
 devtools::install_github("mkearney/rtweet")
 library(rtweet)
@@ -39,13 +33,15 @@ library(rtweet)
 
 ## Posting Tweets
 
-```{r, eval=FALSE}
+
+```r
 post_tweet("my first rtweet #rstats")
 ```
 
 ## Retrieving Tweets
 
-```{r, eval=FALSE}
+
+```r
 # search for 500 tweets using the #rstats hashtag
 team_rstats <- search_tweets("#rstats", n = 500)
 team_rstats
@@ -72,7 +68,7 @@ head(users_data(imwithher))
 
 # stream 3 random samples of tweets
 for (in in seq_len(3)) {
-	stream_tweets(q = "", timeout = 60, 
+	stream_tweets(q = "", timeout = 60,
 		file_name = paste0("rtw", i), parse = FALSE)
 	if (i == 3) {
 		message("all done!")
@@ -95,7 +91,8 @@ head(tw)
 
 ## Retrieving Users
 
-```{r, eval=FALSE}
+
+```r
 # search for 500 users using "social science" as a keyword
 harder_science <- search_users("social science", n = 500)
 harder_science
@@ -143,7 +140,8 @@ lookup_users(c(unlist(obama1), unlist(obama2)))
 
 ## Retrieving Trends
 
-```{r, eval=FALSE}
+
+```r
 # get trending hashtags, mentions, and topics worldwide
 prestige_worldwide <- get_trends()
 prestige_worldwide

@@ -124,7 +124,7 @@ imwithher &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<s
 
 <span class="co"># stream 3 random samples of tweets</span>
 for (in in <span class="kw">seq_len</span>(<span class="dv">3</span>)) {
-    <span class="kw">stream_tweets</span>(<span class="dt">q =</span> <span class="st">&quot;&quot;</span>, <span class="dt">timeout =</span> <span class="dv">60</span>, 
+    <span class="kw">stream_tweets</span>(<span class="dt">q =</span> <span class="st">&quot;&quot;</span>, <span class="dt">timeout =</span> <span class="dv">60</span>,
         <span class="dt">file_name =</span> <span class="kw">paste0</span>(<span class="st">&quot;rtw&quot;</span>, i), <span class="dt">parse =</span> <span class="ot">FALSE</span>)
     if (i ==<span class="st"> </span><span class="dv">3</span>) {
         <span class="kw">message</span>(<span class="st">&quot;all done!&quot;</span>)

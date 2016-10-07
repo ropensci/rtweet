@@ -113,7 +113,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twitter_tokens &lt;-<span class="st"> </span><span class="kw">c</span>(
   <span class="kw">create_token</span>(<span class="dt">app =</span> <span class="st">&quot;rtweet_tokens&quot;</span>, <span class="co">#whatever you named your app</span>
     <span class="dt">consumer_key =</span> <span class="st">&quot;XZgqotgOZNKlLFJqFbd8NjUtL&quot;</span>,
-    <span class="dt">consumer_secret =</span> <span class="st">&quot;1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>), 
+    <span class="dt">consumer_secret =</span> <span class="st">&quot;1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>),
   <span class="kw">create_token</span>(<span class="dt">app =</span> <span class="st">&quot;rtweet_roauth&quot;</span>,
     <span class="dt">consumer_key =</span> <span class="st">&quot;XZgqoxxxxxxxxxxxxxxxxxxxx&quot;</span>,
     <span class="dt">consumer_secret =</span> <span class="st">&quot;1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>)
@@ -142,7 +142,7 @@ file_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(home_dire
 <li><p>To create a plain text file in R, modify the code below. Change the TWITTER_PAT location to match the path you used earlier (in the example below, you’d want to change “/Users/mwk/twitter_tokens”). You can also create a plain text document in any text editor like TextEdit or Notepad. If you’re using Rstudio, select File &gt; New File &gt; Text File.</p></li>
 <li><p><strong>Important</strong>: Make sure the last line of “.Renviron” is blank. I achieved this in the code below by including <code>\n</code>.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;TWITTER_PAT=/Users/mwk/twitter_tokens</span><span class="ch">\n</span><span class="st">&quot;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;TWITTER_PAT=/Users/mwk/twitter_tokens</span><span class="ch">\n</span><span class="st">&quot;</span>,
   <span class="dt">file =</span> <span class="kw">paste0</span>(home_directory, <span class="st">&quot;/.Renviron&quot;</span>),
   <span class="dt">append =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <ul>
