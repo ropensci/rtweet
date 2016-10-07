@@ -12,10 +12,6 @@ tests/testthat/twitter_tokens
 .Rhistory
 .httr-oauth
 .build.timestamp
-rtweet.Rmd
-satweets.Rmd
-tokens.Rmd
-timeseries.Rmd
 rtweet.html
 satweets.html
 tokens.html

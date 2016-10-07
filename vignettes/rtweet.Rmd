@@ -1,6 +1,14 @@
-# Intro to rtweet: Collecting Twitter Data
-Michael W. Kearney  
-`r Sys.Date()`  
+---
+title: "Intro to rtweet: Collecting Twitter Data"
+author: "Michael W. Kearney"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro to rtweet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
 This vignettes provides a *very* quick tour of the R package `rtweet: Collecting Twitter Data`. Before getting to the tour, however, I want to explain the philosophy behind rtweet.
 
@@ -24,8 +32,7 @@ However, if you're in a hurry, the [quick guide found here](https://github.com/m
 
 ## Install and Load
 
-
-```r
+```{r, eval=FALSE}
 install.packages("devtools")
 devtools::install_github("mkearney/rtweet")
 library(rtweet)
@@ -33,15 +40,13 @@ library(rtweet)
 
 ## Posting Tweets
 
-
-```r
+```{r, eval=FALSE}
 post_tweet("my first rtweet #rstats")
 ```
 
 ## Retrieving Tweets
 
-
-```r
+```{r, eval=FALSE}
 # search for 500 tweets using the #rstats hashtag
 team_rstats <- search_tweets("#rstats", n = 500)
 team_rstats
@@ -91,8 +96,7 @@ head(tw)
 
 ## Retrieving Users
 
-
-```r
+```{r, eval=FALSE}
 # search for 500 users using "social science" as a keyword
 harder_science <- search_users("social science", n = 500)
 harder_science
@@ -140,8 +144,7 @@ lookup_users(c(unlist(obama1), unlist(obama2)))
 
 ## Retrieving Trends
 
-
-```r
+```{r, eval=FALSE}
 # get trending hashtags, mentions, and topics worldwide
 prestige_worldwide <- get_trends()
 prestige_worldwide
