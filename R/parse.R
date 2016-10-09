@@ -87,7 +87,7 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
       tweets <- bply(x, parse_tweets)
     }
     if (return_users) {
-      users <- bply(x, parse_tweets)
+      users <- bply(x, parse_users)
     }
   }
   if (return_tweets) {
