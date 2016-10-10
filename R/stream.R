@@ -172,8 +172,8 @@ parse_stream <- function(file_name) {
 		verbose = TRUE), error = function(e) return(NULL))
 
 	if (is.null(s)) {
-		rl <- readLines(file_name)
-		cat(rl[seq_len(length(rl) - 1)], file = file_name)
+		rl <- readLines(file_name, warn = FALSE)
+		cat(paste0(rl[seq_len(length(rl) - 1)], "\n"), file = file_name)
 
 		s <- tryCatch(stream_in(file(file_name),
 			verbose = TRUE), error = function(e) return(NULL))

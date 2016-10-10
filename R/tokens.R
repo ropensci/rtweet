@@ -152,9 +152,11 @@ twitter_pat <- function() {
 }
 
 if_load <- function(x) {
-	suppressWarnings(
+	log <- TRUE
+	log <- suppressWarnings(
 		tryCatch(load(x),
 			error = function(e) (return(FALSE))))
+	log
 }
 
 #' @importFrom openssl rsa_decrypt
