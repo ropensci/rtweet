@@ -1,3 +1,13 @@
+# rtweet 0.3.4
+* Implemented robust methods to fetch tokens (whether set as
+environment variable, .httr-oauth file, or if the tokens exist
+in the global environment). Functions now search for variations
+in the labeling of tokens---i.e., if your token(s) are saved as
+`twitter_tokens`, `twitter_token`, `tokens`, or `token`, rtweet
+will find it.
+* Fixed issues with parsing tweets and users data.
+* Stability improvements to `search_tweets` and `stream_tweeets`
+
 # rtweet 0.3.3
 * Flattened recursive columns for more reliable parsing and various
 speed enhancements

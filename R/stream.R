@@ -168,23 +168,28 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
 #' @export
 parse_stream <- function(file_name) {
 
-	s <- tryCatch(stream_in(file(file_name),
-		verbose = TRUE), error = function(e) return(NULL))
+	s <- tryCatch(suppressWarnings(
+    stream_in(file(file_name),
+		verbose = TRUE)), error = function(e) return(NULL))
 
 	if (is.null(s)) {
 		rl <- readLines(file_name, warn = FALSE)
-		cat(paste0(rl[seq_len(length(rl) - 1)], "\n"), file = file_name)
+		cat(paste0(rl[seq_len(length(rl) - 1)], "\n"),
+      file = file_name)
 
-		s <- tryCatch(stream_in(file(file_name),
-			verbose = TRUE), error = function(e) return(NULL))
+		s <- tryCatch(suppressWarnings(
+      stream_in(file(file_name),
+			verbose = TRUE)), error = function(e) return(NULL))
 	}
 	if (is.null(s)) {
 		cat("\n", file = file_name, append = TRUE)
 
-		s <- tryCatch(stream_in(file(file_name),
-			verbose = TRUE), error = function(e) return(NULL))
+		s <- tryCatch(suppressWarnings(
+      stream_in(file(file_name),
+			verbose = TRUE)), error = function(e) return(NULL))
 	}
-	if (is.null(s)) stop("it's not right. -luther", call. = FALSE)
+	if (is.null(s)) stop("it's not right. -luther",
+    call. = FALSE)
 
 	s <- parser(s)
 
@@ -193,7 +198,6 @@ parse_stream <- function(file_name) {
 
 #' @keywords internal
 stream_params <- function(stream) {
-  #stream <- unlist(trimws(unlist(strsplit(stream, ","))))
 
   if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
     if (all(is.integer(as.integer(stream)))) {
