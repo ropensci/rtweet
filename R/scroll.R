@@ -1,24 +1,17 @@
 #' @importFrom httr warn_for_status
-scroller <- function(url, n, n.times, search = FALSE,
-  ..., catch_error = FALSE) {
+scroller <- function(url, n, n.times, search = FALSE, ...) {
 
   stopifnot(is_n(n), is_url(url))
-
   if (missing(n.times)) n.times <- 1
-
   x <- vector("list", n.times)
+  counter <- 0
 
   for (i in seq_along(x)) {
-
   	x[[i]] <- tryCatch(
       TWIT(get = TRUE, url, ...),
-      error = function(e) NULL)
+      error = function(e) return(NULL))
 
     if (is.null(x[[i]])) break
-
-    if (catch_error) {
-      warn_for_status(x[[i]])
-    }
 
     x[[i]] <- from_js(x[[i]])
 
@@ -26,9 +19,11 @@ scroller <- function(url, n, n.times, search = FALSE,
     	if (identical(length(x[[i]][["statuses"]]), 0L)) break
     }
 
-    count <- n - unique_id_count(x, search = search)
+    counter <- counter + as.numeric(unique_id_count(x[[i]], search = search))
 
-    if (break_check(x[[i]], url, count)) break
+    if (counter >= n) break
+
+    if (break_check(x[[i]], url)) break
 
     if ("cursor" %in% names(url$query)) {
       url$query$cursor <- get_max_id(x[[i]])
@@ -50,10 +45,8 @@ unique_id <- function(x) {
   if ("ids" %in% names(x)) {
     return(x[["ids"]])
   }
-  if (is.null(names(x))) {
-    if ("ids" %in% names(x[[1]])) {
-      return(x[[1]][["ids"]])
-    }
+  if ("ids" %in% names(x[[1]])) {
+    return(x[[1]][["ids"]])
   }
   if ("status_id" %in% names(x)) {
     return(x[["status_id"]])
@@ -65,12 +58,16 @@ unique_id <- function(x) {
 
 
 unique_id_count <- function(x, search = FALSE) {
-  if (search) return(100L)
-  if (is.data.frame(x)) {
-    x <- unique_id(x)
-  } else {
-    x <- unlist(lapply(x, unique_id), use.names = FALSE)
-  }
+  if (search) return(100)
+	if (isTRUE(length(x) > 1L)) {
+		if (!is.null(names(x[[2]]))) {
+			x <- unlist(lapply(x, unique_id), use.names = FALSE)
+		} else {
+			x <- unique_id(x)
+		}
+	} else {
+		x <- unique_id(x)
+	}
   if (any(is.null(x), identical(length(x), 0L))) return(0)
   length(unique(x))
 }
@@ -101,7 +98,7 @@ get_max_id <- function(x) {
 
 break_check <- function(r, url, count = NULL) {
   if (!is.null(count)) {
-    if (count <= 0) return(TRUE)
+    if (as.numeric(count) <= 0) return(TRUE)
   }
 
   if (is.null(r)) return(TRUE)
@@ -113,7 +110,8 @@ break_check <- function(r, url, count = NULL) {
 
   if ("max_id" %in% names(url$query)) {
     if (is.null(url$query$max_id)) return(FALSE)
-    if (identical(x, url$query$max_id)) return(TRUE)
+    if (identical(as.character(x),
+    	as.character(url$query$max_id))) return(TRUE)
   }
 
   FALSE

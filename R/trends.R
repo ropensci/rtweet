@@ -63,14 +63,15 @@ get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
 
 
 parse_trends <- function(x) {
-	trends <- data_frame_(x$trends[[1]])
+	trends <- data.frame(x$trends[[1]], stringsAsFactors = FALSE)
 	rows <- nrow(trends)
 	names(trends)[names(trends) == "name"] <- "trend"
-	cbind_(trends, data_frame_(
+	cbind(trends, data.frame(
 		as_of = format_trend_date(rep(x$as_of, rows)),
 		created_at = format_trend_date(rep(x$created_at, rows)),
 		place = rep(x$locations[[1]]$name, rows),
-		woeid = rep(x$locations[[1]]$woeid, rows)))
+		woeid = rep(x$locations[[1]]$woeid, rows)),
+		stringsAsFactors = FALSE)
 }
 
 
@@ -137,8 +138,9 @@ trends_available <- function(token = NULL, parse = TRUE) {
 
 
 parse_trends_available <- function(x) {
-	p <- cbind_(data_frame_(x[names(x) != "placeType"]),
-		data_frame_(x[["placeType"]]))
+	p <- cbind(data.frame(x[names(x) != "placeType"],
+		stringsAsFactors = FALSE),
+		data.frame(x[["placeType"]], stringsAsFactors = FALSE))
 	names(p)[ncol(p)] <- "place_type"
 	p
 }

@@ -48,7 +48,7 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
 
   data <- r$resources
 
-  rl_df <- data_frame_(
+  rl_df <- data.frame(
     query = gsub(".limit|.remaining|.reset", "",
       gsub(".*[.][/]", "", grep(".limit$", names(unlist(data)), value = TRUE))),
     limit = unlist(lapply(data, function(y)
@@ -57,6 +57,7 @@ rate_limit <- function(token, query = NULL, rest = TRUE) {
       lapply(y, function(x) getElement(x, "remaining")))),
     reset = unlist(lapply(data, function(y)
       lapply(y, function(x) getElement(x, "reset")))),
+  	stringsAsFactors = FALSE,
     row.names = NULL)
 
   rl_df$reset <- difftime(

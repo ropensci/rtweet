@@ -4,7 +4,7 @@ return_last <- function(x, n = 1) {
 }
 
 bply <- function(x, f) {
-  rbind_(lapply(x, f))
+  do.call("rbind", lapply(x, f))
 }
 
 exclude_list_null <- function(x) {
@@ -182,22 +182,26 @@ return_with_NA <- function(x, n) {
     myNA <- NA
   } else if (is.integer(x)) {
     myNA <- NA_integer_
+  } else if (is.numeric(x)) {
+    myNA <- NA_real_
   } else {
-    myNA <- NA_character_
+  	myNA <- NA_character_
   }
   if (any(is.null(x), identical(x, ""))) {
     x <- rep(NA, n)
-  }
-  for (i in seq_along(x)) {
-    if (any(is.null(x[[i]]), identical(x[[i]], ""))) {
-      x[[i]] <- NA
-    }
+  } else {
+  	for (i in seq_along(x)) {
+  		if (any(is.null(x[[i]]), identical(x[[i]], ""),
+  			identical(length(x), 1L))) {
+  			x[[i]] <- NA
+  		}
+  	}
   }
   x
 }
 
 is_empty_list <- function(x) {
-  if (is.null) return(TRUE)
+  if (is.null(x)) return(TRUE)
   if (is.list(x)) {
     return(is.null(unlist(x, use.names = FALSE)))
   } else {

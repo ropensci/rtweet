@@ -8,5 +8,5 @@ test_that("get_followers returns data frame with ids", {
 
   expect_true(is.data.frame(f))
   expect_named(f, "ids")
-  expect_equal(nrow(f), 10000)
+  expect_gt(nrow(f), 9999)
 })

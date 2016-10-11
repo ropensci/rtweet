@@ -38,7 +38,7 @@ get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
 
   query <- "followers/ids"
 
-  if (n == "all") {
+  if (identical(n, "all")) {
     n <- 75000
   }
 
@@ -63,9 +63,9 @@ get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
     query = query,
     param = params)
 
-  f <- scroller(url, n, n.times, token, search = FALSE)
+  f <- scroller(url, n, n.times, search = FALSE, token)
 
-  f <- f[!sapply(f, is.null)]
+  f <- f[!unlist(lapply(f, is.null), use.names = FALSE)]
 
   if (parse) f <- parse_fs(f, n)
 

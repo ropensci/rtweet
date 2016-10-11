@@ -70,28 +70,28 @@ create_token <- function(app, consumer_key, consumer_secret) {
 #' @keywords internal
 #' @noRd
 fetch_tokens <- function(tokens, query, sleep = FALSE) {
-
+	remaining <- NA_real_
   if (missing(query)) {
     stop("Must specify Twitter API query of interest",
     	call. = FALSE)
   }
 
-  for (i in tokens) {
-    remaining <- rate_limit(i, query)[["remaining"]]
-
-    if (remaining > 0) return(i)
-  }
+	if (is.list(tokens)) {
+		for (i in seq_along(tokens)) {
+			remaining <- rate_limit(token = tokens[[i]], query)[["remaining"]]
+			if (isTRUE(remaining > 0)) return(tokens[[i]])
+		}
+	} else {
+		remaining <- rate_limit(token = tokens, query)[["remaining"]]
+		if (isTRUE(remaining > 0)) return(tokens)
+	}
 
   if (sleep) {
     token <- tokens[[1]]
-
     reset <- rate_limit(token, query)[["reset"]]
-
     Sys.sleep(reset[[1]] * 60)
-
     return(token)
-
-  } else if (remaining == 0) {
+  } else {
     stop("Rate limit exceeded - please wait!",
     	call. = FALSE)
   }
@@ -100,23 +100,20 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
 }
 
 is.token <- function(x) {
-  any(class(x) == "Token", class(x) == "Token1.0")
+	lgl <- FALSE
+	lgl <- any(c("token", "token1.0", "R6") %in% class(x))
+	lgl
 }
 
 
 check_token <- function(token, query = NULL) {
-
   if (is.null(token)) {
     token <- get_tokens()
-
-    if (!is.null(query)) {
-      token <- fetch_tokens(token, query)
-    }
   }
 
-  if (is.list(token)) {
-    token <- token[[1]]
-  }
+	if (is.token(token)) {
+		return(token)
+	}
 
   if (identical(class(token), "OAuth")) {
     token <- create_token(
@@ -124,6 +121,14 @@ check_token <- function(token, query = NULL) {
       token$consumerKey,
       token$consumerSecret)
   }
+
+	if (!is.null(query)) {
+		token <- fetch_tokens(token, query)
+	}
+
+	if (is.list(token)) {
+		token <- token[[1]]
+	}
 
   if (!is.token(token)) {
     stop("Not a valid access token.", call. = FALSE)
@@ -140,7 +145,15 @@ twitter_pat <- function() {
   if (identical(pat, "")) {
     if (file.exists(".httr-oauth")) {
       pat <- ".httr-oauth"
-    } else {
+    } else if (file.exists("twitter_tokens")) {
+  		pat <- "twitter_tokens"
+  	} else if (file.exists("twitter_token")) {
+  		pat <- "twitter_token"
+  	} else if (file.exists("tokens")) {
+  		pat <- "tokens"
+  	} else if (file.exists("token")) {
+  		pat <- "token"
+  	} else {
     	pat <- "system"
       warning(
         paste0("Please set env var TWITTER_PAT to your ",
@@ -152,33 +165,89 @@ twitter_pat <- function() {
 }
 
 if_load <- function(x) {
-	log <- TRUE
-	log <- suppressWarnings(
+	lgl <- TRUE
+	lgl <- suppressWarnings(
 		tryCatch(load(x),
 			error = function(e) (return(FALSE))))
-	log
+	if (is.null(lgl)) return(FALSE)
+	if (identical(length(lgl), 0L)) return(FALSE)
+	if (identical(lgl, FALSE)) return(FALSE)
+	TRUE
+}
+
+if_rds <- function(x) {
+	lgl <- TRUE
+	lgl <- suppressWarnings(
+		tryCatch(readRDS(x),
+			error = function(e) (return(FALSE))))
+	if (is.null(lgl)) return(FALSE)
+	if (identical(length(lgl), 0L)) return(FALSE)
+	if (identical(lgl, FALSE)) return(FALSE)
+	TRUE
 }
 
 #' @importFrom openssl rsa_decrypt
 system_tokens <- function() {
   y <- sysdat
 	x <- y$tokens
-	x[[1]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[1]],
+	x[[1]]$app$secret <- rawToChar(
+		openssl::rsa_decrypt(y$cipher_appsecret[[1]],
 		y$cipher_key))
-	x[[2]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[2]],
+	x[[2]]$app$secret <- rawToChar(
+		openssl::rsa_decrypt(y$cipher_appsecret[[2]],
 		y$cipher_key))
-	x[[3]]$app$secret <- rawToChar(rsa_decrypt(y$cipher_appsecret[[3]],
+	x[[3]]$app$secret <- rawToChar(
+		openssl::rsa_decrypt(y$cipher_appsecret[[3]],
 		y$cipher_key))
-	x[[1]]$credentials$oauth_token_secret <- rawToChar(rsa_decrypt(
+	x[[1]]$credentials$oauth_token_secret <- rawToChar(
+		openssl::rsa_decrypt(
 		y$cipher_tknsecret[[1]], y$cipher_key))
-	x[[2]]$credentials$oauth_token_secret <- rawToChar(rsa_decrypt(
+	x[[2]]$credentials$oauth_token_secret <- rawToChar(
+		openssl::rsa_decrypt(
 		y$cipher_tknsecret[[2]], y$cipher_key))
-	x[[3]]$credentials$oauth_token_secret <- rawToChar(rsa_decrypt(
+	x[[3]]$credentials$oauth_token_secret <- rawToChar(
+		openssl::rsa_decrypt(
 		y$cipher_tknsecret[[3]], y$cipher_key))
 	x
 }
 
-load_tokens <- function(pat) {
+global_token_finder <- function(env = globalenv()) {
+	x <- NULL
+	objs <- ls(envir = env)
+	if ("twitter_tokens" %in% objs) {
+		x <- get_tokens_global("twitter_tokens")
+	} else if ("twitter_token" %in% objs) {
+		x <- get_tokens_global("twitter_token")
+	} else if ("tokens" %in% objs) {
+		x <- get_tokens_global("tokens")
+	} else if ("token" %in% objs) {
+		x <- get_tokens_global("token")
+	} else if (any(grepl("token", objs, ignore.case = TRUE))) {
+		tkn <- grep("token", objs, ignore.case = TRUE, value = TRUE)
+		if (identical(length(tkn), 1L)) {
+			x <- get_tokens_global(tkn)
+		} else if ("twitter_tokens" %in% tolower(tkn)) {
+			x <- get_tokens_global(tkn[tolower(tkn) == "twitter_tokens"])
+		} else if ("twitter_token" %in% tolower(tkn)) {
+			x <- get_tokens_global(tkn[tolower(tkn) == "twitter_tokens"])
+		} else if ("tokens" %in% tolower(tkn)) {
+			x <- get_tokens_global(tkn[tolower(tkn) == "tokens"])
+		} else if ("token" %in% tolower(tkn)) {
+			x <- get_tokens_global(tkn[tolower(tkn) == "token"])
+		}
+	}
+	x
+}
+
+get_tokens_global <- function(x, env = globalenv()) {
+	if (is.character(x)) {
+		eval(parse(text = x), envir = env)
+	} else {
+		eval(x, envir = env)
+	}
+}
+
+load_tokens <- function(pat, env = globalenv()) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
   } else if (identical(pat, "system")) {
@@ -186,8 +255,11 @@ load_tokens <- function(pat) {
   } else if (if_load(pat)) {
   	x <- load(pat)
   	.state$twitter_tokens <- get(x)
-  } else {
+  } else if (if_rds(pat)) {
   	.state$twitter_tokens <- readRDS(pat)
+  } else if (any(grepl("token",
+  	ls(envir = env), ignore.case = TRUE))) {
+  	.state$twitter_tokens <- global_token_finder()
   }
 	.state$twitter_tokens
 }

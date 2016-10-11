@@ -84,7 +84,9 @@ search_tweets <- function(q,
 
   token <- check_token(token, query)
 
-  n.times <- rate_limit(token, query)[["remaining"]]
+  #n.times <- rate_limit(token, query)[["remaining"]]
+
+  n.times <- 180
 
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -95,7 +97,7 @@ search_tweets <- function(q,
       call. = FALSE)
   }
 
-  if (!tolower(type) %in% c("mixed", "recent", "popular")) {
+  if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
     stop("invalid search type - must be mixed, recent, or popular.",
       call. = FALSE)
   }
@@ -114,7 +116,7 @@ search_tweets <- function(q,
 
   if (verbose) message("Searching for tweets...")
 
-  tw <- scroller(url, n, n.times, token, search = TRUE)
+  tw <- scroller(url, n, n.times, search = TRUE, token)
 
   if (parse) {
     tw <- parser(tw, n)

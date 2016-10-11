@@ -13,7 +13,7 @@ tweets_df <- function(dat, clean_tweets = TRUE) {
     dat <- dat[["status"]]
   }
 
-  tweets_df <- cbind_(
+  tweets_df <- cbind(
     tweets_toplevel_df(dat),
     tweets_entities_df(dat),
     tweets_retweet_df(dat),
@@ -53,7 +53,7 @@ user_df <- function(dat) {
     dat <- dat[["user"]]
   }
 
-  user_df <- cbind_(
+  user_df <- cbind(
     user_toplevel_df(dat),
     user_entities_df(dat))
 
@@ -74,7 +74,7 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
   tweets <- data.frame()
   users <- data.frame()
 
-  if (all(is.data.frame(x), "id_str" %in% names(x))) {
+  if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
     if (return_tweets) {
       tweets <- parse_tweets(x)
     }
@@ -108,7 +108,7 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
 }
 
 parse_fs <- function(x, n = NULL) {
-	if (length(x) == 1) {
+	if (identical(length(x), 1)) {
 		next_cursor <- x[[1]][["next_cursor_str"]]
 		x <- as.double(x[[1]][["ids"]])
 	} else if (all(c("ids", "next_cursor_str") %in% names(x))) {
@@ -122,7 +122,7 @@ parse_fs <- function(x, n = NULL) {
 	}
 
 	x <- return_n_rows(x, n)
-	x <- data_frame_(x)
+	x <- data.frame(x, stringsAsFactors = FALSE)
 	names(x) <- "ids"
 
 	attr(x, "next_cursor") <- next_cursor
@@ -143,7 +143,7 @@ parse_fs2 <- function(x, n = NULL) {
 		}
 		x <- as.double(strsplit(x[2], ",")[[1]])
 	}
-	x <- data_frame_(x)
+	x <- data.frame(x, stringsAsFactors = FALSE)
 	names(x) <- "ids"
 
 	attr(x, "next_cursor") <- next_cursor

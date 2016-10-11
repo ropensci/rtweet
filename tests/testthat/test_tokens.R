@@ -4,7 +4,7 @@ test_that("system_token functions", {
   skip_on_cran()
 
   x <- search_tweets("a OR b OR c OR d OR e",
-  	max_id = NULL, type = "recent", include_rts = FALSE)
+  	max_id = NULL, type = "recent", include_rts = TRUE)
 
   tokens <- get_tokens()
   x <- search_tweets("a OR b OR c OR d OR e", token = tokens,
@@ -22,7 +22,7 @@ test_that("system_token functions", {
   expect_gt(ncol(users_data(x)), 15)
   expect_named(users_data(x))
 
-  expect_error(search_tweets(verbose = FALSE, token = token))
+  expect_error(search_tweets(verbose = FALSE, token = tokens))
   expect_error(search_tweets("tweet", token = "token"))
-  expect_error(search_tweets("stats", type = "all", token = token))
+  expect_error(search_tweets("stats", type = "all", token = tokens))
 })

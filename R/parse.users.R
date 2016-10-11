@@ -77,23 +77,7 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
   toplevel_df[["user_id"]] <- as.double(
   	toplevel_df[["user_id"]])
 
-  data_frame_(toplevel_df)
-}
-
-data_frame_ <- function(...) {
-  data.frame(..., stringsAsFactors = FALSE)
-}
-as_data_frame_ <- function(...) {
-  as.data.frame(..., stringsAsFactors = FALSE)
-}
-rbindr_ <- function(...) {
-  rbind(...)
-}
-rbind_ <- function(...) {
-  do.call("rbindr_", ...)
-}
-cbind_ <- function(...) {
-  cbind(..., stringsAsFactors = FALSE)
+  data.frame(toplevel_df, stringsAsFactors = FALSE)
 }
 
 user_entities_df <- function(dat, n = NULL) {
@@ -102,9 +86,10 @@ user_entities_df <- function(dat, n = NULL) {
 
   if (is.null(n)) n <- length(dat[["id_str"]])
 
-  user_ent_df <- data_frame_(
+  user_ent_df <- data.frame(
     url = rep(NA_character_, n),
-    description_urls = rep(NA_character_, n))
+    description_urls = rep(NA_character_, n),
+  	stringsAsFactors = FALSE)
 
   if ("entities" %in% names(dat)) {
     entities <- dat[["entities"]]
