@@ -203,11 +203,11 @@ return_with_NA <- function(x, n) {
 is_empty_list <- function(x) {
   if (is.null(x)) return(TRUE)
   if (is.list(x)) {
-    return(is.null(unlist(x, use.names = FALSE)))
+    return(identical(length(unlist(x, use.names = FALSE)), 0))
   } else {
-    if (length(x) == 0) return(TRUE)
+    if (identical(length(x), 0)) return(TRUE)
   }
-  return(FALSE)
+  FALSE
 }
 
 is_na <- function(x) {

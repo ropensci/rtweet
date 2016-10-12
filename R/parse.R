@@ -102,6 +102,7 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
     users <- return_n_rows(users, n)
     if (is.data.frame(users)) {
       users <- filter_na_rows(users)
+      users <- unique(users)
     }
   }
   list(tweets = tweets, users = users)

@@ -109,15 +109,31 @@ attr_tweetusers <- function(x) {
 	stopifnot(is.list(x))
 
 	if (identical(names(x)[1], "tweets")) {
-		d <- x[["tweets"]]
+		if (is.null(x[["tweets"]])) {
+			d <- data.frame
+		} else {
+			d <- x[["tweets"]]
+		}
 		if ("users" %in% names(x)) {
+			if (is.null(x[["users"]])) {
+			attr(d, "users") <- data.frame
+		} else {
 			attr(d, "users") <- x[["users"]]
+		}
 		}
 	}
 	if (identical(names(x)[1], "users")) {
-		d <- x[["users"]]
+		if (is.null(x[["users"]])) {
+			d <- data.frame
+		} else {
+			d <- x[["users"]]
+		}
 		if ("tweets" %in% names(x)) {
+			if (is.null(x[["tweets"]])) {
+			attr(d, "tweets") <- data.frame
+		} else {
 			attr(d, "tweets") <- x[["tweets"]]
+		}
 		}
 	}
 	d

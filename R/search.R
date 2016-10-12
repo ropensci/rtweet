@@ -79,13 +79,9 @@ search_tweets <- function(q,
 	token = NULL, verbose = TRUE, ...) {
 
   query <- "search/tweets"
-
   stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
-
   token <- check_token(token, query)
-
   #n.times <- rate_limit(token, query)[["remaining"]]
-
   n.times <- 180
 
   if (nchar(q) > 500) {
@@ -135,7 +131,6 @@ search_tweets <- function(q,
 }
 
 
-
 #' search_users
 #'
 #' @description Returns data frame of users data using a provided
@@ -176,13 +171,9 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	verbose = TRUE) {
 
 	query <- "users/search"
-
 	stopifnot(is_n(n), is.atomic(q))
-
 	token <- check_token(token, query)
-
-	n.times <- rate_limit(token, query)[["remaining"]]
-	if (n.times > 50) n.times <- 50
+	n.times <- 50
 
 	if (nchar(q) > 500) {
 		stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -199,6 +190,7 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	if (verbose) message("Searching for users...")
 
 	usr <- list()
+  k <- 0
 
 	for (i in seq_len(n.times)) {
 		r <- tryCatch(
@@ -209,9 +201,11 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 
 		usr[[i]] <- from_js(r)
 
-		if (count_users_returned(usr) >= n) break
+    k <- k + nrow(usr[[i]])
 
-		url$query$page <- (i + 1)
+		if (k >= n) break
+
+		url$query$page <- (i + 1L)
 	}
 
   if (parse) {
