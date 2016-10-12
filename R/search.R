@@ -201,6 +201,9 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 
 		usr[[i]] <- from_js(r)
 
+    if (identical(length(usr[[i]]), 0)) break
+    if (!is.data.frame(nrow(usr[[i]]))) break
+
     k <- k + nrow(usr[[i]])
 
 		if (k >= n) break
