@@ -190,7 +190,7 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 
 	if (verbose) message("Searching for users...")
 
-	usr <- list()
+	usr <- vector("list", n.times)
   k <- 0
   nrows <- NULL
 
@@ -222,7 +222,7 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
     usr <- parser(usr, n)
     if (!is.null(usr)) {
       if (is.list(usr)) {
-        usr <- usr[c(2, 1)]
+        usr <- usr[c("users", "tweets")]
         usr <- attr_tweetusers(usr)
       }
     }

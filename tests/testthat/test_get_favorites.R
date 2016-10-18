@@ -10,7 +10,7 @@ test_that("get_favorites returns tweets data", {
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))
-  expect_equal(nrow(x), n)
+  expect_gt(nrow(x), 300)
   expect_gt(ncol(x), 15)
   expect_true(is.data.frame(data.frame(users_data(x))))
   expect_gt(nrow(users_data(x)), 0)

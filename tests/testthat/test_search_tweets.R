@@ -29,7 +29,7 @@ test_that("search_tweets returns tweets data", {
   expect_named(x)
   expect_true(all(x$lang == "en"))
   expect_true(any(c("status_id", "text") %in% names(x)))
-  expect_equal(nrow(x), 300)
+  expect_gt(nrow(x), 200)
   expect_gt(ncol(x), 15)
   expect_true("users" %in% names(attributes(x)))
   expect_true(is.data.frame(attr(x, "users")))
