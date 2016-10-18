@@ -173,7 +173,8 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	query <- "users/search"
 	stopifnot(is_n(n), is.atomic(q))
 	token <- check_token(token, query)
-	n.times <- 50
+	n.times <- ceiling(n / 20)
+  if (n.times > 50) n.times <- 50
 
 	if (nchar(q) > 500) {
 		stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -191,6 +192,7 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 
 	usr <- list()
   k <- 0
+  nrows <- NULL
 
 	for (i in seq_len(n.times)) {
 		r <- tryCatch(
@@ -202,9 +204,14 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 		usr[[i]] <- from_js(r)
 
     if (identical(length(usr[[i]]), 0)) break
-    if (!is.data.frame(usr[[i]])) break
+    if (isTRUE(is.numeric(nrow(usr[[i]])))) {
+      nrows <- nrow(usr[[i]])
+    } else {
+      if (identical(nrows, 0)) break
+      nrows <- 0
+    }
 
-    k <- k + nrow(usr[[i]])
+    k <- k + nrows
 
 		if (k >= n) break
 
