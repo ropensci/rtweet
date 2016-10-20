@@ -61,12 +61,89 @@ next_cursor <- function(ids) {
 #' @export
 users_data <- function(tweets) {
 	stopifnot(is.data.frame(tweets))
-	if (!"users" %in% names(attributes(tweets))) {
+	if (!"users" %xy% attributes(tweets)) {
 		return(tweets)
 	} else {
 		return(attr(tweets, "users"))
 	}
 }
+
+all_tw <- function(search = TRUE) {
+	if (search) {
+		x <- " OR "
+	} else {
+		x <- ","
+	}
+	paste(letters, collapse = x)
+}
+
+#' xiny
+#'
+#' Returns logical value indicating whether named
+#'   object includes var name. Functions do the following:
+#'
+#' \itemize{
+#' 		\item \code{`\%xy\%`} returns logical for each value of x
+#' 		\item \code{`\%any\%`} returns TRUE if y contains any of x
+#' 		\item \code{`\%all\%`} returns TRUE if y contains all of x
+#' }
+#' @name xiny
+#' @param x Character, name of variable of interest.
+#' @param y Named object on which to search for \code{x}.
+#'
+#' @examples
+#' # mpg in mtcars
+#' "mpg" %xy% mtcars
+#'
+#' # year not in mtcars
+#' "year" %xy% mtcars
+#'
+#' # check each name
+#' c("mpg", "year") %xy% mtcars
+#'
+#' # check for any
+#' c("mpg", "year") %any% mtcars
+#'
+#' # check for all
+#' c("mpg", "year") %all% mtcars
+#'
+#' @return Logical vector of length \code{length(x)}.
+#' @export
+`%xy%` <- function(x, y) {
+	if (is.null(names(x))) {
+		var <- x
+		dat <- y
+	} else {
+		dat <- x
+		var <- y
+	}
+	var %in% names(dat)
+}
+
+#' @export
+`%any%` <- function(x, y) {
+	if (is.null(names(x))) {
+		var <- x
+		dat <- y
+	} else {
+		dat <- x
+		var <- y
+	}
+	any(var %in% names(dat))
+}
+
+#' @export
+`%all%` <- function(x, y) {
+	if (is.null(names(x))) {
+		var <- x
+		dat <- y
+	} else {
+		dat <- x
+		var <- y
+	}
+	all(var %in% names(dat))
+}
+
 
 #' tweets_data
 #'
