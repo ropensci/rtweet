@@ -83,9 +83,9 @@ all_tw <- function(search = TRUE) {
 #'   object includes var name. Functions do the following:
 #'
 #' \itemize{
-#' 		\item \code{`\%xy\%`} returns logical for each value of x
-#' 		\item \code{`\%any\%`} returns TRUE if y contains any of x
-#' 		\item \code{`\%all\%`} returns TRUE if y contains all of x
+#' 		\item \code{\%xy\%} returns logical for each value of x
+#' 		\item \code{\%any\%} returns TRUE if y contains any of x
+#' 		\item \code{\%all\%} returns TRUE if y contains all of x
 #' }
 #' @name xiny
 #' @param x Character, name of variable of interest.
@@ -120,6 +120,19 @@ all_tw <- function(search = TRUE) {
 	var %in% names(dat)
 }
 
+#' xanyy
+#'
+#' Returns logical value indicating whether named
+#'   object includes var name. Functions do the following:
+#'
+#' \itemize{
+#' 		\item \code{\%xy\%} returns logical for each value of x
+#' 		\item \code{\%any\%} returns TRUE if y contains any of x
+#' 		\item \code{\%all\%} returns TRUE if y contains all of x
+#' }
+#' @name xanyy
+#' @param x Character, name of variable of interest.
+#' @param y Named object on which to search for \code{x}.
 #' @export
 `%any%` <- function(x, y) {
 	if (is.null(names(x))) {
@@ -132,6 +145,20 @@ all_tw <- function(search = TRUE) {
 	any(var %in% names(dat))
 }
 
+#' xally
+#'
+#' Returns logical value indicating whether named
+#'   object includes var name. Functions do the following:
+#'
+#' \itemize{
+#' 		\item \code{\%xy\%} returns logical for each value of x
+#' 		\item \code{\%any\%} returns TRUE if y contains any of x
+#' 		\item \code{\%all\%} returns TRUE if y contains all of x
+#' }
+#' @name xally
+#' @param x Character, name of variable of interest.
+#' @param y Named object on which to search for \code{x}.
+#' @export
 #' @export
 `%all%` <- function(x, y) {
 	if (is.null(names(x))) {
