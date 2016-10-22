@@ -4,7 +4,7 @@
 \alias{stream_tweets}
 \title{stream_tweets}
 \usage{
-stream_tweets(q = "", timeout = 30, parse = TRUE, clean_tweets = FALSE,
+stream_tweets(q = "", timeout = 30, parse = TRUE, clean_tweets = TRUE,
   token = NULL, file_name = NULL, gzip = FALSE, verbose = TRUE)
 }
 \arguments{
@@ -29,7 +29,7 @@ to false, you can use the \code{\link{parse_stream}} function to
 parse the json file at a later point in time.)}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
-characters in text of tweets. defaults to FALSE.}
+characters in text of tweets. defaults to TRUE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions

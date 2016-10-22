@@ -26,7 +26,7 @@
 #'   to false, you can use the \code{\link{parse_stream}} function to
 #'   parse the json file at a later point in time.)
 #' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to FALSE.
+#'   characters in text of tweets. defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -77,7 +77,7 @@
 #' @family tweets
 #' @export
 stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
-                          clean_tweets = FALSE, token = NULL,
+                          clean_tweets = TRUE, token = NULL,
                           file_name = NULL, gzip = FALSE,
                           verbose = TRUE) {
 
@@ -194,7 +194,7 @@ parse_stream <- function(file_name) {
 	if (is.null(s)) stop("it's not right. -luther",
     call. = FALSE)
 
-	s <- parser(s)
+	s <- parser(s, clean_tweets = clean_tweets)
 
 	attr_tweetusers(s)
 }
