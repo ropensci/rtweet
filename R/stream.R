@@ -143,7 +143,7 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   }
 
   if (parse) {
-  	out <- parse_stream(file_name)
+  	out <- parse_stream(file_name, clean_tweets = clean_tweets)
   	if (tmp) file.remove(file_name)
   	return(out)
   } else {
@@ -158,6 +158,8 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
 #' @param file_name name of file to be parsed. NOTE: if file
 #'   was created via \code{\link{stream_tweets}}, then it will
 #'   end in ".json" (see example below)
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to TRUE.
 #'
 #' @return Parsed tweets data with users data attribute.
 #'

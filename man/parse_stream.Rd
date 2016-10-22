@@ -10,6 +10,9 @@ parse_stream(file_name)
 \item{file_name}{name of file to be parsed. NOTE: if file
 was created via \code{\link{stream_tweets}}, then it will
 end in ".json" (see example below)}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to TRUE.}
 }
 \value{
 Parsed tweets data with users data attribute.
