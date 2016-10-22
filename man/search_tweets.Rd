@@ -5,7 +5,8 @@
 \title{search_tweets}
 \usage{
 search_tweets(q, n = 100, type = "mixed", max_id = NULL,
-  include_rts = TRUE, parse = TRUE, token = NULL, verbose = TRUE, ...)
+  include_rts = TRUE, parse = TRUE, clean_tweets = FALSE, token = NULL,
+  verbose = TRUE, ...)
 }
 \arguments{
 \item{q}{Character, search query of no greater than
@@ -31,6 +32,9 @@ in search results.}
 \code{parse = TRUE} saves users from the time
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to FALSE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions

@@ -8,7 +8,9 @@
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable @describeIn tokens.
 #' @param parse Logical, indicating whether or not to parse
-#'   return object into data frame(s)
+#'   return object into data frame(s).
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -26,7 +28,8 @@
 #' @return json response object (max is 18000 per token)
 #' @family tweets
 #' @export
-lookup_statuses <- function(statuses, token = NULL, parse = TRUE) {
+lookup_statuses <- function(statuses, token = NULL, parse = TRUE,
+                            clean_tweets = FALSE) {
 
   if (is.list(statuses)) {
     statuses <- unlist(statuses)

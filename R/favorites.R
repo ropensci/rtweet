@@ -19,6 +19,8 @@
 #'   vector or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves you the time [and frustrations]
 #'   associated with disentangling the Twitter API return objects.
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -37,7 +39,8 @@
 #' @return Tweets data frame.
 #' @export
 get_favorites <- function(user, n = 3000, since_id = NULL,
-  max_id = NULL, parse = TRUE, token = NULL) {
+                          max_id = NULL, parse = TRUE,
+                          clean_tweets = FALSE, token = NULL) {
 
   query <- "favorites/list"
 

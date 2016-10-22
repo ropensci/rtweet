@@ -1,5 +1,5 @@
 
-tweets_df <- function(dat, clean_tweets = TRUE) {
+tweets_df <- function(dat, clean_tweets = FALSE) {
 
   if (missing(dat)) {
     stop("Must specify tweets object, dat.", call. = TRUE)
@@ -20,20 +20,20 @@ tweets_df <- function(dat, clean_tweets = TRUE) {
     tweets_place_df(dat))
 
   if (clean_tweets) {
-    tweets_df[["text"]] <- clean_tweets(tweets_df[["text"]])
+    tweets_df[["text"]] <- cleantweets(tweets_df[["text"]])
   }
   tweets_df <- tweets_df[row.names(unique(tweets_df[, c(2, 13)])), ]
   row.names(tweets_df) <- NULL
   tweets_df
 }
 
-#' clean_tweets
+#' cleantweets
 #'
 #' @description Converts tweets to to ASCII
 #' @param x Twitter text
 #'
 #' @export
-clean_tweets <- function(x) {
+cleantweets <- function(x) {
   #iconv(x, "UTF-8", "ASCII", "")
   iconv(x, "latin1", "ASCII", "")
 }
@@ -69,17 +69,21 @@ user_df <- function(dat) {
 #' @param n desired number to return
 #' @param return_tweets logical indicating whether to return tweets data
 #'   object.
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
 #' @param return_users logical indicating whether to return users data
 #'   object.
 #' @keywords internal
 #' @export
-parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
+parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
+                   clean_tweets = FALSE) {
+
   tweets <- data.frame()
   users <- data.frame()
 
   if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
     if (return_tweets) {
-      tweets <- parse_tweets(x)
+      tweets <- parse_tweets(x, clean_tweets = clean_tweets)
     }
     if (return_users) {
       users <- parse_users(x)
@@ -87,7 +91,7 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE) {
   } else {
     stopifnot(is.list(x))
     if (return_tweets) {
-      tweets <- bply(x, parse_tweets)
+      tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets)
     }
     if (return_users) {
       users <- bply(x, parse_users)
@@ -158,7 +162,7 @@ parse_fs2 <- function(x, n = NULL) {
 
 
 
-parse_tweets <- function(x) {
+parse_tweets <- function(x, clean_tweets = FALSE) {
 
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
@@ -167,7 +171,7 @@ parse_tweets <- function(x) {
   }
 
   if (!"friends_count" %in% names(x)) {
-    return(tweets_df(x))
+    return(tweets_df(x, clean_tweets = clean_tweets))
   }
 
   return(invisible())

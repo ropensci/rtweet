@@ -12,6 +12,8 @@
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -42,8 +44,8 @@
 #'   the user provided.
 #' @family tweets
 #' @export
-get_timeline <- function(user, n = 200, max_id = NULL,
-  parse = TRUE, token = NULL, ...) {
+get_timeline <- function(user, n = 200, max_id = NULL, parse = TRUE,
+                         clean_tweets = FALSE, token = NULL, ...) {
 
   query <- "statuses/user_timeline"
 

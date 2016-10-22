@@ -3,8 +3,8 @@ return_last <- function(x, n = 1) {
   x[seq_len(n)]
 }
 
-bply <- function(x, f) {
-  do.call("rbind", lapply(x, f))
+bply <- function(x, f, ...) {
+  do.call("rbind", lapply(x, f, ...))
 }
 
 exclude_list_null <- function(x) {

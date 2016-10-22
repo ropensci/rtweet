@@ -21,6 +21,8 @@
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -73,10 +75,10 @@
 #'   data frame.
 #' @family tweets
 #' @export
-search_tweets <- function(q,
-	n = 100, type = "mixed", max_id = NULL,
-	include_rts = TRUE, parse = TRUE,
-	token = NULL, verbose = TRUE, ...) {
+search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
+	                        include_rts = TRUE, parse = TRUE,
+	                        clean_tweets = FALSE, token = NULL,
+                          verbose = TRUE, ...) {
 
   query <- "search/tweets"
   stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))

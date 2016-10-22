@@ -4,7 +4,8 @@
 \alias{parser}
 \title{parser}
 \usage{
-parser(x, n = NULL, return_tweets = TRUE, return_users = TRUE)
+parser(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
+  clean_tweets = FALSE)
 }
 \arguments{
 \item{x}{nested list of API data returned from fromJSON}
@@ -16,6 +17,9 @@ object.}
 
 \item{return_users}{logical indicating whether to return users data
 object.}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to FALSE.}
 }
 \description{
 parser

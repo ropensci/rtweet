@@ -4,8 +4,8 @@
 \alias{stream_tweets}
 \title{stream_tweets}
 \usage{
-stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
-  file_name = NULL, gzip = FALSE, verbose = TRUE)
+stream_tweets(q = "", timeout = 30, parse = TRUE, clean_tweets = FALSE,
+  token = NULL, file_name = NULL, gzip = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{q}{Character vector with desired phrases and keywords
@@ -27,6 +27,9 @@ uses, setting parse to TRUE saves you from having to sort and parse
 the messy list structure returned by Twitter. (Note: if you set parse
 to false, you can use the \code{\link{parse_stream}} function to
 parse the json file at a later point in time.)}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to FALSE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions

@@ -5,7 +5,7 @@
 \title{get_favorites}
 \usage{
 get_favorites(user, n = 3000, since_id = NULL, max_id = NULL,
-  parse = TRUE, token = NULL)
+  parse = TRUE, clean_tweets = FALSE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -29,6 +29,9 @@ equal to (if hit limit) the specified status_id.}
 vector or nested list (fromJSON) object. By default,
 \code{parse = TRUE} saves you the time [and frustrations]
 associated with disentangling the Twitter API return objects.}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to FALSE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions

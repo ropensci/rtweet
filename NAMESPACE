@@ -3,7 +3,7 @@
 export("%all%")
 export("%any%")
 export("%xy%")
-export(clean_tweets)
+export(cleantweets)
 export(create_token)
 export(find_woeid)
 export(get_favorites)

@@ -4,7 +4,8 @@
 \alias{lookup_statuses}
 \title{lookup_tweets}
 \usage{
-lookup_statuses(statuses, token = NULL, parse = TRUE)
+lookup_statuses(statuses, token = NULL, parse = TRUE,
+  clean_tweets = FALSE)
 }
 \arguments{
 \item{statuses}{User id or screen name of target user.}
@@ -14,7 +15,10 @@ lookup_statuses(statuses, token = NULL, parse = TRUE)
 an environment variable @describeIn tokens.}
 
 \item{parse}{Logical, indicating whether or not to parse
-return object into data frame(s)}
+return object into data frame(s).}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to FALSE.}
 }
 \value{
 json response object (max is 18000 per token)
