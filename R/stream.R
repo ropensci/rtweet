@@ -43,6 +43,7 @@
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
+#' @import httr
 #' @examples
 #' \dontrun{
 #' # stream tweets mentioning "election" for 90 seconds
@@ -77,9 +78,8 @@
 #' @family tweets
 #' @export
 stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
-                          clean_tweets = TRUE, token = NULL,
-                          file_name = NULL, gzip = FALSE,
-                          verbose = TRUE) {
+  clean_tweets = TRUE, token = NULL, file_name = NULL, gzip = FALSE,
+  verbose = TRUE) {
 
   token <- check_token(token)
 
@@ -134,9 +134,9 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   		error = function(e) return(NULL))
   }
 
-  if (!is.null(r)) {
-  	return(r)
-  }
+#  if (!is.null(r)) {
+ # 	return(r)
+#  }
 
   if (verbose) {
   	message("Finished streaming tweets!")

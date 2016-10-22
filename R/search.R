@@ -117,7 +117,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   tw <- scroller(url, n, n.times, search = TRUE, token)
 
   if (parse) {
-    tw <- parser(tw, n)
+    tw <- parser(tw, n, clean_tweets = clean_tweets)
     if (!is.null(tw)) {
       if (is.list(tw)) {
         tw <- attr_tweetusers(tw)

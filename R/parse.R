@@ -34,8 +34,8 @@ tweets_df <- function(dat, clean_tweets = FALSE) {
 #'
 #' @export
 cleantweets <- function(x) {
-  #iconv(x, "UTF-8", "ASCII", "")
-  iconv(x, "latin1", "ASCII", "")
+  iconv(x, "UTF-8", "ASCII", "")
+  #iconv(x, "latin1", "ASCII", "")
 }
 
 #' utf8_tweets
