@@ -171,7 +171,7 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
 #' }
 #' @importFrom jsonlite stream_in
 #' @export
-parse_stream <- function(file_name) {
+parse_stream <- function(file_name, clean_tweets = TRUE) {
 
 	s <- tryCatch(suppressWarnings(
     stream_in(file(file_name),

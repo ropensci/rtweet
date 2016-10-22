@@ -4,7 +4,7 @@
 \alias{parse_stream}
 \title{parse_stream}
 \usage{
-parse_stream(file_name)
+parse_stream(file_name, clean_tweets = TRUE)
 }
 \arguments{
 \item{file_name}{name of file to be parsed. NOTE: if file
