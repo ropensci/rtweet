@@ -1,3 +1,9 @@
+# rtweet 0.3.5
+* `clean_tweets` argument provided to allow user more control over
+encoding and handling of non-ascii characters.
+* Fixed issue with `search_users` and implemented several 
+improvements to `stream_tweets` and `plot_ts`.
+
 # rtweet 0.3.4
 * Implemented robust methods to fetch tokens (whether set as
 environment variable, .httr-oauth file, or if the tokens exist
