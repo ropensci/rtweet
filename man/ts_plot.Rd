@@ -4,13 +4,17 @@
 \alias{ts_plot}
 \title{ts_plot}
 \usage{
-ts_plot(x, by = "days", ...)
+ts_plot(x, by = "days", obj = FALSE, ...)
 }
 \arguments{
 \item{x}{Tweets data frame}
 
 \item{by}{Unit of time, e.g., \code{secs, days, weeks,
 months, years}}
+
+\item{obj}{Logical indicating whether to return timeseries-like
+object. Defaults to FALSE. Set to true to return data.frame
+used to plot.}
 
 \item{\dots}{Other arguments passed to plot function.}
 }

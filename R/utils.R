@@ -8,10 +8,6 @@ bply <- function(x, f, ...) {
 }
 
 exclude_list_null <- function(x) {
-  #if (is.list(x)) {
-  #	x <- x[!unlist(lapply(x, function(x) identical(length(x), 0)),
-  #    use.names = FALSE)]
-  #}
   x
 }
 
@@ -98,6 +94,22 @@ is.na.quiet <- function(x) {
 
 
 
+#' format_date
+#'
+#' @param x Date or datetime vector returned by a Twitter API.
+#' @param date Logical, indicating whether to return object of
+#'   class date. Defaults to FALSE, thus returning datetime
+#'   object (class = POSIXct).
+#'
+#' @return Date/datetime vector.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' p <- get_timeline("potus", n = 3500)
+#' p <- format_date(p$created_at)
+#' head(p)
+#' }
 format_date <- function(x, date = FALSE) {
   o <- tryCatch(as.POSIXct(x,
     format = "%a %b %d %H:%M:%S %z %Y",

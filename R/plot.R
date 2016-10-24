@@ -3,6 +3,9 @@
 #' @param x Tweets data frame
 #' @param by Unit of time, e.g., \code{secs, days, weeks,
 #'   months, years}
+#' @param obj Logical indicating whether to return timeseries-like
+#'   object. Defaults to FALSE. Set to true to return data.frame
+#'   used to plot.
 #' @param \dots Other arguments passed to plot function.
 #'
 #' @examples
@@ -14,7 +17,7 @@
 #' }
 #' @importFrom graphics plot
 #' @export
-ts_plot <- function(x, by = "days", ...) {
+ts_plot <- function(x, by = "days", obj = FALSE, ...) {
   if (is.atomic(x)) {
     dtm <- c("Date", "POSIXct", "POSIXt")
     if (!any(dtm %in% class(x))) {
@@ -39,4 +42,5 @@ ts_plot <- function(x, by = "days", ...) {
 	Time <- as.POSIXct(x$cut)
 	Freq <- x$Freq
 	plot(data.frame(Time, Freq), type = "l", ...)
+	if (obj) return(data.frame(Time, Freq))
 }
