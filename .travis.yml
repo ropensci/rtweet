@@ -8,5 +8,4 @@ r_github_packages:
 - jimhester/covr
 after_success:
 - Rscript -e 'covr::codecov(function_exclusions = c("print\\.", "plot\\.", "create_token",
-  "get_tokens", "fetch_tokens", "twitter_pat", "load_tokens", "make_tweets", "rt_data",
-  "make_users", "gg_cols", "post_tweet"))'
+  "load_tokens", "global_token_finder", "system_tokens", "post_tweet", "all_tw"))'

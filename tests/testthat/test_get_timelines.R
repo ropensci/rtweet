@@ -1,11 +1,12 @@
 context("get_timelines")
 
-test_that("search_tweets returns tweets data", {
+test_that("get_timelines", {
   skip_on_cran()
 
   n <- 25
   token <- readRDS("twitter_tokens")
   x <- get_timeline("kearneymw", n = n, token = token)
+  xts <- ts_plot(x, obj = TRUE)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
@@ -15,6 +16,7 @@ test_that("search_tweets returns tweets data", {
   expect_true("users" %in% names(attributes(x)))
   expect_true(is.data.frame(attr(x, "users")))
   expect_true(is.data.frame(users_data(x)))
+  expect_true(is.data.frame(xts))
   expect_gt(nrow(users_data(x)), 0)
   expect_gt(ncol(users_data(x)), 15)
   expect_named(users_data(x))
