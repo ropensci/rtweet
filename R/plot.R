@@ -15,7 +15,26 @@
 #' @importFrom graphics plot
 #' @export
 ts_plot <- function(x, by = "days", ...) {
-	cut <- cut.POSIXt(x$created_at, breaks = by)
+  if (is.atomic(x)) {
+    dtm <- c("Date", "POSIXct", "POSIXt")
+    if (!any(dtm %in% class(x))) {
+      stop("ts_plot requires date/datetime object", call. = FALSE)
+    }
+  } else if (all(is.recursive(x), "created_at" %xy% x)) {
+    x <- format_date(x[["created_at"]])
+  }
+	cut <- cut.POSIXt(x, breaks = by)
+	if (length(unique(cut)) < 3) {
+	  cut <- cut.POSIXt(x, breaks = "hours")
+	  if (length(unique(cut)) < 3) {
+	    cut <- cut.POSIXt(x, breaks = "secs")
+	  }
+	} else if (length(unique(cut)) > 300) {
+	  cut <- cut.POSIXt(x, breaks = "3 days")
+	  if (length(unique(cut)) < 300) {
+	    cut <- cut.POSIXt(x, breaks = "weeks")
+	  }
+	}
 	x <- as.data.frame(table(cut))
 	Time <- as.POSIXct(x$cut)
 	Freq <- x$Freq
