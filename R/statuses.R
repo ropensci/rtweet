@@ -62,7 +62,7 @@ lookup_statuses <- function(statuses, token = NULL, parse = TRUE,
   }
 
   if (parse) {
-    twt <- parser(twt)
+    twt <- parser(twt, clean_tweets = clean_tweets)
     twt <- attr_tweetusers(twt[c("tweets", "users")])
   }
 

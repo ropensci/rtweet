@@ -74,7 +74,7 @@ get_timeline <- function(user, n = 200, max_id = NULL, parse = TRUE,
   tm <- scroller(url, n, n.times, token, search = FALSE)
 
   if (parse) {
-    tm <- parser(tm, n)
+    tm <- parser(tm, n, clean_tweets = clean_tweets)
     tm <- attr_tweetusers(tm)
   }
 

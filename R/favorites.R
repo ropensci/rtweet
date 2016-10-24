@@ -72,7 +72,7 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
   fav <- scroller(url, n, n.times, token, search = FALSE)
 
   if (parse) {
-    fav <- parser(fav, n)
+    fav <- parser(fav, n, clean_tweets = clean_tweets)
     fav <- attr_tweetusers(fav[c("tweets", "users")])
   }
 

@@ -4,7 +4,8 @@
 \alias{search_users}
 \title{search_users}
 \usage{
-search_users(q, n = 20, parse = TRUE, token = NULL, verbose = TRUE)
+search_users(q, n = 20, parse = TRUE, clean_tweets = FALSE,
+  token = NULL, verbose = TRUE)
 }
 \arguments{
 \item{q}{Character, search query of no greater than
@@ -19,6 +20,9 @@ a single search is 1,000.}
 \code{parse = TRUE} saves users from the time
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
+
+\item{clean_tweets}{logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to FALSE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions

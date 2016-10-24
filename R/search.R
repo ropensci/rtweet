@@ -148,6 +148,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -169,8 +171,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' @return Data frame of users returned by query.
 #' @family users
 #' @export
-search_users <- function(q, n = 20, parse = TRUE, token = NULL,
-	verbose = TRUE) {
+search_users <- function(q, n = 20, parse = TRUE,
+  clean_tweets = FALSE, token = NULL, verbose = TRUE) {
 
 	query <- "users/search"
 	stopifnot(is_n(n), is.atomic(q))
@@ -221,7 +223,7 @@ search_users <- function(q, n = 20, parse = TRUE, token = NULL,
 	}
 
   if (parse) {
-    usr <- parser(usr, n)
+    usr <- parser(usr, n, clean_tweets = clean_tweets)
     if (!is.null(usr)) {
       if (is.list(usr)) {
         usr <- usr[c("users", "tweets")]
