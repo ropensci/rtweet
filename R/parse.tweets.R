@@ -1,6 +1,5 @@
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
-                               add.names = NULL,
-                               clean.tweets = FALSE) {
+                               add.names = NULL) {
 
   if (missing(dat)) {
     stop("Must specify tweets object, dat.", call. = TRUE)
@@ -17,8 +16,6 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   if (!is.null(add.names)) {
     toplevel <- c(toplevel, add.names)
   }
-
-  clean_tweets <- clean.tweets
 
   dat <- check_response_obj(dat)
 
@@ -85,10 +82,6 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   	toplevel_df[["in_reply_to_status_id"]])
   toplevel_df[["in_reply_to_user_id"]] <- as.double(
   	toplevel_df[["in_reply_to_user_id"]])
-
-  if (clean_tweets) {
-  	toplevel_df[["text"]] <- clean_tweets(toplevel_df[["text"]])
-  }
 
   toplevel_df
 }

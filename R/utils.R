@@ -45,7 +45,7 @@ nanull <- function(x) {
 
 is_response <- function(x) {
   any(identical(class(x), "response"),
-  	all(c("content", "headers") %in% names(x)))
+  	all(c("content", "headers") %xy% x))
 }
 is_json <- function (x) {
   stopifnot(is_response(x))
@@ -144,10 +144,10 @@ check_user_id <- function(dat, n = NULL) {
 
   user_id <- rep(NA_character_, n)
 
-  if ("user" %in% names(dat)) {
+  if ("user" %xy% dat) {
     user <- dat[["user"]]
 
-    if ("id_str" %in% names(user)) {
+    if ("id_str" %xy% user) {
       user_id <- user[["id_str"]]
     }
   }
@@ -163,10 +163,10 @@ check_screen_name <- function(dat, n = NULL) {
 
 	screen_name <- rep(NA_character_, n)
 
-	if ("user" %in% names(dat)) {
+	if ("user" %xy% dat) {
 		user <- dat[["user"]]
 
-		if ("screen_name" %in% names(user)) {
+		if ("screen_name" %xy% user) {
 			screen_name <- user[["screen_name"]]
 		}
 	}
@@ -187,12 +187,12 @@ return_with_NA <- function(x, n) {
   } else {
   	myNA <- NA_character_
   }
-  if (any(is.null(x), identical(x, ""))) {
+  if (any(is.null(x), identical(x, ""), identical(length(x), 0L))) {
     x <- rep(NA, n)
   } else {
   	for (i in seq_along(x)) {
   		if (any(is.null(x[[i]]), identical(x[[i]], ""),
-  			identical(length(x), 1L))) {
+  			identical(length(x), 0L))) {
   			x[[i]] <- NA
   		}
   	}
@@ -200,12 +200,13 @@ return_with_NA <- function(x, n) {
   x
 }
 
+
 is_empty_list <- function(x) {
   if (is.null(x)) return(TRUE)
   if (is.list(x)) {
     return(identical(length(unlist(x, use.names = FALSE)), 0))
-  } else {
-    if (identical(length(x), 0)) return(TRUE)
+  } else if (identical(length(x), 0)) {
+    return(TRUE)
   }
   FALSE
 }
@@ -247,7 +248,7 @@ is_n <- function(n) {
 is_url <- function(url) {
   url_names <- c("scheme", "hostname", "port", "path", "query")
   if (all(length(url) > 1, is.list(url),
-     url_names %in% names(url))) {
+     url_names %xy% url)) {
     return(TRUE)
   } else {
     return(FALSE)
@@ -260,12 +261,12 @@ check_response_obj <- function(dat) {
     stop("Must specify tweets object, dat.", call. = TRUE)
   }
 
-  if ("statuses" %in% names(dat)) {
+  if ("statuses" %xy% dat) {
     dat <- dat[["statuses"]]
   }
 
-  if (!"id_str" %in% names(dat)) {
-    if ("id" %in% names(dat)) {
+  if (!"id_str" %xy% dat) {
+    if ("id" %xy% dat) {
       dat$id_str <- dat$id
     }
   }

@@ -8,7 +8,10 @@
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable @describeIn tokens.
 #' @param parse Logical, indicating whether or not to parse
-#'   return object into data frame(s)
+#'   return object into data frame(s).
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to TRUE.
+#'
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -26,47 +29,43 @@
 #' @return json response object (max is 18000 per token)
 #' @family users
 #' @export
-lookup_users <- function(users, token = NULL, parse = TRUE) {
+lookup_users <- function(users, token = NULL, parse = TRUE,
+  clean_tweets = TRUE) {
 
   if (is.list(users)) {
-    users <- unlist(users)
+    users <- unlist(users, use.names = FALSE)
   }
 
-  if (length(users) > 18000) {
+  if (length(users) < 101) {
+    usr <- .user_lookup(users, token)
+  } else if (length(users) > 18000) {
     users <- users[1:18000]
-  }
+    n.times <- ceiling(length(users) / 100)
+    from <- 1
+    usr <- vector("list", n.times)
 
-  n.times <- ceiling(length(users) / 100)
-
-  from <- 1
-
-  usr <- vector("list", n.times)
-
-  for (i in seq_len(n.times)) {
-    to <- from + 99
-
-    if (to > length(users)) {
-      to <- length(users)
+    for (i in seq_len(n.times)) {
+      to <- from + 99
+      if (to > length(users)) {
+        to <- length(users)
+      }
+      usr[[i]] <- .user_lookup(
+        users[from:to],
+        token, parse = parse)
+      from <- to + 1
+      if (from > length(users)) break
     }
-
-    usr[[i]] <- .user_lookup(
-      users[from:to],
-      token, parse = parse)
-
-    from <- to + 1
-
-    if (from > length(users)) break
   }
 
   if (parse) {
-    usr <- parser(usr)
+    usr <- parser(usr, clean_tweets = clean_tweets)
     usr <- attr_tweetusers(usr[c("users", "tweets")])
   }
 
   usr
 }
 
-.user_lookup <- function(users, token = NULL, parse) {
+.user_lookup <- function(users, token = NULL) {
 
   query <- "users/lookup"
 
