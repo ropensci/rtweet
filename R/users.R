@@ -35,7 +35,6 @@ lookup_users <- function(users, token = NULL, parse = TRUE,
   if (is.list(users)) {
     users <- unlist(users, use.names = FALSE)
   }
-
   if (length(users) < 101) {
     usr <- .user_lookup(users, token)
   } else if (length(users) > 18000) {
@@ -43,53 +42,39 @@ lookup_users <- function(users, token = NULL, parse = TRUE,
     n.times <- ceiling(length(users) / 100)
     from <- 1
     usr <- vector("list", n.times)
-
     for (i in seq_len(n.times)) {
       to <- from + 99
       if (to > length(users)) {
         to <- length(users)
       }
-      usr[[i]] <- .user_lookup(
-        users[from:to],
-        token, parse = parse)
+      usr[[i]] <- .user_lookup(users[from:to], token)
       from <- to + 1
       if (from > length(users)) break
     }
   }
-
   if (parse) {
     usr <- parser(usr, clean_tweets = clean_tweets)
     usr <- attr_tweetusers(usr[c("users", "tweets")])
   }
-
   usr
 }
 
 .user_lookup <- function(users, token = NULL) {
 
   query <- "users/lookup"
-
   if (is.list(users)) {
     users <- unlist(users)
   }
-
   stopifnot(is.atomic(users))
-
   if (length(users) > 100) {
     users <- users[1:100]
   }
-
   params <- list(id_type = paste(users, collapse = ","))
-
   names(params)[1] <- .ids_type(users)
-
   url <- make_url(
     query = query,
     param = params)
-
   token <- check_token(token, query = "users/lookup")
-
   resp <- TWIT(get = TRUE, url, token)
-
   from_js(resp)
 }
