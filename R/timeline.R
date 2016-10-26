@@ -71,7 +71,7 @@ get_timeline <- function(user, n = 200, max_id = NULL, parse = TRUE,
     query = query,
     param = params)
 
-  tm <- scroller(url, n, n.times, token, search = FALSE)
+  tm <- scroller(url, n, n.times, type = "timeline", token)
 
   if (parse) {
     tm <- parser(tm, n, clean_tweets = clean_tweets)

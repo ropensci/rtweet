@@ -7,10 +7,6 @@ bply <- function(x, f, ...) {
   do.call("rbind", lapply(x, f, ...))
 }
 
-exclude_list_null <- function(x) {
-  x
-}
-
 return_n_rows <- function(x, n = NULL) {
 	if (is.data.frame(x)) {
     if (is.null(n)) return(x)
@@ -249,7 +245,7 @@ is_n <- function(n) {
   if (all(
     length(n) == 1,
     is.numeric(n),
-    identical(n %% 1, 0),
+#    identical(n %% 1, 0),
     n > 0)) {
     return(TRUE)
   } else {

@@ -1,5 +1,5 @@
 #' @importFrom httr warn_for_status
-scroller <- function(url, n, n.times, search = FALSE, ...) {
+scroller <- function(url, n, n.times, type = NULL, ...) {
 
   stopifnot(is_n(n), is_url(url))
   if (missing(n.times)) n.times <- 1
@@ -19,7 +19,8 @@ scroller <- function(url, n, n.times, search = FALSE, ...) {
     	if (identical(length(x[[i]][["statuses"]]), 0L)) break
     }
 
-    counter <- counter + as.numeric(unique_id_count(x[[i]], search = search))
+    counter <- counter + as.numeric(
+      unique_id_count(x[[i]], type = type))
 
     if (counter >= n) break
 
@@ -31,7 +32,7 @@ scroller <- function(url, n, n.times, search = FALSE, ...) {
       url$query$max_id <- get_max_id(x[[i]])
     }
   }
-  exclude_list_null(x)
+  x
 }
 
 
@@ -57,8 +58,11 @@ unique_id <- function(x) {
 }
 
 
-unique_id_count <- function(x, search = FALSE) {
-  if (search) return(100)
+unique_id_count <- function(x, type = NULL) {
+  if (!is.null(type)) {
+    if (type == "search") return(100)
+    if (type == "timeline") return(200)
+  }
 	if (isTRUE(length(x) > 1L)) {
 		if (!is.null(names(x[[2]]))) {
 			x <- unlist(lapply(x, unique_id), use.names = FALSE)

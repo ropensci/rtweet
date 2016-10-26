@@ -22,7 +22,7 @@ tweets_df <- function(dat, clean_tweets = FALSE) {
   if (clean_tweets) {
     tweets_df[["text"]] <- cleantweets(tweets_df[["text"]])
   }
-  tweets_df <- tweets_df[row.names(unique(tweets_df[, c(2, 13)])), ]
+  tweets_df <- tweets_df[row.names(unique(tweets_df[, 1:13])), ]
   row.names(tweets_df) <- NULL
   tweets_df
 }
@@ -102,7 +102,7 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
     if ("status_id" %in% names(tweets)) {
       if (!is.null(tweets$status_id)) {
         tweets <- tweets[!is.na(tweets$status_id), ]
-        tweets <- tweets[row.names(unique(tweets[, c(2, 13)])), ]
+        tweets <- tweets[row.names(unique(tweets[, 1:13])), ]
         row.names(tweets) <- NULL
       }
     }

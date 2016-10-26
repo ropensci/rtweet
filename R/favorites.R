@@ -69,7 +69,7 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
     query = query,
     param = params)
 
-  fav <- scroller(url, n, n.times, token, search = FALSE)
+  fav <- scroller(url, n, n.times, type = "timeline", token)
 
   if (parse) {
     fav <- parser(fav, n, clean_tweets = clean_tweets)
