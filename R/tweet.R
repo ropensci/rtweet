@@ -17,7 +17,7 @@
 #' }
 #' @export
 post_tweet <- function(status = "my first rtweet #rstats",
-	..., token = NULL) {
+  ..., token = NULL) {
 	query <- "statuses/update"
 	stopifnot(is.character(status))
 	if (nchar(status) > 140) {
@@ -28,10 +28,11 @@ post_tweet <- function(status = "my first rtweet #rstats",
 			call. = FALSE)
 	}
 	token <- check_token(token, query)
-	params <- list(status = status, ...)
+	params <- list(status = status, media =  httr::upload_file(media))
 	url <- make_url(query = query, param = params)
 
-	TWIT(get = FALSE, url, token)
+	TWIT(get = FALSE, url, encode = "multipart", token)
 
 	message("your tweet has been posted!")
 }
+
