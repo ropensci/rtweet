@@ -17,11 +17,11 @@
 #' # lookup tweets data via status_id vector
 #' statuses <- c("567053242429734913", "266031293945503744",
 #'   "440322224407314432")
-#' statuses <- lookuplookup_statuses(statuses)
+#' statuses <- lookup_statuses(statuses)
 #' statuses
 #'
 #' # view users data for these statuses via tweets_data()
-#' users_data(lookup_df)
+#' users_data(statuses)
 #' }
 #'
 #' @return json response object (max is 18000 per token)
