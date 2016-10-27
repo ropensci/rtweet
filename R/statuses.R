@@ -14,15 +14,14 @@
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
-#' # lookup vector of 1 or more user_id or screen_name
-#' statuses <- c("potus", "hillaryclinton", "realdonaldtrump",
-#'   "fivethirtyeight", "cnn", "espn", "twitter")
+#' # lookup tweets data via status_id vector
+#' statuses <- c("567053242429734913", "266031293945503744",
+#'   "440322224407314432")
+#' statuses <- lookuplookup_statuses(statuses)
+#' statuses
 #'
-#' twt_df <- lookup_statuses(statuses)
-#' twt_df
-#'
-#' # view tweet data for these statuses via tweets_data()
-#' tweets_data(twt_df)
+#' # view users data for these statuses via tweets_data()
+#' users_data(lookup_df)
 #' }
 #'
 #' @return json response object (max is 18000 per token)

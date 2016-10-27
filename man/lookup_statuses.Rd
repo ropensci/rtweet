@@ -30,14 +30,16 @@ Returns Twitter user data_frame object for
 \examples{
 \dontrun{
 # lookup vector of 1 or more user_id or screen_name
-statuses <- c("potus", "hillaryclinton", "realdonaldtrump",
-  "fivethirtyeight", "cnn", "espn", "twitter")
+search_df <- search_tweets("rstats")
 
-twt_df <- lookup_statuses(statuses)
-twt_df
+lookup_df <- lookup_statuses(tweets$status_id)
 
-# view tweet data for these statuses via tweets_data()
-tweets_data(twt_df)
+# it's possible user stats change at any time, but if
+# they don't, then the two objects should be identical
+identical(search_df, lookup_df)
+
+# view users data for these statuses via tweets_data()
+users_data(lookup_df)
 }
 
 }
