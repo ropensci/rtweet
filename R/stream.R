@@ -43,7 +43,6 @@
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
-#' @import httr
 #' @examples
 #' \dontrun{
 #' # stream tweets mentioning "election" for 90 seconds
