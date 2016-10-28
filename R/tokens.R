@@ -40,7 +40,7 @@ get_tokens <- function() {
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return Twitter personal access token object
-#' @import httr
+#' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
 #' @family tokens
 #' @export
 create_token <- function(app, consumer_key, consumer_secret) {

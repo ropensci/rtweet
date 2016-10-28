@@ -1,4 +1,3 @@
-#' @importFrom httr warn_for_status
 scroller <- function(url, n, n.times, type = NULL, ...) {
 
   stopifnot(is_n(n), is_url(url))

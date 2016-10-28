@@ -76,6 +76,7 @@
 #'
 #' @return Tweets data returned as data frame with users data as attribute.
 #' @family tweets
+#' @importFrom httr POST write_disk add_headers progress timeout
 #' @export
 stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   clean_tweets = TRUE, token = NULL, file_name = NULL, gzip = FALSE,

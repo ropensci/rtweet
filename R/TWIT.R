@@ -15,33 +15,20 @@
 #'   \code{make_url}.
 #' @param \dots Further named parameters, such as config, token,
 #'   etc, passed on to modify_url in the httr package.
-#' @param timeout Numeric, used only when streaming tweets,
-#'   specifying the number of seconds to stream tweets.
-#' @param filename Character, used only when streaming tweets,
-#'   name of file to save json tweets object.
 #' @note Occasionally Twitter does recommend using POST requests
 #'   for data retrieval calls. This is usually the case when requests
 #'   can involve long strings (containing up to 100 user_ids). For
 #'   the most part, or at least for any function-specific requests
 #'   (e.g., \code{get_friends}, take reflect these changes.
 #' @return json response object
-#' @import httr
+#' @importFrom httr GET POST timeout write_disk progress
 #' @keywords internal
 #' @noRd
-TWIT <- function(get = TRUE, url, ..., timeout = NULL, filename = NULL) {
-
-  if (is.null(timeout)) {
-    if (get) {
+TWIT <- function(get = TRUE, url, ...) {
+  if (get) {
     return(GET(url, ...))
   } else {
     return(POST(url, ...))
-  }
-  } else {
-    GET(url, ...,
-      timeout(timeout),
-      write_disk(filename, overwrite = TRUE),
-    	progress())
-    	#error = function(e) return(NULL))
   }
 }
 
