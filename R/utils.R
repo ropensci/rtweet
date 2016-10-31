@@ -1,3 +1,97 @@
+#' xiny
+#'
+#' Returns logical value indicating whether named
+#'   object includes var name. Functions do the following:
+#'
+#' \itemize{
+#' 		\item \code{\%xy\%} returns logical for each value of x
+#' 		\item \code{\%any\%} returns TRUE if y contains any of x
+#' 		\item \code{\%all\%} returns TRUE if y contains all of x
+#' }
+#' @name xiny
+#' @param x Character, name of variable of interest.
+#' @param y Named object on which to search for \code{x}.
+#'
+#' @examples
+#' # mpg in mtcars
+#' "mpg" %xy% mtcars
+#'
+#' # year not in mtcars
+#' "year" %xy% mtcars
+#'
+#' # check each name
+#' c("mpg", "year") %xy% mtcars
+#'
+#' # check for any
+#' c("mpg", "year") %any% mtcars
+#'
+#' # check for all
+#' c("mpg", "year") %all% mtcars
+#'
+#' @return Logical vector of length \code{length(x)}.
+#' @export
+`%xy%` <- function(x, y) {
+  if (is.null(names(x))) {
+    var <- x
+    dat <- y
+  } else {
+    dat <- x
+    var <- y
+  }
+  var %in% names(dat)
+}
+
+#' xanyy
+#'
+#' Returns logical value indicating whether named
+#'   object includes var name. Functions do the following:
+#'
+#' \itemize{
+#' 		\item \code{\%xy\%} returns logical for each value of x
+#' 		\item \code{\%any\%} returns TRUE if y contains any of x
+#' 		\item \code{\%all\%} returns TRUE if y contains all of x
+#' }
+#' @name xanyy
+#' @param x Character, name of variable of interest.
+#' @param y Named object on which to search for \code{x}.
+#' @export
+`%any%` <- function(x, y) {
+  if (is.null(names(x))) {
+    var <- x
+    dat <- y
+  } else {
+    dat <- x
+    var <- y
+  }
+  any(var %in% names(dat))
+}
+
+#' xally
+#'
+#' Returns logical value indicating whether named
+#'   object includes var name. Functions do the following:
+#'
+#' \itemize{
+#' 		\item \code{\%xy\%} returns logical for each value of x
+#' 		\item \code{\%any\%} returns TRUE if y contains any of x
+#' 		\item \code{\%all\%} returns TRUE if y contains all of x
+#' }
+#' @name xally
+#' @param x Character, name of variable of interest.
+#' @param y Named object on which to search for \code{x}.
+#' @export
+#' @export
+`%all%` <- function(x, y) {
+  if (is.null(names(x))) {
+    var <- x
+    dat <- y
+  } else {
+    dat <- x
+    var <- y
+  }
+  all(var %in% names(dat))
+}
+
 return_last <- function(x, n = 1) {
 	x <- rev(x)
   x[seq_len(n)]
@@ -70,7 +164,6 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
   unique(x)
 }
 
-
 .id_type <- function(x) {
 	x <- suppressWarnings(is.na(as.numeric(x)))
 	if (length(unique(x)) > 1) {
@@ -89,6 +182,14 @@ is.na.quiet <- function(x) {
 }
 
 
+unlister <- function(x) {
+  unlist(x, use.names = FALSE, recursive = TRUE)
+}
+
+flatten <- function(x) {
+  vapply(x, function(i) paste0(unlister(i), collapse = ","),
+    vector("character", 1), USE.NAMES = FALSE)
+}
 
 #' format_date
 #'
@@ -278,6 +379,20 @@ check_response_obj <- function(dat) {
       dat$id_str <- dat$id
     }
   }
-
   dat
+}
+
+check_user_obj <- function(x) {
+
+  if ("user" %in% names(x)) {
+    x <- x[["user"]]
+  }
+  if (!"id_str" %in% names(x)) {
+    if ("id" %in% names(x)) {
+      x$id_str <- x$id
+    } else {
+      stop("object does not contain ID variable.", call. = FALSE)
+    }
+  }
+  x
 }

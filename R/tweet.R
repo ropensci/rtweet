@@ -4,9 +4,6 @@
 #'
 #' @param status Character, tweet status. Must be 140
 #'   characters or less.
-#' @param \dots Other arguments passed to POST request. See
-#'   Twitter API documentation for geo-tagging and other
-#'   available options.
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
@@ -15,9 +12,11 @@
 #' \dontrun{
 #' post_tweet("my first rtweet #rstats")
 #' }
+#' @importFrom httr upload_file
 #' @export
 post_tweet <- function(status = "my first rtweet #rstats",
-  ..., token = NULL) {
+                       token = NULL) {
+
 	query <- "statuses/update"
 	stopifnot(is.character(status))
 	if (nchar(status) > 140) {
@@ -28,10 +27,14 @@ post_tweet <- function(status = "my first rtweet #rstats",
 			call. = FALSE)
 	}
 	token <- check_token(token, query)
-	params <- list(status = status, media =  httr::upload_file(media))
+
+	params <- list(status = status)
+
 	url <- make_url(query = query, param = params)
 
-	TWIT(get = FALSE, url, encode = "multipart", token)
+	r <- TWIT(get = FALSE, url, token)
+
+	if (r$status_code != 200) message("something didn't work")
 
 	message("your tweet has been posted!")
 }

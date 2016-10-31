@@ -1,3 +1,83 @@
+parse_tweets <- function(x, clean_tweets = FALSE, as_double = FALSE) {
+  lookup <- FALSE
+  if ("statuses" %in% names(x)) {
+    x <- x[["statuses"]]
+  } else if ("status" %in% names(x)) {
+    lookup <- TRUE
+    screen_name <- x[["screen_name"]]
+    user_id <- x[["id_str"]]
+    x <- x[["status"]]
+  }
+
+  if (!"friends_count" %in% names(x)) {
+    x <- tweets_df(x, clean_tweets = clean_tweets, as_double = as_double)
+    if (lookup) {
+      x[["screen_name"]] <- screen_name
+      x[["user_id"]] <- user_id
+    }
+    return(x)
+  }
+
+  return(invisible())
+}
+
+tweets_df <- function(dat, as_double = FALSE, clean_tweets = FALSE) {
+
+  if (missing(dat)) {
+    stop("Must specify tweets object, dat.", call. = TRUE)
+  }
+
+  if ("statuses" %in% names(dat)) {
+    dat <- dat[["statuses"]]
+  }
+  lookup <- FALSE
+  if ("status" %in% names(dat)) {
+    lookup <- TRUE
+    screen_name <- dat[["screen_name"]]
+    user_id <- dat[["id_str"]]
+    dat <- dat[["status"]]
+  }
+
+  tweets_df <- cbind(
+    tweets_toplevel_df(dat, as_double = as_double),
+    tweets_entities_df(dat),
+    tweets_retweet_df(dat),
+    tweets_place_df(dat))
+
+  if (clean_tweets) {
+    tweets_df[["text"]] <- cleantweets(tweets_df[["text"]])
+  }
+  if (lookup) {
+    tweets_df[["screen_name"]] <- screen_name
+    tweets_df[["user_id"]] <- user_id
+  }
+  tweets_df <- tweets_df[row.names(unique(tweets_df[, 1:13])), ]
+  row.names(tweets_df) <- NULL
+  tweets_df
+}
+
+#' cleantweets
+#'
+#' @description Converts tweets to to ASCII
+#' @param x Twitter text
+#'
+#' @export
+cleantweets <- function(x) {
+  iconv(x, "UTF-8", "ASCII", "")
+  #iconv(x, "latin1", "ASCII", "")
+}
+
+#' utf8_tweets
+#'
+#' @description Converts tweets to UTF-8 encoding
+#' @param x Twitter text
+#'
+#' @export
+utf8_tweets <- function(x) {
+  unlist(lapply(x, function(.) if (Encoding(.) != "UTF-8") enc2utf8(x)),
+    recursive = FALSE, use.names = FALSE)
+}
+
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
                                add.names = NULL,
                                as_double = FALSE) {
@@ -101,8 +181,6 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
     toplevel_df[["in_reply_to_user_id"]] <- as.character(
       toplevel_df[["in_reply_to_user_id"]])
   }
-
-
   toplevel_df
 }
 
@@ -145,7 +223,6 @@ tweets_entities_df <- function(dat, n = NULL) {
         function(x) return_with_NA(x[["expanded_url"]], 1)))
     }
   }
-
   ent_df
 }
 
@@ -220,6 +297,5 @@ tweets_place_df <- function(dat, n = NULL) {
       }
     }
   }
-
   place_df
 }

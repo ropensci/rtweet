@@ -50,7 +50,8 @@
 #' @family tweets
 #' @export
 get_timeline <- function(user, n = 200, max_id = NULL, parse = TRUE,
-                         clean_tweets = FALSE, token = NULL, ...) {
+                         clean_tweets = FALSE, as_double = FALSE,
+                         token = NULL, ...) {
 
   query <- "statuses/user_timeline"
 

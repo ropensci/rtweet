@@ -37,7 +37,7 @@
 #' @family ids
 #' @export
 get_friends <- function(user, page = "-1", parse = TRUE,
-  as_double = FALSE, token = NULL) {
+                        as_double = FALSE, token = NULL) {
 
   query <- "friends/ids"
 
@@ -67,7 +67,9 @@ get_friends <- function(user, page = "-1", parse = TRUE,
   remaining <- f$headers$`x-rate-limit-remaining`
 
   if (is.null(f)) {
-  	f[["ids"]] <- NA_real_
+    missing <- NA_character_
+    if (as_double) missing <- NA_real_
+  	f[["ids"]] <- missing
   } else {
   	if (parse) {
   		f <- parse_fs(from_js(f), as_double = as_double)
