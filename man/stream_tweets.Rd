@@ -5,7 +5,8 @@
 \title{stream_tweets}
 \usage{
 stream_tweets(q = "", timeout = 30, parse = TRUE, clean_tweets = TRUE,
-  token = NULL, file_name = NULL, gzip = FALSE, verbose = TRUE)
+  as_double = FALSE, token = NULL, file_name = NULL, gzip = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{q}{Character vector with desired phrases and keywords
@@ -30,6 +31,12 @@ parse the json file at a later point in time.)}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
 characters in text of tweets. defaults to TRUE.}
+
+\item{as_double}{logical indicating whether to handle ID variables
+as double (numeric) class. By default, this is set to FALSE, meaning
+ID variables are treated as character vectors. Setting this to
+TRUE can provide performance (speed and memory) boost but can also
+lead to issues when printing and saving, depending on the format.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions

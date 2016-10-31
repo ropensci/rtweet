@@ -11,6 +11,11 @@
 #'   return object into data frame(s).
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to FALSE.
+#' @param as_double logical indicating whether to handle ID variables
+#'   as double (numeric) class. By default, this is set to FALSE, meaning
+#'   ID variables are treated as character vectors. Setting this to
+#'   TRUE can provide performance (speed and memory) boost but can also
+#'   lead to issues when printing and saving, depending on the format.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -28,7 +33,7 @@
 #' @family tweets
 #' @export
 lookup_statuses <- function(statuses, token = NULL, parse = TRUE,
-                            clean_tweets = FALSE) {
+                            clean_tweets = FALSE, as_double = FALSE) {
 
   if (is.list(statuses)) {
     statuses <- unlist(statuses)
@@ -61,7 +66,7 @@ lookup_statuses <- function(statuses, token = NULL, parse = TRUE,
   }
 
   if (parse) {
-    twt <- parser(twt, clean_tweets = clean_tweets)
+    twt <- parser(twt, clean_tweets = clean_tweets, as_double = as_double)
     twt <- attr_tweetusers(twt[c("tweets", "users")])
   }
 

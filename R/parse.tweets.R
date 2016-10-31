@@ -1,5 +1,6 @@
 tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
-                               add.names = NULL) {
+                               add.names = NULL,
+                               as_double = FALSE) {
 
   if (missing(dat)) {
     stop("Must specify tweets object, dat.", call. = TRUE)
@@ -28,7 +29,12 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
 
   names(toplevel_df)[names(toplevel_df) == "id"] <- "status_id"
 
-  toplevel_df$user_id <- as.double(check_user_id(dat))
+  if (as_double) {
+    toplevel_df$user_id <- as.double(check_user_id(dat))
+  } else {
+    toplevel_df$user_id <- as.character(check_user_id(dat))
+  }
+
   toplevel_df$screen_name <- check_screen_name(dat)
 
   if ("created_at" %in% names(toplevel_df)) {
@@ -72,16 +78,30 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   	}
   }
 
-  toplevel_df[["status_id"]] <- as.double(
-  	toplevel_df[["status_id"]])
-  toplevel_df[["user_id"]] <- as.double(
-  	toplevel_df[["user_id"]])
-  toplevel_df[["quoted_status_id"]] <- as.double(
-  	toplevel_df[["quoted_status_id"]])
-  toplevel_df[["in_reply_to_status_id"]] <- as.double(
-  	toplevel_df[["in_reply_to_status_id"]])
-  toplevel_df[["in_reply_to_user_id"]] <- as.double(
-  	toplevel_df[["in_reply_to_user_id"]])
+  if (as_double) {
+    toplevel_df[["status_id"]] <- as.double(
+      toplevel_df[["status_id"]])
+    toplevel_df[["user_id"]] <- as.double(
+      toplevel_df[["user_id"]])
+    toplevel_df[["quoted_status_id"]] <- as.double(
+      toplevel_df[["quoted_status_id"]])
+    toplevel_df[["in_reply_to_status_id"]] <- as.double(
+      toplevel_df[["in_reply_to_status_id"]])
+    toplevel_df[["in_reply_to_user_id"]] <- as.double(
+      toplevel_df[["in_reply_to_user_id"]])
+  } else {
+    toplevel_df[["status_id"]] <- as.character(
+      toplevel_df[["status_id"]])
+    toplevel_df[["user_id"]] <- as.character(
+      toplevel_df[["user_id"]])
+    toplevel_df[["quoted_status_id"]] <- as.character(
+      toplevel_df[["quoted_status_id"]])
+    toplevel_df[["in_reply_to_status_id"]] <- as.character(
+      toplevel_df[["in_reply_to_status_id"]])
+    toplevel_df[["in_reply_to_user_id"]] <- as.character(
+      toplevel_df[["in_reply_to_user_id"]])
+  }
+
 
   toplevel_df
 }

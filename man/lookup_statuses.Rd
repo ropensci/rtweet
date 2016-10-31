@@ -5,7 +5,7 @@
 \title{lookup_tweets}
 \usage{
 lookup_statuses(statuses, token = NULL, parse = TRUE,
-  clean_tweets = FALSE)
+  clean_tweets = FALSE, as_double = FALSE)
 }
 \arguments{
 \item{statuses}{User id or screen name of target user.}
@@ -19,6 +19,12 @@ return object into data frame(s).}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
 characters in text of tweets. defaults to FALSE.}
+
+\item{as_double}{logical indicating whether to handle ID variables
+as double (numeric) class. By default, this is set to FALSE, meaning
+ID variables are treated as character vectors. Setting this to
+TRUE can provide performance (speed and memory) boost but can also
+lead to issues when printing and saving, depending on the format.}
 }
 \value{
 json response object (max is 18000 per token)

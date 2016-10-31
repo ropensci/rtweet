@@ -27,6 +27,11 @@
 #'   parse the json file at a later point in time.)
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to TRUE.
+#' @param as_double logical indicating whether to handle ID variables
+#'   as double (numeric) class. By default, this is set to FALSE, meaning
+#'   ID variables are treated as character vectors. Setting this to
+#'   TRUE can provide performance (speed and memory) boost but can also
+#'   lead to issues when printing and saving, depending on the format.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -78,8 +83,8 @@
 #' @importFrom httr POST write_disk add_headers progress timeout
 #' @export
 stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
-  clean_tweets = TRUE, token = NULL, file_name = NULL, gzip = FALSE,
-  verbose = TRUE) {
+  clean_tweets = TRUE, as_double = FALSE, token = NULL, file_name = NULL,
+  gzip = FALSE, verbose = TRUE) {
 
   token <- check_token(token)
 
@@ -134,16 +139,12 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   		error = function(e) return(NULL))
   }
 
-#  if (!is.null(r)) {
- # 	return(r)
-#  }
-
   if (verbose) {
   	message("Finished streaming tweets!")
   }
 
   if (parse) {
-  	out <- parse_stream(file_name, clean_tweets = clean_tweets)
+  	out <- parse_stream(file_name, clean_tweets = clean_tweets, as_double = as_double)
   	if (tmp) file.remove(file_name)
   	return(out)
   } else {

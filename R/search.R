@@ -23,6 +23,11 @@
 #'   API return objects.
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to FALSE.
+#' @param as_double logical indicating whether to handle ID variables
+#'   as double (numeric) class. By default, this is set to FALSE, meaning
+#'   ID variables are treated as character vectors. Setting this to
+#'   TRUE can provide performance (speed and memory) boost but can also
+#'   lead to issues when printing and saving, depending on the format.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -77,7 +82,8 @@
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 	                        include_rts = TRUE, parse = TRUE,
-	                        clean_tweets = FALSE, token = NULL,
+	                        clean_tweets = FALSE,
+                          as_double = FALSE, token = NULL,
                           verbose = TRUE, ...) {
 
   query <- "search/tweets"
@@ -117,7 +123,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
   tw <- scroller(url, n, n.times, type = "search", token)
 
   if (parse) {
-    tw <- parser(tw, n, clean_tweets = clean_tweets)
+    tw <- parser(tw, n, clean_tweets = clean_tweets,
+      as_double = as_double)
     if (!is.null(tw)) {
       if (is.list(tw)) {
         tw <- attr_tweetusers(tw)
@@ -150,6 +157,11 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #'   API return objects.
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to FALSE.
+#' @param as_double logical indicating whether to handle ID variables
+#'   as double (numeric) class. By default, this is set to FALSE, meaning
+#'   ID variables are treated as character vectors. Setting this to
+#'   TRUE can provide performance (speed and memory) boost but can also
+#'   lead to issues when printing and saving, depending on the format.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -172,7 +184,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' @family users
 #' @export
 search_users <- function(q, n = 20, parse = TRUE,
-  clean_tweets = FALSE, token = NULL, verbose = TRUE) {
+  clean_tweets = FALSE, as_double = FALSE,
+  token = NULL, verbose = TRUE) {
 
 	query <- "users/search"
 	stopifnot(is_n(n), is.atomic(q))
@@ -223,7 +236,8 @@ search_users <- function(q, n = 20, parse = TRUE,
 	}
 
   if (parse) {
-    usr <- parser(usr, n, clean_tweets = clean_tweets)
+    usr <- parser(usr, n, clean_tweets = clean_tweets,
+      as_double = as_double)
     if (!is.null(usr)) {
       if (is.list(usr)) {
         usr <- usr[c("users", "tweets")]

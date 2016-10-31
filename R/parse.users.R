@@ -24,7 +24,8 @@ flatten <- function(x) {
 }
 
 user_toplevel_df <- function(x, n = NULL, names = NULL,
-                             add.names = NULL) {
+                             add.names = NULL,
+                             as_double = FALSE) {
 
   if (is.null(names)) {
     toplevel <- c("id_str", "name", "screen_name",
@@ -74,8 +75,14 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
       toplevel_df[["created_at"]], date = FALSE)
   }
 
-  toplevel_df[["user_id"]] <- as.double(
-  	toplevel_df[["user_id"]])
+  if (as_double) {
+    toplevel_df[["user_id"]] <- as.double(
+      toplevel_df[["user_id"]])
+  } else {
+    toplevel_df[["user_id"]] <- as.character(
+      toplevel_df[["user_id"]])
+  }
+
 
   data.frame(toplevel_df, stringsAsFactors = FALSE)
 }

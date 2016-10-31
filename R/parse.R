@@ -1,5 +1,5 @@
 
-tweets_df <- function(dat, clean_tweets = FALSE) {
+tweets_df <- function(dat, as_double = FALSE, clean_tweets = FALSE) {
 
   if (missing(dat)) {
     stop("Must specify tweets object, dat.", call. = TRUE)
@@ -17,7 +17,7 @@ tweets_df <- function(dat, clean_tweets = FALSE) {
   }
 
   tweets_df <- cbind(
-    tweets_toplevel_df(dat),
+    tweets_toplevel_df(dat, as_double = as_double),
     tweets_entities_df(dat),
     tweets_retweet_df(dat),
     tweets_place_df(dat))
@@ -57,14 +57,14 @@ utf8_tweets <- function(x) {
 }
 
 
-user_df <- function(dat) {
+user_df <- function(dat, as_double = FALSE) {
 
   if ("user" %in% names(dat)) {
     dat <- dat[["user"]]
   }
 
   user_df <- cbind(
-    user_toplevel_df(dat),
+    user_toplevel_df(dat, as_double = as_double),
     user_entities_df(dat))
 
   unique(user_df)
@@ -76,32 +76,37 @@ user_df <- function(dat) {
 #' @param n desired number to return
 #' @param return_tweets logical indicating whether to return tweets data
 #'   object.
-#' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to FALSE.
 #' @param return_users logical indicating whether to return users data
 #'   object.
+#' @param clean_tweets logical indicating whether to remove non-ASCII
+#'   characters in text of tweets. defaults to FALSE.
+#' @param as_double logical indicating whether to handle ID variables
+#'   as double (numeric) class. By default, this is set to FALSE, meaning
+#'   ID variables are treated as character vectors. Setting this to
+#'   TRUE can provide performance (speed and memory) boost but can also
+#'   lead to issues when printing and saving, depending on the format.
 #' @keywords internal
 #' @export
 parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
-                   clean_tweets = FALSE) {
+                   clean_tweets = FALSE, as_double = FALSE) {
 
   tweets <- data.frame()
   users <- data.frame()
 
   if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
     if (return_tweets) {
-      tweets <- parse_tweets(x, clean_tweets = clean_tweets)
+      tweets <- parse_tweets(x, clean_tweets = clean_tweets, as_double = as_double)
     }
     if (return_users) {
-      users <- parse_users(x)
+      users <- parse_users(x, as_double = as_double)
     }
   } else {
     stopifnot(is.list(x))
     if (return_tweets) {
-      tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets)
+      tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets, as_double = as_double)
     }
     if (return_users) {
-      users <- bply(x, parse_users)
+      users <- bply(x, parse_users, as_double = as_double)
     }
   }
   if (return_tweets) {
@@ -124,13 +129,21 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
   list(tweets = tweets, users = users)
 }
 
-parse_fs <- function(x, n = NULL) {
+parse_fs <- function(x, n = NULL, as.double = FALSE) {
 	if (identical(length(x), 1)) {
 		next_cursor <- x[[1]][["next_cursor_str"]]
-		x <- as.double(x[[1]][["ids"]])
+		if (as_double) {
+		  x <- as.double(x[[1]][["ids"]])
+		} else {
+		  x <- as.character(x[[1]][["ids"]])
+		}
 	} else if (all(c("ids", "next_cursor_str") %in% names(x))) {
 		next_cursor <- x[["next_cursor_str"]]
-		x <- as.double(x[["ids"]])
+		if (as_double) {
+		  x <- as.double(x[[1]][["ids"]])
+		} else {
+		  x <- as.character(x[[1]][["ids"]])
+		}
 	} else if (length(x) > 1) {
 		next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]),
 			use.names = FALSE)
@@ -146,7 +159,7 @@ parse_fs <- function(x, n = NULL) {
 	x
 }
 
-parse_fs2 <- function(x, n = NULL) {
+parse_fs2 <- function(x, n = NULL, as_double = FALSE) {
 	x <- rawToChar(x$content)
 	if (grepl("errors", x)) {
 		x <- NA_real_
@@ -158,7 +171,11 @@ parse_fs2 <- function(x, n = NULL) {
 		} else {
 			next_cursor <- NULL
 		}
-		x <- as.double(strsplit(x[2], ",")[[1]])
+		if (as_double) {
+		  x <- as.double(x[[1]][["ids"]])
+		} else {
+		  x <- as.character(x[[1]][["ids"]])
+		}
 	}
 	x <- data.frame(x, stringsAsFactors = FALSE)
 	names(x) <- "ids"
@@ -169,7 +186,7 @@ parse_fs2 <- function(x, n = NULL) {
 
 
 
-parse_tweets <- function(x, clean_tweets = FALSE) {
+parse_tweets <- function(x, clean_tweets = FALSE, as_double = FALSE) {
   lookup <- FALSE
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
@@ -181,7 +198,7 @@ parse_tweets <- function(x, clean_tweets = FALSE) {
   }
 
   if (!"friends_count" %in% names(x)) {
-    x <- tweets_df(x, clean_tweets = clean_tweets)
+    x <- tweets_df(x, clean_tweets = clean_tweets, as_double = as_double)
     if (lookup) {
       x[["screen_name"]] <- screen_name
       x[["user_id"]] <- user_id
@@ -192,10 +209,10 @@ parse_tweets <- function(x, clean_tweets = FALSE) {
   return(invisible())
 }
 
-parse_users <- function(x) {
+parse_users <- function(x, as_double = FALSE) {
 
   if ("friends_count" %in% names(x)) {
-    return(user_df(x))
+    return(user_df(x, as_double = as_double))
   }
 
   if ("statuses" %in% names(x)) {
@@ -203,7 +220,7 @@ parse_users <- function(x) {
   }
 
   if ("user" %in% names(x)) {
-    return(user_df(x[["user"]]))
+    return(user_df(x[["user"]], as_double = as_double))
   }
 
   return(invisible())
