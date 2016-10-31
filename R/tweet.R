@@ -12,7 +12,6 @@
 #' \dontrun{
 #' post_tweet("my first rtweet #rstats")
 #' }
-#' @importFrom httr upload_file
 #' @export
 post_tweet <- function(status = "my first rtweet #rstats",
                        token = NULL) {
