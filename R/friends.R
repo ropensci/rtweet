@@ -61,8 +61,6 @@ get_friends <- function(user, page = "-1", parse = TRUE,
   f <- tryCatch(
   	TWIT(get = TRUE, url, token),
   	error = function(e) NULL)
-  	#tryCatch(scroller(url, 1, 15, token),
-  	#error = function(e) return(NULL))
 
   remaining <- f$headers$`x-rate-limit-remaining`
 

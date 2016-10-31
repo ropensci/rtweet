@@ -68,9 +68,9 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
 	} else if (all(c("ids", "next_cursor_str") %in% names(x))) {
 		next_cursor <- x[["next_cursor_str"]]
 		if (as_double) {
-		  x <- as.double(x[[1]][["ids"]])
+		  x <- as.double(x[["ids"]])
 		} else {
-		  x <- as.character(x[[1]][["ids"]])
+		  x <- as.character(x[["ids"]])
 		}
 	} else if (length(x) > 1) {
 		next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]),
