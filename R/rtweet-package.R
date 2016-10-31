@@ -31,7 +31,7 @@
 NULL
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("Welcome to rtweet v0.3.5!")
+  packageStartupMessage("Welcome to rtweet v0.3.6!")
 }
 
 .state <- new.env(parent = emptyenv())

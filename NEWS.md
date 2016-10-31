@@ -1,3 +1,11 @@
+# rtweet 0.3.6
+* Added `as_double` argument to provide flexibility in handling 
+id variables (as_double provides performance boost but can create
+problems when printing and saving, depending on format). By default
+functions will return IDs as character vectors.
+* Numerous improvements made to parsing and bug fixes to lookup
+and search functions.
+ 
 # rtweet 0.3.5
 * `clean_tweets` argument provided to allow user more control over
 encoding and handling of non-ascii characters.
