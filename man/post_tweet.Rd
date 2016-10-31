@@ -4,7 +4,7 @@
 \alias{post_tweet}
 \title{post_tweet}
 \usage{
-post_tweet(status = "my first rtweet #rstats", ..., token = NULL)
+post_tweet(status = "my first rtweet #rstats", token = NULL)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 140
@@ -13,10 +13,6 @@ characters or less.}
 \item{token}{OAuth token. By default \code{token = NULL}
 fetches a non-exhausted token from an environment
 variable tokens.}
-
-\item{\dots}{Other arguments passed to POST request. See
-Twitter API documentation for geo-tagging and other
-available options.}
 }
 \description{
 Posts status update to user's Twitter account
