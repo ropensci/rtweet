@@ -23,11 +23,11 @@
 #' @export
 rate_limit <- function(token, query = NULL, rest = TRUE) {
 
+  token <- check_token(token, query = NULL)
+
   url <- make_url(
     restapi = rest,
     query = "application/rate_limit_status")
-
-  token <- check_token(token)
 
   r <- TWIT(get = TRUE, url, config = token)
 
