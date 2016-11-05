@@ -39,12 +39,12 @@
 get_friends <- function(user, page = "-1", parse = TRUE,
                         as_double = FALSE, token = NULL) {
 
-  query <- "friends/ids"
-
   stopifnot(is.atomic(user), is.atomic(page),
     isTRUE(length(user) == 1))
 
   token <- check_token(token)
+
+  query <- "friends/ids"
 
   params <- list(
     user_type = user,

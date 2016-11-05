@@ -146,13 +146,13 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
   }
   rsp <- fromJSON(content(rsp, as = "text", encoding = "UTF-8"))
   if (check_rate_limit) {
-    if (any(
+    if (all(
       identical(names(rsp), "errors"),
       identical(rsp$errors[["message"]], "Rate limit exceeded"))) {
       stop("rate limit exceeded.", call. = FALSE)
     }
   }
-  return(rsp)
+  rsp
 }
 
 
@@ -261,7 +261,6 @@ check_user_id <- function(dat, n = NULL) {
       user_id <- user[["id_str"]]
     }
   }
-
   user_id
 }
 
@@ -280,7 +279,6 @@ check_screen_name <- function(dat, n = NULL) {
 			screen_name <- user[["screen_name"]]
 		}
 	}
-
 	screen_name
 }
 
