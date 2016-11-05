@@ -146,7 +146,8 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
   }
   rsp <- fromJSON(content(rsp, as = "text", encoding = "UTF-8"))
   if (check_rate_limit) {
-    if (any(identical(names(rsp), "errors"),
+    if (any(
+      identical(names(rsp), "errors"),
       identical(rsp$errors[["message"]], "Rate limit exceeded"))) {
       stop("rate limit exceeded.", call. = FALSE)
     }

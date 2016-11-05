@@ -60,9 +60,7 @@ get_friends <- function(user, page = "-1", parse = TRUE,
 
   f <- tryCatch(
   	TWIT(get = TRUE, url, token),
-  	error = function(e) NULL)
-
-  remaining <- f$headers$`x-rate-limit-remaining`
+  	error = function(e) return(NULL))
 
   if (is.null(f)) {
     missing <- NA_character_
@@ -70,7 +68,8 @@ get_friends <- function(user, page = "-1", parse = TRUE,
   	f[["ids"]] <- missing
   } else {
   	if (parse) {
-  		f <- parse_fs(from_js(f), as_double = as_double)
+  		f <- parse_fs(from_js(f, check_rate_limit = FALSE),
+  		  as_double = as_double)
   	}
   }
   f
