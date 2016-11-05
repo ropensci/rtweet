@@ -6,7 +6,7 @@
 \usage{
 stream_tweets(q = "", timeout = 30, parse = TRUE, clean_tweets = TRUE,
   as_double = FALSE, token = NULL, file_name = NULL, gzip = FALSE,
-  verbose = TRUE)
+  verbose = TRUE, ...)
 }
 \arguments{
 \item{q}{Character vector with desired phrases and keywords

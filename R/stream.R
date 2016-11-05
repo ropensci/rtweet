@@ -84,7 +84,7 @@
 #' @export
 stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   clean_tweets = TRUE, as_double = FALSE, token = NULL, file_name = NULL,
-  gzip = FALSE, verbose = TRUE) {
+  gzip = FALSE, verbose = TRUE, ...) {
 
   token <- check_token(token)
 
@@ -210,16 +210,15 @@ parse_stream <- function(file_name, clean_tweets = TRUE,
 }
 
 #' @keywords internal
-stream_params <- function(stream) {
-
-  if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
+stream_params <- function(stream, ...) {
+  if (length(stream) > 1) {
+    params <- list(location = paste(stream, collapse = ","))
+  } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
     if (all(is.integer(as.numeric(stream)))) {
-      params <- list(follow = stream)
-    } else {
-      params <- list(locations = stream)
+      params <- list(follow = stream, ...)
     }
   } else {
-    params <- list(track = stream)
+    params <- list(track = stream, ...)
   }
 
   params[["filter_level"]] <- "low"
