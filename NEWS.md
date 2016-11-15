@@ -1,3 +1,7 @@
+# rtweet 0.3.7
+* Reworked `ts_plot` to enable different filtered time series and
+an aesthetic overhaul of the plot function as well.
+
 # rtweet 0.3.6
 * Added `as_double` argument to provide flexibility in handling 
 id variables (as_double provides performance boost but can create

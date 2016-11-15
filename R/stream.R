@@ -187,7 +187,8 @@ parse_stream <- function(file_name, clean_tweets = TRUE,
 
 	if (is.null(s)) {
 		rl <- readLines(file_name, warn = FALSE)
-		cat(paste0(rl[seq_len(length(rl) - 1)], "\n"),
+		cat(paste0(rl[seq_len(length(rl) - 1)],
+		  collapse = "\n"),
       file = file_name)
 
 		s <- tryCatch(suppressWarnings(
@@ -224,4 +225,37 @@ stream_params <- function(stream, ...) {
 
   params[["filter_level"]] <- "low"
   params
+}
+
+#' parse_stream_xl
+#'
+#' Returns tweets data frame from large json file
+#'
+#' @param x Path name for json file
+#' @param by Number of Tweets to per chunk. By default this is set to
+#'   10,000 tweets.
+#' @return Data frame of tweets data
+#' @details Reading and simplifying json files can be very slow. To
+#'   make things more managable, \code{parse_stream_xl} does one chunk
+#'   of Tweets at a time and then compiles the data into a data frame.
+#' @export
+parse_stream_xl <- function(x, by = 10000) {
+  stopifnot(is.character(x), is.numeric(by))
+  x <- readLines(x)
+  n <- length(x)
+  N <- ceiling(n / by)
+  jmin <- 1L
+  df <- vector("list", N)
+  for (i in seq_len(N)) {
+    tmp <- tempfile()
+    jmax <- jmin + (by - 1)
+    if (jmax > n) jmax <- n
+    cat(paste(x[jmin:jmax], collapse = "\n"),
+      file = tmp, append = FALSE)
+    df[[i]] <- parse_stream(tmp)
+    if (jmax >= n) break
+    jmin <- jmax + 1
+    message(i, " of ", N)
+  }
+  do.call("rbind", df)
 }

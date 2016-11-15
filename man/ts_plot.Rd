@@ -4,17 +4,25 @@
 \alias{ts_plot}
 \title{ts_plot}
 \usage{
-ts_plot(x, by = "days", obj = FALSE, ...)
+ts_plot(rt, by = "days", txt = "text", filter = NULL, exclude = NULL,
+  key = NULL, ...)
 }
 \arguments{
-\item{x}{Tweets data frame}
+\item{rt}{Tweets data frame}
 
 \item{by}{Unit of time, e.g., \code{secs, days, weeks,
 months, years}}
 
-\item{obj}{Logical indicating whether to return timeseries-like
-object. Defaults to FALSE. Set to true to return data.frame
-used to plot.}
+\item{txt}{Name of text variable in data frame which
+filter is applied to.}
+
+\item{filter}{Vector of regular expressions with which to
+filter data (creating multiple time series)}
+
+\item{exclude}{Vector of regular expressions with which to
+distinguish data.}
+
+\item{key}{Labels for filters. Defaults to actual filters.}
 
 \item{\dots}{Other arguments passed to plot function.}
 }
