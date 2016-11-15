@@ -5,7 +5,7 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", txt = "text", filter = NULL, exclude = NULL,
-  key = NULL, ...)
+  key = NULL, cols = NULL, leg.x = NULL, leg.y = NULL, ...)
 }
 \arguments{
 \item{rt}{Tweets data frame}
@@ -23,6 +23,12 @@ filter data (creating multiple time series)}
 distinguish data.}
 
 \item{key}{Labels for filters. Defaults to actual filters.}
+
+\item{cols}{Colors for filters}
+
+\item{leg.x}{Location for plot text}
+
+\item{leg.y}{Location for plot text}
 
 \item{\dots}{Other arguments passed to plot function.}
 }
