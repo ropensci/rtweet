@@ -6,7 +6,7 @@ test_that("get_timelines", {
   n <- 200
   token <- readRDS("twitter_tokens")
   x <- get_timeline("kearneymw", n = n, token = token)
-  xts <- ts_plot(x, "days")
+  xts <- ts_plot(x, by = "days")
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
