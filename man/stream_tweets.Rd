@@ -17,7 +17,9 @@ return sample of all tweets.}
 
 \item{timeout}{Numeric scalar specifying amount of time, in seconds,
 to leave connection open while streaming/capturing tweets.
-By default, this is set at 30 seconds.}
+By default, this is set to 30 seconds. To stream indefinitely,
+use \code{timeout = FALSE} to ensure json file is not deleted
+upon completion or \code{timeout = Inf}.}
 
 \item{parse}{Logical, indicating whether to return parsed data.
 By default, \code{parse = TRUE}, this function does the parsing for

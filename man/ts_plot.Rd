@@ -35,17 +35,46 @@ distinguish data.}
 
 \item{lwd}{Width of filter lines}
 
-\item{\dots}{Other arguments passed to plot function.}
+\item{\dots}{Arguments passed to plot function, e.g.,
+\code{main = "#rstats tweets"},
+\code{xlab = "Date"},
+\code{ylab = "Tweets"},
+\code{main.cex = 1}.}
 }
 \description{
-ts_plot
+Plots frequency of tweets as time series or, if multiple
+  filters (text-based criteria used to subset data) are
+  specified, multiple time series.
 }
 \examples{
 \dontrun{
-# stream tweets mentioning presidential debates hashtag
-#   for 5 minutes
-x <- stream_tweets(q = "debates2016", timeout = (60 * 5))
-tsplot(x)
+## stream tweets mentioning beibs and tswift for 10 mins
+rt <- rtweet::stream_tweets(
+    q = "justinbieber,taylorswift13",
+    timeout = (60 * 60 * 10))
+
+## split mentions into distinct elements
+mentions <- strsplit(rt$mentions_screen_name, ",")
+
+## sorted table of mentions
+mentions <- sort(table(unlist(mentions)),
+    decreasing = TRUE)
+
+## exclude biebs and tswift
+mentions <- grep("justinbieber|taylorswift13", names(mentions),
+    invert = TRUE, value = TRUE)
+
+## store next most pop in obj
+thirdpop <- mentions[1]
+
+##plot with mentions as filters
+ts.df <- ts_plot(rt, by = "mins", filter = c(
+    "justinbieber", "taylorswift", thirdpop),
+    main = "Biebs vs Tswift")
+
+## preview returned data frame
+head(ts.df)
+
 }
 }
 

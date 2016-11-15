@@ -6,7 +6,12 @@ test_that("get_timelines", {
   n <- 100
   token <- readRDS("twitter_tokens")
   x <- get_timeline("kearneymw", n = n, token = token)
-  xts <- ts_plot(x, by = "hours")
+  xts <- ts_plot(x, by = "hours",
+    filter = c("", "r", "s", "t"))
+
+  if ("Rplot.pdf" %in% list.files()) {
+    file.remove("Rplot.pdf")
+  }
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

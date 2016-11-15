@@ -15,7 +15,9 @@
 #'   return sample of all tweets.
 #' @param timeout Numeric scalar specifying amount of time, in seconds,
 #'   to leave connection open while streaming/capturing tweets.
-#'   By default, this is set at 30 seconds.
+#'   By default, this is set to 30 seconds. To stream indefinitely,
+#'   use \code{timeout = FALSE} to ensure json file is not deleted
+#'   upon completion or \code{timeout = Inf}.
 #' @param parse Logical, indicating whether to return parsed data.
 #'   By default, \code{parse = TRUE}, this function does the parsing for
 #'   you. However, for larger streams, or for automated scripts designed
@@ -89,6 +91,10 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
 
   token <- check_token(token)
 
+  if (!timeout) {
+    timeout <- Inf
+  }
+
   stopifnot(
     is.numeric(timeout), timeout > 0,
     is.atomic(q), is.atomic(file_name))
@@ -114,6 +120,8 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
   	tmp <- TRUE
   	file_name <- tempfile(fileext = ".json")
   }
+
+  if (is.infinite(timeout)) tmp <- FALSE
 
   if (!grepl(".json", file_name)) {
     file_name <- paste0(file_name, ".json")
@@ -146,9 +154,14 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
 
   if (parse) {
   	out <- parse_stream(file_name, clean_tweets = clean_tweets, as_double = as_double)
-  	if (tmp) file.remove(file_name)
+  	if (tmp) {
+  	  file.remove(file_name)
+  	} else {
+  	  message("streaming data saved as ", file_name)
+  	}
   	return(out)
   } else {
+    message("streaming data saved as ", file_name)
   	invisible()
   }
 }
