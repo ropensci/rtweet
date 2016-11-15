@@ -5,7 +5,8 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", txt = "text", filter = NULL, exclude = NULL,
-  key = NULL, cols = NULL, leg.x = NULL, leg.y = NULL, ...)
+  key = NULL, cols = NULL, leg.x = NULL, leg.y = NULL, lab.cex = NULL,
+  lwd = NULL, ...)
 }
 \arguments{
 \item{rt}{Tweets data frame}
@@ -29,6 +30,10 @@ distinguish data.}
 \item{leg.x}{Location for plot text}
 
 \item{leg.y}{Location for plot text}
+
+\item{lab.cex}{Size of filter labels}
+
+\item{lwd}{Width of filter lines}
 
 \item{\dots}{Other arguments passed to plot function.}
 }

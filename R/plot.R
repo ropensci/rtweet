@@ -13,6 +13,8 @@
 #' @param cols Colors for filters
 #' @param leg.x Location for plot text
 #' @param leg.y Location for plot text
+#' @param lab.cex Size of filter labels
+#' @param lwd Width of filter lines
 #' @param \dots Other arguments passed to plot function.
 #'
 #' @examples
@@ -27,49 +29,66 @@
 #' @importFrom stats runif sd
 #' @export
 ts_plot <- function(rt,
-                    by = "days",
-                    txt = "text",
-                    filter = NULL,
-                    exclude = NULL,
-                    key = NULL,
-                    cols = NULL,
-                    leg.x = NULL,
-                    leg.y = NULL,
-                    ...) {
+  by = "days",
+  txt = "text",
+  filter = NULL,
+  exclude = NULL,
+  key = NULL,
+  cols = NULL,
+  leg.x = NULL,
+  leg.y = NULL,
+  lab.cex = NULL,
+  lwd = NULL,
+  ...) {
+
   if (is.null(filter)) {
     filter <- ""
   }
-  if (is.null(key)) key <- filter
-  df <- lapply(seq_along(filter), function(i)
-    make_tsdat(
-      key_filter(rt, filter[i], txt = txt),
-      by = by, key[i]))
-  ylim <- range(unlist(lapply(df,
-    function(x) x[["freq"]])), na.rm = TRUE)
-  xlim <- range(unlist(lapply(df,
-    function(x) x[["time"]])), na.rm = TRUE)
-  if (any(grepl("sec|min", by))) {
-    xlim <- as.POSIXct(xlim, origin = "1970-01-01")
-  } else if (any(grepl("hour", by))) {
-    xlim <- as.POSIXct(xlim, origin = "1970-01-01")
-  } else {
-    xlim <- as.POSIXct(xlim, origin = "1970-01-01")
-    xlim <- as.Date(xlim)
+  if (is.null(key)) {
+    key <- filter
   }
+  if (identical(filter, "")) {
+    fd <- list(sollts(rt[["created_at"]], by = by))
+  } else {
+    fd <- lapply(lapply(filter, grep, rt[[txt]]),
+      function(x) rt[["created_at"]][x])
+    fd <- lapply(fd, sollts, by = by)
+  }
+
+  for (i in seq_along(fd)) {
+    names(fd[[i]]) <- c("time", "freq")
+    fd[[i]]$time <- as.POSIXct(fd[[i]]$time)
+    fd[[i]]$filter <- key[i]
+  }
+
+  df <- do.call("rbind", fd)
+
   op <- par(no.readonly = TRUE)
-  par(bg = "#fdfdfd", bty = "n", tcl = NA, las = 1)
+  par(bg = "#fdfdfd", bty = "n", tcl = NA, las = 1,
+    mar = c(5, 4, 4, 3))
   grid.minor <- rep(0, 49)
   grid.minor[(0:24 * 2) + 1] <- 1
   grid.major <- rep(3, 6)
-  plot(NA, xlim = xlim, ylim = ylim,
-    xlab = "Time", ylab = "Freq",
-    axes = FALSE, ...,
-    panel.first = list(rect(par("usr")[1], par("usr")[3],
-        par("usr")[2], par("usr")[4],
-        col = "#f5f5f5", border = NA),
-    panel.last = grid(4, 4, lty = grid.major, lwd = .75),
-    grid(8, 8, lty = grid.minor, lwd = .5)))
+  xlim <- range(df$time)
+  ylim <- range(df$freq)
   yaxis <- signif(seq(ylim[1], ylim[2], length.out = 4), 2)
+  if (any(yaxis %% 1 > 0)) {
+    yaxis <- signif(seq(ylim[1], ylim[2], length.out = 4), 1)
+  }
+  if (any(grepl("POSIX", class(xlim)))) {
+    xaxis <- seq.POSIXt(xlim[1], xlim[2], length.out = 4)
+  } else {
+    xaxis <- seq.POSIXt(xlim[1], xlim[2], length.out = 4)
+  }
+  plot(df$time, df$freq, ylim = yaxis[c(1, 4)], type = "p",
+    cex = 0, col = NA,
+    xlab = "Time", ylab = "Freq", axes = FALSE, ...,
+    panel.first = list(rect(par("usr")[1], par("usr")[3],
+      par("usr")[2], par("usr")[4],
+      col = "#f5f5f5", border = NA),
+      panel.last = grid(4, 4, lty = grid.major, lwd = .75),
+      grid(8, 8, lty = grid.minor, lwd = .75)))
+
   axis(2, at = round(yaxis, 0),
     lwd = 2, col = "#666666",
     lwd.ticks = 2, col.ticks = "#444444")
@@ -91,10 +110,6 @@ ts_plot <- function(rt,
         length.out = 4)), "%b %d"),
       lwd = 2, col = "#666666",
       lwd.ticks = 2, col.ticks = "#444444")
-    df <- lapply(df, function(x) {
-      x[["time"]] <- as.Date(x[["time"]])
-      return(x)
-    })
   } else {
     axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
       labels = format(as.POSIXct(seq(xlim[1], xlim[2],
@@ -108,102 +123,61 @@ ts_plot <- function(rt,
     cols <- sample(cols)
   }
 
-  if (all(is.null(leg.x), is.null(leg.y))) {
-    rnum <- runif(1, .01, .99)
-    leg.x <- x[round(NROW(x) * rnum, 0), 1]
-    rnum <- runif(1, .1, .9)
-    leg.y <- x[round(NROW(x) * rnum, 0), 2]
-    leg.y <- (leg.y + 5) * runif(1, .7, 1.1)
-    if (leg.y < ylim[1]) leg.y <- ylim[1]
-    if (leg.y > ylim[2]) leg.y <- ylim[2]
-  } else {
-    leg.x <- as.POSIXct(x[round(NROW(x) * leg.x, 0), 1])
-  }
-  for (i in seq_along(df)) {
-    lo <- mean(df[[i]]$freq, na.rm = TRUE) +
-      (sd(df[[i]]$freq, na.rm = TRUE) * .2)
-    if (any(
-      df[[i]]$freq[1] < lo,
-      df[[i]]$freq[NROW(df[[i]])] < lo)) {
-      df[[i]] <- df[[i]][(length(filter) + 1):(NROW(
-        df[[i]]) - 1 - length(filter)), ]
+  if (is.null(lab.cex)) lab.cex <- 1.1
+  if (is.null(lwd)) lwd <- 2.5
+
+  for (i in seq_along(filter)) {
+    dff <- df[df$filter == key[i], ]
+    x <- dff[, 1:2]
+
+    lines(x, lwd = lwd, col = paste0(cols[i], "dd"))
+
+    if (is.null(leg.x)) {
+      pct.x <- runif(1, .01, .99)
+      legx <- xlim[1] + (pct.x * diff(xlim))
+    } else {
+      legx <- xlim[1] + (leg.x * diff(xlim))
     }
-    x <- df[[i]][, 1:2]
-    lines(x, lwd = 2.5, col = paste0(cols[i], "cc"))
+    if (is.null(leg.y)) {
+      pct.y <- runif(1, -1, 1)
+      row.y <- round(pct.x * NROW(x), 0)
+      legy <- x$freq[row.y]
+      if (isTRUE(legy < 2)) {
+        legy <- runif(1, 1, (diff(ylim)/3))
+      } else {
+        rnum <- runif(1, 3, 8)
+        legy <- legy + runif(1, -(diff(ylim)/rnum), (diff(ylim)/rnum))
+        if (isTRUE(legy < 2)) {
+          legy <- runif(1, 1, (diff(ylim)/3))
+        }
+      }
+    } else {
+      legy <- ylim[1] + (leg.y * diff(ylim))
+    }
 
-
-    leg.text <- unique(as.character(df[[i]][, 3]))
-    text(leg.x[i], leg.y[i], labels = leg.text,
-      col = paste0(cols[i], "ff"), cex = 1.25)
+    leg.text <- unique(as.character(dff[, 3]))
+    text(legx, legy, labels = leg.text,
+      col = paste0(cols[i], "ff"), cex = lab.cex)
   }
   par(op)
-  invisible(do.call("rbind", df))
+  invisible(df)
 }
 
-key_filter <- function(x, filter = NULL, txt = "text", exclude = NULL) {
-  if (!all(is.data.frame(x), txt %in% names(x))) {
-    stop("must include tweets data frame", call. = FALSE)
-  }
-  if ("created_at" %in% names(x)) {
-    o <- x[["created_at"]]
-  } else {
-    o <- x[, grep("date", x, value = TRUE)[1]]
+sollts <- function(x, by = "days") {
+  if (grepl("month", by)) unit <- 2592000
+  if (grepl("week", by)) unit <- 604800
+  if (grepl("day", by)) unit <- 86400
+  if (grepl("hour", by)) unit <- 3600
+  if (grepl("min", by)) unit <- 60
+  if (grepl("sec", by)) unit <- 1
 
-  }
-  x <- x[[txt]]
-
-  if (is.null(filter)) return(x)
-
-  ## select rows to keep for recursive x
-  if (is.recursive(x)) {
-    if (is.null(exclude)) {
-      x <- vapply(x, function(i)
-        any(tolower(filter) %in% tolower(i)),
-        logical(1), USE.NAMES = FALSE)
-    } else {
-      x <- vapply(x, function(i)
-        all(any(tolower(filter) %in% tolower(i)),
-          any(!tolower(exclude) %in% tolower(i))),
-        logical(1), USE.NAMES = FALSE)
-    }
-  } else {
-    ## rows to keep for simple vector
-    if (is.null(exclude)) {
-      x <- vapply(x, function(i)
-        any(grepl(
-          paste0(tolower(filter), collapse = "|"),
-          i, ignore.case = TRUE)),
-        logical(1), USE.NAMES = FALSE)
-    } else {
-      x <- vapply(x, function(i)
-        all(any(
-          grepl(paste0(tolower(filter), collapse = "|"),
-            i, ignore.case = TRUE)),
-          any(!grepl(paste0(tolower(exclude), collapse = "|"),
-            i, ignore.case = TRUE))),
-        logical(1), USE.NAMES = FALSE)
-    }
-  }
-  o[x]
-}
-
-#' @importFrom stats aggregate
-make_tsdat <- function(x, by, key) {
-  x <- aggregate(x, list(day = cut(x, by)), NROW)
-  names(x) <- c("time", "freq")
-  x$time <- as.POSIXct(x$time)
-  dat <- data.frame(time = seq.POSIXt(as.POSIXct(min(x$time)),
-    as.POSIXct(max(x$time)), by),
-    freq = 0)
-  dat <- dat[!dat$time %in% x$time, ]
-  dat <- rbind(dat, x)
-  dat <- dat[order(dat$time), ]
-  if (!is.null(key)) {
-    dat$key <- key
-  } else {
-    dat$key <- "all"
-  }
-  dat
+  mf <- as.numeric(gsub("[^[:digit:]]", "", by))
+  if (any(is.na(mf), identical(mf, ""))) mf <- 1
+  unit <- mf * unit
+  ca <- as.POSIXct(
+    ceiling((as.numeric(x) / unit)) * unit,
+    origin = "1970-01-01")
+  as.data.frame(table(ca))
 }
 
 addplot <- function(..., add = FALSE) {
@@ -217,7 +191,7 @@ addplot <- function(..., add = FALSE) {
 
 gg_cols <- function(n) {
   if (n < 4) {
-    cols <- c("#003366", "#bb2222", "#992299", "#008800")
+    cols <- c("#003366", "#bb2222", "#008800")
     return(sample(cols, n))
   }
   hues = seq(15, 375, length = n + 1)
