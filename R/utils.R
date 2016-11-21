@@ -266,6 +266,8 @@ check_user_id <- function(dat, n = NULL) {
 
 check_screen_name <- function(dat, n = NULL) {
 
+  screen_name <- NULL
+
 	dat <- check_response_obj(dat)
 
 	if (is.null(n)) n <- length(dat[["id_str"]])

@@ -147,8 +147,10 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   if (as_double) {
     toplevel_df[["status_id"]] <- as.double(
       toplevel_df[["status_id"]])
-    toplevel_df[["user_id"]] <- as.double(
-      toplevel_df[["user_id"]])
+    if ("user_id" %in% names(toplevel_df)) {
+      toplevel_df[["user_id"]] <- as.double(
+        toplevel_df[["user_id"]])
+    }
     toplevel_df[["quoted_status_id"]] <- as.double(
       toplevel_df[["quoted_status_id"]])
     toplevel_df[["in_reply_to_status_id"]] <- as.double(
@@ -158,8 +160,10 @@ tweets_toplevel_df <- function(dat, n = NULL, names = NULL,
   } else {
     toplevel_df[["status_id"]] <- as.character(
       toplevel_df[["status_id"]])
-    toplevel_df[["user_id"]] <- as.character(
-      toplevel_df[["user_id"]])
+    if ("user_id" %in% names(toplevel_df)) {
+      toplevel_df[["user_id"]] <- as.character(
+        toplevel_df[["user_id"]])
+    }
     toplevel_df[["quoted_status_id"]] <- as.character(
       toplevel_df[["quoted_status_id"]])
     toplevel_df[["in_reply_to_status_id"]] <- as.character(

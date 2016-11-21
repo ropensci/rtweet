@@ -42,8 +42,11 @@ lookup_users <- function(users, token = NULL, parse = TRUE,
   }
   if (length(users) < 101) {
     usr <- .user_lookup(users, token)
-  } else if (length(users) > 18000) {
-    users <- users[1:18000]
+  } else {
+    if (length(users) > 18000) {
+      message("max exceeded using first 18,000")
+      users <- users[1:18000]
+    }
     n.times <- ceiling(length(users) / 100)
     from <- 1
     usr <- vector("list", n.times)
