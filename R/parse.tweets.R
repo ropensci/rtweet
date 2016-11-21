@@ -1,22 +1,14 @@
 parse_tweets <- function(x, clean_tweets = FALSE,
   as_double = FALSE) {
-  lookup <- FALSE
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
   } else if ("status" %in% names(x)) {
-    lookup <- TRUE
-    screen_name <- x[["screen_name"]]
-    user_id <- x[["id_str"]]
     x <- x[["status"]]
   }
 
   if (!"friends_count" %in% names(x)) {
     x <- tweets_df(x, clean_tweets = clean_tweets,
       as_double = as_double)
-    #if (lookup) {
-    #  x[["screen_name"]] <- screen_name
-    #  x[["user_id"]] <- user_id
-    #}
     return(x)
   }
 
@@ -32,11 +24,7 @@ tweets_df <- function(dat, as_double = FALSE, clean_tweets = FALSE) {
   if ("statuses" %in% names(dat)) {
     dat <- dat[["statuses"]]
   }
-  lookup <- FALSE
   if ("status" %in% names(dat)) {
-    lookup <- TRUE
-    screen_name <- dat[["screen_name"]]
-    user_id <- dat[["id_str"]]
     dat <- dat[["status"]]
   }
 
@@ -48,10 +36,6 @@ tweets_df <- function(dat, as_double = FALSE, clean_tweets = FALSE) {
 
   if (clean_tweets) {
     tweets_df[["text"]] <- cleantweets(tweets_df[["text"]])
-  }
-  if (lookup) {
-    tweets_df[["screen_name"]] <- screen_name
-    tweets_df[["user_id"]] <- user_id
   }
   tweets_df <- tweets_df[row.names(unique(tweets_df[, 1:13])), ]
   row.names(tweets_df) <- NULL
