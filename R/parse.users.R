@@ -6,6 +6,7 @@ parse_users <- function(x, as_double = FALSE) {
 
   if ("statuses" %in% names(x)) {
     x <- x[["statuses"]]
+    return(user_df(x, as_double = as_double))
   }
 
   if ("user" %in% names(x)) {
