@@ -227,7 +227,7 @@ parse_stream <- function(file_name, clean_tweets = TRUE,
 #' @keywords internal
 stream_params <- function(stream, ...) {
   if (length(stream) > 1) {
-    params <- list(location = paste(stream, collapse = ","))
+    params <- list(locations = paste(stream, collapse = ","))
   } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
     if (all(is.integer(as.numeric(stream)))) {
       params <- list(follow = stream, ...)
