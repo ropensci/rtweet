@@ -38,21 +38,21 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
     }
   }
   if (return_tweets) {
-    tweets <- return_n_rows(tweets, n)
     if ("status_id" %in% names(tweets)) {
       if (!is.null(tweets$status_id)) {
-        tweets <- tweets[!is.na(tweets$status_id), ]
+        #tweets <- tweets[!is.na(tweets$status_id), ]
         tweets <- tweets[row.names(unique(tweets[, 1:13])), ]
         row.names(tweets) <- NULL
       }
     }
+    tweets <- return_n_rows(tweets, n)
   }
   if (return_users) {
-    users <- return_n_rows(users, n)
     if (is.data.frame(users)) {
-      users <- filter_na_rows(users)
+      #users <- filter_na_rows(users)
       users <- unique(users)
     }
+    users <- return_n_rows(users, n)
   }
   list(tweets = tweets, users = users)
 }

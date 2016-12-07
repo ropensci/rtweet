@@ -105,7 +105,7 @@ user_entities_df <- function(dat, n = NULL) {
   if (is.null(n)) n <- length(dat[["id_str"]])
 
   user_ent_df <- data.frame(
-    url = rep(NA_character_, n),
+    #url = rep(NA_character_, n),
     description_urls = rep(NA_character_, n),
   	stringsAsFactors = FALSE)
 
@@ -115,9 +115,9 @@ user_entities_df <- function(dat, n = NULL) {
     if ("url" %in% names(entities)) {
       ent_url <- entities[["url"]]
 
-      if ("urls" %in% names(ent_url)) {
-        user_ent_df$url <- flatten(ent_url[["urls"]])
-        }
+      #if ("urls" %in% names(ent_url)) {
+      #  user_ent_df$url <- flatten(ent_url[["urls"]])
+      #  }
       }
 
       if ("description" %in% names(entities)) {

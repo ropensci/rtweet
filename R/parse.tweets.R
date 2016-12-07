@@ -188,7 +188,7 @@ tweets_entities_df <- function(dat, n = NULL) {
     mentions_user_id = rep(NA_real_, n),
   	mentions_screen_name = rep(NA_character_, n),
     hashtags = rep(NA_character_, n),
-    urls = rep(NA_character_, n), stringsAsFactors = FALSE)
+    entitites_urls = rep(NA_character_, n), stringsAsFactors = FALSE)
 
   if ("entities" %in% names(dat)) {
     entities <- dat[["entities"]]
@@ -209,7 +209,7 @@ tweets_entities_df <- function(dat, n = NULL) {
     }
 
     if ("urls" %in% names(entities)) {
-      ent_df$urls <- flatten(lapply(entities[["urls"]],
+      ent_df$entitites_urls <- flatten(lapply(entities[["urls"]],
         function(x) return_with_NA(x[["expanded_url"]], 1)))
     }
   }
