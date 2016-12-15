@@ -15,6 +15,7 @@ Description: An implementation of calls designed to extract
 Depends:
     R (>= 3.1.0)
 Imports:
+    fields,
     httpuv,
     httr (>= 1.0.0),
     jsonlite,
