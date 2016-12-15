@@ -20,9 +20,8 @@ Imports:
     jsonlite,
     magrittr,
     maps,
-    rworldmap,
-    rworldxtra,
-    openssl
+    openssl,
+    rworldmap
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://CRAN.R-project.org/package=rtweet

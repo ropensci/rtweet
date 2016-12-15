@@ -244,7 +244,6 @@ gg_cols <- function(n) {
 #' @return Plot of world map.
 #' @importFrom rworldmap getMap
 #' @importFrom graphics plot
-#' @import rworldxtra
 #' @importFrom maps map
 #' @export
 basemap <- function(mapdf = NULL,
@@ -255,7 +254,7 @@ basemap <- function(mapdf = NULL,
                     border.lwd = .1) {
 
     if (is.null(mapdf)) {
-        mapdf <- rworldmap::getMap(resolution = "high")
+        mapdf <- rworldmap::getMap(resolution = "coarse")
     }
     par(mar = c(0, 0, 0, 0))
     maps::map(mapdf, lwd = border.lwd, col = land.col,
@@ -309,12 +308,7 @@ alphacolor <- function(cols, a = .99) {
 #' @param \dots Args passed to aes and other functions.
 #' @export
 rtdata <- function(data, by = NULL, ...) {
-    ##if (is.null(by)) {
-                                        #   ts_plot(data, by, col = "transparent", ...)
-                                        #   with(longlat(data, by), rtaes(x = time, y = freq, ...))
-                                        #} else {
     with(longlat(data, by), rtaes(x = long, y = lat, ...))
-                                        #}
 }
 
 getcols <- function (n = 1, l = 65, c = 100) {
