@@ -1,29 +1,35 @@
 
 ## utility functions
 ## map
-plyget <- function(., f, ...) {
-    if (is.atomic(f)) {
+plyget <- function(x, f, ...) {
+    if (!is.function(f)) {
         if (identical(length(f), 1L)) {
-            if (is.data.frame(.)) return(.[[f]])
-            lapply(., function(x) x[[f]])
+            if (is.data.frame(x)) return(x[[f]])
+            lapply(x, function(x) x[[f]])
         } else {
-            if (is.data.frame(.)) return(.[f])
-            lapply(., function(x) x[f])
+            if (is.data.frame(x)) return(x[f])
+            lapply(x, function(x) x[f])
         }
+    } else if (is.data.frame(x)) {
+        f(x, ...)
     } else {
-        if (is.data.frame(.)) return(f(., ...))
-        lapply(., f, ...)
+        lapply(x, f, ...)
     }
 }
 
 ## get if else NA
 getifelse <- function(x, var) {
-    if (!is.null(names(x))) {
-        x[[var]]
+    if (!is.recursive(x)) {
+        return(rep(NA, nrows(rt)))
+    } else if (is.data.frame(x)) {
+        xvar <- x[[var]]
+        if (!is.null(xvar)) return(xvar)
     } else {
-        if (is.null(x)) x <- NA
-        x
+        xvar <- plyget(x, var)
+        xvar[vapply(xvar, length, double(1)) == 0L] <- NA
+        return(xvar)
     }
+    rep(NA, nrows(x))
 }
 
 ## collapse and set empty to NA
@@ -32,7 +38,7 @@ pastena <- function(x, rev = FALSE) {
     if (all(is.na(x))) return(x)
     if (rev) x <- rev(x)
     x <- paste(x, collapse = ",")
-    x[x == ""] <- NA
+    x[x %in% c("", "NA", " ")] <- NA
     x
 }
 
@@ -41,8 +47,7 @@ unL <- function(x) {
     x[vapply(x, is.null, logical(1))] <- NA
     x[vapply(x, length, double(1)) == 0L] <- NA
     x <- unlist(x, use.names = FALSE)
-    x[vapply(x, function(x) identical(x, ""),
-             logical(1))] <- NA
+    x[x == ""] <- NA
     x
 }
 
@@ -88,14 +93,13 @@ as.df <- function(x, ...) {
         vars <- mapply(paste0, vars,
                        rep(".", length(vars)),
                        seq_along(vars))
-        structure(as.data.frame(
-            x, stringsAsFactors = FALSE), names = vars)
     } else {
         if (any(grepl("^c\\(", vars),
                 identical("varnames", vars))) vars <- unL(list(...))
-        structure(as.data.frame(
-            x, stringsAsFactors = FALSE), names = vars)
     }
+    x <- as.data.frame(x, stringsAsFactors = FALSE)
+    names(x) <- vars
+    x
 }
 
 ## is null or empty
@@ -104,7 +108,8 @@ is.nothing <- function(x) {
     if (identical(length(x), 0L)) return(TRUE)
     if (all(vapply(x, length, double(1)) == 0L))
         return(TRUE)
-    if (all(is.na(unL(x)))) return(TRUE)
+    if (all(is.na(unlist(x, recursive = FALSE,
+                         use.names = FALSE)))) return(TRUE)
     FALSE
 }
 
@@ -124,26 +129,26 @@ countrows <- function(x) {
 
 ## apply countrows
 nrows <- function(x) {
-    sum(unlist(
-        plyget(x, countrows),
-        use.names = FALSE)
-        )
+    sum(as.numeric(
+        plyget(x, NROW),
+        na.rm = TRUE))
 }
 
 iserror <- function(x) {
-    x <- tryCatch(x, error = function(e) return(NULL))
-    if (is.null(x)) return(TRUE)
-    FALSE
+    x <- tryCatch(x, error = function(e) return(TRUE))
+    isTRUE(x)
 }
 
-    
+
 ## safe pipe
 ifelsepipe <- function(., cond, f = NA) {
-    if (is.nothing(.)) return(rep(f, nrows(.)))
+    if (is.null(.)) return(rep(f, nrows(.)))
     if (is.character(cond)) {
-        if (iserror(.[[cond]])) return(rep(f, nrows(.)))
-        if (is.smth(.[[cond]])) {
+        if (cond %in% names(.)) {
+            ##if (is.smth(.[[cond]])) return(.[[cond]])
             return(.[[cond]])
+        } else {
+            return(rep(f, nrows(.)))
         }
     } else if (cond) {
         return(.)
@@ -157,7 +162,6 @@ is.na.not <- function(x) !is.na(x)
 #################################
 #################################
 ## actual parsing
-
 
 ## parse using the pipe
 #' parse.piper
@@ -173,18 +177,20 @@ parse.piper <- function(rt, usr = TRUE) {
     if (usr) {
         users <- parse.piper.usr(rt)
     }
-    rt <- c(atomic.parsed(rt),
-      entities.parsed(rt),
-      place.parsed(rt))
+    rt <- c(
+        atomic.parsed(rt),
+        entities.parsed(rt),
+        place.parsed(rt))
     varnames <- names(rt)
-    rt <- as.df(rt, varnames)
+    rt <- tryCatch(
+        as.df(rt, varnames),
+        error = function(e)
+            return(rt))
     if (usr) {
         attr(rt, "users") <- users
     }
     rt
 }
-
-
 ## reduce to statuses
 get.status.obj <- function(x) {
     if (any("statuses" %in% names(x),
@@ -199,56 +205,55 @@ get.status.obj <- function(x) {
     }
     x
 }
-
 ## nonrecursive variables
 atomic.parsed <- function(rt) {
     list(
-        created_at = rt %>%
-            plyget("created_at") %>%
+        created_at = plyget(
+            rt, "created_at") %>%
+            unL %>%
+            format_date,
+        user_id = plyget(
+            rt, "id_str") %>%
             unL,
-        user_id = rt %>%
-            plyget("id_str") %>%
+        text = plyget(
+            rt, "text") %>%
             unL,
-        text = rt %>%
-            plyget("text") %>%
+        retweet_count = plyget(
+            rt, "retweet_count") %>%
             unL,
-        retweet_count = rt %>%
-            plyget("retweet_count") %>%
+        favorite_count = plyget(
+            rt, "favorite_count") %>%
             unL,
-        favorite_count = rt %>%
-            plyget("favorite_count") %>%
+        is_quote_status = plyget(
+            rt, ifelsepipe, "is_quote_status", FALSE) %>%
             unL,
-        is_quote_status = rt %>%
-            plyget(ifelsepipe, "is_quote_status", FALSE) %>%
-            unL,
-        quote_status_id = rt %>%
-            plyget(ifelsepipe, "quoted_status", FALSE) %>%
+        quote_status_id = plyget(
+            rt, ifelsepipe, "quoted_status", FALSE) %>%
             plyget(ifelsepipe, "id_str", NA) %>%
             unL,
-        is_retweet = rt %>%
-            plyget(ifelsepipe, "retweeted_status", FALSE) %>%
+        is_retweet = plyget(
+            rt, ifelsepipe, "retweeted_status", FALSE) %>%
             plyget(ifelsepipe, "id_str", NA) %>% 
             unL %>% is.na.not,
-        retweet_status_id = rt %>%
-            plyget(ifelsepipe, "retweeted_status", FALSE) %>%
+        retweet_status_id = plyget(
+            rt, ifelsepipe, "retweeted_status", FALSE) %>%
             plyget(ifelsepipe, "id_str", NA) %>%
             unL,
-        in_reply_to_status_status_id = rt %>%
-            plyget("in_reply_to_status_id_str") %>%
+        in_reply_to_status_status_id = plyget(
+            rt, "in_reply_to_status_id_str") %>%
             unL,
-        in_reply_to_status_user_id = rt %>%
-            plyget("in_reply_to_user_id_str") %>%
+        in_reply_to_status_user_id = plyget(
+            rt, "in_reply_to_user_id_str") %>%
             unL,
-        in_reply_to_status_screen_name = rt %>%
-            plyget("in_reply_to_screen_name") %>%
+        in_reply_to_status_screen_name = plyget(
+            rt, "in_reply_to_screen_name") %>%
             unL,
-        lang = rt %>%
-            plyget("lang") %>%
+        lang = plyget(
+            rt, "lang") %>%
             unL,
         source = gsub(
             "^[^>]*>|</a>$", "",
-            rt %>%
-            plyget("source") %>%
+            plyget(rt, "source") %>%
             unL)
     )
 }
@@ -273,90 +278,120 @@ coords.parsed <- function(rt) {
     rep(NA, nrows(rt))
 }
 
+coords.type.parsed <- function(rt) {
+    ## geo coordinates
+    coordinates_type <- tryCatch(rt %>%
+        plyget("geo") %>%
+        plyget(plydf, "type") %>%
+        plyget(unL) %>%
+        unL, error = function(e)
+            return(NULL))
+    if (!is.null(coordinates_type)) return(coordinates_type)
+    coordinates_type <- tryCatch(rt %>%
+        plyget("coordinates") %>%
+        plyget(plydf, "type") %>%
+        plyget(unL) %>%
+        unL, error = function(e)
+            return(NULL))
+    if (!is.null(coordinates_type)) return(coordinates_type)
+    rep(NA, nrows(rt))
+}
+
 entities.parsed <- function(rt) {
     ## entities
     rt <- plyget(rt, "entities")
     list(
-        entities.media.id = rt %>%
-            plyget(getifelse, "media") %>% 
+        entities.media.id = plyget(
+            rt, getifelse, "media") %>% 
             plyget(plydf, "id_str") %>%
+            plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.media.media_url = rt %>%
-            plyget(getifelse, "media") %>%
+        entities.media.media_url = plyget(
+            rt, getifelse, "media") %>%
             plyget(plydf, "media_url") %>%
+            plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.media.expanded_url = rt %>%
-            plyget(getifelse, "media") %>%
+        entities.media.expanded_url = plyget(
+            rt, getifelse, "media") %>%
             plyget(plydf, "expanded_url") %>%
             unL,
-        entities.urls.url = rt %>%
-            plyget(getifelse, "urls") %>% 
+        entities.urls.url = plyget(
+            rt, getifelse, "urls") %>% 
             plyget(plydf, "url") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.urls.display_url = rt %>%
-            plyget(getifelse, "urls") %>%
+        entities.urls.display_url = plyget(
+            rt, getifelse, "urls") %>%
             plyget(plydf, "display_url") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.urls.expanded_url = rt %>%
-            plyget(getifelse, "urls") %>%
+        entities.urls.expanded_url = plyget(
+            rt, getifelse, "urls") %>%
             plyget(plydf, "expanded_url") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.urls.display_url = rt %>%
-            plyget(getifelse, "user_mentions") %>%
+        entities.urls.display_url = plyget(
+            rt, getifelse, "user_mentions") %>%
             plyget(plydf, "screen_name") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.user_mentions.user_id = rt %>%
-            plyget(getifelse, "user_mentions") %>%
+        entities.user_mentions.user_id = plyget(
+            rt, getifelse, "user_mentions") %>%
             plyget(plydf, "id_str") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.symbols.text = rt %>%
-            plyget(getifelse, "symbols") %>%
+        entities.symbols.text = plyget(
+            rt, getifelse, "symbols") %>%
             plyget(plydf, "text") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
-        entities.hashtags.text = rt %>%
-            plyget(getifelse, "hashtags") %>%
+        entities.hashtags.text = plyget(
+            rt, getifelse, "hashtags") %>%
             plyget(plydf, "text") %>%
             plyget(unL) %>%
+            plyget(pastena) %>%
             unL)
 }
 
 ## place obj
 place.parsed <- function(rt) {
     coordinates <- coords.parsed(rt)
-    rt <- rt %>% plyget("place")
+    rt <- plyget(rt, "place")
     list(
         coordinates = coordinates,
-        place.id = rt %>%
-            plyget(getifelse, "id") %>%
+        place.id = plyget(
+            rt, getifelse, "id") %>%
             unL,
-        place.place_type= rt %>%
+        place.place_type = rt %>%
             plyget(getifelse, "place_type") %>%
             unL,
-        place.name = rt %>%
-            plyget(getifelse, "name") %>%
+        place.name = plyget(
+            rt, getifelse, "name") %>%
             unL,
-        place.full_name = rt %>%
-            plyget(getifelse, "full_name") %>%
+        place.full_name = plyget(
+            rt, getifelse, "full_name") %>%
             unL,
-        place.country_code = rt %>%
-            plyget(getifelse, "country_code") %>%
+        place.country_code = plyget(
+            rt, getifelse, "country_code") %>%
             unL,
-        place.country = rt %>%
-            plyget(getifelse, "country") %>%
+        place.country = plyget(
+            rt, getifelse, "country") %>%
             unL,
-        place.bounding_box.coordinates = rt %>%
-            plyget(getifelse, "bounding_box") %>%
+        place.bounding_box.coordinates = plyget(
+            rt, getifelse, "bounding_box") %>%
             plyget(getifelse, "coordinates") %>%
             plyboxem %>%
             unL,
-        place.bounding_box.type = rt %>%
-            plyget(getifelse, "bounding_box") %>%
+        place.bounding_box.type = plyget(
+            rt, getifelse, "bounding_box") %>%
             plyget(getifelse, "type") %>%
             unL)
 }
@@ -491,12 +526,16 @@ atomic.parsed.usr <- function(rt) {
             plyget("url") %>%
             plyget("urls") %>%
             plyget(plydf, "url") %>%
+            plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
         expanded_url = rt %>%
             plyget("entities") %>%
             plyget("url") %>%
             plyget("urls") %>%
             plyget(plydf, "expanded_url") %>%
+            plyget(unL) %>%
+            plyget(pastena) %>%
             unL
         )
 }
@@ -516,7 +555,10 @@ parse.piper.usr <- function(rt, tw = FALSE) {
     }
     rt <- atomic.parsed.usr(rt)
     varnames <- names(rt)
-    rt <- as.df(rt, varnames)
+    rt <- tryCatch(
+        as.df(rt, varnames),
+        error = function(e)
+            return(rt))
     if (tw) {
         attr(rt, "tweets") <- tweets
     }

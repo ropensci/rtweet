@@ -1,3 +1,7 @@
+# rtweet 0.3.8
+* Fixed issue with geo tracking in stream_tweets
+* Various bug fixes and stability improvements
+
 # rtweet 0.3.7
 * Reworked `ts_plot` to enable different filtered time series and
 an aesthetic overhaul of the plot function as well.
