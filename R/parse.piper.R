@@ -3,13 +3,8 @@
 ## map
 plyget <- function(x, f, ...) {
     if (!is.function(f)) {
-        if (identical(length(f), 1L)) {
-            if (is.data.frame(x)) return(x[[f]])
-            lapply(x, function(x) x[[f]])
-        } else {
-            if (is.data.frame(x)) return(x[f])
-            lapply(x, function(x) x[f])
-        }
+        if (is.data.frame(x)) return(x[[f]])
+        lapply(x, function(x) x[[f]])
     } else if (is.data.frame(x)) {
         f(x, ...)
     } else {
