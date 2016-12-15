@@ -1,3 +1,7 @@
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 #' ts_plot
 #'
 #' Plots frequency of tweets as time series or, if multiple
