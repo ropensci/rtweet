@@ -6,7 +6,7 @@
 \usage{
 ts_plot(rt, by = "days", txt = "text", filter = NULL, exclude = NULL,
   key = NULL, cols = NULL, leg.x = NULL, leg.y = NULL, lab.cex = NULL,
-  lwd = NULL, ...)
+  lwd = NULL, plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets data frame}
@@ -34,6 +34,8 @@ distinguish data.}
 \item{lab.cex}{Size of filter labels}
 
 \item{lwd}{Width of filter lines}
+
+\item{plot}{Logical indicating whether to draw plot.}
 
 \item{\dots}{Arguments passed to plot function, e.g.,
 \code{main = "#rstats tweets"},

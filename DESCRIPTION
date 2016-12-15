@@ -18,6 +18,10 @@ Imports:
     httpuv,
     httr (>= 1.0.0),
     jsonlite,
+    magrittr,
+    maps,
+    rworldmap,
+    rworldxtra,
     openssl
 License: MIT + file LICENSE
 LazyData: TRUE

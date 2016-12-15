@@ -35,3 +35,11 @@ NULL
 }
 
 .state <- new.env(parent = emptyenv())
+
+
+
+
+
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
