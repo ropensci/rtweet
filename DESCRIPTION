@@ -21,6 +21,7 @@ Imports:
     jsonlite,
     magrittr,
     maps,
+    maptools,
     openssl,
     rworldmap
 License: MIT + file LICENSE
