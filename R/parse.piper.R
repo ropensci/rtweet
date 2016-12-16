@@ -12,6 +12,23 @@ plyget <- function(x, f, ...) {
     }
 }
 
+plycp <- function(x, var) {
+    itornot <- as.numeric(plyget(x, NROW))
+    if (any(identical(length(itornot), 1L),
+            !isTRUE(all(itornot[1:2] > 50L)))) {
+        plyget(x, pcpr, var)
+    } else {
+        plyget(x, plyget, pcpr, var)
+    }
+}
+pcpr <- function(x, var) {
+    if (!is.data.frame(x)) {
+        NA
+    } else {
+        paste(x[[var]], collapse = ",")
+    }
+}
+
 ## get if else NA
 getifelse <- function(x, var) {
     if (!is.recursive(x)) {
@@ -203,48 +220,48 @@ get.status.obj <- function(x) {
 ## nonrecursive variables
 atomic.parsed <- function(rt) {
     list(
-        created_at = plyget(
-            rt, "created_at") %>%
+        created_at = rt %>%
+            plyget("created_at") %>%
             unL %>%
             format_date,
-        user_id = plyget(
-            rt, "id_str") %>%
+        user_id = rt %>%
+            plyget("id_str") %>%
             unL,
-        text = plyget(
-            rt, "text") %>%
+        text = rt %>%
+            plyget("text") %>%
             unL,
-        retweet_count = plyget(
-            rt, "retweet_count") %>%
+        retweet_count = rt %>%
+            plyget("retweet_count") %>%
             unL,
-        favorite_count = plyget(
-            rt, "favorite_count") %>%
+        favorite_count = rt %>%
+            plyget("favorite_count") %>%
             unL,
-        is_quote_status = plyget(
-            rt, ifelsepipe, "is_quote_status", FALSE) %>%
+        is_quote_status = rt %>%
+            plyget(ifelsepipe, "is_quote_status", FALSE) %>%
             unL,
-        quote_status_id = plyget(
-            rt, ifelsepipe, "quoted_status", FALSE) %>%
+        quote_status_id = rt %>%
+            plyget(ifelsepipe, "quoted_status", FALSE) %>%
             plyget(ifelsepipe, "id_str", NA) %>%
             unL,
-        is_retweet = plyget(
-            rt, ifelsepipe, "retweeted_status", FALSE) %>%
+        is_retweet = rt %>%
+            plyget(ifelsepipe, "retweeted_status", FALSE) %>%
             plyget(ifelsepipe, "id_str", NA) %>% 
             unL %>% is.na.not,
-        retweet_status_id = plyget(
-            rt, ifelsepipe, "retweeted_status", FALSE) %>%
+        retweet_status_id = rt %>%
+            plyget(ifelsepipe, "retweeted_status", FALSE) %>%
             plyget(ifelsepipe, "id_str", NA) %>%
             unL,
-        in_reply_to_status_status_id = plyget(
-            rt, "in_reply_to_status_id_str") %>%
+        in_reply_to_status_status_id = rt %>%
+            plyget("in_reply_to_status_id_str") %>%
             unL,
-        in_reply_to_status_user_id = plyget(
-            rt, "in_reply_to_user_id_str") %>%
+        in_reply_to_status_user_id = rt %>%
+            plyget("in_reply_to_user_id_str") %>%
             unL,
-        in_reply_to_status_screen_name = plyget(
-            rt, "in_reply_to_screen_name") %>%
+        in_reply_to_status_screen_name = rt %>%
+            plyget("in_reply_to_screen_name") %>%
             unL,
-        lang = plyget(
-            rt, "lang") %>%
+        lang = rt %>%
+            plyget("lang") %>%
             unL,
         source = gsub(
             "^[^>]*>|</a>$", "",
@@ -256,17 +273,21 @@ atomic.parsed <- function(rt) {
 ## get coords (from 1 of 2 sources)
 coords.parsed <- function(rt) {
     ## geo coordinates
-    coordinates <- tryCatch(rt %>%
+    coordinates <- tryCatch(
+        rt %>%
         plyget("geo") %>%
-        plyget(plydf, "coordinates") %>%
+        plyget("coordinates") %>%
         plyget(unL) %>%
+        plyget(paste, collapse = ",") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates)) return(coordinates)
-    coordinates <- tryCatch(rt %>%
+    coordinates <- tryCatch(
+        rt %>%
         plyget("coordinates") %>%
-        plyget(plydf, "coordinates") %>%
+        plyget("coordinates") %>%
         plyget(unL) %>%
+        plyget(paste, collapse = ",") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates)) return(coordinates)
@@ -275,17 +296,21 @@ coords.parsed <- function(rt) {
 
 coords.type.parsed <- function(rt) {
     ## geo coordinates
-    coordinates_type <- tryCatch(rt %>%
+    coordinates_type <- tryCatch(
+        rt %>%
         plyget("geo") %>%
-        plyget(plydf, "type") %>%
+        plyget("type") %>%
         plyget(unL) %>%
+        plyget(paste, collapse = ",") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates_type)) return(coordinates_type)
-    coordinates_type <- tryCatch(rt %>%
-        plyget("coordinates") %>%
-        plyget(plydf, "type") %>%
+    coordinates_type <- tryCatch(
+        rt %>%
+        plyget("geo") %>%
+        plyget("type") %>%
         plyget(unL) %>%
+        plyget(paste, collapse = ",") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates_type)) return(coordinates_type)
@@ -296,67 +321,48 @@ entities.parsed <- function(rt) {
     ## entities
     rt <- plyget(rt, "entities")
     list(
-        entities.media.id = plyget(
-            rt, getifelse, "media") %>% 
-            plyget(plydf, "id_str") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.media.id = rt %>%
+            plyget("media") %>%
+            plycp("id_str") %>%
             unL,
-        entities.media.media_url = plyget(
-            rt, getifelse, "media") %>%
-            plyget(plydf, "media_url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.media.media_url = rt %>%
+            plyget("media") %>%
+            plycp("media_url") %>%
             unL,
-        entities.media.expanded_url = plyget(
-            rt, getifelse, "media") %>%
-            plyget(plydf, "expanded_url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.media.expanded_url = rt %>%
+            plyget("media") %>%
+            plycp("expanded_url") %>%
             unL,
-        entities.urls.url = plyget(
-            rt, getifelse, "urls") %>% 
-            plyget(plydf, "url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.urls.url = rt %>%
+            plyget("urls") %>%
+            plycp("urls") %>%
             unL,
-        entities.urls.display_url = plyget(
-            rt, getifelse, "urls") %>%
-            plyget(plydf, "display_url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.urls.display_url = rt %>%
+            plyget("urls") %>%
+            plycp("display_url") %>%
             unL,
-        entities.urls.expanded_url = plyget(
-            rt, getifelse, "urls") %>%
-            plyget(plydf, "expanded_url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.urls.expanded_url = rt %>%
+            plyget("urls") %>%
+            plycp("expanded_url") %>%
             unL,
-        entities.urls.display_url = plyget(
-            rt, getifelse, "user_mentions") %>%
-            plyget(plydf, "screen_name") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.user_mentions.screen_name = rt %>%
+            plyget("user_mentions") %>%
+            plycp("screen_name") %>%
             unL,
-        entities.user_mentions.user_id = plyget(
-            rt, getifelse, "user_mentions") %>%
-            plyget(plydf, "id_str") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.user_mentions.user_id = rt %>%
+            plyget("user_mentions") %>%
+            plycp("id_str") %>%
             unL,
-        entities.symbols.text = plyget(
-            rt, getifelse, "symbols") %>%
-            plyget(plydf, "text") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.symbols.text = rt %>%
+            plyget("symbols") %>%
+            plycp("text") %>%
             unL,
-        entities.hashtags.text = plyget(
-            rt, getifelse, "hashtags") %>%
-            plyget(plydf, "text") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
+        entities.hashtags.text = rt %>%
+            plyget("hashtags") %>%
+            plycp("text") %>%
             unL)
 }
+
 
 ## place obj
 place.parsed <- function(rt) {
@@ -364,31 +370,31 @@ place.parsed <- function(rt) {
     rt <- plyget(rt, "place")
     list(
         coordinates = coordinates,
-        place.id = plyget(
-            rt, getifelse, "id") %>%
+        place.id = rt %>%
+            plyget(getifelse, "id") %>%
             unL,
         place.place_type = rt %>%
             plyget(getifelse, "place_type") %>%
             unL,
-        place.name = plyget(
-            rt, getifelse, "name") %>%
+        place.name = rt %>%
+            plyget(getifelse, "name") %>%
             unL,
-        place.full_name = plyget(
-            rt, getifelse, "full_name") %>%
+        place.full_name = rt %>%
+            plyget(getifelse, "full_name") %>%
             unL,
-        place.country_code = plyget(
-            rt, getifelse, "country_code") %>%
+        place.country_code = rt %>%
+            plyget(getifelse, "country_code") %>%
             unL,
-        place.country = plyget(
-            rt, getifelse, "country") %>%
+        place.country = rt %>%
+            plyget(getifelse, "country") %>%
             unL,
-        place.bounding_box.coordinates = plyget(
-            rt, getifelse, "bounding_box") %>%
+        place.bounding_box.coordinates = rt %>%
+            plyget(getifelse, "bounding_box") %>%
             plyget(getifelse, "coordinates") %>%
             plyboxem %>%
             unL,
-        place.bounding_box.type = plyget(
-            rt, getifelse, "bounding_box") %>%
+        place.bounding_box.type = rt %>%
+            plyget(getifelse, "bounding_box") %>%
             plyget(getifelse, "type") %>%
             unL)
 }
@@ -515,7 +521,7 @@ atomic.parsed.usr <- function(rt) {
         profile_banner_url = rt %>%
             plyget("profile_banner_url") %>%
             unL
-        )
+    )
 }
 
 #' parse.piper.usr
