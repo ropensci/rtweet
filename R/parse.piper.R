@@ -311,6 +311,8 @@ entities.parsed <- function(rt) {
         entities.media.expanded_url = plyget(
             rt, getifelse, "media") %>%
             plyget(plydf, "expanded_url") %>%
+            plyget(unL) %>%
+            plyget(pastena) %>%
             unL,
         entities.urls.url = plyget(
             rt, getifelse, "urls") %>% 
@@ -504,9 +506,6 @@ atomic.parsed.usr <- function(rt) {
         profile_use_background_image = rt %>%
             plyget("profile_use_background_image") %>%
             unL,
-        has_extended_profile = rt %>%
-            plyget("has_extended_profile") %>%
-            unL,
         default_profile = rt %>%
             plyget("default_profile") %>%
             unL,
@@ -515,22 +514,6 @@ atomic.parsed.usr <- function(rt) {
             unL,
         profile_banner_url = rt %>%
             plyget("profile_banner_url") %>%
-            unL,
-        shortened_url = rt %>%
-            plyget("entities") %>%
-            plyget("url") %>%
-            plyget("urls") %>%
-            plyget(plydf, "url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
-            unL,
-        expanded_url = rt %>%
-            plyget("entities") %>%
-            plyget("url") %>%
-            plyget("urls") %>%
-            plyget(plydf, "expanded_url") %>%
-            plyget(unL) %>%
-            plyget(pastena) %>%
             unL
         )
 }
