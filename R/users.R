@@ -34,55 +34,57 @@
 #' @return json response object (max is 18000 per token)
 #' @family users
 #' @export
-lookup_users <- function(users, token = NULL, parse = TRUE,
-  clean_tweets = TRUE, as_double = FALSE) {
+lookup_users <- function(users, token = NULL,
+                         parse = TRUE,
+                         clean_tweets = TRUE,
+                         as_double = FALSE) {
 
-  if (is.list(users)) {
-    users <- unlist(users, use.names = FALSE)
-  }
-  if (length(users) < 101) {
-    usr <- .user_lookup(users, token)
-  } else {
-    if (length(users) > 18000) {
-      message("max exceeded using first 18,000")
-      users <- users[1:18000]
+    if (is.list(users)) {
+        users <- unlist(users, use.names = FALSE)
     }
-    n.times <- ceiling(length(users) / 100)
-    from <- 1
-    usr <- vector("list", n.times)
-    for (i in seq_len(n.times)) {
-      to <- from + 99
-      if (to > length(users)) {
-        to <- length(users)
-      }
-      usr[[i]] <- .user_lookup(users[from:to], token)
-      from <- to + 1
-      if (from > length(users)) break
+    stopifnot(is.atomic(users))
+    users <- as.character(users)
+    users <- users[!is.na(users)]
+    if (length(users) < 101) {
+        usr <- .user_lookup(users, token)
+    } else {
+        if (length(users) > 18000) {
+            message("max number of users exceeded; looking up first 18,000")
+            users <- users[1:18000]
+        }
+        n.times <- ceiling(length(users) / 100)
+        from.id <- 1L
+        usr <- vector("list", n.times)
+        for (i in seq_len(n.times)) {
+            to.id <- from.id + 99L
+            if (to.id > length(users)) {
+                to.id <- length(users)
+            }
+            usr[[i]] <- .user_lookup(users[from.id:to.id], token)
+            from.id <- to.id + 1
+            if (from.id > length(users)) break
+        }
     }
-  }
-  if (parse) {
-    usr <- parser(usr, clean_tweets = clean_tweets, as_double = as_double)
-    usr <- attr_tweetusers(usr[c("users", "tweets")])
-  }
-  usr
+    if (parse) {
+        usr <- parser(usr, clean_tweets = clean_tweets,
+                      as_double = as_double)
+        usr <- attr_tweetusers(usr[c("users", "tweets")])
+    }
+    usr
 }
 
 .user_lookup <- function(users, token = NULL) {
 
-  query <- "users/lookup"
-  if (is.list(users)) {
-    users <- unlist(users)
-  }
-  stopifnot(is.atomic(users))
-  if (length(users) > 100) {
-    users <- users[1:100]
-  }
-  params <- list(id_type = paste(users, collapse = ","))
-  names(params)[1] <- .ids_type(users)
-  url <- make_url(
-    query = query,
-    param = params)
-  token <- check_token(token, query = "users/lookup")
-  resp <- TWIT(get = TRUE, url, token)
-  from_js(resp)
+    query <- "users/lookup"
+    if (length(users) > 100) {
+        users <- users[1:100]
+    }
+    params <- list(id_type = paste0(users, collapse = ","))
+    names(params)[1] <- .ids_type(users)
+    url <- make_url(
+        query = query,
+        param = params)
+    token <- check_token(token, query = query)
+    resp <- TWIT(get = TRUE, url, token)
+    from_js(resp)
 }

@@ -81,62 +81,62 @@
 #' @family tweets
 #' @export
 search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
-	                        include_rts = TRUE, parse = TRUE,
-	                        clean_tweets = FALSE,
+                          include_rts = TRUE, parse = TRUE,
+                          clean_tweets = FALSE,
                           as_double = FALSE, token = NULL,
                           verbose = TRUE, ...) {
 
-  query <- "search/tweets"
-  stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
-  token <- check_token(token, query)
-  #n.times <- rate_limit(token, query)[["remaining"]]
-  n.times <- 180
+    query <- "search/tweets"
+    stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
+    token <- check_token(token, query)
+                                        #n.times <- rate_limit(token, query)[["remaining"]]
+    n.times <- 180
 
-  if (nchar(q) > 500) {
-    stop("q cannot exceed 500 characters.", call. = FALSE)
-  }
-
-  if (length(type) > 1) {
-    stop("can only select one search type. Try type = 'mixed'.",
-      call. = FALSE)
-  }
-
-  if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
-    stop("invalid search type - must be mixed, recent, or popular.",
-      call. = FALSE)
-  }
-
-  if (!include_rts) q <- paste0(q, " -RT")
-
-  params <- list(q = q,
-    result_type = type,
-    count = 100,
-    max_id = max_id,
-    ...)
-
-  url <- make_url(
-    query = query,
-    param = params)
-
-  if (verbose) message("Searching for tweets...")
-
-  tw <- scroller(url, n, n.times, type = "search", token)
-
-  if (parse) {
-    tw <- parser(tw, n, clean_tweets = clean_tweets,
-      as_double = as_double)
-    if (!is.null(tw)) {
-      if (is.list(tw)) {
-        tw <- attr_tweetusers(tw)
-      }
+    if (nchar(q) > 500) {
+        stop("q cannot exceed 500 characters.", call. = FALSE)
     }
-  }
 
-  if (verbose) {
-    message("Finished collecting tweets!")
-  }
+    if (length(type) > 1) {
+        stop("can only select one search type. Try type = 'mixed'.",
+             call. = FALSE)
+    }
 
-  tw
+    if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
+        stop("invalid search type - must be mixed, recent, or popular.",
+             call. = FALSE)
+    }
+
+    if (!include_rts) q <- paste0(q, " -RT")
+
+    params <- list(q = q,
+                   result_type = type,
+                   count = 100,
+                   max_id = max_id,
+                   ...)
+
+    url <- make_url(
+        query = query,
+        param = params)
+
+    if (verbose) message("Searching for tweets...")
+
+    tw <- scroller(url, n, n.times, type = "search", token)
+
+    if (parse) {
+        tw <- parser(tw, n, clean_tweets = clean_tweets,
+                     as_double = as_double)
+        if (!is.null(tw)) {
+            if (is.list(tw)) {
+                tw <- attr_tweetusers(tw)
+            }
+        }
+    }
+
+    if (verbose) {
+        message("Finished collecting tweets!")
+    }
+
+    tw
 }
 
 
@@ -184,78 +184,78 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' @family users
 #' @export
 search_users <- function(q, n = 20, parse = TRUE,
-  clean_tweets = FALSE, as_double = FALSE,
-  token = NULL, verbose = TRUE) {
+                         clean_tweets = FALSE, as_double = FALSE,
+                         token = NULL, verbose = TRUE) {
 
-	query <- "users/search"
-	stopifnot(is_n(n), is.atomic(q))
-	token <- check_token(token, query)
-	n.times <- ceiling(n / 20)
-  if (n.times > 50) n.times <- 50
+    query <- "users/search"
+    stopifnot(is_n(n), is.atomic(q))
+    token <- check_token(token, query)
+    n.times <- ceiling(n / 20)
+    if (n.times > 50) n.times <- 50
 
-	if (nchar(q) > 500) {
-		stop("q cannot exceed 500 characters.", call. = FALSE)
-	}
-
-	params <- list(q = q,
-		count = 20,
-		page = 1)
-
-	url <- make_url(
-		query = query,
-		param = params)
-
-	if (verbose) message("Searching for users...")
-
-	usr <- vector("list", n.times)
-  k <- 0
-  nrows <- NULL
-
-	for (i in seq_len(n.times)) {
-		r <- tryCatch(
-			TWIT(get = TRUE, url, token),
-			error = function(e) NULL)
-
-		if (is.null(r)) break
-
-		usr[[i]] <- from_js(r)
-
-    if (identical(length(usr[[i]]), 0)) break
-    if (isTRUE(is.numeric(nrow(usr[[i]])))) {
-      nrows <- nrow(usr[[i]])
-    } else {
-      if (identical(nrows, 0)) break
-      nrows <- 0
+    if (nchar(q) > 500) {
+        stop("q cannot exceed 500 characters.", call. = FALSE)
     }
 
-    k <- k + nrows
+    params <- list(q = q,
+                   count = 20,
+                   page = 1)
 
-		if (k >= n) break
+    url <- make_url(
+        query = query,
+        param = params)
 
-		url$query$page <- (i + 1L)
-	}
+    if (verbose) message("Searching for users...")
 
-  if (parse) {
-    usr <- parser(usr, n, clean_tweets = clean_tweets,
-      as_double = as_double)
-    if (!is.null(usr)) {
-      if (is.list(usr)) {
-        usr <- usr[c("users", "tweets")]
-        usr <- attr_tweetusers(usr)
-      }
+    usr <- vector("list", n.times)
+    k <- 0
+    nrows <- NULL
+
+    for (i in seq_len(n.times)) {
+        r <- tryCatch(
+            TWIT(get = TRUE, url, token),
+            error = function(e) NULL)
+
+        if (is.null(r)) break
+
+        usr[[i]] <- from_js(r)
+
+        if (identical(length(usr[[i]]), 0)) break
+        if (isTRUE(is.numeric(nrow(usr[[i]])))) {
+            nrows <- nrow(usr[[i]])
+        } else {
+            if (identical(nrows, 0)) break
+            nrows <- 0
+        }
+
+        k <- k + nrows
+
+        if (k >= n) break
+
+        url$query$page <- (i + 1L)
     }
-  }
 
-	if (verbose) {
-		message("Finished collecting users!")
-	}
+    if (parse) {
+        usr <- parser(usr, n, clean_tweets = clean_tweets,
+                      as_double = as_double)
+        if (!is.null(usr)) {
+            if (is.list(usr)) {
+                usr <- usr[c("users", "tweets")]
+                usr <- attr_tweetusers(usr)
+            }
+        }
+    }
 
-	usr
+    if (verbose) {
+        message("Finished collecting users!")
+    }
+
+    usr
 }
 
 count_users_returned <- function(x) {
-	length(unique(unlist(lapply(x, function(x) x[["id_str"]]),
-		use.names = FALSE)))
+    length(unique(unlist(lapply(x, function(x) x[["id_str"]]),
+                         use.names = FALSE)))
 }
 
 
@@ -268,13 +268,13 @@ count_users_returned <- function(x) {
 #' @export
 #'
 next_id <- function(df) {
-	if (!all(c("created_at", "status_id") %in% names(df))) {
-		stop("wrong data frame - function requires tweets data")
-	}
-	if (any(grepl("posix", class(df$created_at), ignore.case = TRUE))) {
-		df$created_at <- format_date(df$created_at)
-	}
-	df <- df[!is.na(df$status_id), ]
-	df <- df[order(df$created_at), ]
-	df$status_id[1]
+    if (!all(c("created_at", "status_id") %in% names(df))) {
+        stop("wrong data frame - function requires tweets data")
+    }
+    if (any(grepl("posix", class(df$created_at), ignore.case = TRUE))) {
+        df$created_at <- format_date(df$created_at)
+    }
+    df <- df[!is.na(df$status_id), ]
+    df <- df[order(df$created_at), ]
+    df$status_id[1]
 }

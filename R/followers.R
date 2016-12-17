@@ -38,41 +38,44 @@
 #'   rate limits)
 #' @family ids
 #' @export
-get_followers <- function(user, n = 75000, page = "-1", parse = TRUE,
-                          as_double = FALSE, token = NULL) {
+get_followers <- function(user, n = 75000,
+                          page = "-1",
+                          parse = TRUE,
+                          as_double = FALSE,
+                          token = NULL) {
 
-  query <- "followers/ids"
+    query <- "followers/ids"
 
-  if (identical(n, "all")) {
-    n <- 75000
-  }
+    if (identical(n, "all")) {
+        n <- 75000
+    }
 
-  stopifnot(is_n(n),
-    is.atomic(user),
-    is.atomic(page),
-    isTRUE(length(user) == 1))
+    stopifnot(is_n(n),
+              is.atomic(user),
+              is.atomic(page),
+              isTRUE(length(user) == 1))
 
-  token <- check_token(token, query)
+    token <- check_token(token, query)
 
-  n.times <- rate_limit(token, query)[["remaining"]]
+    n.times <- rate_limit(token, query)[["remaining"]]
 
-  params <- list(
-    user_type = user,
-    count = 5000,
-    cursor = page,
-    stringify = TRUE)
+    params <- list(
+        user_type = user,
+        count = 5000,
+        cursor = page,
+        stringify = TRUE)
 
-  names(params)[1] <- .id_type(user)
+    names(params)[1] <- .id_type(user)
 
-  url <- make_url(
-    query = query,
-    param = params)
+    url <- make_url(
+        query = query,
+        param = params)
 
-  f <- scroller(url, n, n.times, type = NULL, token)
+    f <- scroller(url, n, n.times, type = NULL, token)
 
-  f <- f[!unlist(lapply(f, is.null), use.names = FALSE)]
+    f <- f[!vapply(f, is.null, logical(1))]
 
-  if (parse) f <- parse_fs(f, n, as_double = as_double)
+    if (parse) f <- parse.piper.fs(f, n, as_double = as_double)
 
-  f
+    f
 }

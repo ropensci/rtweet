@@ -32,7 +32,7 @@ pcpr <- function(x, var) {
 ## get if else NA
 getifelse <- function(x, var) {
     if (!is.recursive(x)) {
-        return(rep(NA, nrows(rt)))
+        return(rep(NA, nrows(x)))
     } else if (is.data.frame(x)) {
         xvar <- x[[var]]
         if (!is.null(xvar)) return(xvar)
