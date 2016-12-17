@@ -22,20 +22,20 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
   users <- data.frame()
 
   if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
-    if (return_tweets) {
-      tweets <- parse_tweets(x, clean_tweets = clean_tweets, as_double = as_double)
-    }
-    if (return_users) {
-      users <- parse_users(x, as_double = as_double)
-    }
+      if (return_tweets) {
+          tweets <- parse_tweets(x, clean_tweets = clean_tweets, as_double = as_double)
+      }
+      if (return_users) {
+          users <- parse_users(x, as_double = as_double)
+      }
   } else {
-    stopifnot(is.list(x))
-    if (return_tweets) {
-      tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets, as_double = as_double)
-    }
-    if (return_users) {
-      users <- bply(x, parse_users, as_double = as_double)
-    }
+      stopifnot(is.list(x))
+      if (return_tweets) {
+          tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets, as_double = as_double)
+      }
+      if (return_users) {
+          users <- bply(x, parse_users, as_double = as_double)
+      }
   }
   if (return_tweets) {
       if (!is.null(tweets[["status_id"]])) {
