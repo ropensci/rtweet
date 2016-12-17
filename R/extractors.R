@@ -60,11 +60,11 @@ next_cursor <- function(ids) {
 #' @family users
 #' @export
 users_data <- function(tweets) {
-	stopifnot(is.data.frame(tweets))
-	if (!"users" %xy% attributes(tweets)) {
-		return(tweets)
+	stopifnot(is.recursive(tweets))
+	if (isTRUE("users" %in% names(attributes(tweets)))) {
+		attr(tweets, "users")
 	} else {
-		return(attr(tweets, "users"))
+		tweets
 	}
 }
 
@@ -105,11 +105,11 @@ all_tw <- function(search = TRUE) {
 #' @family tweets
 #' @export
 tweets_data <- function(users) {
-	stopifnot(is.data.frame(users))
-	if (!"tweets" %in% names(attributes(users))) {
-		return(users)
+	stopifnot(is.recursive(users))
+	if (isTRUE("tweets" %in% names(attributes(users)))) {
+		attr(users, "tweets")
 	} else {
-		return(attr(users, "tweets"))
+		users
 	}
 }
 
