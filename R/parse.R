@@ -23,7 +23,8 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
 
   if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
       if (return_tweets) {
-          tweets <- parse_tweets(x, clean_tweets = clean_tweets, as_double = as_double)
+          tweets <- parse_tweets(x, clean_tweets = clean_tweets, 
+				 as_double = as_double)
       }
       if (return_users) {
           users <- parse_users(x, as_double = as_double)
@@ -31,7 +32,8 @@ parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
   } else {
       stopifnot(is.list(x))
       if (return_tweets) {
-          tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets, as_double = as_double)
+          tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets, 
+			 as_double = as_double)
       }
       if (return_users) {
           users <- bply(x, parse_users, as_double = as_double)
@@ -60,16 +62,16 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
 	if (identical(length(x), 1)) {
 		next_cursor <- x[[1]][["next_cursor_str"]]
 		if (as_double) {
-		  x <- as.double(x[[1]][["ids"]])
+		    x <- as.double(x[[1]][["ids"]])
 		} else {
-		  x <- as.character(x[[1]][["ids"]])
+		    x <- as.character(x[[1]][["ids"]])
 		}
 	} else if (all(c("ids", "next_cursor_str") %in% names(x))) {
 		next_cursor <- x[["next_cursor_str"]]
 		if (as_double) {
-		  x <- as.double(x[["ids"]])
+		    x <- as.double(x[["ids"]])
 		} else {
-		  x <- as.character(x[["ids"]])
+		    x <- as.character(x[["ids"]])
 		}
 	} else if (length(x) > 1) {
 		next_cursor <- unlist(lapply(x, function(x) x[["next_cursor_str"]]),
