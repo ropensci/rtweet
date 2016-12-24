@@ -1,4 +1,4 @@
-#' parser
+#' parser.old
 #'
 #' @param x nested list of API data returned from fromJSON
 #' @param n desired number to return
@@ -15,7 +15,7 @@
 #'   lead to issues when printing and saving, depending on the format.
 #' @keywords internal
 #' @export
-parser <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
+parser.old <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
                    clean_tweets = FALSE, as_double = FALSE) {
 
     tweets <- data.frame()

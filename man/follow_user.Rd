@@ -4,10 +4,13 @@
 \alias{follow_user}
 \title{follow_user}
 \usage{
-follow_user(user, notify = FALSE, token = NULL)
+follow_user(user, destroy = FALSE, notify = FALSE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
+
+\item{destroy}{Logical indicating whether to post (add) or
+remove (delete) target tweet as favorite.}
 
 \item{notify}{Logical indicating whether to enable notifications
 for target user. Defaults to false.}

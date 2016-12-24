@@ -4,7 +4,7 @@
 \alias{search_users}
 \title{search_users}
 \usage{
-search_users(q, n = 20, parse = TRUE, clean_tweets = FALSE,
+search_users(q, n = 20, parse = TRUE, tw = TRUE, clean_tweets = FALSE,
   as_double = FALSE, token = NULL, verbose = TRUE)
 }
 \arguments{
@@ -20,6 +20,9 @@ a single search is 1,000.}
 \code{parse = TRUE} saves users from the time
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
+
+\item{tw}{Logical indicating whether to return tweets data frame.
+Defaults to true.}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
 characters in text of tweets. defaults to FALSE.}

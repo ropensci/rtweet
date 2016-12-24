@@ -5,8 +5,9 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", txt = "text", filter = NULL, exclude = NULL,
-  key = NULL, cols = NULL, leg.x = NULL, leg.y = NULL, lab.cex = NULL,
-  lwd = NULL, plot = TRUE, ...)
+  key = NULL, cols = NULL, xlim = NULL, ylim = NULL, legend = TRUE,
+  leg.x = NULL, leg.y = NULL, lab.cex = NULL, lwd = NULL, plot = TRUE,
+  ...)
 }
 \arguments{
 \item{rt}{Tweets data frame}
@@ -26,6 +27,15 @@ distinguish data.}
 \item{key}{Labels for filters. Defaults to actual filters.}
 
 \item{cols}{Colors for filters}
+
+\item{xlim}{Limits for x axis, defaults for range of observed
+time.}
+
+\item{ylim}{Limits for y axis, defaults to range plus a little
+bit of padding.}
+
+\item{legend}{Logical indicating wether to include a plot
+legend. Defaults to true.}
 
 \item{leg.x}{Location for plot text}
 

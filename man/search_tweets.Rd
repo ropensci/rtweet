@@ -4,8 +4,8 @@
 \alias{search_tweets}
 \title{search_tweets}
 \usage{
-search_tweets(q, n = 100, type = "mixed", max_id = NULL,
-  include_rts = TRUE, parse = TRUE, clean_tweets = FALSE,
+search_tweets(q, n = 100, check = TRUE, type = "recent", max_id = NULL,
+  include_rts = TRUE, parse = TRUE, usr = TRUE, clean_tweets = FALSE,
   as_double = FALSE, token = NULL, verbose = TRUE, ...)
 }
 \arguments{
@@ -16,10 +16,13 @@ search_tweets(q, n = 100, type = "mixed", max_id = NULL,
 return. Defaults to 100. Maximum number of tweets returned from
 a single token is 18,000. See details for more information.}
 
+\item{check}{Logical indicating whether to check the available
+number of API requests. Defaults to true.}
+
 \item{type}{Character, specifies what type of search results
 you would prefer to receive. The current default is
-\code{type = "mixed"}, which is a mix between the other two
-valid values \code{type = "recent"} and \code{type = "popular"}.}
+\code{type = "recent"}, other valid types include
+\code{type = "mixed"} and \code{type = "popular"}.}
 
 \item{max_id}{Character, specifying the [oldest] status id beyond
 which results should resume returning.}
@@ -32,6 +35,9 @@ in search results.}
 \code{parse = TRUE} saves users from the time
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
+
+\item{usr}{Logical indicating whether to return users data frame.
+Defaults to true.}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
 characters in text of tweets. defaults to FALSE.}

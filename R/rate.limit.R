@@ -16,55 +16,60 @@
 #'   remaining limit for friend id requests.
 #' @param rest Logical indicating whether to send request to REST
 #'   API. At this time, this should always be TRUE.
+#' @param parse Logical indicating whether to parse response object
+#'   into tidy data frame.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return Data frame with rate limit respones details. If query
 #'   is specified, only relevant rows are returned.
 #' @export
-rate_limit <- function(token, query = NULL, rest = TRUE) {
-
-  token <- check_token(token, query = NULL)
-
-  url <- make_url(
-    restapi = rest,
-    query = "application/rate_limit_status")
-
-  r <- TWIT(get = TRUE, url, config = token)
-
-  rl_df <- .rl_df(r)
-
-  if (!is.null(query)) {
-    rl_df <- rl_df[grep(query, rl_df$query), ]
-    row.names(rl_df) <- NULL
-  }
-
-  rl_df
+rate_limit <- function(token,
+                       query = NULL,
+                       rest = TRUE,
+                       parse = TRUE) {
+    token <- check_token(token, query = NULL)
+    url <- make_url(
+        restapi = rest,
+        query = "application/rate_limit_status")
+    r <- TWIT(get = TRUE, url, config = token)
+    if (parse) {
+        rl_df <- .rl_df(r)
+        if (!is.null(query)) {
+            rl_df <- rl_df[grep(query, rl_df$query), ]
+            row.names(rl_df) <- NULL
+        }
+        rl_df
+    } else {
+        r
+    }
 }
 
 
 .rl_df <- function(r) {
 
-  r <- from_js(r)
+    r <- from_js(r)
 
-  data <- r$resources
+    data <- r$resources
 
-  rl_df <- data.frame(
-    query = gsub(".limit|.remaining|.reset", "",
-      gsub(".*[.][/]", "", grep(".limit$", names(unlist(data)), value = TRUE))),
-    limit = unlist(lapply(data, function(y)
-      lapply(y, function(x) getElement(x, "limit")))),
-    remaining = unlist(lapply(data, function(y)
-      lapply(y, function(x) getElement(x, "remaining")))),
-    reset = unlist(lapply(data, function(y)
-      lapply(y, function(x) getElement(x, "reset")))),
+    rl_df <- data.frame(
+        query = gsub(".limit|.remaining|.reset", "",
+                     gsub(".*[.][/]", "",
+                          grep(".limit$", names(unlist(data)),
+                               value = TRUE))),
+        limit = unlist(lapply(data, function(y)
+            lapply(y, function(x) getElement(x, "limit")))),
+        remaining = unlist(lapply(data, function(y)
+            lapply(y, function(x) getElement(x, "remaining")))),
+        reset = unlist(lapply(data, function(y)
+            lapply(y, function(x) getElement(x, "reset")))),
   	stringsAsFactors = FALSE,
-    row.names = NULL)
+        row.names = NULL)
 
-  rl_df$reset <- difftime(
-    as.POSIXct(as.numeric(rl_df$reset),
-      origin = "1970-01-01"),
-    Sys.time(),
-    units = "mins")
+    rl_df$reset <- difftime(
+        as.POSIXct(as.numeric(rl_df$reset),
+                   origin = "1970-01-01"),
+        Sys.time(),
+        units = "mins")
 
-  rl_df
+    rl_df
 }

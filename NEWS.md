@@ -1,4 +1,11 @@
 # rtweet 0.3.8
+* Functions by default use a new faster parser that returns more
+variables
+* Text analysis functions provided for convenience
+* Plotting with maps
+* Tidyverse consistencies
+
+# rtweet 0.3.8
 * Fixed issue with geo tracking in stream_tweets
 * Various bug fixes and stability improvements
 

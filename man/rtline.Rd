@@ -4,10 +4,10 @@
 \alias{rtline}
 \title{rtline}
 \usage{
-rtline(., new = FALSE, ...)
+rtline(dat, new = FALSE, ...)
 }
 \arguments{
-\item{.}{Data piped from rtaes function}
+\item{dat}{Data piped from rtaes function}
 
 \item{new}{Logical indicating whether to revert to base r plot
 defaults to false.}

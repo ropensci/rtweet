@@ -1,6 +1,14 @@
 
 ## utility functions
-## map
+
+#' My version of map
+#'
+#' @param x Object from lhs
+#' @param f Either atomic scalar (variable name or element position
+#'   (numbered) to be retrieved or function to be applied across
+#'   elements.
+#' @param \dots Arguments passed along to user function
+#' @export
 plyget <- function(x, f, ...) {
     if (!is.function(f)) {
         if (is.data.frame(x)) return(x[[f]])
@@ -175,7 +183,20 @@ is.na.not <- function(x) !is.na(x)
 #################################
 ## actual parsing
 
-## parse using the pipe
+## parser
+#'
+#' Returns Parses tweets and users data
+#'
+#' @param rt Nested list converted from json structure
+#' @param usr Logical indicating whether to include user
+#'   obj (users data) as attribute. Defaults to true.
+#' @param \dots Other args
+#' @export
+parser <- function(rt, usr = TRUE, ...) {
+    parse.piper(rt, usr = usr)
+}
+
+
 #' parse.piper
 #'
 #' Returns tweets data parsed via pipe
@@ -188,14 +209,20 @@ parse.piper <- function(rt, usr = TRUE) {
     rt <- get.status.obj(rt)
     if (usr) {
         users <- parse.piper.usr(rt)
+        uservars <- list(
+            screen_name = users[["screen_name"]],
+            user_id = users[["user_id"]])
+        rt <- c(uservars,
+                atomic.parsed(rt),
+                entities.parsed(rt),
+                place.parsed(rt))
+    } else {
+        rt <- c(atomic.parsed(rt),
+                entities.parsed(rt),
+                place.parsed(rt))
     }
-    rt <- c(
-        atomic.parsed(rt),
-        entities.parsed(rt),
-        place.parsed(rt))
-    varnames <- names(rt)
     rt <- tryCatch(
-        as.df(rt, varnames),
+        as.data.frame(rt, stringsAsFactors = FALSE),
         error = function(e)
             return(rt))
     if (usr) {
@@ -205,11 +232,12 @@ parse.piper <- function(rt, usr = TRUE) {
 }
 ## reduce to statuses
 get.status.obj <- function(x) {
-    if (any("statuses" %in% names(x),
-            "statuses" %in% names(x[[1]]))) {
+    if (is.null(x)) return(data.frame())
+    if (any(isTRUE("statuses" %in% names(x)),
+            isTRUE("statuses" %in% names(x[[1]])))) {
         x <- plyget(x, "statuses")
     } else if (any("status" %in% names(x),
-                   "status" %in% names(x[[1]]))) {
+                   isTRUE("status" %in% names(x[[1]])))) {
         x <- plyget(x, "status")
     }
     if (is.null(names(x))) {
@@ -224,7 +252,7 @@ atomic.parsed <- function(rt) {
             plyget("created_at") %>%
             unL %>%
             format_date,
-        user_id = rt %>%
+        status_id = rt %>%
             plyget("id_str") %>%
             unL,
         text = rt %>%
@@ -245,7 +273,7 @@ atomic.parsed <- function(rt) {
             unL,
         is_retweet = rt %>%
             plyget(ifelsepipe, "retweeted_status", FALSE) %>%
-            plyget(ifelsepipe, "id_str", NA) %>% 
+            plyget(ifelsepipe, "id_str", NA) %>%
             unL %>% is.na.not,
         retweet_status_id = rt %>%
             plyget(ifelsepipe, "retweeted_status", FALSE) %>%
@@ -540,7 +568,7 @@ parse.piper.usr <- function(rt, tw = FALSE) {
     rt <- atomic.parsed.usr(rt)
     varnames <- names(rt)
     rt <- tryCatch(
-        as.df(rt, varnames),
+        as.data.frame(rt, stringsAsFactors = FALSE),
         error = function(e)
             return(rt))
     if (tw) {
@@ -549,3 +577,26 @@ parse.piper.usr <- function(rt, tw = FALSE) {
     rt
 }
 
+## make parsed collapse paste
+make.pcp <- function(x) {
+    attr(x, "lst") <- tidy.pcp(x)
+    x
+}
+
+## tidy parsed collapse paste
+tidy.pcp <- function(x) {
+    x <- strsplit(x, ",")
+    lapply(x, tolower)
+}
+
+## popular (table as.df) parsed collapse paste
+pop.pcp <- function(x, ...) {
+    x <- x %>%
+        tidy.pcp %>%
+        unlist(use.names = FALSE) %>%
+        table %>%
+        as.df(c("variable", "value"))
+    x <- x[order(x$value, decreasing = TRUE), ]
+    row.names(x) <- NULL
+    x
+}

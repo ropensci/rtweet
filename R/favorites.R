@@ -48,40 +48,39 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
                           clean_tweets = FALSE,
                           as_double = FALSE, token = NULL) {
 
-  query <- "favorites/list"
+    query <- "favorites/list"
 
-  if (n > 3000) {
-    warning("n exceeds max favs returned per token. Setting n to 3000...",
-      call. = FALSE)
-    n <- 3000
-  }
+    if (n > 3000) {
+        warning(paste0("n exceeds max favs returned per ",
+                       "token. Setting n to 3000..."),
+                call. = FALSE)
+        n <- 3000
+    }
 
-  stopifnot(is_n(n),
-    is.atomic(user),
-    isTRUE(length(user) == 1))
+    stopifnot(is_n(n),
+              is.atomic(user),
+              isTRUE(length(user) == 1))
 
-  token <- check_token(token, query)
+    token <- check_token(token, query)
 
-  n.times <- rate_limit(token, query)[["remaining"]]
-  if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
+    n.times <- rate_limit(token, query)[["remaining"]]
+    if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
 
-  params <- list(
-    user_type = user,
-    count = 200)
+    params <- list(
+        user_type = user,
+        count = 200)
 
-  names(params)[1] <- .id_type(user)
+    names(params)[1] <- .id_type(user)
 
-  url <- make_url(
-    query = query,
-    param = params)
+    url <- make_url(
+        query = query,
+        param = params)
 
-  fav <- scroller(url, n, n.times, type = "timeline", token)
+    fav <- scroller(url, n, n.times, type = "timeline", token)
 
-  if (parse) {
-    fav <- parser(fav, n, clean_tweets = clean_tweets,
-      as_double = as_double)
-    fav <- attr_tweetusers(fav[c("tweets", "users")])
-  }
+    if (parse) {
+        fav <- parse.piper(fav)
+    }
 
-  fav
+    fav
 }

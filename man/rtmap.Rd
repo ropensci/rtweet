@@ -4,7 +4,7 @@
 \alias{rtmap}
 \title{rtmap}
 \usage{
-rtmap(. = ., ...)
+rtmap(dat, ...)
 }
 \arguments{
 \item{.}{Piped data}

@@ -19,6 +19,8 @@
 #'   ID variables are treated as character vectors. Setting this to
 #'   TRUE can provide performance (speed and memory) boost but can also
 #'   lead to issues when printing and saving, depending on the format.
+#' @param usr Logical indicating whether to return users data frame.
+#'   Defaults to true.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -49,40 +51,43 @@
 #'   the user provided.
 #' @family tweets
 #' @export
-get_timeline <- function(user, n = 200, max_id = NULL, parse = TRUE,
-                         clean_tweets = FALSE, as_double = FALSE,
+get_timeline <- function(user, n = 200,
+                         max_id = NULL,
+                         parse = TRUE,
+                         clean_tweets = FALSE,
+                         as_double = FALSE,
+                         usr = TRUE,
                          token = NULL, ...) {
 
-  query <- "statuses/user_timeline"
+    query <- "statuses/user_timeline"
 
-  stopifnot(is_n(n), is.atomic(user), is.atomic(max_id))
+    stopifnot(is_n(n), is.atomic(user), is.atomic(max_id))
 
-  if (length(user) > 1) {
-    stop("can only return tweets for one user at a time.", call. = FALSE)
-  }
+    if (length(user) > 1) {
+        stop("can only return tweets for one user at a time.", call. = FALSE)
+    }
 
-  token <- check_token(token, query)
+    token <- check_token(token, query)
 
-  n.times <- rate_limit(token, query)[["remaining"]]
+    n.times <- rate_limit(token, query)[["remaining"]]
 
-  params <- list(
-    user_type = user,
-    count = 200,
-    max_id = max_id,
-    ...)
+    params <- list(
+        user_type = user,
+        count = 200,
+        max_id = max_id,
+        ...)
 
-  names(params)[1] <- .id_type(user)
+    names(params)[1] <- .id_type(user)
 
-  url <- make_url(
-    query = query,
-    param = params)
+    url <- make_url(
+        query = query,
+        param = params)
 
-  tm <- scroller(url, n, n.times, type = "timeline", token)
+    tm <- scroller(url, n, n.times, type = "timeline", token)
 
-  if (parse) {
-    tm <- parser(tm, n, clean_tweets = clean_tweets, as_double = as_double)
-    tm <- attr_tweetusers(tm)
-  }
+    if (parse) {
+        tm <- parse.piper(tm, usr = usr)
+    }
 
-  tm
+    tm
 }

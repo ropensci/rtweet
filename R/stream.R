@@ -85,85 +85,99 @@
 #' @family tweets
 #' @importFrom httr POST write_disk add_headers progress timeout
 #' @export
-stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
-  clean_tweets = TRUE, as_double = FALSE, token = NULL, file_name = NULL,
-  gzip = FALSE, verbose = TRUE, ...) {
+stream_tweets <- function(q = "",
+                          timeout = 30,
+                          parse = TRUE,
+                          clean_tweets = TRUE,
+                          as_double = FALSE,
+                          token = NULL,
+                          file_name = NULL,
+                          gzip = FALSE,
+                          verbose = TRUE, ...) {
 
-  token <- check_token(token)
+    ope <- options("encoding")
+    options(encoding = "UTF-8")
+    on.exit(options(encoding = ope))
 
-  if (!timeout) {
-    timeout <- Inf
-  }
+    token <- check_token(token)
 
-  stopifnot(
-    is.numeric(timeout), timeout > 0,
-    is.atomic(q), is.atomic(file_name))
+    if (!timeout) {
+        timeout <- Inf
+    }
 
-  if (missing(q)) q <- ""
+    stopifnot(
+        is.numeric(timeout), timeout > 0,
+        is.atomic(q), is.atomic(file_name))
 
-  if (identical(q, "")) {
-    query <- "statuses/sample"
-    params <- NULL
-  } else {
-    query <- "statuses/filter"
-    params <- stream_params(q)
-  }
+    if (missing(q)) q <- ""
 
-  url <- make_url(
-    restapi = FALSE,
-    query,
-    param = params)
+    if (identical(q, "")) {
+        query <- "statuses/sample"
+        params <- NULL
+    } else {
+        query <- "statuses/filter"
+        params <- stream_params(q, ...)
+    }
 
-  tmp <- FALSE
+    url <- make_url(
+        restapi = FALSE,
+        query,
+        param = params)
 
-  if (is.null(file_name)) {
+    tmp <- FALSE
+
+    if (is.null(file_name)) {
   	tmp <- TRUE
   	file_name <- tempfile(fileext = ".json")
-  }
+    }
 
-  if (is.infinite(timeout)) tmp <- FALSE
+    if (is.infinite(timeout)) tmp <- FALSE
 
-  if (!grepl(".json", file_name)) {
-    file_name <- paste0(file_name, ".json")
-  }
+    if (!grepl(".json", file_name)) {
+        file_name <- paste0(file_name, ".json")
+    }
 
-  if (!file.exists(file_name)) file.create(file_name)
+    if (!file.exists(file_name)) file.create(file_name)
 
-  if (verbose) {
-    message(paste0("Streaming tweets for ", timeout, " seconds..."))
-  }
+    if (verbose) {
+        message(paste0("Streaming tweets for ",
+                       timeout, " seconds..."))
+    }
 
-  r <- NULL
+    r <- NULL
 
-  if (gzip) {
+    if (gzip) {
   	r <- tryCatch(POST(url = url,
-  		config = token, write_disk(file_name, overwrite = TRUE),
-  		add_headers(`Accept-Encoding` = "deflate, gzip"),
-  		progress(), timeout(timeout)),
-  		error = function(e) return(NULL))
-  } else {
+                           config = token,
+                           write_disk(file_name, overwrite = TRUE),
+                           add_headers(`Accept-Encoding` = "deflate, gzip"),
+                           progress(), timeout(timeout)),
+                      error = function(e) return(NULL))
+    } else {
   	r <- tryCatch(POST(url = url,
-  		config = token, write_disk(file_name, overwrite = TRUE),
-  		progress(), timeout(timeout)),
-  		error = function(e) return(NULL))
-  }
+                           config = token,
+                           write_disk(file_name, overwrite = TRUE),
+                           progress(), timeout(timeout)),
+                      error = function(e) return(NULL))
+    }
 
-  if (verbose) {
+    if (verbose) {
   	message("Finished streaming tweets!")
-  }
+    }
 
-  if (parse) {
-  	out <- parse_stream(file_name, clean_tweets = clean_tweets, as_double = as_double)
+    if (parse) {
+  	out <- parse_stream(file_name, clean_tweets = clean_tweets,
+                            as_double = as_double)
   	if (tmp) {
-  	  file.remove(file_name)
+            file.remove(file_name)
   	} else {
-  	  message("streaming data saved as ", file_name)
+            message("streaming data saved as ", file_name)
   	}
   	return(out)
-  } else {
-    message("streaming data saved as ", file_name)
+    } else {
+        message("streaming data saved as ", file_name)
   	invisible()
-  }
+    }
 }
 
 
@@ -194,50 +208,52 @@ stream_tweets <- function(q = "", timeout = 30, parse = TRUE,
 parse_stream <- function(file_name, clean_tweets = TRUE,
                          as_double = FALSE) {
 
-	s <- tryCatch(suppressWarnings(
-    stream_in(file(file_name),
-		verbose = TRUE)), error = function(e) return(NULL))
+    ope <- options("encoding")
+    options(encoding = "UTF-8")
+    on.exit(options(encoding = ope))
 
-	if (is.null(s)) {
-		rl <- readLines(file_name, warn = FALSE)
-		cat(paste0(rl[seq_len(length(rl) - 1)],
-		  collapse = "\n"),
-      file = file_name)
+    s <- tryCatch(suppressWarnings(
+        stream_in(file(file_name),
+                  verbose = TRUE)),
+        error = function(e) return(NULL))
 
-		s <- tryCatch(suppressWarnings(
-      stream_in(file(file_name),
-			verbose = TRUE)), error = function(e) return(NULL))
-	}
-	if (is.null(s)) {
-		cat("\n", file = file_name, append = TRUE)
+    if (is.null(s)) {
+        rl <- readLines(file_name, warn = FALSE)
+        cat(paste0(rl[seq_len(length(rl) - 1)],
+                   collapse = "\n"),
+            file = file_name)
 
-		s <- tryCatch(suppressWarnings(
-      stream_in(file(file_name),
-			verbose = TRUE)), error = function(e) return(NULL))
-	}
-	if (is.null(s)) stop("it's not right. -luther",
-    call. = FALSE)
+        s <- tryCatch(suppressWarnings(
+            stream_in(file(file_name),
+                      verbose = TRUE)),
+            error = function(e) return(NULL))
+    }
+    if (is.null(s)) {
+        cat("\n", file = file_name, append = TRUE)
 
-	s <- parser(s, clean_tweets = clean_tweets,
-	  as_double = as_double)
-
-	attr_tweetusers(s)
+        s <- tryCatch(suppressWarnings(
+            stream_in(file(file_name),
+                      verbose = TRUE)),
+            error = function(e) return(NULL))
+    }
+    if (is.null(s)) stop("it's not right. -luther",
+                         call. = FALSE)
+    parse.piper(s)
 }
 
 #' @keywords internal
 stream_params <- function(stream, ...) {
-  if (length(stream) > 1) {
-    params <- list(locations = paste(stream, collapse = ","))
-  } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
-    if (all(is.integer(as.numeric(stream)))) {
-      params <- list(follow = stream, ...)
+    if (length(stream) > 1) {
+        params <- list(locations = paste(stream, collapse = ","))
+    } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
+        if (all(is.integer(as.numeric(stream)))) {
+            params <- list(follow = stream, ...)
+        }
+    } else {
+        params <- list(track = stream, ...)
     }
-  } else {
-    params <- list(track = stream, ...)
-  }
-
-  params[["filter_level"]] <- "low"
-  params
+    params[["filter_level"]] <- "low"
+    params
 }
 
 #' parse_stream_xl
@@ -253,22 +269,22 @@ stream_params <- function(stream, ...) {
 #'   of Tweets at a time and then compiles the data into a data frame.
 #' @export
 parse_stream_xl <- function(x, by = 10000) {
-  stopifnot(is.character(x), is.numeric(by))
-  x <- readLines(x)
-  n <- length(x)
-  N <- ceiling(n / by)
-  jmin <- 1L
-  df <- vector("list", N)
-  for (i in seq_len(N)) {
-    tmp <- tempfile()
-    jmax <- jmin + (by - 1)
-    if (jmax > n) jmax <- n
-    cat(paste(x[jmin:jmax], collapse = "\n"),
-      file = tmp, append = FALSE)
-    df[[i]] <- parse_stream(tmp)
-    if (jmax >= n) break
-    jmin <- jmax + 1
-    message(i, " of ", N)
-  }
-  do.call("rbind", df)
+    stopifnot(is.character(x), is.numeric(by))
+    x <- readLines(x, warn = FALSE)
+    n <- length(x)
+    N <- ceiling(n / by)
+    jmin <- 1L
+    df <- vector("list", N)
+    for (i in seq_len(N)) {
+        tmp <- tempfile()
+        jmax <- jmin + (by - 1)
+        if (jmax > n) jmax <- n
+        cat(paste(x[jmin:jmax], collapse = "\n"),
+            file = tmp, append = FALSE)
+        df[[i]] <- parse_stream(tmp)
+        if (jmax >= n) break
+        jmin <- jmax + 1
+        message(i, " of ", N)
+    }
+    do.call("rbind", df)
 }

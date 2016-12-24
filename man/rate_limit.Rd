@@ -4,7 +4,7 @@
 \alias{rate_limit}
 \title{rate_limit}
 \usage{
-rate_limit(token, query = NULL, rest = TRUE)
+rate_limit(token, query = NULL, rest = TRUE, parse = TRUE)
 }
 \arguments{
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
@@ -22,6 +22,9 @@ remaining limit for friend id requests.}
 
 \item{rest}{Logical indicating whether to send request to REST
 API. At this time, this should always be TRUE.}
+
+\item{parse}{Logical indicating whether to parse response object
+into tidy data frame.}
 }
 \value{
 Data frame with rate limit respones details. If query

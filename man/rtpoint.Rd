@@ -4,10 +4,10 @@
 \alias{rtpoint}
 \title{rtpoint}
 \usage{
-rtpoint(., noise = FALSE)
+rtpoint(dat, noise = FALSE)
 }
 \arguments{
-\item{.}{Data piped from rtaes function}
+\item{dat}{Data piped from rtaes function}
 
 \item{noise}{Logical indicating whether to apply minor
 jitter function to points.}

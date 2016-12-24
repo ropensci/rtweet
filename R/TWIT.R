@@ -25,11 +25,11 @@
 #' @keywords internal
 #' @noRd
 TWIT <- function(get = TRUE, url, ...) {
-  if (get) {
-    return(GET(url, ...))
-  } else {
-    return(POST(url, ...))
-  }
+    if (get) {
+        GET(url, ...)
+    } else {
+        POST(url, ...)
+    }
 }
 
 #' make_url
@@ -48,23 +48,21 @@ TWIT <- function(get = TRUE, url, ...) {
 #' @keywords internal
 #' @noRd
 make_url <- function(restapi = TRUE, query, param = NULL) {
-
-  if (restapi) {
-    hostname <- "api.twitter.com"
-  } else {
-    hostname <- "stream.twitter.com"
-  }
-
-  structure(
-    list(
-      scheme = "https",
-      hostname = hostname,
-      port = NULL,
-      path = paste0("1.1/", query, ".json"),
-      query = param,
-      params = NULL,
-      fragment = NULL,
-      username = NULL,
-      password = NULL),
-    class = "url")
+    if (restapi) {
+        hostname <- "api.twitter.com"
+    } else {
+        hostname <- "stream.twitter.com"
+    }
+    structure(
+        list(
+            scheme = "https",
+            hostname = hostname,
+            port = NULL,
+            path = paste0("1.1/", query, ".json"),
+            query = param,
+            params = NULL,
+            fragment = NULL,
+            username = NULL,
+            password = NULL),
+        class = "url")
 }

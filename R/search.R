@@ -8,14 +8,18 @@
 #' @param n Numeric, specifying the total number of desired tweets to
 #'   return. Defaults to 100. Maximum number of tweets returned from
 #'   a single token is 18,000. See details for more information.
+#' @param check Logical indicating whether to check the available
+#'   number of API requests. Defaults to true.
 #' @param type Character, specifies what type of search results
 #'   you would prefer to receive. The current default is
-#'   \code{type = "mixed"}, which is a mix between the other two
-#'   valid values \code{type = "recent"} and \code{type = "popular"}.
+#'   \code{type = "recent"}, other valid types include
+#'   \code{type = "mixed"} and \code{type = "popular"}.
 #' @param include_rts Logical, indicating whether to include retweets
 #'   in search results.
 #' @param max_id Character, specifying the [oldest] status id beyond
 #'   which results should resume returning.
+#' @param usr Logical indicating whether to return users data frame.
+#'   Defaults to true.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves users from the time
@@ -80,24 +84,34 @@
 #'   data frame.
 #' @family tweets
 #' @export
-search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
-                          include_rts = TRUE, parse = TRUE,
+search_tweets <- function(q, n = 100,
+                          check = TRUE,
+                          type = "recent",
+                          max_id = NULL,
+                          include_rts = TRUE,
+                          parse = TRUE,
+                          usr = TRUE,
                           clean_tweets = FALSE,
-                          as_double = FALSE, token = NULL,
+                          as_double = FALSE,
+                          token = NULL,
                           verbose = TRUE, ...) {
 
     query <- "search/tweets"
     stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
     token <- check_token(token, query)
-                                        #n.times <- rate_limit(token, query)[["remaining"]]
-    n.times <- 180
+
+    if (check) {
+        n.times <- rate_limit(token, query)[["remaining"]]
+    } else {
+        n.times <- 180
+    }
 
     if (nchar(q) > 500) {
         stop("q cannot exceed 500 characters.", call. = FALSE)
     }
 
     if (length(type) > 1) {
-        stop("can only select one search type. Try type = 'mixed'.",
+        stop("can only select one search type. Try type = 'recent'.",
              call. = FALSE)
     }
 
@@ -106,7 +120,7 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
              call. = FALSE)
     }
 
-    if (!include_rts) q <- paste0(q, " -RT")
+    if (!include_rts) q <- paste0(q, " -filter:retweets")
 
     params <- list(q = q,
                    result_type = type,
@@ -123,19 +137,12 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
     tw <- scroller(url, n, n.times, type = "search", token)
 
     if (parse) {
-        tw <- parser(tw, n, clean_tweets = clean_tweets,
-                     as_double = as_double)
-        if (!is.null(tw)) {
-            if (is.list(tw)) {
-                tw <- attr_tweetusers(tw)
-            }
-        }
+        tw <- parse.piper(tw, usr = usr)
     }
 
     if (verbose) {
         message("Finished collecting tweets!")
     }
-
     tw
 }
 
@@ -155,6 +162,8 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
+#' @param tw Logical indicating whether to return tweets data frame.
+#'   Defaults to true.
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to FALSE.
 #' @param as_double logical indicating whether to handle ID variables
@@ -183,13 +192,23 @@ search_tweets <- function(q, n = 100, type = "mixed", max_id = NULL,
 #' @return Data frame of users returned by query.
 #' @family users
 #' @export
-search_users <- function(q, n = 20, parse = TRUE,
-                         clean_tweets = FALSE, as_double = FALSE,
-                         token = NULL, verbose = TRUE) {
+search_users <- function(q, n = 20,
+                         parse = TRUE,
+                         tw = TRUE,
+                         clean_tweets = FALSE,
+                         as_double = FALSE,
+                         token = NULL,
+                         verbose = TRUE) {
 
     query <- "users/search"
     stopifnot(is_n(n), is.atomic(q))
     token <- check_token(token, query)
+    if (n > 1000) {
+        warning(
+            paste0("search only returns up to 1,000 users per ",
+                   "unique search. Setting n to 1000..."))
+        n <- 1000
+    }
     n.times <- ceiling(n / 20)
     if (n.times > 50) n.times <- 50
 
@@ -200,11 +219,9 @@ search_users <- function(q, n = 20, parse = TRUE,
     params <- list(q = q,
                    count = 20,
                    page = 1)
-
     url <- make_url(
         query = query,
         param = params)
-
     if (verbose) message("Searching for users...")
 
     usr <- vector("list", n.times)
@@ -214,42 +231,29 @@ search_users <- function(q, n = 20, parse = TRUE,
     for (i in seq_len(n.times)) {
         r <- tryCatch(
             TWIT(get = TRUE, url, token),
-            error = function(e) NULL)
+            error = function(e) return(NULL))
 
         if (is.null(r)) break
 
         usr[[i]] <- from_js(r)
 
         if (identical(length(usr[[i]]), 0)) break
-        if (isTRUE(is.numeric(nrow(usr[[i]])))) {
-            nrows <- nrow(usr[[i]])
+        if (isTRUE(is.numeric(NROW(usr[[i]])))) {
+            nrows <- NROW(usr[[i]])
         } else {
             if (identical(nrows, 0)) break
             nrows <- 0
         }
-
         k <- k + nrows
-
         if (k >= n) break
-
         url$query$page <- (i + 1L)
     }
-
     if (parse) {
-        usr <- parser(usr, n, clean_tweets = clean_tweets,
-                      as_double = as_double)
-        if (!is.null(usr)) {
-            if (is.list(usr)) {
-                usr <- usr[c("users", "tweets")]
-                usr <- attr_tweetusers(usr)
-            }
-        }
+        usr <- parse.piper.usr(usr, tw = tw)
     }
-
     if (verbose) {
         message("Finished collecting users!")
     }
-
     usr
 }
 
@@ -259,22 +263,22 @@ count_users_returned <- function(x) {
 }
 
 
-
 #' Get value for max_id
 #'
 #' @param df Tweets data frame with "created_at" and "status_id" variables.
 #'
 #' @return Character string of max_id to be used in future function calls.
 #' @export
-#'
 next_id <- function(df) {
     if (!all(c("created_at", "status_id") %in% names(df))) {
         stop("wrong data frame - function requires tweets data")
     }
-    if (any(grepl("posix", class(df$created_at), ignore.case = TRUE))) {
+    if (any(grepl("posix", class(df$created_at),
+                  ignore.case = TRUE))) {
         df$created_at <- format_date(df$created_at)
     }
     df <- df[!is.na(df$status_id), ]
     df <- df[order(df$created_at), ]
-    df$status_id[1]
+
+    return(df$status_id[1])
 }

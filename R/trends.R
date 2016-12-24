@@ -33,55 +33,59 @@
 #' @return Trend data for a given location.
 #' @family trends
 #' @export
-get_trends <- function(woeid = 1, exclude = FALSE, token = NULL,
-	parse = TRUE) {
+get_trends <- function(woeid = 1,
+                       exclude = FALSE,
+                       token = NULL,
+                       parse = TRUE) {
 
-	stopifnot(is.atomic(woeid), length(woeid) == 1)
+    stopifnot(is.atomic(woeid), length(woeid) == 1)
 
-	woeid <- check_woeid(woeid)
+    woeid <- check_woeid(woeid)
 
-	query <- "trends/place"
+    query <- "trends/place"
 
-	token <- check_token(token, query)
+    token <- check_token(token, query)
 
-	params <- list(
-		id = woeid,
-		exclude = exclude)
+    params <- list(
+        id = woeid,
+        exclude = exclude)
 
-	url <- make_url(
-		query = query,
-		param = params)
+    url <- make_url(
+        query = query,
+        param = params)
 
-	gt <- TWIT(get = TRUE, url, token)
+    gt <- TWIT(get = TRUE, url, token)
 
-	gt <- from_js(gt)
+    gt <- from_js(gt)
 
-	if (parse) gt <- parse_trends(gt)
+    if (parse) gt <- parse_trends(gt)
 
-	gt
+    gt
 }
 
 
 parse_trends <- function(x) {
-	trends <- data.frame(x$trends[[1]], stringsAsFactors = FALSE)
-	rows <- nrow(trends)
-	names(trends)[names(trends) == "name"] <- "trend"
-	cbind(trends, data.frame(
-		as_of = format_trend_date(rep(x$as_of, rows)),
-		created_at = format_trend_date(rep(x$created_at, rows)),
-		place = rep(x$locations[[1]]$name, rows),
-		woeid = rep(x$locations[[1]]$woeid, rows)),
-		stringsAsFactors = FALSE)
+    trends <- data.frame(x$trends[[1]],
+                         stringsAsFactors = FALSE)
+    rows <- nrow(trends)
+    names(trends)[names(trends) == "name"] <- "trend"
+    cbind(trends,
+          data.frame(
+              as_of = format_trend_date(rep(x$as_of, rows)),
+              created_at = format_trend_date(rep(x$created_at, rows)),
+              place = rep(x$locations[[1]]$name, rows),
+              woeid = rep(x$locations[[1]]$woeid, rows)),
+          stringsAsFactors = FALSE)
 }
 
 
 format_trend_date <- function(x, date = FALSE) {
-	x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ",
-		tz = Sys.timezone())
-	if (date) {
-		x <- as.Date(x)
-	}
-	x
+    x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ",
+                    tz = Sys.timezone())
+    if (date) {
+        x <- as.Date(x)
+    }
+    x
 }
 
 #' trends_available
@@ -119,28 +123,21 @@ format_trend_date <- function(x, date = FALSE) {
 #' @family trends
 #' @export
 trends_available <- function(token = NULL, parse = TRUE) {
-
-	query <- "trends/available"
-
-	token <- check_token(token, query)
-
-	url <- make_url(query = query,
-		param = NULL)
-
-	trd <- TWIT(get = TRUE, url, token)
-
-	trd <- from_js(trd)
-
-	if (parse) trd <- parse_trends_available(trd)
-
-	trd
+    query <- "trends/available"
+    token <- check_token(token, query)
+    url <- make_url(query = query,
+                    param = NULL)
+    trd <- TWIT(get = TRUE, url, token)
+    trd <- from_js(trd)
+    if (parse) trd <- parse_trends_available(trd)
+    trd
 }
 
-
 parse_trends_available <- function(x) {
-	p <- cbind(data.frame(x[names(x) != "placeType"],
-		stringsAsFactors = FALSE),
-		data.frame(x[["placeType"]], stringsAsFactors = FALSE))
-	names(p)[ncol(p)] <- "place_type"
-	p
+    p <- cbind(data.frame(x[names(x) != "placeType"],
+                          stringsAsFactors = FALSE),
+               data.frame(x[["placeType"]],
+                          stringsAsFactors = FALSE))
+    names(p)[ncol(p)] <- "place_type"
+    p
 }
