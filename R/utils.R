@@ -38,8 +38,9 @@ nanull <- function(x) {
 
 is_response <- function(x) {
     any(identical(class(x), "response"),
-  	all(c("content", "headers") %xy% x))
+  	all(c("content", "headers") %in% names(x)))
 }
+
 is_json <- function (x) {
     stopifnot(is_response(x))
     grepl("application/json", x$headers[["content-type"]])
@@ -168,10 +169,10 @@ check_user_id <- function(dat, n = NULL) {
 
     user_id <- rep(NA_character_, n)
 
-    if ("user" %xy% dat) {
+    if ("user" %in% names(dat)) {
         user <- dat[["user"]]
 
-        if ("id_str" %xy% user) {
+        if ("id_str" %in% names(user)) {
             user_id <- user[["id_str"]]
         }
     }
@@ -188,10 +189,10 @@ check_screen_name <- function(dat, n = NULL) {
 
     screen_name <- rep(NA_character_, n)
 
-    if ("user" %xy% dat) {
+    if ("user" %in% names(dat)) {
         user <- dat[["user"]]
 
-        if ("screen_name" %xy% user) {
+        if ("screen_name" %in% names(user)) {
             screen_name <- user[["screen_name"]]
         }
     }
@@ -277,7 +278,7 @@ is_url <- function(url) {
     url_names <- c("scheme", "hostname",
                    "port", "path", "query")
     if (all(length(url) > 1, is.list(url),
-            url_names %xy% url)) {
+            url_names %in% names(url))) {
         return(TRUE)
     } else {
         return(FALSE)
@@ -291,12 +292,12 @@ check_response_obj <- function(dat) {
              call. = TRUE)
     }
 
-    if ("statuses" %xy% dat) {
+    if ("statuses" %in% names(dat)) {
         dat <- dat[["statuses"]]
     }
 
-    if (!"id_str" %xy% dat) {
-        if ("id" %xy% dat) {
+    if (!"id_str" %in% names(dat)) {
+        if ("id" %in% names(dat)) {
             dat$id_str <- dat$id
         }
     }

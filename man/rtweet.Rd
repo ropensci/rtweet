@@ -27,13 +27,12 @@ It has three main goals:
 }
 \examples{
 \dontrun{
-# for instructions on access tokens, see the tokens vignette
+## for instructions on access tokens, see the tokens vignette
 vignette("tokens")
 
-# for a quick demo check the rtweet vignette
+## for a quick demo check the rtweet vignette
 vignette("rtweet")
 }
-
 
 }
 

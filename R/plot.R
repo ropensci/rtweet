@@ -285,6 +285,15 @@ sollts <- function(x, by = "days") {
     as.data.frame(table(ca), stringsAsFactors = FALSE)
 }
 
+#' ggplot colors
+#'
+#' Returns ggplot2 html colors.
+#'
+#' @param n Number of colors to return. If fewer than 4,
+#'   the function randomly samples 3 better colors than
+#'   what's normally produced ny the ggplot internal
+#'   mechanism.
+#' @return Character vector of html colors.
 #' @export
 gg_cols <- function(n) {
     if (n < 4) {

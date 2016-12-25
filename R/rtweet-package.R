@@ -17,13 +17,12 @@
 #' }
 #' @examples
 #' \dontrun{
-#' # for instructions on access tokens, see the tokens vignette
+#' ## for instructions on access tokens, see the tokens vignette
 #' vignette("tokens")
 #'
-#' # for a quick demo check the rtweet vignette
+#' ## for a quick demo check the rtweet vignette
 #' vignette("rtweet")
 #' }
-#'
 #'
 #' @docType package
 #' @aliases tokens rtwitter rtweets
@@ -31,7 +30,7 @@
 NULL
 
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage("Welcome to rtweet v0.3.8!")
+    packageStartupMessage("Welcome to rtweet v0.3.9!")
 }
 
 .state <- new.env(parent = emptyenv())
