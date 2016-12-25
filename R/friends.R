@@ -125,9 +125,10 @@ ply_friends <- function(users, token = NULL, ...) {
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console). 
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @export
-lookup_friendships <- function(user, parse = TRUE, token = NULL) {
+lookup_friendships <- function(user, parse = TRUE,
+                               token = NULL) {
 
     stopifnot(is.atomic(user))
 

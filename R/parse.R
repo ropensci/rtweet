@@ -15,15 +15,18 @@
 #'   lead to issues when printing and saving, depending on the format.
 #' @keywords internal
 #' @export
-parser.old <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
-                   clean_tweets = FALSE, as_double = FALSE) {
+parser.old <- function(x, n = NULL,
+                       return_tweets = TRUE,
+                       return_users = TRUE,
+                       clean_tweets = FALSE,
+                       as_double = FALSE) {
 
     tweets <- data.frame()
     users <- data.frame()
 
     if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
         if (return_tweets) {
-            tweets <- parse_tweets(x, clean_tweets = clean_tweets, 
+            tweets <- parse_tweets(x, clean_tweets = clean_tweets,
                                    as_double = as_double)
         }
         if (return_users) {
@@ -32,7 +35,7 @@ parser.old <- function(x, n = NULL, return_tweets = TRUE, return_users = TRUE,
     } else {
         stopifnot(is.list(x))
         if (return_tweets) {
-            tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets, 
+            tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets,
                            as_double = as_double)
         }
         if (return_users) {
@@ -97,22 +100,22 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
 parse.piper.fs <- function(f, n = NULL, as_double = FALSE) {
     if (as_double) {
         df <- f %>% plyget("ids") %>%
-            make.vector %>%
-            as.double %>%
+            make.vector() %>%
+            as.double() %>%
             as.df("user_id") %>%
             tryCatch(error = function(e) return(NULL))
     } else {
         df <- f %>% plyget("ids") %>%
-            make.vector %>%
-            as.character %>%
+            make.vector() %>%
+            as.character() %>%
             as.df("user_id") %>%
             tryCatch(error = function(e) return(NULL))
     }
     if (is.null(df)) return(f)
     next_cursor <- f %>%
         plyget("next_cursor") %>%
-        return_last %>%
-        unL %>%
+        return_last() %>%
+        unL() %>%
         tryCatch(error = function(e) return(NULL))
     if (is.null(next_cursor))  {
         next_cursor <- NA_character_
