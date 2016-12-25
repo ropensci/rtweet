@@ -10,7 +10,8 @@
 #' @family tokens
 #' @export
 get_tokens <- function() {
-    if (all(is.null(.state$twitter_tokens), !is.null(.state$twitter_token))) {
+    if (all(is.null(.state$twitter_tokens),
+            !is.null(.state$twitter_token))) {
         .state$twitter_tokens <- .state$twitter_token
     }
     if (is.null(.state$twitter_tokens)) {
@@ -78,11 +79,13 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
     if (is.list(tokens)) {
         for (i in seq_along(tokens)) {
-            remaining <- rate_limit(token = tokens[[i]], query)[["remaining"]]
+            remaining <- rate_limit(token = tokens[[i]],
+                                    query)[["remaining"]]
             if (isTRUE(remaining > 0)) return(tokens[[i]])
         }
     } else {
-        remaining <- rate_limit(token = tokens, query)[["remaining"]]
+        remaining <- rate_limit(token = tokens,
+                                query)[["remaining"]]
         if (isTRUE(remaining > 0)) return(tokens)
     }
 

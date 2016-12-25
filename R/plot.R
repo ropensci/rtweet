@@ -514,7 +514,7 @@ rtline <- function(dat, new = FALSE, ...) {
 #'
 #' Initiates and plots new world map
 #'
-#' @param . Piped data
+#' @param dat Piped data
 #' @param \dots Args passed along to plot function.
 #' @export
 rtmap <- function(dat, ...) {

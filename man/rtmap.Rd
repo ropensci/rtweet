@@ -7,7 +7,7 @@
 rtmap(dat, ...)
 }
 \arguments{
-\item{.}{Piped data}
+\item{dat}{Piped data}
 
 \item{\dots}{Args passed along to plot function.}
 }
