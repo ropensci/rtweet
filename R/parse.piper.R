@@ -72,8 +72,8 @@ unL <- function(x) {
 }
 
 ## map df
-plydf <- function(., var) {
-    plyget(plyget(., getifelse, var), pastena)
+plydf <- function(x, var) {
+    plyget(plyget(x, getifelse, var), pastena)
 }
 
 ## unbox place coords
@@ -161,19 +161,18 @@ iserror <- function(x) {
 
 
 ## safe pipe
-ifelsepipe <- function(., cond, f = NA) {
-    if (is.null(.)) return(rep(f, nrows(.)))
+ifelsepipe <- function(x, cond, f = NA) {
+    if (is.null(x)) return(rep(f, nrows(x)))
     if (is.character(cond)) {
-        if (cond %in% names(.)) {
-            ##if (is.smth(.[[cond]])) return(.[[cond]])
-            return(.[[cond]])
+        if (cond %in% names(x)) {
+            return(x[[cond]])
         } else {
-            return(rep(f, nrows(.)))
+            return(rep(f, nrows(x)))
         }
     } else if (cond) {
-        return(.)
+        return(x)
     }
-    rep(f, nrows(.))
+    rep(f, nrows(x))
 }
 
 ## invert is.na

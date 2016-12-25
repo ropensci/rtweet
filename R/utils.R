@@ -48,9 +48,6 @@ is_json <- function (x) {
 
 #' @importFrom jsonlite fromJSON
 from_js <- function(rsp, check_rate_limit = TRUE) {
-    ope <- options("encoding")
-    options(encoding = "UTF-8")
-    on.exit(options(encoding = ope))
     if (!is_json(rsp)) {
         stop("API did not return json", call. = FALSE)
     }

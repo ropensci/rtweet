@@ -95,9 +95,9 @@ stream_tweets <- function(q = "",
                           gzip = FALSE,
                           verbose = TRUE, ...) {
 
-    ope <- options("encoding")
+    ope <- options()
     options(encoding = "UTF-8")
-    on.exit(options(encoding = ope))
+    on.exit(options(ope))
 
     token <- check_token(token)
 

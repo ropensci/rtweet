@@ -71,7 +71,7 @@ follow_user <- function(user,
     } else {
         query <- "friendships/create"
     }
-    
+
     params <- list(
         user_type = user,
         notify = notify)
@@ -100,7 +100,7 @@ follow_user <- function(user,
 unfollow_user <- function(user, token = NULL) {
     follow_user(user, destroy = TRUE, token = token)
 }
-    
+
 #' favorite_tweet
 #'
 #' @description Favorites target status id.
@@ -136,7 +136,7 @@ favorite_tweet <- function(status_id,
     } else {
         query <- "favorites/create"
     }
-    
+
     params <- list(
         id = status_id)
 
@@ -169,7 +169,7 @@ friendship_update <- function(user,
                               device = FALSE,
                               retweets = FALSE,
                               token = NULL) {
-    
+
     stopifnot(is.atomic(user), is.logical(device),
               is.logical(retweets))
 
@@ -179,7 +179,8 @@ friendship_update <- function(user,
 
     params <- list(
         user_type = user,
-        notify = notify)
+        device = device,
+        retweets = retweets)
 
     names(params)[1] <- .id_type(user)
 

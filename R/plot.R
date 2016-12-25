@@ -345,9 +345,9 @@ basemap <- function(mapdf = NULL,
 latlong <- function(x) {
     data.frame(
         lat = rowMeans(
-            data$coordinates[, 1:4], na.rm = TRUE),
+            x$coordinates[, 1:4], na.rm = TRUE),
         long = rowMeans(
-            data$coordinates[, 5:8], na.rm = TRUE))
+            x$coordinates[, 5:8], na.rm = TRUE))
 }
 go.long <- function(data)
     rowMeans(data$coordinates[, 1:4], na.rm = TRUE)

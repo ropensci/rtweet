@@ -156,6 +156,7 @@ lookup_friendships <- function(user, parse = TRUE,
     }
 }
 
+
 #' @importFrom jsonlite fromJSON
 parse_fndshp <- function(fndshp) {
     fndshp <- fndshp[["content"]] %>%
