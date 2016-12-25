@@ -77,7 +77,7 @@ parse.piper.fnd <- function(r) {
     r <- r[["content"]] %>%
         rawToChar %>%
         jsonlite::fromJSON() %>%
-        .[["ids"]] %>%
+        getElement("ids") %>%
         as.character %>%
         data.frame(stringsAsFactors = FALSE)
     names(r) <- "user_id"
@@ -182,5 +182,5 @@ parse_fndshp <- function(fndshp) {
         plyget("connections") %>%
         plyget(function(x) "none" %in% x) %>%
         unlist(use.names = FALSE)
-    fndshp %>% .[, c(1:2, 4, 6:10)]
+    fndshp[, c(1:2, 4, 6:10)]
 }
