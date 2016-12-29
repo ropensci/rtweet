@@ -469,7 +469,8 @@ atomic.parsed.usr <- function(rt) {
             unL,
         created_at = rt %>%
             plyget("created_at") %>%
-            unL,
+            unL %>%
+            format_date,
         favourites_count = rt %>%
             plyget("favourites_count") %>%
             unL,

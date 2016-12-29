@@ -9,6 +9,8 @@
 #'   an environment variable @describeIn tokens.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
+#' @param usr Logical indicating whether to return users data frame.
+#'   Defaults to true.
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to FALSE.
 #' @param as_double logical indicating whether to handle ID variables
@@ -32,8 +34,12 @@
 #' @return json response object (max is 18000 per token)
 #' @family tweets
 #' @export
-lookup_statuses <- function(statuses, token = NULL, parse = TRUE,
-                            clean_tweets = FALSE, as_double = FALSE) {
+lookup_statuses <- function(statuses,
+                            token = NULL,
+                            parse = TRUE,
+                            usr = TRUE,
+                            clean_tweets = FALSE,
+                            as_double = FALSE) {
 
     if (is.list(statuses)) {
         statuses <- unlist(statuses)
@@ -66,7 +72,7 @@ lookup_statuses <- function(statuses, token = NULL, parse = TRUE,
     }
 
     if (parse) {
-        twt <- parse.piper(twt)
+        twt <- parse.piper(twt, usr = usr)
     }
 
     twt

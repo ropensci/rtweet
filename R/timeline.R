@@ -1,12 +1,20 @@
 #' get_timeline
 #'
 #' @description Returns timeline of tweets from a specified
-#'   Twitter user.
+#'   Twitter user. By default, get_timeline returns tweets
+#'   posted by a given user. To return a user's timeline feed,
+#'   that is, tweets posted by accounts you follow, set the
+#'   home argument to true.
 #'
 #' @param user Screen name or user id of target user.
 #' @param n Numeric, number of tweets to return.
 #' @param max_id Character, status_id from which returned tweets
-#'   should be older than
+#'   should be older than.
+#' @param home Logical, indicating whether to return a user-timeline
+#'   or home-timeline. By default, home is set to FALSe, which means
+#'   \code{get_timeline} returns tweets posted by the given user.
+#'   To return a user's home timeline feed, that is, the tweets posted
+#'   by accounts followed by a user, set the home to false.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves users from the time
@@ -53,18 +61,25 @@
 #' @export
 get_timeline <- function(user, n = 200,
                          max_id = NULL,
+                         home = FALSE,
                          parse = TRUE,
                          clean_tweets = FALSE,
                          as_double = FALSE,
                          usr = TRUE,
                          token = NULL, ...) {
 
-    query <- "statuses/user_timeline"
+    stopifnot(is_n(n), is.atomic(user), is.atomic(max_id),
+              is.logical(home))
 
-    stopifnot(is_n(n), is.atomic(user), is.atomic(max_id))
+    if (home) {
+        query <- "statuses/home_timeline"
+    } else {
+        query <- "statuses/user_timeline"
+    }
 
     if (length(user) > 1) {
-        stop("can only return tweets for one user at a time.", call. = FALSE)
+        stop("can only return tweets for one user at a time.",
+             call. = FALSE)
     }
 
     token <- check_token(token, query)

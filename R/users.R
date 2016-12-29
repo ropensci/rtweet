@@ -9,6 +9,8 @@
 #'   an environment variable @describeIn tokens.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
+#' @param tw Logical indicating whether to return tweets data frame.
+#'   Defaults to true.
 #' @param clean_tweets logical indicating whether to remove non-ASCII
 #'   characters in text of tweets. defaults to TRUE.
 #' @param as_double logical indicating whether to handle ID variables
@@ -34,8 +36,10 @@
 #' @return json response object (max is 18000 per token)
 #' @family users
 #' @export
-lookup_users <- function(users, token = NULL,
+lookup_users <- function(users,
+                         token = NULL,
                          parse = TRUE,
+                         tw = TRUE,
                          clean_tweets = TRUE,
                          as_double = FALSE) {
 
@@ -43,7 +47,7 @@ lookup_users <- function(users, token = NULL,
         users <- unlist(users, use.names = FALSE)
     }
     stopifnot(is.atomic(users))
-    users <- as.character(users)
+    users <- as.character(users) %>% unique()
     users <- users[!is.na(users)]
     if (length(users) < 101) {
         usr <- .user_lookup(users, token)
@@ -66,9 +70,7 @@ lookup_users <- function(users, token = NULL,
         }
     }
     if (parse) {
-        usr <- parser(usr, clean_tweets = clean_tweets,
-                      as_double = as_double)
-        usr <- attr_tweetusers(usr[c("users", "tweets")])
+        usr <- parse.piper.usr(usr, tw = tw)
     }
     usr
 }
@@ -76,15 +78,17 @@ lookup_users <- function(users, token = NULL,
 .user_lookup <- function(users, token = NULL) {
 
     query <- "users/lookup"
+    get <- TRUE
     if (length(users) > 100) {
         users <- users[1:100]
     }
+    if (length(users) > 80) get <- FALSE
     params <- list(id_type = paste0(users, collapse = ","))
     names(params)[1] <- .ids_type(users)
     url <- make_url(
         query = query,
         param = params)
     token <- check_token(token, query = query)
-    resp <- TWIT(get = TRUE, url, token)
+    resp <- TWIT(get = get, url, token)
     from_js(resp)
 }

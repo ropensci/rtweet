@@ -4,16 +4,18 @@
 \alias{ts_plot}
 \title{ts_plot}
 \usage{
-ts_plot(rt, by = "days", txt = "text", filter = NULL, exclude = NULL,
-  key = NULL, cols = NULL, xlim = NULL, ylim = NULL, legend = TRUE,
-  leg.x = NULL, leg.y = NULL, lab.cex = NULL, lwd = NULL, plot = TRUE,
-  ...)
+ts_plot(rt, by = "days", dt = "created_at", txt = "text", filter = NULL,
+  exclude = NULL, key = NULL, cols = NULL, xlim = NULL, ylim = NULL,
+  legend = TRUE, base.axes = TRUE, location = "right", leg.x = NULL,
+  leg.y = NULL, lab.cex = NULL, lwd = NULL, plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets data frame}
 
 \item{by}{Unit of time, e.g., \code{secs, days, weeks,
 months, years}}
+
+\item{dt}{Name of date object.}
 
 \item{txt}{Name of text variable in data frame which
 filter is applied to.}
@@ -46,6 +48,9 @@ legend. Defaults to true.}
 \item{lwd}{Width of filter lines}
 
 \item{plot}{Logical indicating whether to draw plot.}
+
+\item{base.axis}{Logical indicating whether to use base R
+axis methods or the rtweet internal. Defaults to true.}
 
 \item{\dots}{Arguments passed to plot function, e.g.,
 \code{main = "#rstats tweets"},

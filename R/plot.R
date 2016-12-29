@@ -11,6 +11,7 @@ magrittr::`%>%`
 #' @param rt Tweets data frame
 #' @param by Unit of time, e.g., \code{secs, days, weeks,
 #'   months, years}
+#' @param dt Name of date object.
 #' @param txt Name of text variable in data frame which
 #'   filter is applied to.
 #' @param filter Vector of regular expressions with which to
@@ -23,6 +24,8 @@ magrittr::`%>%`
 #'   time.
 #' @param ylim Limits for y axis, defaults to range plus a little
 #'   bit of padding.
+#' @param base.axis Logical indicating whether to use base R
+#'   axis methods or the rtweet internal. Defaults to true.
 #' @param legend Logical indicating wether to include a plot
 #'   legend. Defaults to true.
 #' @param leg.x Location for plot text
@@ -72,6 +75,7 @@ magrittr::`%>%`
 #' @importFrom stats runif sd aggregate
 #' @export
 ts_plot <- function(rt, by = "days",
+                    dt = "created_at",
                     txt = "text",
                     filter = NULL,
                     exclude = NULL,
@@ -80,6 +84,8 @@ ts_plot <- function(rt, by = "days",
                     xlim = NULL,
                     ylim = NULL,
                     legend = TRUE,
+                    base.axes = TRUE,
+                    location = "right",
                     leg.x = NULL,
                     leg.y = NULL,
                     lab.cex = NULL,
@@ -93,10 +99,10 @@ ts_plot <- function(rt, by = "days",
         key <- filter
     }
     if (identical(filter, "")) {
-        fd <- list(sollts(rt[["created_at"]], by = by))
+        fd <- list(sollts(rt[[dt]], by = by))
     } else {
         fd <- lapply(lapply(filter, grep, rt[[txt]]),
-                     function(x) rt[["created_at"]][x])
+                     function(x) rt[[dt]][x])
         fd <- lapply(fd, sollts, by = by)
     }
 
@@ -111,95 +117,96 @@ ts_plot <- function(rt, by = "days",
     if (!plot) return(invisible(df))
 
     op <- par(no.readonly = TRUE)
-    par(bg = "#f0f0f0cc", bty = "n",
-        tcl = -.125, las = 1,
-        mar = c(5, 4, 4, 8.5), cex = .8)
-    grid.minor <- rep(0, 49)
-    grid.minor[(0:24 * 2) + 1] <- 1
-    grid.major <- rep(3, 6)
+    par(bg = "#fafafa", cex = .8)
 
-    ## x axis
-    if (is.null(xlim)) {
-        xlim <- range(df$time, na.rm = TRUE)
-    }
-    xaxis <- seq.POSIXt(xlim[1], xlim[2], length.out = 4)
-    ## y axis
-    if (is.null(ylim)) {
-        pads <- ceiling(sd(df$freq, na.rm = TRUE) / 5)
-        ylim <- c(min(df$freq, na.rm = TRUE) - pads,
-                  max(df$freq, na.rm = TRUE) + pads)
-        if (ylim[1] <= 0) {
-            ylim[1] <- 0
-        } else {
-            ylim[1] <- ylim[1] - (ylim[2] %% 5)
+    if (!base.axes) {
+        ## x axis
+        if (is.null(xlim)) {
+            xlim <- range(df$time, na.rm = TRUE)
         }
-        ylim[2] <- ylim[2] + 5 - (ylim[2] %% 5)
-    }
-    yaxis <- seq(ylim[1], ylim[2], length.out = 5)
+        xaxis <- seq.POSIXt(xlim[1], xlim[2], length.out = 4)
 
-    plot(df$time, df$freq,
-         ylim = ylim,
-         type = "p",
-         cex = 0,
-         col = NA,
-         xlab = "Time",
-         ylab = "Freq",
-         axes = FALSE, ...,
-         panel.first = list(
-             rect(par("usr")[1], par("usr")[3],
-                  par("usr")[2], par("usr")[4],
-                  col = "#fcfcfc", border = "#f2f2f2",
-                  lwd = .75)),
-         panel.last = list(
-             grid(4, 4, lty = grid.major, lwd = .75),
-             grid(8, 8, lty = grid.minor, lwd = .75)))
-    om <- par("mai")
-    par(mar = c(0,0,0,0))
-    points(runif(500000, xlim[1], xlim[2]),
-           runif(500000, ylim[1], ylim[2]),
-           col = "#ffffffaa", pch = 16, cex = .1)
-    par(mai = om)
-    par(mar = c(5, 4, 4, 8.5))
-    axis(2, at = round(yaxis, 0),
-         lwd = 0, col = "#666666",
-         lwd.ticks = 2, col.ticks = "#444444")
+        ## y axis
+        if (is.null(ylim)) {
+            pads <- ceiling(sd(df$freq, na.rm = TRUE) / 5)
+            ylim <- c(min(df$freq, na.rm = TRUE) - pads,
+                      max(df$freq, na.rm = TRUE) + pads)
+            if (ylim[1] <= 0) {
+                ylim[1] <- 0
+            } else {
+                ydiv <- ceiling(diff(ylim)/100) * 10
+                ylim[1] <- ylim[1] - (ylim[1] %% ydiv)
+            }
+            ylim[2] <- ylim[2] + ydiv - (ylim[2] %% ydiv)
+        }
+        yaxis <- seq(ylim[1], ylim[2], length.out = 4)
+        with(df, plot(time, freq,
+                      xlim = xlim,
+                      ylim = ylim,
+                      type = "n",
+                      cex = 0,
+                      col = NA,
+                      axes = FALSE, ...))
+        par(las = 1, tcl = -.1)
+        box("plot", lty = "solid",
+            col = "#666666", lwd = 1.25)
 
-    if (abs(diff(as.numeric(xlim))) > 10000000) {
-        axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-             labels = format(as.POSIXct(seq(
-                 xlim[1], xlim[2],
-                 length.out = 4)), "%b %Y"),
+        grid(7, lty = 3, lwd = .35, col = "#222222")
+
+        axis(2, at = round(yaxis, 0),
              lwd = 0, col = "#666666",
              lwd.ticks = 2, col.ticks = "#444444")
-    } else if (any(grepl("sec|min", by))) {
-        axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-             labels = format(
-                 as.POSIXct(seq(
+
+        if (abs(diff(as.numeric(xlim))) > 10000000) {
+            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
+                 labels = format(as.POSIXct(seq(
                      xlim[1], xlim[2],
-                     length.out = 4)), "%l:%M%p"),
-             lwd = 0, col = "#666666",
-             lwd.ticks = 2, col.ticks = "#444444")
-    } else if (any(grepl("hour", by))) {
-        axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-             labels = format(as.POSIXct(seq(
-                 xlim[1], xlim[2],
-                 length.out = 4)), "%a"),
-             lwd = 0, col = "#666666",
-             lwd.ticks = 2, col.ticks = "#444444")
-    } else if (any(grepl("day|week", by))) {
-        axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-             labels = format(as.POSIXct(seq(
-                 xlim[1], xlim[2],
-                 length.out = 4)), "%b %d"),
-             lwd = 0, col = "#666666",
-             lwd.ticks = 2, col.ticks = "#444444")
+                     length.out = 4)), "%b %Y"),
+                 lwd = 0, col = "#666666",
+                 lwd.ticks = 2, col.ticks = "#444444")
+        } else if (any(grepl("sec|min", by))) {
+            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
+                 labels = format(
+                     as.POSIXct(seq(
+                         xlim[1], xlim[2],
+                         length.out = 4)), "%l:%M%p"),
+                 lwd = 0, col = "#666666",
+                 lwd.ticks = 2, col.ticks = "#444444")
+        } else if (any(grepl("hour", by))) {
+            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
+                 labels = format(as.POSIXct(seq(
+                     xlim[1], xlim[2],
+                     length.out = 4)), "%a"),
+                 lwd = 0, col = "#666666",
+                 lwd.ticks = 2, col.ticks = "#444444")
+        } else if (any(grepl("day|week", by))) {
+            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
+                 labels = format(as.POSIXct(seq(
+                     xlim[1], xlim[2],
+                     length.out = 4)), "%b %d"),
+                 lwd = 0, col = "#666666",
+                 lwd.ticks = 2, col.ticks = "#444444")
+        } else {
+            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
+                 labels = format(as.POSIXct(seq(
+                     xlim[1], xlim[2],
+                     length.out = 4)), "%b %Y"),
+                 lwd = 0, col = "#666666",
+                 lwd.ticks = 2, col.ticks = "#444444")
+        }
+
     } else {
-        axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-             labels = format(as.POSIXct(seq(
-                 xlim[1], xlim[2],
-                 length.out = 4)), "%b %Y"),
-             lwd = 0, col = "#666666",
-             lwd.ticks = 2, col.ticks = "#444444")
+        with(df, plot(time, freq,
+                      xlim = xlim,
+                      ylim = ylim,
+                      type = "n",
+                      cex = 0,
+                      col = NA,
+                      axes = TRUE, ...))
+        par(las = 1, tcl = -.1)
+        box("plot", lty = "solid",
+            col = "#666666", lwd = 1.25)
+        grid(7, lty = 3, lwd = .35, col = "#222222")
     }
 
     if (is.null(cols)) {
@@ -212,60 +219,61 @@ ts_plot <- function(rt, by = "days",
     if (is.null(lab.cex)) lab.cex <- 1.1
     if (is.null(lwd)) lwd <- 2
 
-    for (i in seq_along(filter)) {
-        dff <- df[df$filter == key[i], ]
-        x <- dff[, 1:2]
+    if (is.null(filter)) {
+        with(df, lines(as.numeric(time),
+                       freq, lwd = lwd, col = cols[i]))
+    } else {
+        for (i in seq_along(filter)) {
+            with(df[df$filter == key[i], ],
+                 lines(as.numeric(time),
+                       freq, lwd = lwd, col = cols[i]))
 
-        lines(x, lwd = lwd, col = cols[i])
-
-        if (!legend) {
-            if (is.null(leg.x)) {
-                pct.x <- runif(1, .01, .99)
-                legx <- xlim[1] + (pct.x * diff(xlim))
-            } else {
-                legx <- xlim[1] + (leg.x * diff(xlim))
-            }
-            if (is.null(leg.y)) {
-                pct.y <- runif(1, -1, 1)
-                row.y <- round(pct.x * NROW(x), 0)
-                legy <- x$freq[row.y]
-                if (isTRUE(legy < 2)) {
-                    legy <- runif(1, 1, (diff(ylim)/3))
+            if (!legend) {
+                if (is.null(leg.x)) {
+                    pct.x <- runif(1, .01, .99)
+                    legx <- xlim[1] + (pct.x * diff(xlim))
                 } else {
-                    rnum <- runif(1, 3, 8)
-                    legy <- legy +
-                        runif(1, -(diff(ylim)/rnum), (
-                            diff(ylim)/rnum))
+                    legx <- xlim[1] + (leg.x * diff(xlim))
+                }
+                if (is.null(leg.y)) {
+                    pct.y <- runif(1, -1, 1)
+                    row.y <- round(pct.x * NROW(x), 0)
+                    legy <- x$freq[row.y]
                     if (isTRUE(legy < 2)) {
                         legy <- runif(1, 1, (diff(ylim)/3))
+                    } else {
+                        rnum <- runif(1, 3, 8)
+                        legy <- legy +
+                            runif(1, -(diff(ylim)/rnum), (
+                                diff(ylim)/rnum))
+                        if (isTRUE(legy < 2)) {
+                            legy <- runif(1, 1, (diff(ylim)/3))
+                        }
                     }
+                } else {
+                    legy <- ylim[1] + (leg.y * diff(ylim))
                 }
-            } else {
-                legy <- ylim[1] + (leg.y * diff(ylim))
-            }
 
-            leg.text <- unique(as.character(dff[, 3]))
-            text(legx, legy, labels = leg.text,
-                 col = cols[i], cex = lab.cex)
+                leg.text <- unique(as.character(dff[, 3]))
+                text(legx, legy, labels = leg.text,
+                     col = cols[i], cex = lab.cex)
+            }
         }
     }
-    if (legend) {
+    if (all(legend, !is.null(filter))) {
         par(xpd = TRUE)
-        legend("right", key,
-               bty = "o",
+        legend(location, key,
+               bty = "n",
                lty = rep(1, length(key)),
                lwd = lwd,
                col = cols,
-               inset = -.245,
-               cex = .9,
-               pt.lwd = 1.2,
-               box.lwd = .55,
-               box.col = "#f2f2f2",
-               bg = "#fcfcfc")
+               cex = lab.cex,
+               pt.lwd = 1.33)
     }
     par(op)
     invisible(df)
 }
+
 
 sollts <- function(x, by = "days") {
     if (grepl("month", by)) unit <- 2592000

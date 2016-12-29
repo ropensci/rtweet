@@ -1,4 +1,21 @@
 
+
+#' @noRd
+#' @export
+qprint <- function(x, n = 10, w = 12) {
+    dn <- paste0(names(x), "              ")
+    dn <- substr(dn, 1, w)
+    nr <- NROW(x)
+    nc <- ncol(x)
+    x <- head(x, n)
+    x <- lapply(x, iconv, "UTF-8", "ASCII", "")
+    d <- data.frame(lapply(x, substr, 1, w))
+    names(d) <- dn
+    message("****", nr, " rows*****")
+    message("****", nc, " columns*****")
+    d
+}
+
 return_last <- function(x, n = 1) {
     x <- rev(x)
     x[seq_len(n)]

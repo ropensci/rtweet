@@ -4,7 +4,7 @@
 \alias{get_timeline}
 \title{get_timeline}
 \usage{
-get_timeline(user, n = 200, max_id = NULL, parse = TRUE,
+get_timeline(user, n = 200, max_id = NULL, home = FALSE, parse = TRUE,
   clean_tweets = FALSE, as_double = FALSE, usr = TRUE, token = NULL,
   ...)
 }
@@ -14,7 +14,13 @@ get_timeline(user, n = 200, max_id = NULL, parse = TRUE,
 \item{n}{Numeric, number of tweets to return.}
 
 \item{max_id}{Character, status_id from which returned tweets
-should be older than}
+should be older than.}
+
+\item{home}{Logical, indicating whether to return a user-timeline
+or home-timeline. By default, home is set to FALSe, which means
+\code{get_timeline} returns tweets posted by the given user.
+To return a user's home timeline feed, that is, the tweets posted
+by accounts followed by a user, set the home to false.}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list (fromJSON) object. By default,
@@ -54,7 +60,10 @@ List consisting of two data frames. One with the tweets
 }
 \description{
 Returns timeline of tweets from a specified
-  Twitter user.
+  Twitter user. By default, get_timeline returns tweets
+  posted by a given user. To return a user's timeline feed,
+  that is, tweets posted by accounts you follow, set the
+  home argument to true.
 }
 \examples{
 \dontrun{

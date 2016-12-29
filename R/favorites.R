@@ -26,6 +26,8 @@
 #'   ID variables are treated as character vectors. Setting this to
 #'   TRUE can provide performance (speed and memory) boost but can also
 #'   lead to issues when printing and saving, depending on the format.
+#' @param usr Logical indicating whether to return users data frame.
+#'   Defaults to true.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -43,10 +45,15 @@
 #' @family tweets
 #' @return Tweets data frame.
 #' @export
-get_favorites <- function(user, n = 3000, since_id = NULL,
-                          max_id = NULL, parse = TRUE,
+get_favorites <- function(user,
+                          n = 3000,
+                          since_id = NULL,
+                          max_id = NULL,
+                          parse = TRUE,
                           clean_tweets = FALSE,
-                          as_double = FALSE, token = NULL) {
+                          as_double = FALSE,
+                          usr = TRUE,
+                          token = NULL) {
 
     query <- "favorites/list"
 
@@ -79,7 +86,7 @@ get_favorites <- function(user, n = 3000, since_id = NULL,
     fav <- scroller(url, n, n.times, type = "timeline", token)
 
     if (parse) {
-        fav <- parse.piper(fav)
+        fav <- parse.piper(fav, usr = usr)
     }
 
     fav

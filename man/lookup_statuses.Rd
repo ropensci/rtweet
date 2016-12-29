@@ -4,7 +4,7 @@
 \alias{lookup_statuses}
 \title{lookup_tweets}
 \usage{
-lookup_statuses(statuses, token = NULL, parse = TRUE,
+lookup_statuses(statuses, token = NULL, parse = TRUE, usr = TRUE,
   clean_tweets = FALSE, as_double = FALSE)
 }
 \arguments{
@@ -16,6 +16,9 @@ an environment variable @describeIn tokens.}
 
 \item{parse}{Logical, indicating whether or not to parse
 return object into data frame(s).}
+
+\item{usr}{Logical indicating whether to return users data frame.
+Defaults to true.}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
 characters in text of tweets. defaults to FALSE.}

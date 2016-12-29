@@ -4,8 +4,8 @@
 \alias{lookup_users}
 \title{lookup_users}
 \usage{
-lookup_users(users, token = NULL, parse = TRUE, clean_tweets = TRUE,
-  as_double = FALSE)
+lookup_users(users, token = NULL, parse = TRUE, tw = TRUE,
+  clean_tweets = TRUE, as_double = FALSE)
 }
 \arguments{
 \item{users}{User id or screen name of target user.}
@@ -16,6 +16,9 @@ an environment variable @describeIn tokens.}
 
 \item{parse}{Logical, indicating whether or not to parse
 return object into data frame(s).}
+
+\item{tw}{Logical indicating whether to return tweets data frame.
+Defaults to true.}
 
 \item{clean_tweets}{logical indicating whether to remove non-ASCII
 characters in text of tweets. defaults to TRUE.}
