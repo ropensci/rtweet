@@ -76,9 +76,10 @@ wordphrases <- function(txt,
         })
     pl[vapply(pl, length, double(1)) == 0L] <- NA_character_
     wpdf <- unlist(pl, use.names = FALSE)
-    wpdf <- as.df(
+    wpdf <- as.data.frame(
         sort(table(wpdf), decreasing = TRUE),
-        c("wordphrase", "n"))
+        stringsAsFactors = FALSE)
+    names(wpdf) <- c("wordphrase", "n")
     keepers <- pl %>%
         lapply(pertweet, wpdf) %>%
         unlist(use.names = FALSE) %>%

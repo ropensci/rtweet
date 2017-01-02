@@ -4,53 +4,63 @@
 \alias{ts_plot}
 \title{ts_plot}
 \usage{
-ts_plot(rt, by = "days", dt = "created_at", txt = "text", filter = NULL,
-  exclude = NULL, key = NULL, cols = NULL, xlim = NULL, ylim = NULL,
-  legend = TRUE, base.axes = TRUE, location = "right", leg.x = NULL,
-  leg.y = NULL, lab.cex = NULL, lwd = NULL, plot = TRUE, ...)
+ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
+  filter = NULL, key = NULL, cols = NULL, box = TRUE, axes = TRUE,
+  main = NULL, mai = c(0.475, 0.5, 0.15, 0.3), cex = 0.9,
+  cex.axis = 0.8, cex.lab = 0.95, cex.main = 1.5, cex.sub = 1,
+  lwd = 1.5, legend.title = NULL, ...)
 }
 \arguments{
-\item{rt}{Tweets data frame}
+\item{rt}{Tweets or users data frame}
 
 \item{by}{Unit of time, e.g., \code{secs, days, weeks,
 months, years}}
 
-\item{dt}{Name of date object.}
+\item{dtname}{Name of date-time (POSIXt) object. Defaults
+to created_at.}
 
-\item{txt}{Name of text variable in data frame which
-filter is applied to.}
+\item{txt}{Name of text (chr) variable in data frame which
+filter is applied to. Defaults to text.}
 
 \item{filter}{Vector of regular expressions with which to
-filter data (creating multiple time series)}
+filter data (creating multiple time series).}
 
-\item{exclude}{Vector of regular expressions with which to
-distinguish data.}
+\item{key}{Optional provide pretty labels for filters.
+Defaults to actual filters.}
 
-\item{key}{Labels for filters. Defaults to actual filters.}
+\item{cols}{Colors for filters. Leave NULl for default color
+scheme.}
 
-\item{cols}{Colors for filters}
+\item{box}{Logical indicating whether to draw box around
+plot area. Defaults to true.}
 
-\item{xlim}{Limits for x axis, defaults for range of observed
-time.}
+\item{axes}{Logical indicating whether to draw axes. Defaults
+to true.}
 
-\item{ylim}{Limits for y axis, defaults to range plus a little
-bit of padding.}
+\item{main}{Optional argument to provide plot title.}
+
+\item{mai}{Margins in inches.}
+
+\item{cex}{Global cex setting defaults to .90}
+
+\item{cex.axis}{Size of other axis text.}
+
+\item{cex.lab}{Size of axis labels and legend text}
+
+\item{cex.main}{Size of plot title (if plot title provided
+via \code{main = "title"} argument).}
+
+\item{cex.sub}{Size of subtitles}
+
+\item{lwd}{Width of time series line(s). Defaults to 1.5}
+
+\item{legend.title}{Provide title for legend ro ignore to
+leave blank (default)}
 
 \item{legend}{Logical indicating wether to include a plot
 legend. Defaults to true.}
 
-\item{leg.x}{Location for plot text}
-
-\item{leg.y}{Location for plot text}
-
-\item{lab.cex}{Size of filter labels}
-
-\item{lwd}{Width of filter lines}
-
 \item{plot}{Logical indicating whether to draw plot.}
-
-\item{base.axis}{Logical indicating whether to use base R
-axis methods or the rtweet internal. Defaults to true.}
 
 \item{\dots}{Arguments passed to plot function, e.g.,
 \code{main = "#rstats tweets"},

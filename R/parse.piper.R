@@ -1,6 +1,5 @@
-
-## utility functions
-
+#' utility functions
+#'
 #' My version of map
 #'
 #' @param x Object from lhs
@@ -20,6 +19,7 @@ plyget <- function(x, f, ...) {
     }
 }
 
+
 plycp <- function(x, var) {
     itornot <- as.numeric(plyget(x, NROW))
     if (any(identical(length(itornot), 1L),
@@ -33,7 +33,7 @@ pcpr <- function(x, var) {
     if (!is.data.frame(x)) {
         NA
     } else {
-        paste(x[[var]], collapse = ",")
+        paste(x[[var]], collapse = " ")
     }
 }
 
@@ -57,35 +57,34 @@ pastena <- function(x, rev = FALSE) {
     if (is.null(x)) return(NA)
     if (all(is.na(x))) return(x)
     if (rev) x <- rev(x)
-    x <- paste(x, collapse = ",")
+    x <- paste(x, collapse = " ")
     x[x %in% c("", "NA", " ")] <- NA
     x
 }
 
-## fast unlist
-unL <- function(x) {
-    x[vapply(x, is.null, logical(1))] <- NA
+#' fast unlist with NAs
+unL <- function(x, rec = FALSE) {
     x[vapply(x, length, double(1)) == 0L] <- NA
-    x <- unlist(x, use.names = FALSE)
+    x <- unlist(x, use.names = FALSE, recursive = rec)
     x[x == ""] <- NA
-    x
+    unname(x)
 }
 
-## map df
+#' map df
 plydf <- function(x, var) {
     plyget(plyget(x, getifelse, var), pastena)
 }
 
-## unbox place coords
+#' unbox place coords
 boxem <- function(x) {
     if (is.array(x)) {
-        paste0(x, collapse = ",")
+        paste(x, collapse = " ")
     } else {
         NA
     }
 }
 
-## apply boxem to various conditions
+#' apply boxem to various conditions
 plyboxem <- function(x) {
     if (!any("array" %in% unL(lapply(x, class)))) {
         lapply(x, function(y) plyget(y, pastena))
@@ -94,12 +93,12 @@ plyboxem <- function(x) {
     }
 }
 
-## make df var reader
+#' make df var reader
 dots <- function(...) {
     as.character(eval(substitute(alist(...))))
 }
 
-## easy as df
+#' easy as df
 as.df <- function(x, ...) {
     vars <- dots(...)
     if (identical(vars, "FALSE")) {
@@ -123,7 +122,7 @@ as.df <- function(x, ...) {
 }
 
 ## is null or empty
-is.nothing <- function(x) {
+is.nothing <- function(x = NULL) {
     if (is.null(x)) return(TRUE)
     if (identical(length(x), 0L)) return(TRUE)
     if (all(vapply(x, length, double(1)) == 0L))
@@ -133,12 +132,12 @@ is.nothing <- function(x) {
     FALSE
 }
 
-## neither null nor empty
+#' neither null nor empty
 is.smth <- function(x) {
     !is.nothing(x)
 }
 
-## count observations
+#' count observations
 countrows <- function(x) {
     if (!is.data.frame(x)) {
         vapply(x, NROW, double(1))
@@ -147,9 +146,9 @@ countrows <- function(x) {
     }
 }
 
-## apply countrows
+#' apply countrows
 nrows <- function(x) {
-    sum(as.numeric(
+    sum(as.double(
         plyget(x, NROW),
         na.rm = TRUE))
 }
@@ -160,7 +159,7 @@ iserror <- function(x) {
 }
 
 
-## safe pipe
+#' safe pipe
 ifelsepipe <- function(x, cond, f = NA) {
     if (is.null(x)) return(rep(f, nrows(x)))
     if (is.character(cond)) {
@@ -180,9 +179,9 @@ is.na.not <- function(x) !is.na(x)
 
 #################################
 #################################
-## actual parsing
+#' actual parsing
 
-## parser
+#' parser
 #'
 #' Returns Parses tweets and users data
 #'
@@ -229,7 +228,8 @@ parse.piper <- function(rt, usr = TRUE) {
     }
     rt
 }
-## reduce to statuses
+
+#' reduce to statuses
 get.status.obj <- function(x) {
     if (is.null(x)) return(data.frame())
     if (any(isTRUE("statuses" %in% names(x)),
@@ -244,7 +244,8 @@ get.status.obj <- function(x) {
     }
     x
 }
-## nonrecursive variables
+
+#' nonrecursive variables
 atomic.parsed <- function(rt) {
     list(
         created_at = rt %>%
@@ -297,7 +298,7 @@ atomic.parsed <- function(rt) {
     )
 }
 
-## get coords (from 1 of 2 sources)
+#' get coords (from 1 of 2 sources)
 coords.parsed <- function(rt) {
     ## geo coordinates
     coordinates <- tryCatch(
@@ -305,7 +306,7 @@ coords.parsed <- function(rt) {
         plyget("geo") %>%
         plyget("coordinates") %>%
         plyget(unL) %>%
-        plyget(paste, collapse = ",") %>%
+        plyget(paste, collapse = " ") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates)) return(coordinates)
@@ -314,7 +315,7 @@ coords.parsed <- function(rt) {
         plyget("coordinates") %>%
         plyget("coordinates") %>%
         plyget(unL) %>%
-        plyget(paste, collapse = ",") %>%
+        plyget(paste, collapse = " ") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates)) return(coordinates)
@@ -328,7 +329,7 @@ coords.type.parsed <- function(rt) {
         plyget("geo") %>%
         plyget("type") %>%
         plyget(unL) %>%
-        plyget(paste, collapse = ",") %>%
+        plyget(paste, collapse = " ") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates_type)) return(coordinates_type)
@@ -337,7 +338,7 @@ coords.type.parsed <- function(rt) {
         plyget("geo") %>%
         plyget("type") %>%
         plyget(unL) %>%
-        plyget(paste, collapse = ",") %>%
+        plyget(paste, collapse = " ") %>%
         unL, error = function(e)
             return(NULL))
     if (!is.null(coordinates_type)) return(coordinates_type)
@@ -347,86 +348,100 @@ coords.type.parsed <- function(rt) {
 entities.parsed <- function(rt) {
     ## entities
     rt <- plyget(rt, "entities")
+    media <- rt %>% plyget("media")
+    urls <- rt %>% plyget("urls")
+    user_mentions <- rt %>%
+        plyget("user_mentions")
     list(
-        entities.media.id = rt %>%
-            plyget("media") %>%
+        media_id = media %>%
             plycp("id_str") %>%
-            unL,
-        entities.media.media_url = rt %>%
-            plyget("media") %>%
+            plyget(unL) %>%
+            unL(),
+        media_url = media %>%
             plycp("media_url") %>%
-            unL,
-        entities.media.expanded_url = rt %>%
-            plyget("media") %>%
+            plyget(unL) %>%
+            unL(),
+        media_url_expanded = media %>%
             plycp("expanded_url") %>%
-            unL,
-        entities.urls.url = rt %>%
-            plyget("urls") %>%
+            plyget(unL) %>%
+            unL(),
+        urls = urls %>%
             plycp("urls") %>%
-            unL,
-        entities.urls.display_url = rt %>%
-            plyget("urls") %>%
+            plyget(unL) %>%
+            unL(),
+        urls_display = urls %>%
             plycp("display_url") %>%
-            unL,
-        entities.urls.expanded_url = rt %>%
-            plyget("urls") %>%
+            plyget(unL) %>%
+            unL(),
+        urls_expanded = urls %>%
             plycp("expanded_url") %>%
-            unL,
-        entities.user_mentions.screen_name = rt %>%
-            plyget("user_mentions") %>%
+            plyget(unL) %>%
+            unL(),
+        mentions_screen_name = user_mentions %>%
             plycp("screen_name") %>%
-            unL,
-        entities.user_mentions.user_id = rt %>%
-            plyget("user_mentions") %>%
+            plyget(unL) %>%
+            unL(),
+        mentions_user_id = user_mentions %>%
             plycp("id_str") %>%
-            unL,
-        entities.symbols.text = rt %>%
+            plyget(unL) %>%
+            unL(),
+        symbols = rt %>%
             plyget("symbols") %>%
             plycp("text") %>%
-            unL,
-        entities.hashtags.text = rt %>%
+            plyget(unL) %>%
+            unL(),
+        hashtags = rt %>%
             plyget("hashtags") %>%
             plycp("text") %>%
-            unL)
+            plyget(unL) %>%
+            unL())
 }
 
 
-## place obj
+#' place obj
 place.parsed <- function(rt) {
     coordinates <- coords.parsed(rt)
     rt <- plyget(rt, "place")
     list(
         coordinates = coordinates,
-        place.id = rt %>%
+        place_id = rt %>%
             plyget(getifelse, "id") %>%
-            unL,
-        place.place_type = rt %>%
+            plyget(unL) %>%
+            unL(),
+        place_place_type = rt %>%
             plyget(getifelse, "place_type") %>%
-            unL,
-        place.name = rt %>%
+            plyget(unL) %>%
+            unL(),
+        place_name = rt %>%
             plyget(getifelse, "name") %>%
-            unL,
-        place.full_name = rt %>%
+            plyget(unL) %>%
+            unL(),
+        place_full_name = rt %>%
             plyget(getifelse, "full_name") %>%
-            unL,
-        place.country_code = rt %>%
+            plyget(unL) %>%
+            unL(),
+        place_country_code = rt %>%
             plyget(getifelse, "country_code") %>%
-            unL,
-        place.country = rt %>%
+            plyget(unL) %>%
+            unL(),
+        place_country = rt %>%
             plyget(getifelse, "country") %>%
-            unL,
-        place.bounding_box.coordinates = rt %>%
+            plyget(unL) %>%
+            unL(),
+        bounding_box_coordinates = rt %>%
             plyget(getifelse, "bounding_box") %>%
             plyget(getifelse, "coordinates") %>%
             plyboxem %>%
-            unL,
-        place.bounding_box.type = rt %>%
+            plyget(unL) %>%
+            unL(),
+        bounding_box_type = rt %>%
             plyget(getifelse, "bounding_box") %>%
             plyget(getifelse, "type") %>%
-            unL)
+            plyget(unL) %>%
+            unL())
 }
 
-## reduce to statuses
+#' reduce to statuses
 get.user.obj <- function(x) {
     if (any("user" %in% names(x),
             "user" %in% names(x[[1]]))) {
@@ -438,6 +453,7 @@ get.user.obj <- function(x) {
     x
 }
 
+#' non recursive columns
 atomic.parsed.usr <- function(rt) {
     list(
         user_id = rt %>%
@@ -577,19 +593,19 @@ parse.piper.usr <- function(rt, tw = FALSE) {
     rt
 }
 
-## make parsed collapse paste
+#' make parsed collapse paste
 make.pcp <- function(x) {
     attr(x, "lst") <- tidy.pcp(x)
     x
 }
 
-## tidy parsed collapse paste
+#' tidy parsed collapse paste
 tidy.pcp <- function(x) {
-    x <- strsplit(x, ",")
+    x <- strsplit(x, " ")
     lapply(x, tolower)
 }
 
-## popular (table as.df) parsed collapse paste
+#' popular (table as.df) parsed collapse paste
 pop.pcp <- function(x, ...) {
     x <- x %>%
         tidy.pcp %>%

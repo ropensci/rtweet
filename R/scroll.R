@@ -27,6 +27,9 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
             url$query$max_id <- get_max_id(x[[i]])
         }
     }
+    if (is.null(names(x))) {
+        x <- x[vapply(x, length, double(1)) > 0]
+    }
     x
 }
 

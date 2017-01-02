@@ -8,30 +8,36 @@ magrittr::`%>%`
 #'   filters (text-based criteria used to subset data) are
 #'   specified, multiple time series.
 #'
-#' @param rt Tweets data frame
+#' @param rt Tweets or users data frame
 #' @param by Unit of time, e.g., \code{secs, days, weeks,
 #'   months, years}
-#' @param dt Name of date object.
-#' @param txt Name of text variable in data frame which
-#'   filter is applied to.
+#' @param dtname Name of date-time (POSIXt) object. Defaults
+#'   to created_at.
+#' @param txt Name of text (chr) variable in data frame which
+#'   filter is applied to. Defaults to text.
 #' @param filter Vector of regular expressions with which to
-#'   filter data (creating multiple time series)
-#' @param exclude Vector of regular expressions with which to
-#'   distinguish data.
-#' @param key Labels for filters. Defaults to actual filters.
-#' @param cols Colors for filters
-#' @param xlim Limits for x axis, defaults for range of observed
-#'   time.
-#' @param ylim Limits for y axis, defaults to range plus a little
-#'   bit of padding.
-#' @param base.axis Logical indicating whether to use base R
-#'   axis methods or the rtweet internal. Defaults to true.
+#'   filter data (creating multiple time series).
+#' @param key Optional provide pretty labels for filters.
+#'   Defaults to actual filters.
+#' @param cols Colors for filters. Leave NULl for default color
+#'   scheme.
+#' @param main Optional argument to provide plot title.
+#' @param mai Margins in inches.
+#' @param axes Logical indicating whether to draw axes. Defaults
+#'   to true.
+#' @param box Logical indicating whether to draw box around
+#'   plot area. Defaults to true.
 #' @param legend Logical indicating wether to include a plot
 #'   legend. Defaults to true.
-#' @param leg.x Location for plot text
-#' @param leg.y Location for plot text
-#' @param lab.cex Size of filter labels
-#' @param lwd Width of filter lines
+#' @param cex Global cex setting defaults to .90
+#' @param cex.lab Size of axis labels and legend text
+#' @param cex.main Size of plot title (if plot title provided
+#'   via \code{main = "title"} argument).
+#' @param cex.axis Size of other axis text.
+#' @param cex.sub Size of subtitles
+#' @param legend.title Provide title for legend ro ignore to
+#'   leave blank (default)
+#' @param lwd Width of time series line(s). Defaults to 1.5
 #' @param plot Logical indicating whether to draw plot.
 #' @param \dots Arguments passed to plot function, e.g.,
 #'   \code{main = "#rstats tweets"},
@@ -75,233 +81,204 @@ magrittr::`%>%`
 #' @importFrom stats runif sd aggregate
 #' @export
 ts_plot <- function(rt, by = "days",
-                    dt = "created_at",
+                    dtname = "created_at",
                     txt = "text",
                     filter = NULL,
-                    exclude = NULL,
                     key = NULL,
                     cols = NULL,
-                    xlim = NULL,
-                    ylim = NULL,
-                    legend = TRUE,
-                    base.axes = TRUE,
-                    location = "right",
-                    leg.x = NULL,
-                    leg.y = NULL,
-                    lab.cex = NULL,
-                    lwd = NULL,
-                    plot = TRUE, ...) {
+                    box = TRUE,
+                    axes = TRUE,
+                    main = NULL,
+                    mai = c(.475, .500, .15, .3),
+                    cex = .90,
+                    cex.axis = .8,
+                    cex.lab = .95,
+                    cex.main = 1.5,
+                    cex.sub = 1.0,
+                    lwd = 1.5,
+                    legend.title = NULL,
+                    ...) {
 
-    if (is.null(filter)) {
-        filter <- ""
-    }
-    if (is.null(key)) {
-        key <- filter
-    }
-    if (identical(filter, "")) {
-        fd <- list(sollts(rt[[dt]], by = by))
+    ## if there are filters (subsets)
+    if (!is.null(filter)) {
+        ## flag filtered obs
+        f.rows <- lapply(
+            filter, grepl, rt[[txt]], ignore.case = TRUE)
+        ## count obs for each filter
+        lens <- vapply(f.rows, sum, double(1))
+        ## if nil use vector of unique datetimes instead
+        if (any(lens == 0)) {
+            f.rows[lens == 0] <- sum(lens == 0) %>%
+                seq_len %>%
+                lapply(function(x)
+                    which(!duplicated(rt[[dtname]])))
+        }
+        ## iterate thru each filter for timeseries data
+        lstdat <- lapply(f.rows, function(x)
+            sollts(rt[[dtname]][unlist(x)],
+                   by = by,
+                   fdt = rt[[dtname]]))
+        ## hollow out (set freqs to 0) any nil filters
+        if (any(lens == 0)) {
+            for (i in seq_len(sum(lens == 0))) {
+                lstdat[lens == 0][[i]]$freq <- 0
+            }
+        }
+        ## if no pretty label provided use filter
+        if (is.null(key)) key <- filter
+        ## add variable name for each filter
+        for (i in seq_along(lstdat)) {
+            lstdat[[i]]$filter <- key[i]
+        }
+        ## collapse into tidy data frame
+        dat <- do.call("rbind", lstdat)
     } else {
-        fd <- lapply(lapply(filter, grep, rt[[txt]]),
-                     function(x) rt[[dt]][x])
-        fd <- lapply(fd, sollts, by = by)
+        ## if no filters then simple
+        dat <- sollts(rt[[dtname]], by = by)
+        dat$filter <- ""
     }
-
-    for (i in seq_along(fd)) {
-        names(fd[[i]]) <- c("time", "freq")
-        fd[[i]]$time <- as.POSIXct(fd[[i]]$time)
-        fd[[i]]$filter <- key[i]
-    }
-
-    df <- do.call("rbind", fd)
-
-    if (!plot) return(invisible(df))
-
+    ## store current aesthetics
     op <- par(no.readonly = TRUE)
-    par(bg = "#fafafa", cex = .8)
+    ## restore those values on exit
+    on.exit(par(op))
 
-    if (!base.axes) {
-        ## x axis
-        if (is.null(xlim)) {
-            xlim <- range(df$time, na.rm = TRUE)
-        }
-        xaxis <- seq.POSIXt(xlim[1], xlim[2], length.out = 4)
-
-        ## y axis
-        if (is.null(ylim)) {
-            pads <- ceiling(sd(df$freq, na.rm = TRUE) / 5)
-            ylim <- c(min(df$freq, na.rm = TRUE) - pads,
-                      max(df$freq, na.rm = TRUE) + pads)
-            if (ylim[1] <= 0) {
-                ylim[1] <- 0
-            } else {
-                ydiv <- ceiling(diff(ylim)/100) * 10
-                ylim[1] <- ylim[1] - (ylim[1] %% ydiv)
-            }
-            ylim[2] <- ylim[2] + ydiv - (ylim[2] %% ydiv)
-        }
-        yaxis <- seq(ylim[1], ylim[2], length.out = 4)
-        with(df, plot(time, freq,
-                      xlim = xlim,
-                      ylim = ylim,
-                      type = "n",
-                      cex = 0,
-                      col = NA,
-                      axes = FALSE, ...))
-        par(las = 1, tcl = -.1)
-        box("plot", lty = "solid",
-            col = "#666666", lwd = 1.25)
-
-        grid(7, lty = 3, lwd = .35, col = "#222222")
-
-        axis(2, at = round(yaxis, 0),
-             lwd = 0, col = "#666666",
-             lwd.ticks = 2, col.ticks = "#444444")
-
-        if (abs(diff(as.numeric(xlim))) > 10000000) {
-            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-                 labels = format(as.POSIXct(seq(
-                     xlim[1], xlim[2],
-                     length.out = 4)), "%b %Y"),
-                 lwd = 0, col = "#666666",
-                 lwd.ticks = 2, col.ticks = "#444444")
-        } else if (any(grepl("sec|min", by))) {
-            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-                 labels = format(
-                     as.POSIXct(seq(
-                         xlim[1], xlim[2],
-                         length.out = 4)), "%l:%M%p"),
-                 lwd = 0, col = "#666666",
-                 lwd.ticks = 2, col.ticks = "#444444")
-        } else if (any(grepl("hour", by))) {
-            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-                 labels = format(as.POSIXct(seq(
-                     xlim[1], xlim[2],
-                     length.out = 4)), "%a"),
-                 lwd = 0, col = "#666666",
-                 lwd.ticks = 2, col.ticks = "#444444")
-        } else if (any(grepl("day|week", by))) {
-            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-                 labels = format(as.POSIXct(seq(
-                     xlim[1], xlim[2],
-                     length.out = 4)), "%b %d"),
-                 lwd = 0, col = "#666666",
-                 lwd.ticks = 2, col.ticks = "#444444")
-        } else {
-            axis(1, at = seq(xlim[1], xlim[2], length.out = 4),
-                 labels = format(as.POSIXct(seq(
-                     xlim[1], xlim[2],
-                     length.out = 4)), "%b %Y"),
-                 lwd = 0, col = "#666666",
-                 lwd.ticks = 2, col.ticks = "#444444")
-        }
-
-    } else {
-        with(df, plot(time, freq,
-                      xlim = xlim,
-                      ylim = ylim,
-                      type = "n",
-                      cex = 0,
-                      col = NA,
-                      axes = TRUE, ...))
-        par(las = 1, tcl = -.1)
-        box("plot", lty = "solid",
-            col = "#666666", lwd = 1.25)
-        grid(7, lty = 3, lwd = .35, col = "#222222")
-    }
-
-    if (is.null(cols)) {
-        cols <- gg_cols(length(filter))
-        cols <- sample(cols)
-    } else if (identical(cols, "transparent")) {
-        cols <- "transparent"
-    }
-
-    if (is.null(lab.cex)) lab.cex <- 1.1
-    if (is.null(lwd)) lwd <- 2
-
+    ## estimate width of right (legend side) margin
+    ## if no filter then no legend/smaller margin
     if (is.null(filter)) {
-        with(df, lines(as.numeric(time),
-                       freq, lwd = lwd, col = cols[i]))
+        mai[4] <- .3
     } else {
-        for (i in seq_along(filter)) {
-            with(df[df$filter == key[i], ],
-                 lines(as.numeric(time),
-                       freq, lwd = lwd, col = cols[i]))
-
-            if (!legend) {
-                if (is.null(leg.x)) {
-                    pct.x <- runif(1, .01, .99)
-                    legx <- xlim[1] + (pct.x * diff(xlim))
-                } else {
-                    legx <- xlim[1] + (leg.x * diff(xlim))
-                }
-                if (is.null(leg.y)) {
-                    pct.y <- runif(1, -1, 1)
-                    row.y <- round(pct.x * NROW(x), 0)
-                    legy <- x$freq[row.y]
-                    if (isTRUE(legy < 2)) {
-                        legy <- runif(1, 1, (diff(ylim)/3))
-                    } else {
-                        rnum <- runif(1, 3, 8)
-                        legy <- legy +
-                            runif(1, -(diff(ylim)/rnum), (
-                                diff(ylim)/rnum))
-                        if (isTRUE(legy < 2)) {
-                            legy <- runif(1, 1, (diff(ylim)/3))
-                        }
-                    }
-                } else {
-                    legy <- ylim[1] + (leg.y * diff(ylim))
-                }
-
-                leg.text <- unique(as.character(dff[, 3]))
-                text(legx, legy, labels = leg.text,
-                     col = cols[i], cex = lab.cex)
-            }
+        ## select biggest filter
+        legmarg <- key[which.max(nchar(key))]
+        mai[4] <- strwidth(
+            legmarg, units = "inches") + .475
+    }
+    ## top margin depends on whether main (title)
+    if (!is.null(main)) {
+        mai[3] <- .4
+    } else {
+        mai[3] <- .15
+    }
+    ## set aesthetics
+    par(tcl = -.125,
+        cex = cex,
+        cex.axis = cex.axis,
+        cex.lab = cex.lab,
+        cex.main = cex.main,
+        cex.sub = cex.sub,
+        lend = "square",
+        las = 1,
+        bg = "#ffffff",
+        mgp = c(1.75, .3, 0),
+        mai = mai)
+    ## init plot to get parameters and set scale
+    with(dat, plot(time, freq, type = "l",
+                   lwd = 0,
+                   axes = FALSE,
+                   main = main,
+                   ...))
+    ## construct background grid aesthetic
+    rect(par("usr")[1], par("usr")[3],
+         par("usr")[2], par("usr")[4],
+         col = "#f5f5f5", lwd = 0)
+    ## blend grid lines to white
+    grid(5, col = "#f9f9f9", lwd = 6, lty = 1)
+    grid(5, col = "#fcfcfc", lwd = 4, lty = 1)
+    grid(5, col = "#ffffff", lwd = 1, lty = 1)
+    grid(5, col = "gray40", lwd = .2, lty = 3)
+    ## draw box
+    if (box) {
+        box(lwd = 1, col = "gray30")
+    }
+    ## draw axes
+    if (axes) {
+        x.ticks <- seq(par("xaxp")[1], par("xaxp")[2],
+                       length.out = par("xaxp")[3])
+        x.labs <- as.POSIXct(x.ticks, origin = "1970-01-01")
+        axis.POSIXct(1, at = x.labs,
+             lwd = 0, lwd.ticks = 1.25)
+        axis(2, at = NULL,
+             lwd = 0, lwd.ticks = 1.25)
+    }
+    ## draw lines and add legend
+    if (!is.null(filter)) {
+        if (length(filter) < 4) {
+            cols <- c("#880000cc", "#003366cc", "#008800cc")
+            cols <- cols[seq_along(filter)]
+        } else {
+            cols <- rainbow(length(filter))
         }
-    }
-    if (all(legend, !is.null(filter))) {
-        par(xpd = TRUE)
-        legend(location, key,
-               bty = "n",
-               lty = rep(1, length(key)),
-               lwd = lwd,
+        if (is.null(key)) key <- filter
+        lapply(seq_along(lstdat), function(i)
+            with(lstdat[[i]], lines(time, freq,
+                                    lwd = lwd, col = cols[i])))
+        legend(par("usr")[2] +
+               (par("usr")[2] - par("usr")[1]) *
+               (1-par("plt")[2]) / 16,
+               quantile(c(par("usr")[3], par("usr")[4]), .575),
+               key,
+               lwd = rep(2.5, length(filter)),
                col = cols,
-               cex = lab.cex,
-               pt.lwd = 1.33)
+               x.intersp = .5,
+               title = legend.title,
+               lty = rep(1, length(filter)),
+               seg.len = 1,
+               xpd = TRUE,
+               bty = "n",
+               cex = cex.lab)
+    } else {
+        with(dat, lines(time, freq, lwd = lwd, col = "#002244"))
     }
-    par(op)
-    invisible(df)
+
+    ## return aggregated data
+    invisible(dat)
 }
 
 
-sollts <- function(x, by = "days") {
-    if (grepl("month", by)) unit <- 2592000
-    if (grepl("week", by)) unit <- 604800
-    if (grepl("day", by)) unit <- 86400
-    if (grepl("hour", by)) unit <- 3600
-    if (grepl("min", by)) unit <- 60
-    if (grepl("sec", by)) unit <- 1
-
-    mf <- as.numeric(gsub("[^[:digit:]]", "", by))
-    if (any(is.na(mf), identical(mf, ""))) mf <- 1
-    unit <- mf * unit
-    ca <- as.POSIXct(
-        ceiling(as.numeric(x) / unit) * unit +
-        sample(c(unit * -.5, unit * .5), 1),
+sollts <- function(dt, by = "days", fdt = NULL) {
+    ## convert time unit to double
+    if (grepl("month", by)) .unit <- 2592000
+    if (grepl("week", by)) .unit <- 604800
+    if (grepl("day", by)) .unit <- 86400
+    if (grepl("hour", by)) .unit <- 3600
+    if (grepl("min", by)) .unit <- 60
+    if (grepl("sec", by)) .unit <- 1
+    ## parse out numeric multiplier
+    x <- gsub("[^[:digit:]]", "", by) %>%
+        as.double()
+    ## if not multiplier, set to 1
+    if (any(is.na(x), identical(x, ""))) x <- 1
+    ## calculate desired unit of time
+    .unit <- .unit * x
+    ## aggregate by desired unit
+    rdt <- as.POSIXct(
+        round(as.double(dt) / .unit, 0) * .unit,
         origin = "1970-01-01")
-    as.data.frame(table(ca), stringsAsFactors = FALSE)
+    ## observation for each unit of time
+    if (!is.null(fdt)) {
+        ## if nested in potentially wider range
+        fdt <- as.POSIXct(
+            round(as.double(fdt) / .unit, 0) * .unit,
+            origin = "1970-01-01")
+        time <- seq(min(fdt), max(fdt), .unit)
+    } else {
+        ## if approp date range contained within data
+        time <- seq(min(rdt), max(rdt), .unit)
+    }
+    ## create freq table
+    tab <- as.data.frame(table(rdt), stringsAsFactors = FALSE)
+    ## set class and var names
+    tab <- data.frame(
+        time = as.POSIXct(tab$rdt),
+        freq = tab$Freq)
+    ## merge with all observations
+    tab <- merge(data.frame(time = time), tab, all = TRUE)
+    ## replace NAs with 0s
+    tab$freq[is.na(tab$freq)] <- 0
+    tab
 }
 
-#' ggplot colors
-#'
-#' Returns ggplot2 html colors.
-#'
-#' @param n Number of colors to return. If fewer than 4,
-#'   the function randomly samples 3 better colors than
-#'   what's normally produced ny the ggplot internal
-#'   mechanism.
-#' @return Character vector of html colors.
+#' @keywords internal
+#' @noRd
 #' @export
 gg_cols <- function(n) {
     if (n < 4) {
@@ -309,7 +286,7 @@ gg_cols <- function(n) {
         return(sample(cols, n))
     }
     hues = seq(15, 375, length = n + 1)
-    hcl(h = hues, l = 65, c = 100)[1:n]
+    hcl(h = hues, l = 60, c = 100)[1:n]
 }
 
 #' basemap

@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse.piper.R
 \name{plyget}
 \alias{plyget}
-\title{My version of map}
+\title{utility functions}
 \usage{
 plyget(x, f, ...)
 }

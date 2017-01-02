@@ -4,7 +4,8 @@
 \alias{follow_user}
 \title{follow_user}
 \usage{
-follow_user(user, destroy = FALSE, notify = FALSE, token = NULL)
+follow_user(user, destroy = FALSE, mute = FALSE, notify = FALSE,
+  retweets = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -12,8 +13,15 @@ follow_user(user, destroy = FALSE, notify = FALSE, token = NULL)
 \item{destroy}{Logical indicating whether to post (add) or
 remove (delete) target tweet as favorite.}
 
+\item{mute}{Logical indicating whether to mute the intended
+friend (you must already be following this account prior
+to muting them)}
+
 \item{notify}{Logical indicating whether to enable notifications
 for target user. Defaults to false.}
+
+\item{retweets}{Logical indicating whether to enable retweets
+for target user. Defaults to true.}
 
 \item{token}{OAuth token. By default \code{token = NULL}
 fetches a non-exhausted token from an environment

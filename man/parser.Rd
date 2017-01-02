@@ -2,7 +2,8 @@
 % Please edit documentation in R/parse.piper.R
 \name{parser}
 \alias{parser}
-\title{Returns Parses tweets and users data}
+\title{actual parsing
+parser}
 \usage{
 parser(rt, usr = TRUE, ...)
 }

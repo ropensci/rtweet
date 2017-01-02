@@ -46,8 +46,13 @@ post_tweet <- function(status = "my first rtweet #rstats",
 #' @param user Screen name or user id of target user.
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
+#' @param mute Logical indicating whether to mute the intended
+#'   friend (you must already be following this account prior
+#'   to muting them)
 #' @param notify Logical indicating whether to enable notifications
 #'   for target user. Defaults to false.
+#' @param retweets Logical indicating whether to enable retweets
+#'   for target user. Defaults to true.
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
@@ -59,22 +64,36 @@ post_tweet <- function(status = "my first rtweet #rstats",
 #' @export
 follow_user <- function(user,
                         destroy = FALSE,
+                        mute = FALSE,
                         notify = FALSE,
+                        retweets = TRUE,
                         token = NULL) {
 
     stopifnot(is.atomic(user), is.logical(notify))
 
     token <- check_token(token)
 
-    if (destroy) {
+    if (all(!destroy, !retweets)) {
+        query <- "friendships/update"
+        params <- list(
+            user_type = user,
+            notify = notify,
+            retweets = retweets)
+    } else if (mute) {
+        query <- "mutes/users/create"
+        params <- list(
+            user_type = user)
+    } else if (destroy) {
         query <- "friendships/destroy"
+        params <- list(
+            user_type = user,
+            notify = notify)
     } else {
         query <- "friendships/create"
+        params <- list(
+            user_type = user,
+            notify = notify)
     }
-
-    params <- list(
-        user_type = user,
-        notify = notify)
 
     names(params)[1] <- .id_type(user)
 
@@ -100,6 +119,21 @@ follow_user <- function(user,
 unfollow_user <- function(user, token = NULL) {
     follow_user(user, destroy = TRUE, token = token)
 }
+
+#' mute_user
+#'
+#' Mute, or hide all content coming from, current twitter friend.
+#'   Wrapper function for mute version of follow_user.
+#'
+#' @param user Screen name or user id of target user.
+#' @param token OAuth token. By default \code{token = NULL}
+#'   fetches a non-exhausted token from an environment
+#'   variable tokens.
+#' @export
+mute_user <- function(user, token = NULL) {
+    follow_user(user, mute = TRUE, token = token)
+}
+
 
 #' favorite_tweet
 #'

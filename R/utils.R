@@ -2,7 +2,8 @@
 
 #' @noRd
 #' @export
-qprint <- function(x, n = 10, w = 12) {
+qprint <- function(x, n = 10, w = 12,
+                   print.gap = 2, ...) {
     dn <- paste0(names(x), "              ")
     dn <- substr(dn, 1, w)
     nr <- NROW(x)
@@ -13,7 +14,7 @@ qprint <- function(x, n = 10, w = 12) {
     names(d) <- dn
     message("****", nr, " rows*****")
     message("****", nc, " columns*****")
-    d
+    print(d, print.gap = print.gap, ...)
 }
 
 return_last <- function(x, n = 1) {
@@ -68,7 +69,8 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
     if (!is_json(rsp)) {
         stop("API did not return json", call. = FALSE)
     }
-    rsp <- rsp[["content"]] %>% rawToChar()
+    rsp <- rsp[["content"]] %>%
+        rawToChar()
     rsp <- fromJSON(rsp)
     if (check_rate_limit) {
         if (all(
