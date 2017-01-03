@@ -75,10 +75,10 @@ get_friends <- function(user, page = "-1", parse = TRUE,
 #' @importFrom jsonlite fromJSON
 parse.piper.fnd <- function(r) {
     r <- r[["content"]] %>%
-        rawToChar %>%
+        rawToChar() %>%
         jsonlite::fromJSON() %>%
         getElement("ids") %>%
-        as.character %>%
+        as.character() %>%
         data.frame(stringsAsFactors = FALSE)
     names(r) <- "user_id"
     r
@@ -160,26 +160,22 @@ lookup_friendships <- function(user, parse = TRUE,
 #' @importFrom jsonlite fromJSON
 parse_fndshp <- function(fndshp) {
     fndshp <- fndshp[["content"]] %>%
-        rawToChar %>%
-        jsonlite::fromJSON()
+        rawToChar() %>%
+        jsonlite::fromJSON() %>%
+        plyget("connections")
     fndshp$followed_by <- fndshp %>%
-        plyget("connections") %>%
         plyget(function(x) "followed_by" %in% x) %>%
         unlist(use.names = FALSE)
     fndshp$following <- fndshp %>%
-        plyget("connections") %>%
         plyget(function(x) "following" %in% x) %>%
         unlist(use.names = FALSE)
     fndshp$blocking <- fndshp %>%
-        plyget("connections") %>%
         plyget(function(x) "blocking" %in% x) %>%
         unlist(use.names = FALSE)
     fndshp$muting <- fndshp %>%
-        plyget("connections") %>%
         plyget(function(x) "muting" %in% x) %>%
         unlist(use.names = FALSE)
     fndshp$none <- fndshp %>%
-        plyget("connections") %>%
         plyget(function(x) "none" %in% x) %>%
         unlist(use.names = FALSE)
     fndshp[, c(1:2, 4, 6:10)]
