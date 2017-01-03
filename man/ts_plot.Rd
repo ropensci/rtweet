@@ -6,9 +6,9 @@
 \usage{
 ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
   filter = NULL, key = NULL, cols = NULL, box = TRUE, axes = TRUE,
-  main = NULL, mai = c(0.475, 0.5, 0.15, 0.3), cex = 0.9,
-  cex.axis = 0.8, cex.lab = 0.95, cex.main = 1.5, cex.sub = 1,
-  lwd = 1.5, legend.title = NULL, ...)
+  light.theme = TRUE, main = NULL, mai = c(0.49, 0.5, 0.15, 0.3),
+  cex = 0.9, cex.axis = 0.8, cex.lab = 0.95, cex.main = 1.5,
+  cex.sub = 1, lwd = 1.5, legend.title = NULL, ...)
 }
 \arguments{
 \item{rt}{Tweets or users data frame}
@@ -36,6 +36,9 @@ plot area. Defaults to true.}
 
 \item{axes}{Logical indicating whether to draw axes. Defaults
 to true.}
+
+\item{light.theme}{Logical indicating whether grid background
+should use light or dark colors.}
 
 \item{main}{Optional argument to provide plot title.}
 
