@@ -77,9 +77,16 @@ via \code{main = "title"} argument).}
 
 \item{cex.legend}{Size of legend text}
 
-\item{plot}{Logical indicating whether to draw plot.}
+\item{mar}{Margins in number of lines.}
 
-\item{mai}{Margins in inches.}
+\item{font.main}{Font style of main title if provided. Default is
+to override R default, making it non-bold. To restore bold, set
+this value to 2.}
+
+\item{xtime}{Format date-time labels in x-axis. Accepts any format
+string via \code{strptime}.}
+
+\item{plot}{Logical indicating whether to draw plot.}
 
 \item{\dots}{Arguments passed to plot (and par) function}
 }

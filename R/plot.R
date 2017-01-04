@@ -48,7 +48,12 @@ magrittr::`%>%`
 #' @param cex.lab Size of axis labels
 #' @param cex.axis Size of axis text
 #' @param cex.legend Size of legend text
-#' @param mai Margins in inches.
+#' @param mar Margins in number of lines.
+#' @param font.main Font style of main title if provided. Default is
+#'   to override R default, making it non-bold. To restore bold, set
+#'   this value to 2.
+#' @param xtime Format date-time labels in x-axis. Accepts any format
+#'   string via \code{strptime}.
 #' @param plot Logical indicating whether to draw plot.
 #' @param \dots Arguments passed to plot (and par) function
 #'
