@@ -225,6 +225,24 @@ get.status.obj <- function(x) {
     x
 }
 
+rtstatus.safecheck <- function(x) {
+    if (all(
+        "retweeted_status" %in% names(x),
+        isTRUE("id_str" %in% names(x[["retweeted_stats"]])))
+        ) {
+        x <- x[["retweeted_stats"]]
+        return(x[["id_str"]])
+    } else {
+        return(rep(NA_character_, NROW(x)))
+    }
+}
+qtstatus.safecheck <- function(x) {
+    if ("quoted_status_id_str" %in% names(x)) {
+        return(x[["quoted_status_id_str"]])
+    } else {
+        return(rep(NA_character_, NROW(x)))
+    }
+}
 atomic.parsed <- function(rt) {
     list(
         created_at = rt %>%
@@ -244,19 +262,18 @@ atomic.parsed <- function(rt) {
             plyget("favorite_count") %>%
             unL,
         is_quote_status = rt %>%
-            plyget(ifelsepipe, "is_quote_status", FALSE) %>%
-            unL,
+            plyget(qtstatus.safecheck) %>%
+            unL %>%
+            is.na.not,
         quote_status_id = rt %>%
-            plyget(ifelsepipe, "quoted_status", FALSE) %>%
-            plyget(ifelsepipe, "id_str", NA) %>%
+            plyget(qtstatus.safecheck) %>%
             unL,
         is_retweet = rt %>%
-            plyget(ifelsepipe, "retweeted_status", FALSE) %>%
-            plyget(ifelsepipe, "id_str", NA) %>%
-            unL %>% is.na.not,
+            plyget(rtstatus.safecheck) %>%
+            unL %>%
+            is.na.not,
         retweet_status_id = rt %>%
-            plyget(ifelsepipe, "retweeted_status", FALSE) %>%
-            plyget(ifelsepipe, "id_str", NA) %>%
+            plyget(rtstatus.safecheck) %>%
             unL,
         in_reply_to_status_status_id = rt %>%
             plyget("in_reply_to_status_id_str") %>%
