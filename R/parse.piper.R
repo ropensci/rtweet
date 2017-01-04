@@ -8,6 +8,7 @@
 #'   elements.
 #' @param \dots Arguments passed along to user function
 #' @export
+#' @noRd
 plyget <- function(x, f, ...) {
     if (!is.function(f)) {
         if (is.data.frame(x)) return(x[[f]])
@@ -37,7 +38,6 @@ pcpr <- function(x, var) {
     }
 }
 
-## get if else NA
 getifelse <- function(x, var) {
     if (!is.recursive(x)) {
         return(rep(NA, nrows(x)))
@@ -52,7 +52,6 @@ getifelse <- function(x, var) {
     rep(NA, nrows(x))
 }
 
-## collapse and set empty to NA
 pastena <- function(x, rev = FALSE) {
     if (is.null(x)) return(NA)
     if (all(is.na(x))) return(x)
@@ -62,7 +61,6 @@ pastena <- function(x, rev = FALSE) {
     x
 }
 
-#' fast unlist with NAs
 unL <- function(x, rec = FALSE) {
     x[vapply(x, length, double(1)) == 0L] <- NA
     x <- unlist(x, use.names = FALSE, recursive = rec)
@@ -70,12 +68,10 @@ unL <- function(x, rec = FALSE) {
     unname(x)
 }
 
-#' map df
 plydf <- function(x, var) {
     plyget(plyget(x, getifelse, var), pastena)
 }
 
-#' unbox place coords
 boxem <- function(x) {
     if (is.array(x)) {
         paste(x, collapse = " ")
@@ -84,7 +80,6 @@ boxem <- function(x) {
     }
 }
 
-#' apply boxem to various conditions
 plyboxem <- function(x) {
     if (!any("array" %in% unL(lapply(x, class)))) {
         lapply(x, function(y) plyget(y, pastena))
@@ -93,12 +88,10 @@ plyboxem <- function(x) {
     }
 }
 
-#' make df var reader
 dots <- function(...) {
     as.character(eval(substitute(alist(...))))
 }
 
-#' easy as df
 as.df <- function(x, ...) {
     vars <- dots(...)
     if (identical(vars, "FALSE")) {
@@ -121,7 +114,6 @@ as.df <- function(x, ...) {
     x
 }
 
-## is null or empty
 is.nothing <- function(x = NULL) {
     if (is.null(x)) return(TRUE)
     if (identical(length(x), 0L)) return(TRUE)
@@ -132,12 +124,10 @@ is.nothing <- function(x = NULL) {
     FALSE
 }
 
-#' neither null nor empty
 is.smth <- function(x) {
     !is.nothing(x)
 }
 
-#' count observations
 countrows <- function(x) {
     if (!is.data.frame(x)) {
         vapply(x, NROW, double(1))
@@ -146,7 +136,6 @@ countrows <- function(x) {
     }
 }
 
-#' apply countrows
 nrows <- function(x) {
     sum(as.double(
         plyget(x, NROW),
@@ -159,7 +148,6 @@ iserror <- function(x) {
 }
 
 
-#' safe pipe
 ifelsepipe <- function(x, cond, f = NA) {
     if (is.null(x)) return(rep(f, nrows(x)))
     if (is.character(cond)) {
@@ -174,12 +162,7 @@ ifelsepipe <- function(x, cond, f = NA) {
     rep(f, nrows(x))
 }
 
-## invert is.na
 is.na.not <- function(x) !is.na(x)
-
-#################################
-#################################
-#' actual parsing
 
 #' parser
 #'
@@ -229,7 +212,6 @@ parse.piper <- function(rt, usr = TRUE) {
     rt
 }
 
-#' reduce to statuses
 get.status.obj <- function(x) {
     if (is.null(x)) return(data.frame())
     if (any(isTRUE("statuses" %in% names(x)),
@@ -245,7 +227,6 @@ get.status.obj <- function(x) {
     x
 }
 
-#' nonrecursive variables
 atomic.parsed <- function(rt) {
     list(
         created_at = rt %>%
@@ -298,7 +279,6 @@ atomic.parsed <- function(rt) {
     )
 }
 
-#' get coords (from 1 of 2 sources)
 coords.parsed <- function(rt) {
     ## geo coordinates
     coordinates <- tryCatch(
@@ -531,7 +511,6 @@ hashtags.parsed <- function(rt) {
 }
 
 
-#' place obj
 place.parsed <- function(rt) {
     coordinates <- coords.parsed(rt)
     rt <- plyget(rt, "place")
@@ -615,7 +594,6 @@ bounding_box_type.parsed <- function(rt) {
         unL()
 }
 
-#' reduce to statuses
 get.user.obj <- function(x) {
     if (any("user" %in% names(x),
             "user" %in% names(x[[1]]))) {
@@ -627,7 +605,6 @@ get.user.obj <- function(x) {
     x
 }
 
-#' non recursive columns
 atomic.parsed.usr <- function(rt) {
     list(
         user_id = rt %>%
@@ -767,19 +744,16 @@ parse.piper.usr <- function(rt, tw = FALSE) {
     rt
 }
 
-#' make parsed collapse paste
 make.pcp <- function(x) {
     attr(x, "lst") <- tidy.pcp(x)
     x
 }
 
-#' tidy parsed collapse paste
 tidy.pcp <- function(x) {
     x <- strsplit(x, " ")
     lapply(x, tolower)
 }
 
-#' popular (table as.df) parsed collapse paste
 pop.pcp <- function(x, ...) {
     x <- x %>%
         tidy.pcp %>%

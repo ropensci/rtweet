@@ -80,9 +80,10 @@ magrittr::`%>%`
 #' head(ts.df)
 #'
 #' }
-#' @importFrom graphics plot axis grid lines par rect text
+#' @importFrom graphics plot axis axis.POSIXct grid lines par
+#'   rect title strwidth
 #' @importFrom grDevices hcl
-#' @importFrom stats runif sd aggregate
+#' @importFrom stats quantile
 #' @export
 ts_plot <- function(rt, by = "days",
                     dtname = "created_at",

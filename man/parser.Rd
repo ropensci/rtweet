@@ -2,8 +2,7 @@
 % Please edit documentation in R/parse.piper.R
 \name{parser}
 \alias{parser}
-\title{actual parsing
-parser}
+\title{parser}
 \usage{
 parser(rt, usr = TRUE, ...)
 }
