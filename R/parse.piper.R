@@ -348,53 +348,186 @@ coords.type.parsed <- function(rt) {
 entities.parsed <- function(rt) {
     ## entities
     rt <- plyget(rt, "entities")
-    media <- rt %>% plyget("media")
-    urls <- rt %>% plyget("urls")
-    user_mentions <- rt %>%
-        plyget("user_mentions")
+    media <- rt %>%
+        plyget(media.parsed)
+    urls <- rt %>%
+        plyget(urls.parsed)
+    mentions <- rt %>%
+        plyget(user_mentions.parsed)
+    symbols <- rt %>%
+        plyget(symbols.parsed)
+    hashtags <- rt %>%
+        plyget(hashtags.parsed)
     list(
         media_id = media %>%
-            plycp("id_str") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget("media_id") %>%
+            unL,
         media_url = media %>%
-            plycp("media_url") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget("media_url") %>%
+            unL,
         media_url_expanded = media %>%
-            plycp("expanded_url") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget("media_url_expanded") %>%
+            unL,
         urls = urls %>%
-            plycp("urls") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget("urls") %>%
+            unL,
         urls_display = urls %>%
-            plycp("display_url") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget("urls_display") %>%
+            unL,
         urls_expanded = urls %>%
-            plycp("expanded_url") %>%
-            plyget(unL) %>%
-            unL(),
-        mentions_screen_name = user_mentions %>%
-            plycp("screen_name") %>%
-            plyget(unL) %>%
-            unL(),
-        mentions_user_id = user_mentions %>%
-            plycp("id_str") %>%
-            plyget(unL) %>%
-            unL(),
-        symbols = rt %>%
+            plyget("urls_expanded") %>%
+            unL,
+        mentions_screen_name = mentions %>%
+            plyget("mentions_screen_name") %>%
+            unL,
+        mentions_user_id = mentions %>%
+            plyget("mentions_user_id") %>%
+            unL,
+        symbols = symbols %>%
             plyget("symbols") %>%
-            plycp("text") %>%
-            plyget(unL) %>%
-            unL(),
-        hashtags = rt %>%
+            unL,
+        hashtags = hashtags %>%
             plyget("hashtags") %>%
-            plycp("text") %>%
-            plyget(unL) %>%
-            unL())
+            unL
+    )
+
+}
+
+media.parsed <- function(rt) {
+    n <- NROW(rt)
+    ## media object
+    media <- rt %>% plyget("media")
+
+    ## if null fill media obj with NAs
+    ## else extract each media var
+    if (is.null(media)) {
+        media <- list(
+            media_id = rep(NA_character_, n),
+            media_url = rep(NA_character_, n),
+            media_url_expanded = rep(NA_character_, n)
+        )
+    } else {
+        media <- list(
+            media_id = media %>%
+                plycp("id_str") %>%
+                plyget(unL) %>%
+                unL(),
+            media_url = media %>%
+                plycp("media_url") %>%
+                plyget(unL) %>%
+                unL(),
+            media_url_expanded = media %>%
+                plycp("expanded_url") %>%
+                plyget(unL) %>%
+                unL()
+        )
+    }
+    media
+}
+
+urls.parsed <- function(rt) {
+    n <- NROW(rt)
+    ## urls object
+    urls <- rt %>% plyget("urls")
+
+    ## if null fill urls obj with NAs
+    ## else extract each urls var
+    if (is.null(urls)) {
+        urls <- list(
+            urls = rep(NA_character_, n),
+            urls_display = rep(NA_character_, n),
+            urls_expanded = rep(NA_character_, n)
+        )
+    } else {
+        urls <- list(
+            urls = urls %>%
+                plycp("urls") %>%
+                plyget(unL) %>%
+                unL(),
+            urls_display = urls %>%
+                plycp("display_url") %>%
+                plyget(unL) %>%
+                unL(),
+            urls_expanded = urls %>%
+                plycp("expanded_url") %>%
+                plyget(unL) %>%
+                unL()
+        )
+    }
+}
+
+user_mentions.parsed <- function(rt) {
+    n <- NROW(rt)
+    ## user_mentions object
+    user_mentions <- rt %>%
+        plyget("user_mentions")
+
+    ## if null fill user_mentions obj with NAs
+    ## else extract each user_mentions var
+    if (is.null(user_mentions)) {
+        user_mentions <- list(
+            mentions_screen_name = rep(NA_character_, n),
+            mentions_user_id = rep(NA_character_, n)
+        )
+    } else {
+        user_mentions <- list(
+            mentions_screen_name = user_mentions %>%
+                plycp("screen_name") %>%
+                plyget(unL) %>%
+                unL(),
+            mentions_user_id = user_mentions %>%
+                plycp("id_str") %>%
+                plyget(unL) %>%
+                unL()
+        )
+    }
+    user_mentions
+}
+
+symbols.parsed <- function(rt) {
+    n <- NROW(rt)
+    ## symbols object
+    symbols <- rt %>%
+        plyget("symbols")
+
+    ## if null fill symbols obj with NAs
+    ## else extract each symbols var
+    if (is.null(symbols)) {
+        symbols <- list(
+            symbols = rep(NA_character_, n)
+        )
+    } else {
+        symbols <- list(
+            symbols = symbols %>%
+                plycp("text") %>%
+                plyget(unL) %>%
+                unL()
+        )
+    }
+    symbols
+}
+
+hashtags.parsed <- function(rt) {
+    n <- NROW(rt)
+    ## hashtags object
+    hashtags <- rt %>%
+        plyget("hashtags")
+
+    ## if null fill hashtags obj with NAs
+    ## else extract each hashtags var
+    if (is.null(hashtags)) {
+        hashtags <- list(
+            hashtags = rep(NA_character_, n)
+        )
+    } else {
+        hashtags <- list(
+            hashtags = hashtags %>%
+                plycp("text") %>%
+                plyget(unL) %>%
+                unL()
+        )
+    }
+    hashtags
 }
 
 
@@ -405,40 +538,81 @@ place.parsed <- function(rt) {
     list(
         coordinates = coordinates,
         place_id = rt %>%
-            plyget(getifelse, "id") %>%
-            plyget(unL) %>%
-            unL(),
-        place_place_type = rt %>%
-            plyget(getifelse, "place_type") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget(place_id.parsed) %>%
+            unL,
+        place_type = rt %>%
+            plyget(place_type.parsed) %>%
+            unL,
         place_name = rt %>%
-            plyget(getifelse, "name") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget(place_name.parsed) %>%
+            unL,
         place_full_name = rt %>%
-            plyget(getifelse, "full_name") %>%
-            plyget(unL) %>%
-            unL(),
-        place_country_code = rt %>%
-            plyget(getifelse, "country_code") %>%
-            plyget(unL) %>%
-            unL(),
-        place_country = rt %>%
-            plyget(getifelse, "country") %>%
-            plyget(unL) %>%
-            unL(),
+            plyget(place_full_name.parsed) %>%
+            unL,
+        country_code = rt %>%
+            plyget(country_code.parsed) %>%
+            unL,
+        country = rt %>%
+            plyget(country.parsed) %>%
+            unL,
         bounding_box_coordinates = rt %>%
-            plyget(getifelse, "bounding_box") %>%
-            plyget(getifelse, "coordinates") %>%
-            plyboxem %>%
-            plyget(unL) %>%
-            unL(),
+            plyget(bounding_box_coordinates.parsed) %>%
+            unL,
         bounding_box_type = rt %>%
-            plyget(getifelse, "bounding_box") %>%
-            plyget(getifelse, "type") %>%
-            plyget(unL) %>%
-            unL())
+            plyget(bounding_box_type.parsed) %>%
+            unL)
+}
+
+place_id.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "id") %>%
+        plyget(unL) %>%
+        unL()
+}
+place_type.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "place_type") %>%
+        plyget(unL) %>%
+        unL()
+}
+place_name.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "name") %>%
+        plyget(unL) %>%
+        unL()
+}
+place_full_name.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "full_name") %>%
+        plyget(unL) %>%
+        unL()
+}
+country_code.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "country_code") %>%
+        plyget(unL) %>%
+        unL()
+}
+country.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "country") %>%
+        plyget(unL) %>%
+        unL()
+}
+bounding_box_coordinates.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "bounding_box") %>%
+        plyget(getifelse, "coordinates") %>%
+        plyboxem %>%
+        plyget(unL) %>%
+        unL()
+}
+bounding_box_type.parsed <- function(rt) {
+    rt %>%
+        plyget(getifelse, "bounding_box") %>%
+        plyget(getifelse, "type") %>%
+        plyget(unL) %>%
+        unL()
 }
 
 #' reduce to statuses
