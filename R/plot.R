@@ -20,6 +20,8 @@ magrittr::`%>%`
 #' @param key Optional provide pretty labels for filters.
 #'   Defaults to actual filters.
 #' @param lwd Width of time series line(s). Defaults to 1.5
+#' @param linetype Logical indicating whether lines should be
+#'   distinguished by line type.
 #' @param cols Colors for filters. Leave NULl for default color
 #'   scheme.
 #' @param theme Character string specifyng whether and which
@@ -43,8 +45,9 @@ magrittr::`%>%`
 #' @param cex.main Size of plot title (if plot title provided
 #'   via \code{main = "title"} argument).
 #' @param cex.sub Size of subtitles
-#' @param cex.lab Size of axis labels and legend text
-#' @param cex.axis Size of other axis text.
+#' @param cex.lab Size of axis labels
+#' @param cex.axis Size of axis text
+#' @param cex.legend Size of legend text
 #' @param mai Margins in inches.
 #' @param plot Logical indicating whether to draw plot.
 #' @param \dots Arguments passed to plot (and par) function
@@ -105,6 +108,7 @@ ts_plot <- function(rt, by = "days",
                     filter = NULL,
                     key = NULL,
                     lwd = 1.5,
+                    linetype = FALSE,
                     cols = NULL,
                     theme = "light",
                     main = NULL,
@@ -114,12 +118,15 @@ ts_plot <- function(rt, by = "days",
                     axes = TRUE,
                     legend.title = NULL,
                     ticks = 0,
-                    cex = .90,
+                    cex = 1,
                     cex.main = 1.25,
                     cex.sub = .9,
-                    cex.lab = .9,
+                    cex.lab = .85,
                     cex.axis = .7,
-                    mai = c(.515, .575, .15, .3),
+                    cex.legend = .90,
+                    mar = c(2.575, 2.875, 0.750, 1.500),
+                    font.main = 1,
+                    xtime = NULL,
                     plot = TRUE,
                     ...) {
 
@@ -167,33 +174,53 @@ ts_plot <- function(rt, by = "days",
     ## restore those values on exit
     on.exit(par(op))
 
-    ## estimate width of right (legend side) margin
-    ## if no filter then no legend/smaller margin
-    if (is.null(filter)) {
-        mai[4] <- .3
-    } else {
-        ## select biggest filter
-        legmarg <- key[which.max(nchar(key))]
-        mai[4] <- strwidth(
-            legmarg, units = "inches") + .475
+    ## if default mar provided then...
+    if (identical(mar, c(2.575, 2.875, 0.750, 1.500))) {
+        ## estimate width of right (legend side) margin
+        ## if no filter then no legend/smaller margin
+        if (is.null(filter)) {
+            mar[4] <- 0.60
+        } else {
+            ## select biggest filter
+            legmarg <- key[which.max(nchar(key))]
+            ## adjust accordingly
+            mar[4] <- (nchar(legmarg) + 12) * .225
+            ##mar[4] <- (cex.legend / .95) * mar[4]
+        }
+        ## top margin depends on whether main (title)
+        if (!is.null(main)) {
+            mar[3] <- 1.9
+        } else {
+            mar[3] <- .6
+        }
     }
-    ## top margin depends on whether main (title)
-    if (!is.null(main)) {
-        mai[3] <- .4
-    } else {
-        mai[3] <- .15
-    }
-    theme.bg <- "#ffffff"
+
+    ## base plot background
     if (theme %in% c("reverse", "inverse", 2)) {
         theme.bg <- "#f5f5f5"
-    } else if (theme %in% c("minimal", "simple", 6)) {
-        theme.bg <- "#ffffff"
     } else if (theme %in% c("gray", "grey", 5)) {
         theme.bg <- "#f0f0f0"
+    } else if (theme %in% c("spacegray", "spacegray", 6)) {
+        theme.bg <- "#414A4C"
+        par(col.main = "white", col.lab = "white",
+            col.axis = "white", col.sub = "white")
+        if (is.null(cols)) cols <- "white"
+    } else if (theme %in% c("apa", "APA", 8)) {
+        theme.bg <- "#ffffff"
+        ticks <- 1.5
+        linetype <- TRUE
+        if (is.null(filter)) {
+            cols <- "black"
+        } else {
+            cols <- rep("black", length(filter))
+        }
+    } else {
+        theme.bg <- "#ffffff"
     }
     ## set aesthetics
     par(tcl = -.125,
         cex = cex,
+        font.main = font.main,
         cex.axis = cex.axis,
         cex.lab = cex.lab,
         cex.main = cex.main,
@@ -202,7 +229,8 @@ ts_plot <- function(rt, by = "days",
         las = 1,
         bg = theme.bg,
         mgp = c(2, .2, 0),
-        mai = mai)
+        mar = mar)
+        ##mai = mai)
     ## init plot to get parameters and set scale
     with(dat, plot(time, freq, type = "l",
                    lwd = 0,
@@ -211,17 +239,30 @@ ts_plot <- function(rt, by = "days",
                    xlab = "",
                    ylab = "",
                    ...))
-    title(ylab = ylab, mgp = c(2.1, .25, 0))
-    title(xlab = xlab, mgp = c(1.5, .25, 0))
-
+    ## add xlab and ylab
+    if (cex > .95) {
+        title(ylab = ylab, mgp = c(1.7, .25, 0))
+        title(xlab = xlab, mgp = c(1.3, .25, 0))
+    } else if (cex < .75) {
+        title(ylab = ylab, mgp = c(2.0, .25, 0))
+        title(xlab = xlab, mgp = c(1.5, .25, 0))
+    } else {
+        title(ylab = ylab, mgp = c(1.9, .25, 0))
+        title(xlab = xlab, mgp = c(1.4, .25, 0))
+    }
     ## draw axes
     if (axes) {
         x.ticks <- seq(
             par("xaxp")[1], par("xaxp")[2],
             length.out = par("xaxp")[3] + 1)
         x.labs <- as.POSIXct(x.ticks, origin = "1970-01-01")
-        axis.POSIXct(1, at = x.labs,
-             lwd = 0, lwd.ticks = ticks)
+        if (!is.null(xtime)) {
+            axis.POSIXct(1, at = x.labs, format = xtime,
+                         lwd = 0, lwd.ticks = ticks)
+        } else {
+            axis.POSIXct(1, at = x.labs,
+                         lwd = 0, lwd.ticks = ticks)
+        }
         axis(2, at = NULL,
              lwd = 0, lwd.ticks = ticks)
     }
@@ -230,37 +271,35 @@ ts_plot <- function(rt, by = "days",
     if (theme %in% c("light", "lighter", 1)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f9f9f9", lwd = 0, border = NA)
+             col = "#f5f5f5", border = NA)
         ## blend grid lines
-        grid(col = "#fcfcfc", lwd = 6, lty = 1)
+        grid(col = "#f9f9f9", lwd = 5, lty = 1)
         grid(col = "#ffffff", lwd = 3, lty = 1)
-        grid(col = "#999999", lwd = .5, lty = 2)
+        grid(col = "#333333", lwd = .3, lty = 3)
         ## draw box
         if (box) {
-            box(lwd = 1.5, col = "#666666")
+            box(lwd = 1.67 * cex, col = "#666666")
         }
     } else if (theme %in% c("inverse", "reverse", 2)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#ffffff", lwd = 0, border = NA)
+             col = "#ffffff", border = NA)
         ## blend grid lines
-        grid(col = "#f0f0f0", lwd = 4, lty = 1)
-        grid(col = "#999999", lwd = .5, lty = 2)
+        grid(col = "#666666", lwd = .5, lty = 3)
         ## draw box
         if (box) {
-            box(lwd = 1.5, col = "#666666")
+            box(lwd = 1.67 * cex, col = "#666666")
         }
     } else if (theme %in% c("dark", "darker", 3)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f0f0f0", lwd = 0, border = NA)
-        ## blend grid lines to white
-        grid(col = "#e9e9e9", lwd = 5, lty = 1)
-        grid(col = "#c5c5c5", lwd = 2.5, lty = 1)
-        grid(col = "#666666", lwd = .5, lty = 2)
+             col = "#f0f0f0", border = NA)
+        ## blend grid lines
+        grid(col = "#e6e6e6", lwd = 2, lty = 1)
+        grid(col = "#333333", lwd = .25, lty = 3)
         ## draw box
         if (box) {
-            box(lwd = 1.5, col = "#666666")
+            box(lwd = 1.67 * cex, col = "#666666")
         }
     } else if (theme %in% c("nerdy", "nerd", "nerdier", 4)) {
         rect(par("usr")[1], par("usr")[3],
@@ -274,22 +313,33 @@ ts_plot <- function(rt, by = "days",
         grid(col = "#00336655", lwd = .75, lty = 1)
         ## draw box
         if (box) {
-            box(lwd = 1.5, col = "#99002266")
+            box(lwd = 1.57 * cex, col = "#99002266")
         }
     } else if (theme %in% c("gray", "grey", 5)) {
         ## blend grid lines to white
-        grid(col = "#dadada", lwd = 3, lty = 1)
-        grid(col = "#666666", lwd = .5, lty = 5)
+        grid(col = "#999999", lwd = .75, lty = 2)
         ## draw box
         if (box) {
-            box(lwd = 1.5, col = "#666666")
+            box(lwd = 1.67 * cex, col = "#666666")
         }
-    } else if (theme %in% c("minimal", "simple", 6)) {
-        ## blend grid lines to white
+    } else if (theme %in% c("spacegray", "spacegrey", 6)) {
+        ## grid lines
+        grid(col = "#f0f0f0", lwd = .4, lty = 3)
+        ## draw box
+        if (box) {
+            box(lwd = 1.67 * cex, col = "#000000")
+        }
+    } else if (theme %in% c("minimal", "simple", 7)) {
+        ## grid lines
         grid(col = "#666666", lwd = .3, lty = 2)
         ## draw box
         if (box) {
-            box(lwd = 1.5, col = "#333333")
+            box(lwd = 1.67 * cex, col = "#333333")
+        }
+    } else if (theme %in% c("apa", "APA", 8)) {
+        ## draw box
+        if (box) {
+            box(lwd = 1, col = "black")
         }
     }
 
@@ -316,30 +366,58 @@ ts_plot <- function(rt, by = "days",
         }
         ## if no key then use filter expression(s)
         if (is.null(key)) key <- filter
-        ## iterate over xy lines
-        seq_along(lstdat) %>%
-            lapply(function(i)
-                with(lstdat[[i]],
-                     lines(time, freq, lwd = lwd, col = cols[i])))
+        if (linetype) {
+            ## iterate over xy lines
+            seq_along(lstdat) %>%
+                lapply(function(i)
+                    with(lstdat[[i]],
+                         lines(time, freq, lwd = lwd,
+                               lty = as.double(i),
+                               col = cols[[i]])))
+        } else {
+            ## iterate over xy lines
+            seq_along(lstdat) %>%
+                lapply(function(i)
+                    with(lstdat[[i]],
+                         lines(time, freq, lwd = lwd,
+                               col = cols[i])))
+        }
         ## calculate x legend postion given par
         ## y legend position looks too short at median so
         ## use .575 quartile instead
-        legend(
-            par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-            (1-par("plt")[2]) / 16,
-            quantile(c(par("usr")[3], par("usr")[4]), .575),
-            key,
-            lwd = rep(((5/3) * lwd), length(filter)),
-            col = cols,
-            x.intersp = .5,
-            title = legend.title,
-            lty = rep(1, length(filter)),
-            seg.len = 1,
-            xpd = TRUE,
-            bty = "n",
-            cex = cex.lab)
+        if (linetype) {
+            legend(
+                par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
+                (1-par("plt")[2]) / 16,
+                quantile(c(par("usr")[3], par("usr")[4]), .575),
+                key,
+                lwd = rep(((5/3) * lwd), length(filter)),
+                col = cols,
+                x.intersp = .5,
+                title = legend.title,
+                lty = seq_len(length(filter)),
+                seg.len = 1.5,
+                xpd = TRUE,
+                bty = "n",
+                cex = cex.axis)
+        } else {
+            legend(
+                par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
+                (1-par("plt")[2]) / 20,
+                quantile(c(par("usr")[3], par("usr")[4]), .575),
+                key,
+                lwd = rep(((5/3) * lwd), length(filter)),
+                col = cols,
+                x.intersp = .5,
+                title = legend.title,
+                lty = rep(1, length(filter)),
+                seg.len = 1.5,
+                xpd = TRUE,
+                bty = "n",
+                cex = cex.axis)
+        }
     } else {
-        if (is.null(cols)) cols <- "#222222"
+        if (is.null(cols)) cols <- "black"
         with(dat, lines(time, freq, lwd = lwd, col = cols))
     }
 
