@@ -83,33 +83,48 @@ Plots frequency of tweets as time series or, if multiple
 }
 \examples{
 \dontrun{
-## stream tweets mentioning beibs and tswift for 10 mins
+## stream tweets mentioning trump for 30 mins
 rt <- rtweet::stream_tweets(
-    q = "justinbieber,taylorswift13",
-    timeout = (60 * 60 * 10))
+    q = "realdonaldtrump",
+    timeout = (60 * 60 * 30))
 
-## split mentions into distinct elements
-mentions <- strsplit(rt$mentions_screen_name, ",")
+## plot tweet data aggregated by minute (default)
+ts_plot(rt, by = "mins")
 
-## sorted table of mentions
-mentions <- sort(table(unlist(mentions)),
-    decreasing = TRUE)
+## use a different time increment, line width, and theme
+ts_plot(rt, by = "30 secs", lwd = .75, theme = "inverse")
 
-## exclude biebs and tswift
-mentions <- grep("justinbieber|taylorswift13", names(mentions),
-    invert = TRUE, value = TRUE)
+## filter data using regular expressions and plot
+## each corresponding time series
+ts_plot(rt, by = "mins",
+        theme = "gray",
+        main = "Partisanship in tweets mentioning Trump",
+        filter = c("democrat|liberal|libs",
+                   "republican|conservativ|gop"),
+        key = c("Democrats", "Republicans"))
 
-## store next most pop in obj
-thirdpop <- mentions[1]
+## ts_plot also silently returns data frame
+rt.ts <- ts_plot(rt, by = "mins")
 
-##plot with mentions as filters
-ts.df <- ts_plot(rt, by = "mins", filter = c(
-    "justinbieber", "taylorswift", thirdpop),
-    main = "Biebs vs Tswift")
+## printing should yield around 30 rows (give or take)
+rt.ts
 
-## preview returned data frame
-head(ts.df)
+## the returned data frame is tidy with three columns
+## Column 1 - time Date-time obj of [median] time intervals
+## Column 2 - freq Integer (class double) frequency counts
+## Column 3 - filter Keys of different time series filters
+rt.ts <- ts_plot(rt, by = "mins",
+                 filter = c("democrat|liberal|libs",
+                            "republican|conservativ|gop"),
+                 key = c("Democrats", "Republicans"))
 
+## this makes it easy to pass the data along to ggplot
+## but if anyone asks you, you prefer the awesome rtweet
+## plot themes over the ggplot2 themes!
+library(ggplot2)
+rt.ts \%>\%
+    ggplot(aes(x = time, y = freq, color = filter)) +
+    geom_line()
 }
 }
 
