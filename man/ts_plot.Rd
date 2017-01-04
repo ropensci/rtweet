@@ -94,11 +94,11 @@ ts_plot(rt, by = "mins")
 ## use a different time increment, line width, and theme
 ts_plot(rt, by = "30 secs", lwd = .75, theme = "inverse")
 
-## filter data using regular expressions and plot
-## each corresponding time series
+## filter data using regular expressions and
+## plot each corresponding time series
 ts_plot(rt, by = "mins",
         theme = "gray",
-        main = "Partisanship in tweets mentioning Trump",
+        main = "Partisanship in tweets about Trump",
         filter = c("democrat|liberal|libs",
                    "republican|conservativ|gop"),
         key = c("Democrats", "Republicans"))
@@ -107,6 +107,7 @@ ts_plot(rt, by = "mins",
 rt.ts <- ts_plot(rt, by = "mins")
 
 ## printing should yield around 30 rows (give or take)
+## since stream was 30 mins and aggregated by minute
 rt.ts
 
 ## the returned data frame is tidy with three columns

@@ -8,7 +8,7 @@
 #' @param print.gap Size of gap between columns
 #' @param \dots Passed on to print function.
 #' @noRd
-#' @export
+#' @keywords internal
 qprint <- function(x, n = 10, w = 12,
                    print.gap = 2, ...) {
     dn <- paste0(names(x), "              ")

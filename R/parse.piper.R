@@ -1,5 +1,3 @@
-#' utility functions
-#'
 #' My version of map
 #'
 #' @param x Object from lhs
@@ -7,7 +5,7 @@
 #'   (numbered) to be retrieved or function to be applied across
 #'   elements.
 #' @param \dots Arguments passed along to user function
-#' @export
+#' @keywords internal
 #' @noRd
 plyget <- function(x, f, ...) {
     if (!is.function(f)) {
