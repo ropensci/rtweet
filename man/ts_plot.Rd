@@ -5,10 +5,11 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
-  filter = NULL, key = NULL, cols = NULL, box = TRUE, axes = TRUE,
-  light.theme = TRUE, main = NULL, mai = c(0.49, 0.5, 0.15, 0.3),
-  cex = 0.9, cex.axis = 0.8, cex.lab = 0.95, cex.main = 1.5,
-  cex.sub = 1, lwd = 1.5, legend.title = NULL, ...)
+  filter = NULL, key = NULL, lwd = 1.5, cols = NULL, theme = "light",
+  box = TRUE, axes = TRUE, ticks = 0, legend.title = NULL,
+  main = NULL, xlab = "Time", ylab = "Number of Tweets", mai = c(0.515,
+  0.575, 0.15, 0.3), cex = 0.9, cex.axis = 0.7, cex.lab = 0.9,
+  cex.main = 1.25, cex.sub = 0.9, plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets or users data frame}
@@ -28,8 +29,14 @@ filter data (creating multiple time series).}
 \item{key}{Optional provide pretty labels for filters.
 Defaults to actual filters.}
 
+\item{lwd}{Width of time series line(s). Defaults to 1.5}
+
 \item{cols}{Colors for filters. Leave NULl for default color
 scheme.}
+
+\item{theme}{Character string specifyng whether and which
+plot theme should be used; options include "lighter",
+"darker", and "nerdy"}
 
 \item{box}{Logical indicating whether to draw box around
 plot area. Defaults to true.}
@@ -37,8 +44,12 @@ plot area. Defaults to true.}
 \item{axes}{Logical indicating whether to draw axes. Defaults
 to true.}
 
-\item{light.theme}{Logical indicating whether grid background
-should use light or dark colors.}
+\item{ticks}{Numeric specifying width of tick marks. Defaults
+to zero. If you'd like tick marks, try setting this value
+to 1.25.}
+
+\item{legend.title}{Provide title for legend ro ignore to
+leave blank (default)}
 
 \item{main}{Optional argument to provide plot title.}
 
@@ -54,14 +65,6 @@ should use light or dark colors.}
 via \code{main = "title"} argument).}
 
 \item{cex.sub}{Size of subtitles}
-
-\item{lwd}{Width of time series line(s). Defaults to 1.5}
-
-\item{legend.title}{Provide title for legend ro ignore to
-leave blank (default)}
-
-\item{legend}{Logical indicating wether to include a plot
-legend. Defaults to true.}
 
 \item{plot}{Logical indicating whether to draw plot.}
 
