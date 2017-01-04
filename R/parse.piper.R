@@ -621,9 +621,8 @@ get.user.obj <- function(x) {
     }
     x
 }
-
 atomic.parsed.usr <- function(rt) {
-    list(
+    atom <- list(
         user_id = rt %>%
             plyget("id_str") %>%
             unL,
@@ -734,6 +733,10 @@ atomic.parsed.usr <- function(rt) {
             plyget("profile_banner_url") %>%
             unL
     )
+    lgs <- vapply(atom, length, double(1))
+    atom[lgs == 0] <- rep(
+        list(rep(NA, max(lgs))), sum(lgs == 0))
+    atom
 }
 
 #' parse.piper.usr
@@ -750,11 +753,9 @@ parse.piper.usr <- function(rt, tw = FALSE) {
         tweets <- parse.piper(rt, usr = FALSE)
     }
     rt <- atomic.parsed.usr(rt)
-    varnames <- names(rt)
     rt <- tryCatch(
         as.data.frame(rt, stringsAsFactors = FALSE),
-        error = function(e)
-            return(rt))
+        error = function(e) return(rt))
     if (tw) {
         attr(rt, "tweets") <- tweets
     }

@@ -10,7 +10,7 @@ test_that("search_users returns users data", {
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("user_id" %in% names(x))
-  expect_equal(nrow(x), n)
+  expect_gt(nrow(x), 2)
   expect_gt(ncol(x), 15)
   expect_true("tweets" %in% names(attributes(x)))
   expect_true(is.data.frame(attr(x, "tweets")))
