@@ -1,5 +1,12 @@
 
-
+#' qprint
+#'
+#' Fast and dirty data frame previewer
+#' @param x Data frame
+#' @param n Number of rows to preview
+#' @param w Width in characters of all columns
+#' @param print.gap Size of gap between columns
+#' @param \dots Passed on to print function.
 #' @noRd
 #' @export
 qprint <- function(x, n = 10, w = 12,
@@ -8,7 +15,7 @@ qprint <- function(x, n = 10, w = 12,
     dn <- substr(dn, 1, w)
     nr <- NROW(x)
     nc <- ncol(x)
-    x <- head(x, n)
+    x <- x[seq_len(n), ]
     x <- lapply(x, iconv, "UTF-8", "ASCII", "")
     d <- data.frame(lapply(x, substr, 1, w))
     names(d) <- dn

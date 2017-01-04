@@ -6,10 +6,10 @@
 \usage{
 ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
   filter = NULL, key = NULL, lwd = 1.5, cols = NULL, theme = "light",
-  box = TRUE, axes = TRUE, ticks = 0, legend.title = NULL,
-  main = NULL, xlab = "Time", ylab = "Number of Tweets", mai = c(0.515,
-  0.575, 0.15, 0.3), cex = 0.9, cex.axis = 0.7, cex.lab = 0.9,
-  cex.main = 1.25, cex.sub = 0.9, plot = TRUE, ...)
+  main = NULL, xlab = "Time", ylab = "Number of Tweets", box = TRUE,
+  axes = TRUE, legend.title = NULL, ticks = 0, cex = 0.9,
+  cex.main = 1.25, cex.sub = 0.9, cex.lab = 0.9, cex.axis = 0.7,
+  mai = c(0.515, 0.575, 0.15, 0.3), plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets or users data frame}
@@ -38,41 +38,43 @@ scheme.}
 plot theme should be used; options include "lighter",
 "darker", and "nerdy"}
 
+\item{main}{Optional, text for plot title.}
+
+\item{xlab}{Optional, text for x-axis title, defaults to
+"Time".}
+
+\item{ylab}{Optional, text for y-axis title, defaults to
+"Number of Tweets"}
+
 \item{box}{Logical indicating whether to draw box around
 plot area. Defaults to true.}
 
 \item{axes}{Logical indicating whether to draw axes. Defaults
 to true.}
 
+\item{legend.title}{Provide title for legend ro ignore to
+leave blank (default)}
+
 \item{ticks}{Numeric specifying width of tick marks. Defaults
 to zero. If you'd like tick marks, try setting this value
 to 1.25.}
 
-\item{legend.title}{Provide title for legend ro ignore to
-leave blank (default)}
-
-\item{main}{Optional argument to provide plot title.}
-
-\item{mai}{Margins in inches.}
-
 \item{cex}{Global cex setting defaults to .90}
-
-\item{cex.axis}{Size of other axis text.}
-
-\item{cex.lab}{Size of axis labels and legend text}
 
 \item{cex.main}{Size of plot title (if plot title provided
 via \code{main = "title"} argument).}
 
 \item{cex.sub}{Size of subtitles}
 
+\item{cex.lab}{Size of axis labels and legend text}
+
+\item{cex.axis}{Size of other axis text.}
+
+\item{mai}{Margins in inches.}
+
 \item{plot}{Logical indicating whether to draw plot.}
 
-\item{\dots}{Arguments passed to plot function, e.g.,
-\code{main = "#rstats tweets"},
-\code{xlab = "Date"},
-\code{ylab = "Tweets"},
-\code{main.cex = 1}.}
+\item{\dots}{Arguments passed to plot (and par) function}
 }
 \description{
 Plots frequency of tweets as time series or, if multiple

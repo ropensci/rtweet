@@ -25,30 +25,29 @@ magrittr::`%>%`
 #' @param theme Character string specifyng whether and which
 #'   plot theme should be used; options include "lighter",
 #'   "darker", and "nerdy"
-#' @param main Optional argument to provide plot title.
-#' @param mai Margins in inches.
-#' @param axes Logical indicating whether to draw axes. Defaults
-#'   to true.
+#' @param main Optional, text for plot title.
+#' @param xlab Optional, text for x-axis title, defaults to
+#'   "Time".
+#' @param ylab Optional, text for y-axis title, defaults to
+#'   "Number of Tweets"
 #' @param box Logical indicating whether to draw box around
 #'   plot area. Defaults to true.
+#' @param axes Logical indicating whether to draw axes. Defaults
+#'   to true.
+#' @param legend.title Provide title for legend ro ignore to
+#'   leave blank (default)
 #' @param ticks Numeric specifying width of tick marks. Defaults
 #'   to zero. If you'd like tick marks, try setting this value
 #'   to 1.25.
-#' @param legend.title Provide title for legend ro ignore to
-#'   leave blank (default)
 #' @param cex Global cex setting defaults to .90
-#' @param cex.lab Size of axis labels and legend text
 #' @param cex.main Size of plot title (if plot title provided
 #'   via \code{main = "title"} argument).
-#' @param cex.axis Size of other axis text.
 #' @param cex.sub Size of subtitles
+#' @param cex.lab Size of axis labels and legend text
+#' @param cex.axis Size of other axis text.
+#' @param mai Margins in inches.
 #' @param plot Logical indicating whether to draw plot.
-#' @param \dots Arguments passed to plot function, e.g.,
-#'   \code{main = "#rstats tweets"},
-#'   \code{xlab = "Date"},
-#'   \code{ylab = "Tweets"},
-#'   \code{main.cex = 1}.
-#'
+#' @param \dots Arguments passed to plot (and par) function
 #'
 #' @examples
 #' \dontrun{
@@ -93,19 +92,19 @@ ts_plot <- function(rt, by = "days",
                     lwd = 1.5,
                     cols = NULL,
                     theme = "light",
-                    box = TRUE,
-                    axes = TRUE,
-                    ticks = 0,
-                    legend.title = NULL,
                     main = NULL,
                     xlab = "Time",
                     ylab = "Number of Tweets",
-                    mai = c(.515, .575, .15, .3),
+                    box = TRUE,
+                    axes = TRUE,
+                    legend.title = NULL,
+                    ticks = 0,
                     cex = .90,
-                    cex.axis = .7,
-                    cex.lab = .9,
                     cex.main = 1.25,
                     cex.sub = .9,
+                    cex.lab = .9,
+                    cex.axis = .7,
+                    mai = c(.515, .575, .15, .3),
                     plot = TRUE,
                     ...) {
 
@@ -377,6 +376,10 @@ sollts <- function(dt, by = "days", fdt = NULL) {
     tab
 }
 
+#' gg_cols
+#'
+#' returns ggplot2-like colors
+#' @param n number of desired colors
 #' @keywords internal
 #' @noRd
 #' @export
