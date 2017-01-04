@@ -204,7 +204,7 @@ ts_plot <- function(rt, by = "days",
         theme.bg <- "#414A4C"
         par(col.main = "white", col.lab = "white",
             col.axis = "white", col.sub = "white")
-        if (is.null(cols)) cols <- "white"
+        if (all(is.null(cols), is.null(filter))) cols <- "white"
     } else if (theme %in% c("apa", "APA", 8)) {
         theme.bg <- "#ffffff"
         ticks <- 1.5
@@ -214,6 +214,9 @@ ts_plot <- function(rt, by = "days",
         } else {
             cols <- rep("black", length(filter))
         }
+    } else if (theme %in% c("nerdy", "nerdier", "nerd", 4)) {
+        if (all(is.null(cols), is.null(filter))) cols <- "#990022bb"
+        theme.bg <- "#ffffff"
     } else {
         theme.bg <- "#ffffff"
     }

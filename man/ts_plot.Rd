@@ -5,11 +5,13 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
-  filter = NULL, key = NULL, lwd = 1.5, cols = NULL, theme = "light",
-  main = NULL, xlab = "Time", ylab = "Number of Tweets", box = TRUE,
-  axes = TRUE, legend.title = NULL, ticks = 0, cex = 0.9,
-  cex.main = 1.25, cex.sub = 0.9, cex.lab = 0.9, cex.axis = 0.7,
-  mai = c(0.515, 0.575, 0.15, 0.3), plot = TRUE, ...)
+  filter = NULL, key = NULL, lwd = 1.5, linetype = FALSE, cols = NULL,
+  theme = "light", main = NULL, xlab = "Time",
+  ylab = "Number of Tweets", box = TRUE, axes = TRUE,
+  legend.title = NULL, ticks = 0, cex = 1, cex.main = 1.25,
+  cex.sub = 0.9, cex.lab = 0.85, cex.axis = 0.7, cex.legend = 0.9,
+  mar = c(2.575, 2.875, 0.75, 1.5), font.main = 1, xtime = NULL,
+  plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets or users data frame}
@@ -30,6 +32,9 @@ filter data (creating multiple time series).}
 Defaults to actual filters.}
 
 \item{lwd}{Width of time series line(s). Defaults to 1.5}
+
+\item{linetype}{Logical indicating whether lines should be
+distinguished by line type.}
 
 \item{cols}{Colors for filters. Leave NULl for default color
 scheme.}
@@ -66,13 +71,15 @@ via \code{main = "title"} argument).}
 
 \item{cex.sub}{Size of subtitles}
 
-\item{cex.lab}{Size of axis labels and legend text}
+\item{cex.lab}{Size of axis labels}
 
-\item{cex.axis}{Size of other axis text.}
+\item{cex.axis}{Size of axis text}
 
-\item{mai}{Margins in inches.}
+\item{cex.legend}{Size of legend text}
 
 \item{plot}{Logical indicating whether to draw plot.}
+
+\item{mai}{Margins in inches.}
 
 \item{\dots}{Arguments passed to plot (and par) function}
 }
