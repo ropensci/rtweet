@@ -9,7 +9,8 @@
 #' @noRd
 plyget <- function(x, f, ...) {
     if (!is.function(f)) {
-        if (is.data.frame(x)) return(x[[f]])
+        if (any(is.data.frame(x),
+                f %in% names(x))) return(x[[f]])
         lapply(x, function(x) x[[f]])
     } else if (is.data.frame(x)) {
         f(x, ...)
@@ -449,6 +450,7 @@ urls.parsed <- function(rt) {
                 unL()
         )
     }
+    urls
 }
 
 user_mentions.parsed <- function(rt) {
