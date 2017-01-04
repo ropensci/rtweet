@@ -1,3 +1,10 @@
+# rtweet 0.3.91
+* Major improvements to ts_plot including SIX different
+themes from which users may choose
+* More parsing fixes and misc stability improvements
+* Minor renamig of variables along with returning more
+variables overall
+
 # rtweet 0.3.9
 * Fixes minor problems with parse.piper() function
 * More additions to plotting and data wrangling for the
