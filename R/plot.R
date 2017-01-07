@@ -208,7 +208,8 @@ ts_plot <- function(rt, by = "days",
     } else if (theme %in% c("spacegray", "spacegray", 6)) {
         theme.bg <- "#414A4C"
         par(col.main = "white", col.lab = "white",
-            col.axis = "white", col.sub = "white")
+            col.axis = "white", col.sub = "white",
+            col = "white")
         if (all(is.null(cols), is.null(filter))) cols <- "white"
     } else if (theme %in% c("apa", "APA", 8)) {
         theme.bg <- "#ffffff"
@@ -497,6 +498,7 @@ gg_cols <- function(n) {
 #'
 #' Plots world map
 #'
+#' @param dat plot data
 #' @param mapdf Mapping data frame defaults to high resolution
 #'    rworldmap.
 #' @param xlim Maximimum plot values along x-axis. Defaults to
@@ -515,9 +517,10 @@ gg_cols <- function(n) {
 #' @importFrom graphics plot
 #' @importFrom maps map
 #' @export
-basemap <- function(mapdf = NULL,
+basemap <- function(dat,
+                    mapdf = NULL,
                     xlim = c(-179, 179),
-                    ylim = c(-55, 80),
+                    ylim = c(-50, 75),
                     ocean.col = "#e0e0eb99",
                     land.col = "#ffffff",
                     border.lwd = .1) {
@@ -529,35 +532,7 @@ basemap <- function(mapdf = NULL,
     maps::map(mapdf, lwd = border.lwd, col = land.col,
               bg = ocean.col, fill = TRUE,
               xlim = xlim, ylim = ylim)
-}
-
-latlong <- function(x) {
-    data.frame(
-        lat = rowMeans(
-            x$coordinates[, 1:4], na.rm = TRUE),
-        long = rowMeans(
-            x$coordinates[, 5:8], na.rm = TRUE))
-}
-go.long <- function(data)
-    rowMeans(data$coordinates[, 1:4], na.rm = TRUE)
-go.lat <- function(data)
-    rowMeans(data$coordinates[, 5:8], na.rm = TRUE)
-
-#' longlat
-#'
-#' Add long and lat variables to data frame
-#'
-#' @param data Twitter data
-#' @param by Unit of time
-#' @export
-longlat <- function(data, by = NULL) {
-    if (!is.null(by)) {
-        data <- ts_plot(data, by, plot = FALSE)
-    } else {
-        data$long <- go.long(data)
-        data$lat <- go.lat(data)
-    }
-    data
+    invisible(dat)
 }
 
 #' alphacolor
@@ -578,13 +553,10 @@ alphacolor <- function(cols, a = .99) {
 #' Initializes rt plotting sequence
 #'
 #' @param data Data frame generated via rtweet function.
-#' @param by Unit of time for aggregating tweet frequency for
-#'   time series plot. Defaults to NULL. To plot as time series
-#'   by argument is required (e.g., \code{by = "days"}.
-#' @param \dots Args passed to aes and other functions.
+#' @param \dots Args passed to rtaes.
 #' @export
-rtdata <- function(data, by = NULL, ...) {
-    with(longlat(data, by), rtaes(x = long, y = lat, ...))
+rtdata <- function(data, ...) {
+    with(mutate.coords(data), ...)
 }
 
 #' @importFrom grDevices hcl

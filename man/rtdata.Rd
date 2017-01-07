@@ -4,16 +4,12 @@
 \alias{rtdata}
 \title{rtdata}
 \usage{
-rtdata(data, by = NULL, ...)
+rtdata(data, ...)
 }
 \arguments{
 \item{data}{Data frame generated via rtweet function.}
 
-\item{by}{Unit of time for aggregating tweet frequency for
-time series plot. Defaults to NULL. To plot as time series
-by argument is required (e.g., \code{by = "days"}.}
-
-\item{\dots}{Args passed to aes and other functions.}
+\item{\dots}{Args passed to rtaes.}
 }
 \description{
 Initializes rt plotting sequence

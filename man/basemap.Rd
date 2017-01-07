@@ -4,10 +4,12 @@
 \alias{basemap}
 \title{basemap}
 \usage{
-basemap(mapdf = NULL, xlim = c(-179, 179), ylim = c(-55, 80),
+basemap(dat, mapdf = NULL, xlim = c(-179, 179), ylim = c(-50, 75),
   ocean.col = "#e0e0eb99", land.col = "#ffffff", border.lwd = 0.1)
 }
 \arguments{
+\item{dat}{plot data}
+
 \item{mapdf}{Mapping data frame defaults to high resolution
 rworldmap.}
 

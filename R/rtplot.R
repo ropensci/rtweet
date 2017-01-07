@@ -18,7 +18,7 @@
 lookup_coords <- function(address, components = NULL, ...) {
     if (missing(address)) stop("must supply address", call. = FALSE)
     stopifnot(is.atomic(address), is.atomic(components))
-    
+
     address <- gsub(" ", "+", gsub(",", "", address))
 
     params <- list(address = address,
@@ -35,3 +35,120 @@ lookup_coords <- function(address, components = NULL, ...) {
     r <- jsonlite::fromJSON(r)
     rev(unlist(r$results$geometry[1, 1], use.names = FALSE))
 }
+
+
+
+mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
+
+#' mutate coords
+#'
+#' @param x Tweets data frame with at least some geo data.
+#' @return Data frame with long and lat columns
+#' @export
+mutate.coords <- function(x) {
+    if ("place.bounding_box.coordinates" %in% names(x)) {
+        x[["place.bounding_box.coordinates"]] <- gsub(
+            ",", " ", x[["place.bounding_box.coordinates"]]
+        )
+        coordinates <- strsplit(
+            x[["place.bounding_box.coordinates"]], " ")
+        x[["long"]] <- vapply(coordinates, function(x)
+            mean.dbls(x[1:4]), double(1))
+        x[["lat"]] <- vapply(coordinates, function(x)
+            mean.dbls(x[5:8]), double(1))
+    } else if ("bounding_box_coordinates" %in% names(x)) {
+        x[["bounding_box_coordinates"]] <- gsub(
+            ",", " ", x[["bounding_box_coordinates"]]
+        )
+        coordinates <- strsplit(
+            x[["bounding_box_coordinates"]], " ")
+        x[["long"]] <- vapply(coordinates, function(x)
+            mean.dbls(x[1:4]), double(1))
+        x[["lat"]] <- vapply(coordinates, function(x)
+            mean.dbls(x[5:8]), double(1))
+    } else if ("coordinates" %in% names(x)) {
+        coordinates <- x[["coordinates"]]
+        if (is.list(coordinates)) {
+            coordinates <- coordinates %>%
+                unlist() %>%
+                as.double() %>%
+                matrix(ncol = 8, byrow = TRUE)
+        } else {
+            coordinates <- gsub(
+                ",", " ", coordinates
+            )
+            coordinates <- strsplit(
+                coordinates, " ")
+            x[["long"]] <- vapply(coordinates, function(x)
+                mean.dbls(x[2]), double(1))
+            x[["lat"]] <- vapply(coordinates, function(x)
+                mean.dbls(x[1]), double(1))
+        }
+        x[["long"]] <- apply(
+            coordinates, 1, function(x)
+                mean.dbls(x[1:4]))
+        x[["lat"]] <- apply(
+            coordinates, 1, function(x)
+                mean.dbls(x[5:8]))
+    } else {
+        stop("coordinates variable not found")
+    }
+    invisible(x)
+}
+
+mapcols <- function (n, l = 65, c = 100) {
+    hues = seq(15, 375, length = n + 1)
+    hcl(h = hues, l = l, c = c)[1:n]
+}
+
+#' tweet.world
+#'
+#' Plots geo location tweets data on map using
+#' latitude and longitude coordinates
+#'
+#' @param x Data frame of tweets data.
+#' @param color Color Name of variable by which dots
+#'   should be colored (grouping variable).
+#' @param bg Background color
+#' @param pch Point shape defaults to 21 (bubble)
+#' @param cex Point size defaults to .25
+#' @param xlim Min and max for x axis
+#' @param ylim Min and max for y axis
+#' @param blank.plot Logical inciating whether to
+#'   start from a blank plot
+#' @export
+tweet.world <- function(x, color = NULL,
+                        bg = NULL,
+                        pch = 21,
+                        cex = .25,
+                        xlim = c(-170, 180),
+                        ylim = c(-65, 75),
+                        blank.plot = FALSE) {
+    if (!is.null(color)) {
+        if (is.color(color)) {
+            col <- color
+            if (is.null(bg)) bg <- col
+        } else {
+            n <- length(unique(x[[color]]))
+            cols <- mapcols(n)
+            cols <- cols[match(
+                x[[color]], unique(x[[color]]))]
+            col <- paste0(cols, "aa")
+            bgs <- mapcols(n, c = 90)
+            bgs <- bgs[match(
+                x[[color]], unique(x[[color]]))]
+            bg <- paste0(bgs, "aa")
+        }
+    } else {
+        col <- "#224488aa"
+        bg <- "#002244aa"
+    }
+    if (blank.plot) {
+        par(mar = c(0, 0, 0, 0),
+            bty = "n", yaxt = "n", xaxt = "n")
+        plot(NA, xlim = xlim, ylim = ylim)
+    }
+    points(x[["longitude"]], x[["latitude"]],
+           pch = pch, cex = cex, col = col, bg = bg)
+}
+
