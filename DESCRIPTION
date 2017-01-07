@@ -23,7 +23,8 @@ Imports:
     maps,
     maptools,
     openssl,
-    rworldmap
+    rworldmap,
+    tibble
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://CRAN.R-project.org/package=rtweet
