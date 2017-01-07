@@ -34,6 +34,3 @@ NULL
 }
 
 .state <- new.env(parent = emptyenv())
-ope <- options()
-options(encoding = "UTF-8")
-on.exit(options(ope))

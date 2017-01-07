@@ -95,9 +95,11 @@ stream_tweets <- function(q = "",
                           gzip = FALSE,
                           verbose = TRUE, ...) {
 
-    ope <- options()
-    options(encoding = "UTF-8")
-    on.exit(options(ope))
+    if (!identical(getOption("encoding"), "UTF-8")) {
+        op <- getOption("encoding")
+        options(encoding = "UTF-8")
+        on.exit(options(encoding = op))
+    }
 
     token <- check_token(token)
 
@@ -208,9 +210,11 @@ stream_tweets <- function(q = "",
 parse_stream <- function(file_name, clean_tweets = TRUE,
                          as_double = FALSE) {
 
-    ope <- options(no.read = TRUE)
-    options(encoding = "UTF-8")
-    on.exit(options(ope))
+    if (!identical(getOption("encoding"), "UTF-8")) {
+        op <- getOption("encoding")
+        options(encoding = "UTF-8")
+        on.exit(options(encoding = op))
+    }
 
     s <- tryCatch(suppressWarnings(
         stream_in(file(file_name),
