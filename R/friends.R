@@ -77,11 +77,19 @@ parse.piper.fnd <- function(r) {
     r <- r[["content"]] %>%
         rawToChar() %>%
         jsonlite::fromJSON() %>%
+        tryCatch(error = function(e) return(NULL))
+    if (is.null(r)) return(data.frame(user_id = NA_character_))
+    next_cursor <- r %>%
+        getElement("next_cursor") %>%
+        as.character()
+    usrs <- r %>%
         getElement("ids") %>%
         as.character() %>%
         data.frame(stringsAsFactors = FALSE)
-    names(r) <- "user_id"
-    r
+    names(usrs) <- "user_id"
+    if (is.null(next_cursor)) next_cursor <- NA_character_
+    attr(usrs, "next_cursor") <- next_cursor
+    usrs
 }
 
 #' ply_friends
