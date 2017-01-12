@@ -7,13 +7,9 @@
 #' It has three main goals:
 #'
 #' \itemize{
-#' \item Compose and request calls to Twitter's API
-#'   following (the best practices for writing an API
-#'   package) [https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html].
-#' \item Provide functions that can acccept multiple
-#'   personal access tokens.
-#' \item Make extracting data from Twitter seem a little
-#'   easier.
+#' \item Formulate and send requests to Twitter's REST and stream APIs.
+#' \item Retrieve and iterate over returned data.
+#' \item Wrangling data into tidy structures.
 #' }
 #' @examples
 #' \dontrun{
@@ -30,7 +26,7 @@
 NULL
 
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage("Welcome to rtweet v0.3.9!")
+    packageStartupMessage("Welcome to rtweet v0.3.912!")
 }
 
 .state <- new.env(parent = emptyenv())
