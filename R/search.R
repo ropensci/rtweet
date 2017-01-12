@@ -146,7 +146,6 @@ search_tweets <- function(q, n = 100,
     if (any(n <= remaining, !retryonratelimit)) {
         rt <- .search_tweets(
             q = q, n = n,
-            check = check,
             type = type,
             max_id = max_id,
             include_rts = include_rts,

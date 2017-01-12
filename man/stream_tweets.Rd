@@ -59,7 +59,8 @@ a chance Twitter cuts you off for getting behind).}
 \item{verbose}{Logical, indicating whether or not to include output
 processing/retrieval messages.}
 
-\item{\dots}{Insert magical paramaters, spell, or potion here.}
+\item{\dots}{Insert magical paramaters, spell, or potion here. Or filter for
+tweets by language, e.g., \code{language = "en"}.}
 }
 \value{
 Tweets data returned as data frame with users data as attribute.

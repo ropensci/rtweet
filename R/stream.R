@@ -49,7 +49,8 @@
 #'   a chance Twitter cuts you off for getting behind).
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
-#' @param \dots Insert magical paramaters, spell, or potion here.
+#' @param \dots Insert magical paramaters, spell, or potion here. Or filter for
+#'   tweets by language, e.g., \code{language = "en"}.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
 #' @examples
 #' \dontrun{
