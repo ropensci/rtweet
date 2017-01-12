@@ -4,8 +4,8 @@
 \alias{search_users}
 \title{search_users}
 \usage{
-search_users(q, n = 20, parse = TRUE, tw = TRUE, clean_tweets = FALSE,
-  as_double = FALSE, token = NULL, verbose = TRUE)
+search_users(q, n = 20, parse = TRUE, tw = TRUE, token = NULL,
+  verbose = TRUE)
 }
 \arguments{
 \item{q}{Query to be searched, used in filtering relevant tweets
@@ -35,15 +35,6 @@ API return objects.}
 
 \item{tw}{Logical indicating whether to return tweets data frame.
 Defaults to true.}
-
-\item{clean_tweets}{logical indicating whether to remove non-ASCII
-characters in text of tweets. defaults to FALSE.}
-
-\item{as_double}{logical indicating whether to handle ID variables
-as double (numeric) class. By default, this is set to FALSE, meaning
-ID variables are treated as character vectors. Setting this to
-TRUE can provide performance (speed and memory) boost but can also
-lead to issues when printing and saving, depending on the format.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find instructions
