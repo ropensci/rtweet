@@ -4,21 +4,12 @@
 \alias{parse_stream}
 \title{parse_stream}
 \usage{
-parse_stream(file_name, clean_tweets = TRUE, as_double = FALSE)
+parse_stream(file_name)
 }
 \arguments{
 \item{file_name}{name of file to be parsed. NOTE: if file
 was created via \code{\link{stream_tweets}}, then it will
 end in ".json" (see example below)}
-
-\item{clean_tweets}{logical indicating whether to remove non-ASCII
-characters in text of tweets. defaults to TRUE.}
-
-\item{as_double}{logical indicating whether to handle ID variables
-as double (numeric) class. By default, this is set to FALSE, meaning
-ID variables are treated as character vectors. Setting this to
-TRUE can provide performance (speed and memory) boost but can also
-lead to issues when printing and saving, depending on the format.}
 }
 \value{
 Parsed tweets data with users data attribute.

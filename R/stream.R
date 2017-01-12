@@ -27,13 +27,6 @@
 #'   the messy list structure returned by Twitter. (Note: if you set parse
 #'   to false, you can use the \code{\link{parse_stream}} function to
 #'   parse the json file at a later point in time.)
-#' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to TRUE.
-#' @param as_double logical indicating whether to handle ID variables
-#'   as double (numeric) class. By default, this is set to FALSE, meaning
-#'   ID variables are treated as character vectors. Setting this to
-#'   TRUE can provide performance (speed and memory) boost but can also
-#'   lead to issues when printing and saving, depending on the format.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -89,8 +82,6 @@
 stream_tweets <- function(q = "",
                           timeout = 30,
                           parse = TRUE,
-                          clean_tweets = TRUE,
-                          as_double = FALSE,
                           token = NULL,
                           file_name = NULL,
                           gzip = FALSE,
@@ -169,8 +160,7 @@ stream_tweets <- function(q = "",
     }
 
     if (parse) {
-  	out <- parse_stream(file_name, clean_tweets = clean_tweets,
-                            as_double = as_double)
+  	out <- parse_stream(file_name)
   	if (tmp) {
             file.remove(file_name)
   	} else {
@@ -190,13 +180,6 @@ stream_tweets <- function(q = "",
 #' @param file_name name of file to be parsed. NOTE: if file
 #'   was created via \code{\link{stream_tweets}}, then it will
 #'   end in ".json" (see example below)
-#' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to TRUE.
-#' @param as_double logical indicating whether to handle ID variables
-#'   as double (numeric) class. By default, this is set to FALSE, meaning
-#'   ID variables are treated as character vectors. Setting this to
-#'   TRUE can provide performance (speed and memory) boost but can also
-#'   lead to issues when printing and saving, depending on the format.
 #'
 #' @return Parsed tweets data with users data attribute.
 #'
@@ -208,8 +191,7 @@ stream_tweets <- function(q = "",
 #' }
 #' @importFrom jsonlite stream_in
 #' @export
-parse_stream <- function(file_name, clean_tweets = TRUE,
-                         as_double = FALSE) {
+parse_stream <- function(file_name) {
 
     if (!identical(getOption("encoding"), "UTF-8")) {
         op <- getOption("encoding")
