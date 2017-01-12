@@ -229,10 +229,12 @@ get.status.obj <- function(x) {
 rtstatus.safecheck <- function(x) {
     if (all(
         "retweeted_status" %in% names(x),
-        isTRUE("id_str" %in% names(x[["retweeted_stats"]])))
+        isTRUE("id_str" %in% names(x[["retweeted_status"]])))
         ) {
-        x <- x[["retweeted_stats"]]
+        x <- x[["retweeted_status"]]
         return(x[["id_str"]])
+    } else if ("retweeted_status_id_str" %in% names(x)) {
+        return(x[["retweeted_status_id_str"]])
     } else {
         return(rep(NA_character_, NROW(x)))
     }
