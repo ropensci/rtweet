@@ -1,7 +1,7 @@
 Package: rtweet
 Type: Package
 Title: Collecting Twitter Data
-Version: 0.3.91
+Version: 0.3.92
 Date: 2017-01-07
 Author: Michael W. Kearney
 Maintainer: Michael W. Kearney <mkearney@ku.edu>

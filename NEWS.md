@@ -1,3 +1,11 @@
+# rtweet 0.3.92
+* `search_tweets` now includes `retryonratelimit` argument to
+allow for searches requesting more than 18,000 tweets. This
+automates what was previously possible through use of `max_id`.
+* Various bug fixes and improvements to parsing and pagination-
+assisting functions.
+* Fixed bug in encoding with `stream_tweets`.
+
 # rtweet 0.3.91
 * Major improvements to ts_plot including SIX different
 themes from which users may choose
@@ -6,7 +14,7 @@ themes from which users may choose
 variables overall
 
 # rtweet 0.3.9
-* Fixes minor problems with parse.piper() function
+* Fixes minor problems with `parse.piper` function
 * More additions to plotting and data wrangling for the
 purpose of plotting
 

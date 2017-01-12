@@ -84,7 +84,8 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
             identical(names(rsp), "errors"),
             identical(rsp$errors[["message"]],
                       "Rate limit exceeded"))) {
-            stop("rate limit exceeded.", call. = FALSE)
+            warning("rate limit exceeded.", call. = FALSE)
+            rsp <- NULL
         }
     }
     rsp
