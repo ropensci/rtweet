@@ -14,7 +14,7 @@
 #'   in any order. When "OR" is entered between search terms,
 #'   \code{query = "data OR science"}, Twitter's REST API should return
 #'   any tweet that contains either "data" or
-#'   "science." It is also possible to search for exact phrases uses
+#'   "science." It is also possible to search for exact phrases using
 #'   double quotes. To do this, either wrap single quotes around a
 #'   search query using double quotes, e.g.,
 #'   \code{q = '"data science"'} or escape each internal double quote
@@ -100,7 +100,7 @@
 #'   \code{lang = "en"}. For more options see Twitter's
 #'   API documentation.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
-#' @details Twitter API document recommends limiting searches to
+#' @details Twitter API documentation recommends limiting searches to
 #'   10 keywords and operators. Complex queries may also produce
 #'   API errors preventing recovery of information related to
 #'   the query.
@@ -149,11 +149,13 @@
 #' rt <- search_tweets("rstats", n = 500, include_rts = FALSE)
 #'
 #' ## perform search for lots of tweets
-#' rt <- search_tweets("trump OR president OR potus", n = 100000)
+#' rt <- search_tweets("trump OR president OR potus", n = 100000,
+#'                     retryonratelimit = TRUE)
 #'
 #' ## plot time series of tweets frequency
 #' ts_plot(rt, by = "mins", theme = "spacegray",
 #'         main = "Tweets about Trump")
+#'
 #' }
 #' @return List object with tweets and users each returned as a
 #'   data frame.
