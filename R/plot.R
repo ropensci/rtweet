@@ -207,26 +207,31 @@ ts_plot <- function(rt, by = "days",
     if (max(dat[["freq"]], na.rm = TRUE) > 1000000) {
         mar.default <- c(2.425, 3.675, 0.750, 1.500)
     } else if (max(dat[["freq"]], na.rm = TRUE) > 100000) {
-        mar.default <- c(2.425, 3.475, 0.750, 1.500)
+        mar.default <- c(2.425, 3.375, 0.750, 1.500)
     } else if (max(dat[["freq"]], na.rm = TRUE) > 10000) {
-        mar.default <- c(2.425, 3.275, 0.750, 1.500)
+        mar.default <- c(2.425, 3.175, 0.750, 1.500)
+    } else if (max(dat[["freq"]], na.rm = TRUE) > 1000) {
+        mar.default <- c(2.425, 2.875, 0.750, 1.500)
     } else {
-        mar.default <- c(2.425, 2.775, 0.750, 1.500)
+        mar.default <- c(2.425, 2.575, 0.750, 1.500)
     }
     if (missing(mar)) {
         mar <- mar.default
     }
     ## store current aesthetics
     op <- par(no.readonly = TRUE)
+    oop <- options()
+    options(scipen = 6)
     ## restore those values on exit
     on.exit(par(op))
+    on.exit(options(oop))
 
     ## if default mar provided then...
     if (identical(mar, mar.default)) {
         ## estimate width of right (legend side) margin
         ## if no filter then no legend/smaller margin
         if (is.null(filter)) {
-            mar[4] <- 0.60
+            mar[4] <- 1.3
         } else {
             ## select biggest filter
             legmarg <- key[which.max(nchar(key))]
@@ -306,15 +311,15 @@ ts_plot <- function(rt, by = "days",
                    ...))
     ## add xlab and ylab
     if (cex > .95) {
-        mgp1 <- (mar.default[2] * cex * 2 + 1) / 3.5
+        mgp1 <- log10(mar.default[2]^2) * mar.default[2] * .5 + cex * .5
         title(ylab = ylab, mgp = c(mgp1, .25, 0))
         title(xlab = xlab, mgp = c(1.4, .25, 0))
     } else if (cex < .75) {
-        mgp1 <- (mar.default[2] * cex * 2 + 1) / 3.5
+        mgp1 <- (mar.default[2] * cex * 1.5) / 2.5
         title(ylab = ylab, mgp = c(mgp1, .25, 0))
         title(xlab = xlab, mgp = c(1.6, .25, 0))
     } else {
-        mgp1 <- (mar.default[2] * cex * 2 + 1) / 3.5
+        mgp1 <- (mar.default[2] * cex * 1.5) / 2.5
         title(ylab = ylab, mgp = c(mgp1, .25, 0))
         title(xlab = xlab, mgp = c(1.5, .25, 0))
     }
