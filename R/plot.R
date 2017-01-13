@@ -168,7 +168,7 @@ ts_plot <- function(rt, by = "days",
                     cex.lab = .85,
                     cex.axis = .7,
                     cex.legend = .90,
-                    mar = c(2.575, 2.875, 0.750, 1.500),
+                    mar,
                     font.main = 1,
                     xtime = NULL,
                     plot = TRUE,
@@ -186,27 +186,43 @@ ts_plot <- function(rt, by = "days",
         dat <- rt
         filter <- unique(dat$filter)
         if (identical(filter, "")) {
+            if (missing(key)) key <- filter
             filter <- NULL
             lstdat <- list(dat)
         } else {
-            key <- filter
+            if (missing(key)) key <- filter
             lstdat <- lapply(
                 filter, function(i) subset(dat, filter == i))
         }
     } else {
+        if (missing(key)) key <- filter
         dat <- ts_filter(rt, by, dtname, txt, filter, key,
                          na.omit = na.omit)
         lstdat <- lapply(
                 filter, function(i) subset(dat, filter == i))
     }
+    ## if plot is false return ts data object
     if (!plot) return(dat)
+    ## adjust left margin for larger frequencies
+    if (max(dat[["freq"]], na.rm = TRUE) > 1000000) {
+        mar.default <- c(2.425, 3.675, 0.750, 1.500)
+    } else if (max(dat[["freq"]], na.rm = TRUE) > 100000) {
+        mar.default <- c(2.425, 3.475, 0.750, 1.500)
+    } else if (max(dat[["freq"]], na.rm = TRUE) > 10000) {
+        mar.default <- c(2.425, 3.275, 0.750, 1.500)
+    } else {
+        mar.default <- c(2.425, 2.775, 0.750, 1.500)
+    }
+    if (missing(mar)) {
+        mar <- mar.default
+    }
     ## store current aesthetics
     op <- par(no.readonly = TRUE)
     ## restore those values on exit
     on.exit(par(op))
 
     ## if default mar provided then...
-    if (identical(mar, c(2.575, 2.875, 0.750, 1.500))) {
+    if (identical(mar, mar.default)) {
         ## estimate width of right (legend side) margin
         ## if no filter then no legend/smaller margin
         if (is.null(filter)) {
@@ -273,33 +289,59 @@ ts_plot <- function(rt, by = "days",
             adj <- 0.5
         }
     }
+    if (!is.null(main)) {
+        main.hold <- ""
+    } else {
+        main.hold <- NULL
+    }
     ## init plot to get parameters and set scale
     with(dat, plot(time, freq,
                    type = "l",
                    lwd = 0,
                    axes = FALSE,
-                   main = main,
+                   main = main.hold,
                    xlab = "",
                    ylab = "",
                    adj = adj,
                    ...))
-    ## add subtitle
-    if (!is.null(subtitle)) {
-        mtext(subtitle,
-              adj = adj + .00125,
-              cex = cex.sub,
-              line = 0)
-    }
     ## add xlab and ylab
     if (cex > .95) {
-        title(ylab = ylab, mgp = c(1.7, .25, 0))
-        title(xlab = xlab, mgp = c(1.3, .25, 0))
-    } else if (cex < .75) {
-        title(ylab = ylab, mgp = c(2.0, .25, 0))
-        title(xlab = xlab, mgp = c(1.5, .25, 0))
-    } else {
-        title(ylab = ylab, mgp = c(1.9, .25, 0))
+        mgp1 <- (mar.default[2] * cex * 2 + 1) / 3.5
+        title(ylab = ylab, mgp = c(mgp1, .25, 0))
         title(xlab = xlab, mgp = c(1.4, .25, 0))
+    } else if (cex < .75) {
+        mgp1 <- (mar.default[2] * cex * 2 + 1) / 3.5
+        title(ylab = ylab, mgp = c(mgp1, .25, 0))
+        title(xlab = xlab, mgp = c(1.6, .25, 0))
+    } else {
+        mgp1 <- (mar.default[2] * cex * 2 + 1) / 3.5
+        title(ylab = ylab, mgp = c(mgp1, .25, 0))
+        title(xlab = xlab, mgp = c(1.5, .25, 0))
+    }
+    ## add main title title
+    if (!is.null(main)) {
+        ## increase top margin for better fit
+        tmp.mar <- par("mar")
+        tmp.mar[2] <- tmp.mar[2] - .05
+        if (tmp.mar[2] < 0) tmp.mar[2] <- 0
+        if (!is.null(subtitle)) {
+            tmp.mar[3] <- tmp.mar[3] - .67
+        }
+        if (tmp.mar[3] < 0) tmp.mar[3] <- 0
+        par(mar = tmp.mar)
+        ## add main title text
+        title(main = main, mgp = c(2.7, .25, 0),
+              adj = adj, cex = cex.main)
+        ## add subtitle
+        if (!is.null(subtitle)) {
+            tmp.mar[3] <- tmp.mar[3] + .33
+            par(mar = tmp.mar)
+            mtext(subtitle,
+                  adj = adj + .00125,
+                  cex = cex.sub,
+                  line = 0)
+        }
+        par(mar = mar)
     }
     ## draw axes
     if (axes) {
@@ -314,7 +356,12 @@ ts_plot <- function(rt, by = "days",
             axis.POSIXct(1, at = x.labs,
                          lwd = 0, lwd.ticks = ticks)
         }
-        axis(2, at = NULL,
+        y.ticks <- seq(
+            par("yaxp")[1], par("yaxp")[2],
+            length.out = par("yaxp")[3] + 1)
+        y.labs <- prettyNum(y.ticks, big.mark = ",",
+                            preserve.width = "none")
+        axis(2, at = y.ticks, y.labs,
              lwd = 0, lwd.ticks = ticks)
     }
 
@@ -439,8 +486,8 @@ ts_plot <- function(rt, by = "days",
         if (linetype) {
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1 - par("plt")[2]) / 16,
-                quantile(c(par("usr")[3], par("usr")[4]), .575),
+                (1 - par("plt")[2]),
+                quantile(c(par("usr")[1], par("usr")[4]), .625),
                 key,
                 lwd = rep(((5/3) * lwd), length(filter)),
                 col = cols,
@@ -455,7 +502,7 @@ ts_plot <- function(rt, by = "days",
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
                 (1-par("plt")[2]) / 30,
-                quantile(c(par("usr")[3], par("usr")[4]), .575),
+                quantile(c(par("usr")[3], par("usr")[4]), .625),
                 key,
                 lwd = rep(((5/3) * lwd), length(filter)),
                 col = cols,
@@ -548,7 +595,8 @@ ts_filter <- function(rt, by = "days",
     } else {
         ## flag filtered obs
         f.rows <- lapply(
-            filter, grepl, rt[[txt]], ignore.case = TRUE)
+            filter, function(x)
+                grepl(x, rt[[txt]], ignore.case = TRUE))
         ## count obs for each filter
         lens <- vapply(f.rows, sum, double(1))
         ## if nil use vector of unique datetimes instead
@@ -839,3 +887,4 @@ rtmap <- function(dat, ...) {
     basemap(...)
     invisible(dat)
 }
+
