@@ -5,25 +5,57 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
-  filter = NULL, key = NULL, lwd = 1.5, linetype = FALSE, cols = NULL,
-  theme = "light", main = NULL, xlab = "Time",
-  ylab = "Number of Tweets", box = TRUE, axes = TRUE,
-  legend.title = NULL, ticks = 0, cex = 1, cex.main = 1.25,
-  cex.sub = 0.9, cex.lab = 0.85, cex.axis = 0.7, cex.legend = 0.9,
-  mar = c(2.575, 2.875, 0.75, 1.5), font.main = 1, xtime = NULL,
-  plot = TRUE, ...)
+  na.omit = TRUE, filter = NULL, key = NULL, lwd = 1.5,
+  linetype = FALSE, cols = NULL, theme = "light", main = NULL,
+  subtitle = NULL, adj = TRUE, xlab = "Time", ylab = "Number of Tweets",
+  box = FALSE, axes = TRUE, legend.title = NULL, ticks = 0, cex = 1,
+  cex.main = 1.25, cex.sub = 0.9, cex.lab = 0.85, cex.axis = 0.7,
+  cex.legend = 0.9, mar = c(2.575, 2.875, 0.75, 1.5), font.main = 1,
+  xtime = NULL, plot = TRUE, ...)
 }
 \arguments{
-\item{rt}{Tweets or users data frame}
+\item{rt}{Tweets or users data frame. Technically, this argument
+will accept any recursive object (i.e., list or data frame)
+containing a named date-time (POSIXt) element or column. By
+default, \code{ts_plot} assumes the date-time variable is
+labeled "created_at", which is the default date-time label used
+in tweets data. However, this function should work with any
+data source, assuming it meets the (a) POSIXt class requirement
+and (b) the date-time variable is given the appropriate name
+(if not "created_at" then a label specified with the
+\code{dtname} argument).}
 
 \item{by}{Unit of time, e.g., \code{secs, days, weeks,
-months, years}}
+months, years} by which to aggregate observations. By default,
+\code{ts_plot} tries to aggregate time by "days", but for some
+high-frequency data sets that only span a matter of minutes or
+hours, this is likely to either produce an error or a truly
+disappointing plot. In these cases, users are encouraged to
+explore smaller units of time. Conversely, high-frequency and
+long [in duration] data sets may be difficult to read given the
+default unit of time. In these cases, users should try larger
+units of time, e.g., "weeks" or "months". This parameter will
+also accept numeric quantifiers in addition to units of time.
+By default, for example, the provided unit of time is
+assumed to specify whole (1) units of time. It is posible to
+tweak this unit by specifying the number (or fraction) of time
+units, e.g., \code{by = "2 weeks"}, \code{by = "30 secs"},
+\code{by = ".333 days"}.}
 
-\item{dtname}{Name of date-time (POSIXt) object. Defaults
-to created_at.}
+\item{dtname}{Name of date-time (POSIXt) column (if data frame)
+or element (if list). Defaults to "created_at", the default
+label supplied as a timestamp variable for tweets data. This
+function is exportable to non-Twitter data, assuming the
+intended data object includes a date-time variable with the
+same label that's supplied to the \code{dtname} parameter.}
 
-\item{txt}{Name of text (chr) variable in data frame which
-filter is applied to. Defaults to text.}
+\item{txt}{Name of distinguishing variable in data frame or list
+to which filter is applied. Defaults to text.}
+
+\item{na.omit}{Logical indicating whether to omit rows with
+missing (NA) values for the dtname variable. Defaults to TRUE.
+If FALSE and data contains missing values for the date-time
+variable, an error will be returned to the user.}
 
 \item{filter}{Vector of regular expressions with which to
 filter data (creating multiple time series).}
@@ -45,6 +77,13 @@ plot theme should be used; options include "lighter",
 
 \item{main}{Optional, text for plot title.}
 
+\item{subtitle}{Optional, text for plot subtitle.}
+
+\item{adj}{Logical indicating whether to left justify main
+plot title. Defaults to TRUE. To futher specify the location
+of the title, provide a numeric value between 0 (left) and
+1 (right).}
+
 \item{xlab}{Optional, text for x-axis title, defaults to
 "Time".}
 
@@ -52,7 +91,7 @@ plot theme should be used; options include "lighter",
 "Number of Tweets"}
 
 \item{box}{Logical indicating whether to draw box around
-plot area. Defaults to true.}
+plot area. Defaults to false.}
 
 \item{axes}{Logical indicating whether to draw axes. Defaults
 to true.}

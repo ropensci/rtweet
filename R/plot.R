@@ -8,13 +8,44 @@ magrittr::`%>%`
 #'   filters (text-based criteria used to subset data) are
 #'   specified, multiple time series.
 #'
-#' @param rt Tweets or users data frame
+#' @param rt Tweets or users data frame. Technically, this argument
+#'   will accept any recursive object (i.e., list or data frame)
+#'   containing a named date-time (POSIXt) element or column. By
+#'   default, \code{ts_plot} assumes the date-time variable is
+#'   labeled "created_at", which is the default date-time label used
+#'   in tweets data. However, this function should work with any
+#'   data source, assuming it meets the (a) POSIXt class requirement
+#'   and (b) the date-time variable is given the appropriate name
+#'   (if not "created_at" then a label specified with the
+#'   \code{dtname} argument).
 #' @param by Unit of time, e.g., \code{secs, days, weeks,
-#'   months, years}
-#' @param dtname Name of date-time (POSIXt) object. Defaults
-#'   to created_at.
-#' @param txt Name of text (chr) variable in data frame which
-#'   filter is applied to. Defaults to text.
+#'   months, years} by which to aggregate observations. By default,
+#'   \code{ts_plot} tries to aggregate time by "days", but for some
+#'   high-frequency data sets that only span a matter of minutes or
+#'   hours, this is likely to either produce an error or a truly
+#'   disappointing plot. In these cases, users are encouraged to
+#'   explore smaller units of time. Conversely, high-frequency and
+#'   long [in duration] data sets may be difficult to read given the
+#'   default unit of time. In these cases, users should try larger
+#'   units of time, e.g., "weeks" or "months". This parameter will
+#'   also accept numeric quantifiers in addition to units of time.
+#'   By default, for example, the provided unit of time is
+#'   assumed to specify whole (1) units of time. It is posible to
+#'   tweak this unit by specifying the number (or fraction) of time
+#'   units, e.g., \code{by = "2 weeks"}, \code{by = "30 secs"},
+#'   \code{by = ".333 days"}.
+#' @param dtname Name of date-time (POSIXt) column (if data frame)
+#'   or element (if list). Defaults to "created_at", the default
+#'   label supplied as a timestamp variable for tweets data. This
+#'   function is exportable to non-Twitter data, assuming the
+#'   intended data object includes a date-time variable with the
+#'   same label that's supplied to the \code{dtname} parameter.
+#' @param txt Name of distinguishing variable in data frame or list
+#'   to which filter is applied. Defaults to text.
+#' @param na.omit Logical indicating whether to omit rows with
+#'   missing (NA) values for the dtname variable. Defaults to TRUE.
+#'   If FALSE and data contains missing values for the date-time
+#'   variable, an error will be returned to the user.
 #' @param filter Vector of regular expressions with which to
 #'   filter data (creating multiple time series).
 #' @param key Optional provide pretty labels for filters.
@@ -28,12 +59,17 @@ magrittr::`%>%`
 #'   plot theme should be used; options include "lighter",
 #'   "darker", and "nerdy"
 #' @param main Optional, text for plot title.
+#' @param subtitle Optional, text for plot subtitle.
+#' @param adj Logical indicating whether to left justify main
+#'   plot title. Defaults to TRUE. To futher specify the location
+#'   of the title, provide a numeric value between 0 (left) and
+#'   1 (right).
 #' @param xlab Optional, text for x-axis title, defaults to
 #'   "Time".
 #' @param ylab Optional, text for y-axis title, defaults to
 #'   "Number of Tweets"
 #' @param box Logical indicating whether to draw box around
-#'   plot area. Defaults to true.
+#'   plot area. Defaults to false.
 #' @param axes Logical indicating whether to draw axes. Defaults
 #'   to true.
 #' @param legend.title Provide title for legend ro ignore to
@@ -110,6 +146,7 @@ magrittr::`%>%`
 ts_plot <- function(rt, by = "days",
                     dtname = "created_at",
                     txt = "text",
+                    na.omit = TRUE,
                     filter = NULL,
                     key = NULL,
                     lwd = 1.5,
@@ -117,15 +154,17 @@ ts_plot <- function(rt, by = "days",
                     cols = NULL,
                     theme = "light",
                     main = NULL,
+                    subtitle = NULL,
+                    adj = TRUE,
                     xlab = "Time",
-                    ylab = "Number of Tweets",
-                    box = TRUE,
+                    ylab = "Freq",
+                    box = FALSE,
                     axes = TRUE,
                     legend.title = NULL,
                     ticks = 0,
                     cex = 1,
                     cex.main = 1.25,
-                    cex.sub = .9,
+                    cex.sub = .8,
                     cex.lab = .85,
                     cex.axis = .7,
                     cex.legend = .90,
@@ -135,43 +174,28 @@ ts_plot <- function(rt, by = "days",
                     plot = TRUE,
                     ...) {
 
-    ## if there are filters (subsets)
-    if (!is.null(filter)) {
-        ## flag filtered obs
-        f.rows <- lapply(
-            filter, grepl, rt[[txt]], ignore.case = TRUE)
-        ## count obs for each filter
-        lens <- vapply(f.rows, sum, double(1))
-        ## if nil use vector of unique datetimes instead
-        if (any(lens == 0)) {
-            f.rows[lens == 0] <- sum(lens == 0) %>%
-                seq_len %>%
-                lapply(function(x)
-                    which(!duplicated(rt[[dtname]])))
-        }
-        ## iterate thru each filter for timeseries data
-        lstdat <- lapply(f.rows, function(x)
-            sollts(rt[[dtname]][unlist(x)],
-                   by = by,
-                   fdt = rt[[dtname]]))
-        ## hollow out (set freqs to 0) any nil filters
-        if (any(lens == 0)) {
-            for (i in seq_len(sum(lens == 0))) {
-                lstdat[lens == 0][[i]]$freq <- 0
-            }
-        }
-        ## if no pretty label provided use filter
-        if (is.null(key)) key <- filter
-        ## add variable name for each filter
-        for (i in seq_along(lstdat)) {
-            lstdat[[i]]$filter <- key[i]
-        }
-        ## collapse into tidy data frame
-        dat <- do.call("rbind", lstdat)
+    ## check if correct data arg is supplied
+    if (missing(rt)) {
+        stop(paste0("must provide data frame or named list ",
+                    "containing a date-time variable"),
+             call. = FALSE)
     } else {
-        ## if no filters then simple
-        dat <- sollts(rt[[dtname]], by = by)
-        dat$filter <- ""
+        stopifnot(is.recursive(rt))
+    }
+    if (all(c("time", "freq", "filter") %in% names(rt))) {
+        dat <- rt
+        filter <- unique(dat$filter)
+        if (identical(filter, "")) {
+            filter <- NULL
+            lstdat <- list(dat)
+        } else {
+            key <- filter
+            lstdat <- lapply(
+                filter, function(i) subset(dat, filter == i))
+        }
+    } else {
+        dat <- ts_filter(rt, by, dtname, txt, filter, key,
+                          na.omit = na.omit)
     }
     if (!plot) return(dat)
     ## store current aesthetics
@@ -189,15 +213,15 @@ ts_plot <- function(rt, by = "days",
             ## select biggest filter
             legmarg <- key[which.max(nchar(key))]
             ## adjust accordingly
-            mar[4] <- (nchar(legmarg) + 12) * .225
-            ##mar[4] <- (cex.legend / .95) * mar[4]
+            mar[4] <- (nchar(legmarg) + 12) * .25
         }
         ## top margin depends on whether main (title)
         if (!is.null(main)) {
-            mar[3] <- 1.9
+            mar[3] <- 1.8
         } else {
             mar[3] <- .6
         }
+        if (!is.null(subtitle)) mar[3] <- mar[3] + cex.sub * 1.1
     }
 
     ## base plot background
@@ -210,6 +234,7 @@ ts_plot <- function(rt, by = "days",
         par(col.main = "white", col.lab = "white",
             col.axis = "white", col.sub = "white",
             col = "white")
+        subcol <- "white"
         if (all(is.null(cols), is.null(filter))) cols <- "white"
     } else if (theme %in% c("apa", "APA", 8)) {
         theme.bg <- "#ffffff"
@@ -239,15 +264,32 @@ ts_plot <- function(rt, by = "days",
         bg = theme.bg,
         mgp = c(2, .2, 0),
         mar = mar)
-        ##mai = mai)
+    ## convert adj format if logical
+    if (is.logical(adj)) {
+        if (adj) {
+            adj <- 0.0
+        } else {
+            adj <- 0.5
+        }
+    }
     ## init plot to get parameters and set scale
-    with(dat, plot(time, freq, type = "l",
+    with(dat, plot(time, freq,
+                   type = "l",
                    lwd = 0,
                    axes = FALSE,
                    main = main,
                    xlab = "",
                    ylab = "",
+                   adj = adj,
                    ...))
+    ## add subtitle
+    if (!is.null(subtitle)) {
+        mtext(subtitle,
+              adj = adj + .00125,
+              col = subcol,
+              cex = cex.sub,
+              line = 0)
+    }
     ## add xlab and ylab
     if (cex > .95) {
         title(ylab = ylab, mgp = c(1.7, .25, 0))
@@ -356,13 +398,13 @@ ts_plot <- function(rt, by = "days",
     if (!is.null(filter)) {
         ## if colors undefined
         if (is.null(cols)) {
-            if (length(filter) < 4) {
-                cols <- c("#880000cc", "#003366cc", "#008800cc")
-                cols <- cols[seq_along(filter)]
+            ## includes random sample so jumpy colors
+            if (theme %in% c("spacegray", "spacegrey", 6)) {
+                lighter <- TRUE
             } else {
-                ## includes random sample so jumpy colors
-                cols <- gg_cols(length(filter))
+                lighter <- FALSE
             }
+            cols <- rt_cols(length(filter), lighter = lighter)
         } else {
             ## if colors provided check them
             if (length(cols) < length(filter)) {
@@ -397,7 +439,7 @@ ts_plot <- function(rt, by = "days",
         if (linetype) {
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1-par("plt")[2]) / 16,
+                (1 - par("plt")[2]) / 16,
                 quantile(c(par("usr")[3], par("usr")[4]), .575),
                 key,
                 lwd = rep(((5/3) * lwd), length(filter)),
@@ -412,7 +454,7 @@ ts_plot <- function(rt, by = "days",
         } else {
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1-par("plt")[2]) / 20,
+                (1-par("plt")[2]) / 30,
                 quantile(c(par("usr")[3], par("usr")[4]), .575),
                 key,
                 lwd = rep(((5/3) * lwd), length(filter)),
@@ -434,6 +476,114 @@ ts_plot <- function(rt, by = "days",
     invisible(dat)
 }
 
+
+#' ts_filter
+#'
+#' Converts text-level observations to time aggregated frequency data
+#'   frame with [optional] filtered dummy variable(s).
+#'
+#' @param rt Tweets or users data frame. Technically, this argument
+#'   will accept any recursive object (i.e., list or data frame)
+#'   containing a named date-time (POSIXt) element or column. By
+#'   default, \code{ts_plot} assumes the date-time variable is
+#'   labeled "created_at", which is the default date-time label used
+#'   in tweets data. However, this function should work with any
+#'   data source, assuming it meets the (a) POSIXt class requirement
+#'   and (b) the date-time variable is given the appropriate name
+#'   (if not "created_at" then a label specified with the
+#'   \code{dtname} argument).
+#' @param by Unit of time, e.g., \code{secs, days, weeks,
+#'   months, years} by which to aggregate observations. By default,
+#'   \code{ts_plot} tries to aggregate time by "days", but for some
+#'   high-frequency data sets that only span a matter of minutes or
+#'   hours, this is likely to either produce an error or a truly
+#'   disappointing plot. In these cases, users are encouraged to
+#'   explore smaller units of time. Conversely, high-frequency and
+#'   long [in duration] data sets may be difficult to read given the
+#'   default unit of time. In these cases, users should try larger
+#'   units of time, e.g., "weeks" or "months". This parameter will
+#'   also accept numeric quantifiers in addition to units of time.
+#'   By default, for example, the provided unit of time is
+#'   assumed to specify whole (1) units of time. It is posible to
+#'   tweak this unit by specifying the number (or fraction) of time
+#'   units, e.g., \code{by = "2 weeks"}, \code{by = "30 secs"},
+#'   \code{by = ".333 days"}.
+#' @param dtname Name of date-time (POSIXt) column (if data frame)
+#'   or element (if list). Defaults to "created_at", the default
+#'   label supplied as a timestamp variable for tweets data. This
+#'   function is exportable to non-Twitter data, assuming the
+#'   intended data object includes a date-time variable with the
+#'   same label that's supplied to the \code{dtname} parameter.
+#' @param txt Name of distinguishing variable in data frame or list
+#'   to which filter is applied. Defaults to text.
+#' @param filter Vector of regular expressions with which to
+#'   filter data (creating multiple time series).
+#' @param key Optional provide pretty labels for filters.
+#'   Defaults to actual filters.
+#' @param na.omit Logical indicating whether to omit rows with
+#'   missing (NA) values for the dtname variable. Defaults to TRUE.
+#'   If FALSE and data contains missing values for the date-time
+#'   variable, an error will be returned to the user.
+#' @export
+ts_filter <- function(rt, by = "days",
+                   dtname = "created_at",
+                   txt = "text",
+                   filter = NULL,
+                   key = NULL,
+                   na.omit = TRUE) {
+
+    ## handle missing data
+    if (is.data.frame(rt)) {
+        rt <- rt[!is.na(rt[[dtname]]), ]
+    } else if (is.list(rt)) {
+        notmissing <- !is.na(rt[[dtname]])
+        rt[c(dtname, txt)] <- lapply(
+            rt[c(dtname, txt)], function(x) x[[notmissing]])
+    }
+
+    if (any(is.null(filter), identical(filter, ""))) {
+        ## if no filters then simple
+        dat <- sollts(rt[[dtname]], by = by)
+        dat$filter <- ""
+    } else {
+        ## flag filtered obs
+        f.rows <- lapply(
+            filter, grepl, rt[[txt]], ignore.case = TRUE)
+        ## count obs for each filter
+        lens <- vapply(f.rows, sum, double(1))
+        ## if nil use vector of unique datetimes instead
+        if (any(lens == 0)) {
+            f.rows[lens == 0] <- sum(lens == 0) %>%
+                seq_len %>%
+                lapply(function(x)
+                    which(!duplicated(rt[[dtname]])))
+        }
+        ## iterate thru each filter for timeseries data
+        lstdat <- lapply(f.rows, function(x)
+            sollts(rt[[dtname]][unlist(x)],
+                   by = by,
+                   fdt = rt[[dtname]]))
+        ## hollow out (set freqs to 0) any nil filters
+        if (any(lens == 0)) {
+            for (i in seq_len(sum(lens == 0))) {
+                lstdat[lens == 0][[i]]$freq <- 0
+            }
+        }
+        ## if no pretty label provided then use filter
+        if (is.null(key)) {
+            key <- filter
+            ## if complex expression include up to 1st bar
+            key <- gsub("[|].*", "", key)
+        }
+        ## add variable name for each filter
+        for (i in seq_along(lstdat)) {
+            lstdat[[i]]$filter <- key[i]
+        }
+        ## collapse into tidy data frame
+        dat <- do.call("rbind", lstdat)
+    }
+    dat
+}
 
 sollts <- function(dt, by = "days", fdt = NULL) {
     ## convert time unit to double
@@ -463,7 +613,8 @@ sollts <- function(dt, by = "days", fdt = NULL) {
         time <- seq(min(fdt), max(fdt), .unit)
     } else {
         ## if approp date range contained within data
-        time <- seq(min(rdt), max(rdt), .unit)
+        time <- seq(min(rdt, na.rm = TRUE),
+                    max(rdt, na.rm = TRUE), .unit)
     }
     ## create freq table
     tab <- as.data.frame(table(rdt), stringsAsFactors = FALSE)
@@ -478,16 +629,20 @@ sollts <- function(dt, by = "days", fdt = NULL) {
     tab
 }
 
-#' gg_cols
+#' rt_cols
 #'
 #' returns ggplot2-like colors
 #' @param n number of desired colors
 #' @keywords internal
 #' @noRd
 #' @importFrom grDevices hcl
-gg_cols <- function(n) {
+rt_cols <- function(n, lighter = FALSE) {
     if (n < 4) {
-        cols <- c("#003366", "#bb2222", "#008800")
+        if (lighter) {
+            cols <- c("#4a7aee", "#dd5a5a", "#33bb33")
+        } else {
+            cols <- c("#003366", "#bb2222", "#008800")
+        }
         return(sample(cols, n))
     }
     hues = seq(15, 375, length = n + 1)
