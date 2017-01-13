@@ -140,7 +140,7 @@ magrittr::`%>%`
 #'     geom_line()
 #' }
 #' @importFrom graphics plot axis axis.POSIXct grid lines par
-#'   rect title strwidth legend
+#'   rect title strwidth legend mtext
 #' @importFrom stats quantile
 #' @export
 ts_plot <- function(rt, by = "days",
@@ -234,7 +234,6 @@ ts_plot <- function(rt, by = "days",
         par(col.main = "white", col.lab = "white",
             col.axis = "white", col.sub = "white",
             col = "white")
-        subcol <- "white"
         if (all(is.null(cols), is.null(filter))) cols <- "white"
     } else if (theme %in% c("apa", "APA", 8)) {
         theme.bg <- "#ffffff"
@@ -286,7 +285,6 @@ ts_plot <- function(rt, by = "days",
     if (!is.null(subtitle)) {
         mtext(subtitle,
               adj = adj + .00125,
-              col = subcol,
               cex = cex.sub,
               line = 0)
     }

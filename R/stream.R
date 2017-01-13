@@ -42,6 +42,8 @@
 #'   a chance Twitter cuts you off for getting behind).
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
+#' @param fix.encoding Logical indicating whether to internally specify encoding to
+#'   prevent possible errors caused by things such as non-ascii characters.
 #' @param \dots Insert magical paramaters, spell, or potion here. Or filter for
 #'   tweets by language, e.g., \code{language = "en"}.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
@@ -85,9 +87,12 @@ stream_tweets <- function(q = "",
                           token = NULL,
                           file_name = NULL,
                           gzip = FALSE,
-                          verbose = TRUE, ...) {
+                          verbose = TRUE,
+                          fix.encoding = TRUE,
+                          ...) {
 
-    if (!identical(getOption("encoding"), "UTF-8")) {
+    if (all(fix.encoding,
+            !identical(getOption("encoding"), "UTF-8"))) {
         op <- getOption("encoding")
         options(encoding = "UTF-8")
         on.exit(options(encoding = op))
@@ -141,18 +146,20 @@ stream_tweets <- function(q = "",
     r <- NULL
 
     if (gzip) {
-  	r <- tryCatch(POST(url = url,
-                           config = token,
-                           write_disk(file_name, overwrite = TRUE),
-                           add_headers(`Accept-Encoding` = "deflate, gzip"),
-                           progress(), timeout(timeout)),
-                      error = function(e) return(NULL))
+  	r <- tryCatch(POST(
+            url = url,
+            config = token,
+            write_disk(file_name, overwrite = TRUE),
+            add_headers(`Accept-Encoding` = "deflate, gzip"),
+            progress(), timeout(timeout)),
+            error = function(e) return(NULL))
     } else {
-  	r <- tryCatch(POST(url = url,
-                           config = token,
-                           write_disk(file_name, overwrite = TRUE),
-                           progress(), timeout(timeout)),
-                      error = function(e) return(NULL))
+  	r <- tryCatch(POST(
+            url = url,
+            config = token,
+            write_disk(file_name, overwrite = TRUE),
+            progress(), timeout(timeout)),
+            error = function(e) return(NULL))
     }
 
     if (verbose) {

@@ -5,7 +5,8 @@
 \title{stream_tweets}
 \usage{
 stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
-  file_name = NULL, gzip = FALSE, verbose = TRUE, ...)
+  file_name = NULL, gzip = FALSE, verbose = TRUE, fix.encoding = TRUE,
+  ...)
 }
 \arguments{
 \item{q}{Character vector with desired phrases and keywords
@@ -48,6 +49,9 @@ a chance Twitter cuts you off for getting behind).}
 
 \item{verbose}{Logical, indicating whether or not to include output
 processing/retrieval messages.}
+
+\item{fix.encoding}{Logical indicating whether to internally specify encoding to
+prevent possible errors caused by things such as non-ascii characters.}
 
 \item{\dots}{Insert magical paramaters, spell, or potion here. Or filter for
 tweets by language, e.g., \code{language = "en"}.}
