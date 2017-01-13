@@ -195,7 +195,9 @@ ts_plot <- function(rt, by = "days",
         }
     } else {
         dat <- ts_filter(rt, by, dtname, txt, filter, key,
-                          na.omit = na.omit)
+                         na.omit = na.omit)
+        lstdat <- lapply(
+                filter, function(i) subset(dat, filter == i))
     }
     if (!plot) return(dat)
     ## store current aesthetics
