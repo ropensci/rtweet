@@ -20,13 +20,9 @@
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
-#' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to FALSE.
-#' @param as_double logical indicating whether to handle ID variables
-#'   as double (numeric) class. By default, this is set to FALSE, meaning
-#'   ID variables are treated as character vectors. Setting this to
-#'   TRUE can provide performance (speed and memory) boost but can also
-#'   lead to issues when printing and saving, depending on the format.
+#' @param check Logical indicating whether to remove check available
+#'   rate limit. Ensures the request does not exceed the maximum remaining
+#'   number of calls. Defaults to TRUE.
 #' @param usr Logical indicating whether to return users data frame.
 #'   Defaults to true.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
@@ -63,8 +59,7 @@ get_timeline <- function(user, n = 200,
                          max_id = NULL,
                          home = FALSE,
                          parse = TRUE,
-                         clean_tweets = FALSE,
-                         as_double = FALSE,
+                         check = TRUE,
                          usr = TRUE,
                          token = NULL, ...) {
 
@@ -84,7 +79,11 @@ get_timeline <- function(user, n = 200,
 
     token <- check_token(token, query)
 
-    n.times <- rate_limit(token, query)[["remaining"]]
+    if (check) {
+        n.times <- rate_limit(token, query)[["remaining"]]
+    } else {
+        n.times <- ceiling(n / 200)
+    }
 
     params <- list(
         user_type = user,

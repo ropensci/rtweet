@@ -10,8 +10,7 @@ ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
   subtitle = NULL, adj = TRUE, xlab = "Time", ylab = "Freq",
   box = FALSE, axes = TRUE, legend.title = NULL, ticks = 0, cex = 1,
   cex.main = 1.25, cex.sub = 0.8, cex.lab = 0.85, cex.axis = 0.7,
-  cex.legend = 0.9, mar = c(2.575, 2.875, 0.75, 1.5), font.main = 1,
-  xtime = NULL, plot = TRUE, ...)
+  cex.legend = 0.9, mar, font.main = 1, xtime = NULL, plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets or users data frame. Technically, this argument
