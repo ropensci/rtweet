@@ -186,20 +186,24 @@ ts_plot <- function(rt, by = "days",
         dat <- rt
         filter <- unique(dat$filter)
         if (identical(filter, "")) {
-            if (missing(key)) key <- filter
+            if (is.null(key)) key <- filter
             filter <- NULL
             lstdat <- list(dat)
         } else {
-            if (missing(key)) key <- filter
+            if (is.null(key)) key <- filter
             lstdat <- lapply(
-                filter, function(i) subset(dat, filter == i))
+                key, function(i) subset(dat, filter == i))
         }
     } else {
-        if (missing(key)) key <- filter
-        dat <- ts_filter(rt, by, dtname, txt, filter, key,
+        if (is.null(key)) key <- filter
+        dat <- ts_filter(rt, by = by,
+                         dtname = dtname,
+                         txt = txt,
+                         filter = filter,
+                         key = key,
                          na.omit = na.omit)
         lstdat <- lapply(
-                filter, function(i) subset(dat, filter == i))
+                key, function(i) subset(dat, filter == i))
     }
     ## if plot is false return ts data object
     if (!plot) return(dat)
