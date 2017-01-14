@@ -314,19 +314,12 @@ ts_plot <- function(rt, by = "days",
                    adj = adj,
                    ...))
     ## add xlab and ylab
-    if (cex > .95) {
-        mgp1 <- log10(mar.default[2]^2) * mar.default[2] * .5 + cex * .5
-        title(ylab = ylab, mgp = c(mgp1, .25, 0))
-        title(xlab = xlab, mgp = c(1.4, .25, 0))
-    } else if (cex < .75) {
-        mgp1 <- (mar.default[2] * cex * 1.5) / 2.5
-        title(ylab = ylab, mgp = c(mgp1, .25, 0))
-        title(xlab = xlab, mgp = c(1.6, .25, 0))
-    } else {
-        mgp1 <- (mar.default[2] * cex * 1.5) / 2.5
-        title(ylab = ylab, mgp = c(mgp1, .25, 0))
-        title(xlab = xlab, mgp = c(1.5, .25, 0))
-    }
+    ## ylab location is nonlinear function of margin +
+    ## and a linear function of cex
+    mgp1 <- log10(mar.default[2]^2) * mar.default[2] * .5 + cex * .5
+    title(ylab = ylab, mgp = c(mgp1, .25, 0))
+    ## xlab is easier bc lower mar is constant
+    title(xlab = xlab, mgp = c(1.4 * cex, .25, 0))
     ## add main title title
     if (!is.null(main)) {
         ## increase top margin for better fit
