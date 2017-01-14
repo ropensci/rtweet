@@ -62,7 +62,7 @@ save_as_csv <- function(x, file_name) {
 modify_file_name <- function(file_name, ext = NULL) {
     stopifnot(is.character(file_name),
               length(file_name) == 1)
-    file_name <- gsub(".csv", "", file_name)
+    file_name <- gsub(".csv$", "", file_name)
     if (is.null(ext)) {
         file_name <- paste0(file_name, ".csv")
     } else {
@@ -74,7 +74,7 @@ modify_file_name <- function(file_name, ext = NULL) {
 write_as_csv <- function(x, file_name) {
     stopifnot(is.data.frame(x))
     x[is_list(x)] <- lapply(x[is_list(x)], collapse_list)
-    write.csv(x, file_name, row.names = FALSE)
+    write.csv(x, file_name, row.names = FALSE, quote = FALSE)
 }
 
 collapse_list <- function(x) {
@@ -83,5 +83,5 @@ collapse_list <- function(x) {
 }
 
 is_list <- function(x) {
-    vapply(x, is.list, FUN.VALUE = vector("logical", 1))
+    unlist(lapply(x, is.recursive), use.names = FALSE)
 }
