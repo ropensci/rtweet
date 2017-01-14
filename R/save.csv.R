@@ -73,15 +73,21 @@ modify_file_name <- function(file_name, ext = NULL) {
 
 write_as_csv <- function(x, file_name) {
     stopifnot(is.data.frame(x))
-    x[is_list(x)] <- lapply(x[is_list(x)], collapse_list)
-    write.csv(x, file_name, row.names = FALSE, quote = FALSE)
+    write.csv(x, file_name, row.names = FALSE)
 }
 
 collapse_list <- function(x) {
-    vapply(x, function(x) paste(x, collapse = " "),
-           FUN.VALUE = vector("character", 1))
+    ## collapse recursive columns into strings
+    vapply(x, function(x) paste(x, collapse = " "), character(1),
+           USE.NAMES = FALSE)
+}
+
+clean_nas <- function(x) {
+    ## replace NAs with blanks
+    x[vapply(x, is.na, logical(1), USE.NAMES = FALSE)] <- ""
+    x
 }
 
 is_list <- function(x) {
-    unlist(lapply(x, is.recursive), use.names = FALSE)
+    unlist(apply(x[, ], 2, is.list), use.names = FALSE)
 }
