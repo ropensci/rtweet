@@ -359,7 +359,7 @@ ts_plot <- function(rt, by = "days",
             length.out = par("xaxp")[3] + 1)
         x.labs <- as.POSIXct(x.ticks, origin = "1970-01-01")
         if (!is.null(xtime)) {
-            axis.POSIXct(1, at = x.labs, format = xtime,
+            axis.POSIXct(1, at = x.labs, format = xtime, hadj = 0,
                          lwd = 0, lwd.ticks = ticks)
         } else {
             axis.POSIXct(1, at = x.labs,
