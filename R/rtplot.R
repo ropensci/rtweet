@@ -14,6 +14,8 @@
 #' lookupcoords("san francisco, CA", "country:US")
 #' }
 #' @importFrom jsonlite fromJSON
+#' @export
+#' @noRd
 lookup_coords <- function(address, components = NULL, ...) {
     if (missing(address)) stop("must supply address", call. = FALSE)
     stopifnot(is.atomic(address), is.atomic(components))
@@ -44,6 +46,7 @@ mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
 #' @param x Tweets data frame with at least some geo data.
 #' @return Data frame with long and lat columns
 #' @export
+#' @noRd
 mutate.coords <- function(x) {
     if ("place.bounding_box.coordinates" %in% names(x)) {
         x[["place.bounding_box.coordinates"]] <- gsub(
@@ -95,11 +98,6 @@ mutate.coords <- function(x) {
     invisible(x)
 }
 
-mapcols <- function (n, l = 65, c = 100) {
-    hues = seq(15, 375, length = n + 1)
-    hcl(h = hues, l = l, c = c)[1:n]
-}
-
 #' tweet.world
 #'
 #' Plots geo location tweets data on map using
@@ -115,6 +113,7 @@ mapcols <- function (n, l = 65, c = 100) {
 #' @param ylim Min and max for y axis
 #' @param blank.plot Logical inciating whether to
 #'   start from a blank plot
+#' @noRd
 tweet.world <- function(x, color = NULL,
                         bg = NULL,
                         pch = 21,
@@ -146,7 +145,7 @@ tweet.world <- function(x, color = NULL,
             bty = "n", yaxt = "n", xaxt = "n")
         plot(NA, xlim = xlim, ylim = ylim)
     }
-    points(x[["longitude"]], x[["latitude"]],
+    points(x[["long"]], x[["lat"]],
            pch = pch, cex = cex, col = col, bg = bg)
 }
 

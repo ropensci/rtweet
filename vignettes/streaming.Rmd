@@ -99,7 +99,8 @@ rt %>%
         filter = c("hillary|clinton|imwithher",
                    "donald|trump|maga",
                    "vot|democracy"),
-        key = c("Clinton", "Trump", "Democracy")) %>%
+        key = c("Clinton", "Trump", "Democracy"),
+        trim = TRUE) %>%
     ts_plot(
         theme = "spacegray", cols = c("#6699ee", "#dd7a7a", "#7acc7a"),
         main = "Tweets during election day for the 2016 U.S. election",

@@ -438,6 +438,7 @@ count_users_returned <- function(x) {
 #'
 #' @return Character string of max_id to be used in future function calls.
 #' @export
+#' @noRd
 next_id <- function(df) {
     if (!all(c("created_at", "status_id") %in% names(df))) {
         stop("wrong data frame - function requires tweets data")

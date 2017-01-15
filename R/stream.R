@@ -180,6 +180,18 @@ stream_tweets <- function(q = "",
     }
 }
 
+stream_params <- function(stream, ...) {
+    if (length(stream) > 1) {
+        params <- list(locations = paste(stream, collapse = ","))
+    } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
+        params <- list(follow = stream, ...)
+    } else {
+        params <- list(track = stream, ...)
+    }
+    params[["filter_level"]] <- "low"
+    params
+}
+
 
 
 #' parse_stream
@@ -187,18 +199,33 @@ stream_tweets <- function(q = "",
 #' @param file_name name of file to be parsed. NOTE: if file
 #'   was created via \code{\link{stream_tweets}}, then it will
 #'   end in ".json" (see example below)
-#'
-#' @return Parsed tweets data with users data attribute.
+#' @param \dots For developmental purposes.
+#' @return Data frame of tweets data with attributes users data
+#' @details Reading and simplifying json files can be very slow. To
+#'   make things more managable, \code{parse_stream_xl} does one chunk
+#'   of Tweets at a time and then compiles the data into a data frame.
 #'
 #' @examples
 #' \dontrun{
-#' stream_tweets(q = "", file_name = "tw", parse = FALSE)
-#' tw <- parse_stream("tw.json")
-#' tw
+#' ## file extension automatically converted to .json whether or
+#' ## not file_name already includes .json
+#' stream_tweets(q = "", timeout = 30,
+#'               file_name = "rtweet-stream", parse = FALSE)
+#' rt <- parse_stream("rtweet-stream.json")
+#' ## preview tweets data
+#' head(rt)
+#' ## preview users data
+#' head(users_data(rt))
+#' ## plot time series
+#' ts_plot(rt, "secs")
 #' }
 #' @importFrom jsonlite stream_in
 #' @export
-parse_stream <- function(file_name) {
+parse_stream <- function(file_name, ...) {
+    parse_stream_xl(file_name, ...)
+}
+
+.parse_stream <- function(file_name) {
 
     if (!identical(getOption("encoding"), "UTF-8")) {
         op <- getOption("encoding")
@@ -230,38 +257,18 @@ parse_stream <- function(file_name) {
                       verbose = TRUE)),
             error = function(e) return(NULL))
     }
-    if (is.null(s)) stop("it's not right. -luther",
-                         call. = FALSE)
-    parse.piper(s)
+    if (is.null(s)) stop(paste0(
+                        "it's not right. -luther\n",
+                        "wasn't able to parse-in json file. ",
+                        "normal fixes didn't work. perhaps you should try ",
+                        "starting a new R session.",
+                        call. = FALSE))
+    parse.piper(s, usr = TRUE) %>%
+        tryCatch(error = function(e) return(s))
 }
 
 
-#' @keywords internal
-stream_params <- function(stream, ...) {
-    if (length(stream) > 1) {
-        params <- list(locations = paste(stream, collapse = ","))
-    } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
-        params <- list(follow = stream, ...)
-    } else {
-        params <- list(track = stream, ...)
-    }
-    params[["filter_level"]] <- "low"
-    params
-}
-
-#' parse_stream_xl
-#'
-#' Returns tweets data frame from large json file
-#'
-#' @param x Path name for json file
-#' @param by Number of Tweets to per chunk. By default this is set to
-#'   10,000 tweets.
-#' @return Data frame of tweets data
-#' @details Reading and simplifying json files can be very slow. To
-#'   make things more managable, \code{parse_stream_xl} does one chunk
-#'   of Tweets at a time and then compiles the data into a data frame.
-#' @export
-parse_stream_xl <- function(x, by = 10000) {
+parse_stream_xl <- function(x, by = 100000) {
     stopifnot(is.character(x), is.numeric(by))
     x <- readLines(x, warn = FALSE)
     n <- length(x)
@@ -274,10 +281,15 @@ parse_stream_xl <- function(x, by = 10000) {
         if (jmax > n) jmax <- n
         cat(paste(x[jmin:jmax], collapse = "\n"),
             file = tmp, append = FALSE)
-        df[[i]] <- parse_stream(tmp)
+        df[[i]] <- .parse_stream(tmp)
         if (jmax >= n) break
         jmin <- jmax + 1
         message(i, " of ", N)
     }
-    do.call("rbind", df)
+    usr <- do.call("rbind", users_data(df)) %>%
+        tryCatch(error = function(e) return(NULL))
+    df <- do.call("rbind", df) %>%
+        tryCatch(error = function(e) return(NULL))
+    attr(df, "usr") <- usr
+    df
 }

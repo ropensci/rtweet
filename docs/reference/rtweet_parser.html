@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse_stream — parse_stream • rtweet</title>
+<title>rtweet_parser — rtweet_parser • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -72,62 +72,33 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse_stream</h1>
+    <h1>rtweet_parser</h1>
     </div>
 
     
-    <p>parse_stream</p>
+    <p>Returns Parses tweets and users data</p>
     
 
-    <pre><span class='fu'>parse_stream</span>(<span class='no'>file_name</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>rtweet_parser</span>(<span class='no'>rt</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
-      <dt>file_name</dt>
-      <dd>name of file to be parsed. NOTE: if file
-was created via <code><a href='stream_tweets.html'>stream_tweets</a></code>, then it will
-end in &quot;.json&quot; (see example below)</dd>
+      <dt>rt</dt>
+      <dd>Nested list converted from json structure</dd>
+      <dt>usr</dt>
+      <dd>Logical indicating whether to include user
+obj (users data) as attribute. Defaults to true.</dd>
       <dt>&#8230;</dt>
-      <dd>For developmental purposes.</dd>
+      <dd>Other args</dd>
     </dl>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame of tweets data with attributes users data</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Reading and simplifying json files can be very slow. To
-  make things more managable, <code>parse_stream_xl</code> does one chunk
-  of Tweets at a time and then compiles the data into a data frame.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># ## file extension automatically converted to .json whether or</span>
-<span class='co'># ## not file_name already includes .json</span>
-<span class='co'># stream_tweets(q = "", timeout = 30,</span>
-<span class='co'>#               file_name = "rtweet-stream", parse = FALSE)</span>
-<span class='co'># rt &lt;- parse_stream("rtweet-stream.json")</span>
-<span class='co'># ## preview tweets data</span>
-<span class='co'># head(rt)</span>
-<span class='co'># ## preview users data</span>
-<span class='co'># head(users_data(rt))</span>
-<span class='co'># ## plot time series</span>
-<span class='co'># ts_plot(rt, "secs")</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

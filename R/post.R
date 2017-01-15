@@ -12,6 +12,7 @@
 #' \dontrun{
 #' post_tweet("my first rtweet #rstats")
 #' }
+#' @family post
 #' @export
 post_tweet <- function(status = "my first rtweet #rstats",
                        token = NULL) {
@@ -33,13 +34,18 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
     r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) message("something didn't work")
+    if (r$status_code != 200) {
+        message(paste0(
+            "something didn't work. are you using a token associated ",
+            "with *your* Twitter account? if so you may need to set read/write ",
+            "permissions or reset your token at apps.twitter.com."))
+    }
 
     message("your tweet has been posted!")
 }
 
 
-#' follow_user
+#' post_follow
 #'
 #' @description Follows target twitter user.
 #'
@@ -56,13 +62,14 @@ post_tweet <- function(status = "my first rtweet #rstats",
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
-#'
+#' @aliases follow_user
 #' @examples
 #' \dontrun{
-#' follow_user("BarackObama")
+#' post_follow("BarackObama")
 #' }
+#' @family post
 #' @export
-follow_user <- function(user,
+post_follow <- function(user,
                         destroy = FALSE,
                         mute = FALSE,
                         notify = FALSE,
@@ -101,12 +108,17 @@ follow_user <- function(user,
 
     r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) message("something didn't work")
+    if (r$status_code != 200) {
+        message(paste0(
+            "something didn't work. are you using a token associated ",
+            "with *your* Twitter account? if so you may need to set read/write ",
+            "permissions or reset your token at apps.twitter.com."))
+    }
 
     r
 }
 
-#' unfollow_user
+#' post_unfollow
 #'
 #' Remove, or unfollow, current twitter friend. Wrapper function
 #'   for destroy version of follow_user.
@@ -115,12 +127,14 @@ follow_user <- function(user,
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
+#' @aliases unfollow_user
+#' @family post
 #' @export
-unfollow_user <- function(user, token = NULL) {
-    follow_user(user, destroy = TRUE, token = token)
+post_unfollow_user <- function(user, token = NULL) {
+    post_follow(user, destroy = TRUE, token = token)
 }
 
-#' mute_user
+#' post_mute
 #'
 #' Mute, or hide all content coming from, current twitter friend.
 #'   Wrapper function for mute version of follow_user.
@@ -129,13 +143,15 @@ unfollow_user <- function(user, token = NULL) {
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
+#' @aliases mute_user
+#' @family post
 #' @export
-mute_user <- function(user, token = NULL) {
-    follow_user(user, mute = TRUE, token = token)
+post_mute <- function(user, token = NULL) {
+    post_follow(user, mute = TRUE, token = token)
 }
 
 
-#' favorite_tweet
+#' post_favorite
 #'
 #' @description Favorites target status id.
 #'
@@ -147,19 +163,18 @@ mute_user <- function(user, token = NULL) {
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
-#'
+#' @aliases post_favourite favorite_tweet
 #' @examples
 #' \dontrun{
 #' rt <- search_tweets("rstats")
-#' for (i in rt$user_id) {
-#'     favorite_tweet(i)
+#' r <- lapply(rt$user_id, post_favorite)
 #' }
-#' }
+#' @family post
 #' @export
-favorite_tweet <- function(status_id,
-                           destroy = FALSE,
-                           include_entities = FALSE,
-                           token = NULL) {
+post_favorite <- function(status_id,
+                          destroy = FALSE,
+                          include_entities = FALSE,
+                          token = NULL) {
 
     stopifnot(is.atomic(status_id))
 
@@ -178,13 +193,17 @@ favorite_tweet <- function(status_id,
 
     r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) message("something didn't work")
-
+    if (r$status_code != 200) {
+        message(paste0(
+            "something didn't work. are you using a token associated ",
+            "with *your* Twitter account? if so you may need to set read/write ",
+            "permissions or reset your token at apps.twitter.com."))
+    }
     invisible(r)
 }
 
 
-#' friendship_update
+#' post_friendship
 #'
 #' Updates friendship notifications and retweet abilities.
 #'
@@ -197,9 +216,10 @@ favorite_tweet <- function(status_id,
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
-#'
+#' @aliases friendship_update
+#' @family post
 #' @export
-friendship_update <- function(user,
+post_friendship <- function(user,
                               device = FALSE,
                               retweets = FALSE,
                               token = NULL) {
@@ -222,8 +242,12 @@ friendship_update <- function(user,
 
     r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) message("something didn't work")
-
+    if (r$status_code != 200) {
+        message(paste0(
+            "something didn't work. are you using a token associated ",
+            "with *your* Twitter account? if so you may need to set read/write ",
+            "permissions or reset your token at apps.twitter.com."))
+    }
     invisible(r)
 }
 

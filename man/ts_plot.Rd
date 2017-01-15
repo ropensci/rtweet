@@ -5,7 +5,7 @@
 \title{ts_plot}
 \usage{
 ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
-  na.omit = TRUE, filter = NULL, key = NULL, lwd = 1.5,
+  na.omit = TRUE, filter = NULL, key = NULL, trim = FALSE, lwd = 1.5,
   linetype = FALSE, cols = NULL, theme = "light", main = NULL,
   subtitle = NULL, adj = TRUE, xlab = "Time", ylab = "Freq",
   box = FALSE, axes = TRUE, legend.title = NULL, ticks = 0, cex = 1,
@@ -61,6 +61,10 @@ filter data (creating multiple time series).}
 
 \item{key}{Optional provide pretty labels for filters.
 Defaults to actual filters.}
+
+\item{trim}{Logical indicating whether to trim extreme intervals,
+which often capture artificially lower frequencies. Defaults to
+FALSE.}
 
 \item{lwd}{Width of time series line(s). Defaults to 1.5}
 

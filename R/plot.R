@@ -46,6 +46,9 @@
 #'   filter data (creating multiple time series).
 #' @param key Optional provide pretty labels for filters.
 #'   Defaults to actual filters.
+#' @param trim Logical indicating whether to trim extreme intervals,
+#'   which often capture artificially lower frequencies. Defaults to
+#'   FALSE.
 #' @param lwd Width of time series line(s). Defaults to 1.5
 #' @param linetype Logical indicating whether lines should be
 #'   distinguished by line type.
@@ -145,6 +148,7 @@ ts_plot <- function(rt, by = "days",
                     na.omit = TRUE,
                     filter = NULL,
                     key = NULL,
+                    trim = FALSE,
                     lwd = 1.5,
                     linetype = FALSE,
                     cols = NULL,
@@ -197,9 +201,10 @@ ts_plot <- function(rt, by = "days",
                          txt = txt,
                          filter = filter,
                          key = key,
-                         na.omit = na.omit)
+                         na.omit = na.omit,
+                         trim = trim)
         lstdat <- lapply(
-                key, function(i) subset(dat, filter == i))
+            key, function(i) subset(dat, filter == i))
     }
     ## if plot is false return ts data object
     if (!plot) return(dat)
@@ -569,13 +574,17 @@ ts_plot <- function(rt, by = "days",
 #'   missing (NA) values for the dtname variable. Defaults to TRUE.
 #'   If FALSE and data contains missing values for the date-time
 #'   variable, an error will be returned to the user.
+#' @param trim Logical indicating whether to trim extreme intervals,
+#'   which often capture artificially lower frequencies. Defaults to
+#'   FALSE.
 #' @export
 ts_filter <- function(rt, by = "days",
-                   dtname = "created_at",
-                   txt = "text",
-                   filter = NULL,
-                   key = NULL,
-                   na.omit = TRUE) {
+                      dtname = "created_at",
+                      txt = "text",
+                      filter = NULL,
+                      key = NULL,
+                      na.omit = TRUE,
+                      trim = FALSE) {
 
     ## handle missing data
     if (is.data.frame(rt)) {
@@ -624,6 +633,10 @@ ts_filter <- function(rt, by = "days",
         ## add variable name for each filter
         for (i in seq_along(lstdat)) {
             lstdat[[i]]$filter <- key[i]
+            if (trim) {
+                nmax <- round(NROW(lstdat[[i]]) * .03, 0)
+                lstdat[[i]] <- lstdat[[i]][-c(1, nrow(lstdat)), ]
+            }
         }
         ## collapse into tidy data frame
         dat <- do.call("rbind", lstdat)
@@ -685,7 +698,7 @@ rt_cols <- function(n, lighter = FALSE) {
         return(sample(cols, n))
     }
     hues = seq(15, 375, length = n + 1)
-    hcl(h = hues, l = 60, c = 100)[1:n]
+    hcl(h = hues, l = 58, c = 100)[1:n]
 }
 
 
@@ -694,20 +707,16 @@ alphacolor <- function(cols, a = .99) {
     rgb(cols, alpha = a)
 }
 
-#' rtdata
+#' mutate_coords
 #'
 #' Initializes rt plotting sequence
 #'
 #' @param data Data frame generated via rtweet function.
-#' @param \dots Args passed to rtaes.
-rtdata <- function(data, ...) {
-    with(mutate.coords(data), ...)
-}
-
-#' @importFrom grDevices hcl
-getcols <- function (n = 1, l = 65, c = 100) {
-    hues <- seq(15, 375, length = n + 1)
-    hcl(h = hues, l = l, c = c)[1:n]
+#' @param \dots Args passed to points.
+#' @aliases mutate_coords
+#' @export
+mutate_coords <- function(data, ...) {
+    with(mutate.coords(data), rtpoint(long, lat, ...))
 }
 
 #' @importFrom grDevices col2rgb
@@ -732,6 +741,8 @@ is.color <- function(x) {
 #' @param alpha Alpha level used to set transparency
 #' @param size Size of plot units
 #' @param shape Shape of plot units
+#' @noRd
+#' @export
 rtaes <- function(x, y,
                   color = NULL,
                   alpha = NULL,
@@ -777,17 +788,18 @@ rtaes <- function(x, y,
 #'    jitter function to points.
 #' @importFrom graphics points
 #' @importFrom stats sd runif
-rtpoint <- function(dat, noise = FALSE) {
+#' @noRd
+rtpoint <- function(long, lat, noise = FALSE) {
     if (noise) {
-        stdv <- sd(as.double(dat[["x"]]),
+        stdv <- sd(as.double(long),
                    na.rm = TRUE) / 1000
-        dat[["x"]] <- runif(NROW(dat), -stdv * 2,
-                            stdv * 2) + dat[["x"]]
-        dat[["y"]] <- runif(NROW(dat), -stdv * 2,
-                            stdv * 2) + dat[["y"]]
+        long <- runif(length(long), -stdv * 2,
+                      stdv * 2) + long
+        lat <- runif(length(lat), -stdv * 2,
+                     stdv * 2) + lat
     }
-    points(dat[["x"]],
-           dat[["y"]],
+    points(long,
+           lat,
            col = dat[["color"]],
            cex = dat[["size"]],
            pch = dat[["shape"]])
@@ -803,6 +815,7 @@ rtpoint <- function(dat, noise = FALSE) {
 #' @param new Logical indicating whether to revert to base r plot
 #'   defaults to false.
 #' @param \dots Args passed to base plot.
+#' @noRd
 rtline <- function(dat, new = FALSE, ...) {
     names(dat)[1:2] <- c("time", "freq")
     dat$time <- as.numeric(dat$time)

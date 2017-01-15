@@ -81,7 +81,7 @@
     
 
     <pre><span class='fu'>ts_filter</span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>dtname</span> <span class='kw'>=</span> <span class='st'>"created_at"</span>, <span class='kw'>txt</span> <span class='kw'>=</span> <span class='st'>"text"</span>,
-  <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.omit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.omit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -134,6 +134,10 @@ Defaults to actual filters.</dd>
 missing (NA) values for the dtname variable. Defaults to TRUE.
 If FALSE and data contains missing values for the date-time
 variable, an error will be returned to the user.</dd>
+      <dt>trim</dt>
+      <dd>Logical indicating whether to trim extreme intervals,
+which often capture artificially lower frequencies. Defaults to
+FALSE.</dd>
     </dl>
     
 

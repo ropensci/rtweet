@@ -82,7 +82,7 @@
     
 
     <pre><span class='fu'>ts_plot</span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>dtname</span> <span class='kw'>=</span> <span class='st'>"created_at"</span>, <span class='kw'>txt</span> <span class='kw'>=</span> <span class='st'>"text"</span>,
-  <span class='kw'>na.omit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
+  <span class='kw'>na.omit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
   <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"light"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adj</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Time"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Freq"</span>,
   <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ticks</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
@@ -140,6 +140,10 @@ filter data (creating multiple time series).</dd>
       <dt>key</dt>
       <dd>Optional provide pretty labels for filters.
 Defaults to actual filters.</dd>
+      <dt>trim</dt>
+      <dd>Logical indicating whether to trim extreme intervals,
+which often capture artificially lower frequencies. Defaults to
+FALSE.</dd>
       <dt>lwd</dt>
       <dd>Width of time series line(s). Defaults to 1.5</dd>
       <dt>linetype</dt>

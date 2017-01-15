@@ -5,7 +5,7 @@
 \title{ts_filter}
 \usage{
 ts_filter(rt, by = "days", dtname = "created_at", txt = "text",
-  filter = NULL, key = NULL, na.omit = TRUE)
+  filter = NULL, key = NULL, na.omit = TRUE, trim = FALSE)
 }
 \arguments{
 \item{rt}{Tweets or users data frame. Technically, this argument
@@ -56,6 +56,10 @@ Defaults to actual filters.}
 missing (NA) values for the dtname variable. Defaults to TRUE.
 If FALSE and data contains missing values for the date-time
 variable, an error will be returned to the user.}
+
+\item{trim}{Logical indicating whether to trim extreme intervals,
+which often capture artificially lower frequencies. Defaults to
+FALSE.}
 }
 \description{
 Converts text-level observations to time aggregated frequency data

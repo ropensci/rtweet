@@ -115,6 +115,7 @@ parse.piper.fnd <- function(r) {
 #' friend.networks[[1]]
 #' str(friend.networks)
 #' }
+#' @noRd
 ply_friends <- function(users, token = NULL, ...) {
     n.times <- rate_limit(token, "friends/ids")[["remaining"]]
     if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)

@@ -18,6 +18,7 @@ combn <- function(x, b, n.words) {
 #' @param stop.words optional
 #' @return Frequency data frame.
 #' @export
+#' @noRd
 wordphrases <- function(txt,
                         phrase.length = 4L,
                         num = FALSE,

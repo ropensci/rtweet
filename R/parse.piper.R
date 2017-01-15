@@ -1,12 +1,4 @@
-#' My version of map
-#'
-#' @param x Object from lhs
-#' @param f Either atomic scalar (variable name or element position
-#'   (numbered) to be retrieved or function to be applied across
-#'   elements.
-#' @param \dots Arguments passed along to user function
-#' @keywords internal
-#' @noRd
+
 plyget <- function(x, f, ...) {
     if (!is.function(f)) {
         if (any(is.data.frame(x),
@@ -163,7 +155,7 @@ ifelsepipe <- function(x, cond, f = NA) {
 
 is.na.not <- function(x) !is.na(x)
 
-#' parser
+#' parse_data
 #'
 #' Returns Parses tweets and users data
 #'
@@ -172,20 +164,17 @@ is.na.not <- function(x) !is.na(x)
 #'   obj (users data) as attribute. Defaults to true.
 #' @param \dots Other args
 #' @export
-#' @keywords internal
-#' @noRd
-parser <- function(rt, usr = TRUE, ...) {
+parse_data <- function(rt, usr = TRUE) {
     parse.piper(rt, usr = usr)
 }
 
 
-#' parse.piper
-#'
-#' Returns tweets data parsed via pipe
-#'
-#' @param rt Nested list converted from json structure
-#' @param usr Logical indicating whether to include user
-#'   obj (users data) as attribute. Defaults to true.
+#' @export
+#' @noRd
+parser <- function(rt, usr = TRUE) {
+    rtweet_parser(rt, usr)
+}
+
 parse.piper <- function(rt, usr = TRUE) {
     rt <- get.status.obj(rt)
     if (usr) {
@@ -784,6 +773,7 @@ atomic.parsed.usr <- function(rt) {
 #' @param rt Nested list converted from json structure
 #' @param tw Logical indicating whether to include status
 #'   obj (tweets data) as attribute. Defaults to false.
+#' @noRd
 parse.piper.usr <- function(rt, tw = FALSE) {
     rt <- get.user.obj(rt)
     if (tw) {
