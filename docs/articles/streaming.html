@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Live streaming tweets • rtweet</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -58,20 +58,22 @@
     
     
 <div class="contents">
-<div id="live-stream-tweets-using-stream_tweets" class="section level2">
-<h2 class="hasAnchor">
-<html><body><a href="#live-stream-tweets-using-stream_tweets" class="anchor"> </a></body></html>Live stream tweets using stream_tweets()</h2>
 <p>Prior to streaming, make sure to install and load rtweet. This vignette assumes users have already setup user access tokens (see: <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and using access tokens</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load rtweet
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Install rtweet
+<span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
+## Load rtweet
 <span class="kw">library</span>(rtweet)</code></pre></div>
 <div id="stream_tweets-parameters" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#stream_tweets-parameters" class="anchor"> </a></body></html>stream_tweets parameters</h3>
-<p>In addition to accessing Twitter’s REST API (e.g., <code>search_tweets</code>, <code>get_timeline</code>), rtweet makes it possible to capture live streams of Twitter data using the <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, <code>stream_tweets</code> will stream for 30 seconds and return a random sample of tweets. To modify defaults, <code>stream_tweets</code> accepts several parameters, including <code>q</code> (filter query), <code>timeout</code> (duration or time of stream), and <code>file_name</code> (path name for saving raw json data).</p>
+<p>In addition to accessing Twitter’s REST API (e.g., <code>search_tweets</code>, <code>get_timeline</code>), rtweet makes it possible to capture live streams of Twitter data using the <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, <code>stream_tweets</code> will stream for 30 seconds and return a random sample of tweets. To modify the default settings, <code>stream_tweets</code> accepts several parameters, including <code>q</code> (query used to filter tweets), <code>timeout</code> (duration or time of stream), and <code>file_name</code> (path name for saving raw json data).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Stream keywords used to filter tweets
 q &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"hillaryclinton,imwithher,realdonaldtrump,maga,electionday"</span>)
 
-## Stream time in seconds (x * 60 = x mins, x * 60 * 60 = x hours)
+## Stream time in seconds so for one minute set timeout = 60
+## For larger chunks of time, I recommend multiplying 60 by the number
+## of desired minutes. This method scales up to hours as well
+## (x * 60 = x mins, x * 60 * 60 = x hours)
 ## Stream for 30 minutes
 streamtime &lt;-<span class="st"> </span><span class="dv">30</span> *<span class="st"> </span><span class="dv">60</span>
 
@@ -92,12 +94,14 @@ rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_t
 ## Preview users data
 <span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt) %&gt;%
 <span class="st">     </span><span class="kw">head</span>()</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Plot time series of all tweets
-<span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt, <span class="st">"secs"</span>)</code></pre></div>
+<p>Once parsed, use <code>ts_plot</code> provides a quick visual of the frequency of tweets. By default, <code>ts_plot</code> will try to aggregate time by the day. Because I know the stream only lasted 30 minutes, I’ve opted to aggregate tweets by the second. It’d also be possible to aggregate by the minute, i.e., <code>by = "mins"</code>, or by some value of seconds, e.g., <code>by = "15 secs"</code>. I usually fiddle around with this a bit until the plot becomes clearer.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Plot time series of all tweets aggregated by second
+<span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt, <span class="dt">by =</span> <span class="st">"secs"</span>)</code></pre></div>
 <div class="figure">
 <img src="files/stream-ts.png" alt="stream-ts.png"><p class="caption">stream-ts.png</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Return ggplot2 object (must have ggplot2 installed)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot multiple time series by first filtering the data using
+## regular expressions on the tweet "text" variable
 rt %&gt;%
 <span class="st">    </span><span class="kw"><a href="../reference/ts_filter.html">ts_filter</a></span>(
         <span class="dt">by =</span> <span class="st">"mins"</span>,
@@ -106,25 +110,22 @@ rt %&gt;%
                    <span class="st">"vot|democracy"</span>),
         <span class="dt">key =</span> <span class="kw">c</span>(<span class="st">"Clinton"</span>, <span class="st">"Trump"</span>, <span class="st">"Democracy"</span>),
         <span class="dt">trim =</span> <span class="ot">TRUE</span>) %&gt;%
+<span class="st">    </span>## The pipe operator allows you to combine this with ts_plot
+<span class="st">    </span>## without things getting too messy.
 <span class="st">    </span><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(
-        <span class="dt">theme =</span> <span class="st">"spacegray"</span>, <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">"#6699ee"</span>, <span class="st">"#dd7a7a"</span>, <span class="st">"#7acc7a"</span>),
+        <span class="dt">theme =</span> <span class="st">"spacegray"</span>,
+        <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">"#6699ee"</span>, <span class="st">"#dd7a7a"</span>, <span class="st">"#7acc7a"</span>),
         <span class="dt">main =</span> <span class="st">"Tweets during election day for the 2016 U.S. election"</span>,
         <span class="dt">subtitle =</span> <span class="st">"Tweets collected, parsed, and plotted using `rtweet`"</span>)</code></pre></div>
+<p>Often times these plots will take the shape of a frowny face with the first and last points appearing significantly lower than the rest. This is because the first and last time intervas are artificially shrunken by connection and disconnection processes. To remedy this, I specified <code>trim = TRUE</code> in the <code>ts_filter</code> example above, which tells R to drop the first and last observation for each time series, yielding a more attractive looking plot.</p>
 <div class="figure">
 <img src="files/stream-filter.png" alt="stream-filter.png"><p class="caption">stream-filter.png</p>
-</div>
 </div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-        <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#live-stream-tweets-using-stream_tweets">Live stream tweets using stream_tweets()</a></li>
-      </ul>
-</div>
       </div>
 
 </div>

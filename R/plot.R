@@ -634,7 +634,6 @@ ts_filter <- function(rt, by = "days",
         for (i in seq_along(lstdat)) {
             lstdat[[i]]$filter <- key[i]
             if (trim) {
-                nmax <- round(NROW(lstdat[[i]]) * .03, 0)
                 lstdat[[i]] <- lstdat[[i]][-c(1, nrow(lstdat)), ]
             }
         }

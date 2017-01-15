@@ -188,7 +188,8 @@ search_tweets <- function(q, n = 100,
             parse = parse,
             usr = usr,
             token = token,
-            verbose = verbose, ...)
+            verbose = verbose,
+            ...)
     } else {
         if (identical(remaining, 0)) {
             ntimes <- ceiling((n - remaining) / 18000)
@@ -266,11 +267,7 @@ search_tweets <- function(q, n = 100,
     stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
     #token <- check_token(token, query)
 
-    if (check) {
-        n.times <- rate_limit(token, query)[["remaining"]]
-    } else {
-        n.times <- 180
-    }
+    n.times <- ceiling(n / 100)
 
     if (nchar(q) > 500) {
         stop("q cannot exceed 500 characters.", call. = FALSE)

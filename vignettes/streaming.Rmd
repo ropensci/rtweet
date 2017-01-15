@@ -14,13 +14,13 @@ knitr::opts_chunk$set(
     echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-## Live stream tweets using stream_tweets()
-
 Prior to streaming, make sure to install and load rtweet. This
 vignette assumes users have already setup user access tokens (see:
 [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd)).
 
 ```{r}
+## Install rtweet
+install.packages("rtweet")
 ## Load rtweet
 library(rtweet)
 ```
@@ -31,15 +31,19 @@ In addition to accessing Twitter's REST API (e.g., `search_tweets`,
 `get_timeline`), rtweet makes it possible to capture live streams of
 Twitter data using the `stream_tweets()` function. By default,
 `stream_tweets` will stream for 30 seconds and return a random sample
-of tweets. To modify defaults, `stream_tweets` accepts several
-parameters, including `q` (filter query), `timeout` (duration or time
-of stream), and `file_name` (path name for saving raw json data).
+of tweets. To modify the default settings, `stream_tweets` accepts
+several parameters, including `q` (query used to filter tweets),
+`timeout` (duration or time of stream), and `file_name` (path name for
+saving raw json data).
 
 ```{r}
 ## Stream keywords used to filter tweets
 q <- paste0("hillaryclinton,imwithher,realdonaldtrump,maga,electionday")
 
-## Stream time in seconds (x * 60 = x mins, x * 60 * 60 = x hours)
+## Stream time in seconds so for one minute set timeout = 60
+## For larger chunks of time, I recommend multiplying 60 by the number
+## of desired minutes. This method scales up to hours as well
+## (x * 60 = x mins, x * 60 * 60 = x hours)
 ## Stream for 30 minutes
 streamtime <- 30 * 60
 
@@ -80,16 +84,24 @@ users_data(rt) %>%
 ```{r, eval=TRUE, echo=FALSE}
 ##rt <- readRDS("vignettes/files/electweets.rds")
 ```
+Once parsed, use `ts_plot` provides a quick visual of the frequency of
+tweets. By default, `ts_plot` will try to aggregate time by the
+day. Because I know the stream only lasted 30 minutes, I've opted to
+aggregate tweets by the second. It'd also be possible to aggregate by
+the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,
+`by = "15 secs"`. I usually fiddle around with this a bit until the
+plot becomes clearer.
 
 ```{r, eval=FALSE}
-## Plot time series of all tweets
-ts_plot(rt, "secs")
+## Plot time series of all tweets aggregated by second
+ts_plot(rt, by = "secs")
 ```
 
 ![stream-ts.png](files/stream-ts.png)
 
 ```{r, eval=FALSE}
-## Return ggplot2 object (must have ggplot2 installed)
+## plot multiple time series by first filtering the data using
+## regular expressions on the tweet "text" variable
 rt %>%
     ts_filter(
         by = "mins",
@@ -98,10 +110,21 @@ rt %>%
                    "vot|democracy"),
         key = c("Clinton", "Trump", "Democracy"),
         trim = TRUE) %>%
+    ## The pipe operator allows you to combine this with ts_plot
+    ## without things getting too messy.
     ts_plot(
-        theme = "spacegray", cols = c("#6699ee", "#dd7a7a", "#7acc7a"),
+        theme = "spacegray",
+        cols = c("#6699ee", "#dd7a7a", "#7acc7a"),
         main = "Tweets during election day for the 2016 U.S. election",
         subtitle = "Tweets collected, parsed, and plotted using `rtweet`")
 ```
+
+Often times these plots will take the shape of a frowny face with the
+first and last points appearing significantly lower than the
+rest. This is because the first and last time intervas are
+artificially shrunken by connection and disconnection processes. To
+remedy this, I specified `trim = TRUE` in the `ts_filter` example
+above, which tells R to drop the first and last observation for each
+time series, yielding a more attractive looking plot.
 
 ![stream-filter.png](files/stream-filter.png)
