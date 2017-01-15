@@ -21,10 +21,6 @@ vignette assumes users have already setup user access tokens (see:
 [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd)).
 
 ```{r}
-## Install newest version of rtweet from Github
-install.packages("devtools")
-devtools::install_github("mkearney/rtweet")
-
 ## Load rtweet
 library(rtweet)
 ```
@@ -82,16 +78,17 @@ users_data(rt) %>%
 ```
 
 ```{r, eval=TRUE, echo=FALSE}
-rt <- readRDS("files/electweets.rds")
+##rt <- readRDS("vignettes/files/electweets.rds")
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 ## Plot time series of all tweets
 ts_plot(rt, "secs")
 ```
 
+![stream-ts.png](files/stream-ts.png)
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 ## Return ggplot2 object (must have ggplot2 installed)
 rt %>%
     ts_filter(
@@ -107,3 +104,4 @@ rt %>%
         subtitle = "Tweets collected, parsed, and plotted using `rtweet`")
 ```
 
+![stream-filter.png](files/stream-filter.png)
