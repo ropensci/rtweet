@@ -22,8 +22,8 @@ test_that("search_tweets returns tweets data", {
   expect_named(users_data(x))
   expect_true(any(c("user_id", "friends_count") %in% names(users_data(x))))
 
-  x <- search_tweets("rstats OR cran OR github", n = 300,
-  	include_rts = FALSE, token = token, lang = "en")
+  x <- search_tweets("lol", n = 300,
+                     include_rts = FALSE, token = token, lang = "en")
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

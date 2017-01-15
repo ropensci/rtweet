@@ -172,7 +172,7 @@ parse_data <- function(rt, usr = TRUE) {
 #' @export
 #' @noRd
 parser <- function(rt, usr = TRUE) {
-    rtweet_parser(rt, usr)
+    parse_data(rt, usr)
 }
 
 parse.piper <- function(rt, usr = TRUE) {
