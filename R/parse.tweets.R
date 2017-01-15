@@ -47,7 +47,6 @@ tweets_df <- function(dat, as_double = FALSE, clean_tweets = FALSE) {
 #' @description Converts tweets to to ASCII
 #' @param x Twitter text
 #'
-#' @export
 cleantweets <- function(x) {
   iconv(x, "UTF-8", "ASCII", "")
   #iconv(x, "latin1", "ASCII", "")
@@ -58,7 +57,6 @@ cleantweets <- function(x) {
 #' @description Converts tweets to UTF-8 encoding
 #' @param x Twitter text
 #'
-#' @export
 utf8_tweets <- function(x) {
   unlist(lapply(x, function(.) if (Encoding(.) != "UTF-8") enc2utf8(x)),
     recursive = FALSE, use.names = FALSE)

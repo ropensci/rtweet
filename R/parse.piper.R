@@ -172,6 +172,8 @@ is.na.not <- function(x) !is.na(x)
 #'   obj (users data) as attribute. Defaults to true.
 #' @param \dots Other args
 #' @export
+#' @keywords internal
+#' @noRd
 parser <- function(rt, usr = TRUE, ...) {
     parse.piper(rt, usr = usr)
 }
@@ -184,7 +186,6 @@ parser <- function(rt, usr = TRUE, ...) {
 #' @param rt Nested list converted from json structure
 #' @param usr Logical indicating whether to include user
 #'   obj (users data) as attribute. Defaults to true.
-#' @export
 parse.piper <- function(rt, usr = TRUE) {
     rt <- get.status.obj(rt)
     if (usr) {
@@ -783,7 +784,6 @@ atomic.parsed.usr <- function(rt) {
 #' @param rt Nested list converted from json structure
 #' @param tw Logical indicating whether to include status
 #'   obj (tweets data) as attribute. Defaults to false.
-#' @export
 parse.piper.usr <- function(rt, tw = FALSE) {
     rt <- get.user.obj(rt)
     if (tw) {

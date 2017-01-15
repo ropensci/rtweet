@@ -1,7 +1,3 @@
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
-
 #' ts_plot
 #'
 #' Plots frequency of tweets as time series or, if multiple
@@ -679,13 +675,6 @@ sollts <- function(dt, by = "days", fdt = NULL) {
     tab
 }
 
-#' rt_cols
-#'
-#' returns ggplot2-like colors
-#' @param n number of desired colors
-#' @keywords internal
-#' @noRd
-#' @importFrom grDevices hcl
 rt_cols <- function(n, lighter = FALSE) {
     if (n < 4) {
         if (lighter) {
@@ -699,55 +688,7 @@ rt_cols <- function(n, lighter = FALSE) {
     hcl(h = hues, l = 60, c = 100)[1:n]
 }
 
-#' basemap
-#'
-#' Plots world map
-#'
-#' @param dat plot data
-#' @param mapdf Mapping data frame defaults to high resolution
-#'    rworldmap.
-#' @param xlim Maximimum plot values along x-axis. Defaults to
-#'    \code{xlim = c(-145, 145)} with a max range of -180 to
-#'    180 (degree longitude)
-#' @param ylim Maximimum plot values along y-axis. Defaults to
-#'    \code{ylim = c(-50, 70)} with a max range of -90 to
-#'    90 (degrees latitude)
-#' @param ocean.col Fill color to apply to ocean area to a
-#'    light gray color.
-#' @param land.col Fill color to apply to land area defaults to
-#'    white.
-#' @param border.lwd Width of country borders defaults to .025
-#' @return Plot of world map.
-#' @importFrom rworldmap getMap
-#' @importFrom graphics plot
-#' @importFrom maps map
-#' @export
-basemap <- function(dat,
-                    mapdf = NULL,
-                    xlim = c(-179, 179),
-                    ylim = c(-50, 75),
-                    ocean.col = "#e0e0eb99",
-                    land.col = "#ffffff",
-                    border.lwd = .1) {
 
-    if (is.null(mapdf)) {
-        mapdf <- rworldmap::getMap(resolution = "coarse")
-    }
-    par(mar = c(0, 0, 0, 0))
-    maps::map(mapdf, lwd = border.lwd, col = land.col,
-              bg = ocean.col, fill = TRUE,
-              xlim = xlim, ylim = ylim)
-    invisible(dat)
-}
-
-#' alphacolor
-#'
-#' Returns colors at alpha level a
-#'
-#' @param cols Colors vector
-#' @param a Alpha level numeric ranging from 0 to 1
-#' @importFrom grDevices col2rgb rgb
-#' @export
 alphacolor <- function(cols, a = .99) {
     cols <- t(col2rgb(cols, alpha = TRUE)) / 255
     rgb(cols, alpha = a)
@@ -759,7 +700,6 @@ alphacolor <- function(cols, a = .99) {
 #'
 #' @param data Data frame generated via rtweet function.
 #' @param \dots Args passed to rtaes.
-#' @export
 rtdata <- function(data, ...) {
     with(mutate.coords(data), ...)
 }
@@ -792,7 +732,6 @@ is.color <- function(x) {
 #' @param alpha Alpha level used to set transparency
 #' @param size Size of plot units
 #' @param shape Shape of plot units
-#' @export
 rtaes <- function(x, y,
                   color = NULL,
                   alpha = NULL,
@@ -838,7 +777,6 @@ rtaes <- function(x, y,
 #'    jitter function to points.
 #' @importFrom graphics points
 #' @importFrom stats sd runif
-#' @export
 rtpoint <- function(dat, noise = FALSE) {
     if (noise) {
         stdv <- sd(as.double(dat[["x"]]),
@@ -865,7 +803,6 @@ rtpoint <- function(dat, noise = FALSE) {
 #' @param new Logical indicating whether to revert to base r plot
 #'   defaults to false.
 #' @param \dots Args passed to base plot.
-#' @export
 rtline <- function(dat, new = FALSE, ...) {
     names(dat)[1:2] <- c("time", "freq")
     dat$time <- as.numeric(dat$time)
@@ -878,15 +815,4 @@ rtline <- function(dat, new = FALSE, ...) {
     invisible(dat)
 }
 
-#' rtmap
-#'
-#' Initiates and plots new world map
-#'
-#' @param dat Piped data
-#' @param \dots Args passed along to plot function.
-#' @export
-rtmap <- function(dat, ...) {
-    basemap(...)
-    invisible(dat)
-}
 

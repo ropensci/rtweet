@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Collecting Twitter Data • rtweet</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -55,19 +55,11 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<p><a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/gh/mkearney/rtweet"><img src="https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<div id="rtweet" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#rtweet" class="anchor"> </a>rtweet</h1></div>
+<p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.png?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/gh/mkearney/rtweet"><img src="https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg" alt="Coverage Status"></a></p>
 <p>R client for collecting data via Twitter’s REST and stream API’s.</p>
-<p>Key features</p>
-<ul>
-<li><p><strong><em>NEW</em></strong> (dev version on Github): Out of the box functionality! Start using <code>rtweet</code> the moment you install the package. Limited authorization access provided for users looking to test-drive the package before <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and using access tokens</a>.</p></li>
-<li><p>Tweet from your R console using the <code><a href="reference/post_tweet.html">post_tweet()</a></code> function!</p></li>
-<li><p>Stream a random sample of tweets using <code><a href="reference/stream_tweets.html">stream_tweets()</a></code>. The function default, <code>q = ""</code>, now streams a random sample of all tweets.</p></li>
-<li><p>Save as CSV: If you’d like to open Twitter data in Excel or SPSS, use the <code>save_as_csv</code> function.</p></li>
-<li><p>Gather <strong>tweet data</strong> by searching past tweets <code><a href="reference/search_tweets.html">search_tweets()</a></code>, streaming live tweets <code><a href="reference/stream_tweets.html">stream_tweets()</a></code>, collecting tweets from a user’s timeline <code><a href="reference/get_timeline.html">get_timeline()</a></code>, or gathering all the tweets favorited by a user <code><a href="reference/get_favorites.html">get_favorites()</a></code>.</p></li>
-<li><p>Gather <strong>user data</strong> by looking up Twitter users <code><a href="reference/lookup_users.html">lookup_users()</a></code>. Easily return data on thousands of users.</p></li>
-<li><p>Gather <strong>followers</strong> and <strong>friends</strong> data by collecting the ids of accounts <em>following</em> a user <code><a href="reference/get_followers.html">get_followers()</a></code> or the ids of accounts <em>followed by</em> a user <code><a href="reference/get_friends.html">get_friends()</a></code>.</p></li>
-<li><p>Organized and easily translatable data formats. Functions return tidy data frames <strong>ready</strong> for data analysis.</p></li>
-</ul>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"> </a>Install</h2>
@@ -77,6 +69,7 @@
 <p>To get the current development version from github:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 devtools::<span class="kw">install_github</span>(<span class="st">"mkearney/rtweet"</span>)</code></pre></div>
+<p>Communicating with Twitter’s APIs can, at times, be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active <a href="https://github.com/mkearney/rtweet/issues">issue</a>, please <a href="https://github.com/mkearney/rtweet/issues/new">create a new issue</a> with all code used (preferably a reproducible example) on Github. For questions or other discussion, please use <a href="https://groups.google.com/group/rtweet">rtweet’s Google group</a>.</p>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
@@ -84,17 +77,24 @@ devtools::<span class="kw">install_github</span>(<span class="st">"mkearney/rtwe
 <ul>
 <li><p><strong><em>Quick authorization method</em></strong>: To make your life easier, follow the recommended steps in <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and using access tokens</a>. However, for a quick start (note: much slower in long term), you can also follow the instructions below.</p></li>
 <li><p>First, you’ll need to <a href="https://apps.twitter.com/">create a Twitter app</a>. For the callback field, make sure to enter: <code>http://127.0.0.1:1410</code>.</p></li>
-<li><p>Once you’ve created an app, record your consumer (api) and secret keys.</p></li>
+<li><p>Once you’ve created an app, record your consumer (api) and secret keys. Screeshots can be found <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">here</a>.</p></li>
 <li><p>Generate a token by using the <code><a href="reference/create_token.html">create_token()</a></code> function.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_token.html">create_token</a></span>(<span class="dt">app =</span> <span class="st">"rtweet_tokens"</span>, <span class="co"># whatever you named app</span>
-  <span class="dt">consumer_key =</span> <span class="st">"XZgqotgOZNKlLFJqFbd8NjUtL"</span>,
-  <span class="dt">consumer_secret =</span> <span class="st">"1rDnU3H3nrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>)
-<span class="co"># I xxx'd out the secret key, but you get the idea</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## name assigned to created app
+appname &lt;-<span class="st"> "rtweet_token"</span>
+## api key (example below is not a real key)
+key &lt;-<span class="st"> "XYznzPFOFZR2a39FwWKN1Jp41"</span>
+## api secret (example below is not a real key)
+secret &lt;-<span class="st"> "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>
+twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_token.html">create_token</a></span>(
+    <span class="dt">app =</span> appname,
+    <span class="dt">consumer_key =</span> key,
+    <span class="dt">consumer_secret =</span> secret)</code></pre></div>
 <ul>
-<li>Make sure to specify <code>twitter_token</code> every time you use a data retrieval function, like the example below:</li>
+<li><p>Once <code>twitter_token</code> is part of your global environment, rtweet functions should find it. However, using this method, the token will not automatically load in future sessions (you’ll need to create a token every time you start a new session).</p></li>
+<li><p>Although not necessary, functions also accept tokens via the <code>token</code> argument. For example:</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tw &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(<span class="st">"r"</span>, <span class="dt">n =</span> <span class="dv">1200</span>, <span class="dt">token =</span> twitter_token, <span class="dt">lang =</span> <span class="st">"en"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(<span class="st">"data science"</span>, <span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">token =</span> twitter_token)</code></pre></div>
 <ul>
 <li>
 <strong><em>Recommended authorization method</em></strong>: <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
@@ -103,37 +103,17 @@ devtools::<span class="kw">install_github</span>(<span class="st">"mkearney/rtwe
 <div id="package-description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-description" class="anchor"> </a>Package description</h2>
-<p>More technical description: An implementation of calls designed to extract and organize Twitter data via Twitter’s REST and stream API’s. Functions formulate GET and POST requests and convert response objects to more user friendly structures, e.g., data frames or lists. Specific consideration is given to functions designed to return tweets, friends, and followers.</p>
+<p>More technical description: An implementation of calls designed to extract and organize Twitter data via Twitter’s REST and stream API’s. Functions formulate GET and POST requests and convert response objects to more user friendly structures, e.g., data frames or lists. Specific consideration is given to functions designed to return tweets data from searches, streams, and timelines and user ids from friends and followers lists.</p>
 </div>
 <div id="contact" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contact" class="anchor"> </a>Contact</h2>
-<p>Email me at <a href="mailto:mkearney@ku.edu">mkearney@ku.edu</a></p>
+<p><a href="https://groups.google.com/group/rtweet">rtweet’s Google group</a></p>
 </div>
-<div id="to-do-list" class="section level2">
+<div id="vignettes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#to-do-list" class="anchor"> </a>To Do List</h2>
-<p><strong>Data Analysis Helpers</strong> - Network analysis matrices and edge lists data structures - Text cleaner/utility functions - Data base management (SQL) integration for big data</p>
-<p><strong>API Functions</strong></p>
-<ul>
-<li>
-<code>get_retweeters()</code> Retrieve users retweeting a status (in progress)</li>
-<li>
-<code>get_list()</code> Retrieve users in list</li>
-</ul>
-<p><strong>Vignettes</strong></p>
-<ul>
-<li>Word cloud, textual analysis</li>
-<li>Network analysis featuring <code><a href="reference/get_friends.html">get_friends()</a></code> and <code><a href="reference/get_followers.html">get_followers()</a></code>
-</li>
-</ul>
-<p><strong>Documentation</strong></p>
-<ul>
-<li>More examples, more details, and list return columns with descriptions</li>
-<li>Search query syntax</li>
-<li>Stream syntax i.e., filter vs tracking vs location</li>
-<li>Geo-based and date-specific queries</li>
-</ul>
+<a href="#vignettes" class="anchor"> </a>Vignettes</h2>
+</div>
 </div>
 </div>
   </div>
@@ -150,7 +130,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"mkearney/rtwe
 <p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Kearney Michael <br><small class="roles"> Author, maintainer </small> </li>
+<li>Michael W. Kearney <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
 </div>
 
@@ -158,7 +138,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"mkearney/rtwe
 
 
       <footer><div class="copyright">
-  <p>Developed by Kearney Michael.</p>
+  <p>Developed by Michael W. Kearney.</p>
 </div>
 
 <div class="pkgdown">

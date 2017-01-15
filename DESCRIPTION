@@ -3,7 +3,7 @@ Type: Package
 Title: Collecting Twitter Data
 Version: 0.3.92
 Date: 2017-01-07
-Authors@R: person("Kearney", "Michael", , "mkearney@ku.edu", c("aut", "cre"))
+Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
 Description: An implementation of calls designed to extract and organize Twitter data via
     Twitter's REST and stream APIs. Functions formulate and send requests, convert
     response objects to more user friendly data structures---e.g., data frames---and
@@ -11,16 +11,10 @@ Description: An implementation of calls designed to extract and organize Twitter
 Depends:
     R (>= 3.1.0)
 Imports:
-    fields,
-    httpuv,
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
-    maps,
-    maptools,
-    openssl,
-    rworldmap,
-    tibble
+    openssl
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://CRAN.R-project.org/package=rtweet

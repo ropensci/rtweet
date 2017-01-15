@@ -12,3 +12,4 @@ satweets.Rmd
 tokens.Rmd
 timeseries.Rmd
 pkg.R
+vignettes/files/electweets.rds

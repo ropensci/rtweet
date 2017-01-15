@@ -14,7 +14,6 @@
 #' lookupcoords("san francisco, CA", "country:US")
 #' }
 #' @importFrom jsonlite fromJSON
-#' @export
 lookup_coords <- function(address, components = NULL, ...) {
     if (missing(address)) stop("must supply address", call. = FALSE)
     stopifnot(is.atomic(address), is.atomic(components))
@@ -116,7 +115,6 @@ mapcols <- function (n, l = 65, c = 100) {
 #' @param ylim Min and max for y axis
 #' @param blank.plot Logical inciating whether to
 #'   start from a blank plot
-#' @export
 tweet.world <- function(x, color = NULL,
                         bg = NULL,
                         pch = 21,

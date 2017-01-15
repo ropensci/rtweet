@@ -13,7 +13,7 @@ vignette: >
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
 
-##
+## rtweet
 
 This vignette covers how to obtain and use Twitter API
 access tokens for use in the `rtweet` package.

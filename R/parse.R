@@ -14,7 +14,6 @@
 #'   TRUE can provide performance (speed and memory) boost but can also
 #'   lead to issues when printing and saving, depending on the format.
 #' @keywords internal
-#' @export
 parser.old <- function(x, n = NULL,
                        return_tweets = TRUE,
                        return_users = TRUE,

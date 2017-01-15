@@ -1,4 +1,3 @@
-
 #' qprint
 #'
 #' Fast and dirty data frame previewer
@@ -144,6 +143,8 @@ flatten <- function(x) {
 #' p <- format_date(p$created_at)
 #' head(p)
 #' }
+#' @keywords internal
+#' @noRd
 format_date <- function(x, date = FALSE) {
     o <- tryCatch(as.POSIXct(
         x, format = "%a %b %d %H:%M:%S %z %Y",

@@ -1,13 +1,24 @@
 ---
-title: "stream_tweets"
-output: github_document
+title: "Live streaming tweets"
+subtitle: "rtweet: Collecting Twitter Data"
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Live streaming tweets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-## stream_tweets
+## Live stream tweets using stream_tweets()
+
+Prior to streaming, make sure to install and load rtweet. This
+vignette assumes users have already setup user access tokens (see:
+[obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd)).
 
 ```{r}
 ## Install newest version of rtweet from Github
@@ -18,11 +29,19 @@ devtools::install_github("mkearney/rtweet")
 library(rtweet)
 ```
 
+### stream_tweets parameters
+
+In addition to accessing Twitter's REST API (e.g., `search_tweets`,
+`get_timeline`), rtweet makes it possible to capture live streams of
+Twitter data using the `stream_tweets()` function. By default,
+`stream_tweets` will stream for 30 seconds and return a random sample
+of tweets. To modify defaults, `stream_tweets` accepts several
+parameters, including `q` (filter query), `timeout` (duration or time
+of stream), and `file_name` (path name for saving raw json data).
+
 ```{r}
-## Stream filter keywords
-q <- paste0("hillaryclinton,imwithher,clinton,", 
-	"realdonaldtrump,maga,trump,"
-	"electionday")
+## Stream keywords used to filter tweets
+q <- paste0("hillaryclinton,imwithher,realdonaldtrump,maga,electionday")
 
 ## Stream time in seconds (x * 60 = x mins, x * 60 * 60 = x hours)
 ## Stream for 30 minutes
@@ -30,25 +49,40 @@ streamtime <- 30 * 60
 
 ## Filename to save json data (backup)
 filename <- "rtelect.json"
+```
 
+Once these parameters are specified, initiatve the stream (warning:
+streaming will occupy your current instance of R until the stream has
+been completed. It is possible to start a new instance; the stream
+itself isn't very memory intensive though the parsing process that
+follows often can be).
+
+```{r}
 ## Stream election tweets
-rt <- stream_tweets(q = q, timeout = streamtime, 
-	file_name = filename)
+rt <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
+```
 
+Parsing larger streams can take some time due to a lengthy simplifying
+process used to convert the json data. For example, the stream above
+yielded over 140,000 tweets and took my Macbook Air (4gb of
+RAM) about 20 minutes.
+
+```{r}
 ## Parse json file method
-#rt <- stream_tweets(q = q, timeout = streamtime, 
-#	parse = FALSE, file_name = filename)
+#rt <- stream_tweets(q = q, timeout = streamtime,
+#                    parse = FALSE, file_name = filename)
 #rt <- parse_stream("rtweet_elxn.json")
 
 ## Preview tweets data
 head(rt)
 
 ## Preview users data
-head(users_data(rt))
+users_data(rt) %>%
+     head()
 ```
 
 ```{r, eval=TRUE, echo=FALSE}
-rt <- readRDS("/Users/mwk/r/rtelectstream.rds")
+rt <- readRDS("files/electweets.rds")
 ```
 
 ```{r, eval=TRUE}
@@ -59,21 +93,16 @@ ts_plot(rt, "secs")
 
 ```{r, eval=TRUE}
 ## Return ggplot2 object (must have ggplot2 installed)
-p <- ts_plot(rt, by = "secs", span = .15,
-	filters = c("clinton|imwithher", "trump|maga", 
-		"clinton|withher|trump|maga|electionday"))
-
-## Pretty plot
-p + ggplot2::theme_minimal() + ylim(0, 2500) +
-	ggplot2::labs(title = "Election Day Tweets") +
-	ggplot2::scale_colour_manual("Tweets", 
-		labels = c(
-			"clinton|withher|trump|maga|electionday" = "All",
-			"clinton|imwithher" = "Clinton", 
-			"trump|maga" = "Trump"), 
-		values = c("#3366ffcc", "#33ff33cc", "#dd3333cc")) + 
-	ggplot2::theme(text = element_text(size = 16),
-		title = element_text(size = 32)) +
-	ggplot2::ggsave("rtelect.png", 5, 5)
+rt %>%
+    ts_filter(
+        by = "mins",
+        filter = c("hillary|clinton|imwithher",
+                   "donald|trump|maga",
+                   "vot|democracy"),
+        key = c("Clinton", "Trump", "Democracy")) %>%
+    ts_plot(
+        theme = "spacegray", cols = c("#6699ee", "#dd7a7a", "#7acc7a"),
+        main = "Tweets during election day for the 2016 U.S. election",
+        subtitle = "Tweets collected, parsed, and plotted using `rtweet`")
 ```
 
