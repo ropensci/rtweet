@@ -54,29 +54,34 @@
 #'   distinguished by line type.
 #' @param cols Colors for filters. Leave NULl for default color
 #'   scheme.
-#' @param theme Character string specifyng whether and which
-#'   plot theme should be used; options include "lighter",
-#'   "darker", and "nerdy"
-#' @param main Optional, text for plot title.
-#' @param subtitle Optional, text for plot subtitle.
+#' @param theme Either integer (0-8) or character string specifyng the
+#'   plot theme. Options include "light", "inverse", "dark", "nerd",
+#'   "gray", "spacegray", "minimal", and "apa" (my attempt at making an
+#'   APA-consistent graphic).
+#' @param main Optional, title of the plot. By default, the title is
+#'   printed on top of the plot and it is left-justified (ggplot2 style).
+#'   To alter justification, see \code{adj}.
+#' @param subtitle Optional, text for plot subtitle. Inherits
+#'   justification method from \code{main}.
 #' @param adj Logical indicating whether to left justify main
-#'   plot title. Defaults to TRUE. To futher specify the location
-#'   of the title, provide a numeric value between 0 (left) and
+#'   plot title. Defaults to TRUE. To more exactly specify hornizontal
+#'   location of the title, provide a numeric value between 0 (left) and
 #'   1 (right).
 #' @param xlab Optional, text for x-axis title, defaults to
 #'   "Time".
 #' @param ylab Optional, text for y-axis title, defaults to
-#'   "Number of Tweets"
+#'   "Freq"
 #' @param box Logical indicating whether to draw box around
 #'   plot area. Defaults to false.
 #' @param axes Logical indicating whether to draw axes. Defaults
-#'   to true.
-#' @param legend.title Provide title for legend ro ignore to
-#'   leave blank (default)
+#'   to true. Users may set this to FALSE and supply their own axes
+#'   using the base graphics axis function.
+#' @param legend.title Provide title for legend or ignore to leave
+#'   blank (default).
 #' @param ticks Numeric specifying width of tick marks. Defaults
 #'   to zero. If you'd like tick marks, try setting this value
 #'   to 1.25.
-#' @param cex Global cex setting defaults to .90
+#' @param cex Global cex setting defaults to 1.0.
 #' @param cex.main Size of plot title (if plot title provided
 #'   via \code{main = "title"} argument).
 #' @param cex.sub Size of subtitles
@@ -85,17 +90,19 @@
 #' @param cex.legend Size of legend text
 #' @param mar Margins in number of lines.
 #' @param font.main Font style of main title if provided. Default is
-#'   to override R default, making it non-bold. To restore bold, set
-#'   this value to 2.
+#'   to 1, which means (non-bold) normal font, overriding R's bold
+#'   default, which I think is a little to aggressive. If you disagree
+#'   with me, you can make the title bold by setting this value to 2.
 #' @param xtime Format date-time labels in x-axis. Accepts any format
-#'   string via \code{strptime}.
-#' @param plot Logical indicating whether to draw plot.
-#' @param \dots Arguments passed to plot (and par) function
+#'   string via \code{strptime}, e.g., \code{xtime = "\%F \%H:\%S"}.
+#' @param plot Deprecated. Use \code{ts_filter} to create
+#'   time series-like data frame.
+#' @param \dots Arguments passed to base graphics plot function.
 #'
 #' @examples
 #' \dontrun{
 #' ## stream tweets mentioning trump for 30 mins
-#' rt <- rtweet::stream_tweets(
+#' rt <- stream_tweets(
 #'     q = "realdonaldtrump",
 #'     timeout = (60 * 60 * 30))
 #'
@@ -114,29 +121,31 @@
 #'                    "republican|conservativ|gop"),
 #'         key = c("Democrats", "Republicans"))
 #'
-#' ## ts_plot also silently returns data frame
-#' rt.ts <- ts_plot(rt, by = "mins")
-#'
+#' ## ts_plot also accepts data frames created via ts_filter
+#' rt.ts <- ts_filter(
+#'     rt, "mins",
+#'     filter = c("democrat|liberal|libs",
+#'                "republican|conservativ|gop"),
+#'     key = c("Democrats", "Republicans"))
 #' ## printing should yield around 30 rows (give or take)
 #' ## since stream was 30 mins and aggregated by minute
 #' rt.ts
 #'
-#' ## the returned data frame is tidy with three columns
+#' ## Pass data frame created by ts_filter to ts_plot
+#' ts_plot(rt.ts, theme = "spacegray")
+#'
+#' ## the returned data frame from ts_filter also fits the
+#' ## tidyverse and includes three columns
 #' ## Column 1 - time Date-time obj of [median] time intervals
 #' ## Column 2 - freq Integer (class double) frequency counts
 #' ## Column 3 - filter Keys of different time series filters
-#' rt.ts <- ts_plot(rt, by = "mins",
-#'                  filter = c("democrat|liberal|libs",
-#'                             "republican|conservativ|gop"),
-#'                  key = c("Democrats", "Republicans"))
 #'
-#' ## this makes it easy to pass the data along to ggplot
-#' ## but if anyone asks you, you prefer the awesome rtweet
-#' ## plot themes over the ggplot2 themes!
-#' library(ggplot2)
-#' rt.ts %>%
-#'     ggplot(aes(x = time, y = freq, color = filter)) +
-#'     geom_line()
+#' ## This makes it easy to pass the data along to ggplot
+#' ## but my themes are cooler anyway so why bother?
+#' ## library(ggplot2)
+#' ## rt.ts `%>%`
+#' ##     ggplot(aes(x = time, y = freq, color = filter)) +
+#' ##     geom_line()
 #' }
 #' @importFrom graphics plot axis axis.POSIXct grid lines par
 #'   rect title strwidth legend mtext
@@ -163,11 +172,11 @@ ts_plot <- function(rt, by = "days",
                     legend.title = NULL,
                     ticks = 0,
                     cex = 1,
-                    cex.main = 1.25,
-                    cex.sub = .8,
-                    cex.lab = .85,
-                    cex.axis = .7,
-                    cex.legend = .90,
+                    cex.main,
+                    cex.sub,
+                    cex.lab,
+                    cex.axis,
+                    cex.legend,
                     mar,
                     font.main = 1,
                     xtime = NULL,
@@ -186,8 +195,8 @@ ts_plot <- function(rt, by = "days",
         dat <- rt
         filter <- unique(dat$filter)
         if (identical(filter, "")) {
-            if (is.null(key)) key <- filter
-            filter <- NULL
+            if (is.null(key)) key <- "All"
+            ##filter <- NULL
             lstdat <- list(dat)
         } else {
             if (is.null(key)) key <- filter
@@ -229,7 +238,14 @@ ts_plot <- function(rt, by = "days",
     options(scipen = 6)
     ## restore those values on exit
     on.exit(par(op))
-    on.exit(options(oop))
+    on.exit(options(oop), add = TRUE)
+
+    ## sort out cex values
+    if (missing(cex.main)) cex.main <- cex * 1.25
+    if (missing(cex.sub)) cex.sub <- cex * 0.80
+    if (missing(cex.lab)) cex.lab <- cex * 0.85
+    if (missing(cex.axis)) cex.axis <- cex * 0.70
+    if (missing(cex.legend)) cex.legend <- cex * 0.90
 
     ## if default mar provided then...
     if (identical(mar, mar.default)) {
@@ -262,6 +278,7 @@ ts_plot <- function(rt, by = "days",
         par(col.main = "white", col.lab = "white",
             col.axis = "white", col.sub = "white",
             col = "white")
+        ?par
         if (all(is.null(cols), is.null(filter))) cols <- "white"
     } else if (theme %in% c("apa", "APA", 8)) {
         theme.bg <- "#ffffff"
@@ -340,7 +357,7 @@ ts_plot <- function(rt, by = "days",
             tmp.mar[3] <- tmp.mar[3] + .33
             par(mar = tmp.mar)
             mtext(subtitle,
-                  adj = adj + .00125,
+                  adj = adj + .00001 * cex,
                   cex = cex.sub,
                   line = 0)
         }
@@ -374,9 +391,9 @@ ts_plot <- function(rt, by = "days",
              par("usr")[2], par("usr")[4],
              col = "#f5f5f5", border = NA)
         ## blend grid lines
-        grid(col = "#f9f9f9", lwd = 5, lty = 1)
-        grid(col = "#ffffff", lwd = 3, lty = 1)
-        grid(col = "#333333", lwd = .3, lty = 3)
+        grid(col = "#f9f9f9", lwd = 5 * cex, lty = 1)
+        grid(col = "#ffffff", lwd = 3 * cex, lty = 1)
+        grid(col = "#333333", lwd = .3 * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
@@ -386,7 +403,7 @@ ts_plot <- function(rt, by = "days",
              par("usr")[2], par("usr")[4],
              col = "#ffffff", border = NA)
         ## blend grid lines
-        grid(col = "#666666", lwd = .5, lty = 3)
+        grid(col = "#666666", lwd = .5  * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
@@ -396,8 +413,8 @@ ts_plot <- function(rt, by = "days",
              par("usr")[2], par("usr")[4],
              col = "#f0f0f0", border = NA)
         ## blend grid lines
-        grid(col = "#e6e6e6", lwd = 2, lty = 1)
-        grid(col = "#333333", lwd = .25, lty = 3)
+        grid(col = "#e6e6e6", lwd = 2  * cex, lty = 1)
+        grid(col = "#333333", lwd = .25  * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
@@ -405,43 +422,42 @@ ts_plot <- function(rt, by = "days",
     } else if (theme %in% c("nerdy", "nerd", "nerdier", 4)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", lwd = .75,
+             col = "#f5f5f5", lwd = .75 * cex,
              density = 15, angle = 90, border = NA)
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", lwd = .75,
+             col = "#f5f5f5", lwd = .75 * cex,
              density = 15, angle = 0, border = NA)
-        grid(col = "#00336655", lwd = .75, lty = 1)
+        grid(col = "#00336655", lwd = .75 * cex, lty = 1)
         ## draw box
         if (box) {
             box(lwd = 1.57 * cex, col = "#99002266")
         }
     } else if (theme %in% c("gray", "grey", 5)) {
         ## blend grid lines to white
-        grid(col = "#999999", lwd = .75, lty = 2)
+        grid(col = "#999999", lwd = .75 * cex, lty = 2)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
         }
     } else if (theme %in% c("spacegray", "spacegrey", 6)) {
         ## grid lines
-        grid(col = "#f0f0f0", lwd = .4, lty = 3)
+        grid(col = "#f0f0f0", lwd = .4 * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#000000")
         }
     } else if (theme %in% c("minimal", "simple", 7)) {
         ## grid lines
-        grid(col = "#666666", lwd = .3, lty = 2)
+        grid(col = "#666666", lwd = .3 * cex, lty = 2)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#333333")
         }
     } else if (theme %in% c("apa", "APA", 8)) {
         ## draw box
-        if (box) {
-            box(lwd = 1, col = "black")
-        }
+        box(lwd = 1 * cex, col = "black")
+        lwd <- lwd * cex
     }
 
     ## draw lines and add legend
@@ -486,11 +502,11 @@ ts_plot <- function(rt, by = "days",
         ## calculate x legend postion given par
         ## y legend position looks too short at median so
         ## use .575 quartile instead
-        if (linetype) {
+        if (any(linetype, theme %in% c("apa", 8))) {
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1 - par("plt")[2]),
-                quantile(c(par("usr")[1], par("usr")[4]), .625),
+                (1 - par("plt")[2]) / 30,
+                quantile(c(par("usr")[3], par("usr")[4]), .625),
                 key,
                 lwd = rep(((5/3) * lwd), length(filter)),
                 col = cols,
@@ -504,7 +520,7 @@ ts_plot <- function(rt, by = "days",
         } else {
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1-par("plt")[2]) / 30,
+                (1 - par("plt")[2]) / 30,
                 quantile(c(par("usr")[3], par("usr")[4]), .625),
                 key,
                 lwd = rep(((5/3) * lwd), length(filter)),
@@ -595,15 +611,30 @@ ts_filter <- function(rt, by = "days",
             rt[c(dtname, txt)], function(x) x[[notmissing]])
     }
 
+    ## make sure date variable is of class POSIXt
+    if (!any(grepl("POSIX", class(rt[[dtname]])))) {
+        rt[[dtname]] <- as.POSIXct(rt[[dtname]]) %>%
+            tryCatch(error = return(NULL))
+        if (is.null(rt[[dtname]])) {
+            stop(paste0("the ", dtname, " variable must be of class POSIXt"),
+                 call. = FALSE)
+        }
+    }
+
+    ## if no filter provided
     if (any(is.null(filter), identical(filter, ""))) {
         ## if no filters then simple
         dat <- sollts(rt[[dtname]], by = by)
         dat$filter <- ""
+        if (trim) {
+            dat <- dat[-c(1, nrow(dat)), ]
+        }
     } else {
         ## flag filtered obs
         f.rows <- lapply(
             filter, function(x)
                 grepl(x, rt[[txt]], ignore.case = TRUE))
+        f.rows[filter == ""] <- rep(TRUE, NROW(rt))
         ## count obs for each filter
         lens <- vapply(f.rows, sum, double(1))
         ## if nil use vector of unique datetimes instead
@@ -826,5 +857,3 @@ rtline <- function(dat, new = FALSE, ...) {
     }
     invisible(dat)
 }
-
-

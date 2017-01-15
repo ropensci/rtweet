@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
     echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
+## Load package
+
 Prior to streaming, make sure to install and load rtweet. This
 vignette assumes users have already setup user access tokens (see:
 [obtaining and using access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd)).
@@ -25,7 +27,7 @@ install.packages("rtweet")
 library(rtweet)
 ```
 
-### stream_tweets parameters
+## stream_tweets parameters
 
 In addition to accessing Twitter's REST API (e.g., `search_tweets`,
 `get_timeline`), rtweet makes it possible to capture live streams of
@@ -51,55 +53,129 @@ streamtime <- 30 * 60
 filename <- "rtelect.json"
 ```
 
-Once these parameters are specified, initiatve the stream (warning:
-streaming will occupy your current instance of R until the stream has
-been completed. It is possible to start a new instance; the stream
-itself isn't very memory intensive though the parsing process that
-follows often can be).
+## strem_tweets function
+
+Once these parameters are specified, initiate the stream. Note:
+Barring any disconnection or disruption of the API, streaming will
+occupy your current instance of R until the specified time has
+elapsed. It is possible to start a new instance or R---streaming
+itself usually isn't very memory intensive---but operations may drag a
+bit during the parsing process which takes place immediately after
+streaming ends.
 
 ```{r}
 ## Stream election tweets
 rt <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
 ```
 
-Parsing larger streams can take some time due to a lengthy simplifying
-process used to convert the json data. For example, the stream above
-yielded over 140,000 tweets and took my Macbook Air (4gb of
-RAM) about 20 minutes.
+Parsing larger streams can take quite a bit of time (in addition to
+time spent streaming) due to a somewhat time-consuming simplifying
+process used to convert a json file into an R object. For example, the
+stream above yielded a little over 140,000 tweets and took my Macbook
+Air, which has 4gb of RAM, about 10 minutes to process.
+
+## file_name system
+
+Given a lengthy parsing process, users may want to stream tweets into
+json files upfront and parse those files later on. To do this, simply
+add `parse = FALSE` and make sure you provide a path (file name) to a
+location you can find later. The code below creates a dedicated rtweet
+data folder and demonstrates a time-based file naming system.
 
 ```{r}
-## Parse json file method
-#rt <- stream_tweets(q = q, timeout = streamtime,
-#                    parse = FALSE, file_name = filename)
-#rt <- parse_stream("rtweet_elxn.json")
+## Name of dedicated rtweet data directory
+rtweet.folder <- path.expand("~/rtweet-data")
 
+## Create dedicated rtweet data directory
+if (!dir.exists(rtweet.folder)) {
+    dir.create(rtweet.folder)
+}
+
+## Name streaming file based on time of stream
+## Combine with directory to form path
+filename <- file.path(
+    rtweet.folder, paste0(format(Sys.time(), "%F-%H-%S"), ".json"))
+
+## create meta data
+metadata <- paste0(
+    "q = ", q, "\n",
+    "streamtime = ", streamtime, "\n",
+    "filename = ", filename)
+
+## create file name for stream's meta data
+metafile <- gsub(".json$", ".txt", filename)
+
+## save meta data
+cat(metadata, file = metafile)
+```
+
+## parse = FALSE
+
+Regardless of whether you decide to setup an organizational system for
+streaming data, the process of streaming a file to disk and parsing a
+later point in space-time is the same, as illustrated in the example
+below.
+
+```{r}
+## No upfront-parse save as json file instead method
+stream_tweets(q = q, parse = FALSE,
+              timeout = streamtime,
+              file_name = filename)
+## Parse from json file
+rt <- parse_stream(filename)
+```
+
+## Returned data frame
+
+The parsed object should be the same whether a user parses up-front or
+from a json file in a later session. The returned object should be a
+data frame consisting of tweets data.
+
+```{r}
 ## Preview tweets data
 head(rt)
+```
 
+The returned object should also include a data frame of users data,
+which Twitter's stream API automatically returns along with tweets
+data. To access users data, use the `users_data` function.
+
+```{r}
 ## Preview users data
 users_data(rt) %>%
      head()
 ```
 
-```{r, eval=TRUE, echo=FALSE}
-##rt <- readRDS("vignettes/files/electweets.rds")
-```
-Once parsed, use `ts_plot` provides a quick visual of the frequency of
+## Plotting
+
+Once parsed, `ts_plot` provides a quick visual of the frequency of
 tweets. By default, `ts_plot` will try to aggregate time by the
 day. Because I know the stream only lasted 30 minutes, I've opted to
 aggregate tweets by the second. It'd also be possible to aggregate by
-the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,
-`by = "15 secs"`. I usually fiddle around with this a bit until the
-plot becomes clearer.
+the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,`by
+= "15 secs"`. I usually fiddle around with this a bit until the plot
+becomes clearer.
 
-```{r, eval=FALSE}
+```{r}
 ## Plot time series of all tweets aggregated by second
 ts_plot(rt, by = "secs")
 ```
 
-![stream-ts.png](files/stream-ts.png)
+![](files/stream-ts.png)
 
-```{r, eval=FALSE}
+## Filtering and more plotting
+
+The `ts_plot()` function can also generate multiple time series using
+regular expressions to filter through the texts of tweets. For
+convenience, this functionality can also be broken into two parts. The
+`ts_filter` function creates a time series-like data structure, which
+consists of "time", "freq", and "filter" (categories) variables. By
+default, `ts_filter()` will use the regular expressions supplied to
+the `filter` argument as values for the filter variable. To make the
+filter labels pretty, users may also provide a character vector using
+the `key` parameter.
+
+```{r}
 ## plot multiple time series by first filtering the data using
 ## regular expressions on the tweet "text" variable
 rt %>%
@@ -121,10 +197,10 @@ rt %>%
 
 Often times these plots will take the shape of a frowny face with the
 first and last points appearing significantly lower than the
-rest. This is because the first and last time intervas are
+rest. This is because the first and last intervals of time are
 artificially shrunken by connection and disconnection processes. To
-remedy this, I specified `trim = TRUE` in the `ts_filter` example
-above, which tells R to drop the first and last observation for each
-time series, yielding a more attractive looking plot.
+remedy this, users can specify `trim = TRUE` to tell R to drop the
+first and last observation for each time series. This usually yields a
+much more attractive looking plot.
 
-![stream-filter.png](files/stream-filter.png)
+![](files/stream-filter.png)

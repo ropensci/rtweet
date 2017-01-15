@@ -86,8 +86,8 @@
   <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"light"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adj</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Time"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Freq"</span>,
   <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ticks</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>cex.main</span> <span class='kw'>=</span> <span class='fl'>1.25</span>, <span class='kw'>cex.sub</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>0.85</span>, <span class='kw'>cex.axis</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>cex.legend</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='no'>mar</span>, <span class='kw'>font.main</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>xtime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='no'>cex.main</span>, <span class='no'>cex.sub</span>, <span class='no'>cex.lab</span>, <span class='no'>cex.axis</span>, <span class='no'>cex.legend</span>, <span class='no'>mar</span>, <span class='kw'>font.main</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>xtime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -153,39 +153,44 @@ distinguished by line type.</dd>
       <dd>Colors for filters. Leave NULl for default color
 scheme.</dd>
       <dt>theme</dt>
-      <dd>Character string specifyng whether and which
-plot theme should be used; options include &quot;lighter&quot;,
-&quot;darker&quot;, and &quot;nerdy&quot;</dd>
+      <dd>Either integer (0-8) or character string specifyng the
+plot theme. Options include &quot;light&quot;, &quot;inverse&quot;, &quot;dark&quot;, &quot;nerd&quot;,
+&quot;gray&quot;, &quot;spacegray&quot;, &quot;minimal&quot;, and &quot;apa&quot; (my attempt at making an
+APA-consistent graphic).</dd>
       <dt>main</dt>
-      <dd>Optional, text for plot title.</dd>
+      <dd>Optional, title of the plot. By default, the title is
+printed on top of the plot and it is left-justified (ggplot2 style).
+To alter justification, see <code>adj</code>.</dd>
       <dt>subtitle</dt>
-      <dd>Optional, text for plot subtitle.</dd>
+      <dd>Optional, text for plot subtitle. Inherits
+justification method from <code>main</code>.</dd>
       <dt>adj</dt>
       <dd>Logical indicating whether to left justify main
-plot title. Defaults to TRUE. To futher specify the location
-of the title, provide a numeric value between 0 (left) and
+plot title. Defaults to TRUE. To more exactly specify hornizontal
+location of the title, provide a numeric value between 0 (left) and
 1 (right).</dd>
       <dt>xlab</dt>
       <dd>Optional, text for x-axis title, defaults to
 &quot;Time&quot;.</dd>
       <dt>ylab</dt>
       <dd>Optional, text for y-axis title, defaults to
-&quot;Number of Tweets&quot;</dd>
+&quot;Freq&quot;</dd>
       <dt>box</dt>
       <dd>Logical indicating whether to draw box around
 plot area. Defaults to false.</dd>
       <dt>axes</dt>
       <dd>Logical indicating whether to draw axes. Defaults
-to true.</dd>
+to true. Users may set this to FALSE and supply their own axes
+using the base graphics axis function.</dd>
       <dt>legend.title</dt>
-      <dd>Provide title for legend ro ignore to
-leave blank (default)</dd>
+      <dd>Provide title for legend or ignore to leave
+blank (default).</dd>
       <dt>ticks</dt>
       <dd>Numeric specifying width of tick marks. Defaults
 to zero. If you&#39;d like tick marks, try setting this value
 to 1.25.</dd>
       <dt>cex</dt>
-      <dd>Global cex setting defaults to .90</dd>
+      <dd>Global cex setting defaults to 1.0.</dd>
       <dt>cex.main</dt>
       <dd>Size of plot title (if plot title provided
 via <code>main = &quot;title&quot;</code> argument).</dd>
@@ -201,22 +206,24 @@ via <code>main = &quot;title&quot;</code> argument).</dd>
       <dd>Margins in number of lines.</dd>
       <dt>font.main</dt>
       <dd>Font style of main title if provided. Default is
-to override R default, making it non-bold. To restore bold, set
-this value to 2.</dd>
+to 1, which means (non-bold) normal font, overriding R&#39;s bold
+default, which I think is a little to aggressive. If you disagree
+with me, you can make the title bold by setting this value to 2.</dd>
       <dt>xtime</dt>
       <dd>Format date-time labels in x-axis. Accepts any format
-string via <code>strptime</code>.</dd>
+string via <code>strptime</code>, e.g., <code>xtime = &quot;%F %H:%S&quot;</code>.</dd>
       <dt>plot</dt>
-      <dd>Logical indicating whether to draw plot.</dd>
+      <dd>Deprecated. Use <code>ts_filter</code> to create
+time series-like data frame.</dd>
       <dt>&#8230;</dt>
-      <dd>Arguments passed to plot (and par) function</dd>
+      <dd>Arguments passed to base graphics plot function.</dd>
     </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
 <span class='co'># ## stream tweets mentioning trump for 30 mins</span>
-<span class='co'># rt &lt;- rtweet::stream_tweets(</span>
+<span class='co'># rt &lt;- stream_tweets(</span>
 <span class='co'>#     q = "realdonaldtrump",</span>
 <span class='co'>#     timeout = (60 * 60 * 30))</span>
 <span class='co'># </span>
@@ -235,29 +242,31 @@ string via <code>strptime</code>.</dd>
 <span class='co'>#                    "republican|conservativ|gop"),</span>
 <span class='co'>#         key = c("Democrats", "Republicans"))</span>
 <span class='co'># </span>
-<span class='co'># ## ts_plot also silently returns data frame</span>
-<span class='co'># rt.ts &lt;- ts_plot(rt, by = "mins")</span>
-<span class='co'># </span>
+<span class='co'># ## ts_plot also accepts data frames created via ts_filter</span>
+<span class='co'># rt.ts &lt;- ts_filter(</span>
+<span class='co'>#     rt, "mins",</span>
+<span class='co'>#     filter = c("democrat|liberal|libs",</span>
+<span class='co'>#                "republican|conservativ|gop"),</span>
+<span class='co'>#     key = c("Democrats", "Republicans"))</span>
 <span class='co'># ## printing should yield around 30 rows (give or take)</span>
 <span class='co'># ## since stream was 30 mins and aggregated by minute</span>
 <span class='co'># rt.ts</span>
 <span class='co'># </span>
-<span class='co'># ## the returned data frame is tidy with three columns</span>
+<span class='co'># ## Pass data frame created by ts_filter to ts_plot</span>
+<span class='co'># ts_plot(rt.ts, theme = "spacegray")</span>
+<span class='co'># </span>
+<span class='co'># ## the returned data frame from ts_filter also fits the</span>
+<span class='co'># ## tidyverse and includes three columns</span>
 <span class='co'># ## Column 1 - time Date-time obj of [median] time intervals</span>
 <span class='co'># ## Column 2 - freq Integer (class double) frequency counts</span>
 <span class='co'># ## Column 3 - filter Keys of different time series filters</span>
-<span class='co'># rt.ts &lt;- ts_plot(rt, by = "mins",</span>
-<span class='co'>#                  filter = c("democrat|liberal|libs",</span>
-<span class='co'>#                             "republican|conservativ|gop"),</span>
-<span class='co'>#                  key = c("Democrats", "Republicans"))</span>
 <span class='co'># </span>
-<span class='co'># ## this makes it easy to pass the data along to ggplot</span>
-<span class='co'># ## but if anyone asks you, you prefer the awesome rtweet</span>
-<span class='co'># ## plot themes over the ggplot2 themes!</span>
-<span class='co'># library(ggplot2)</span>
-<span class='co'># rt.ts %&gt;%</span>
-<span class='co'>#     ggplot(aes(x = time, y = freq, color = filter)) +</span>
-<span class='co'>#     geom_line()</span>
+<span class='co'># ## This makes it easy to pass the data along to ggplot</span>
+<span class='co'># ## but my themes are cooler anyway so why bother?</span>
+<span class='co'># ## library(ggplot2)</span>
+<span class='co'># ## rt.ts `%&gt;%`</span>
+<span class='co'># ##     ggplot(aes(x = time, y = freq, color = filter)) +</span>
+<span class='co'># ##     geom_line()</span>
 <span class='co'>## ---------------------------------------------</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

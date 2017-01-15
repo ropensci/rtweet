@@ -9,8 +9,8 @@ ts_plot(rt, by = "days", dtname = "created_at", txt = "text",
   linetype = FALSE, cols = NULL, theme = "light", main = NULL,
   subtitle = NULL, adj = TRUE, xlab = "Time", ylab = "Freq",
   box = FALSE, axes = TRUE, legend.title = NULL, ticks = 0, cex = 1,
-  cex.main = 1.25, cex.sub = 0.8, cex.lab = 0.85, cex.axis = 0.7,
-  cex.legend = 0.9, mar, font.main = 1, xtime = NULL, plot = TRUE, ...)
+  cex.main, cex.sub, cex.lab, cex.axis, cex.legend, mar, font.main = 1,
+  xtime = NULL, plot = TRUE, ...)
 }
 \arguments{
 \item{rt}{Tweets or users data frame. Technically, this argument
@@ -74,39 +74,44 @@ distinguished by line type.}
 \item{cols}{Colors for filters. Leave NULl for default color
 scheme.}
 
-\item{theme}{Character string specifyng whether and which
-plot theme should be used; options include "lighter",
-"darker", and "nerdy"}
+\item{theme}{Either integer (0-8) or character string specifyng the
+plot theme. Options include "light", "inverse", "dark", "nerd",
+"gray", "spacegray", "minimal", and "apa" (my attempt at making an
+APA-consistent graphic).}
 
-\item{main}{Optional, text for plot title.}
+\item{main}{Optional, title of the plot. By default, the title is
+printed on top of the plot and it is left-justified (ggplot2 style).
+To alter justification, see \code{adj}.}
 
-\item{subtitle}{Optional, text for plot subtitle.}
+\item{subtitle}{Optional, text for plot subtitle. Inherits
+justification method from \code{main}.}
 
 \item{adj}{Logical indicating whether to left justify main
-plot title. Defaults to TRUE. To futher specify the location
-of the title, provide a numeric value between 0 (left) and
+plot title. Defaults to TRUE. To more exactly specify hornizontal
+location of the title, provide a numeric value between 0 (left) and
 1 (right).}
 
 \item{xlab}{Optional, text for x-axis title, defaults to
 "Time".}
 
 \item{ylab}{Optional, text for y-axis title, defaults to
-"Number of Tweets"}
+"Freq"}
 
 \item{box}{Logical indicating whether to draw box around
 plot area. Defaults to false.}
 
 \item{axes}{Logical indicating whether to draw axes. Defaults
-to true.}
+to true. Users may set this to FALSE and supply their own axes
+using the base graphics axis function.}
 
-\item{legend.title}{Provide title for legend ro ignore to
-leave blank (default)}
+\item{legend.title}{Provide title for legend or ignore to leave
+blank (default).}
 
 \item{ticks}{Numeric specifying width of tick marks. Defaults
 to zero. If you'd like tick marks, try setting this value
 to 1.25.}
 
-\item{cex}{Global cex setting defaults to .90}
+\item{cex}{Global cex setting defaults to 1.0.}
 
 \item{cex.main}{Size of plot title (if plot title provided
 via \code{main = "title"} argument).}
@@ -122,15 +127,17 @@ via \code{main = "title"} argument).}
 \item{mar}{Margins in number of lines.}
 
 \item{font.main}{Font style of main title if provided. Default is
-to override R default, making it non-bold. To restore bold, set
-this value to 2.}
+to 1, which means (non-bold) normal font, overriding R's bold
+default, which I think is a little to aggressive. If you disagree
+with me, you can make the title bold by setting this value to 2.}
 
 \item{xtime}{Format date-time labels in x-axis. Accepts any format
-string via \code{strptime}.}
+string via \code{strptime}, e.g., \code{xtime = "\%F \%H:\%S"}.}
 
-\item{plot}{Logical indicating whether to draw plot.}
+\item{plot}{Deprecated. Use \code{ts_filter} to create
+time series-like data frame.}
 
-\item{\dots}{Arguments passed to plot (and par) function}
+\item{\dots}{Arguments passed to base graphics plot function.}
 }
 \description{
 Plots frequency of tweets as time series or, if multiple
@@ -140,7 +147,7 @@ Plots frequency of tweets as time series or, if multiple
 \examples{
 \dontrun{
 ## stream tweets mentioning trump for 30 mins
-rt <- rtweet::stream_tweets(
+rt <- stream_tweets(
     q = "realdonaldtrump",
     timeout = (60 * 60 * 30))
 
@@ -159,29 +166,31 @@ ts_plot(rt, by = "mins",
                    "republican|conservativ|gop"),
         key = c("Democrats", "Republicans"))
 
-## ts_plot also silently returns data frame
-rt.ts <- ts_plot(rt, by = "mins")
-
+## ts_plot also accepts data frames created via ts_filter
+rt.ts <- ts_filter(
+    rt, "mins",
+    filter = c("democrat|liberal|libs",
+               "republican|conservativ|gop"),
+    key = c("Democrats", "Republicans"))
 ## printing should yield around 30 rows (give or take)
 ## since stream was 30 mins and aggregated by minute
 rt.ts
 
-## the returned data frame is tidy with three columns
+## Pass data frame created by ts_filter to ts_plot
+ts_plot(rt.ts, theme = "spacegray")
+
+## the returned data frame from ts_filter also fits the
+## tidyverse and includes three columns
 ## Column 1 - time Date-time obj of [median] time intervals
 ## Column 2 - freq Integer (class double) frequency counts
 ## Column 3 - filter Keys of different time series filters
-rt.ts <- ts_plot(rt, by = "mins",
-                 filter = c("democrat|liberal|libs",
-                            "republican|conservativ|gop"),
-                 key = c("Democrats", "Republicans"))
 
-## this makes it easy to pass the data along to ggplot
-## but if anyone asks you, you prefer the awesome rtweet
-## plot themes over the ggplot2 themes!
-library(ggplot2)
-rt.ts \%>\%
-    ggplot(aes(x = time, y = freq, color = filter)) +
-    geom_line()
+## This makes it easy to pass the data along to ggplot
+## but my themes are cooler anyway so why bother?
+## library(ggplot2)
+## rt.ts `\%>\%`
+##     ggplot(aes(x = time, y = freq, color = filter)) +
+##     geom_line()
 }
 }
 

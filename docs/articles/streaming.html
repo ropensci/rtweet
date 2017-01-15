@@ -58,14 +58,18 @@
     
     
 <div class="contents">
+<div id="load-package" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#load-package" class="anchor"> </a></body></html>Load package</h2>
 <p>Prior to streaming, make sure to install and load rtweet. This vignette assumes users have already setup user access tokens (see: <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and using access tokens</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Install rtweet
 <span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
 ## Load rtweet
 <span class="kw">library</span>(rtweet)</code></pre></div>
-<div id="stream_tweets-parameters" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#stream_tweets-parameters" class="anchor"> </a></body></html>stream_tweets parameters</h3>
+</div>
+<div id="stream_tweets-parameters" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#stream_tweets-parameters" class="anchor"> </a></body></html>stream_tweets parameters</h2>
 <p>In addition to accessing Twitter’s REST API (e.g., <code>search_tweets</code>, <code>get_timeline</code>), rtweet makes it possible to capture live streams of Twitter data using the <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, <code>stream_tweets</code> will stream for 30 seconds and return a random sample of tweets. To modify the default settings, <code>stream_tweets</code> accepts several parameters, including <code>q</code> (query used to filter tweets), <code>timeout</code> (duration or time of stream), and <code>file_name</code> (path name for saving raw json data).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Stream keywords used to filter tweets
 q &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"hillaryclinton,imwithher,realdonaldtrump,maga,electionday"</span>)
@@ -79,27 +83,80 @@ streamtime &lt;-<span class="st"> </span><span class="dv">30</span> *<span class
 
 ## Filename to save json data (backup)
 filename &lt;-<span class="st"> "rtelect.json"</span></code></pre></div>
-<p>Once these parameters are specified, initiatve the stream (warning: streaming will occupy your current instance of R until the stream has been completed. It is possible to start a new instance; the stream itself isn’t very memory intensive though the parsing process that follows often can be).</p>
+</div>
+<div id="strem_tweets-function" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#strem_tweets-function" class="anchor"> </a></body></html>strem_tweets function</h2>
+<p>Once these parameters are specified, initiate the stream. Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed. It is possible to start a new instance or R—streaming itself usually isn’t very memory intensive—but operations may drag a bit during the parsing process which takes place immediately after streaming ends.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Stream election tweets
 rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="dt">q =</span> q, <span class="dt">timeout =</span> streamtime, <span class="dt">file_name =</span> filename)</code></pre></div>
-<p>Parsing larger streams can take some time due to a lengthy simplifying process used to convert the json data. For example, the stream above yielded over 140,000 tweets and took my Macbook Air (4gb of RAM) about 20 minutes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Parse json file method
-<span class="co">#rt &lt;- stream_tweets(q = q, timeout = streamtime,</span>
-<span class="co">#                    parse = FALSE, file_name = filename)</span>
-<span class="co">#rt &lt;- parse_stream("rtweet_elxn.json")</span>
+<p>Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object. For example, the stream above yielded a little over 140,000 tweets and took my Macbook Air, which has 4gb of RAM, about 10 minutes to process.</p>
+</div>
+<div id="file_name-system" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#file_name-system" class="anchor"> </a></body></html>file_name system</h2>
+<p>Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on. To do this, simply add <code>parse = FALSE</code> and make sure you provide a path (file name) to a location you can find later. The code below creates a dedicated rtweet data folder and demonstrates a time-based file naming system.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Name of dedicated rtweet data directory
+rtweet.folder &lt;-<span class="st"> </span><span class="kw">path.expand</span>(<span class="st">"~/rtweet-data"</span>)
 
-## Preview tweets data
-<span class="kw">head</span>(rt)
+## Create dedicated rtweet data directory
+if (!<span class="kw">dir.exists</span>(rtweet.folder)) {
+    <span class="kw">dir.create</span>(rtweet.folder)
+}
 
-## Preview users data
+## Name streaming file based on time of stream
+## Combine with directory to form path
+filename &lt;-<span class="st"> </span><span class="kw">file.path</span>(
+    rtweet.folder, <span class="kw">paste0</span>(<span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">"%F-%H-%S"</span>), <span class="st">".json"</span>))
+
+## create meta data
+metadata &lt;-<span class="st"> </span><span class="kw">paste0</span>(
+    <span class="st">"q = "</span>, q, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
+    <span class="st">"streamtime = "</span>, streamtime, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
+    <span class="st">"filename = "</span>, filename)
+
+## create file name for stream's meta data
+metafile &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">".json$"</span>, <span class="st">".txt"</span>, filename)
+
+## save meta data
+<span class="kw">cat</span>(metadata, <span class="dt">file =</span> metafile)</code></pre></div>
+</div>
+<div id="parse-false" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#parse-false" class="anchor"> </a></body></html>parse = FALSE</h2>
+<p>Regardless of whether you decide to setup an organizational system for streaming data, the process of streaming a file to disk and parsing a later point in space-time is the same, as illustrated in the example below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## No upfront-parse save as json file instead method
+<span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="dt">q =</span> q, <span class="dt">parse =</span> <span class="ot">FALSE</span>,
+              <span class="dt">timeout =</span> streamtime,
+              <span class="dt">file_name =</span> filename)
+## Parse from json file
+rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_stream.html">parse_stream</a></span>(filename)</code></pre></div>
+</div>
+<div id="returned-data-frame" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#returned-data-frame" class="anchor"> </a></body></html>Returned data frame</h2>
+<p>The parsed object should be the same whether a user parses up-front or from a json file in a later session. The returned object should be a data frame consisting of tweets data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preview tweets data
+<span class="kw">head</span>(rt)</code></pre></div>
+<p>The returned object should also include a data frame of users data, which Twitter’s stream API automatically returns along with tweets data. To access users data, use the <code>users_data</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preview users data
 <span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt) %&gt;%
 <span class="st">     </span><span class="kw">head</span>()</code></pre></div>
-<p>Once parsed, use <code>ts_plot</code> provides a quick visual of the frequency of tweets. By default, <code>ts_plot</code> will try to aggregate time by the day. Because I know the stream only lasted 30 minutes, I’ve opted to aggregate tweets by the second. It’d also be possible to aggregate by the minute, i.e., <code>by = "mins"</code>, or by some value of seconds, e.g., <code>by = "15 secs"</code>. I usually fiddle around with this a bit until the plot becomes clearer.</p>
+</div>
+<div id="plotting" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#plotting" class="anchor"> </a></body></html>Plotting</h2>
+<p>Once parsed, <code>ts_plot</code> provides a quick visual of the frequency of tweets. By default, <code>ts_plot</code> will try to aggregate time by the day. Because I know the stream only lasted 30 minutes, I’ve opted to aggregate tweets by the second. It’d also be possible to aggregate by the minute, i.e., <code>by = "mins"</code>, or by some value of seconds, e.g.,<code>by = "15 secs"</code>. I usually fiddle around with this a bit until the plot becomes clearer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Plot time series of all tweets aggregated by second
 <span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt, <span class="dt">by =</span> <span class="st">"secs"</span>)</code></pre></div>
 <div class="figure">
-<img src="files/stream-ts.png" alt="stream-ts.png"><p class="caption">stream-ts.png</p>
+<img src="files/stream-ts.png">
 </div>
+</div>
+<div id="filtering-and-more-plotting" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#filtering-and-more-plotting" class="anchor"> </a></body></html>Filtering and more plotting</h2>
+<p>The <code><a href="../reference/ts_plot.html">ts_plot()</a></code> function can also generate multiple time series using regular expressions to filter through the texts of tweets. For convenience, this functionality can also be broken into two parts. The <code>ts_filter</code> function creates a time series-like data structure, which consists of “time”, “freq”, and “filter” (categories) variables. By default, <code><a href="../reference/ts_filter.html">ts_filter()</a></code> will use the regular expressions supplied to the <code>filter</code> argument as values for the filter variable. To make the filter labels pretty, users may also provide a character vector using the <code>key</code> parameter.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot multiple time series by first filtering the data using
 ## regular expressions on the tweet "text" variable
 rt %&gt;%
@@ -117,15 +174,28 @@ rt %&gt;%
         <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">"#6699ee"</span>, <span class="st">"#dd7a7a"</span>, <span class="st">"#7acc7a"</span>),
         <span class="dt">main =</span> <span class="st">"Tweets during election day for the 2016 U.S. election"</span>,
         <span class="dt">subtitle =</span> <span class="st">"Tweets collected, parsed, and plotted using `rtweet`"</span>)</code></pre></div>
-<p>Often times these plots will take the shape of a frowny face with the first and last points appearing significantly lower than the rest. This is because the first and last time intervas are artificially shrunken by connection and disconnection processes. To remedy this, I specified <code>trim = TRUE</code> in the <code>ts_filter</code> example above, which tells R to drop the first and last observation for each time series, yielding a more attractive looking plot.</p>
+<p>Often times these plots will take the shape of a frowny face with the first and last points appearing significantly lower than the rest. This is because the first and last intervals of time are artificially shrunken by connection and disconnection processes. To remedy this, users can specify <code>trim = TRUE</code> to tell R to drop the first and last observation for each time series. This usually yields a much more attractive looking plot.</p>
 <div class="figure">
-<img src="files/stream-filter.png" alt="stream-filter.png"><p class="caption">stream-filter.png</p>
+<img src="files/stream-filter.png">
 </div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#load-package">Load package</a></li>
+      <li><a href="#stream_tweets-parameters">stream_tweets parameters</a></li>
+      <li><a href="#strem_tweets-function">strem_tweets function</a></li>
+      <li><a href="#file_name-system">file_name system</a></li>
+      <li><a href="#parse-false">parse = FALSE</a></li>
+      <li><a href="#returned-data-frame">Returned data frame</a></li>
+      <li><a href="#plotting">Plotting</a></li>
+      <li><a href="#filtering-and-more-plotting">Filtering and more plotting</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
