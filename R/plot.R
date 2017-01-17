@@ -195,8 +195,7 @@ ts_plot <- function(rt, by = "days",
         dat <- rt
         filter <- unique(dat$filter)
         if (identical(filter, "")) {
-            if (is.null(key)) key <- "All"
-            ##filter <- NULL
+            if (is.null(key)) key <- filter
             lstdat <- list(dat)
         } else {
             if (is.null(key)) key <- filter
@@ -392,8 +391,9 @@ ts_plot <- function(rt, by = "days",
              col = "#f5f5f5", border = NA)
         ## blend grid lines
         grid(col = "#f9f9f9", lwd = 5 * cex, lty = 1)
-        grid(col = "#ffffff", lwd = 3 * cex, lty = 1)
-        grid(col = "#333333", lwd = .3 * cex, lty = 3)
+        grid(col = "#fcfcfc", lwd = 3 * cex, lty = 1)
+        grid(col = "#ffffff", lwd = 1.5 * cex, lty = 1)
+        grid(col = "#333333", lwd = .1 * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
@@ -403,7 +403,8 @@ ts_plot <- function(rt, by = "days",
              par("usr")[2], par("usr")[4],
              col = "#ffffff", border = NA)
         ## blend grid lines
-        grid(col = "#666666", lwd = .5  * cex, lty = 3)
+        grid(col = "#f3f3f3", lwd = .25  * cex, lty = 1)
+        grid(col = "#333333", lwd = .1  * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
@@ -411,10 +412,9 @@ ts_plot <- function(rt, by = "days",
     } else if (theme %in% c("dark", "darker", 3)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f0f0f0", border = NA)
+             col = "#f3f3f3", border = NA)
         ## blend grid lines
-        grid(col = "#e6e6e6", lwd = 2  * cex, lty = 1)
-        grid(col = "#333333", lwd = .25  * cex, lty = 3)
+        grid(col = "#333333", lwd = .1  * cex, lty = 1)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
@@ -422,27 +422,27 @@ ts_plot <- function(rt, by = "days",
     } else if (theme %in% c("nerdy", "nerd", "nerdier", 4)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", lwd = .75 * cex,
+             col = "#f5f5f5", lwd = .25 * cex,
              density = 15, angle = 90, border = NA)
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", lwd = .75 * cex,
+             col = "#f5f5f5", lwd = .25 * cex,
              density = 15, angle = 0, border = NA)
-        grid(col = "#00336655", lwd = .75 * cex, lty = 1)
+        grid(col = "#0033664f", lwd = .75 * cex, lty = 1)
         ## draw box
         if (box) {
-            box(lwd = 1.57 * cex, col = "#99002266")
+            box(lwd = 1.67 * cex, col = "#99002266")
         }
     } else if (theme %in% c("gray", "grey", 5)) {
         ## blend grid lines to white
-        grid(col = "#999999", lwd = .75 * cex, lty = 2)
+        grid(col = "#333333", lwd = .1 * cex, lty = 1)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#666666")
         }
     } else if (theme %in% c("spacegray", "spacegrey", 6)) {
         ## grid lines
-        grid(col = "#f0f0f0", lwd = .4 * cex, lty = 3)
+        grid(col = "#f5f5f5", lwd = .25 * cex, lty = 3)
         ## draw box
         if (box) {
             box(lwd = 1.67 * cex, col = "#000000")
@@ -506,9 +506,9 @@ ts_plot <- function(rt, by = "days",
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
                 (1 - par("plt")[2]) / 30,
-                quantile(c(par("usr")[3], par("usr")[4]), .625),
+                quantile(c(par("usr")[3], par("usr")[4]),
+                         .52 + .02 * length(filter) * cex),
                 key,
-                lwd = rep(((5/3) * lwd), length(filter)),
                 col = cols,
                 x.intersp = .5,
                 title = legend.title,
@@ -516,14 +516,16 @@ ts_plot <- function(rt, by = "days",
                 seg.len = 1.5,
                 xpd = TRUE,
                 bty = "n",
+                lwd = lwd * .9,
                 cex = cex.axis)
         } else {
             legend(
                 par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
                 (1 - par("plt")[2]) / 30,
-                quantile(c(par("usr")[3], par("usr")[4]), .625),
+                quantile(c(par("usr")[3], par("usr")[4]),
+                         .52 + .02 * length(filter) * cex),
                 key,
-                lwd = rep(((5/3) * lwd), length(filter)),
+                lwd = rep((1.1 * lwd), length(filter)),
                 col = cols,
                 x.intersp = .5,
                 title = legend.title,
@@ -616,7 +618,8 @@ ts_filter <- function(rt, by = "days",
         rt[[dtname]] <- as.POSIXct(rt[[dtname]]) %>%
             tryCatch(error = return(NULL))
         if (is.null(rt[[dtname]])) {
-            stop(paste0("the ", dtname, " variable must be of class POSIXt"),
+            stop(paste0("the ", dtname,
+                        " variable must be of class POSIXt"),
                  call. = FALSE)
         }
     }

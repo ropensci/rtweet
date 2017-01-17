@@ -38,23 +38,29 @@ get_tokens <- function() {
 #' @param consumer_secret Application API secret User-owned
 #'   app must have \code{Read and write} access level
 #'   and \code{Callback URL} of \code{http://127.0.0.1:1410}.
+#' @param cache Logical indicating whether to cache the token as a
+#'   .httr-oauth file. The default is TRUE, which means the cached
+#'   token file will be added to the user's working directory.
+#'   Ideally, users will store their token as an environment variable
+#'   (see the tokens vignette for instructions), but the cache file
+#'   works as long as always return to the same working directory.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #'
 #' @return Twitter personal access token object
 #' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
 #' @family tokens
 #' @export
-create_token <- function(app, consumer_key, consumer_secret) {
+create_token <- function(app = "mytwitterapp",
+                         consumer_key,
+                         consumer_secret,
+                         cache = TRUE) {
     token <- oauth_app(
         appname = app,
-        key = consumer_key,
-        secret = consumer_secret)
+        key = gsub(" ", "", consumer_key),
+        secret = gsub(" ", "", consumer_secret))
 
-    token <- oauth1.0_token(
-        oauth_endpoints("twitter"),
-        token)
-
-    token
+    oauth1.0_token(
+        oauth_endpoints("twitter"), token, cache = TRUE)
 }
 
 #' fetch_tokens

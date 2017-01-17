@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
     echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-## Load package
+## Installing and loading package
 
 Prior to streaming, make sure to install and load rtweet. This
 vignette assumes users have already setup user access tokens (see:
@@ -27,7 +27,7 @@ install.packages("rtweet")
 library(rtweet)
 ```
 
-## stream_tweets parameters
+## Specifying parameters
 
 In addition to accessing Twitter's REST API (e.g., `search_tweets`,
 `get_timeline`), rtweet makes it possible to capture live streams of
@@ -53,7 +53,7 @@ streamtime <- 30 * 60
 filename <- "rtelect.json"
 ```
 
-## strem_tweets function
+## stream_tweets()
 
 Once these parameters are specified, initiate the stream. Note:
 Barring any disconnection or disruption of the API, streaming will
@@ -74,7 +74,7 @@ process used to convert a json file into an R object. For example, the
 stream above yielded a little over 140,000 tweets and took my Macbook
 Air, which has 4gb of RAM, about 10 minutes to process.
 
-## file_name system
+## Saving files
 
 Given a lengthy parsing process, users may want to stream tweets into
 json files upfront and parse those files later on. To do this, simply
@@ -109,11 +109,11 @@ metafile <- gsub(".json$", ".txt", filename)
 cat(metadata, file = metafile)
 ```
 
-## parse = FALSE
+## Parsing stream files
 
 Regardless of whether you decide to setup an organizational system for
-streaming data, the process of streaming a file to disk and parsing a
-later point in space-time is the same, as illustrated in the example
+streaming data, the process of streaming a file to disk and parsing it
+at a later point in space-time is the same, as illustrated in the example
 below.
 
 ```{r}
@@ -125,7 +125,7 @@ stream_tweets(q = q, parse = FALSE,
 rt <- parse_stream(filename)
 ```
 
-## Returned data frame
+## Returned data object
 
 The parsed object should be the same whether a user parses up-front or
 from a json file in a later session. The returned object should be a
@@ -148,29 +148,39 @@ users_data(rt) %>%
 
 ## Plotting
 
-Once parsed, `ts_plot` provides a quick visual of the frequency of
-tweets. By default, `ts_plot` will try to aggregate time by the
+Once parsed, `ts_plot()` provides a quick visual of the frequency of
+tweets. By default, `ts_plot()` will try to aggregate time by the
 day. Because I know the stream only lasted 30 minutes, I've opted to
 aggregate tweets by the second. It'd also be possible to aggregate by
 the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,`by
 = "15 secs"`. I usually fiddle around with this a bit until the plot
-becomes clearer.
+looks good.
 
 ```{r}
 ## Plot time series of all tweets aggregated by second
 ts_plot(rt, by = "secs")
 ```
 
-![](files/stream-ts.png)
+<p align="center">
+<img src="files/stream-ts.png" alt="stream-ts">
+</p>
 
-## Filtering and more plotting
+## Plotting with filters
 
 The `ts_plot()` function can also generate multiple time series using
 regular expressions to filter through the texts of tweets. For
 convenience, this functionality can also be broken into two parts. The
-`ts_filter` function creates a time series-like data structure, which
-consists of "time", "freq", and "filter" (categories) variables. By
-default, `ts_filter()` will use the regular expressions supplied to
+first part involves filtering (subsetting) the data according to
+user-provided filtering rules and converting the data into a frequency
+data structure aggregated over some unit of time. `ts_filter()`
+creates a time series-like data structure, which consists of "time"
+(specific interval of time determined via the `by` argument), "freq"
+(the number of observations, or tweets, that fall within the
+corresponding interval of time), and "filter" (a label representing
+the filtering rule used to subset the data). If no filter is provided,
+the returned data object includes a "filter" variable, but all
+of the entries will be blank `""`, indicating that no filter filter
+was used. Otherwise, `ts_filter()` uses the regular expressions supplied to
 the `filter` argument as values for the filter variable. To make the
 filter labels pretty, users may also provide a character vector using
 the `key` parameter.
@@ -195,7 +205,7 @@ rt %>%
         subtitle = "Tweets collected, parsed, and plotted using `rtweet`")
 ```
 
-Often times these plots will take the shape of a frowny face with the
+Often times these plots kinda resemble a frowny face with the
 first and last points appearing significantly lower than the
 rest. This is because the first and last intervals of time are
 artificially shrunken by connection and disconnection processes. To
@@ -203,4 +213,6 @@ remedy this, users can specify `trim = TRUE` to tell R to drop the
 first and last observation for each time series. This usually yields a
 much more attractive looking plot.
 
-![](files/stream-filter.png)
+<p align="center">
+<img src="files/stream-filter.png" alt="stream-filter">
+</p>

@@ -4,7 +4,8 @@
 \alias{create_token}
 \title{create_token}
 \usage{
-create_token(app, consumer_key, consumer_secret)
+create_token(app = "mytwitterapp", consumer_key, consumer_secret,
+  cache = TRUE)
 }
 \arguments{
 \item{app}{Name of user created Twitter application}
@@ -14,6 +15,13 @@ create_token(app, consumer_key, consumer_secret)
 \item{consumer_secret}{Application API secret User-owned
 app must have \code{Read and write} access level
 and \code{Callback URL} of \code{http://127.0.0.1:1410}.}
+
+\item{cache}{Logical indicating whether to cache the token as a
+.httr-oauth file. The default is TRUE, which means the cached
+token file will be added to the user's working directory.
+Ideally, users will store their token as an environment variable
+(see the tokens vignette for instructions), but the cache file
+works as long as always return to the same working directory.}
 }
 \value{
 Twitter personal access token object
