@@ -1,3 +1,10 @@
+# rtweet 0.3.96
+* For dev: added package builder for better versioning and
+  more frequent updates to NEWS.md file.
+* Added new live streaming vignette as well as updated 
+  and improved tokens vignette
+* Various bug fixes and improvements to tokens, parse, and plot functions.
+
 # rtweet 0.3.93
 * All interactive/posting functions have been modified with the prefix
   `post_`. This was done to clearly distinguish write functions from

@@ -1,13 +1,13 @@
 Package: rtweet
 Type: Package
 Title: Collecting Twitter Data
-Version: 0.3.93
+Version: 0.3.96
 Date: 2017-01-17
 Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
 Description: An implementation of calls designed to extract and organize Twitter data via
-    Twitter's REST and stream APIs. Functions formulate and send requests, convert
+    Twitter's REST and stream APIs. Functions formulate and send API requests, convert
     response objects to more user friendly data structures---e.g., data frames---and
-    provide some aesthetically pleasing visualizations.
+    provide some aesthetically pleasing visualizations for exploring the data.
 Depends:
     R (>= 3.1.0)
 Imports:
