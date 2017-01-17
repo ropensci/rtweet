@@ -1,3 +1,18 @@
+# rtweet 0.3.93
+* All interactive/posting functions have been modified with the prefix
+  `post_`. This was done to clearly distinguish write functions from
+  retrieval functions.
+* More bug fixes and various improvements.
+* The `ts_plot()` function is now more robust with more adaptive
+  characteristics for variations in the number of filters, the method
+  of distiguishing lines, the position of the legend, and the
+  aesthetics of the themes.
+* Added `ts_filter()` function which allows users to convert Twitter
+  data into a time series-like data frame. Users may also provide
+  filtering rules with which `tsfilter()` will subset the data as it
+  converts it to multiple time series, which it then outputs as a
+  long-form (tidy) data frame.
+
 # rtweet 0.3.92
 
 * `search_tweets` now includes `retryonratelimit` argument to
