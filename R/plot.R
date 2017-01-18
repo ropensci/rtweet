@@ -240,11 +240,11 @@ ts_plot <- function(rt, by = "days",
     on.exit(options(oop), add = TRUE)
 
     ## sort out cex values
-    if (missing(cex.main)) cex.main <- cex * 1.25
-    if (missing(cex.sub)) cex.sub <- cex * 0.80
-    if (missing(cex.lab)) cex.lab <- cex * 0.85
-    if (missing(cex.axis)) cex.axis <- cex * 0.70
-    if (missing(cex.legend)) cex.legend <- cex * 0.90
+    if (missing(cex.main)) cex.main <- cex * 1.225
+    if (missing(cex.sub)) cex.sub <- cex * 0.875
+    if (missing(cex.lab)) cex.lab <- cex * 0.9
+    if (missing(cex.axis)) cex.axis <- cex * 0.80
+    if (missing(cex.legend)) cex.legend <- cex * 0.80
 
     ## if default mar provided then...
     if (identical(mar, mar.default)) {
@@ -254,9 +254,11 @@ ts_plot <- function(rt, by = "days",
             mar[4] <- 1.3
         } else {
             ## select biggest filter
-            legmarg <- key[which.max(nchar(key))]
+            legmarg <- max(nchar(key), na.rm = TRUE)
+            if (any(!is.numeric(legmarg),
+                    isTRUE(legmarg < 3))) legmarg <- 3
             ## adjust accordingly
-            mar[4] <- (nchar(legmarg) + 12) * .25
+            mar[4] <- (legmarg + 10) * .29 * (1.25 * cex.legend)
         }
         ## top margin depends on whether main (title)
         if (!is.null(main)) {
@@ -269,7 +271,7 @@ ts_plot <- function(rt, by = "days",
 
     ## base plot background
     if (theme %in% c("reverse", "inverse", 2)) {
-        theme.bg <- "#f5f5f5"
+        theme.bg <- "#f3f3f3"
     } else if (theme %in% c("gray", "grey", 5)) {
         theme.bg <- "#f0f0f0"
     } else if (theme %in% c("spacegray", "spacegray", 6)) {
@@ -395,7 +397,7 @@ ts_plot <- function(rt, by = "days",
         grid(col = "#333333", lwd = .1 * cex, lty = 3)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#666666")
+            box(lwd = .75 * cex, col = "#333333")
         }
     } else if (theme %in% c("inverse", "reverse", 2)) {
         rect(par("usr")[1], par("usr")[3],
@@ -406,7 +408,7 @@ ts_plot <- function(rt, by = "days",
         grid(col = "#333333", lwd = .1  * cex, lty = 3)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#666666")
+            box(lwd = 1.3 * cex, col = "#666666")
         }
     } else if (theme %in% c("dark", "darker", 3)) {
         rect(par("usr")[1], par("usr")[3],
@@ -416,46 +418,46 @@ ts_plot <- function(rt, by = "days",
         grid(col = "#333333", lwd = .1  * cex, lty = 1)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#666666")
+            box(lwd = 1.3 * cex, col = "#666666")
         }
     } else if (theme %in% c("nerdy", "nerd", "nerdier", 4)) {
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", lwd = .25 * cex,
+             col = "#eaeaea", lwd = .5 * cex,
              density = 15, angle = 90, border = NA)
         rect(par("usr")[1], par("usr")[3],
              par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", lwd = .25 * cex,
+             col = "#eaeaea", lwd = .5 * cex,
              density = 15, angle = 0, border = NA)
-        grid(col = "#0033664f", lwd = .75 * cex, lty = 1)
+        grid(col = "#0033aa4f", lwd = .75 * cex, lty = 1)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#99002266")
+            box(lwd = 1.3 * cex, col = "#99002266")
         }
     } else if (theme %in% c("gray", "grey", 5)) {
         ## blend grid lines to white
         grid(col = "#333333", lwd = .1 * cex, lty = 1)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#666666")
+            box(lwd = 1.3 * cex, col = "#666666")
         }
     } else if (theme %in% c("spacegray", "spacegrey", 6)) {
         ## grid lines
-        grid(col = "#f5f5f5", lwd = .25 * cex, lty = 3)
+        grid(col = "#f5f5f5", lwd = .4 * cex, lty = 3)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#000000")
+            box(lwd = .5 * cex, col = "#f5f5f5")
         }
     } else if (theme %in% c("minimal", "simple", 7)) {
         ## grid lines
         grid(col = "#666666", lwd = .3 * cex, lty = 2)
         ## draw box
         if (box) {
-            box(lwd = 1.67 * cex, col = "#333333")
+            box(lwd = 1.5 * cex, col = "#333333")
         }
     } else if (theme %in% c("apa", "APA", 8)) {
         ## draw box
-        box(lwd = 1 * cex, col = "black")
+        box(lwd = 1.5 * cex, col = "black")
         lwd <- lwd * cex
     }
 
@@ -498,16 +500,24 @@ ts_plot <- function(rt, by = "days",
                          lines(time, freq, lwd = lwd,
                                col = cols[i])))
         }
+        xwide <- max(nchar(key), na.rm = TRUE)
+        if (any(!is.numeric(xwide), isTRUE(xwide < 10))) xwide <- 10
+        xwide <- par("usr")[2] + ((par("usr")[2] - par("usr")[1]) *
+                  (.875 - par("plt")[2]) / xwide)
+        if (!is.null(main)) {
+            ytall <- quantile(c(par("usr")[3], par("usr")[4]),
+                              .52 + .02 * length(filter) * cex)
+        } else {
+            ytall <- quantile(c(par("usr")[3], par("usr")[4]),
+                              .48 + .02 * length(filter) * cex)
+        }
         ## calculate x legend postion given par
         ## y legend position looks too short at median so
         ## use .575 quartile instead
         if (any(linetype, theme %in% c("apa", 8))) {
             legend(
-                par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1 - par("plt")[2]) / 30,
-                quantile(c(par("usr")[3], par("usr")[4]),
-                         .52 + .02 * length(filter) * cex),
-                key,
+                xwide, ytall, key,
+                lwd = lwd * .9,
                 col = cols,
                 x.intersp = .5,
                 title = legend.title,
@@ -515,15 +525,10 @@ ts_plot <- function(rt, by = "days",
                 seg.len = 1.5,
                 xpd = TRUE,
                 bty = "n",
-                lwd = lwd * .9,
-                cex = cex.axis)
+                cex = cex.legend)
         } else {
             legend(
-                par("usr")[2] + (par("usr")[2] - par("usr")[1]) *
-                (1 - par("plt")[2]) / 30,
-                quantile(c(par("usr")[3], par("usr")[4]),
-                         .52 + .02 * length(filter) * cex),
-                key,
+                xwide, ytall, key,
                 lwd = rep((1.1 * lwd), length(filter)),
                 col = cols,
                 x.intersp = .5,
@@ -532,7 +537,7 @@ ts_plot <- function(rt, by = "days",
                 seg.len = 1.5,
                 xpd = TRUE,
                 bty = "n",
-                cex = cex.axis)
+                cex = cex.legend)
         }
     } else {
         if (is.null(cols)) cols <- "black"

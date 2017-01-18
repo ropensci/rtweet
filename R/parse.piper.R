@@ -193,6 +193,11 @@ parser <- function(rt, att = TRUE) {
 
 parse.piper <- function(rt, usr = TRUE) {
     rt <- get.status.obj(rt)
+    ## if empty return empty df
+    if (identical(length(rt), 0L)) {
+        if (usr) attr(rt, "users") <- data.frame()
+        return(rt)
+    }
     if (usr) {
         users <- parse.piper.usr(rt)
         uservars <- list(
@@ -216,13 +221,14 @@ parse.piper <- function(rt, usr = TRUE) {
     }
     rt
 }
+x <- list(list(a = TRUE))
 
 get.status.obj <- function(x) {
     if (is.null(x)) return(data.frame())
     if (any(isTRUE("statuses" %in% names(x)),
             isTRUE("statuses" %in% names(x[[1]])))) {
         x <- plyget(x, "statuses")
-    } else if (any("status" %in% names(x),
+    } else if (any(isTRUE("status" %in% names(x)),
                    isTRUE("status" %in% names(x[[1]])))) {
         x <- plyget(x, "status")
     }
@@ -234,19 +240,19 @@ get.status.obj <- function(x) {
 
 rtstatus.safecheck <- function(x) {
     if (all(
-        "retweeted_status" %in% names(x),
+        isTRUE("retweeted_status" %in% names(x)),
         isTRUE("id_str" %in% names(x[["retweeted_status"]])))
         ) {
         x <- x[["retweeted_status"]]
         return(x[["id_str"]])
-    } else if ("retweeted_status_id_str" %in% names(x)) {
+    } else if (isTRUE("retweeted_status_id_str" %in% names(x))) {
         return(x[["retweeted_status_id_str"]])
     } else {
         return(rep(NA_character_, NROW(x)))
     }
 }
 qtstatus.safecheck <- function(x) {
-    if ("quoted_status_id_str" %in% names(x)) {
+    if (isTRUE("quoted_status_id_str" %in% names(x))) {
         return(x[["quoted_status_id_str"]])
     } else {
         return(rep(NA_character_, NROW(x)))

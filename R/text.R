@@ -6,6 +6,23 @@ combn <- function(x, b, n.words) {
     paste(x[b:e], collapse = " ")
 }
 
+text_words <- function(txt) {
+    txt <- gsub("http\\S+", " ", txt)
+    txt <- gsub("\n", " ", txt)
+    txt <- gsub("@\\S+", " ", txt)
+    txt <- gsub("#\\S+", " ", txt)
+    txt <- iconv(txt, "latin1", "ASCII", "")
+    txt <- gsub("s's", "s", txt)
+    txt <- gsub("'s ", " ", txt)
+    txt <- gsub("won't ", "would not ", txt)
+    txt <- gsub("can't ", "cannot ", txt)
+    txt <- gsub("n't ", " not ", txt)
+    txt <- gsub("'re ", " are ", txt)
+    txt <- gsub("'ve ", " have ", txt)
+    txt <- gsub("'ll ", " will ", txt)
+    txt <- gsub("i'm ", "i am ", txt)
+    txt <- gsub("[[:punct:]]", " ", txt)
+}
 
 wordphrases <- function(txt,
                         phrase.length = 4L,
