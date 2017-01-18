@@ -92,30 +92,6 @@ parse.piper.fnd <- function(r) {
     usrs
 }
 
-#' ply_friends
-#'
-#' @param users Screen names and/or user ids of target user. Since
-#'   friend networks are requested one at a time, users can be a mixture of
-#'   user_ids and screen_names.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @param \dots Arguments passed on to \code{\link{get_friends}}.
-#'
-#' @return List of friend networks where \code{n}th element contains
-#'   user ids of \code{n}th users.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' get friend networks for up to 15 users per token
-#' users <- c("inside_R", "rtweet_package", "RLangTip", "Rbloggers", "rstudio")
-#' friend.networks <- ply_friends(users)
-#' friend.networks[[1]]
-#' str(friend.networks)
-#' }
-#' @noRd
 ply_friends <- function(users, token = NULL, ...) {
     n.times <- rate_limit(token, "friends/ids")[["remaining"]]
     if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)

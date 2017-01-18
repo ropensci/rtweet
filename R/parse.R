@@ -1,20 +1,4 @@
-#' parser.old
-#'
-#' @param x nested list of API data returned from fromJSON
-#' @param n desired number to return
-#' @param return_tweets logical indicating whether to return tweets data
-#'   object.
-#' @param return_users logical indicating whether to return users data
-#'   object.
-#' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to FALSE.
-#' @param as_double logical indicating whether to handle ID variables
-#'   as double (numeric) class. By default, this is set to FALSE, meaning
-#'   ID variables are treated as character vectors. Setting this to
-#'   TRUE can provide performance (speed and memory) boost but can also
-#'   lead to issues when printing and saving, depending on the format.
-#' @export
-#' @noRd
+
 parser.old <- function(x, n = NULL,
                        return_tweets = TRUE,
                        return_users = TRUE,

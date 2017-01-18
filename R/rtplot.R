@@ -15,7 +15,6 @@
 #' }
 #' @importFrom jsonlite fromJSON
 #' @export
-#' @noRd
 lookup_coords <- function(address, components = NULL, ...) {
     if (missing(address)) stop("must supply address", call. = FALSE)
     stopifnot(is.atomic(address), is.atomic(components))
@@ -43,11 +42,13 @@ mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
 
 #' mutate coords
 #'
-#' @param x Tweets data frame with at least some geo data.
+#' Mutates coords into numeric lat and long variables and adds
+#' them to data frame.
+#'
+#' @param x Tweets data frame with some kind of geo data.
 #' @return Data frame with long and lat columns
 #' @export
-#' @noRd
-mutate.coords <- function(x) {
+mutate_coords <- function(x) {
     if ("place.bounding_box.coordinates" %in% names(x)) {
         x[["place.bounding_box.coordinates"]] <- gsub(
             ",", " ", x[["place.bounding_box.coordinates"]]
@@ -98,22 +99,6 @@ mutate.coords <- function(x) {
     invisible(x)
 }
 
-#' tweet.world
-#'
-#' Plots geo location tweets data on map using
-#' latitude and longitude coordinates
-#'
-#' @param x Data frame of tweets data.
-#' @param color Color Name of variable by which dots
-#'   should be colored (grouping variable).
-#' @param bg Background color
-#' @param pch Point shape defaults to 21 (bubble)
-#' @param cex Point size defaults to .25
-#' @param xlim Min and max for x axis
-#' @param ylim Min and max for y axis
-#' @param blank.plot Logical inciating whether to
-#'   start from a blank plot
-#' @noRd
 tweet.world <- function(x, color = NULL,
                         bg = NULL,
                         pch = 21,

@@ -429,23 +429,11 @@ count_users_returned <- function(x) {
 }
 
 
-#' Get value for max_id
-#'
-#' @param df Tweets data frame with "created_at" and "status_id" variables.
-#'
-#' @return Character string of max_id to be used in future function calls.
-#' @export
-#' @noRd
 next_id <- function(df) {
     if (!all(c("created_at", "status_id") %in% names(df))) {
         stop("wrong data frame - function requires tweets data")
     }
-    if (any(grepl("posix", class(df$created_at),
-                  ignore.case = TRUE))) {
-        df$created_at <- format_date(df$created_at)
-    }
     df <- df[!is.na(df$status_id), ]
     df <- df[order(df$created_at), ]
-
-    return(df$status_id[1])
+    df$status_id[1]
 }

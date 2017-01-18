@@ -77,17 +77,28 @@
 
     
     <p>Initializes rt plotting sequence</p>
+
+    <p>Mutates coords into numeric lat and long variables and adds
+them to data frame.</p>
     
 
-    <pre><span class='fu'>mutate_coords</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>mutate_coords</span>(<span class='no'>x</span>)
+
+<span class='fu'>mutate_coords</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
+      <dt>x</dt>
+      <dd>Tweets data frame with some kind of geo data.</dd>
       <dt>data</dt>
       <dd>Data frame generated via rtweet function.</dd>
       <dt>&#8230;</dt>
       <dd>Args passed to points.</dd>
     </dl>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Data frame with long and lat columns</p>
     
 
   </div>
@@ -95,7 +106,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

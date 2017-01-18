@@ -168,11 +168,23 @@ parse_data <- function(rt, usr = TRUE) {
     parse.piper(rt, usr = usr)
 }
 
-
+#' parser
+#'
+#' Returns Parses tweets and users data
+#'
+#' @param rt Nested list converted from json structure
+#' @param attr Logical indicating whether to include user
+#'   obj (users data) as attribute if tweets data provided to
+#'   rt argument or tweets obj (tweets data) as attribute if
+#'   users data provided to rt. Defaults to true.
 #' @export
 #' @noRd
-parser <- function(rt, usr = TRUE) {
-    parse_data(rt, usr)
+parser <- function(rt, att = TRUE) {
+    if (all(c("friends_count", "description") %in% names(rt[[1]]))) {
+        parse.piper.usr(rt, tw = att)
+    } else {
+        parse_data(rt, usr = att)
+    }
 }
 
 parse.piper <- function(rt, usr = TRUE) {

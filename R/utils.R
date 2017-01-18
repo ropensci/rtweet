@@ -1,27 +1,3 @@
-#' qprint
-#'
-#' Fast and dirty data frame previewer
-#' @param x Data frame
-#' @param n Number of rows to preview
-#' @param w Width in characters of all columns
-#' @param print.gap Size of gap between columns
-#' @param \dots Passed on to print function.
-#' @noRd
-#' @keywords internal
-qprint <- function(x, n = 10, w = 12,
-                   print.gap = 2, ...) {
-    dn <- paste0(names(x), "              ")
-    dn <- substr(dn, 1, w)
-    nr <- NROW(x)
-    nc <- ncol(x)
-    x <- x[seq_len(n), ]
-    x <- lapply(x, iconv, "UTF-8", "ASCII", "")
-    d <- data.frame(lapply(x, substr, 1, w))
-    names(d) <- dn
-    message("****", nr, " rows*****")
-    message("****", nc, " columns*****")
-    print(d, print.gap = print.gap, ...)
-}
 
 return_last <- function(x, n = 1) {
     x <- rev(x)
@@ -127,24 +103,6 @@ flatten <- function(x) {
            vector("character", 1), USE.NAMES = FALSE)
 }
 
-#' format_date
-#'
-#' @param x Date or datetime vector returned by a Twitter API.
-#' @param date Logical, indicating whether to return object of
-#'   class date. Defaults to FALSE, thus returning datetime
-#'   object (class = POSIXct).
-#'
-#' @return Date/datetime vector.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' p <- get_timeline("potus", n = 3500)
-#' p <- format_date(p$created_at)
-#' head(p)
-#' }
-#' @keywords internal
-#' @noRd
 format_date <- function(x, date = FALSE) {
     o <- tryCatch(as.POSIXct(
         x, format = "%a %b %d %H:%M:%S %z %Y",
@@ -163,13 +121,13 @@ format_date <- function(x, date = FALSE) {
 
   	o <- tryCatch(as.POSIXct(
             x, tz = 'UTC',
-            format="%a, %d %b %Y %H:%M:%S +0000"),
+            format = "%a, %d %b %Y %H:%M:%S +0000"),
             error = function(e) return(NULL))
     }
     if (any(is.null(o), all(is.na.quiet(o)))) {
   	o <- tryCatch(as.POSIXct(
             x, tz = 'UTC',
-            format="%a %b %d %H:%M:%S +0000 %Y"),
+            format = "%a %b %d %H:%M:%S +0000 %Y"),
             error = function(e) return(NULL))
     }
     if (any(is.null(o), all(is.na.quiet(o)))) {

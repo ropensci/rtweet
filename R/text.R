@@ -7,18 +7,6 @@ combn <- function(x, b, n.words) {
 }
 
 
-#' phrase.tbl
-#'
-#' @param txt Tweet text vector.
-#' @param phrase.length Number of words per phrase
-#' @param num Logical indicating whether to exclude all numbers
-#'   from tweets. Defaults to false.
-#' @param excluded Character string of desired text to exclude from
-#'   parsing uses regular expression.
-#' @param stop.words optional
-#' @return Frequency data frame.
-#' @export
-#' @noRd
 wordphrases <- function(txt,
                         phrase.length = 4L,
                         num = FALSE,
