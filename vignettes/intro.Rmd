@@ -1,7 +1,6 @@
 ---
 title: "Intro to rtweet: Collecting Twitter Data"
 author: "Michael W. Kearney"
-date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette
 vignette: >
@@ -53,7 +52,7 @@ works as well.
 
 ## Installing and loading
 
-```{r, eval=FALSE}
+```{r}
 install.packages("rtweet")
 library(rtweet)
 ```
@@ -106,7 +105,7 @@ c(1:10) %>%
 
 ## Retrieving Tweets
 
-```{r, eval=FALSE}
+```{r}
 ## search for 500 tweets using the #rstats hashtag
 team_rstats <- search_tweets("#rstats", n = 500)
 team_rstats
@@ -159,7 +158,7 @@ users_data(tw) %>%
 
 ## Retrieving Users
 
-```{r, eval=FALSE}
+```{r}
 # search for 500 users using "social science" as a keyword
 harder_science <- search_users("social science", n = 500)
 harder_science
@@ -206,7 +205,7 @@ lookup_users(c(unlist(obama1), unlist(obama2)))
 
 ## Retrieving Trends
 
-```{r, eval=FALSE}
+```{r}
 ## get trending hashtags, mentions, and topics worldwide
 prestige_worldwide <- get_trends()
 prestige_worldwide
@@ -223,7 +222,7 @@ CHIEFS
 
 ## Posting Tweets
 
-```{r, eval=FALSE}
+```{r}
 post_tweet("my first rtweet #rstats")
 ```
 

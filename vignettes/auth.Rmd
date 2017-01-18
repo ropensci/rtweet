@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
     echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
@@ -132,8 +132,8 @@ and available to use every time you start R.
 - Create a plain text file containing the path to your token object
 and save it to your home directory as ".Renviron".
 
-- To create a plain text file in R, modify the code below. Change the
-TWITTER_PAT location to match the path you used earlier (in the
+- To create a plain text file in R, modify the code below. Change
+`TWITTER_PAT` location to match the path you used earlier (in the
 example below, you'd want to change "/Users/mwk/twitter_token.rds").
 You can also create a plain text document in any text editor like
 TextEdit or Notepad. If you're using Rstudio, select File >
@@ -143,7 +143,7 @@ New File > Text File.
 achieved this in the code below by including `fill = TRUE` in the
 `cat` function.
 
-```{r, eval=FALSE}
+```{r}
 ## On my mac, the .Renviron text looks like this:
 ##     TWITTER_PAT=/Users/mwk/twitter_token.rds
 
@@ -162,4 +162,3 @@ cat(paste0("TWITTER_PAT=", file_name),
 tokens [ever again].
 
 That's it!
-
