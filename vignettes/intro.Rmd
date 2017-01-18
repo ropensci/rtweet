@@ -46,9 +46,9 @@ other issues and discussion, please consider
 In order to collect data, you must first obtain a user access
 token. The recommended way to do this is described in the vignette
 entitled
-[obtaining and setting up user access tokens](https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd).
+[obtaining and setting up user access tokens](https://mkearney.github.io/rtweet/articles/auth.html).
 However, if you're in a hurry, the
-[quick guide found here](https://github.com/mkearney/rtweet/blob/master/README.md)
+[quick guide found here](https://mkearney.github.io/rtweet/index.html)
 works as well.
 
 ## Installing and loading

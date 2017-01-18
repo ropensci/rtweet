@@ -1,3 +1,8 @@
+# rtweet 0.4.0
+* CRAN release featuring major additions to documentation and support in 
+  addition to new and improved functions like `ts_plot()`, `ts_filter()`
+  and more!
+
 # rtweet 0.3.96
 * For dev: added package builder for better versioning and
   more frequent updates to NEWS.md file.
@@ -16,7 +21,7 @@
   aesthetics of the themes.
 * Added `ts_filter()` function which allows users to convert Twitter
   data into a time series-like data frame. Users may also provide
-  filtering rules with which `tsfilter()` will subset the data as it
+  filtering rules with which `ts_filter()` will subset the data as it
   converts it to multiple time series, which it then outputs as a
   long-form (tidy) data frame.
 

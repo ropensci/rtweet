@@ -277,7 +277,6 @@ ts_plot <- function(rt, by = "days",
         par(col.main = "white", col.lab = "white",
             col.axis = "white", col.sub = "white",
             col = "white")
-        ?par
         if (all(is.null(cols), is.null(filter))) cols <- "white"
     } else if (theme %in% c("apa", "APA", 8)) {
         theme.bg <- "#ffffff"
@@ -721,6 +720,7 @@ sollts <- function(dt, by = "days", fdt = NULL) {
     tab
 }
 
+#' @importFrom grDevices hcl
 rt_cols <- function(n, lighter = FALSE) {
     if (n < 4) {
         if (lighter) {
@@ -735,11 +735,6 @@ rt_cols <- function(n, lighter = FALSE) {
 }
 
 
-alphacolor <- function(cols, a = .99) {
-    cols <- t(col2rgb(cols, alpha = TRUE)) / 255
-    rgb(cols, alpha = a)
-}
-
 #' mutate_coords
 #'
 #' Initializes rt plotting sequence
@@ -752,111 +747,3 @@ mutate_coords <- function(data, ...) {
     with(mutate.coords(data), rtpoint(long, lat, ...))
 }
 
-#' @importFrom grDevices col2rgb
-is.color <- function(x) {
-    if (all(grepl("^#", x))) return(TRUE)
-    x <- tryCatch(col2rgb(x),
-                  error = function(e) return(NULL))
-    if (!is.null(x)) return(TRUE)
-    FALSE
-}
-
-
-#' rtaes
-#'
-#' Sets aesthetics
-#'
-#' @param x Variable x either longitudinal coordinates or
-#'    time
-#' @param y Variable y either latitude coordinates or
-#'    freq
-#' @param color Variable used to determine color
-#' @param alpha Alpha level used to set transparency
-#' @param size Size of plot units
-#' @param shape Shape of plot units
-#' @noRd
-#' @export
-rtaes <- function(x, y,
-                  color = NULL,
-                  alpha = NULL,
-                  size = NULL,
-                  shape = NULL) {
-
-    if (is.null(alpha)) alpha <- .99
-    if (is.null(size)) size <- .4
-    if (is.null(shape)) shape <- 16L
-
-    if (!is.null(color)) {
-        if (is.color(color)) {
-            colors <- color
-        } else {
-            if (is.factor(color)) {
-                cols <- length(levels(color))
-                cols <- sample(getcols(cols), cols)
-                colors <- cols[match(color, levels(color))]
-            } else {
-                cols <- length(unique(color))
-                cols <- sample(getcols(cols), cols)
-                colors <- cols[match(color, unique(color))]
-            }
-        }
-    } else {
-        colors <- "#0066aa"
-    }
-    colors <- alphacolor(colors, alpha)
-
-    data.frame(x = x, y = y,
-               color = colors,
-               size = size,
-               shape = shape,
-               stringsAsFactors = FALSE)
-}
-
-#' rtpoint
-#'
-#' Plots map coordinate points
-#'
-#' @param dat Data piped from rtaes function
-#' @param noise Logical indicating whether to apply minor
-#'    jitter function to points.
-#' @importFrom graphics points
-#' @importFrom stats sd runif
-#' @noRd
-rtpoint <- function(long, lat, noise = FALSE) {
-    if (noise) {
-        stdv <- sd(as.double(long),
-                   na.rm = TRUE) / 1000
-        long <- runif(length(long), -stdv * 2,
-                      stdv * 2) + long
-        lat <- runif(length(lat), -stdv * 2,
-                     stdv * 2) + lat
-    }
-    points(long,
-           lat,
-           col = dat[["color"]],
-           cex = dat[["size"]],
-           pch = dat[["shape"]])
-    invisible(dat)
-}
-
-
-#' rtline
-#'
-#' Plots time series line
-#'
-#' @param dat Data piped from rtaes function
-#' @param new Logical indicating whether to revert to base r plot
-#'   defaults to false.
-#' @param \dots Args passed to base plot.
-#' @noRd
-rtline <- function(dat, new = FALSE, ...) {
-    names(dat)[1:2] <- c("time", "freq")
-    dat$time <- as.numeric(dat$time)
-    dat$freq <- as.numeric(dat$freq)
-    if (new) {
-        with(dat, plot(time, freq, type = "l", lty = lty, ...))
-    } else {
-        with(dat, lines(time, freq, ...))
-    }
-    invisible(dat)
-}

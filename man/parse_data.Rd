@@ -4,15 +4,15 @@
 \alias{parse_data}
 \title{parse_data}
 \usage{
-parse_data(rt, usr = TRUE)
+parse_data(rt, tw = TRUE)
 }
 \arguments{
 \item{rt}{Nested list converted from json structure}
 
-\item{usr}{Logical indicating whether to include user
-obj (users data) as attribute. Defaults to true.}
-
-\item{\dots}{Other args}
+\item{tw}{Logical indicating whether to include user
+obj (users data) as attribute. Defaults to true. If
+was generated from users-oriented function, e.g.,
+lookup_users(), set to false.}
 }
 \description{
 Returns Parses tweets and users data

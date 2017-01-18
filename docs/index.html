@@ -75,9 +75,9 @@ devtools::<span class="kw">install_github</span>(<span class="st">"mkearney/rtwe
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"> </a>Getting started</h2>
 <ul>
-<li><p><strong><em>Quick authorization method</em></strong>: To make your life easier, follow the recommended steps in <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">obtaining and using access tokens</a>. However, for a quick start (note: much slower in long term), you can also follow the instructions below.</p></li>
+<li><p><strong><em>Quick authorization method</em></strong>: To make your life easier, follow the recommended steps in <a href="https://mkearney.github.io/rtweet/index.html">obtaining and using access tokens</a>. However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the <a href="https://mkearney.github.io/rtweet/index.html">rtweet documentation website</a>.</p></li>
 <li><p>First, you’ll need to <a href="https://apps.twitter.com/">create a Twitter app</a>. For the callback field, make sure to enter: <code>http://127.0.0.1:1410</code>.</p></li>
-<li><p>Once you’ve created an app, record your consumer (api) and secret keys. Screeshots can be found <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">here</a>.</p></li>
+<li><p>Once you’ve created an app, record your consumer (api) and secret keys. Screeshots can be found <a href="https://mkearney.github.io/rtweet/articles/auth.html">here</a>.</p></li>
 <li><p>Generate a token by using the <code><a href="reference/create_token.html">create_token()</a></code> function.</p></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## name assigned to created app
@@ -97,7 +97,7 @@ twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(<span class="st">"data science"</span>, <span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">token =</span> twitter_token)</code></pre></div>
 <ul>
 <li>
-<strong><em>Recommended authorization method</em></strong>: <a href="https://github.com/mkearney/rtweet/blob/master/vignettes/tokens.Rmd">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
+<strong><em>Recommended authorization method</em></strong>: <a href="https://mkearney.github.io/rtweet/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
 </ul>
 </div>
 <div id="package-description" class="section level2">
@@ -113,6 +113,11 @@ twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/
 <div id="vignettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vignettes" class="anchor"> </a>Vignettes</h2>
+<ul>
+<li><a href="https://mkearney.github.io/rtweet/articles/auth.html">Quick overview of rtweet package</a></li>
+<li><a href="https://mkearney.github.io/rtweet/articles/auth.html">Obtaining and using user access tokens</a></li>
+<li><a href="https://mkearney.github.io/rtweet/articles/stream.html">Live streaming tweets data</a></li>
+</ul>
 </div>
 </div>
 </div>

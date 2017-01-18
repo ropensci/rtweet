@@ -40,15 +40,7 @@ lookup_coords <- function(address, components = NULL, ...) {
 
 mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
 
-#' mutate coords
-#'
-#' Mutates coords into numeric lat and long variables and adds
-#' them to data frame.
-#'
-#' @param x Tweets data frame with some kind of geo data.
-#' @return Data frame with long and lat columns
-#' @export
-mutate_coords <- function(x) {
+mutate.coords <- function(x) {
     if ("place.bounding_box.coordinates" %in% names(x)) {
         x[["place.bounding_box.coordinates"]] <- gsub(
             ",", " ", x[["place.bounding_box.coordinates"]]
@@ -98,39 +90,3 @@ mutate_coords <- function(x) {
     }
     invisible(x)
 }
-
-tweet.world <- function(x, color = NULL,
-                        bg = NULL,
-                        pch = 21,
-                        cex = .25,
-                        xlim = c(-170, 180),
-                        ylim = c(-65, 75),
-                        blank.plot = FALSE) {
-    if (!is.null(color)) {
-        if (is.color(color)) {
-            col <- color
-            if (is.null(bg)) bg <- col
-        } else {
-            n <- length(unique(x[[color]]))
-            cols <- mapcols(n)
-            cols <- cols[match(
-                x[[color]], unique(x[[color]]))]
-            col <- paste0(cols, "aa")
-            bgs <- mapcols(n, c = 90)
-            bgs <- bgs[match(
-                x[[color]], unique(x[[color]]))]
-            bg <- paste0(bgs, "aa")
-        }
-    } else {
-        col <- "#224488aa"
-        bg <- "#002244aa"
-    }
-    if (blank.plot) {
-        par(mar = c(0, 0, 0, 0),
-            bty = "n", yaxt = "n", xaxt = "n")
-        plot(NA, xlim = xlim, ylim = ylim)
-    }
-    points(x[["long"]], x[["lat"]],
-           pch = pch, cex = cex, col = col, bg = bg)
-}
-
