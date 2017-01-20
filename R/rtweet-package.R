@@ -14,7 +14,7 @@
 #' @examples
 #' \dontrun{
 #' ## for instructions on access tokens, see the tokens vignette
-#' vignette("tokens")
+#' vignette("auth")
 #'
 #' ## for a quick demo check the rtweet vignette
 #' vignette("rtweet")
