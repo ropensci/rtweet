@@ -207,7 +207,7 @@ search_tweets <- function(q, n = 100,
                     "waiting about ",
                     round(reset, 0),
                     " minutes..."))
-                Sys.sleep(as.double(reset) * 60 + 1)
+                Sys.sleep(ceiling(as.numeric(reset)) * 60 + 1)
                 remaining <- 180 * 100
             }
             rt[[i]] <- tryCatch(
