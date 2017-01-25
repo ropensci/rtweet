@@ -201,7 +201,7 @@ search_tweets <- function(q, n = 100,
 
         for (i in seq_len(ntimes)) {
             ## if rate limited (exhausted token)
-            if (identical(remaining, 0)) {
+            if (any(identical(remaining, 0), isTRUE(remaining < 10))) {
                 message(paste0(
                     "retry on rate limit...\n",
                     "waiting about ",

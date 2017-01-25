@@ -19,7 +19,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
     query <- "statuses/update"
     stopifnot(is.character(status))
-    if (nchar(status) > 140) {
+    stopifnot(length(status) == 1)
+    if (all(nchar(status) > 140, !grepl("http", status))) {
         stop("cannot exceed 140 characters.", call. = FALSE)
     }
     if (length(status) > 1) {
