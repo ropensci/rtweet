@@ -4,12 +4,10 @@
 \alias{mutate_coords}
 \title{mutate_coords}
 \usage{
-mutate_coords(data, ...)
+mutate_coords(data)
 }
 \arguments{
 \item{data}{Data frame generated via rtweet function.}
-
-\item{\dots}{Args passed to points.}
 }
 \description{
 Initializes rt plotting sequence

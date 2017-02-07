@@ -1,12 +1,17 @@
+# rtweet 0.4.1
+* Fixed bugs with `mutate_coords()` and `retryonratelimit`.
+* Now returns full text of tweets exceeding 140 characters. This
+  change was necessary due to recent changes in Twitter's API.
+
 # rtweet 0.4.0
-* CRAN release featuring major additions to documentation and support in 
+* CRAN release featuring major additions to documentation and support in
   addition to new and improved functions like `ts_plot()`, `ts_filter()`
   and more!
 
 # rtweet 0.3.96
 * For dev: added package builder for better versioning and
   more frequent updates to NEWS.md file.
-* Added new live streaming vignette as well as updated 
+* Added new live streaming vignette as well as updated
   and improved tokens vignette
 * Various bug fixes and improvements to tokens, parse, and plot functions.
 

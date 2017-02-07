@@ -54,6 +54,15 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
     rsp <- rsp[["content"]] %>%
         rawToChar()
     rsp <- fromJSON(rsp)
+    if (isTRUE("full_text" %in% names(rsp))) {
+        names(rsp)[names(rsp) == "full_text"] <- "text"
+    }
+    if (isTRUE("full_text" %in% names(rsp[[1]]))) {
+        names(rsp[[1]])[names(rsp[[1]]) == "full_text"] <- "text"
+    }
+    if (isTRUE("full_text" %in% names(rsp[[2]]))) {
+        names(rsp[[1]])[names(rsp[[1]]) == "full_text"] <- "text"
+    }
     if (check_rate_limit) {
         if (all(
             identical(names(rsp), "errors"),

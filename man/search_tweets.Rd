@@ -5,8 +5,9 @@
 \title{search_tweets}
 \usage{
 search_tweets(q, n = 100, type = "recent", max_id = NULL,
-  include_rts = TRUE, parse = TRUE, usr = TRUE, token = NULL,
-  retryonratelimit = FALSE, verbose = TRUE, ...)
+  include_rts = TRUE, full_text = TRUE, parse = TRUE, usr = TRUE,
+  token = NULL, retryonratelimit = FALSE, verbose = TRUE, adjtimer = 20,
+  ...)
 }
 \arguments{
 \item{q}{Query to be searched, used to filter and select tweets
@@ -59,6 +60,10 @@ additional text provided from sender) or manual retweets
 (old school method of manually entering "RT" into the text
 of one's tweets).}
 
+\item{full_text}{Logical, indicating whether to return full text of
+tweets. Defaults to TRUE. Setting this to FALSE will truncate any
+tweet that exceed 140 characters.}
+
 \item{parse}{Logical, indicating whether to return parsed
 data.frame, if true, or nested list (fromJSON), if false. By default,
 \code{parse = TRUE} saves users from the wreck of time and frustration
@@ -108,6 +113,15 @@ conducted with \code{retryonratelimit} set to TRUE, the
 estimated retreival time can be estimated by dividing the number
 of requested tweets by 18,000 and then multiplying the quotient
 by 15 (token cooldown time, in minutes).}
+
+\item{adjtimer}{Numeric buffer (in seconds) used when sleeping
+between API requests with \code{retryonratelimit}. Defaults to
+20. Added this because for my linux laptop has a high resting
+heart rate, so it kept sending requests before the rate limit
+could be reset. If this happens to you, add to this value to
+achieve smoother experience. If you're trying to maximize
+efficiency, you may be able to set this to 0 or 1 without any
+issue.}
 
 \item{\dots}{Futher arguments passed on to \code{make_url}.
 All named arguments that do not match the above arguments

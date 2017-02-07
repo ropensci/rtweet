@@ -15,6 +15,9 @@
 #'   \code{get_timeline} returns tweets posted by the given user.
 #'   To return a user's home timeline feed, that is, the tweets posted
 #'   by accounts followed by a user, set the home to false.
+#' @param full_text Logical, indicating whether to return full text of
+#'   tweets. Defaults to TRUE. Setting this to FALSE will truncate any
+#'   tweet that exceed 140 characters.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves users from the time
@@ -58,6 +61,7 @@
 get_timeline <- function(user, n = 200,
                          max_id = NULL,
                          home = FALSE,
+                         full_text = TRUE,
                          parse = TRUE,
                          check = TRUE,
                          usr = TRUE,
@@ -85,10 +89,16 @@ get_timeline <- function(user, n = 200,
         n.times <- ceiling(n / 200)
     }
 
+    if (full_text) {
+        full_text <- "extended"
+    } else {
+        full_text <- NULL
+    }
     params <- list(
         user_type = user,
         count = 200,
         max_id = max_id,
+        tweet_mode = full_text,
         ...)
 
     names(params)[1] <- .id_type(user)

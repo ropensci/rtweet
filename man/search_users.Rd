@@ -4,8 +4,8 @@
 \alias{search_users}
 \title{search_users}
 \usage{
-search_users(q, n = 20, parse = TRUE, tw = TRUE, token = NULL,
-  verbose = TRUE)
+search_users(q, n = 20, parse = TRUE, full_text = TRUE, tw = TRUE,
+  token = NULL, verbose = TRUE)
 }
 \arguments{
 \item{q}{Query to be searched, used in filtering relevant tweets
@@ -32,6 +32,10 @@ a single search is 1,000.}
 \code{parse = TRUE} saves users from the time
 [and frustrations] associated with disentangling the Twitter
 API return objects.}
+
+\item{full_text}{Logical, indicating whether to return full text of
+tweets. Defaults to TRUE. Setting this to FALSE will truncate any
+tweet that exceed 140 characters.}
 
 \item{tw}{Logical indicating whether to return tweets data frame.
 Defaults to true.}

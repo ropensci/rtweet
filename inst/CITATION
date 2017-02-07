@@ -1,16 +1,16 @@
 citHeader("To cite rtweet use:")
 
 citEntry(
-  entry        = "Manual",
-  title        = "rtweet: Collecting Twitter Data",
-  author       = as.person("Michael W. Kearney"),
-  year         = "2016",
-  note         = "R package version 0.4.0",
-  url          = "https://cran.r-project.org/package=rtweet",
-  key          = "rtweet-package",
-  textVersion  = paste(
-    "Kearney, M. W. (2016). rtweet: Collecting Twitter",
-    "Data. R package version 0.4.0. Retrieved from",
-    "https://cran.r-project.org/package=rtweet",
-    sep = " ")
+    entry        = "Manual",
+    title        = "rtweet: Collecting Twitter Data",
+    author       = as.person("Michael W. Kearney"),
+    year         = "2016",
+    note         = "R package version 0.4.1",
+    url          = "https://cran.r-project.org/package=rtweet",
+    key          = "rtweet-package",
+    textVersion  = paste(
+        "Kearney, M. W. (2016). rtweet: Collecting Twitter",
+        "Data. R package version 0.4.1. Retrieved from",
+        "https://cran.r-project.org/package=rtweet",
+        sep = " ")
 )

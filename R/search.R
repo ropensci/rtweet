@@ -54,6 +54,9 @@
 #'   memory demand. However, any gains are likely to be negligible as
 #'   Twitter's API invariably returns this data anyway. As such, this
 #'   defaults to true, see \code{\link{users_data}}.
+#' @param full_text Logical, indicating whether to return full text of
+#'   tweets. Defaults to TRUE. Setting this to FALSE will truncate any
+#'   tweet that exceed 140 characters.
 #' @param parse Logical, indicating whether to return parsed
 #'   data.frame, if true, or nested list (fromJSON), if false. By default,
 #'   \code{parse = TRUE} saves users from the wreck of time and frustration
@@ -93,6 +96,14 @@
 #'   estimated retreival time can be estimated by dividing the number
 #'   of requested tweets by 18,000 and then multiplying the quotient
 #'   by 15 (token cooldown time, in minutes).
+#' @param adjtimer Numeric buffer (in seconds) used when sleeping
+#'   between API requests with \code{retryonratelimit}. Defaults to
+#'   20. Added this because for my linux laptop has a high resting
+#'   heart rate, so it kept sending requests before the rate limit
+#'   could be reset. If this happens to you, add to this value to
+#'   achieve smoother experience. If you're trying to maximize
+#'   efficiency, you may be able to set this to 0 or 1 without any
+#'   issue.
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.
@@ -165,11 +176,13 @@ search_tweets <- function(q, n = 100,
                           type = "recent",
                           max_id = NULL,
                           include_rts = TRUE,
+                          full_text = TRUE,
                           parse = TRUE,
                           usr = TRUE,
                           token = NULL,
                           retryonratelimit = FALSE,
                           verbose = TRUE,
+                          adjtimer = 20,
                           ...) {
 
     ## check token and get rate limit data
@@ -185,6 +198,7 @@ search_tweets <- function(q, n = 100,
             type = type,
             max_id = max_id,
             include_rts = include_rts,
+            full_text = full_text,
             parse = parse,
             usr = usr,
             token = token,
@@ -198,7 +212,6 @@ search_tweets <- function(q, n = 100,
         }
         rt <- vector("list", ntimes)
         maxid <- max_id
-
         for (i in seq_len(ntimes)) {
             ## if rate limited (exhausted token)
             if (any(identical(remaining, 0), isTRUE(remaining < 10))) {
@@ -207,7 +220,7 @@ search_tweets <- function(q, n = 100,
                     "waiting about ",
                     round(reset, 0),
                     " minutes..."))
-                Sys.sleep(ceiling(as.numeric(reset)) * 60 + 1)
+                Sys.sleep(as.numeric(reset) * 60 + adjtimer)
                 remaining <- 180 * 100
             }
             rt[[i]] <- tryCatch(
@@ -217,10 +230,12 @@ search_tweets <- function(q, n = 100,
                     type = type,
                     max_id = maxid,
                     include_rts = include_rts,
+                    full_text = full_text,
                     parse = parse,
                     usr = usr,
                     token = token,
-                    verbose = verbose, ...),
+                    verbose = verbose,
+                    ...),
                 error = function(e) return(NULL))
             ## break if error
             if (is.null(rt[[i]])) break
@@ -258,6 +273,7 @@ search_tweets <- function(q, n = 100,
                           type = "recent",
                           max_id = NULL,
                           include_rts = TRUE,
+                          full_text = TRUE,
                           parse = TRUE,
                           usr = TRUE,
                           token = NULL,
@@ -265,7 +281,6 @@ search_tweets <- function(q, n = 100,
 
     query <- "search/tweets"
     stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
-    #token <- check_token(token, query)
 
     n.times <- ceiling(n / 100)
 
@@ -285,10 +300,17 @@ search_tweets <- function(q, n = 100,
 
     if (!include_rts) q <- paste0(q, " -filter:retweets")
 
+    if (full_text) {
+        full_text <- "extended"
+    } else {
+        full_text <- NULL
+    }
+
     params <- list(q = q,
                    result_type = type,
                    count = 100,
                    max_id = max_id,
+                   tweet_mode = full_text,
                    ...)
 
     url <- make_url(
@@ -332,6 +354,9 @@ search_tweets <- function(q, n = 100,
 #' @param n Numeric, specifying the total number of desired users to
 #'   return. Defaults to 100. Maximum number of users returned from
 #'   a single search is 1,000.
+#' @param full_text Logical, indicating whether to return full text of
+#'   tweets. Defaults to TRUE. Setting this to FALSE will truncate any
+#'   tweet that exceed 140 characters.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves users from the time
@@ -362,6 +387,7 @@ search_tweets <- function(q, n = 100,
 #' @export
 search_users <- function(q, n = 20,
                          parse = TRUE,
+                         full_text = TRUE,
                          tw = TRUE,
                          token = NULL,
                          verbose = TRUE) {
@@ -381,10 +407,15 @@ search_users <- function(q, n = 20,
     if (nchar(q) > 500) {
         stop("q cannot exceed 500 characters.", call. = FALSE)
     }
-
+    if (full_text) {
+        full_text <- "extended"
+    } else {
+        full_text <- NULL
+    }
     params <- list(q = q,
                    count = 20,
-                   page = 1)
+                   page = 1,
+                   tweet_mode = full_text)
     url <- make_url(
         query = query,
         param = params)

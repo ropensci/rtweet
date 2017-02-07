@@ -4,8 +4,9 @@
 \alias{get_timeline}
 \title{get_timeline}
 \usage{
-get_timeline(user, n = 200, max_id = NULL, home = FALSE, parse = TRUE,
-  check = TRUE, usr = TRUE, token = NULL, ...)
+get_timeline(user, n = 200, max_id = NULL, home = FALSE,
+  full_text = TRUE, parse = TRUE, check = TRUE, usr = TRUE,
+  token = NULL, ...)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -20,6 +21,10 @@ or home-timeline. By default, home is set to FALSe, which means
 \code{get_timeline} returns tweets posted by the given user.
 To return a user's home timeline feed, that is, the tweets posted
 by accounts followed by a user, set the home to false.}
+
+\item{full_text}{Logical, indicating whether to return full text of
+tweets. Defaults to TRUE. Setting this to FALSE will truncate any
+tweet that exceed 140 characters.}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list (fromJSON) object. By default,

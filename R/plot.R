@@ -745,10 +745,9 @@ rt_cols <- function(n, lighter = FALSE) {
 #' Initializes rt plotting sequence
 #'
 #' @param data Data frame generated via rtweet function.
-#' @param \dots Args passed to points.
 #' @aliases mutate_coords
 #' @export
-mutate_coords <- function(data, ...) {
-    with(mutate.coords(data), rtpoint(long, lat, ...))
+mutate_coords <- function(data) {
+    mutate.coords(data)
 }
 

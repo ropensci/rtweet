@@ -193,6 +193,7 @@ parser <- function(rt, att = TRUE) {
 
 parse.piper <- function(rt, usr = TRUE) {
     rt <- get.status.obj(rt)
+    if ("full_text" %in% names(rt)) names(rt)[names(rt) == "full_text"] <- "text"
     ## if empty return empty df
     if (identical(length(rt), 0L)) {
         if (usr) attr(rt, "users") <- data.frame()
