@@ -216,334 +216,340 @@ ts_plot <- function(rt, by = "days",
     }
     ## if plot is false return ts data object
     if (!plot) return(dat)
-    ## adjust left margin for larger frequencies
-    if (max(dat[["freq"]], na.rm = TRUE) > 1000000) {
-        mar.default <- c(2.425, 3.675, 0.750, 1.500)
-    } else if (max(dat[["freq"]], na.rm = TRUE) > 100000) {
-        mar.default <- c(2.425, 3.375, 0.750, 1.500)
-    } else if (max(dat[["freq"]], na.rm = TRUE) > 10000) {
-        mar.default <- c(2.425, 3.175, 0.750, 1.500)
-    } else if (max(dat[["freq"]], na.rm = TRUE) > 1000) {
-        mar.default <- c(2.425, 2.875, 0.750, 1.500)
+    if (requireNamespace("ggplot2", quietly = TRUE)) {
+        p <- ggplot2::ggplot(dat, ggplot2::aes_(x = "time", y = "freq", color = "filter")) +
+            ggplot2::geom_line(size = 1) +
+            ggplot2::theme_bw()
+        return(p)
     } else {
-        mar.default <- c(2.425, 2.575, 0.750, 1.500)
-    }
-    if (missing(mar)) {
-        mar <- mar.default
-    }
-    ## store current aesthetics
-    op <- par(no.readonly = TRUE)
-    oop <- options()
-    options(scipen = 6)
-    ## restore those values on exit
-    on.exit(par(op))
-    on.exit(options(oop), add = TRUE)
-
-    ## sort out cex values
-    if (missing(cex.main)) cex.main <- cex * 1.225
-    if (missing(cex.sub)) cex.sub <- cex * 0.875
-    if (missing(cex.lab)) cex.lab <- cex * 0.9
-    if (missing(cex.axis)) cex.axis <- cex * 0.80
-    if (missing(cex.legend)) cex.legend <- cex * 0.80
-
-    ## if default mar provided then...
-    if (identical(mar, mar.default)) {
-        ## estimate width of right (legend side) margin
-        ## if no filter then no legend/smaller margin
-        if (is.null(filter)) {
-            mar[4] <- 1.3
+        ## adjust left margin for larger frequencies
+        if (max(dat[["freq"]], na.rm = TRUE) > 1000000) {
+            mar.default <- c(2.425, 3.675, 0.750, 1.500)
+        } else if (max(dat[["freq"]], na.rm = TRUE) > 100000) {
+            mar.default <- c(2.425, 3.375, 0.750, 1.500)
+        } else if (max(dat[["freq"]], na.rm = TRUE) > 10000) {
+            mar.default <- c(2.425, 3.175, 0.750, 1.500)
+        } else if (max(dat[["freq"]], na.rm = TRUE) > 1000) {
+            mar.default <- c(2.425, 2.875, 0.750, 1.500)
         } else {
-            ## select biggest filter
-            legmarg <- max(nchar(key), na.rm = TRUE)
-            if (any(!is.numeric(legmarg),
-                    isTRUE(legmarg < 3))) legmarg <- 3
-            ## adjust accordingly
-            mar[4] <- (legmarg + 10) * .29 * (1.25 * cex.legend)
+            mar.default <- c(2.425, 2.575, 0.750, 1.500)
         }
-        ## top margin depends on whether main (title)
+        if (missing(mar)) {
+            mar <- mar.default
+        }
+        ## store current aesthetics
+        op <- par(no.readonly = TRUE)
+        oop <- options()
+        options(scipen = 6)
+        ## restore those values on exit
+        on.exit(par(op))
+        on.exit(options(oop), add = TRUE)
+
+        ## sort out cex values
+        if (missing(cex.main)) cex.main <- cex * 1.225
+        if (missing(cex.sub)) cex.sub <- cex * 0.875
+        if (missing(cex.lab)) cex.lab <- cex * 0.9
+        if (missing(cex.axis)) cex.axis <- cex * 0.80
+        if (missing(cex.legend)) cex.legend <- cex * 0.80
+
+        ## if default mar provided then...
+        if (identical(mar, mar.default)) {
+            ## estimate width of right (legend side) margin
+            ## if no filter then no legend/smaller margin
+            if (is.null(filter)) {
+                mar[4] <- 1.3
+            } else {
+                ## select biggest filter
+                legmarg <- max(nchar(key), na.rm = TRUE)
+                if (any(!is.numeric(legmarg),
+                        isTRUE(legmarg < 3))) legmarg <- 3
+                ## adjust accordingly
+                mar[4] <- (legmarg + 10) * .29 * (1.25 * cex.legend)
+            }
+            ## top margin depends on whether main (title)
+            if (!is.null(main)) {
+                mar[3] <- 1.8
+            } else {
+                mar[3] <- .6
+            }
+            if (!is.null(subtitle)) mar[3] <- mar[3] + cex.sub * 1.1
+        }
+
+        ## base plot background
+        if (theme %in% c("reverse", "inverse", 2)) {
+            theme.bg <- "#f3f3f3"
+        } else if (theme %in% c("gray", "grey", 5)) {
+            theme.bg <- "#f0f0f0"
+        } else if (theme %in% c("spacegray", "spacegray", 6)) {
+            theme.bg <- "#414A4C"
+            par(col.main = "white", col.lab = "white",
+                col.axis = "white", col.sub = "white",
+                col = "white")
+            if (all(is.null(cols), is.null(filter))) cols <- "white"
+        } else if (theme %in% c("apa", "APA", 8)) {
+            theme.bg <- "#ffffff"
+            ticks <- 1.5
+            linetype <- TRUE
+            if (is.null(filter)) {
+                cols <- "black"
+            } else {
+                cols <- rep("black", length(filter))
+            }
+        } else if (theme %in% c("nerdy", "nerdier", "nerd", 4)) {
+            if (all(is.null(cols), is.null(filter))) cols <- "#990022bb"
+            theme.bg <- "#ffffff"
+        } else {
+            theme.bg <- "#ffffff"
+        }
+        ## set aesthetics
+        par(tcl = -.125,
+            cex = cex,
+            font.main = font.main,
+            cex.axis = cex.axis,
+            cex.lab = cex.lab,
+            cex.main = cex.main,
+            cex.sub = cex.sub,
+            lend = "butt",
+            las = 1,
+            bg = theme.bg,
+            mgp = c(2, .2, 0),
+            mar = mar)
+        ## convert adj format if logical
+        if (is.logical(adj)) {
+            if (adj) {
+                adj <- 0.0
+            } else {
+                adj <- 0.5
+            }
+        }
         if (!is.null(main)) {
-            mar[3] <- 1.8
+            main.hold <- ""
         } else {
-            mar[3] <- .6
+            main.hold <- NULL
         }
-        if (!is.null(subtitle)) mar[3] <- mar[3] + cex.sub * 1.1
-    }
-
-    ## base plot background
-    if (theme %in% c("reverse", "inverse", 2)) {
-        theme.bg <- "#f3f3f3"
-    } else if (theme %in% c("gray", "grey", 5)) {
-        theme.bg <- "#f0f0f0"
-    } else if (theme %in% c("spacegray", "spacegray", 6)) {
-        theme.bg <- "#414A4C"
-        par(col.main = "white", col.lab = "white",
-            col.axis = "white", col.sub = "white",
-            col = "white")
-        if (all(is.null(cols), is.null(filter))) cols <- "white"
-    } else if (theme %in% c("apa", "APA", 8)) {
-        theme.bg <- "#ffffff"
-        ticks <- 1.5
-        linetype <- TRUE
-        if (is.null(filter)) {
-            cols <- "black"
-        } else {
-            cols <- rep("black", length(filter))
-        }
-    } else if (theme %in% c("nerdy", "nerdier", "nerd", 4)) {
-        if (all(is.null(cols), is.null(filter))) cols <- "#990022bb"
-        theme.bg <- "#ffffff"
-    } else {
-        theme.bg <- "#ffffff"
-    }
-    ## set aesthetics
-    par(tcl = -.125,
-        cex = cex,
-        font.main = font.main,
-        cex.axis = cex.axis,
-        cex.lab = cex.lab,
-        cex.main = cex.main,
-        cex.sub = cex.sub,
-        lend = "butt",
-        las = 1,
-        bg = theme.bg,
-        mgp = c(2, .2, 0),
-        mar = mar)
-    ## convert adj format if logical
-    if (is.logical(adj)) {
-        if (adj) {
-            adj <- 0.0
-        } else {
-            adj <- 0.5
-        }
-    }
-    if (!is.null(main)) {
-        main.hold <- ""
-    } else {
-        main.hold <- NULL
-    }
-    ## init plot to get parameters and set scale
-    with(dat, plot(time, freq,
-                   type = "l",
-                   lwd = 0,
-                   axes = FALSE,
-                   main = main.hold,
-                   xlab = "",
-                   ylab = "",
-                   adj = adj,
-                   ...))
-    ## add xlab and ylab
-    ## ylab location is nonlinear function of margin +
-    ## and a linear function of cex
-    mgp1 <- log10(mar.default[2]^2) * mar.default[2] * .5 + cex * .5
-    title(ylab = ylab, mgp = c(mgp1, .25, 0))
-    ## xlab is easier bc lower mar is constant
-    title(xlab = xlab, mgp = c(1.4 * cex, .25, 0))
-    ## add main title title
-    if (!is.null(main)) {
-        ## increase top margin for better fit
-        tmp.mar <- par("mar")
-        tmp.mar[2] <- tmp.mar[2] - .05
-        if (tmp.mar[2] < 0) tmp.mar[2] <- 0
-        if (!is.null(subtitle)) {
-            tmp.mar[3] <- tmp.mar[3] - .67
-        }
-        if (tmp.mar[3] < 0) tmp.mar[3] <- 0
-        par(mar = tmp.mar)
-        ## add main title text
-        title(main = main, mgp = c(2.7, .25, 0),
-              adj = adj, cex = cex.main)
-        ## add subtitle
-        if (!is.null(subtitle)) {
-            tmp.mar[3] <- tmp.mar[3] + .33
+        ## init plot to get parameters and set scale
+        with(dat, plot(time, freq,
+                       type = "l",
+                       lwd = 0,
+                       axes = FALSE,
+                       main = main.hold,
+                       xlab = "",
+                       ylab = "",
+                       adj = adj,
+                       ...))
+        ## add xlab and ylab
+        ## ylab location is nonlinear function of margin +
+        ## and a linear function of cex
+        mgp1 <- log10(mar.default[2]^2) * mar.default[2] * .5 + cex * .5
+        title(ylab = ylab, mgp = c(mgp1, .25, 0))
+        ## xlab is easier bc lower mar is constant
+        title(xlab = xlab, mgp = c(1.4 * cex, .25, 0))
+        ## add main title title
+        if (!is.null(main)) {
+            ## increase top margin for better fit
+            tmp.mar <- par("mar")
+            tmp.mar[2] <- tmp.mar[2] - .05
+            if (tmp.mar[2] < 0) tmp.mar[2] <- 0
+            if (!is.null(subtitle)) {
+                tmp.mar[3] <- tmp.mar[3] - .67
+            }
+            if (tmp.mar[3] < 0) tmp.mar[3] <- 0
             par(mar = tmp.mar)
-            mtext(subtitle,
-                  adj = adj + .00001 * cex,
-                  cex = cex.sub,
-                  line = 0)
-        }
-        par(mar = mar)
-    }
-    ## draw axes
-    if (axes) {
-        x.ticks <- seq(
-            par("xaxp")[1], par("xaxp")[2],
-            length.out = par("xaxp")[3] + 1)
-        x.labs <- as.POSIXct(x.ticks, origin = "1970-01-01")
-        if (!is.null(xtime)) {
-            axis.POSIXct(1, at = x.labs, format = xtime, hadj = 0,
-                         lwd = 0, lwd.ticks = ticks)
-        } else {
-            axis.POSIXct(1, at = x.labs,
-                         lwd = 0, lwd.ticks = ticks)
-        }
-        y.ticks <- seq(
-            par("yaxp")[1], par("yaxp")[2],
-            length.out = par("yaxp")[3] + 1)
-        y.labs <- prettyNum(y.ticks, big.mark = ",",
-                            preserve.width = "none")
-        axis(2, at = y.ticks, y.labs,
-             lwd = 0, lwd.ticks = ticks)
-    }
-
-    ## construct background grid aesthetic
-    if (theme %in% c("light", "lighter", 1)) {
-        rect(par("usr")[1], par("usr")[3],
-             par("usr")[2], par("usr")[4],
-             col = "#f5f5f5", border = NA)
-        ## blend grid lines
-        grid(col = "#f9f9f9", lwd = 5 * cex, lty = 1)
-        grid(col = "#fcfcfc", lwd = 3 * cex, lty = 1)
-        grid(col = "#ffffff", lwd = 1.5 * cex, lty = 1)
-        grid(col = "#333333", lwd = .1 * cex, lty = 3)
-        ## draw box
-        if (box) {
-            box(lwd = .75 * cex, col = "#333333")
-        }
-    } else if (theme %in% c("inverse", "reverse", 2)) {
-        rect(par("usr")[1], par("usr")[3],
-             par("usr")[2], par("usr")[4],
-             col = "#ffffff", border = NA)
-        ## blend grid lines
-        grid(col = "#f3f3f3", lwd = .25  * cex, lty = 1)
-        grid(col = "#333333", lwd = .1  * cex, lty = 3)
-        ## draw box
-        if (box) {
-            box(lwd = 1.3 * cex, col = "#666666")
-        }
-    } else if (theme %in% c("dark", "darker", 3)) {
-        rect(par("usr")[1], par("usr")[3],
-             par("usr")[2], par("usr")[4],
-             col = "#f3f3f3", border = NA)
-        ## blend grid lines
-        grid(col = "#333333", lwd = .1  * cex, lty = 1)
-        ## draw box
-        if (box) {
-            box(lwd = 1.3 * cex, col = "#666666")
-        }
-    } else if (theme %in% c("nerdy", "nerd", "nerdier", 4)) {
-        rect(par("usr")[1], par("usr")[3],
-             par("usr")[2], par("usr")[4],
-             col = "#eaeaea", lwd = .5 * cex,
-             density = 15, angle = 90, border = NA)
-        rect(par("usr")[1], par("usr")[3],
-             par("usr")[2], par("usr")[4],
-             col = "#eaeaea", lwd = .5 * cex,
-             density = 15, angle = 0, border = NA)
-        grid(col = "#0033aa4f", lwd = .75 * cex, lty = 1)
-        ## draw box
-        if (box) {
-            box(lwd = 1.3 * cex, col = "#99002266")
-        }
-    } else if (theme %in% c("gray", "grey", 5)) {
-        ## blend grid lines to white
-        grid(col = "#333333", lwd = .1 * cex, lty = 1)
-        ## draw box
-        if (box) {
-            box(lwd = 1.3 * cex, col = "#666666")
-        }
-    } else if (theme %in% c("spacegray", "spacegrey", 6)) {
-        ## grid lines
-        grid(col = "#f5f5f5", lwd = .4 * cex, lty = 3)
-        ## draw box
-        if (box) {
-            box(lwd = .5 * cex, col = "#f5f5f5")
-        }
-    } else if (theme %in% c("minimal", "simple", 7)) {
-        ## grid lines
-        grid(col = "#666666", lwd = .3 * cex, lty = 2)
-        ## draw box
-        if (box) {
-            box(lwd = 1.5 * cex, col = "#333333")
-        }
-    } else if (theme %in% c("apa", "APA", 8)) {
-        ## draw box
-        box(lwd = 1.5 * cex, col = "black")
-        lwd <- lwd * cex
-    }
-
-    ## draw lines and add legend
-    if (!is.null(filter)) {
-        ## if colors undefined
-        if (is.null(cols)) {
-            ## includes random sample so jumpy colors
-            if (theme %in% c("spacegray", "spacegrey", 6)) {
-                lighter <- TRUE
-            } else {
-                lighter <- FALSE
+            ## add main title text
+            title(main = main, mgp = c(2.7, .25, 0),
+                  adj = adj, cex = cex.main)
+            ## add subtitle
+            if (!is.null(subtitle)) {
+                tmp.mar[3] <- tmp.mar[3] + .33
+                par(mar = tmp.mar)
+                mtext(subtitle,
+                      adj = adj + .00001 * cex,
+                      cex = cex.sub,
+                      line = 0)
             }
-            cols <- rt_cols(length(filter), lighter = lighter)
-        } else {
-            ## if colors provided check them
-            if (length(cols) < length(filter)) {
-                stop(paste0(
-                    "insufficient number of colors. try ",
-                    "picking ", length(filter), " colors :)."))
+            par(mar = mar)
+        }
+        ## draw axes
+        if (axes) {
+            x.ticks <- seq(
+                par("xaxp")[1], par("xaxp")[2],
+                length.out = par("xaxp")[3] + 1)
+            x.labs <- as.POSIXct(x.ticks, origin = "1970-01-01")
+            if (!is.null(xtime)) {
+                axis.POSIXct(1, at = x.labs, format = xtime, hadj = 0,
+                             lwd = 0, lwd.ticks = ticks)
             } else {
-                cols <- cols[seq_along(filter)]
+                axis.POSIXct(1, at = x.labs,
+                             lwd = 0, lwd.ticks = ticks)
             }
+            y.ticks <- seq(
+                par("yaxp")[1], par("yaxp")[2],
+                length.out = par("yaxp")[3] + 1)
+            y.labs <- prettyNum(y.ticks, big.mark = ",",
+                                preserve.width = "none")
+            axis(2, at = y.ticks, y.labs,
+                 lwd = 0, lwd.ticks = ticks)
         }
-        ## if no key then use filter expression(s)
-        if (is.null(key)) key <- filter
-        if (linetype) {
-            ## iterate over xy lines
-            seq_along(lstdat) %>%
-                lapply(function(i)
-                    with(lstdat[[i]],
-                         lines(time, freq, lwd = lwd,
-                               lty = as.double(i),
-                               col = cols[[i]])))
-        } else {
-            ## iterate over xy lines
-            seq_along(lstdat) %>%
-                lapply(function(i)
-                    with(lstdat[[i]],
-                         lines(time, freq, lwd = lwd,
-                               col = cols[i])))
-        }
-        xwide <- max(nchar(key), na.rm = TRUE)
-        if (any(!is.numeric(xwide), isTRUE(xwide < 10))) xwide <- 10
-        xwide <- par("usr")[2] + ((par("usr")[2] - par("usr")[1]) *
-                  (.875 - par("plt")[2]) / xwide)
-        if (!is.null(main)) {
-            ytall <- quantile(c(par("usr")[3], par("usr")[4]),
-                              .52 + .02 * length(filter) * cex)
-        } else {
-            ytall <- quantile(c(par("usr")[3], par("usr")[4]),
-                              .48 + .02 * length(filter) * cex)
-        }
-        ## calculate x legend postion given par
-        ## y legend position looks too short at median so
-        ## use .575 quartile instead
-        if (any(linetype, theme %in% c("apa", 8))) {
-            legend(
-                xwide, ytall, key,
-                lwd = lwd * .9,
-                col = cols,
-                x.intersp = .5,
-                title = legend.title,
-                lty = seq_len(length(filter)),
-                seg.len = 1.5,
-                xpd = TRUE,
-                bty = "n",
-                cex = cex.legend)
-        } else {
-            legend(
-                xwide, ytall, key,
-                lwd = rep((1.1 * lwd), length(filter)),
-                col = cols,
-                x.intersp = .5,
-                title = legend.title,
-                lty = rep(1, length(filter)),
-                seg.len = 1.5,
-                xpd = TRUE,
-                bty = "n",
-                cex = cex.legend)
-        }
-    } else {
-        if (is.null(cols)) cols <- "black"
-        with(dat, lines(time, freq, lwd = lwd, col = cols))
-    }
 
+        ## construct background grid aesthetic
+        if (theme %in% c("light", "lighter", 1)) {
+            rect(par("usr")[1], par("usr")[3],
+                 par("usr")[2], par("usr")[4],
+                 col = "#f5f5f5", border = NA)
+            ## blend grid lines
+            grid(col = "#f9f9f9", lwd = 5 * cex, lty = 1)
+            grid(col = "#fcfcfc", lwd = 3 * cex, lty = 1)
+            grid(col = "#ffffff", lwd = 1.5 * cex, lty = 1)
+            grid(col = "#333333", lwd = .1 * cex, lty = 3)
+            ## draw box
+            if (box) {
+                box(lwd = .75 * cex, col = "#333333")
+            }
+        } else if (theme %in% c("inverse", "reverse", 2)) {
+            rect(par("usr")[1], par("usr")[3],
+                 par("usr")[2], par("usr")[4],
+                 col = "#ffffff", border = NA)
+            ## blend grid lines
+            grid(col = "#f3f3f3", lwd = .25  * cex, lty = 1)
+            grid(col = "#333333", lwd = .1  * cex, lty = 3)
+            ## draw box
+            if (box) {
+                box(lwd = 1.3 * cex, col = "#666666")
+            }
+        } else if (theme %in% c("dark", "darker", 3)) {
+            rect(par("usr")[1], par("usr")[3],
+                 par("usr")[2], par("usr")[4],
+                 col = "#f3f3f3", border = NA)
+            ## blend grid lines
+            grid(col = "#333333", lwd = .1  * cex, lty = 1)
+            ## draw box
+            if (box) {
+                box(lwd = 1.3 * cex, col = "#666666")
+            }
+        } else if (theme %in% c("nerdy", "nerd", "nerdier", 4)) {
+            rect(par("usr")[1], par("usr")[3],
+                 par("usr")[2], par("usr")[4],
+                 col = "#eaeaea", lwd = .5 * cex,
+                 density = 15, angle = 90, border = NA)
+            rect(par("usr")[1], par("usr")[3],
+                 par("usr")[2], par("usr")[4],
+                 col = "#eaeaea", lwd = .5 * cex,
+                 density = 15, angle = 0, border = NA)
+            grid(col = "#0033aa4f", lwd = .75 * cex, lty = 1)
+            ## draw box
+            if (box) {
+                box(lwd = 1.3 * cex, col = "#99002266")
+            }
+        } else if (theme %in% c("gray", "grey", 5)) {
+            ## blend grid lines to white
+            grid(col = "#333333", lwd = .1 * cex, lty = 1)
+            ## draw box
+            if (box) {
+                box(lwd = 1.3 * cex, col = "#666666")
+            }
+        } else if (theme %in% c("spacegray", "spacegrey", 6)) {
+            ## grid lines
+            grid(col = "#f5f5f5", lwd = .4 * cex, lty = 3)
+            ## draw box
+            if (box) {
+                box(lwd = .5 * cex, col = "#f5f5f5")
+            }
+        } else if (theme %in% c("minimal", "simple", 7)) {
+            ## grid lines
+            grid(col = "#666666", lwd = .3 * cex, lty = 2)
+            ## draw box
+            if (box) {
+                box(lwd = 1.5 * cex, col = "#333333")
+            }
+        } else if (theme %in% c("apa", "APA", 8)) {
+            ## draw box
+            box(lwd = 1.5 * cex, col = "black")
+            lwd <- lwd * cex
+        }
+
+        ## draw lines and add legend
+        if (!is.null(filter)) {
+            ## if colors undefined
+            if (is.null(cols)) {
+                ## includes random sample so jumpy colors
+                if (theme %in% c("spacegray", "spacegrey", 6)) {
+                    lighter <- TRUE
+                } else {
+                    lighter <- FALSE
+                }
+                cols <- rt_cols(length(filter), lighter = lighter)
+            } else {
+                ## if colors provided check them
+                if (length(cols) < length(filter)) {
+                    stop(paste0(
+                        "insufficient number of colors. try ",
+                        "picking ", length(filter), " colors :)."))
+                } else {
+                    cols <- cols[seq_along(filter)]
+                }
+            }
+            ## if no key then use filter expression(s)
+            if (is.null(key)) key <- filter
+            if (linetype) {
+                ## iterate over xy lines
+                seq_along(lstdat) %>%
+                    lapply(function(i)
+                        with(lstdat[[i]],
+                             lines(time, freq, lwd = lwd,
+                                   lty = as.double(i),
+                                   col = cols[[i]])))
+            } else {
+                ## iterate over xy lines
+                seq_along(lstdat) %>%
+                    lapply(function(i)
+                        with(lstdat[[i]],
+                             lines(time, freq, lwd = lwd,
+                                   col = cols[i])))
+            }
+            xwide <- max(nchar(key), na.rm = TRUE)
+            if (any(!is.numeric(xwide), isTRUE(xwide < 10))) xwide <- 10
+            xwide <- par("usr")[2] + ((par("usr")[2] - par("usr")[1]) *
+                                      (.875 - par("plt")[2]) / xwide)
+            if (!is.null(main)) {
+                ytall <- quantile(c(par("usr")[3], par("usr")[4]),
+                                  .52 + .02 * length(filter) * cex)
+            } else {
+                ytall <- quantile(c(par("usr")[3], par("usr")[4]),
+                                  .48 + .02 * length(filter) * cex)
+            }
+            ## calculate x legend postion given par
+            ## y legend position looks too short at median so
+            ## use .575 quartile instead
+            if (any(linetype, theme %in% c("apa", 8))) {
+                legend(
+                    xwide, ytall, key,
+                    lwd = lwd * .9,
+                    col = cols,
+                    x.intersp = .5,
+                    title = legend.title,
+                    lty = seq_len(length(filter)),
+                    seg.len = 1.5,
+                    xpd = TRUE,
+                    bty = "n",
+                    cex = cex.legend)
+            } else {
+                legend(
+                    xwide, ytall, key,
+                    lwd = rep((1.1 * lwd), length(filter)),
+                    col = cols,
+                    x.intersp = .5,
+                    title = legend.title,
+                    lty = rep(1, length(filter)),
+                    seg.len = 1.5,
+                    xpd = TRUE,
+                    bty = "n",
+                    cex = cex.legend)
+            }
+        } else {
+            if (is.null(cols)) cols <- "black"
+            with(dat, lines(time, freq, lwd = lwd, col = cols))
+        }
+    }
     ## return aggregated data
     invisible(dat)
 }

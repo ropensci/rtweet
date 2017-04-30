@@ -17,4 +17,3 @@ users data provided to rt. Defaults to true.}
 \description{
 Returns Parses tweets and users data
 }
-

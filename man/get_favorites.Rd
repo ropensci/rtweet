@@ -72,4 +72,3 @@ Other tweets: \code{\link{get_timeline}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
   \code{\link{tweets_data}}
 }
-

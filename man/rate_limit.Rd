@@ -37,4 +37,3 @@ Returns rate limit information for Twitter
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 }
-

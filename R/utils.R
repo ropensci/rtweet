@@ -1,4 +1,17 @@
 
+#' trim_ts
+#'
+#' @param x Data from ts_filter.
+#' @return Trimmed data frame
+#' @export
+trim_ts <- function(x) {
+    n <- sum(x$filter == x$filter[1])
+    nope <- c(seq(1, nrow(x), n), seq(n, nrow(x), n))
+    x <- x[-nope, ]
+    row.names(x) <- NULL
+    x
+}
+
 return_last <- function(x, n = 1) {
     x <- rev(x)
     x[seq_len(n)]

@@ -5,8 +5,10 @@
 README.Rmd
 ^\.travis\.yml$
 tests/testthat/twitter_tokens.enc
+tests/testthat/twitter_tokens\.enc
 ^\.httr-oauth$
-.build.timestamp
+\.build\.timestamp
 ^inst/web$
 ^docs$
 ^_pkgdown\.yml$
+^data/rjourn*

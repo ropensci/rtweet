@@ -226,16 +226,14 @@ tweets_retweet_df <- function(dat, n = NULL) {
 
 make_coords <- function(x) {
     if (is.array(x)) {
-        coords <- matrix(as.numeric(x), 1, 8)
+        matrix(as.numeric(x), 1, 8)
     } else {
-        coords <- matrix(NA_real_, 1, 8)
+        matrix(NA_real_, 1, 8)
     }
-    coords
 }
 
 
 tweets_place_df <- function(dat, n = NULL) {
-
     if (missing(dat)) {
         stop("Must specify tweets object, dat.", call. = TRUE)
     }

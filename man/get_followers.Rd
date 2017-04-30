@@ -57,7 +57,5 @@ epa
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other ids: \code{\link{get_friends}},
-  \code{\link{next_cursor}}
+Other ids: \code{\link{get_friends}}
 }
-

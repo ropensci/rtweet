@@ -43,4 +43,3 @@ Sends request to generate oauth 1.0 tokens. Twitter
 
 Other tokens: \code{\link{get_tokens}}
 }
-

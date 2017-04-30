@@ -56,4 +56,3 @@ tweets_data(usr_df)
 Other users: \code{\link{search_users}},
   \code{\link{users_data}}
 }
-

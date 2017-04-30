@@ -193,4 +193,3 @@ ts_plot(rt.ts, theme = "spacegray")
 ##     geom_line()
 }
 }
-

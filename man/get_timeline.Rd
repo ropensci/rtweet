@@ -85,4 +85,3 @@ Other tweets: \code{\link{get_favorites}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
   \code{\link{tweets_data}}
 }
-

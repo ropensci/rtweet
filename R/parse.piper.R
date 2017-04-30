@@ -223,9 +223,9 @@ parse.piper <- function(rt, usr = TRUE) {
     if (usr) {
         attr(rt, "users") <- users
     }
+    ##if (suppressWarnings(require(dplyr))) rt <- tbl_df(rt)
     rt
 }
-x <- list(list(a = TRUE))
 
 get.status.obj <- function(x) {
     if (is.null(x)) return(data.frame())
@@ -264,47 +264,34 @@ qtstatus.safecheck <- function(x) {
 }
 atomic.parsed <- function(rt) {
     list(
-        created_at = rt %>%
-            plyget("created_at") %>%
+        created_at = plyget(rt, "created_at") %>%
             unL %>%
             format_date,
-        status_id = rt %>%
-            plyget("id_str") %>%
+        status_id = plyget(rt, "id_str") %>%
             unL,
-        text = rt %>%
-            plyget("text") %>%
+        text = plyget(rt, "text") %>%
             unL,
-        retweet_count = rt %>%
-            plyget("retweet_count") %>%
+        retweet_count = plyget(rt, "retweet_count") %>%
             unL,
-        favorite_count = rt %>%
-            plyget("favorite_count") %>%
+        favorite_count = plyget(rt, "favorite_count") %>%
             unL,
-        is_quote_status = rt %>%
-            plyget(qtstatus.safecheck) %>%
+        is_quote_status = plyget(rt, qtstatus.safecheck) %>%
             unL %>%
             is.na.not,
-        quote_status_id = rt %>%
-            plyget(qtstatus.safecheck) %>%
+        quote_status_id = plyget(rt, qtstatus.safecheck) %>%
             unL,
-        is_retweet = rt %>%
-            plyget(rtstatus.safecheck) %>%
+        is_retweet = plyget(rt, rtstatus.safecheck) %>%
             unL %>%
             is.na.not,
-        retweet_status_id = rt %>%
-            plyget(rtstatus.safecheck) %>%
+        retweet_status_id = plyget(rt, rtstatus.safecheck) %>%
             unL,
-        in_reply_to_status_status_id = rt %>%
-            plyget("in_reply_to_status_id_str") %>%
+        in_reply_to_status_status_id = plyget(rt, "in_reply_to_status_id_str") %>%
             unL,
-        in_reply_to_status_user_id = rt %>%
-            plyget("in_reply_to_user_id_str") %>%
+        in_reply_to_status_user_id = plyget(rt, "in_reply_to_user_id_str") %>%
             unL,
-        in_reply_to_status_screen_name = rt %>%
-            plyget("in_reply_to_screen_name") %>%
+        in_reply_to_status_screen_name = plyget(rt, "in_reply_to_screen_name") %>%
             unL,
-        lang = rt %>%
-            plyget("lang") %>%
+        lang = plyget(rt, "lang") %>%
             unL,
         source = gsub(
             "^[^>]*>|</a>$", "",
@@ -586,29 +573,21 @@ place.parsed <- function(rt) {
     rt <- plyget(rt, "place")
     list(
         coordinates = coordinates,
-        place_id = rt %>%
-            plyget(place_id.parsed) %>%
+        place_id = plyget(rt, place_id.parsed) %>%
             unL,
-        place_type = rt %>%
-            plyget(place_type.parsed) %>%
+        place_type = plyget(rt, place_type.parsed) %>%
             unL,
-        place_name = rt %>%
-            plyget(place_name.parsed) %>%
+        place_name = plyget(rt, place_name.parsed) %>%
             unL,
-        place_full_name = rt %>%
-            plyget(place_full_name.parsed) %>%
+        place_full_name = plyget(rt, place_full_name.parsed) %>%
             unL,
-        country_code = rt %>%
-            plyget(country_code.parsed) %>%
+        country_code = plyget(rt, country_code.parsed) %>%
             unL,
-        country = rt %>%
-            plyget(country.parsed) %>%
+        country = plyget(rt, country.parsed) %>%
             unL,
-        bounding_box_coordinates = rt %>%
-            plyget(bounding_box_coordinates.parsed) %>%
+        bounding_box_coordinates = plyget(rt, bounding_box_coordinates.parsed) %>%
             unL,
-        bounding_box_type = rt %>%
-            plyget(bounding_box_type.parsed) %>%
+        bounding_box_type = plyget(rt, bounding_box_type.parsed) %>%
             unL)
 }
 
@@ -676,114 +655,78 @@ get.user.obj <- function(x) {
 }
 atomic.parsed.usr <- function(rt) {
     atom <- list(
-        user_id = rt %>%
-            plyget("id_str") %>%
+        user_id = plyget(rt, "id_str") %>%
             unL,
-        name = rt %>%
-            plyget("name") %>%
+        name = plyget(rt, "name") %>%
             unL,
-        screen_name = rt %>%
-            plyget("screen_name") %>%
+        screen_name = plyget(rt, "screen_name") %>%
             unL,
-        location = rt %>%
-            plyget("location") %>%
+        location = plyget(rt, "location") %>%
             unL,
-        description = rt %>%
-            plyget("description") %>%
+        description = plyget(rt, "description") %>%
             unL,
-        protected = rt %>%
-            plyget("protected") %>%
+        protected = plyget(rt, "protected") %>%
             unL,
-        followers_count = rt %>%
-            plyget("followers_count") %>%
+        followers_count = plyget(rt, "followers_count") %>%
             unL,
-        friends_count = rt %>%
-            plyget("friends_count") %>%
+        friends_count = plyget(rt, "friends_count") %>%
             unL,
-        listed_count = rt %>%
-            plyget("listed_count") %>%
+        listed_count = plyget(rt, "listed_count") %>%
             unL,
-        created_at = rt %>%
-            plyget("created_at") %>%
+        created_at = plyget(rt, "created_at") %>%
             unL %>%
             format_date,
-        favourites_count = rt %>%
-            plyget("favourites_count") %>%
+        favourites_count = plyget(rt, "favourites_count") %>%
             unL,
-        utc_offset = rt %>%
-            plyget("utc_offset") %>%
+        utc_offset = plyget(rt, "utc_offset") %>%
             unL,
-        time_zone = rt %>%
-            plyget("time_zone") %>%
+        time_zone = plyget(rt, "time_zone") %>%
             unL,
-        geo_enabled = rt %>%
-            plyget("geo_enabled") %>%
+        geo_enabled = plyget(rt, "geo_enabled") %>%
             unL,
-        verified = rt %>%
-            plyget("verified") %>%
+        verified = plyget(rt, "verified") %>%
             unL,
-        statuses_count = rt %>%
-            plyget("statuses_count") %>%
+        statuses_count = plyget(rt, "statuses_count") %>%
             unL,
-        lang = rt %>%
-            plyget("lang") %>%
+        lang = plyget(rt, "lang") %>%
             unL,
-        contributors_enabled = rt %>%
-            plyget("contributors_enabled") %>%
+        contributors_enabled = plyget(rt, "contributors_enabled") %>%
             unL,
-        is_translator = rt %>%
-            plyget("is_translator") %>%
+        is_translator = plyget(rt, "is_translator") %>%
             unL,
-        is_translation_enabled = rt %>%
-            plyget("is_translation_enabled") %>%
+        is_translation_enabled = plyget(rt, "is_translation_enabled") %>%
             unL,
-        profile_background_color = rt %>%
-            plyget("profile_background_color") %>%
+        profile_background_color = plyget(rt, "profile_background_color") %>%
             unL,
-        profile_background_image_url = rt %>%
-            plyget("profile_background_image_url") %>%
+        profile_background_image_url = plyget(rt, "profile_background_image_url") %>%
             unL,
-        profile_background_image_url_https = rt %>%
-            plyget("profile_background_image_url_https") %>%
+        profile_background_image_url_https = plyget(rt, "profile_background_image_url_https") %>%
             unL,
-        profile_background_tile = rt %>%
-            plyget("profile_background_tile") %>%
+        profile_background_tile = plyget(rt, "profile_background_tile") %>%
             unL,
-        profile_image_url = rt %>%
-            plyget("profile_image_url") %>%
+        profile_image_url = plyget(rt, "profile_image_url") %>%
             unL,
-        profile_image_url_https = rt %>%
-            plyget("profile_image_url_https") %>%
+        profile_image_url_https = plyget(rt, "profile_image_url_https") %>%
             unL,
-        profile_image_url = rt %>%
-            plyget("profile_image_url") %>%
+        profile_image_url = plyget(rt, "profile_image_url") %>%
             unL,
-        profile_image_url_https = rt %>%
-            plyget("profile_image_url_https") %>%
+        profile_image_url_https = plyget(rt, "profile_image_url_https") %>%
             unL,
-        profile_link_color = rt %>%
-            plyget("profile_link_color") %>%
+        profile_link_color = plyget(rt, "profile_link_color") %>%
             unL,
-        profile_sidebar_border_color = rt %>%
-            plyget("profile_sidebar_border_color") %>%
+        profile_sidebar_border_color = plyget(rt, "profile_sidebar_border_color") %>%
             unL,
-        profile_sidebar_fill_color = rt %>%
-            plyget("profile_sidebar_fill_color") %>%
+        profile_sidebar_fill_color = plyget(rt, "profile_sidebar_fill_color") %>%
             unL,
-        profile_text_color = rt %>%
-            plyget("profile_text_color") %>%
+        profile_text_color = plyget(rt, "profile_text_color") %>%
             unL,
-        profile_use_background_image = rt %>%
-            plyget("profile_use_background_image") %>%
+        profile_use_background_image = plyget(rt, "profile_use_background_image") %>%
             unL,
-        default_profile = rt %>%
-            plyget("default_profile") %>%
+        default_profile = plyget(rt, "default_profile") %>%
             unL,
-        default_profile_image = rt %>%
-            plyget("default_profile_image") %>%
+        default_profile_image = plyget(rt, "default_profile_image") %>%
             unL,
-        profile_banner_url = rt %>%
-            plyget("profile_banner_url") %>%
+        profile_banner_url = plyget(rt, "profile_banner_url") %>%
             unL
     )
     lgs <- vapply(atom, length, double(1))

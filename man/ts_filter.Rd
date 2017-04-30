@@ -65,4 +65,3 @@ FALSE.}
 Converts text-level observations to time aggregated frequency data
   frame with [optional] filtered dummy variable(s).
 }
-

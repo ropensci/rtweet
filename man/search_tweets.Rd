@@ -204,4 +204,3 @@ Other tweets: \code{\link{get_favorites}},
   \code{\link{lookup_statuses}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}
 }
-

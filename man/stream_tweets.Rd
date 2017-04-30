@@ -71,32 +71,68 @@ Returns public statuses via one of three methods
 }
 \examples{
 \dontrun{
-# stream tweets mentioning "election" for 90 seconds
+## stream tweets mentioning "election" for 90 seconds
 e <- stream_tweets("election", timeout = 90)
 
-# data frame where each observation (row) is a different tweet
-e
+## data frame where each observation (row) is a different tweet
+head(e)
 
-# users data also retrieved. can access it via users_data()
-users_data(e)
+## users data also retrieved, access it via users_data()
+users_data(e) \%>\%
+    head()
 
-# stream tweets mentioning Obama for 30 seconds
+## plot tweet frequency
+ts_plot(e, "secs")
+
+## stream tweets mentioning Obama for 30 seconds
 djt <- stream_tweets("realdonaldtrump", timeout = 30)
-djt # prints tweets data preview
-users_data(djt) # prints users data preview
 
-# store large amount of tweets in files using continuous streams
-# by default, stream_tweets() returns a random sample of all tweets
-# leave the query field blank for the random sample of all tweets.
-stream_tweets(timeout = (60 * 10), parse = FALSE, file_name = "tweets1")
-stream_tweets(timeout = (60 * 10), parse = FALSE, file_name = "tweets2")
+## preview tweets data
+head(djt)
 
-# parse tweets at a later time using parse_stream function
+## get user IDs of people who mentioned trump
+usrs <- users_data(djt)
+
+## lookup users data
+usrdat <- lookup_users(unique(usrs$user_id))
+
+## preview users data
+head(usrdat)
+
+## store large amount of tweets in files using continuous streams
+## by default, stream_tweets() returns a random sample of all tweets
+## leave the query field blank for the random sample of all tweets.
+stream_tweets(timeout = (60 * 10), parse = FALSE,
+    file_name = "tweets1")
+stream_tweets(timeout = (60 * 10), parse = FALSE,
+    file_name = "tweets2")
+
+## parse tweets at a later time using parse_stream function
 tw1 <- parse_stream("tweets1.json")
-tw1
+head(tw1)
 
 tw2 <- parse_stream("tweets2.json")
-tw2
+head(tw2)
+
+## streaming tweets by specifying lat/long coordinates
+
+## stream continental US tweets for 5 minutes
+usa <- stream_tweets(
+    c(-125,26,-65,49),
+    timeout = 300)
+
+## stream world tweets for 5 mins, save to json file
+world.old <- stream_tweets(
+    c(-180, -90, 180, 90),
+    timeout = (60 * 5),
+    parse = FALSE,
+    file_name = "world-tweets.json")
+
+## read in json file
+rtworld <- parse_stream("word-tweets.json")
+
+## word with coords
+x <- mutate.coords(rtworld)
 }
 
 }
@@ -108,4 +144,3 @@ Other tweets: \code{\link{get_favorites}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}}
 }
-

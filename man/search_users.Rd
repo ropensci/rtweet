@@ -73,4 +73,3 @@ users_data(hrc)
 Other users: \code{\link{lookup_users}},
   \code{\link{users_data}}
 }
-

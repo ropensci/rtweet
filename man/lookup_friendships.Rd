@@ -21,4 +21,3 @@ tokens vignette (in r, send \code{?tokens} to console).}
 Look up informaiton on friendship between authenticated
   user and up to 100 users.
 }
-

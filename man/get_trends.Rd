@@ -49,4 +49,3 @@ ww_trends
 Other trends: \code{\link{find_woeid}},
   \code{\link{trends_available}}
 }
-

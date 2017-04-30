@@ -3,10 +3,10 @@
 \docType{package}
 \name{rtweet}
 \alias{rtweet}
-\alias{rtweet-package}
-\alias{rtweets}
-\alias{rtwitter}
 \alias{tokens}
+\alias{rtwitter}
+\alias{rtweets}
+\alias{rtweet-package}
 \title{rtweet}
 \description{
 rtweet provides users a range of functions
@@ -31,4 +31,3 @@ vignette("rtweet")
 }
 
 }
-

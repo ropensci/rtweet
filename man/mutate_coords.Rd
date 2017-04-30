@@ -12,4 +12,3 @@ mutate_coords(data)
 \description{
 Initializes rt plotting sequence
 }
-

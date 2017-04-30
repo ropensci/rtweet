@@ -45,8 +45,10 @@ lookup_statuses <- function(statuses,
         statuses <- unlist(statuses)
     }
 
-    if (length(statuses) > 18000) {
-        statuses <- statuses[1:18000]
+    if (length(statuses) > 90000) {
+        warning("number of statuses exceed max per token",
+                "collecting data for first 90,000 ids")
+        statuses <- statuses[1:90000]
     }
 
     n.times <- ceiling(length(statuses) / 100)

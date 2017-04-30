@@ -46,8 +46,11 @@ parser.old <- function(x, n = NULL,
 }
 
 parse_fs <- function(x, n = NULL, as_double = FALSE) {
+    op <- options()
+    on.exit(options(op))
+    options(scipen = 10)
     if (identical(length(x), 1)) {
-        next_cursor <- x[[1]][["next_cursor_str"]]
+        next_cursor <- as.character(x[[1]][["next_cursor_str"]])
         if (as_double) {
             x <- as.double(x[[1]][["ids"]])
         } else {
@@ -62,7 +65,7 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
         }
     } else if (length(x) > 1) {
         next_cursor <- unlist(lapply(x, function(x)
-            x[[1]][["next_cursor_str"]]),
+            as.character(x[[1]][["next_cursor_str"]])),
             use.names = FALSE)
         next_cursor <- return_last(next_cursor)
         x <- unlist(lapply(x, function(x) x[[1]][["ids"]]),

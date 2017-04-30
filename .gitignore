@@ -1,6 +1,7 @@
 .Rproj
 .Rprofile
 .Rproj.user
+^data*
 tweets.json
 rtweet.Rproj
 cran-comments.md

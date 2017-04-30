@@ -20,4 +20,3 @@ Call function used to load Twitter oauth tokens.
 \seealso{
 Other tokens: \code{\link{create_token}}
 }
-

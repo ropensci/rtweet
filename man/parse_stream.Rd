@@ -39,4 +39,3 @@ head(users_data(rt))
 ts_plot(rt, "secs")
 }
 }
-

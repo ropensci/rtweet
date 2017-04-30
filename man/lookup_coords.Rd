@@ -27,4 +27,3 @@ Returns lat long coordinates using google geocode api
 lookupcoords("san francisco, CA", "country:US")
 }
 }
-

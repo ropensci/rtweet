@@ -27,4 +27,3 @@ Other post: \code{\link{post_favorite}},
   \code{\link{post_follow}}, \code{\link{post_friendship}},
   \code{\link{post_mute}}, \code{\link{post_unfollow_user}}
 }
-

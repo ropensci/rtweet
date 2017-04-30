@@ -29,4 +29,3 @@ as "election.tweets.csv" and "election.users.csv".}
 Converts and saves data table generated from rtweet
   package as csv file(s).
 }
-

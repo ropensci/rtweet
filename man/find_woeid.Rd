@@ -25,4 +25,3 @@ Other trends: \code{\link{get_trends}},
   \code{\link{trends_available}}
 }
 \keyword{internal}
-

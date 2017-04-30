@@ -17,4 +17,3 @@ lookup_users(), set to false.}
 \description{
 Returns Parses tweets and users data
 }
-
