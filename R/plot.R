@@ -172,17 +172,56 @@ ts_plot <- function(rt, by = "days",
                     legend.title = NULL,
                     ticks = 0,
                     cex = 1,
-                    cex.main,
-                    cex.sub,
-                    cex.lab,
-                    cex.axis,
-                    cex.legend,
-                    mar,
+                    cex.main = NULL,
+                    cex.sub = NULL,
+                    cex.lab = NULL,
+                    cex.axis = NULL,
+                    cex.legend = NULL,
+                    mar = NULL,
                     font.main = 1,
                     xtime = NULL,
                     plot = TRUE,
                     ...) {
+.ts_plot(rt = rt, by = by, dtname = dtname, txt = txt, na.omit = na.omit,
+         filter = filter, key = key, trim = trim, lwd = lwd, linetype = linetype,
+         cols = cols, theme = theme, main = main, subtitle = subtitle,
+         adj = adj, xlab = xlab, ylab = ylab, box = box, axes = axes,
+         legend.title = legend.title, ticks = ticks, cex = cex,
+         cex.sub, cex.lab, cex.axis, cex.legend,
+         mar, font.main = font.main, xtime = xtime, plot = plot, ...)
+}
 
+.ts_plot <- function(rt, by = "days",
+                    dtname = "created_at",
+                    txt = "text",
+                    na.omit = TRUE,
+                    filter = NULL,
+                    key = NULL,
+                    trim = FALSE,
+                    lwd = 1.5,
+                    linetype = FALSE,
+                    cols = NULL,
+                    theme = "light",
+                    main = NULL,
+                    subtitle = NULL,
+                    adj = TRUE,
+                    xlab = "Time",
+                    ylab = "Freq",
+                    box = FALSE,
+                    axes = TRUE,
+                    legend.title = NULL,
+                    ticks = 0,
+                    cex = 1,
+                    cex.main = NULL,
+                    cex.sub = NULL,
+                    cex.lab = NULL,
+                    cex.axis = NULL,
+                    cex.legend = NULL,
+                    mar = NULL,
+                    font.main = 1,
+                    xtime = NULL,
+                    plot = TRUE,
+                    ...) {
     ## check if correct data arg is supplied
     if (missing(rt)) {
         stop(paste0("must provide data frame or named list ",
@@ -217,9 +256,17 @@ ts_plot <- function(rt, by = "days",
     ## if plot is false return ts data object
     if (!plot) return(dat)
     if (requireNamespace("ggplot2", quietly = TRUE)) {
-        p <- ggplot2::ggplot(dat, ggplot2::aes_(x = "time", y = "freq", color = "filter")) +
-            ggplot2::geom_line(size = 1) +
-            ggplot2::theme_bw()
+        size <- lwd / 2
+        if (identical(unique(dat$filter), "")) {
+            p <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "time", y = "freq")) +
+                ggplot2::geom_line(size = size) +
+                ggplot2::theme_bw()
+        } else {
+            p <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "time", y = "freq", color = "filter")) +
+                ggplot2::geom_line(size = size) +
+                ggplot2::theme_bw() +
+                ggplot2::facet_wrap("filter")
+        }
         return(p)
     } else {
         ## adjust left margin for larger frequencies
@@ -234,7 +281,7 @@ ts_plot <- function(rt, by = "days",
         } else {
             mar.default <- c(2.425, 2.575, 0.750, 1.500)
         }
-        if (missing(mar)) {
+        if (is.null(mar)) {
             mar <- mar.default
         }
         ## store current aesthetics
@@ -246,11 +293,11 @@ ts_plot <- function(rt, by = "days",
         on.exit(options(oop), add = TRUE)
 
         ## sort out cex values
-        if (missing(cex.main)) cex.main <- cex * 1.225
-        if (missing(cex.sub)) cex.sub <- cex * 0.875
-        if (missing(cex.lab)) cex.lab <- cex * 0.9
-        if (missing(cex.axis)) cex.axis <- cex * 0.80
-        if (missing(cex.legend)) cex.legend <- cex * 0.80
+        if (is.null(cex.main)) cex.main <- cex * 1.225
+        if (is.null(cex.sub)) cex.sub <- cex * 0.875
+        if (is.null(cex.lab)) cex.lab <- cex * 0.9
+        if (is.null(cex.axis)) cex.axis <- cex * 0.80
+        if (is.null(cex.legend)) cex.legend <- cex * 0.80
 
         ## if default mar provided then...
         if (identical(mar, mar.default)) {
@@ -613,6 +660,19 @@ ts_filter <- function(rt, by = "days",
                       key = NULL,
                       na.omit = TRUE,
                       trim = FALSE) {
+    .ts_filter(rt = rt, by = by, dtname = dtname,
+              txt = txt, filter = filter, key = key,
+              na.omit = na.omit, trim = trim)
+}
+
+
+.ts_filter <- function(rt, by,
+                      dtname,
+                      txt,
+                      filter,
+                      key,
+                      na.omit,
+                      trim) {
 
     ## handle missing data
     if (is.data.frame(rt)) {
