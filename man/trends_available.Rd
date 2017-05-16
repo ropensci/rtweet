@@ -44,5 +44,6 @@ ww_trends
 }
 \seealso{
 Other trends: \code{\link{find_woeid}},
+  \code{\link{get_trends_closest}},
   \code{\link{get_trends}}
 }
