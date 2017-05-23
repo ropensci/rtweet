@@ -1,8 +1,9 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 rtweet
 ======
 
-[![Build Status](https://travis-ci.org/mkearney/rtweet.png?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg)](https://codecov.io/gh/mkearney/rtweet)
+[![Build Status](https://travis-ci.org/mkearney/rtweet.png?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg)](https://codecov.io/gh/mkearney/rtweet) [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
 
 R client for collecting data via Twitter's REST and stream API's.
 

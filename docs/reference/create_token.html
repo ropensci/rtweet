@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -88,27 +90,36 @@
   Consequently, I encourage you to use 1.0 tokens.</p>
     
 
-    <pre><span class='fu'>create_token</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"mytwitterapp"</span>, <span class='no'>consumer_key</span>, <span class='no'>consumer_secret</span>,
+    <pre class="usage"><span class='fu'>create_token</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"mytwitterapp"</span>, <span class='no'>consumer_key</span>, <span class='no'>consumer_secret</span>,
   <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>app</dt>
-      <dd>Name of user created Twitter application</dd>
-      <dt>consumer_key</dt>
-      <dd>Application API key</dd>
-      <dt>consumer_secret</dt>
-      <dd>Application API secret User-owned
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>app</th>
+      <td><p>Name of user created Twitter application</p></td>
+    </tr>
+    <tr>
+      <th>consumer_key</th>
+      <td><p>Application API key</p></td>
+    </tr>
+    <tr>
+      <th>consumer_secret</th>
+      <td><p>Application API secret User-owned
 app must have <code>Read and write</code> access level
-and <code>Callback URL</code> of <code>http://127.0.0.1:1410</code>.</dd>
-      <dt>cache</dt>
-      <dd>Logical indicating whether to cache the token as a
+and <code>Callback URL</code> of <code>http://127.0.0.1:1410</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Logical indicating whether to cache the token as a
 .httr-oauth file. The default is TRUE, which means the cached
-token file will be added to the user&#39;s working directory.
+token file will be added to the user's working directory.
 Ideally, users will store their token as an environment variable
 (see the tokens vignette for instructions), but the cache file
-works as long as always return to the same working directory.</dd>
-    </dl>
+works as long as always return to the same working directory.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -117,7 +128,7 @@ works as long as always return to the same working directory.</dd>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><a href = 'https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-    <p>Other tokens: <code><a href='get_tokens.html'>get_tokens</a></code></p>
+<p>Other tokens: <code><a href='get_tokens.html'>get_tokens</a></code></p>
     
 
   </div>

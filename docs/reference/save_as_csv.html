@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -80,29 +82,34 @@
   package as csv file(s).</p>
     
 
-    <pre><span class='fu'>save_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>)</pre>
+    <pre class="usage"><span class='fu'>save_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd>Data table to be saved (tweets or user object)
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Data table to be saved (tweets or user object)
 generated via rtweet function like <code>search_tweets</code>. If x
 is a list object containing both tweets and users data (which
 is currently the output for many of the rtweet functions),
 then a CSV file is created and saved for each object using the
 file_name provided as a base--e.g, if x is a list object from
-search_tweets with <code>file_name = &quot;election&quot;</code>, this
-function will save both the tweets data (&quot;election.tweets.csv&quot;)
-and the user data (&quot;election.users.csv&quot;). If not included in
-file_name, the &quot;.csv&quot; extension will be added when writing file
-to disk.</dd>
-      <dt>file_name</dt>
-      <dd>Path/file name where object(s) is to be saved.
+search_tweets with <code>file_name = "election"</code>, this
+function will save both the tweets data ("election.tweets.csv")
+and the user data ("election.users.csv"). If not included in
+file_name, the ".csv" extension will be added when writing file
+to disk.</p></td>
+    </tr>
+    <tr>
+      <th>file_name</th>
+      <td><p>Path/file name where object(s) is to be saved.
 If object includes both tweets and users data then provided
 file_name will be used as base for the two saved files.
-For example, <code>file_name = &quot;election&quot;</code> would save files
-as &quot;election.tweets.csv&quot; and &quot;election.users.csv&quot;.</dd>
-    </dl>
+For example, <code>file_name = "election"</code> would save files
+as "election.tweets.csv" and "election.users.csv".</p></td>
+    </tr>
+    </table>
     
 
   </div>

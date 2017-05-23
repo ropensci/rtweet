@@ -9,7 +9,7 @@
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -53,7 +53,6 @@
       <h1>Intro to rtweet: Collecting Twitter Data</h1>
                         <h4 class="author">Michael W. Kearney</h4>
             
-            <h4 class="date">2017-01-17</h4>
           </div>
 
     
@@ -62,7 +61,7 @@
 <p>This vignettes provides a <em>very</em> quick tour of the R package <code>rtweet: Collecting Twitter Data</code>. Before getting to the tour, however, I want to explain the philosophy behind rtweet.</p>
 <div id="package-philosophy" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#package-philosophy" class="anchor"> </a></body></html>Package Philosophy</h2>
+<a href="#package-philosophy" class="anchor"></a>Package Philosophy</h2>
 <p>The approach I’ve taken to constructing <code>rtweet</code> has been shaped by my desires to…</p>
 <ol style="list-style-type: lower-alpha">
 <li>make interacting with Twitter’s APIs more approachable</li>
@@ -73,41 +72,41 @@
 </div>
 <div id="authorization-tokens" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#authorization-tokens" class="anchor"> </a></body></html>Authorization tokens</h2>
+<a href="#authorization-tokens" class="anchor"></a>Authorization tokens</h2>
 <p>In order to collect data, you must first obtain a user access token. The recommended way to do this is described in the vignette entitled <a href="https://mkearney.github.io/rtweet/articles/auth.html">obtaining and setting up user access tokens</a>. However, if you’re in a hurry, the <a href="https://mkearney.github.io/rtweet/index.html">quick guide found here</a> works as well.</p>
 </div>
 <div id="installing-and-loading" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#installing-and-loading" class="anchor"> </a></body></html>Installing and loading</h2>
+<a href="#installing-and-loading" class="anchor"></a>Installing and loading</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
 <span class="kw">library</span>(rtweet)</code></pre></div>
 </div>
 <div id="pipe-operator" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#pipe-operator" class="anchor"> </a></body></html>Pipe operator</h2>
+<a href="#pipe-operator" class="anchor"></a>Pipe operator</h2>
 <p>The <code>rtweet</code> package exports magrittr’s pipe <code>%&gt;%</code>. Given the recursive nature of networks and Twitter data, I find it often comes in handy for writing legible code. I also tend to use it in examples, but I understand not everyone will be familiar with it. So, for a crash course, all you really need to know is the pipe operator reorders R functions such that they occur linearly. That is, instead of wrapping one function around another function, the pipe operator goes in order from left to right—just like this sentence flows from left to right. So, a line of code in base R that looks like this</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">paste0</span>(<span class="st">"your lucky number is "</span>, <span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">20</span>, <span class="dv">1</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">paste0</span>(<span class="st">"your lucky number is "</span>, <span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">1</span>))</code></pre></div>
 <p>Can be rewritten so that the first function you see is the first function that runs when the code is executed, e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">20</span>) %&gt;%
-<span class="st">    </span><span class="kw">sample</span>(<span class="dv">1</span>) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sample</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">paste0</span>(<span class="st">"your lucky number is "</span>, .)</code></pre></div>
 <p>The pipe (<code>%&gt;%</code>) simply passes along what’s on the left-hand side to the right-hand side of the line of code. Once it goes through the pipe, the output is assigned to the period (<code>.</code>), and it is by default plugged into the first argument of the function on the right-hand side of the pipe.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## select the four element from the lhs of the pipe
-<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">10</span>) %&gt;%
+<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span>
 <span class="st">    </span>.[[<span class="dv">4</span>]]</code></pre></div>
 <p>Given the default behavior, you don’t always have the rewrite the data object as it is often assumed. In the code below, for example, the mean function is by default applied to the numbers 1 through 10.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">10</span>) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">mean</span>()</code></pre></div>
 </div>
 <div id="retrieving-tweets" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#retrieving-tweets" class="anchor"> </a></body></html>Retrieving Tweets</h2>
+<a href="#retrieving-tweets" class="anchor"></a>Retrieving Tweets</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 500 tweets using the #rstats hashtag
 team_rstats &lt;-<span class="st"> </span><span class="kw"><a href="../reference/search_tweets.html">search_tweets</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">500</span>)
 team_rstats
 
 ## access and preview data on the users who posted the tweets
-<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(team_rstats) %&gt;%
+<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(team_rstats) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">head</span>()
 
 ## return 200 tweets from @KyloR3n's timeline
@@ -125,13 +124,13 @@ imwithher &lt;-<span class="st"> </span><span class="kw"><a href="../reference/s
 <span class="kw">head</span>(<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(imwithher))
 
 ## stream 3 random samples of tweets
-for (in in <span class="kw">seq_len</span>(<span class="dv">3</span>)) {
+<span class="cf">for</span> (<span class="cf">in</span> <span class="cf">in</span> <span class="kw">seq_len</span>(<span class="dv">3</span>)) {
     <span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="dt">q =</span> <span class="st">""</span>, <span class="dt">timeout =</span> <span class="dv">60</span>,
         <span class="dt">file_name =</span> <span class="kw">paste0</span>(<span class="st">"rtw"</span>, i), <span class="dt">parse =</span> <span class="ot">FALSE</span>)
-    if (i ==<span class="st"> </span><span class="dv">3</span>) {
+    <span class="cf">if</span> (i <span class="op">==</span><span class="st"> </span><span class="dv">3</span>) {
         <span class="kw">message</span>(<span class="st">"all done!"</span>)
-        break
-    } else {
+        <span class="cf">break</span>
+    } <span class="cf">else</span> {
         <span class="co"># wait between 0 and 300 secs before next stream</span>
         <span class="kw">Sys.sleep</span>(<span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">300</span>))
     }
@@ -148,12 +147,12 @@ tw &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st
 
 ## preview data
 <span class="kw">head</span>(tw)
-<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(tw) %&gt;%
+<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(tw) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">head</span>()</code></pre></div>
 </div>
 <div id="retrieving-users" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#retrieving-users" class="anchor"> </a></body></html>Retrieving Users</h2>
+<a href="#retrieving-users" class="anchor"></a>Retrieving Users</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># search for 500 users using "social science" as a keyword</span>
 harder_science &lt;-<span class="st"> </span><span class="kw"><a href="../reference/search_users.html">search_users</a></span>(<span class="st">"social science"</span>, <span class="dt">n =</span> <span class="dv">500</span>)
 harder_science
@@ -199,7 +198,7 @@ obama2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_
 </div>
 <div id="retrieving-trends" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#retrieving-trends" class="anchor"> </a></body></html>Retrieving Trends</h2>
+<a href="#retrieving-trends" class="anchor"></a>Retrieving Trends</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get trending hashtags, mentions, and topics worldwide
 prestige_worldwide &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_trends.html">get_trends</a></span>()
 prestige_worldwide
@@ -214,12 +213,12 @@ CHIEFS</code></pre></div>
 </div>
 <div id="posting-tweets" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#posting-tweets" class="anchor"> </a></body></html>Posting Tweets</h2>
+<a href="#posting-tweets" class="anchor"></a>Posting Tweets</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/post_tweet.html">post_tweet</a></span>(<span class="st">"my first rtweet #rstats"</span>)</code></pre></div>
 </div>
 <div id="following-users" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#following-users" class="anchor"> </a></body></html>Following users</h2>
+<a href="#following-users" class="anchor"></a>Following users</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## ty for the follow ;)
 <span class="kw">post_follow_user</span>(<span class="st">"kearneymw"</span>)</code></pre></div>
 </div>

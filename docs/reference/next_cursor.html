@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -80,14 +82,17 @@
   object used to retrieve next page of results from API request.</p>
     
 
-    <pre><span class='fu'>next_cursor</span>(<span class='no'>ids</span>)</pre>
+    <pre class="usage"><span class='fu'>next_cursor</span>(<span class='no'>ids</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>ids</dt>
-      <dd>Data frame of Twitter IDs generated via
-<code><a href='get_followers.html'>get_followers</a></code> or <code><a href='get_friends.html'>get_friends</a></code>.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ids</th>
+      <td><p>Data frame of Twitter IDs generated via
+<code><a href='get_followers.html'>get_followers</a></code> or <code><a href='get_friends.html'>get_friends</a></code>.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -97,27 +102,30 @@
   Modify previous data request function by entering the returned
   value from <code>next_cursor</code> for the <code>page</code> argument.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other ids: <code><a href='get_followers.html'>get_followers</a></code>,
-  <code><a href='get_friends.html'>get_friends</a></code></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # Retrieve user ids of accounts following POTUS</span>
-<span class='co'># f1 &lt;- get_followers("potus", n = 75000)</span>
-<span class='co'># page &lt;- next_cursor(f1)</span>
-<span class='co'># </span>
-<span class='co'># # max. number of ids returned by one token is 75,000 every 15</span>
-<span class='co'># # minutes, so you'll need to wait a bit before collecting the</span>
-<span class='co'># # next batch of ids</span>
-<span class='co'># sys.Sleep(15*60) # Suspend execution of R expressions for 15 mins</span>
-<span class='co'># </span>
-<span class='co'># # Use the page value returned from \code{next_cursor} to continue</span>
-<span class='co'># # where you left off.</span>
-<span class='co'># f2 &lt;- get_followers("potus", n = 75000, page = page)</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='co'>## Retrieve user ids of accounts following POTUS</span>
+  <span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>)
+
+  <span class='co'>## store next_cursor in page</span>
+  <span class='no'>page</span> <span class='kw'>&lt;-</span> <span class='fu'>next_cursor</span>(<span class='no'>f1</span>)
+
+  <span class='co'>## max. number of ids returned by one token is 75,000 every 15</span>
+  <span class='co'>##   minutes, so you'll need to wait a bit before collecting the</span>
+  <span class='co'>##   next batch of ids</span>
+  <span class='fu'>sys.Sleep</span>(<span class='fl'>15</span> * <span class='fl'>60</span>) <span class='co'>## Suspend execution of R expressions for 15 mins</span>
+
+  <span class='co'>## Use the page value returned from \code{next_cursor} to continue</span>
+  <span class='co'>##   where you left off.</span>
+  <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='no'>page</span>)
+
+  <span class='co'>## combine</span>
+  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>do.call</span>(<span class='st'>"rbind"</span>, <span class='fu'>list</span>(<span class='no'>f1</span>, <span class='no'>f2</span>))
+
+  <span class='co'>## count rows</span>
+  <span class='fu'>nrow</span>(<span class='no'>f</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -125,8 +133,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

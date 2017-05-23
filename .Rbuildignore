@@ -3,6 +3,7 @@
 ^\.Rproj\.user$
 ^cran-comments\.md$
 README.Rmd
+README.html
 ^\.travis\.yml$
 tests/testthat/twitter_tokens.enc
 tests/testthat/twitter_tokens\.enc

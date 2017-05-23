@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,9 +79,40 @@
     </div>
 
     <div class="contents">
+    <div id="rtweet-0-4-3" class="section level1">
+<h1 class="hasAnchor">
+<a href="#rtweet-0-4-3" class="anchor"></a>rtweet 0.4.3</h1>
+<ul>
+<li>Now returns tibbles (tibble is a recommended dependency)</li>
+<li>Various bug fixes and code improvements.</li>
+</ul>
+</div>
+    <div id="rtweet-0-4-2" class="section level1">
+<h1 class="hasAnchor">
+<a href="#rtweet-0-4-2" class="anchor"></a>rtweet 0.4.2</h1>
+<ul>
+<li>Various bug fixes</li>
+<li>Integration with ggplot2 as a suggested dependency</li>
+</ul>
+</div>
+    <div id="rtweet-0-4-1" class="section level1">
+<h1 class="hasAnchor">
+<a href="#rtweet-0-4-1" class="anchor"></a>rtweet 0.4.1</h1>
+<ul>
+<li>Fixed bugs with <code><a href="../reference/mutate_coords.html">mutate_coords()</a></code> and <code>retryonratelimit</code>.</li>
+<li>Now returns full text of tweets exceeding 140 characters. This change was necessary due to recent changes in Twitter’s API.</li>
+</ul>
+</div>
+    <div id="rtweet-0-4-0" class="section level1">
+<h1 class="hasAnchor">
+<a href="#rtweet-0-4-0" class="anchor"></a>rtweet 0.4.0</h1>
+<ul>
+<li>CRAN release featuring major additions to documentation and support in addition to new and improved functions like <code><a href="../reference/ts_plot.html">ts_plot()</a></code>, <code><a href="../reference/ts_filter.html">ts_filter()</a></code> and more!</li>
+</ul>
+</div>
     <div id="rtweet-0-3-96" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-96" class="anchor"> </a>rtweet 0.3.96</h1>
+<a href="#rtweet-0-3-96" class="anchor"></a>rtweet 0.3.96</h1>
 <ul>
 <li>For dev: added package builder for better versioning and more frequent updates to NEWS.md file.</li>
 <li>Added new live streaming vignette as well as updated and improved tokens vignette</li>
@@ -88,17 +121,17 @@
 </div>
     <div id="rtweet-0-3-93" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-93" class="anchor"> </a>rtweet 0.3.93</h1>
+<a href="#rtweet-0-3-93" class="anchor"></a>rtweet 0.3.93</h1>
 <ul>
 <li>All interactive/posting functions have been modified with the prefix <code>post_</code>. This was done to clearly distinguish write functions from retrieval functions.</li>
 <li>More bug fixes and various improvements.</li>
 <li>The <code><a href="../reference/ts_plot.html">ts_plot()</a></code> function is now more robust with more adaptive characteristics for variations in the number of filters, the method of distiguishing lines, the position of the legend, and the aesthetics of the themes.</li>
-<li>Added <code><a href="../reference/ts_filter.html">ts_filter()</a></code> function which allows users to convert Twitter data into a time series-like data frame. Users may also provide filtering rules with which <code>tsfilter()</code> will subset the data as it converts it to multiple time series, which it then outputs as a long-form (tidy) data frame.</li>
+<li>Added <code><a href="../reference/ts_filter.html">ts_filter()</a></code> function which allows users to convert Twitter data into a time series-like data frame. Users may also provide filtering rules with which <code><a href="../reference/ts_filter.html">ts_filter()</a></code> will subset the data as it converts it to multiple time series, which it then outputs as a long-form (tidy) data frame.</li>
 </ul>
 </div>
     <div id="rtweet-0-3-92" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-92" class="anchor"> </a>rtweet 0.3.92</h1>
+<a href="#rtweet-0-3-92" class="anchor"></a>rtweet 0.3.92</h1>
 <ul>
 <li>
 <code>search_tweets</code> now includes <code>retryonratelimit</code> argument to allow for searches requesting more than 18,000 tweets. This automates what was previously possible through use of <code>max_id</code>.</li>
@@ -108,7 +141,7 @@
 </div>
     <div id="rtweet-0-3-91" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-91" class="anchor"> </a>rtweet 0.3.91</h1>
+<a href="#rtweet-0-3-91" class="anchor"></a>rtweet 0.3.91</h1>
 <ul>
 <li>Major improvements to ts_plot including SIX different themes from which users may choose</li>
 <li>More parsing fixes and misc stability improvements</li>
@@ -117,7 +150,7 @@
 </div>
     <div id="rtweet-0-3-9" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-9" class="anchor"> </a>rtweet 0.3.9</h1>
+<a href="#rtweet-0-3-9" class="anchor"></a>rtweet 0.3.9</h1>
 <ul>
 <li>Fixes minor problems with <code>parse.piper</code> function</li>
 <li>More additions to plotting and data wrangling for the purpose of plotting</li>
@@ -125,7 +158,7 @@
 </div>
     <div id="rtweet-0-3-8" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-8" class="anchor"> </a>rtweet 0.3.8</h1>
+<a href="#rtweet-0-3-8" class="anchor"></a>rtweet 0.3.8</h1>
 <ul>
 <li>Functions by default use a new faster parser that returns more variables</li>
 <li>Text analysis functions provided for convenience</li>
@@ -135,7 +168,7 @@
 </div>
     <div id="rtweet-0-3-8-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-8-1" class="anchor"> </a>rtweet 0.3.8</h1>
+<a href="#rtweet-0-3-8-1" class="anchor"></a>rtweet 0.3.8</h1>
 <ul>
 <li>Fixed issue with geo tracking in stream_tweets</li>
 <li>Various bug fixes and stability improvements</li>
@@ -143,14 +176,14 @@
 </div>
     <div id="rtweet-0-3-7" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-7" class="anchor"> </a>rtweet 0.3.7</h1>
+<a href="#rtweet-0-3-7" class="anchor"></a>rtweet 0.3.7</h1>
 <ul>
 <li>Reworked <code>ts_plot</code> to enable different filtered time series and an aesthetic overhaul of the plot function as well.</li>
 </ul>
 </div>
     <div id="rtweet-0-3-6" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-6" class="anchor"> </a>rtweet 0.3.6</h1>
+<a href="#rtweet-0-3-6" class="anchor"></a>rtweet 0.3.6</h1>
 <ul>
 <li>Added <code>as_double</code> argument to provide flexibility in handling id variables (as_double provides performance boost but can create problems when printing and saving, depending on format). By default functions will return IDs as character vectors.</li>
 <li>Numerous improvements made to parsing and bug fixes to lookup and search functions.</li>
@@ -158,7 +191,7 @@
 </div>
     <div id="rtweet-0-3-5" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-5" class="anchor"> </a>rtweet 0.3.5</h1>
+<a href="#rtweet-0-3-5" class="anchor"></a>rtweet 0.3.5</h1>
 <ul>
 <li>
 <code>clean_tweets</code> argument provided to allow user more control over encoding and handling of non-ascii characters.</li>
@@ -167,7 +200,7 @@
 </div>
     <div id="rtweet-0-3-4" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-4" class="anchor"> </a>rtweet 0.3.4</h1>
+<a href="#rtweet-0-3-4" class="anchor"></a>rtweet 0.3.4</h1>
 <ul>
 <li>Implemented robust methods to fetch tokens (whether set as environment variable, .httr-oauth file, or if the tokens exist in the global environment). Functions now search for variations in the labeling of tokens—i.e., if your token(s) are saved as <code>twitter_tokens</code>, <code>twitter_token</code>, <code>tokens</code>, or <code>token</code>, rtweet will find it.</li>
 <li>Fixed issues with parsing tweets and users data.</li>
@@ -177,14 +210,14 @@
 </div>
     <div id="rtweet-0-3-3" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-3" class="anchor"> </a>rtweet 0.3.3</h1>
+<a href="#rtweet-0-3-3" class="anchor"></a>rtweet 0.3.3</h1>
 <ul>
 <li>Flattened recursive columns for more reliable parsing and various speed enhancements</li>
 </ul>
 </div>
     <div id="rtweet-0-3-2" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-2" class="anchor"> </a>rtweet 0.3.2</h1>
+<a href="#rtweet-0-3-2" class="anchor"></a>rtweet 0.3.2</h1>
 <ul>
 <li>Added built-in, encrypted tokens</li>
 <li>Fixed issues with tweets parsing and reading streams</li>
@@ -193,7 +226,7 @@
 </div>
     <div id="rtweet-0-3-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-1" class="anchor"> </a>rtweet 0.3.1</h1>
+<a href="#rtweet-0-3-1" class="anchor"></a>rtweet 0.3.1</h1>
 <ul>
 <li>
 <code>include_retweets</code> arg added to <code><a href="../reference/search_tweets.html">search_tweets()</a></code> function.</li>
@@ -203,7 +236,7 @@
 </div>
     <div id="rtweet-0-3-0" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-3-0" class="anchor"> </a>rtweet 0.3.0</h1>
+<a href="#rtweet-0-3-0" class="anchor"></a>rtweet 0.3.0</h1>
 <ul>
 <li>New CRAN version!</li>
 <li>Lots of improvements to stability and entirely new functions to play around with (see previous news updates for more info).</li>
@@ -212,7 +245,7 @@
 </div>
     <div id="rtweet-0-2-92" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-92" class="anchor"> </a>rtweet 0.2.92</h1>
+<a href="#rtweet-0-2-92" class="anchor"></a>rtweet 0.2.92</h1>
 <ul>
 <li>Added gzip option for <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>
 </li>
@@ -220,21 +253,21 @@
 </div>
     <div id="rtweet-0-2-91" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-91" class="anchor"> </a>rtweet 0.2.91</h1>
+<a href="#rtweet-0-2-91" class="anchor"></a>rtweet 0.2.91</h1>
 <ul>
 <li>Added sample method for <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, the streaming query argument, <code>q</code>, is now set to an empty string, <code>q = ""</code>, which returns a random sample of all Tweets (pretty cool, right?).</li>
 </ul>
 </div>
     <div id="rtweet-0-2-9" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-9" class="anchor"> </a>rtweet 0.2.9</h1>
+<a href="#rtweet-0-2-9" class="anchor"></a>rtweet 0.2.9</h1>
 <ul>
 <li>Added <code><a href="../reference/post_tweet.html">post_tweet()</a></code> function. Users can now post tweets from their R console.</li>
 </ul>
 </div>
     <div id="rtweet-0-2-8" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-8" class="anchor"> </a>rtweet 0.2.8</h1>
+<a href="#rtweet-0-2-8" class="anchor"></a>rtweet 0.2.8</h1>
 <ul>
 <li>Added <code><a href="../reference/get_favorites.html">get_favorites()</a></code> function</li>
 <li>Update tests</li>
@@ -243,14 +276,14 @@
 </div>
     <div id="rtweet-0-2-7" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-7" class="anchor"> </a>rtweet 0.2.7</h1>
+<a href="#rtweet-0-2-7" class="anchor"></a>rtweet 0.2.7</h1>
 <ul>
 <li>Added screen_name variable for user mentions (in addition to user_id).</li>
 </ul>
 </div>
     <div id="rtweet-0-2-6" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-6" class="anchor"> </a>rtweet 0.2.6</h1>
+<a href="#rtweet-0-2-6" class="anchor"></a>rtweet 0.2.6</h1>
 <ul>
 <li><p>Added <code><a href="../reference/lookup_statuses.html">lookup_statuses()</a></code> function, which is the counterpart to <code><a href="../reference/lookup_users.html">lookup_users()</a></code>. Supply a vector of status IDs and return tweet data for each status. <code><a href="../reference/lookup_statuses.html">lookup_statuses()</a></code> is particularly powerful when combined with other methods designed to collect older Tweets. Early experiments with doing this all through R have turned out surprisingly well, but packaging it in a way that makes it easy to do on other machines is unlikely to happen in the short term.</p></li>
 <li><p>Removed dplyr dependencies. Everyone should install and use <code>dplyr</code>, but for sake of parsimony, it’s been removed from rtweet.</p></li>
@@ -259,14 +292,14 @@
 </div>
     <div id="rtweet-0-2-5" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-5" class="anchor"> </a>rtweet 0.2.5</h1>
+<a href="#rtweet-0-2-5" class="anchor"></a>rtweet 0.2.5</h1>
 <ul>
 <li>S4 class and methods integration</li>
 </ul>
 </div>
     <div id="rtweet-0-2-4" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-4" class="anchor"> </a>rtweet 0.2.4</h1>
+<a href="#rtweet-0-2-4" class="anchor"></a>rtweet 0.2.4</h1>
 <ul>
 <li><p>Added new trends functions. Find what trending locations are available with <code><a href="../reference/trends_available.html">trends_available()</a></code> and/or search for trends worldwide or by geogaphical location using <code><a href="../reference/get_trends.html">get_trends()</a></code>.</p></li>
 <li><p>Stability improvements including integration with Travis CI and code analysis via codecov. Token encryption method also means API testing conducted on multiple machines and systems.</p></li>
@@ -274,14 +307,14 @@
 </div>
     <div id="rtweet-0-2-3" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-3" class="anchor"> </a>rtweet 0.2.3</h1>
+<a href="#rtweet-0-2-3" class="anchor"></a>rtweet 0.2.3</h1>
 <ul>
 <li>Added new <code><a href="../reference/search_users.html">search_users()</a></code> function! Search for users by keyword, name, or interest and return data on the first 1000 hits.</li>
 </ul>
 </div>
     <div id="rtweet-0-2-2" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-2" class="anchor"> </a>rtweet 0.2.2</h1>
+<a href="#rtweet-0-2-2" class="anchor"></a>rtweet 0.2.2</h1>
 <ul>
 <li><p>Output for <code><a href="../reference/search_tweets.html">search_tweets()</a></code>, <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>, and <code><a href="../reference/get_timeline.html">get_timeline()</a></code> now consists of tweets data and contains users data attribute.</p></li>
 <li><p>Output for <code><a href="../reference/lookup_users.html">lookup_users()</a></code> now consists of users data and contains tweets data attribute.</p></li>
@@ -291,7 +324,7 @@
 </div>
     <div id="rtweet-0-2-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-1" class="anchor"> </a>rtweet 0.2.1</h1>
+<a href="#rtweet-0-2-1" class="anchor"></a>rtweet 0.2.1</h1>
 <ul>
 <li><p>Output for <code><a href="../reference/get_friends.html">get_friends()</a></code> and <code><a href="../reference/get_followers.html">get_followers()</a></code> is now a tibble of “ids”. To retrieve next cursor value, use new <code><a href="../reference/next_cursor.html">next_cursor()</a></code> function.</p></li>
 <li><p>Major stability improvements via testthat tests for every major function.</p></li>
@@ -299,7 +332,7 @@
 </div>
     <div id="rtweet-0-2-0" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-2-0" class="anchor"> </a>rtweet 0.2.0</h1>
+<a href="#rtweet-0-2-0" class="anchor"></a>rtweet 0.2.0</h1>
 <ul>
 <li><p>Since previous CRAN release, numerous new features and improvements to functions returning tweets, user data, and ids.</p></li>
 <li><p>Search function now optimized to return more tweets per search.</p></li>
@@ -308,7 +341,7 @@
 </div>
     <div id="rtweet-0-1-91" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-91" class="anchor"> </a>rtweet 0.1.91</h1>
+<a href="#rtweet-0-1-91" class="anchor"></a>rtweet 0.1.91</h1>
 <ul>
 <li><p>Improvements to <code>get_friends</code> and <code>get_followers</code>. Returns list with value (<code>next_cursor</code>) used for next page of results. When this value is 0, all results have been returned.</p></li>
 <li><p>Functions <code>get_friends</code> and <code>get_followers</code> now return the list of user ids as a tibble data table, which makes the print out much cleaner.</p></li>
@@ -316,7 +349,7 @@
 </div>
     <div id="rtweet-0-1-9" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-9" class="anchor"> </a>rtweet 0.1.9</h1>
+<a href="#rtweet-0-1-9" class="anchor"></a>rtweet 0.1.9</h1>
 <ul>
 <li><p>Improved scrolling methods such that <code>search_tweets</code> and <code>get_timeline</code> should return a lot more now</p></li>
 <li><p>Added <code>parser</code> function to return status (tweets) AND user (users) data frames when available. As a result, the parsed output for some functions now comes as a list containing two data frames.</p></li>
@@ -324,7 +357,7 @@
 </div>
     <div id="rtweet-0-1-8" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-8" class="anchor"> </a>rtweet 0.1.8</h1>
+<a href="#rtweet-0-1-8" class="anchor"></a>rtweet 0.1.8</h1>
 <ul>
 <li><p>Added <code>get_timeline</code> function that returns tweets from selected user</p></li>
 <li><p>Added vignettes covering tokens and search tweets</p></li>
@@ -333,7 +366,7 @@
 </div>
     <div id="rtweet-0-1-7" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-7" class="anchor"> </a>rtweet 0.1.7</h1>
+<a href="#rtweet-0-1-7" class="anchor"></a>rtweet 0.1.7</h1>
 <ul>
 <li><p>Fixed parsing issue for return objects with omitted variables</p></li>
 <li><p>Added <code>clean_tweets</code> convenience function for text analysis</p></li>
@@ -342,7 +375,7 @@
 </div>
     <div id="rtweet-0-1-6" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-6" class="anchor"> </a>rtweet 0.1.6</h1>
+<a href="#rtweet-0-1-6" class="anchor"></a>rtweet 0.1.6</h1>
 <ul>
 <li><p>Added <code>recode_error</code> argument to <code>get_friends</code> function. This is especially useful for tracking networks over time.</p></li>
 <li><p>Further integrated <code>ROAuth</code> methods/objects to increase compatibility with <code>twitteR</code> authorization procedures.</p></li>
@@ -351,7 +384,7 @@
 </div>
     <div id="rtweet-0-1-4" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-4" class="anchor"> </a>rtweet 0.1.4</h1>
+<a href="#rtweet-0-1-4" class="anchor"></a>rtweet 0.1.4</h1>
 <ul>
 <li><p>Added <code>NEWS.md</code> file</p></li>
 <li><p>Added <code>key features</code> and more descriptions to <code>README.md</code>.</p></li>
@@ -359,7 +392,7 @@
 </div>
     <div id="rtweet-0-1-3" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-3" class="anchor"> </a>rtweet 0.1.3</h1>
+<a href="#rtweet-0-1-3" class="anchor"></a>rtweet 0.1.3</h1>
 <ul>
 <li><p>There are now two stable parse (convert json obj to data frame) types. For user objects (e.g., output of <code>lookup_users</code>), there is <code>parse_user</code>. For tweet objects (e.g., output of <code>search_tweets</code> or <code>stream_tweets</code>), there is <code>parse_tweets</code>.</p></li>
 <li><p>New parse functions are now exported, so they should available for use with compatible Twitter packages or user-defined API request operations.</p></li>
@@ -367,7 +400,7 @@
 </div>
     <div id="rtweet-0-1-2" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-2" class="anchor"> </a>rtweet 0.1.2</h1>
+<a href="#rtweet-0-1-2" class="anchor"></a>rtweet 0.1.2</h1>
 <ul>
 <li><p>More parsing improvements</p></li>
 <li><p>Added <code>format_date</code> function</p></li>
@@ -376,14 +409,14 @@
 </div>
     <div id="rtweet-0-1-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-1" class="anchor"> </a>rtweet 0.1.1</h1>
+<a href="#rtweet-0-1-1" class="anchor"></a>rtweet 0.1.1</h1>
 <ul>
 <li>Improvements to parse functions</li>
 </ul>
 </div>
     <div id="rtweet-0-1-0" class="section level1">
 <h1 class="hasAnchor">
-<a href="#rtweet-0-1-0" class="anchor"> </a>rtweet 0.1.0</h1>
+<a href="#rtweet-0-1-0" class="anchor"></a>rtweet 0.1.0</h1>
 <ul>
 <li>Initial release</li>
 </ul>
@@ -395,6 +428,10 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rtweet-0-4-3">0.4.3</a></li>
+        <li><a href="#rtweet-0-4-2">0.4.2</a></li>
+        <li><a href="#rtweet-0-4-1">0.4.1</a></li>
+        <li><a href="#rtweet-0-4-0">0.4.0</a></li>
         <li><a href="#rtweet-0-3-96">0.3.96</a></li>
         <li><a href="#rtweet-0-3-93">0.3.93</a></li>
         <li><a href="#rtweet-0-3-92">0.3.92</a></li>

@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -80,57 +82,73 @@
   specified user_ids or screen_names.</p>
     
 
-    <pre><span class='fu'>lookup_users</span>(<span class='no'>users</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tw</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>lookup_users</span>(<span class='no'>users</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tw</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>clean_tweets</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>as_double</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>users</dt>
-      <dd>User id or screen name of target user.</dd>
-      <dt>token</dt>
-      <dd>OAuth token (1.0 or 2.0). By default
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>users</th>
+      <td><p>User id or screen name of target user.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token (1.0 or 2.0). By default
 <code>token = NULL</code> fetches a non-exhausted token from
-an environment variable @describeIn tokens.</dd>
-      <dt>parse</dt>
-      <dd>Logical, indicating whether or not to parse
-return object into data frame(s).</dd>
-      <dt>tw</dt>
-      <dd>Logical indicating whether to return tweets data frame.
-Defaults to true.</dd>
-      <dt>clean_tweets</dt>
-      <dd>logical indicating whether to remove non-ASCII
-characters in text of tweets. defaults to TRUE.</dd>
-      <dt>as_double</dt>
-      <dd>logical indicating whether to handle ID variables
+an environment variable @describeIn tokens.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether or not to parse
+return object into data frame(s).</p></td>
+    </tr>
+    <tr>
+      <th>tw</th>
+      <td><p>Logical indicating whether to return tweets data frame.
+Defaults to true.</p></td>
+    </tr>
+    <tr>
+      <th>clean_tweets</th>
+      <td><p>logical indicating whether to remove non-ASCII
+characters in text of tweets. defaults to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>as_double</th>
+      <td><p>logical indicating whether to handle ID variables
 as double (numeric) class. By default, this is set to FALSE, meaning
 ID variables are treated as character vectors. Setting this to
 TRUE can provide performance (speed and memory) boost but can also
-lead to issues when printing and saving, depending on the format.</dd>
-    </dl>
+lead to issues when printing and saving, depending on the format.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>json response object (max is 18000 per token)</p>
+    <p>json response object</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><a href = 'https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-    <p>Other users: <code><a href='search_users.html'>search_users</a></code>,
+<p>Other users: <code><a href='search_users.html'>search_users</a></code>,
   <code><a href='users_data.html'>users_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # lookup vector of 1 or more user_id or screen_name</span>
-<span class='co'># users &lt;- c("potus", "hillaryclinton", "realdonaldtrump",</span>
-<span class='co'>#   "fivethirtyeight", "cnn", "espn", "twitter")</span>
-<span class='co'># </span>
-<span class='co'># usr_df &lt;- lookup_users(users)</span>
-<span class='co'># usr_df</span>
-<span class='co'># </span>
-<span class='co'># # view tweet data for these users via tweets_data()</span>
-<span class='co'># tweets_data(usr_df)</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='co'>## lookup vector of 1 or more user_id or screen_name</span>
+  <span class='no'>users</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"potus"</span>, <span class='st'>"hillaryclinton"</span>, <span class='st'>"realdonaldtrump"</span>,
+    <span class='st'>"fivethirtyeight"</span>, <span class='st'>"cnn"</span>, <span class='st'>"espn"</span>, <span class='st'>"twitter"</span>)
+
+  <span class='co'>## get users data</span>
+  <span class='no'>usr_df</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_users</span>(<span class='no'>users</span>)
+
+  <span class='co'>## view users data</span>
+  <span class='no'>usr_df</span>
+
+  <span class='co'>## view tweet data for these users via tweets_data()</span>
+  <span class='fu'><a href='tweets_data.html'>tweets_data</a></span>(<span class='no'>usr_df</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

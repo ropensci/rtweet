@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -78,37 +80,39 @@
     
     <p>Returns public statuses via one of three methods
   described below. By design, this function deciphers which
-  method to use when processing the <code>stream</code> argument.
-<ul>
-<li> 1. Filtering via a search-like query (up to 400 keywords)
-  </li>
-<li> 2. Tracking via vector of user ids (up to 5000 user_ids)
-  </li>
-<li> 3. Location via geo coordinates (1-360 degree location boxes)
-</li>
-</ul></p>
+  method to use when processing the <code>stream</code> argument.</p><ul>
+<li><p>1. Filtering via a search-like query (up to 400 keywords)</p></li>
+<li><p>2. Tracking via vector of user ids (up to 5000 user_ids)</p></li>
+<li><p>3. Location via geo coordinates (1-360 degree location boxes)</p></li>
+</ul>
     
 
-    <pre><span class='fu'>stream_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>stream_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gzip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fix.encoding</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>q</dt>
-      <dd>Character vector with desired phrases and keywords
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>q</th>
+      <td><p>Character vector with desired phrases and keywords
 used to filter tweets, a comma separated list of desired
 user IDs to track, or a set of bounding boxes to track. If
-left empty, the default <code>q = &quot;&quot;</code>, stream function will
-return sample of all tweets.</dd>
-      <dt>timeout</dt>
-      <dd>Numeric scalar specifying amount of time, in seconds,
+left empty, the default <code>q = ""</code>, stream function will
+return sample of all tweets.</p></td>
+    </tr>
+    <tr>
+      <th>timeout</th>
+      <td><p>Numeric scalar specifying amount of time, in seconds,
 to leave connection open while streaming/capturing tweets.
 By default, this is set to 30 seconds. To stream indefinitely,
 use <code>timeout = FALSE</code> to ensure json file is not deleted
-upon completion or <code>timeout = Inf</code>.</dd>
-      <dt>parse</dt>
-      <dd>Logical, indicating whether to return parsed data.
+upon completion or <code>timeout = Inf</code>.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed data.
 By default, <code>parse = TRUE</code>, this function does the parsing for
 you. However, for larger streams, or for automated scripts designed
 to continuously collect data, this should be set to false as the
@@ -116,33 +120,46 @@ parsing process can eat up processing resources and time. For other
 uses, setting parse to TRUE saves you from having to sort and parse
 the messy list structure returned by Twitter. (Note: if you set parse
 to false, you can use the <code><a href='parse_stream.html'>parse_stream</a></code> function to
-parse the json file at a later point in time.)</dd>
-      <dt>token</dt>
-      <dd>OAuth token. By default <code>token = NULL</code> fetches a
+parse the json file at a later point in time.)</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
 non-exhausted token from an environment variable. Find instructions
 on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code>?tokens</code> to console).</dd>
-      <dt>file_name</dt>
-      <dd>Character with name of file. By default, a temporary
+tokens vignette (in r, send <code>?tokens</code> to console).</p></td>
+    </tr>
+    <tr>
+      <th>file_name</th>
+      <td><p>Character with name of file. By default, a temporary
 file is created, tweets are parsed and returned to parent environment,
-and the temporary file is deleted.</dd>
-      <dt>gzip</dt>
-      <dd>Logical indicating whether to request gzip compressed
+and the temporary file is deleted.</p></td>
+    </tr>
+    <tr>
+      <th>gzip</th>
+      <td><p>Logical indicating whether to request gzip compressed
 stream data. By default this is set to FALSE. After performing some
 tests, it appears gzip requires less bandwidth, but also returns
 slightly fewer tweets. Use of gzip option should, in theory, make
-connection more reliable (by hogging less bandwidth, there&#39;s less of
-a chance Twitter cuts you off for getting behind).</dd>
-      <dt>verbose</dt>
-      <dd>Logical, indicating whether or not to include output
-processing/retrieval messages.</dd>
-      <dt>fix.encoding</dt>
-      <dd>Logical indicating whether to internally specify encoding to
-prevent possible errors caused by things such as non-ascii characters.</dd>
-      <dt>&#8230;</dt>
-      <dd>Insert magical paramaters, spell, or potion here. Or filter for
-tweets by language, e.g., <code>language = &quot;en&quot;</code>.</dd>
-    </dl>
+connection more reliable (by hogging less bandwidth, there's less of
+a chance Twitter cuts you off for getting behind).</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical, indicating whether or not to include output
+processing/retrieval messages.</p></td>
+    </tr>
+    <tr>
+      <th>fix.encoding</th>
+      <td><p>Logical indicating whether to internally specify encoding to
+prevent possible errors caused by things such as non-ascii characters.</p></td>
+    </tr>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>Insert magical paramaters, spell, or potion here. Or filter for
+tweets by language, e.g., <code>language = "en"</code>.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -151,41 +168,77 @@ tweets by language, e.g., <code>language = &quot;en&quot;</code>.</dd>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><a href = 'https://stream.twitter.com/1.1/statuses/filter.json'>https://stream.twitter.com/1.1/statuses/filter.json</a></p>
-    <p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
+<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
   <code><a href='get_timeline.html'>get_timeline</a></code>,
   <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
   <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # stream tweets mentioning "election" for 90 seconds</span>
-<span class='co'># e &lt;- stream_tweets("election", timeout = 90)</span>
-<span class='co'># </span>
-<span class='co'># # data frame where each observation (row) is a different tweet</span>
-<span class='co'># e</span>
-<span class='co'># </span>
-<span class='co'># # users data also retrieved. can access it via users_data()</span>
-<span class='co'># users_data(e)</span>
-<span class='co'># </span>
-<span class='co'># # stream tweets mentioning Obama for 30 seconds</span>
-<span class='co'># djt &lt;- stream_tweets("realdonaldtrump", timeout = 30)</span>
-<span class='co'># djt # prints tweets data preview</span>
-<span class='co'># users_data(djt) # prints users data preview</span>
-<span class='co'># </span>
-<span class='co'># # store large amount of tweets in files using continuous streams</span>
-<span class='co'># # by default, stream_tweets() returns a random sample of all tweets</span>
-<span class='co'># # leave the query field blank for the random sample of all tweets.</span>
-<span class='co'># stream_tweets(timeout = (60 * 10), parse = FALSE, file_name = "tweets1")</span>
-<span class='co'># stream_tweets(timeout = (60 * 10), parse = FALSE, file_name = "tweets2")</span>
-<span class='co'># </span>
-<span class='co'># # parse tweets at a later time using parse_stream function</span>
-<span class='co'># tw1 &lt;- parse_stream("tweets1.json")</span>
-<span class='co'># tw1</span>
-<span class='co'># </span>
-<span class='co'># tw2 &lt;- parse_stream("tweets2.json")</span>
-<span class='co'># tw2</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='co'>## stream tweets mentioning "election" for 90 seconds</span>
+  <span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(<span class='st'>"election"</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>90</span>)
+
+  <span class='co'>## data frame where each observation (row) is a different tweet</span>
+  <span class='fu'>head</span>(<span class='no'>e</span>)
+
+  <span class='co'>## users data also retrieved, access it via users_data()</span>
+  <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>e</span>) <span class='kw'>%&gt;%</span>
+      <span class='fu'>head</span>()
+
+  <span class='co'>## plot tweet frequency</span>
+  <span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>e</span>, <span class='st'>"secs"</span>)
+
+  <span class='co'>## stream tweets mentioning Obama for 30 seconds</span>
+  <span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(<span class='st'>"realdonaldtrump"</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>)
+
+  <span class='co'>## preview tweets data</span>
+  <span class='fu'>head</span>(<span class='no'>djt</span>)
+
+  <span class='co'>## get user IDs of people who mentioned trump</span>
+  <span class='no'>usrs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
+
+  <span class='co'>## lookup users data</span>
+  <span class='no'>usrdat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lookup_users.html'>lookup_users</a></span>(<span class='fu'>unique</span>(<span class='no'>usrs</span>$<span class='no'>user_id</span>))
+
+  <span class='co'>## preview users data</span>
+  <span class='fu'>head</span>(<span class='no'>usrdat</span>)
+
+  <span class='co'>## store large amount of tweets in files using continuous streams</span>
+  <span class='co'>## by default, stream_tweets() returns a random sample of all tweets</span>
+  <span class='co'>## leave the query field blank for the random sample of all tweets.</span>
+  <span class='fu'>stream_tweets</span>(<span class='kw'>timeout</span> <span class='kw'>=</span> (<span class='fl'>60</span> * <span class='fl'>10</span>), <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+      <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"tweets1"</span>)
+  <span class='fu'>stream_tweets</span>(<span class='kw'>timeout</span> <span class='kw'>=</span> (<span class='fl'>60</span> * <span class='fl'>10</span>), <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+      <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"tweets2"</span>)
+
+  <span class='co'>## parse tweets at a later time using parse_stream function</span>
+  <span class='no'>tw1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"tweets1.json"</span>)
+  <span class='fu'>head</span>(<span class='no'>tw1</span>)
+
+  <span class='no'>tw2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"tweets2.json"</span>)
+  <span class='fu'>head</span>(<span class='no'>tw2</span>)
+
+  <span class='co'>## streaming tweets by specifying lat/long coordinates</span>
+
+  <span class='co'>## stream continental US tweets for 5 minutes</span>
+  <span class='no'>usa</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(
+      <span class='fu'>c</span>(-<span class='fl'>125</span>,<span class='fl'>26</span>,-<span class='fl'>65</span>,<span class='fl'>49</span>),
+      <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+
+  <span class='co'>## stream world tweets for 5 mins, save to json file</span>
+  <span class='no'>world.old</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(
+      <span class='fu'>c</span>(-<span class='fl'>180</span>, -<span class='fl'>90</span>, <span class='fl'>180</span>, <span class='fl'>90</span>),
+      <span class='kw'>timeout</span> <span class='kw'>=</span> (<span class='fl'>60</span> * <span class='fl'>5</span>),
+      <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+      <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"world-tweets.json"</span>)
+
+  <span class='co'>## read in json file</span>
+  <span class='no'>rtworld</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"word-tweets.json"</span>)
+
+  <span class='co'>## word with coords</span>
+  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate.coords</span>(<span class='no'>rtworld</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

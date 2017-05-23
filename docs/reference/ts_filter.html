@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -80,65 +82,82 @@
   frame with [optional] filtered dummy variable(s).</p>
     
 
-    <pre><span class='fu'>ts_filter</span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>dtname</span> <span class='kw'>=</span> <span class='st'>"created_at"</span>, <span class='kw'>txt</span> <span class='kw'>=</span> <span class='st'>"text"</span>,
+    <pre class="usage"><span class='fu'>ts_filter</span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>dtname</span> <span class='kw'>=</span> <span class='st'>"created_at"</span>, <span class='kw'>txt</span> <span class='kw'>=</span> <span class='st'>"text"</span>,
   <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.omit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>rt</dt>
-      <dd>Tweets or users data frame. Technically, this argument
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>rt</th>
+      <td><p>Tweets or users data frame. Technically, this argument
 will accept any recursive object (i.e., list or data frame)
 containing a named date-time (POSIXt) element or column. By
 default, <code>ts_plot</code> assumes the date-time variable is
-labeled &quot;created_at&quot;, which is the default date-time label used
+labeled "created_at", which is the default date-time label used
 in tweets data. However, this function should work with any
 data source, assuming it meets the (a) POSIXt class requirement
 and (b) the date-time variable is given the appropriate name
-(if not &quot;created_at&quot; then a label specified with the
-<code>dtname</code> argument).</dd>
-      <dt>by</dt>
-      <dd>Unit of time, e.g., <code>secs, days, weeks,
+(if not "created_at" then a label specified with the
+<code>dtname</code> argument).</p></td>
+    </tr>
+    <tr>
+      <th>by</th>
+      <td><p>Unit of time, e.g., <code>secs, days, weeks,
 months, years</code> by which to aggregate observations. By default,
-<code>ts_plot</code> tries to aggregate time by &quot;days&quot;, but for some
+<code>ts_plot</code> tries to aggregate time by "days", but for some
 high-frequency data sets that only span a matter of minutes or
 hours, this is likely to either produce an error or a truly
 disappointing plot. In these cases, users are encouraged to
 explore smaller units of time. Conversely, high-frequency and
 long [in duration] data sets may be difficult to read given the
 default unit of time. In these cases, users should try larger
-units of time, e.g., &quot;weeks&quot; or &quot;months&quot;. This parameter will
+units of time, e.g., "weeks" or "months". This parameter will
 also accept numeric quantifiers in addition to units of time.
 By default, for example, the provided unit of time is
 assumed to specify whole (1) units of time. It is posible to
 tweak this unit by specifying the number (or fraction) of time
-units, e.g., <code>by = &quot;2 weeks&quot;</code>, <code>by = &quot;30 secs&quot;</code>,
-<code>by = &quot;.333 days&quot;</code>.</dd>
-      <dt>dtname</dt>
-      <dd>Name of date-time (POSIXt) column (if data frame)
-or element (if list). Defaults to &quot;created_at&quot;, the default
+units, e.g., <code>by = "2 weeks"</code>, <code>by = "30 secs"</code>,
+<code>by = ".333 days"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dtname</th>
+      <td><p>Name of date-time (POSIXt) column (if data frame)
+or element (if list). Defaults to "created_at", the default
 label supplied as a timestamp variable for tweets data. This
 function is exportable to non-Twitter data, assuming the
 intended data object includes a date-time variable with the
-same label that&#39;s supplied to the <code>dtname</code> parameter.</dd>
-      <dt>txt</dt>
-      <dd>Name of distinguishing variable in data frame or list
-to which filter is applied. Defaults to text.</dd>
-      <dt>filter</dt>
-      <dd>Vector of regular expressions with which to
-filter data (creating multiple time series).</dd>
-      <dt>key</dt>
-      <dd>Optional provide pretty labels for filters.
-Defaults to actual filters.</dd>
-      <dt>na.omit</dt>
-      <dd>Logical indicating whether to omit rows with
+same label that's supplied to the <code>dtname</code> parameter.</p></td>
+    </tr>
+    <tr>
+      <th>txt</th>
+      <td><p>Name of distinguishing variable in data frame or list
+to which filter is applied. Defaults to text.</p></td>
+    </tr>
+    <tr>
+      <th>filter</th>
+      <td><p>Vector of regular expressions with which to
+filter data (creating multiple time series).</p></td>
+    </tr>
+    <tr>
+      <th>key</th>
+      <td><p>Optional provide pretty labels for filters.
+Defaults to actual filters.</p></td>
+    </tr>
+    <tr>
+      <th>na.omit</th>
+      <td><p>Logical indicating whether to omit rows with
 missing (NA) values for the dtname variable. Defaults to TRUE.
 If FALSE and data contains missing values for the date-time
-variable, an error will be returned to the user.</dd>
-      <dt>trim</dt>
-      <dd>Logical indicating whether to trim extreme intervals,
+variable, an error will be returned to the user.</p></td>
+    </tr>
+    <tr>
+      <th>trim</th>
+      <td><p>Logical indicating whether to trim extreme intervals,
 which often capture artificially lower frequencies. Defaults to
-FALSE.</dd>
-    </dl>
+FALSE.</p></td>
+    </tr>
+    </table>
     
 
   </div>
