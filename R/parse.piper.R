@@ -741,7 +741,15 @@ parse.piper.usr <- function(rt, tw = FALSE) {
     rt <- tryCatch(
         as.data.frame(rt, stringsAsFactors = FALSE),
         error = function(e) return(rt))
+    if (requireNamespace("tibble", quietly = TRUE)) {
+        rt <- tryCatch(tibble::as_tibble(rt),
+                          error = function(e) return(rt))
+    }
     if (tw) {
+        if (requireNamespace("tibble", quietly = TRUE)) {
+            tweets <- tryCatch(tibble::as_tibble(tweets),
+                              error = function(e) return(tweets))
+        }
         attr(rt, "tweets") <- tweets
     }
     rt

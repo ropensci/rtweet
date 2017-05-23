@@ -412,13 +412,6 @@ search_users <- function(q, n = 20,
     } else {
         full_text <- NULL
     }
-    params <- list(q = q,
-                   count = 20,
-                   page = 1,
-                   tweet_mode = full_text)
-    url <- make_url(
-        query = query,
-        param = params)
     if (verbose) message("Searching for users...")
 
     usr <- vector("list", n.times)
@@ -426,6 +419,14 @@ search_users <- function(q, n = 20,
     nrows <- NULL
 
     for (i in seq_len(n.times)) {
+        params <- list(q = q,
+                       count = 20,
+                       page = i,
+                       tweet_mode = full_text)
+        url <- make_url(
+            query = query,
+            param = params)
+
         r <- tryCatch(
             TWIT(get = TRUE, url, token),
             error = function(e) return(NULL))
@@ -443,7 +444,6 @@ search_users <- function(q, n = 20,
         }
         k <- k + nrows
         if (k >= n) break
-        url[[i]]$query$page <- i + 1L
     }
     if (parse) {
         usr <- parse.piper.usr(usr, tw = tw)
