@@ -20,7 +20,6 @@ get_tokens <- function() {
     .state$twitter_tokens
 }
 
-
 #' create_token
 #'
 #' @description Sends request to generate oauth 1.0 tokens. Twitter
@@ -109,7 +108,10 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
 
 is.token <- function(x) {
     lgl <- FALSE
-    lgl <- any(c("token", "token1.0", "R6") %in% class(x))
+    lgl <- all(
+        any(c("token", "token1.0", "R6") %in% class(x)),
+        grepl("api.twitter", x[['endpoint']][['request']], ignore.case = TRUE)
+    )
     lgl
 }
 

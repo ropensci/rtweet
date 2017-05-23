@@ -164,6 +164,10 @@ is.na.not <- function(x) !is.na(x)
 #'   obj (users data) as attribute. Defaults to true. If
 #'   was generated from users-oriented function, e.g.,
 #'   lookup_users(), set to false.
+#' @return Data frame of tweets or users data with the other (tweets/users)
+#'   included as an attribute. If something breaks during the parsing process,
+#'   this function has a fail safe that will return a list (presumably with
+#'   unbalanced lengths).
 #' @export
 parse_data <- function(rt, tw = TRUE) {
     if (tw) {
@@ -182,6 +186,10 @@ parse_data <- function(rt, tw = TRUE) {
 #'   obj (users data) as attribute if tweets data provided to
 #'   rt argument or tweets obj (tweets data) as attribute if
 #'   users data provided to rt. Defaults to true.
+#' @return Data frame of tweets or users data with the other (tweets/users)
+#'   included as an attribute. If something breaks during the parsing process,
+#'   this function has a fail safe that will return a list (presumably with
+#'   unbalanced lengths).
 #' @export
 parser <- function(rt, att = TRUE) {
     if (all(c("friends_count", "description") %in% names(rt[[1]]))) {
@@ -207,6 +215,10 @@ parse.piper <- function(rt, usr = TRUE) {
         uservars <- list(
             screen_name = users[["screen_name"]],
             user_id = users[["user_id"]])
+        if (requireNamespace("tibble", quietly = TRUE)) {
+            users <- tryCatch(tibble::as_tibble(users),
+                              error = function(e) return(users))
+        }
         rt <- c(uservars,
                 atomic.parsed(rt),
                 entities.parsed(rt),
@@ -223,7 +235,10 @@ parse.piper <- function(rt, usr = TRUE) {
     if (usr) {
         attr(rt, "users") <- users
     }
-    ##if (suppressWarnings(require(dplyr))) rt <- tbl_df(rt)
+    if (requireNamespace("tibble", quietly = TRUE)) {
+        rt <- tryCatch(tibble::as_tibble(rt),
+                       error = function(e) return(rt))
+    }
     rt
 }
 
@@ -303,8 +318,7 @@ atomic.parsed <- function(rt) {
 coords.parsed <- function(rt) {
     ## geo coordinates
     coordinates <- tryCatch(
-        rt %>%
-        plyget("geo") %>%
+        plyget(rt, "geo") %>%
         plyget("coordinates") %>%
         plyget(unL) %>%
         plyget(paste, collapse = " ") %>%
@@ -312,8 +326,7 @@ coords.parsed <- function(rt) {
             return(NULL))
     if (!is.null(coordinates)) return(coordinates)
     coordinates <- tryCatch(
-        rt %>%
-        plyget("coordinates") %>%
+        plyget(rt, "coordinates") %>%
         plyget("coordinates") %>%
         plyget(unL) %>%
         plyget(paste, collapse = " ") %>%
@@ -326,8 +339,7 @@ coords.parsed <- function(rt) {
 coords.type.parsed <- function(rt) {
     ## geo coordinates
     coordinates_type <- tryCatch(
-        rt %>%
-        plyget("geo") %>%
+        plyget(rt, "geo") %>%
         plyget("type") %>%
         plyget(unL) %>%
         plyget(paste, collapse = " ") %>%
@@ -335,8 +347,7 @@ coords.type.parsed <- function(rt) {
             return(NULL))
     if (!is.null(coordinates_type)) return(coordinates_type)
     coordinates_type <- tryCatch(
-        rt %>%
-        plyget("geo") %>%
+        plyget(rt, "geo") %>%
         plyget("type") %>%
         plyget(unL) %>%
         plyget(paste, collapse = " ") %>%
@@ -349,8 +360,7 @@ coords.type.parsed <- function(rt) {
 entities.parsed <- function(rt) {
     ## entities
     rt <- plyget(rt, "entities")
-    media <- rt %>%
-        plyget(media.parsed)
+    media <- plyget(rt, media.parsed)
     if (is.null(media)) {
         n <- NROW(rt)
         media <- list(
@@ -359,8 +369,7 @@ entities.parsed <- function(rt) {
             media_url_expanded = rep(NA, n)
         )
     }
-    urls <- rt %>%
-        plyget(urls.parsed)
+    urls <- plyget(rt, urls.parsed)
     if (is.null(urls)) {
         n <- NROW(rt)
         urls <- list(
@@ -369,8 +378,7 @@ entities.parsed <- function(rt) {
             urls_expanded = rep(NA, n)
         )
     }
-    mentions <- rt %>%
-        plyget(user_mentions.parsed)
+    mentions <- plyget(rt, user_mentions.parsed)
     if (is.null(mentions)) {
         n <- NROW(rt)
         mentions <- list(
@@ -378,52 +386,41 @@ entities.parsed <- function(rt) {
             mentions_user_id = rep(NA, n)
         )
     }
-    symbols <- rt %>%
-        plyget(symbols.parsed)
+    symbols <- plyget(rt, symbols.parsed)
     if (is.null(symbols)) {
         n <- NROW(rt)
         symbols <- list(
             symbols = rep(NA, n)
         )
     }
-    hashtags <- rt %>%
-        plyget(hashtags.parsed)
+    hashtags <- plyget(rt, hashtags.parsed)
     if (is.null(hashtags)) {
         n <- NROW(rt)
         hashtags <- list(
             hashtags = rep(NA, n)
         )
     }
+
     list(
-        media_id = media %>%
-            plyget("media_id") %>%
+        media_id = plyget(media, "media_id") %>%
             unL,
-        media_url = media %>%
-            plyget("media_url") %>%
+        media_url = plyget(media, "media_url") %>%
             unL,
-        media_url_expanded = media %>%
-            plyget("media_url_expanded") %>%
+        media_url_expanded = plyget(media, "media_url_expanded") %>%
             unL,
-        urls = urls %>%
-            plyget("urls") %>%
+        urls = plyget(urls, "urls") %>%
             unL,
-        urls_display = urls %>%
-            plyget("urls_display") %>%
+        urls_display = plyget(urls, "urls_display") %>%
             unL,
-        urls_expanded = urls %>%
-            plyget("urls_expanded") %>%
+        urls_expanded = plyget(urls, "urls_expanded") %>%
             unL,
-        mentions_screen_name = mentions %>%
-            plyget("mentions_screen_name") %>%
+        mentions_screen_name = plyget(mentions, "mentions_screen_name") %>%
             unL,
-        mentions_user_id = mentions %>%
-            plyget("mentions_user_id") %>%
+        mentions_user_id = plyget(mentions, "mentions_user_id") %>%
             unL,
-        symbols = symbols %>%
-            plyget("symbols") %>%
+        symbols = plyget(symbols, "symbols") %>%
             unL,
-        hashtags = hashtags %>%
-            plyget("hashtags") %>%
+        hashtags = plyget(hashtags, "hashtags") %>%
             unL
     )
 
@@ -476,16 +473,13 @@ urls.parsed <- function(rt) {
         )
     } else {
         urls <- list(
-            urls = urls %>%
-                plycp("urls") %>%
+            urls = plycp(urls, "urls") %>%
                 plyget(unL) %>%
                 unL(),
-            urls_display = urls %>%
-                plycp("display_url") %>%
+            urls_display = plycp(urls, "display_url") %>%
                 plyget(unL) %>%
                 unL(),
-            urls_expanded = urls %>%
-                plycp("expanded_url") %>%
+            urls_expanded = plycp(urls, "expanded_url") %>%
                 plyget(unL) %>%
                 unL()
         )
@@ -496,8 +490,7 @@ urls.parsed <- function(rt) {
 user_mentions.parsed <- function(rt) {
     n <- NROW(rt)
     ## user_mentions object
-    user_mentions <- rt %>%
-        plyget("user_mentions")
+    user_mentions <- plyget(rt, "user_mentions")
 
     ## if null fill user_mentions obj with NAs
     ## else extract each user_mentions var
@@ -524,8 +517,7 @@ user_mentions.parsed <- function(rt) {
 symbols.parsed <- function(rt) {
     n <- NROW(rt)
     ## symbols object
-    symbols <- rt %>%
-        plyget("symbols")
+    symbols <- plyget(rt, "symbols")
 
     ## if null fill symbols obj with NAs
     ## else extract each symbols var
@@ -547,8 +539,7 @@ symbols.parsed <- function(rt) {
 hashtags.parsed <- function(rt) {
     n <- NROW(rt)
     ## hashtags object
-    hashtags <- rt %>%
-        plyget("hashtags")
+    hashtags <- plyget(rt, "hashtags")
 
     ## if null fill hashtags obj with NAs
     ## else extract each hashtags var
@@ -592,52 +583,44 @@ place.parsed <- function(rt) {
 }
 
 place_id.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "id") %>%
+    plyget(rt, getifelse, "id") %>%
         plyget(unL) %>%
         unL()
 }
 place_type.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "place_type") %>%
+    plyget(rt, getifelse, "place_type") %>%
         plyget(unL) %>%
         unL()
 }
 place_name.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "name") %>%
+    plyget(rt, getifelse, "name") %>%
         plyget(unL) %>%
         unL()
 }
 place_full_name.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "full_name") %>%
+    plyget(rt, getifelse, "full_name") %>%
         plyget(unL) %>%
         unL()
 }
 country_code.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "country_code") %>%
+    plyget(rt, getifelse, "country_code") %>%
         plyget(unL) %>%
         unL()
 }
 country.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "country") %>%
+    plyget(rt, getifelse, "country") %>%
         plyget(unL) %>%
         unL()
 }
 bounding_box_coordinates.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "bounding_box") %>%
+    plyget(rt, getifelse, "bounding_box") %>%
         plyget(getifelse, "coordinates") %>%
         plyboxem %>%
         plyget(unL) %>%
         unL()
 }
 bounding_box_type.parsed <- function(rt) {
-    rt %>%
-        plyget(getifelse, "bounding_box") %>%
+    plyget(rt, getifelse, "bounding_box") %>%
         plyget(getifelse, "type") %>%
         plyget(unL) %>%
         unL()
@@ -655,85 +638,91 @@ get.user.obj <- function(x) {
 }
 atomic.parsed.usr <- function(rt) {
     atom <- list(
-        user_id = plyget(rt, "id_str") %>%
+        user_id = plyget(rt, getifelse, "id_str") %>%
             unL,
-        name = plyget(rt, "name") %>%
+        name = plyget(rt, getifelse, "name") %>%
             unL,
-        screen_name = plyget(rt, "screen_name") %>%
+        screen_name = plyget(rt, getifelse, "screen_name") %>%
             unL,
-        location = plyget(rt, "location") %>%
+        location = plyget(rt, getifelse, "location") %>%
             unL,
-        description = plyget(rt, "description") %>%
+        description = plyget(rt, getifelse, "description") %>%
             unL,
-        protected = plyget(rt, "protected") %>%
+        protected = plyget(rt, getifelse, "protected") %>%
             unL,
-        followers_count = plyget(rt, "followers_count") %>%
+        followers_count = plyget(rt, getifelse, "followers_count") %>%
             unL,
-        friends_count = plyget(rt, "friends_count") %>%
+        friends_count = plyget(rt, getifelse, "friends_count") %>%
             unL,
-        listed_count = plyget(rt, "listed_count") %>%
+        listed_count = plyget(rt, getifelse, "listed_count") %>%
             unL,
-        created_at = plyget(rt, "created_at") %>%
+        created_at = plyget(rt, getifelse, "created_at") %>%
             unL %>%
             format_date,
-        favourites_count = plyget(rt, "favourites_count") %>%
+        favourites_count = plyget(rt, getifelse, "favourites_count") %>%
             unL,
-        utc_offset = plyget(rt, "utc_offset") %>%
+        utc_offset = plyget(rt, getifelse, "utc_offset") %>%
             unL,
-        time_zone = plyget(rt, "time_zone") %>%
+        time_zone = plyget(rt, getifelse, "time_zone") %>%
             unL,
-        geo_enabled = plyget(rt, "geo_enabled") %>%
+        geo_enabled = plyget(rt, getifelse, "geo_enabled") %>%
             unL,
-        verified = plyget(rt, "verified") %>%
+        verified = plyget(rt, getifelse, "verified") %>%
             unL,
-        statuses_count = plyget(rt, "statuses_count") %>%
+        statuses_count = plyget(rt, getifelse, "statuses_count") %>%
             unL,
-        lang = plyget(rt, "lang") %>%
+        lang = plyget(rt, getifelse, "lang") %>%
             unL,
-        contributors_enabled = plyget(rt, "contributors_enabled") %>%
+        contributors_enabled = plyget(rt, getifelse, "contributors_enabled") %>%
             unL,
-        is_translator = plyget(rt, "is_translator") %>%
+        is_translator = plyget(rt, getifelse, "is_translator") %>%
             unL,
-        is_translation_enabled = plyget(rt, "is_translation_enabled") %>%
+        is_translation_enabled = plyget(rt, getifelse, "is_translation_enabled") %>%
             unL,
-        profile_background_color = plyget(rt, "profile_background_color") %>%
+        profile_background_color = plyget(rt, getifelse, "profile_background_color") %>%
             unL,
-        profile_background_image_url = plyget(rt, "profile_background_image_url") %>%
+        profile_background_image_url = plyget(rt, getifelse, "profile_background_image_url") %>%
             unL,
-        profile_background_image_url_https = plyget(rt, "profile_background_image_url_https") %>%
+        profile_background_image_url_https = plyget(rt, getifelse, "profile_background_image_url_https") %>%
             unL,
-        profile_background_tile = plyget(rt, "profile_background_tile") %>%
+        profile_background_tile = plyget(rt, getifelse, "profile_background_tile") %>%
             unL,
-        profile_image_url = plyget(rt, "profile_image_url") %>%
+        profile_image_url = plyget(rt, getifelse, "profile_image_url") %>%
             unL,
-        profile_image_url_https = plyget(rt, "profile_image_url_https") %>%
+        profile_image_url_https = plyget(rt, getifelse, "profile_image_url_https") %>%
             unL,
-        profile_image_url = plyget(rt, "profile_image_url") %>%
+        profile_image_url = plyget(rt, getifelse, "profile_image_url") %>%
             unL,
-        profile_image_url_https = plyget(rt, "profile_image_url_https") %>%
+        profile_image_url_https = plyget(rt, getifelse, "profile_image_url_https") %>%
             unL,
-        profile_link_color = plyget(rt, "profile_link_color") %>%
+        profile_link_color = plyget(rt, getifelse, "profile_link_color") %>%
             unL,
-        profile_sidebar_border_color = plyget(rt, "profile_sidebar_border_color") %>%
+        profile_sidebar_border_color = plyget(rt, getifelse, "profile_sidebar_border_color") %>%
             unL,
-        profile_sidebar_fill_color = plyget(rt, "profile_sidebar_fill_color") %>%
+        profile_sidebar_fill_color = plyget(rt, getifelse, "profile_sidebar_fill_color") %>%
             unL,
-        profile_text_color = plyget(rt, "profile_text_color") %>%
+        profile_text_color = plyget(rt, getifelse, "profile_text_color") %>%
             unL,
-        profile_use_background_image = plyget(rt, "profile_use_background_image") %>%
+        profile_use_background_image = plyget(rt, getifelse, "profile_use_background_image") %>%
             unL,
-        default_profile = plyget(rt, "default_profile") %>%
+        default_profile = plyget(rt, getifelse, "default_profile") %>%
             unL,
-        default_profile_image = plyget(rt, "default_profile_image") %>%
+        default_profile_image = plyget(rt, getifelse, "default_profile_image") %>%
             unL,
-        profile_banner_url = plyget(rt, "profile_banner_url") %>%
+        profile_banner_url = plyget(rt, getifelse, "profile_banner_url") %>%
             unL
     )
     lgs <- vapply(atom, length, double(1))
+    if (sum(lgs == 0, na.rm = TRUE) > 0L) {
+        for (i in seq_len(sum(lgs == 0))) {
+            atom[[i]] <- rep(rep(NA, max(lgs)))
+        }
+    }
     atom[lgs == 0] <- rep(
         list(rep(NA, max(lgs))), sum(lgs == 0))
     atom
 }
+
 
 #' parse.piper.usr
 #'

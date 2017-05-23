@@ -14,6 +14,12 @@ obj (users data) as attribute. Defaults to true. If
 was generated from users-oriented function, e.g.,
 lookup_users(), set to false.}
 }
+\value{
+Data frame of tweets or users data with the other (tweets/users)
+  included as an attribute. If something breaks during the parsing process,
+  this function has a fail safe that will return a list (presumably with
+  unbalanced lengths).
+}
 \description{
 Returns Parses tweets and users data
 }

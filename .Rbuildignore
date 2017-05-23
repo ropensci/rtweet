@@ -12,3 +12,4 @@ tests/testthat/twitter_tokens\.enc
 ^docs$
 ^_pkgdown\.yml$
 ^data/rjourn*
+R/media.R$

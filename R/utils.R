@@ -64,8 +64,7 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
     if (!is_json(rsp)) {
         stop("API did not return json", call. = FALSE)
     }
-    rsp <- rsp[["content"]] %>%
-        rawToChar()
+    rsp <- rawToChar(rsp[["content"]])
     rsp <- fromJSON(rsp)
     if (isTRUE("full_text" %in% names(rsp))) {
         names(rsp)[names(rsp) == "text"] <- "texttrunc"
@@ -104,7 +103,8 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
 .id_type <- function(x) {
     x <- suppressWarnings(is.na(as.numeric(x)))
     if (length(unique(x)) > 1) {
-        stop("users must be user_ids OR screen_names, not both.")
+        return("screen_name")
+        ##stop("users must be user_ids OR screen_names, not both.")
     }
     x <- unique(x)
     if (x) {

@@ -443,7 +443,7 @@ search_users <- function(q, n = 20,
         }
         k <- k + nrows
         if (k >= n) break
-        url$query$page <- (i + 1L)
+        url[[i]]$query$page <- i + 1L
     }
     if (parse) {
         usr <- parse.piper.usr(usr, tw = tw)

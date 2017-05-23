@@ -14,6 +14,12 @@ obj (users data) as attribute if tweets data provided to
 rt argument or tweets obj (tweets data) as attribute if
 users data provided to rt. Defaults to true.}
 }
+\value{
+Data frame of tweets or users data with the other (tweets/users)
+  included as an attribute. If something breaks during the parsing process,
+  this function has a fail safe that will return a list (presumably with
+  unbalanced lengths).
+}
 \description{
 Returns Parses tweets and users data
 }

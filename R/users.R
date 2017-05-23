@@ -22,18 +22,21 @@
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
-#' # lookup vector of 1 or more user_id or screen_name
+#' ## lookup vector of 1 or more user_id or screen_name
 #' users <- c("potus", "hillaryclinton", "realdonaldtrump",
 #'   "fivethirtyeight", "cnn", "espn", "twitter")
 #'
+#' ## get users data
 #' usr_df <- lookup_users(users)
+#'
+#' ## view users data
 #' usr_df
 #'
-#' # view tweet data for these users via tweets_data()
+#' ## view tweet data for these users via tweets_data()
 #' tweets_data(usr_df)
 #' }
 #'
-#' @return json response object (max is 18000 per token)
+#' @return json response object
 #' @family users
 #' @export
 lookup_users <- function(users,

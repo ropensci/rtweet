@@ -4,22 +4,51 @@
 #'
 #' @param status Character, tweet status. Must be 140
 #'   characters or less.
+#' @param media File path to image or video media to be
+#'   included in tweet.
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
 #'
 #' @examples
 #' \dontrun{
-#' post_tweet("my first rtweet #rstats")
+#' x <- rnorm(300)
+#' y <- x + rnorm(300, 0, .75)
+#' col <- c(rep("#002244aa", 50), rep("#440000aa", 50))
+#' bg <- c(rep("#6699ffaa", 50), rep("#dd6666aa", 50))
+#' tmp <- tempfile(fileext = "png")
+#' png(tmp, 6, 6, "in", res = 127.5)
+#' par(tcl = -.15, family = "Inconsolata",
+#'     font.main = 2, bty = "n", xaxt = "l", yaxt = "l",
+#'     bg = "#f0f0f0", mar = c(3, 3, 2, 1.5))
+#' plot(x, y, xlab = NULL, ylab = NULL, pch = 21, cex = 1,
+#'      bg = bg, col = col,
+#'      main = "This image was uploaded by rtweet")
+#' grid(8, lwd = .15, lty = 2, col = "#00000088")
+#' dev.off()
+#' browseURL(tmp)
+#' post_tweet(".Call(\"oops\", ...)",
+#'            media = tmp)
 #' }
 #' @family post
+#' @aliases post_status
 #' @export
 post_tweet <- function(status = "my first rtweet #rstats",
+                       media = NULL,
                        token = NULL) {
 
-    query <- "statuses/update"
+    ## validate
     stopifnot(is.character(status))
     stopifnot(length(status) == 1)
+    ## media if provided
+    if (is.null(media)) {
+        query <- "statuses/update"
+        params <- list(status = status)
+    } else {
+        query <- "statuses/update_with_media"
+        params <- list(media = httr::upload_file(media),
+                       status = status)
+    }
     if (all(nchar(status) > 140, !grepl("http", status))) {
         stop("cannot exceed 140 characters.", call. = FALSE)
     }
@@ -29,20 +58,18 @@ post_tweet <- function(status = "my first rtweet #rstats",
     }
     token <- check_token(token, query)
 
-    params <- list(status = status)
+    url <- make_url(query = query) ##param = params)
 
-    url <- make_url(query = query, param = params)
-
-    r <- TWIT(get = FALSE, url, token)
+    r <- TWIT(get = FALSE, url, body = params, token)
 
     if (r$status_code != 200) {
         message(paste0(
-            "something didn't work. are you using a token associated ",
+            "something didn't work. are you using the token associated ",
             "with *your* Twitter account? if so you may need to set read/write ",
             "permissions or reset your token at apps.twitter.com."))
     }
-
     message("your tweet has been posted!")
+    invisible(r)
 }
 
 

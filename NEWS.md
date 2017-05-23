@@ -1,3 +1,11 @@
+# rtweet 0.4.3
+- Now returns tibbles (tibble is a recommended dependency)
+- Various bug fixes and code improvements.
+
+# rtweet 0.4.2
+* Various bug fixes
+* Integration with ggplot2 as a suggested dependency
+
 # rtweet 0.4.1
 * Fixed bugs with `mutate_coords()` and `retryonratelimit`.
 * Now returns full text of tweets exceeding 140 characters. This
