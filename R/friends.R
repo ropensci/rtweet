@@ -39,7 +39,8 @@
 get_friends <- function(user, page = "-1", parse = TRUE,
                         as_double = FALSE, token = NULL) {
 
-    stopifnot(is.atomic(user), is.atomic(page),
+    stopifnot(is.atomic(user),
+              is.atomic(page),
               isTRUE(length(user) == 1))
 
     token <- check_token(token)
@@ -74,18 +75,31 @@ get_friends <- function(user, page = "-1", parse = TRUE,
 
 #' @importFrom jsonlite fromJSON
 parse.piper.fnd <- function(r) {
-    r <- r[["content"]] %>%
-        rawToChar() %>%
-        jsonlite::fromJSON() %>%
-        tryCatch(error = function(e) return(NULL))
+    if (isTRUE("content" %in% names(r))) {
+        r <- tryCatch(
+            jsonlite::fromJSON(rawToChar(r[["content"]])),
+            error = function(e) return(NULL))
+        r <- fnd_internal(r)
+    } else {
+        if (length(r) > 1L) {
+            r <- lapply(r, fnd_internal)
+            r <- do.call("rbind", r)
+
+        } else {
+            r <- fnd_internal(r)
+        }
+    }
+    if (requireNamespace("tibble", quietly = TRUE)) {
+        r <- tibble::as_tibble(r)
+    }
+    r
+}
+
+fnd_internal <- function(r) {
     if (is.null(r)) return(data.frame(user_id = NA_character_))
-    next_cursor <- r %>%
-        getElement("next_cursor") %>%
-        as.character()
-    usrs <- r %>%
-        getElement("ids") %>%
-        as.character() %>%
-        data.frame(stringsAsFactors = FALSE)
+    next_cursor <- as.character(r[["next_cursor_str"]])
+    usrs <- data.frame(as.character(r[["ids"]]),
+                       stringsAsFactors = FALSE)
     names(usrs) <- "user_id"
     if (is.null(next_cursor)) next_cursor <- NA_character_
     attr(usrs, "next_cursor") <- next_cursor

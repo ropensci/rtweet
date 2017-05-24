@@ -86,21 +86,20 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
 
 parse.piper.fs <- function(f, n = NULL, as_double = FALSE) {
     if (as_double) {
-        df <- f %>% plyget("ids") %>%
+        df <- plyget(f, "ids") %>%
             make.vector() %>%
             as.double() %>%
             as.df("user_id") %>%
             tryCatch(error = function(e) return(NULL))
     } else {
-        df <- f %>% plyget("ids") %>%
+        df <- plyget(f, "ids") %>%
             make.vector() %>%
             as.character() %>%
             as.df("user_id") %>%
             tryCatch(error = function(e) return(NULL))
     }
     if (is.null(df)) return(f)
-    next_cursor <- f %>%
-        plyget("next_cursor") %>%
+    next_cursor <- plyget(f, "next_cursor") %>%
         return_last() %>%
         unL() %>%
         tryCatch(error = function(e) return(NULL))

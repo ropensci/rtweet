@@ -56,6 +56,7 @@ unique_id_count <- function(x, type = NULL) {
     if (!is.null(type)) {
         if (type == "search") return(100)
         if (type == "timeline") return(200)
+        if (type == "followers") return(5000)
     }
     if (isTRUE(length(x) > 1L)) {
         if (!is.null(names(x[[2]]))) {
