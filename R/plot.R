@@ -259,13 +259,10 @@ ts_plot <- function(rt, by = "days",
         size <- lwd / 2
         if (identical(unique(dat$filter), "")) {
             p <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "time", y = "freq")) +
-                ggplot2::geom_line(size = size) +
-                ggplot2::theme_bw()
+                ggplot2::geom_line(size = size)
         } else {
             p <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "time", y = "freq", color = "filter")) +
-                ggplot2::geom_line(size = size) +
-                ggplot2::theme_bw() +
-                ggplot2::facet_wrap("filter")
+                ggplot2::geom_line(size = size)
         }
         return(p)
     } else {
