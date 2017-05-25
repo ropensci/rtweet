@@ -1,4 +1,31 @@
 
+#' plain text tweets
+#'
+#' @param txt Tweet text, character vector.
+#' @param tokenize Logical indicating whether to split each tweet into
+#'   a vector of individual words. Defaults to FALSE.
+#' @return Stripped and cleaned up version of tweet text.
+#' @export
+plain_tweets <- function(txt, tokenize = FALSE) {
+    txt <- tolower(txt)
+    txt <- gsub("(@|#|http|www.)\\S{1,}", "", txt, perl = TRUE)
+    txt <- gsub("[[:alnum:]]{1,}.com", "", txt)
+    txt <- gsub("^rt ", "", txt)
+    txt <- gsub("amp;", "", txt)
+    txt <- gsub("’", "", txt)
+    txt <- gsub("'|-", "", txt)
+    txt <- gsub("[[:punct:]]", " ", txt)
+    txt <- gsub("[a-z]{0,}[[:digit:]]{1,}[a-z]{0,}", "", txt)
+    txt <- gsub("[^\\w]", " ", txt, perl = TRUE)
+    txt <- gsub("\\s{2,}", " ", txt, perl = TRUE)
+    txt <- trimws(txt)
+    if (tokenize) {
+        strsplit(txt, " ")
+    } else {
+        txt
+    }
+}
+
 combn <- function(x, b, n.words) {
     e <- b + n.words - 1L
     if (e > length(x)) return(NA_character_)

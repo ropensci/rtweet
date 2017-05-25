@@ -741,6 +741,10 @@ ts_filter <- function(rt, by = "days",
         ## collapse into tidy data frame
         dat <- do.call("rbind", lstdat)
     }
+    if (requireNamespace("tibble", quietly = TRUE)) {
+        dat <- tryCatch(tibble::as_tibble(dat),
+                        error = function(e) return(dat))
+    }
     dat
 }
 
