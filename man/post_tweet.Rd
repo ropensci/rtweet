@@ -5,7 +5,8 @@
 \alias{post_status}
 \title{post_tweet}
 \usage{
-post_tweet(status = "my first rtweet #rstats", media = NULL, token = NULL)
+post_tweet(status = "my first rtweet #rstats", media = NULL, token = NULL,
+  in_reply_to_status_id = NULL)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 140
@@ -40,6 +41,12 @@ dev.off()
 browseURL(tmp)
 post_tweet(".Call(\\"oops\\", ...)",
            media = tmp)
+
+# example of replying within a thread
+post_tweet(status="first in a thread")
+my_timeline <- get_timeline(self_user_name, n=1, token=twitter_token)
+reply_id <- my_timeline[1,]$status_id
+post_tweet(status="second in the thread", in_reply_to_status_id=reply_id)
 }
 }
 \seealso{
