@@ -29,13 +29,20 @@
 #' browseURL(tmp)
 #' post_tweet(".Call(\"oops\", ...)",
 #'            media = tmp)
+#'
+#' # example of replying within a thread
+#' post_tweet(status="first in a thread")
+#' my_timeline <- get_timeline(self_user_name, n=1, token=twitter_token)
+#' reply_id <- my_timeline[1,]$status_id
+#' post_tweet(status="second in the thread", in_reply_to_status_id=reply_id)
 #' }
 #' @family post
 #' @aliases post_status
 #' @export
 post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,
-                       token = NULL) {
+                       token = NULL,
+                       in_reply_to_status_id=NULL) {
 
     ## validate
     stopifnot(is.character(status))
@@ -57,6 +64,11 @@ post_tweet <- function(status = "my first rtweet #rstats",
              call. = FALSE)
     }
     token <- check_token(token, query)
+
+
+    if (!is.null(in_reply_to_status_id)) {
+      params[["in_reply_to_status_id"]] <- in_reply_to_status_id
+    } 
 
     url <- make_url(query = query) ##param = params)
 
