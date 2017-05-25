@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
     echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-This vignettes provides a *very* quick tour of the R package `rtweet: Collecting Twitter Data`. Before getting to the tour, however, I want to explain the philosophy behind rtweet.
+This vignettes provides a *very* quick tour of the R package `rtweet: Collecting Twitter Data`. 
+Before getting to the tour, however, I want to explain the philosophy behind rtweet.
 
 ## Package Philosophy
 
@@ -129,7 +130,7 @@ head(imwithher)
 head(users_data(imwithher))
 
 ## stream 3 random samples of tweets
-for (in in seq_len(3)) {
+for (i in seq_len(3)) {
 	stream_tweets(q = "", timeout = 60,
 		file_name = paste0("rtw", i), parse = FALSE)
 	if (i == 3) {
