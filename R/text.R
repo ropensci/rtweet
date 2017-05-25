@@ -8,8 +8,8 @@
 #' @export
 plain_tweets <- function(txt, tokenize = FALSE) {
     txt <- tolower(txt)
-    txt <- gsub("(@|#|http|www.)\\S{1,}", "", txt, perl = TRUE)
-    txt <- gsub("[[:alnum:]]{1,}.com", "", txt)
+    txt <- gsub("(@|#|http|www\\.)\\S{1,}", "", txt, perl = TRUE)
+    txt <- gsub("[[:alnum:]]{1,}\\.com", "", txt)
     txt <- gsub("^rt ", "", txt)
     txt <- gsub("amp;", "", txt)
     txt <- gsub("’", "", txt)
