@@ -4,10 +4,14 @@
 \alias{search_tweets}
 \title{search_tweets}
 \usage{
-search_tweets(q, n = 100, type = "recent", max_id = NULL,
-  include_rts = TRUE, full_text = TRUE, parse = TRUE, usr = TRUE,
-  token = NULL, retryonratelimit = FALSE, verbose = TRUE, adjtimer = 20,
-  ...)
+search_tweets(q = "", n = 100, type = "recent", geocode = NULL,
+  max_id = NULL, include_rts = TRUE, full_text = TRUE, parse = TRUE,
+  usr = TRUE, token = NULL, retryonratelimit = FALSE, verbose = TRUE,
+  adjtimer = 20, exact = FALSE, from = NULL, to = NULL, list = NULL,
+  mention = NULL, hashtag = NULL, filter_media = FALSE,
+  filter_native_video = FALSE, filter_vine = FALSE,
+  filter_periscope = FALSE, filter_images = FALSE, filter_twimg = FALSE,
+  filter_links = FALSE, ...)
 }
 \arguments{
 \item{q}{Query to be searched, used to filter and select tweets
@@ -37,6 +41,9 @@ for more information.}
 results to return from Twitter's REST API. The current default is
 \code{type = "recent"}, other valid types include
 \code{type = "mixed"} and \code{type = "popular"}.}
+
+\item{geocode}{Geographical limiter of the template
+"latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
 
 \item{max_id}{Character string specifying the [oldest] status
 id beyond which search results should resume returning.
@@ -122,6 +129,49 @@ could be reset. If this happens to you, add to this value to
 achieve smoother experience. If you're trying to maximize
 efficiency, you may be able to set this to 0 or 1 without any
 issue.}
+
+\item{exact}{Logical indicating whether to search for exact matches. Defaults
+to false. Setting this to true is equivalent to using quotations around a
+search query.}
+
+\item{from}{Screen name(s) of users FROM whom the search should be limited.
+Vectors of multiple names are accepted, but no promises it'll work.}
+
+\item{to}{Screen name(s) of users TO whom the search should be limited.
+Vectors of multiple names are accepted, but no promises it'll work.}
+
+\item{list}{Name(s) of Twitter lists from which to search for tweets having
+been sent from. Vectors with multiple list names are accepted, but I'm not
+promising that it'll work.}
+
+\item{mention}{Screen name(s) of MENTIONED account(s) for which to search.
+Vectors of multiple names are accepted, but no promises it'll work.}
+
+\item{hashtag}{Hashtag(s) for which to search. Can provide multiple hashtags
+in a single vector, but tweets will only be returned if they include all
+of the supplied hashtags. To search for tweets that use ANY hashtag, include
+the hashtags separated by OR (#rstats OR #datascience) as part of the string
+provided to q (query).}
+
+\item{filter_media}{Logical requesting to only return tweets with image or video.}
+
+\item{filter_native_video}{Logical requesting to only return tweets with
+uploaded video (amplify, periscope, and vine included)}
+
+\item{filter_vine}{Logical requesting to only return tweets that include vines.}
+
+\item{filter_periscope}{Logical requesting to only return tweets that include
+vines.}
+
+\item{filter_images}{Logical requesting to only return tweets that have links
+to photos (Instagram included)}
+
+\item{filter_twimg}{Logical requesting to only return tweets with
+Twitter [linked] images}
+
+\item{filter_links}{Logical requesting to only return tweets with URL links.
+If keyword(s) are provided, the search will only return tweets with URL links
+that include the supplied key word(s).}
 
 \item{\dots}{Futher arguments passed on to \code{make_url}.
 All named arguments that do not match the above arguments

@@ -96,13 +96,14 @@ get_trends_closest <- function(lat = NULL,
                                exclude = FALSE,
                                token = NULL,
                                parse = TRUE) {
+    query <- "trends/place"
 
-  stopifnot(!is.null(lat), !is.null(long))
-  token <- check_token(token, query)
+    stopifnot(!is.null(lat), !is.null(long))
+    token <- check_token(token, query)
 
-  woeid <- trends_closest(lat, long, token)$woeid
+    woeid <- trends_closest(lat, long, token)$woeid
 
-  get_trends(woeid = woeid, exclude = exclude, token = token, parse = parse)
+    get_trends(woeid = woeid, exclude = exclude, token = token, parse = parse)
 
 }
 
@@ -120,13 +121,13 @@ get_trends_closest <- function(lat = NULL,
 #' nyc_woeid <- trends_closest(40.7, -74.0, twitter_token)
 #' }
 trends_closest <- function(lat, long, token) {
-  query <- "trends/closest"
-  token <- check_token(token, query)
-  url <- make_url(query = query,
-                  param = list(lat=lat, long=long))
-  trd <- TWIT(get = TRUE, url, token)
-  trd <- from_js(trd)
-  trd
+    query <- "trends/closest"
+    token <- check_token(token, query)
+    url <- make_url(query = query,
+                    param = list(lat=lat, long=long))
+    trd <- TWIT(get = TRUE, url, token)
+    trd <- from_js(trd)
+    trd
 }
 
 parse_trends <- function(x) {

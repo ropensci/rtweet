@@ -1,32 +1,46 @@
 scroller <- function(url, n, n.times, type = NULL, ...) {
-
+    ## check args
     stopifnot(is_n(n), is_url(url))
+
+    ## if missing set to 1
     if (missing(n.times)) n.times <- 1
+
+    ## initialize vector and counter
     x <- vector("list", n.times)
     counter <- 0
 
     for (i in seq_along(x)) {
+        ## send GET request
   	x[[i]] <- tryCatch(
             TWIT(get = TRUE, url, ...),
             error = function(e) return(NULL))
+
+        ## if NULL (error) break
         if (is.null(x[[i]])) break
 
+        ## convert from json to R list
         x[[i]] <- from_js(x[[i]])
 
-        if ("statuses" %in% names(x[[i]])) {
-            if (identical(length(x[[i]][["statuses"]]), 0L)) break
+        ## if length of x or len of statuses == 0, break
+        if (any(length(x[[i]]) == 0L,
+                all("statuses" %in% names(x[[i]]),
+                    length(x[[i]][['statuses']]) == 0L))) {
+            break
         }
+        ## if reach counter, break
         counter <- counter +
             as.numeric(unique_id_count(x[[i]], type = type))
-
         if (counter >= n) break
+        ## check other possible fails
         if (break_check(x[[i]], url)) break
+        ## if cursor in URL then update otherwise use max id
         if ("cursor" %in% names(url$query)) {
             url$query$cursor <- get_max_id(x[[i]])
         } else {
             url$query$max_id <- get_max_id(x[[i]])
         }
     }
+    ## drop NULLs
     if (is.null(names(x))) {
         x <- x[vapply(x, length, double(1)) > 0]
     }

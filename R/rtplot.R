@@ -31,9 +31,11 @@ lookup_coords <- function(address, components = NULL, ...) {
 
     geourl <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
                      params)
-    r <- readLines(geourl)
-    r <- jsonlite::fromJSON(r)
-    rev(unlist(r$results$geometry[1, 1], use.names = FALSE))
+    ##r <- readLines(geourl)
+    r <- jsonlite::fromJSON(geourl)
+    coords <- rev(unlist(r$results$geometry[1, 1], use.names = FALSE))
+    names(coords) <- c("long1", "lat1", "long2", "lat2")
+    coords
 }
 
 

@@ -91,6 +91,9 @@ all_tw <- function(search = TRUE) {
 	}
 	paste(letters, collapse = x)
 }
+firehose <- function(search = TRUE) {
+    all_tw(search)
+}
 
 
 #' tweets_data

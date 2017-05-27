@@ -18,6 +18,9 @@ included in tweet.}
 \item{token}{OAuth token. By default \code{token = NULL}
 fetches a non-exhausted token from an environment
 variable tokens.}
+
+\item{in_reply_to_status_id}{Status ID of tweet to which you'd like
+to reply.}
 }
 \description{
 Posts status update to user's Twitter account

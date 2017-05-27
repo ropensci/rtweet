@@ -279,39 +279,22 @@ qtstatus.safecheck <- function(x) {
 }
 atomic.parsed <- function(rt) {
     list(
-        created_at = plyget(rt, "created_at") %>%
-            unL %>%
-            format_date,
-        status_id = plyget(rt, "id_str") %>%
-            unL,
-        text = plyget(rt, "text") %>%
-            unL,
-        retweet_count = plyget(rt, "retweet_count") %>%
-            unL,
-        favorite_count = plyget(rt, "favorite_count") %>%
-            unL,
-        is_quote_status = plyget(rt, qtstatus.safecheck) %>%
-            unL %>%
-            is.na.not,
-        quote_status_id = plyget(rt, qtstatus.safecheck) %>%
-            unL,
-        is_retweet = plyget(rt, rtstatus.safecheck) %>%
-            unL %>%
-            is.na.not,
-        retweet_status_id = plyget(rt, rtstatus.safecheck) %>%
-            unL,
-        in_reply_to_status_status_id = plyget(rt, "in_reply_to_status_id_str") %>%
-            unL,
-        in_reply_to_status_user_id = plyget(rt, "in_reply_to_user_id_str") %>%
-            unL,
-        in_reply_to_status_screen_name = plyget(rt, "in_reply_to_screen_name") %>%
-            unL,
-        lang = plyget(rt, "lang") %>%
-            unL,
-        source = gsub(
+        created_at = format_date(unL(plyget(rt, "created_at"))),
+        status_id = unL(plyget(rt, "id_str")),
+        text = unL(plyget(rt, "text")),
+        retweet_count = unL(plyget(rt, "retweet_count")),
+        favorite_count = unL(plyget(rt, "favorite_count")),
+        is_quote_status = is.na.not(unL(plyget(rt, qtstatus.safecheck))),
+        quote_status_id = unL(plyget(rt, qtstatus.safecheck)),
+        is_retweet = is.na.not(unL(plyget(rt, rtstatus.safecheck))),
+        retweet_status_id = unL(plyget(rt, rtstatus.safecheck)),
+        in_reply_to_status_status_id = unL(plyget(rt, "in_reply_to_status_id_str")),
+        in_reply_to_status_user_id = unL(plyget(rt, "in_reply_to_user_id_str")),
+        in_reply_to_status_screen_name = unL(plyget(rt, "in_reply_to_screen_name")),
+        lang = unL(plyget(rt, "lang")),
+        source = unL(gsub(
             "^[^>]*>|</a>$", "",
-            plyget(rt, "source") %>%
-            unL)
+            plyget(rt, "source")))
     )
 }
 
@@ -638,79 +621,42 @@ get.user.obj <- function(x) {
 }
 atomic.parsed.usr <- function(rt) {
     atom <- list(
-        user_id = plyget(rt, getifelse, "id_str") %>%
-            unL,
-        name = plyget(rt, getifelse, "name") %>%
-            unL,
-        screen_name = plyget(rt, getifelse, "screen_name") %>%
-            unL,
-        location = plyget(rt, getifelse, "location") %>%
-            unL,
-        description = plyget(rt, getifelse, "description") %>%
-            unL,
-        protected = plyget(rt, getifelse, "protected") %>%
-            unL,
-        followers_count = plyget(rt, getifelse, "followers_count") %>%
-            unL,
-        friends_count = plyget(rt, getifelse, "friends_count") %>%
-            unL,
-        listed_count = plyget(rt, getifelse, "listed_count") %>%
-            unL,
-        created_at = plyget(rt, getifelse, "created_at") %>%
-            unL %>%
-            format_date,
-        favourites_count = plyget(rt, getifelse, "favourites_count") %>%
-            unL,
-        utc_offset = plyget(rt, getifelse, "utc_offset") %>%
-            unL,
-        time_zone = plyget(rt, getifelse, "time_zone") %>%
-            unL,
-        geo_enabled = plyget(rt, getifelse, "geo_enabled") %>%
-            unL,
-        verified = plyget(rt, getifelse, "verified") %>%
-            unL,
-        statuses_count = plyget(rt, getifelse, "statuses_count") %>%
-            unL,
-        lang = plyget(rt, getifelse, "lang") %>%
-            unL,
-        contributors_enabled = plyget(rt, getifelse, "contributors_enabled") %>%
-            unL,
-        is_translator = plyget(rt, getifelse, "is_translator") %>%
-            unL,
-        is_translation_enabled = plyget(rt, getifelse, "is_translation_enabled") %>%
-            unL,
-        profile_background_color = plyget(rt, getifelse, "profile_background_color") %>%
-            unL,
-        profile_background_image_url = plyget(rt, getifelse, "profile_background_image_url") %>%
-            unL,
-        profile_background_image_url_https = plyget(rt, getifelse, "profile_background_image_url_https") %>%
-            unL,
-        profile_background_tile = plyget(rt, getifelse, "profile_background_tile") %>%
-            unL,
-        profile_image_url = plyget(rt, getifelse, "profile_image_url") %>%
-            unL,
-        profile_image_url_https = plyget(rt, getifelse, "profile_image_url_https") %>%
-            unL,
-        profile_image_url = plyget(rt, getifelse, "profile_image_url") %>%
-            unL,
-        profile_image_url_https = plyget(rt, getifelse, "profile_image_url_https") %>%
-            unL,
-        profile_link_color = plyget(rt, getifelse, "profile_link_color") %>%
-            unL,
-        profile_sidebar_border_color = plyget(rt, getifelse, "profile_sidebar_border_color") %>%
-            unL,
-        profile_sidebar_fill_color = plyget(rt, getifelse, "profile_sidebar_fill_color") %>%
-            unL,
-        profile_text_color = plyget(rt, getifelse, "profile_text_color") %>%
-            unL,
-        profile_use_background_image = plyget(rt, getifelse, "profile_use_background_image") %>%
-            unL,
-        default_profile = plyget(rt, getifelse, "default_profile") %>%
-            unL,
-        default_profile_image = plyget(rt, getifelse, "default_profile_image") %>%
-            unL,
-        profile_banner_url = plyget(rt, getifelse, "profile_banner_url") %>%
-            unL
+        user_id = unL(plyget(rt, getifelse, "id_str")),
+        name = unL(plyget(rt, getifelse, "name")),
+        screen_name = unL(plyget(rt, getifelse, "screen_name")),
+        location = unL(plyget(rt, getifelse, "location")),
+        description = unL(plyget(rt, getifelse, "description")),
+        protected = unL(plyget(rt, getifelse, "protected")),
+        followers_count = unL(plyget(rt, getifelse, "followers_count")),
+        friends_count = unL(plyget(rt, getifelse, "friends_count")),
+        listed_count = unL(plyget(rt, getifelse, "listed_count")),
+        created_at = format_date(unL(plyget(rt, getifelse, "created_at"))),
+        favourites_count = unL(plyget(rt, getifelse, "favourites_count")),
+        utc_offset = unL(plyget(rt, getifelse, "utc_offset")),
+        time_zone = unL(plyget(rt, getifelse, "time_zone")),
+        geo_enabled = unL(plyget(rt, getifelse, "geo_enabled")),
+        verified = unL(plyget(rt, getifelse, "verified")),
+        statuses_count = unL(plyget(rt, getifelse, "statuses_count")),
+        lang = unL(plyget(rt, getifelse, "lang")),
+        contributors_enabled = unL(plyget(rt, getifelse, "contributors_enabled")),
+        is_translator = unL(plyget(rt, getifelse, "is_translator")),
+        is_translation_enabled = unL(plyget(rt, getifelse, "is_translation_enabled")),
+        profile_background_color = unL(plyget(rt, getifelse, "profile_background_color")),
+        profile_background_image_url = unL(plyget(rt, getifelse, "profile_background_image_url")),
+        profile_background_image_url_https = unL(plyget(rt, getifelse, "profile_background_image_url_https")),
+        profile_background_tile = unL(plyget(rt, getifelse, "profile_background_tile")),
+        profile_image_url = unL(plyget(rt, getifelse, "profile_image_url")),
+        profile_image_url_https = unL(plyget(rt, getifelse, "profile_image_url_https")),
+        profile_image_url = unL(plyget(rt, getifelse, "profile_image_url")),
+        profile_image_url_https = unL(plyget(rt, getifelse, "profile_image_url_https")),
+        profile_link_color = unL(plyget(rt, getifelse, "profile_link_color")),
+        profile_sidebar_border_color = unL(plyget(rt, getifelse, "profile_sidebar_border_color")),
+        profile_sidebar_fill_color = unL(plyget(rt, getifelse, "profile_sidebar_fill_color")),
+        profile_text_color = unL(plyget(rt, getifelse, "profile_text_color")),
+        profile_use_background_image = unL(plyget(rt, getifelse, "profile_use_background_image")),
+        default_profile = unL(plyget(rt, getifelse, "default_profile")),
+        default_profile_image = unL(plyget(rt, getifelse, "default_profile_image")),
+        profile_banner_url = unL(plyget(rt, getifelse, "profile_banner_url"))
     )
     lgs <- vapply(atom, length, double(1))
     if (sum(lgs == 0, na.rm = TRUE) > 0L) {

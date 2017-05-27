@@ -59,6 +59,19 @@ is_json <- function (x) {
     grepl("application/json", x$headers[["content-type"]])
 }
 
+fulltextresponse <- function(x) {
+    f <- function(x) {
+        if (!is.recursive(x)) return(x)
+        if ("full_text" %in% names(x)) {
+            names(x)[names(x) == "text"] <- "texttrunc"
+            names(x)[names(x) == "full_text"] <- "text"
+        }
+        x
+    }
+    x <- rapply(x, f, how = "replace")
+    x
+}
+
 #' @importFrom jsonlite fromJSON
 from_js <- function(rsp, check_rate_limit = TRUE) {
     if (!is_json(rsp)) {
@@ -66,18 +79,17 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
     }
     rsp <- rawToChar(rsp[["content"]])
     rsp <- fromJSON(rsp)
-    if (isTRUE("full_text" %in% names(rsp))) {
-        names(rsp)[names(rsp) == "text"] <- "texttrunc"
-        names(rsp)[names(rsp) == "full_text"] <- "text"
-    }
-    if (isTRUE("full_text" %in% names(rsp[[1]]))) {
-        names(rsp[[1]])[names(rsp[[1]]) == "text"] <- "texttrunc"
-        names(rsp[[1]])[names(rsp[[1]]) == "full_text"] <- "text"
-    }
-    if (isTRUE("full_text" %in% names(rsp[[2]]))) {
-        names(rsp[[2]])[names(rsp[[2]]) == "text"] <- "texttrunc"
-        names(rsp[[2]])[names(rsp[[2]]) == "full_text"] <- "text"
-    }
+    ##if (isTRUE("full_text" %in% names(rsp))) {
+    ##    names(rsp)[names(rsp) == "text"] <- "texttrunc"
+    ##    names(rsp)[names(rsp) == "full_text"] <- "text"
+    ##} else if (isTRUE("full_text" %in% names(rsp[[1]]))) {
+    ##    names(rsp[[1]])[names(rsp[[1]]) == "text"] <- "texttrunc"
+    ##    names(rsp[[1]])[names(rsp[[1]]) == "full_text"] <- "text"
+    ##} ##else if (isTRUE("full_text" %in% names(rsp[[2]]))) {
+      ##  names(rsp[[2]])[names(rsp[[2]]) == "text"] <- "texttrunc"
+      ##  names(rsp[[2]])[names(rsp[[2]]) == "full_text"] <- "text"
+    ##}
+    ##rsp <- fulltextresponse(rsp)
     if (check_rate_limit) {
         if (all(
             identical(names(rsp), "errors"),

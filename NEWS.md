@@ -1,3 +1,9 @@
+# rtweet 0.4.4
+- Lots of query-building features added to search tweets, including
+  ability to search by geolocation.
+- Post actions now include replying to status ID.
+- Other various bug fixes and speed improvements.
+
 # rtweet 0.4.3
 - Now returns tibbles (tibble is a recommended dependency)
 - Various bug fixes and code improvements.

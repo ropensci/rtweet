@@ -9,7 +9,8 @@
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
-#'
+#' @param in_reply_to_status_id Status ID of tweet to which you'd like
+#'   to reply.
 #' @examples
 #' \dontrun{
 #' x <- rnorm(300)
@@ -42,7 +43,7 @@
 post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,
                        token = NULL,
-                       in_reply_to_status_id=NULL) {
+                       in_reply_to_status_id = NULL) {
 
     ## validate
     stopifnot(is.character(status))
@@ -65,10 +66,9 @@ post_tweet <- function(status = "my first rtweet #rstats",
     }
     token <- check_token(token, query)
 
-
     if (!is.null(in_reply_to_status_id)) {
-      params[["in_reply_to_status_id"]] <- in_reply_to_status_id
-    } 
+        params[["in_reply_to_status_id"]] <- in_reply_to_status_id
+    }
 
     url <- make_url(query = query) ##param = params)
 
