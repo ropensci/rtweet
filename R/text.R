@@ -30,7 +30,7 @@ plain_tweets <- function(txt, tokenize = FALSE,
     }
     txt <- gsub("^rt ", "", txt)
     txt <- gsub("amp;", "", txt)
-    txt <- gsub("\\’", "", txt)
+    txt <- gsub("\u0027|\u2019|\u2018", "", txt)
     txt <- gsub("\\'|\\-", "", txt)
     txt <- gsub("[[:punct:]]", " ", txt)
     txt <- gsub("[a-z]{0,}[[:digit:]]{1,}[a-z]{0,}", "", txt)
