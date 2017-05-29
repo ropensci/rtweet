@@ -68,7 +68,7 @@ fulltextresponse <- function(x) {
         }
         x
     }
-    x <- rapply(x, f, how = "replace")
+    x <- rapply(x, f, how = "list")
     x
 }
 
@@ -79,6 +79,13 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
     }
     rsp <- rawToChar(rsp[["content"]])
     rsp <- fromJSON(rsp)
+    if ("statuses" %in% names(rsp) && "full_text" %in% names(rsp$statuses)) {
+        names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "text"] <- "texttrunc"
+        names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "full_text"] <- "text"
+    } else if ("full_text" %in% names(rsp)) {
+        names(rsp)[names(rsp) == "text"] <- "texttrunc"
+        names(rsp)[names(rsp) == "full_text"] <- "text"
+    }
     ##if (isTRUE("full_text" %in% names(rsp))) {
     ##    names(rsp)[names(rsp) == "text"] <- "texttrunc"
     ##    names(rsp)[names(rsp) == "full_text"] <- "text"

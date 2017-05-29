@@ -292,9 +292,8 @@ atomic.parsed <- function(rt) {
         in_reply_to_status_user_id = unL(plyget(rt, "in_reply_to_user_id_str")),
         in_reply_to_status_screen_name = unL(plyget(rt, "in_reply_to_screen_name")),
         lang = unL(plyget(rt, "lang")),
-        source = unL(gsub(
-            "^[^>]*>|</a>$", "",
-            plyget(rt, "source")))
+        source = gsub("^[^>]*>|</a>$", "",
+            unL(plyget(rt, "source")))
     )
 }
 

@@ -4,13 +4,23 @@
 \alias{plain_tweets}
 \title{plain text tweets}
 \usage{
-plain_tweets(txt, tokenize = FALSE)
+plain_tweets(txt, tokenize = FALSE, include_links = FALSE,
+  include_mentions = FALSE, include_hashtags = FALSE)
 }
 \arguments{
 \item{txt}{Tweet text, character vector.}
 
 \item{tokenize}{Logical indicating whether to split each tweet into
 a vector of individual words. Defaults to FALSE.}
+
+\item{include_links}{Logical indicating whether to treat links as normal
+text. Defaults to false.}
+
+\item{include_mentions}{Logical indicating whether to treat user mentions
+as normal text. Defaults to false.}
+
+\item{include_hashtags}{Logical indicating whether to treat hashtags as
+normal text. Defaults to false.}
 }
 \value{
 Stripped and cleaned up version of tweet text.
