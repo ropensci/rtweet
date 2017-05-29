@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>lookup_coords — lookup_coords • rtweet</title>
+<title>round time — round_time • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -74,60 +74,35 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>lookup_coords</h1>
+    <h1>round time</h1>
     </div>
 
     
-    <p>Returns lat long coordinates using google geocode api</p>
+    <p>round time</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_coords</span>(<span class='no'>address</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>round_time</span>(<span class='no'>x</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>60</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>address</th>
-      <td><p>Desired location, e.g., <code>"lawrence, KS"</code></p></td>
+      <th>x</th>
+      <td><p>POSIXct vector</p></td>
     </tr>
     <tr>
-      <th>components</th>
-      <td><p>Unit of analysis for address e.g.,
-<code>"country:US"</code>. Potential components include postal_code,
-country, administrative_area, locality, route.</p></td>
-    </tr>
-    <tr>
-      <th>box</th>
-      <td><p>Logical indicating whether to return a bounding box of
-coordinates (long1, lat1, long2, lat2) or a single point (long, lat).
-Defaults to TRUE. For single point, set to false.</p></td>
-    </tr>
-    <tr>
-      <th>&#8230;</th>
-      <td><p>Additional args passed along to params portion of
-http request</p></td>
+      <th>interval</th>
+      <td><p>Amount of time, in seconds.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Numeric vector with lat and long coordinates</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='fu'>lookup_coords</span>(<span class='st'>"san francisco, CA"</span>, <span class='st'>"country:US"</span>)
-})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

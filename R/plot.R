@@ -10,8 +10,6 @@ round_time <- function(x, interval = 60) {
     as.POSIXct(rounded * interval, origin = "1970-01-01")
 }
 
-
-
 #' ts_plot
 #'
 #' Plots frequency of tweets as time series or, if multiple
@@ -818,17 +816,5 @@ rt_cols <- function(n, lighter = FALSE) {
     }
     hues = seq(15, 375, length = n + 1)
     hcl(h = hues, l = 58, c = 100)[1:n]
-}
-
-
-#' mutate_coords
-#'
-#' Initializes rt plotting sequence
-#'
-#' @param data Data frame generated via rtweet function.
-#' @aliases mutate_coords
-#' @export
-mutate_coords <- function(data) {
-    mutate.coords(data)
 }
 

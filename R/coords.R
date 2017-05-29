@@ -1,3 +1,16 @@
+#' mutate_coords
+#'
+#' Initializes rt plotting sequence
+#'
+#' @param data Data frame generated via rtweet function.
+#' @aliases mutate_coords
+#' @export
+mutate_coords <- function(data) {
+    mutate.coords(data)
+}
+
+
+
 #' lookup_coords
 #'
 #' Returns lat long coordinates using google geocode api
@@ -6,21 +19,24 @@
 #' @param components Unit of analysis for address e.g.,
 #'    \code{"country:US"}. Potential components include postal_code,
 #'    country, administrative_area, locality, route.
+#' @param box Logical indicating whether to return a bounding box of
+#'   coordinates (long1, lat1, long2, lat2) or a single point (long, lat).
+#'   Defaults to TRUE. For single point, set to false.
 #' @param \dots Additional args passed along to params portion of
 #'    http request
 #' @return Numeric vector with lat and long coordinates
 #' @examples
 #' \dontrun{
-#' lookupcoords("san francisco, CA", "country:US")
+#' lookup_coords("san francisco, CA", "country:US")
 #' }
 #' @importFrom jsonlite fromJSON
 #' @export
-lookup_coords <- function(address, components = NULL, ...) {
+lookup_coords <- function(address, components = NULL, box = TRUE, ...) {
     if (missing(address)) stop("must supply address", call. = FALSE)
     stopifnot(is.atomic(address), is.atomic(components))
-
+    ## encode address
     address <- gsub(" ", "+", gsub(",", "", address))
-
+    ## compose query
     params <- list(address = address,
                    components = components, ...)
     params <- params[!vapply(params, is.null, logical(1))]
@@ -28,17 +44,21 @@ lookup_coords <- function(address, components = NULL, ...) {
         mapply(function(x, y) paste0(x, "=", y),
                names(params), params),
         collapse = "&")
-
+    ## build URL
     geourl <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
                      params)
-    ##r <- readLines(geourl)
+    ## read and convert to list obj
     r <- jsonlite::fromJSON(geourl)
+    ## extract, name, and then format
     coords <- rev(unlist(r$results$geometry[1, 1], use.names = FALSE))
     names(coords) <- c("long1", "lat1", "long2", "lat2")
-    coords
+    if (box) {
+        coords
+    } else {
+        c(long = mean(coords[c(1, 3)]),
+          lat = mean(coords[c(2, 4)]))
+    }
 }
-
-
 
 mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
 
