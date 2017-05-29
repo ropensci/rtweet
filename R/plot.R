@@ -1,3 +1,17 @@
+#' round time
+#' @param x POSIXct vector
+#' @param interval Amount of time, in seconds.
+round_time <- function(x, interval = 60) {
+    ## round off to lowest value
+    rounded <- floor(as.numeric(x) / interval)
+    ## center so value is interval mid-point
+    rounded <- rounded + round(interval * .5, 0)
+    ## return to date-time
+    as.POSIXct(rounded * interval, origin = "1970-01-01")
+}
+
+
+
 #' ts_plot
 #'
 #' Plots frequency of tweets as time series or, if multiple
