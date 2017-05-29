@@ -81,7 +81,8 @@
     <p>Posts status update to user's Twitter account</p>
     
 
-    <pre class="usage"><span class='fu'>post_tweet</span>(<span class='kw'>status</span> <span class='kw'>=</span> <span class='st'>"my first rtweet #rstats"</span>, <span class='kw'>media</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>post_tweet</span>(<span class='kw'>status</span> <span class='kw'>=</span> <span class='st'>"my first rtweet #rstats"</span>, <span class='kw'>media</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>in_reply_to_status_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -101,6 +102,11 @@ included in tweet.</p></td>
       <td><p>OAuth token. By default <code>token = NULL</code>
 fetches a non-exhausted token from an environment
 variable tokens.</p></td>
+    </tr>
+    <tr>
+      <th>in_reply_to_status_id</th>
+      <td><p>Status ID of tweet to which you'd like
+to reply.</p></td>
     </tr>
     </table>
     
@@ -130,6 +136,12 @@ variable tokens.</p></td>
   <span class='fu'>browseURL</span>(<span class='no'>tmp</span>)
   <span class='fu'>post_tweet</span>(<span class='st'>".Call(\"oops\", ...)"</span>,
              <span class='kw'>media</span> <span class='kw'>=</span> <span class='no'>tmp</span>)
+
+  <span class='co'># example of replying within a thread</span>
+  <span class='fu'>post_tweet</span>(<span class='kw'>status</span><span class='kw'>=</span><span class='st'>"first in a thread"</span>)
+  <span class='no'>my_timeline</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timeline</a></span>(<span class='no'>self_user_name</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>token</span><span class='kw'>=</span><span class='no'>twitter_token</span>)
+  <span class='no'>reply_id</span> <span class='kw'>&lt;-</span> <span class='no'>my_timeline</span>[<span class='fl'>1</span>,]$<span class='no'>status_id</span>
+  <span class='fu'>post_tweet</span>(<span class='kw'>status</span><span class='kw'>=</span><span class='st'>"second in the thread"</span>, <span class='kw'>in_reply_to_status_id</span><span class='kw'>=</span><span class='no'>reply_id</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

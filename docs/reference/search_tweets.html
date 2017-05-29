@@ -82,10 +82,14 @@
   using a provided search query.</p>
     
 
-    <pre class="usage"><span class='fu'>search_tweets</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full_text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>adjtimer</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>geocode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full_text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>adjtimer</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>mention</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hashtag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filter_media</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_native_video</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_vine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_periscope</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_images</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_twimg</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_links</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -123,6 +127,11 @@ for more information.</p></td>
 results to return from Twitter's REST API. The current default is
 <code>type = "recent"</code>, other valid types include
 <code>type = "mixed"</code> and <code>type = "popular"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>geocode</th>
+      <td><p>Geographical limiter of the template
+"latitude,longitude,radius" e.g., <code>geocode = "37.78,-122.40,1mi"</code>.</p></td>
     </tr>
     <tr>
       <th>max_id</th>
@@ -226,6 +235,75 @@ could be reset. If this happens to you, add to this value to
 achieve smoother experience. If you're trying to maximize
 efficiency, you may be able to set this to 0 or 1 without any
 issue.</p></td>
+    </tr>
+    <tr>
+      <th>exact</th>
+      <td><p>Logical indicating whether to search for exact matches. Defaults
+to false. Setting this to true is equivalent to using quotations around a
+search query.</p></td>
+    </tr>
+    <tr>
+      <th>from</th>
+      <td><p>Screen name(s) of users FROM whom the search should be limited.
+Vectors of multiple names are accepted, but no promises it'll work.</p></td>
+    </tr>
+    <tr>
+      <th>to</th>
+      <td><p>Screen name(s) of users TO whom the search should be limited.
+Vectors of multiple names are accepted, but no promises it'll work.</p></td>
+    </tr>
+    <tr>
+      <th>list</th>
+      <td><p>Name(s) of Twitter lists from which to search for tweets having
+been sent from. Vectors with multiple list names are accepted, but I'm not
+promising that it'll work.</p></td>
+    </tr>
+    <tr>
+      <th>mention</th>
+      <td><p>Screen name(s) of MENTIONED account(s) for which to search.
+Vectors of multiple names are accepted, but no promises it'll work.</p></td>
+    </tr>
+    <tr>
+      <th>hashtag</th>
+      <td><p>Hashtag(s) for which to search. Can provide multiple hashtags
+in a single vector, but tweets will only be returned if they include all
+of the supplied hashtags. To search for tweets that use ANY hashtag, include
+the hashtags separated by OR (#rstats OR #datascience) as part of the string
+provided to q (query).</p></td>
+    </tr>
+    <tr>
+      <th>filter_media</th>
+      <td><p>Logical requesting to only return tweets with image or video.</p></td>
+    </tr>
+    <tr>
+      <th>filter_native_video</th>
+      <td><p>Logical requesting to only return tweets with
+uploaded video (amplify, periscope, and vine included)</p></td>
+    </tr>
+    <tr>
+      <th>filter_vine</th>
+      <td><p>Logical requesting to only return tweets that include vines.</p></td>
+    </tr>
+    <tr>
+      <th>filter_periscope</th>
+      <td><p>Logical requesting to only return tweets that include
+vines.</p></td>
+    </tr>
+    <tr>
+      <th>filter_images</th>
+      <td><p>Logical requesting to only return tweets that have links
+to photos (Instagram included)</p></td>
+    </tr>
+    <tr>
+      <th>filter_twimg</th>
+      <td><p>Logical requesting to only return tweets with
+Twitter [linked] images</p></td>
+    </tr>
+    <tr>
+      <th>filter_links</th>
+      <td><p>Logical requesting to only return tweets with URL links.
+If keyword(s) are provided, the search will only return tweets with URL links
+that include the supplied key word(s).</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
