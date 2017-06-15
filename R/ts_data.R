@@ -19,10 +19,10 @@ ts_plot <- function(data, by = "days", group = NULL, ...) {
   if (requireNamespace("ggplot2", quietly = TRUE)) {
     if (ncol(data) == 3) {
       ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "n", colour = names(data)[3])) +
-        ggplot2::geom_line()
+        ggplot2::geom_line(...)
     } else {
-      ggplot2::ggplot(data, ggplot2::aes_(x = "time", y = "n")) +
-        ggplot2::geom_line()
+      ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "n")) +
+        ggplot2::geom_line(...)
     }
   } else {
     if (ncol(data) == 3) {

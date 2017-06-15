@@ -316,13 +316,13 @@ atomic.parsed <- function(rt) {
 
 coords.parsed <- function(rt) {
   ## geo coordinates
-  coordinates <- vapply(
-    unL(plyget(plyget(rt, getifelse, "geo"),
-               getifelse, "coordinates")), paste, collapse = " ", character(1))
+  coordinates <- unL(vapply(
+    plyget(plyget(rt, getifelse, "geo"),
+           getifelse, "coordinates"), paste, collapse = " ", character(1)))
   if (is.null(coordinates)) {
-    coordinates <- vapply(
-      unL(plyget(plyget(rt, getifelse, "coordinates"),
-                 getifelse, "coordinates")), paste, collapse = " ", character(1))
+    coordinates <- unL(vapply(
+      plyget(plyget(rt, getifelse, "coordinates"),
+             getifelse, "coordinates"), paste, collapse = " ", character(1)))
   }
   if (!is.null(coordinates)) {
     coordinates[coordinates == ""] <- NA_character_
@@ -334,10 +334,10 @@ coords.parsed <- function(rt) {
 
 coords.type.parsed <- function(rt) {
   ## geo coordinates
-  coordinates_type <- vapply(
-    unL(plyget(plyget(rt, getifelse, "geo"),
-               getifelse, "type")),
-    paste, collapse = " ", character(1))
+  coordinates_type <- unL(vapply(
+    plyget(plyget(rt, getifelse, "geo"),
+           getifelse, "type"),
+    paste, collapse = " ", character(1)))
   if (!is.null(coordinates_type)) {
     coordinates_type[coordinates_type == ""] <- NA_character_
   } else {
