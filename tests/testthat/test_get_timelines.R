@@ -6,7 +6,7 @@ test_that("get_timeline", {
     n <- 500
     token <- readRDS("twitter_tokens")
     x <- get_timeline("jack", n = n, token = token)
-    xts <- ts_fsys(x, by = "hours")
+    xts <- ts_data(x, by = "hours")
 
     if ("Rplot.pdf" %in% list.files()) {
         file.remove("Rplot.pdf")
