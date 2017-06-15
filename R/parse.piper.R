@@ -321,7 +321,7 @@ coords.parsed <- function(rt) {
   } else {
     geo[vapply(geo, slength, integer(1)) == 0L] <- NA
     rec <- vapply(geo, is.recursive, logical(1))
-    if (!any(rec)) {
+    if (any(!rec)) {
       nurows <- vapply(rt, NROW, integer(1))
       geo[!rec] <- lapply(nurows[!rec], function(n) rep(NA, n))
     }
@@ -337,7 +337,7 @@ coords.parsed <- function(rt) {
     } else {
       geo[vapply(geo, slength, integer(1)) == 0L] <- NA
       rec <- vapply(geo, is.recursive, logical(1))
-      if (!any(rec)) {
+      if (any(!rec)) {
         nurows <- vapply(rt, NROW, integer(1))
         geo[!rec] <- lapply(nurows[!rec], function(n) rep(NA, n))
       }
