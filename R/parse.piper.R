@@ -311,7 +311,7 @@ coords.parsed <- function(rt) {
   if (!is.null(coordinates)) {
     coordinates <- coordinates[coordinates == ""] <- NA_character_
   } else {
-    coordinates <- ep(NA, nrows(rt))
+    coordinates <- rep(NA, nrows(rt))
   }
   coordinates
 }
