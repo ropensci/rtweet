@@ -315,6 +315,12 @@ atomic.parsed <- function(rt) {
 
 coords.parsed <- function(rt) {
   geo <- plyget(rt, getifelse, "geo")
+  if (any(
+    !is.recursive(geo),
+    all(!vapply(geo, is.recursive, logical(1))))
+  ) {
+    return(unL(geo))
+  }
   if (identical(names(geo), c("type", "coordinates"))) {
     coordinates <- unL(
       vapply(geo$coordinates, paste, collapse = " ", character(1)))
@@ -323,7 +329,7 @@ coords.parsed <- function(rt) {
     rec <- vapply(geo, is.recursive, logical(1))
     if (any(!rec)) {
       nurows <- vapply(rt, NROW, integer(1))
-      geo[!rec] <- lapply(nurows[!rec], function(n) rep(NA, n))
+      geo[!rec] <- lapply(nurows[!rec], function(n) list(rep(NA, n)))
     }
     coordinates <- unL(
       plyget(geo, getifelse, "coordinates"),
@@ -331,6 +337,7 @@ coords.parsed <- function(rt) {
   }
   if (is.null(coordinates)) {
     geo <- plyget(rt, getifelse, "coordinates")
+    if (!is.recursive(geo)) return(unL(geo))
     if (identical(names(geo), c("type", "coordinates"))) {
       coordinates <- unL(
         vapply(geo$coordinates, paste, collapse = " ", character(1)))

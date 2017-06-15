@@ -7,7 +7,7 @@ test_that("stream_tweets returns tweets data", {
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
                   timeout = 4, gzip = TRUE, verbose = FALSE, token = token))
-  Sys.sleep(1)
+
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
                   timeout = 4, verbose = TRUE, token = token))
