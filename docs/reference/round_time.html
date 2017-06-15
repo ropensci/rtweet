@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>round time — round_time • rtweet</title>
+<title>round_time — round_time • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -74,25 +74,30 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>round time</h1>
+    <h1>round_time</h1>
     </div>
 
     
-    <p>round time</p>
+    <p>Aggregates POSIXct object</p>
     
 
-    <pre class="usage"><span class='fu'>round_time</span>(<span class='no'>x</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>60</span>)</pre>
+    <pre class="usage"><span class='fu'>round_time</span>(<span class='no'>x</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>60</span>, <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>POSIXct vector</p></td>
+      <td><p>Vector of class POSIXct.</p></td>
     </tr>
     <tr>
       <th>interval</th>
-      <td><p>Amount of time, in seconds.</p></td>
+      <td><p>Amount, in seconds, of aggregated window of time.</p></td>
+    </tr>
+    <tr>
+      <th>center</th>
+      <td><p>Logical indicating whether to center datetime value at interval
+midpoint.</p></td>
     </tr>
     </table>
     

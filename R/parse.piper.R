@@ -309,17 +309,15 @@ coords.parsed <- function(rt) {
                  getifelse, "coordinates")), paste, collapse = " ", character(1))
   }
   if (!is.null(coordinates)) {
-    coordinates[coordinates == ""] <- NA_character_
-    coordinates
+    coordinates <- coordinates[coordinates == ""] <- NA_character_
   } else {
-    rep(NA, nrows(rt))
+    coordinates <- ep(NA, nrows(rt))
   }
+  coordinates
 }
 
 coords.parsed2 <- function(rt) {
   ## geo coordinates
-
-  coordinates[coordinates == ""] <- NA_character_
 
   coordinates <- tryCatch(
         plyget(rt, "geo") %>%

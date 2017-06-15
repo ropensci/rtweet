@@ -130,7 +130,7 @@ aggregate_time <- function (dt, by = "days", trim = TRUE, ...) {
   dt <- sort(na.omit(dt))
   .unit <- parse_unit(by)
 
-  dt <- rtweet:::round_time(dt, .unit)
+  dt <- round_time(dt, .unit)
   dt <- trim_time(dt, by, ...)
   dtb <- table(dt)
 
