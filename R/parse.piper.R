@@ -313,17 +313,40 @@ atomic.parsed <- function(rt) {
     )
 }
 
-
 coords.parsed <- function(rt) {
-  ## geo coordinates
-  coordinates <- unL(vapply(
-    plyget(plyget(rt, getifelse, "geo"),
-           getifelse, "coordinates"), paste, collapse = " ", character(1)))
-  if (is.null(coordinates)) {
-    coordinates <- unL(vapply(
-      plyget(plyget(rt, getifelse, "coordinates"),
-             getifelse, "coordinates"), paste, collapse = " ", character(1)))
+  geo <- plyget(rt, getifelse, "geo")
+  if (identical(names(geo), c("type", "coordinates"))) {
+    coordinates <- unL(
+      vapply(geo$coordinates, paste, collapse = " ", character(1)))
+  } else {
+    geo[vapply(geo, slength, integer(1)) == 0L] <- NA
+    rec <- vapply(geo, is.recursive, logical(1))
+    if (!any(rec)) {
+      nurows <- vapply(rt, NROW, integer(1))
+      geo[!rec] <- lapply(nurows[!rec], function(n) rep(NA, n))
+    }
+    coordinates <- unL(
+      plyget(geo, getifelse, "coordinates"),
+      function(x) ifelse(length(x) > 1L, paste(x, collapse = " "), x))
   }
+  if (is.null(coordinates)) {
+    geo <- plyget(rt, getifelse, "coordinates")
+    if (identical(names(geo), c("type", "coordinates"))) {
+      coordinates <- unL(
+        vapply(geo$coordinates, paste, collapse = " ", character(1)))
+    } else {
+      geo[vapply(geo, slength, integer(1)) == 0L] <- NA
+      rec <- vapply(geo, is.recursive, logical(1))
+      if (!any(rec)) {
+        nurows <- vapply(rt, NROW, integer(1))
+        geo[!rec] <- lapply(nurows[!rec], function(n) rep(NA, n))
+      }
+      coordinates <- unL(
+        plyget(geo, getifelse, "coordinates"),
+        function(x) ifelse(length(x) > 1L, paste(x, collapse = " "), x))
+    }
+  }
+
   if (!is.null(coordinates)) {
     coordinates[coordinates == ""] <- NA_character_
   } else {
@@ -544,6 +567,7 @@ hashtags.parsed <- function(rt) {
     }
     hashtags
 }
+
 
 
 place.parsed <- function(rt) {

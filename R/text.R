@@ -48,8 +48,7 @@ word_freq <- function(txt) {
   if (all(is.data.frame(txt), isTRUE("text" %in% names(txt)))) {
     txt <- txt[["text"]]
   }
-  txt <- plain_tweets(txt)
-  txt <- unlist(strsplit(txt, " "))
+  txt <- unlist(plain_tweets(txt, tokenize = TRUE))
   txt <- txt[!txt %in% c(" ", "")]
   txt <- table(txt)
   txt <- data.frame(
@@ -75,8 +74,10 @@ n_words <- function(data, group = NULL) {
     data <- data.frame(data)
   }
   if (!is.null(group)) {
-    groupfun(data, group, word_freq)
+    wds <- groupfun(data, group, word_freq)
+    wds[order(wds$n, decreasing = TRUE), ]
   } else {
-    word_freq(data)
+    wds <- word_freq(data)
+    wds[order(wds[[3]], wds$n, decreasing = TRUE), ]
   }
 }
