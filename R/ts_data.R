@@ -127,7 +127,7 @@ aggregate_time <- function (dt, by = "days", trim = TRUE, ...) {
     dt <- dt[["created_at"]]
   }
   stopifnot(inherits(dt, "POSIXct"), is.atomic(by))
-  dt <- sort(na.omit(dt))
+  dt <- sort(na_omit(dt))
   .unit <- parse_unit(by)
 
   dt <- round_time(dt, .unit)
