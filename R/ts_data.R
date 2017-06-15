@@ -96,18 +96,6 @@ ts_data <- function(data, by = "days", group = NULL, ...) {
 }
 
 
-#' converts created_at character vector to class posixct
-#'
-#' @param created_at Character vector of date times returned by Twitter.
-#' @param tz Time zone.
-#' @return Vector of class POSIXct.
-#' @noRd
-as_posixct <- function(created_at, tz = "UTC") {
-  stopifnot(is.character(created_at))
-  as.POSIXct(created_at,
-             format = "%a %b %d %T %z %Y",
-             tz = tz)
-}
 
 #' aggregate (count) tweets by time
 #'

@@ -79,7 +79,7 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
 
     if ("created_at" %in% names(toplevel_df)) {
         toplevel_df[["created_at"]] <- format_date(
-            toplevel_df[["created_at"]], date = FALSE)
+            toplevel_df[["created_at"]])
     }
     if (as_double) {
         toplevel_df[["user_id"]] <- as.double(

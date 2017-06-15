@@ -1,11 +1,11 @@
 context("get_favorites")
 
 test_that("get_favorites returns tweets data", {
-	skip_on_cran()
+  skip_on_cran()
 
-	n <- 400
-	token <- readRDS("twitter_tokens")
-	x <- get_favorites("kearneymw", n = n, token = token)
+  n <- 400
+  token <- readRDS("twitter_tokens")
+  x <- get_favorites("kearneymw", n = n, token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
