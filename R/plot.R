@@ -1,14 +1,24 @@
-#' round time
-#' @param x POSIXct vector
-#' @param interval Amount of time, in seconds.
-round_time <- function(x, interval = 60) {
+#' round_time
+#'
+#' Aggregates POSIXct object
+#'
+#' @param x Vector of class POSIXct.
+#' @param interval Amount, in seconds, of aggregated window of time.
+#' @param center Logical indicating whether to center datetime value at interval
+#'   midpoint.
+#' @export
+round_time <- function(x, interval = 60, center = TRUE) {
+    stopifnot(inherits(x, "POSIXct"))
     ## round off to lowest value
-    rounded <- floor(as.numeric(x) / interval)
-    ## center so value is interval mid-point
-    rounded <- rounded + round(interval * .5, 0)
+    rounded <- floor(as.numeric(x) / interval) * interval
+    if (center) {
+        ## center so value is interval mid-point
+        rounded <- rounded + round(interval * .5, 0)
+    }
     ## return to date-time
-    as.POSIXct(rounded * interval, origin = "1970-01-01")
+    as.POSIXct(rounded, origin = "1970-01-01")
 }
+
 
 #' ts_plot
 #'
@@ -163,7 +173,7 @@ round_time <- function(x, interval = 60) {
 #'   rect title strwidth legend mtext
 #' @importFrom stats quantile
 #' @export
-ts_plot <- function(rt, by = "days",
+ts_plot2 <- function(rt, by = "days",
                     dtname = "created_at",
                     txt = "text",
                     na.omit = TRUE,
@@ -669,11 +679,11 @@ ts_filter <- function(rt, by = "days",
                       key = NULL,
                       na.omit = TRUE,
                       trim = FALSE) {
+  warning("ts_filter is deprecated. use ts_data instead", call. = FALSE)
     .ts_filter(rt = rt, by = by, dtname = dtname,
               txt = txt, filter = filter, key = key,
               na.omit = na.omit, trim = trim)
 }
-
 
 .ts_filter <- function(rt, by,
                       dtname,

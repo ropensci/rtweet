@@ -297,9 +297,31 @@ atomic.parsed <- function(rt) {
     )
 }
 
+
 coords.parsed <- function(rt) {
-    ## geo coordinates
-    coordinates <- tryCatch(
+  ## geo coordinates
+  coordinates <- vapply(
+    unL(plyget(plyget(rt, getifelse, "geo"),
+               getifelse, "coordinates")), paste, collapse = " ", character(1))
+  if (is.null(coordinates)) {
+    coordinates <- vapply(
+      unL(plyget(plyget(rt, getifelse, "coordinates"),
+                 getifelse, "coordinates")), paste, collapse = " ", character(1))
+  }
+  if (!is.null(coordinates)) {
+    coordinates[coordinates == ""] <- NA_character_
+    coordinates
+  } else {
+    rep(NA, nrows(rt))
+  }
+}
+
+coords.parsed2 <- function(rt) {
+  ## geo coordinates
+
+  coordinates[coordinates == ""] <- NA_character_
+
+  coordinates <- tryCatch(
         plyget(rt, "geo") %>%
         plyget("coordinates") %>%
         plyget(unL) %>%

@@ -2,15 +2,18 @@
 % Please edit documentation in R/plot.R
 \name{round_time}
 \alias{round_time}
-\title{round time}
+\title{round_time}
 \usage{
-round_time(x, interval = 60)
+round_time(x, interval = 60, center = TRUE)
 }
 \arguments{
-\item{x}{POSIXct vector}
+\item{x}{Vector of class POSIXct.}
 
-\item{interval}{Amount of time, in seconds.}
+\item{interval}{Amount, in seconds, of aggregated window of time.}
+
+\item{center}{Logical indicating whether to center datetime value at interval
+midpoint.}
 }
 \description{
-round time
+Aggregates POSIXct object
 }

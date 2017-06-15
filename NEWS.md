@@ -1,3 +1,8 @@
+# rtweet 0.4.5
+- Convenience function `plain_tweets()` added for textual analysis.
+- Overhaul of `ts_plot()` with improved time-aggregating method. Now a
+  wrapper around `ts_data()`, deprecating `ts_filter`.
+
 # rtweet 0.4.4
 - Lots of query-building features added to search tweets, including
   ability to search by geolocation.
