@@ -88,26 +88,36 @@ unique_id_count <- function(x, type = NULL) {
 }
 
 
-
-get_max_id <- function(x) {
+#' @importFrom bit64 as.integer64
+get_max_id <- function(x, adj = -1L) {
+  if (!is.atomic(x)) {
 
     if ("statuses" %in% tolower(names(x))) {
-        x <- x[["statuses"]]
+      x <- x[["statuses"]]
     }
-    if ("id_str" %in% names(x)) {
-        x <- x[["id_str"]]
+    if ("id" %in% names(x)) {
+      x <- x[["id"]]
     } else if ("ids" %in% names(x)) {
-        return(x[["next_cursor_str"]])
+      return(x[["next_cursor_str"]])
     } else if (is.null(names(x))) {
-        if ("ids" %in% names(x[[1]])) {
-            return(x[[1]][["next_cursor_str"]])
-        }
+      if ("ids" %in% names(x[[1]])) {
+        return(x[[1]][["next_cursor_str"]])
+      }
     } else if ("status_id" %in% names(x)) {
-        x <- x[["status_id"]]
+      x <- x[["status_id"]]
     } else if ("user_id" %in% names(x)) {
-        x <- x[["user_id"]]
+      x <- x[["user_id"]]
     }
-    return_last(x)
+  }
+  ##return_last(x) + adj
+  bit64::as.integer64(return_last(x)) + adj
+}
+
+last_dig <- function(x, adj = -1L) {
+  stopifnot(is.atomic(x), length(x) == 1L)
+  n <- nchar(x)
+  x2 <- as.integer(substr(x, n, n)) + adj
+  paste0(x, x2)
 }
 
 

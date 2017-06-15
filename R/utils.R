@@ -11,10 +11,8 @@ trim_ts <- function(x) {
     row.names(x) <- NULL
     x
 }
-
 return_last <- function(x, n = 1) {
-    x <- rev(x)
-    x[seq_len(n)]
+    x[length(x) - seq_len(n) + 1]
 }
 
 bply <- function(x, f, ...) {

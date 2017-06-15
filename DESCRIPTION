@@ -11,6 +11,7 @@ Description: An implementation of calls designed to extract and organize Twitter
 Depends:
     R (>= 3.1.0)
 Imports:
+    bit64,
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
