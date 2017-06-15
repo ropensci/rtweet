@@ -9,7 +9,9 @@ mutate_coords <- function(data) {
     mutate.coords(data)
 }
 
-
+na_omit <- function(x) {
+    x[!is.na(x)]
+}
 
 #' lookup_coords
 #'
