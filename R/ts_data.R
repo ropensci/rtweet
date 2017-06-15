@@ -14,9 +14,9 @@
 #' @param \dots Passed along to trim_time. Most likely used to specify timezone.
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @export
-ts_plot <- function(data, by = "days", group = NULL, gg = TRUE, ...) {
+ts_plot <- function(data, by = "days", group = NULL, ...) {
   data <- ts_data(data, by, group = group, ...)
-  if (requireNamespace("ggplot2", quietly = TRUE) & gg) {
+  if (requireNamespace("ggplot2", quietly = TRUE)) {
     if (ncol(data) == 3) {
       ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "n", colour = names(data)[3])) +
         ggplot2::geom_line()
