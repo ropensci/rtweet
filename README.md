@@ -3,9 +3,11 @@
 rtweet
 ======
 
-[![Build Status](https://travis-ci.org/mkearney/rtweet.png?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg)](https://codecov.io/gh/mkearney/rtweet) [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
+[![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg)](https://codecov.io/gh/mkearney/rtweet) [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
 
-R client for collecting data via Twitter's REST and stream API's.
+R client for interacting with Twitter's REST and stream API's.
+
+Check out the [rtweet package documentation website](https://mkearney.github.io/rtweet).
 
 Install
 -------
@@ -17,14 +19,15 @@ install.packages("rtweet")
 library(rtweet)
 ```
 
-To get the current development version from github:
+To get the current development version from Github:
 
 ``` r
-install.packages("devtools")
+if (!"devtools" %in% installed.packages()) {
+  install.packages("devtools")
+}
 devtools::install_github("mkearney/rtweet")
+library(rtweet)
 ```
-
-Communicating with Twitter's APIs can, at times, be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active [issue](https://github.com/mkearney/rtweet/issues), please [create a new issue](https://github.com/mkearney/rtweet/issues/new) with all code used (preferably a reproducible example) on Github. For questions or other discussion, please use [rtweet's Google group](https://groups.google.com/group/rtweet).
 
 Getting started
 ---------------
@@ -45,9 +48,9 @@ key <- "XYznzPFOFZR2a39FwWKN1Jp41"
 ## api secret (example below is not a real key)
 secret <- "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"
 twitter_token <- create_token(
-    app = appname,
-    consumer_key = key,
-    consumer_secret = secret)
+  app = appname,
+  consumer_key = key,
+  consumer_secret = secret)
 ```
 
 -   Once `twitter_token` is part of your global environment, rtweet functions should find it. However, using this method, the token will not automatically load in future sessions (you'll need to create a token every time you start a new session).
@@ -60,6 +63,30 @@ rt <- search_tweets("data science", n = 1000, token = twitter_token)
 
 -   ***Recommended authorization method***: [Obtaining and using access tokens](https://mkearney.github.io/rtweet/articles/auth.html) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
 
+Vignettes
+---------
+
+-   [Obtaining and using user access tokens](https://mkearney.github.io/rtweet/articles/auth.html)
+
+``` r
+## authorizing API access
+vignette("auth", package = "rtweet")
+```
+
+-   [Quick overview of rtweet package](https://mkearney.github.io/rtweet/articles/intro.html)
+
+``` r
+## quick overview of rtweet functions
+vignette("intro", package = "rtweet")
+```
+
+-   [Live streaming tweets data](https://mkearney.github.io/rtweet/articles/stream.html)
+
+``` r
+## working with the stream
+vignette("stream", package = "rtweet")
+```
+
 Package description
 -------------------
 
@@ -68,11 +95,6 @@ More technical description: An implementation of calls designed to extract and o
 Contact
 -------
 
+Communicating with Twitter's APIs relies on an internet connection, which can sometimes be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active [issue](https://github.com/mkearney/rtweet/issues), please [create a new issue](https://github.com/mkearney/rtweet/issues/new) with all code used (preferably a reproducible example) on Github. For questions or other discussion, please use [rtweet's Google group](https://groups.google.com/group/rtweet). Update: I've been a lot better about responding to things posted on Github than I have to posts on the Google group.
+
 [rtweet's Google group](https://groups.google.com/group/rtweet)
-
-Vignettes
----------
-
--   [Quick overview of rtweet package](https://mkearney.github.io/rtweet/articles/auth.html)
--   [Obtaining and using user access tokens](https://mkearney.github.io/rtweet/articles/auth.html)
--   [Live streaming tweets data](https://mkearney.github.io/rtweet/articles/stream.html)

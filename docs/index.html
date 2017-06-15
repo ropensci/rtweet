@@ -58,18 +58,21 @@
 <div id="rtweet" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#rtweet" class="anchor"></a>rtweet</h1></div>
-<p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.png?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/gh/mkearney/rtweet"><img src="https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg" alt="Coverage Status"></a> <a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
-<p>R client for collecting data via Twitter’s REST and stream API’s.</p>
+<p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/gh/mkearney/rtweet"><img src="https://img.shields.io/codecov/c/github/mkearney/dplyr/master.svg" alt="Coverage Status"></a> <a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
+<p>R client for interacting with Twitter’s REST and stream API’s.</p>
+<p>Check out the <a href="https://mkearney.github.io/rtweet">rtweet package documentation website</a>.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <p>To get the current released version from CRAN:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
 <span class="kw">library</span>(rtweet)</code></pre></div>
-<p>To get the current development version from github:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"mkearney/rtweet"</span>)</code></pre></div>
-<p>Communicating with Twitter’s APIs can, at times, be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active <a href="https://github.com/mkearney/rtweet/issues">issue</a>, please <a href="https://github.com/mkearney/rtweet/issues/new">create a new issue</a> with all code used (preferably a reproducible example) on Github. For questions or other discussion, please use <a href="https://groups.google.com/group/rtweet">rtweet’s Google group</a>.</p>
+<p>To get the current development version from Github:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()) {
+  <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+}
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"mkearney/rtweet"</span>)
+<span class="kw">library</span>(rtweet)</code></pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
@@ -87,9 +90,9 @@ key &lt;-<span class="st"> "XYznzPFOFZR2a39FwWKN1Jp41"</span>
 ## api secret (example below is not a real key)
 secret &lt;-<span class="st"> "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>
 twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_token.html">create_token</a></span>(
-    <span class="dt">app =</span> appname,
-    <span class="dt">consumer_key =</span> key,
-    <span class="dt">consumer_secret =</span> secret)</code></pre></div>
+  <span class="dt">app =</span> appname,
+  <span class="dt">consumer_key =</span> key,
+  <span class="dt">consumer_secret =</span> secret)</code></pre></div>
 <ul>
 <li><p>Once <code>twitter_token</code> is part of your global environment, rtweet functions should find it. However, using this method, the token will not automatically load in future sessions (you’ll need to create a token every time you start a new session).</p></li>
 <li><p>Although not necessary, functions also accept tokens via the <code>token</code> argument. For example:</p></li>
@@ -100,6 +103,25 @@ twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/
 <strong><em>Recommended authorization method</em></strong>: <a href="https://mkearney.github.io/rtweet/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
 </ul>
 </div>
+<div id="vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vignettes" class="anchor"></a>Vignettes</h2>
+<ul>
+<li><a href="https://mkearney.github.io/rtweet/articles/auth.html">Obtaining and using user access tokens</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## authorizing API access
+<span class="kw">vignette</span>(<span class="st">"auth"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
+<ul>
+<li><a href="https://mkearney.github.io/rtweet/articles/intro.html">Quick overview of rtweet package</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## quick overview of rtweet functions
+<span class="kw">vignette</span>(<span class="st">"intro"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
+<ul>
+<li><a href="https://mkearney.github.io/rtweet/articles/stream.html">Live streaming tweets data</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## working with the stream
+<span class="kw">vignette</span>(<span class="st">"stream"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
+</div>
 <div id="package-description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-description" class="anchor"></a>Package description</h2>
@@ -108,16 +130,8 @@ twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/
 <div id="contact" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contact" class="anchor"></a>Contact</h2>
+<p>Communicating with Twitter’s APIs relies on an internet connection, which can sometimes be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active <a href="https://github.com/mkearney/rtweet/issues">issue</a>, please <a href="https://github.com/mkearney/rtweet/issues/new">create a new issue</a> with all code used (preferably a reproducible example) on Github. For questions or other discussion, please use <a href="https://groups.google.com/group/rtweet">rtweet’s Google group</a>. Update: I’ve been a lot better about responding to things posted on Github than I have to posts on the Google group.</p>
 <p><a href="https://groups.google.com/group/rtweet">rtweet’s Google group</a></p>
-</div>
-<div id="vignettes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vignettes" class="anchor"></a>Vignettes</h2>
-<ul>
-<li><a href="https://mkearney.github.io/rtweet/articles/auth.html">Quick overview of rtweet package</a></li>
-<li><a href="https://mkearney.github.io/rtweet/articles/auth.html">Obtaining and using user access tokens</a></li>
-<li><a href="https://mkearney.github.io/rtweet/articles/stream.html">Live streaming tweets data</a></li>
-</ul>
 </div>
 </div>
 </div>
