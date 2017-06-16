@@ -6,11 +6,11 @@
 #' @aliases mutate_coords
 #' @export
 mutate_coords <- function(data) {
-    mutate.coords(data)
+  mutate.coords(data)
 }
 
 na_omit <- function(x) {
-    x[!is.na(x)]
+  x[!is.na(x)]
 }
 
 #' lookup_coords
@@ -40,102 +40,114 @@ na_omit <- function(x) {
 #' @importFrom jsonlite fromJSON
 #' @export
 lookup_coords <- function(address, components = NULL, ...) {
-    if (missing(address)) stop("must supply address", call. = FALSE)
-    stopifnot(is.atomic(address), is.atomic(components))
-    place <- address
-    if (grepl("^us$|^usa$|^united states$|^u\\.s", address, ignore.case = TRUE)) {
-      boxp <- c(
-        sw.lng = -124.848974,
-        sw.lat = 24.396308,
-        ne.lng = -66.885444,
-        ne.lat = 49.384358
-      )
-      point <- c(
-        lat = 36.89,
-        lng = -95.867
-      )
-    } else {
-      ## encode address
-      address <- gsub(" ", "+", gsub(",", "", address))
-      ## compose query
-      params <- list(address = address,
-                     components = components, ...)
-      params <- params[!vapply(params, is.null, logical(1))]
-      params <- paste0(
-        mapply(function(x, y) paste0(x, "=", y),
-               names(params), params),
-        collapse = "&")
-      ## build URL
-      geourl <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
-                       params)
-      ## read and convert to list obj
-      r <- jsonlite::fromJSON(geourl)
-      ## extract and name box and point data frames
-      boxp <- c(
-        sw.lng = r$results$geometry$bounds$southwest$lng,
-        sw.lat = r$results$geometry$bounds$southwest$lat,
-        ne.lng = r$results$geometry$bounds$northeast$lng,
-        ne.lat = r$results$geometry$bounds$northeast$lat
-      )
-      point <- c(
-        lat = r$results$geometry$location$lat,
-        lng = r$results$geometry$location$lng
-      )
-    }
-    as_coords(place = place, box = boxp, point = point)
+  if (missing(address)) stop("must supply address", call. = FALSE)
+  stopifnot(is.atomic(address), is.atomic(components))
+  place <- address
+  if (grepl("^us$|^usa$|^united states$|^u\\.s", address, ignore.case = TRUE)) {
+    boxp <- c(
+      sw.lng = -124.848974,
+      sw.lat = 24.396308,
+      ne.lng = -66.885444,
+      ne.lat = 49.384358
+    )
+    point <- c(
+      lat = 36.89,
+      lng = -95.867
+    )
+  } else {
+    ## encode address
+    address <- gsub(" ", "+", gsub(",", "", address))
+    ## compose query
+    params <- list(address = address,
+                   components = components, ...)
+    params <- params[!vapply(params, is.null, logical(1))]
+    params <- paste0(
+      mapply(function(x, y) paste0(x, "=", y),
+             names(params), params),
+      collapse = "&")
+    ## build URL
+    geourl <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
+                     params)
+    ## read and convert to list obj
+    r <- jsonlite::fromJSON(geourl)
+    ## extract and name box and point data frames
+    boxp <- c(
+      sw.lng = r$results$geometry$bounds$southwest$lng,
+      sw.lat = r$results$geometry$bounds$southwest$lat,
+      ne.lng = r$results$geometry$bounds$northeast$lng,
+      ne.lat = r$results$geometry$bounds$northeast$lat
+    )
+    point <- c(
+      lat = r$results$geometry$location$lat,
+      lng = r$results$geometry$location$lng
+    )
+  }
+  as_coords(place = place, box = boxp, point = point)
 }
 
 mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
 
 mutate.coords <- function(x) {
+  if (is.data.frame(x)) {
     if ("place.bounding_box.coordinates" %in% names(x)) {
-        x[["place.bounding_box.coordinates"]] <- gsub(
-            ",", " ", x[["place.bounding_box.coordinates"]]
-        )
-        coordinates <- strsplit(
-            x[["place.bounding_box.coordinates"]], " ")
-        x[["long"]] <- vapply(coordinates, function(x)
-            mean.dbls(x[1:4]), double(1))
-        x[["lat"]] <- vapply(coordinates, function(x)
-            mean.dbls(x[5:8]), double(1))
+      coordinates <- x[["place.bounding_box.coordinates"]]
     } else if ("bounding_box_coordinates" %in% names(x)) {
-        x[["bounding_box_coordinates"]] <- gsub(
-            ",", " ", x[["bounding_box_coordinates"]]
-        )
-        coordinates <- strsplit(
-            x[["bounding_box_coordinates"]], " ")
-        x[["long"]] <- vapply(coordinates, function(x)
-            mean.dbls(x[1:4]), double(1))
-        x[["lat"]] <- vapply(coordinates, function(x)
-            mean.dbls(x[5:8]), double(1))
+      coordinates <- x[["bounding_box_coordinates"]]
     } else if ("coordinates" %in% names(x)) {
-        coordinates <- x[["coordinates"]]
-        if (is.list(coordinates)) {
-            coordinates <- coordinates %>%
-                unlist() %>%
-                as.double() %>%
-                matrix(ncol = 8, byrow = TRUE)
-        } else {
-            coordinates <- gsub(
-                ",", " ", coordinates
-            )
-            coordinates <- strsplit(
-                coordinates, " ")
-            x[["long"]] <- vapply(coordinates, function(x)
-                mean.dbls(x[2]), double(1))
-            x[["lat"]] <- vapply(coordinates, function(x)
-                mean.dbls(x[1]), double(1))
-        }
-        x[["long"]] <- apply(
-            coordinates, 1, function(x)
-                mean.dbls(x[1:4]))
-        x[["lat"]] <- apply(
-            coordinates, 1, function(x)
-                mean.dbls(x[5:8]))
-    } else {
-        stop("coordinates variable not found")
+      coordinates <- x[["coordinates"]]
     }
-    invisible(x)
+  } else {
+    coordinates <- x
+  }
+
+  if (is.character(coordinates)) {
+    coordinates <- gsub(
+      ",", " ", coordinates
+    )
+    coordinates <- strsplit(
+      coordinates, " "
+    )
+  }
+
+  if (is.list(coordinates)) {
+    lns <- vapply(coordinates, length, integer(1))
+    if (all(lns < 3)) {
+      coordinates <- do.call(
+        "rbind",
+        lapply(coordinates, function(x) matrix(x, 1, 2))
+      )
+    } else if (all(lns < 9)) {
+      coordinates <- do.call(
+        "rbind",
+        lapply(coordinates, function(x) matrix(x, 1, 8))
+      )
+    }
+  }
+
+  if (any(is.data.frame(coordinates), is.matrix(coordinates))) {
+    coordinates <- apply(coordinates, 2, as.double)
+    if (ncol(coordinates) == 8) {
+      coordinates <- cbind(
+        rowMeans(coordinates[, 1:4], na.rm = TRUE),
+        rowMeans(coordinates[, 5:8], na.rm = TRUE)
+      )
+    }
+  }
+
+  if (!any(is.data.frame(coordinates),
+          is.matrix(coordinates),
+          isTRUE(ncol(coordinates) == 2))) {
+    lat <- rep(NA, NROW(x))
+    lng <- rep(NA, NROW(x))
+  } else {
+    lat <- coordinates[, 2]
+    lng <- coordinates[, 1]
+  }
+  latlng <- cbind(x, lat, lng)
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    latlng <- tibble::as_tibble(latlng)
+  }
+  latlng
 }
 
 #' coords class
@@ -169,5 +181,3 @@ setMethod("range", "coords", function(x) x@box)
 setMethod("mean", "coords", function(x) x@point)
 setMethod("unlist", "coords", function(x) x@box)
 setMethod("$", "coords", function(x, name) slot(x, name))
-
-
