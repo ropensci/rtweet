@@ -1,29 +1,25 @@
 
 parser.old <- function(x, n = NULL,
                        return_tweets = TRUE,
-                       return_users = TRUE,
-                       clean_tweets = FALSE,
-                       as_double = FALSE) {
+                       return_users = TRUE) {
 
     tweets <- data.frame()
     users <- data.frame()
 
     if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
         if (return_tweets) {
-            tweets <- parse_tweets(x, clean_tweets = clean_tweets,
-                                   as_double = as_double)
+            tweets <- parse_tweets(x)
         }
         if (return_users) {
-            users <- parse_users(x, as_double = as_double)
+            users <- parse_users(x)
         }
     } else {
         stopifnot(is.list(x))
         if (return_tweets) {
-            tweets <- bply(x, parse_tweets, clean_tweets = clean_tweets,
-                           as_double = as_double)
+            tweets <- bply(x, parse_tweets)
         }
         if (return_users) {
-            users <- bply(x, parse_users, as_double = as_double)
+            users <- bply(x, parse_users)
         }
     }
     if (return_tweets) {
@@ -45,24 +41,16 @@ parser.old <- function(x, n = NULL,
     list(tweets = tweets, users = users)
 }
 
-parse_fs <- function(x, n = NULL, as_double = FALSE) {
+parse_fs <- function(x, n = NULL) {
     op <- options()
     on.exit(options(op))
     options(scipen = 10)
     if (identical(length(x), 1)) {
         next_cursor <- as.character(x[[1]][["next_cursor_str"]])
-        if (as_double) {
-            x <- as.double(x[[1]][["ids"]])
-        } else {
-            x <- as.character(x[[1]][["ids"]])
-        }
+        x <- as.character(x[[1]][["ids"]])
     } else if (all(c("ids", "next_cursor_str") %in% names(x))) {
         next_cursor <- x[["next_cursor_str"]]
-        if (as_double) {
-            x <- as.double(x[["ids"]])
-        } else {
-            x <- as.character(x[["ids"]])
-        }
+        x <- as.character(x[["ids"]])
     } else if (length(x) > 1) {
         next_cursor <- unlist(lapply(x, function(x)
             as.character(x[[1]][["next_cursor_str"]])),
@@ -70,11 +58,7 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
         next_cursor <- return_last(next_cursor)
         x <- unlist(lapply(x, function(x) x[[1]][["ids"]]),
                     use.names = FALSE)
-        if (as_double) {
-            x <- as.double(x)
-        } else {
-            x <- as.character(x)
-        }
+        x <- as.character(x)
     }
     x <- return_n_rows(x, n)
     x <- data.frame(x, stringsAsFactors = FALSE)
@@ -84,33 +68,26 @@ parse_fs <- function(x, n = NULL, as_double = FALSE) {
     x
 }
 
-parse.piper.fs <- function(f, n = NULL, as_double = FALSE) {
-    if (as_double) {
-        df <- plyget(f, "ids") %>%
-            make.vector() %>%
-            as.double() %>%
-            as.df("user_id") %>%
-            tryCatch(error = function(e) return(NULL))
-    } else {
-        df <- plyget(f, "ids") %>%
-            make.vector() %>%
-            as.character() %>%
-            as.df("user_id") %>%
-            tryCatch(error = function(e) return(NULL))
-    }
-    if (is.null(df)) return(f)
-    next_cursor <- plyget(f, "next_cursor") %>%
-        return_last() %>%
-        unL() %>%
-        tryCatch(error = function(e) return(NULL))
-    if (is.null(next_cursor))  {
-        next_cursor <- NA_character_
-    }
-    attr(df, "next_cursor") <- next_cursor
-    if (!is.null(n)) {
-        if (n < NROW(df)) df <- df[seq_len(n), ]
-    }
-    df
+parse.piper.fs <- function(f, n = NULL) {
+  df <- plyget(f, "ids") %>%
+    make.vector() %>%
+    as.character() %>%
+    as.df("user_id") %>%
+    tryCatch(error = function(e) return(NULL))
+
+  if (is.null(df)) return(f)
+  next_cursor <- plyget(f, "next_cursor") %>%
+    return_last() %>%
+    unL() %>%
+    tryCatch(error = function(e) return(NULL))
+  if (is.null(next_cursor))  {
+    next_cursor <- NA_character_
+  }
+  attr(df, "next_cursor") <- next_cursor
+  if (!is.null(n)) {
+    if (n < NROW(df)) df <- df[seq_len(n), ]
+  }
+  df
 }
 
 make.vector <- function(x) do.call("c", x)

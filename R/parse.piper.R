@@ -37,7 +37,7 @@ getifelse <- function(x, var) {
         if (!is.null(xvar)) return(xvar)
     } else {
         xvar <- plyget(x, var)
-        xvar[vapply(xvar, length, double(1)) == 0L] <- NA
+        xvar[vapply(xvar, length, integer(1)) == 0L] <- NA
         return(xvar)
     }
     rep(NA, nrows(x))
@@ -62,7 +62,7 @@ slength <- function(x) {
 }
 
 unL <- function(x, rec = FALSE) {
-    x[vapply(x, slength, integer(1)) == 0L] <- NA
+    x[vapply(x, length, integer(1)) == 0L] <- NA
     x <- unlist(x, use.names = FALSE, recursive = rec)
     x[x == ""] <- NA
     x
@@ -117,7 +117,7 @@ as.df <- function(x, ...) {
 is.nothing <- function(x = NULL) {
     if (is.null(x)) return(TRUE)
     if (identical(length(x), 0L)) return(TRUE)
-    if (all(vapply(x, length, double(1)) == 0L))
+    if (all(vapply(x, length, integer(1)) == 0L))
         return(TRUE)
     if (all(is.na(unlist(x, recursive = FALSE,
                          use.names = FALSE)))) return(TRUE)
@@ -130,7 +130,7 @@ is.smth <- function(x) {
 
 countrows <- function(x) {
     if (!is.data.frame(x)) {
-        vapply(x, NROW, double(1))
+        vapply(x, NROW, integer(1))
     } else {
         NROW(x)
     }
@@ -262,7 +262,9 @@ get.status.obj <- function(x) {
     } else if ("status" %in% names(x)) {
       x <- lapply(x, "[[", "status")
     }
-    x <- x[!vapply(x, is.null, logical(1))]
+    x <- x[vapply(x, length, integer(1)) > 0]
+    if (is.null(x)) return(data.frame())
+    ##x <- x[!vapply(x, is.null, logical(1))]
   } else {
     if ("statuses" %in% names(x)) {
       x <- x[["statuses"]]
@@ -313,28 +315,34 @@ atomic.parsed <- function(rt) {
     )
 }
 
+
 coords.parsed <- function(rt) {
-  geo <- plyget(rt, getifelse, "geo")
-  if (any(
-    !is.recursive(geo),
-    all(!vapply(geo, is.recursive, logical(1))))
-  ) {
-    return(unL(geo))
-  }
-  if (identical(names(geo), c("type", "coordinates"))) {
-    coordinates <- unL(
-      vapply(geo$coordinates, paste, collapse = " ", character(1)))
-  } else {
-    geo[vapply(geo, slength, integer(1)) == 0L] <- NA
-    rec <- vapply(geo, is.recursive, logical(1))
-    if (any(!rec)) {
-      nurows <- vapply(rt, NROW, integer(1))
-      geo[!rec] <- lapply(nurows[!rec], function(n) list(rep(NA, n)))
+  if (is.data.frame(rt)) {
+    geo <- rt[["geo"]]
+    if (!is.data.frame(geo)) {
+      return(rep(NA, nrow(rt)))
+    } else {
+      geo <- geo[['coordinates']]
+      if (is.null(geo)) {
+        return(geo <- rep(NA, nrow(rt)))
+      } else {
+        geo[vapply(geo, slength, integer(1)) == 0] <- NA
+        geo[!is.na(geo)] <- vapply(geo[!is.na(geo)], paste, collapse = " ", character(1))
+        geo <- unL(geo)
+        return(geo)
+      }
     }
-    coordinates <- unL(
-      plyget(geo, getifelse, "coordinates"),
-      function(x) ifelse(length(x) > 1L, paste(x, collapse = " "), x))
+  } else {
+    geo <- plyget(rt, getifelse, "geo")
   }
+
+  for (i in seq_along(geo)) {
+    if (is.data.frame(geo[[i]])) {
+      geo[[i]] <- unL(unlpst(geo[[i]][['coordinates']]))
+    }
+  }
+  coordinates <- unL(geo)
+
   if (is.null(coordinates)) {
     geo <- plyget(rt, getifelse, "coordinates")
     if (!is.recursive(geo)) return(unL(geo))
@@ -360,6 +368,13 @@ coords.parsed <- function(rt) {
     coordinates <- rep(NA, nrows(rt))
   }
   coordinates
+}
+
+unlpst <- function(x) {
+  ln <- vapply(x, length, integer(1))
+  x[ln == 0] <- NA
+  x[ln > 1L] <- vapply(x[ln > 1L], paste, collapse = " ", character(1))
+  x
 }
 
 coords.type.parsed <- function(rt) {
@@ -697,7 +712,7 @@ atomic.parsed.usr <- function(rt) {
         default_profile_image = unL(plyget(rt, getifelse, "default_profile_image")),
         profile_banner_url = unL(plyget(rt, getifelse, "profile_banner_url"))
     )
-    lgs <- vapply(atom, length, double(1))
+    lgs <- vapply(atom, length, integer(1))
     if (sum(lgs == 0, na.rm = TRUE) > 0L) {
         for (i in seq_len(sum(lgs == 0))) {
             atom[[i]] <- rep(rep(NA, max(lgs)))

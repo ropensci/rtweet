@@ -1,24 +1,24 @@
-parse_users <- function(x, as_double = FALSE) {
+parse_users <- function(x) {
     if (!is.recursive(x)) return(data.frame())
     if ("friends_count" %in% names(x)) {
-        return(user_df(x, as_double = as_double))
+        return(user_df(x))
     }
     if ("statuses" %in% names(x)) {
         x <- x[["statuses"]]
-        return(user_df(x, as_double = as_double))
+        return(user_df(x))
     }
     if ("user" %in% names(x)) {
-        return(user_df(x[["user"]], as_double = as_double))
+        return(user_df(x[["user"]]))
     }
     invisible()
 }
 
-user_df <- function(dat, as_double = FALSE) {
+user_df <- function(dat) {
     if ("user" %in% names(dat)) {
         dat <- dat[["user"]]
     }
     user_df <- cbind(
-        user_toplevel_df(dat, as_double = as_double),
+        user_toplevel_df(dat),
         user_entities_df(dat))
     unique(user_df)
 }
@@ -37,8 +37,7 @@ usr_ent_urls <- function(x, list = FALSE) {
 }
 
 user_toplevel_df <- function(x, n = NULL, names = NULL,
-                             add.names = NULL,
-                             as_double = FALSE) {
+                             add.names = NULL) {
 
     if (is.null(names)) {
         toplevel <- c("id_str", "name", "screen_name",
@@ -81,13 +80,9 @@ user_toplevel_df <- function(x, n = NULL, names = NULL,
         toplevel_df[["created_at"]] <- format_date(
             toplevel_df[["created_at"]])
     }
-    if (as_double) {
-        toplevel_df[["user_id"]] <- as.double(
+    toplevel_df[["user_id"]] <- as.character(
             toplevel_df[["user_id"]])
-    } else {
-        toplevel_df[["user_id"]] <- as.character(
-            toplevel_df[["user_id"]])
-    }
+
     data.frame(toplevel_df, stringsAsFactors = FALSE)
 }
 

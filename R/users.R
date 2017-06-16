@@ -11,13 +11,6 @@
 #'   return object into data frame(s).
 #' @param tw Logical indicating whether to return tweets data frame.
 #'   Defaults to true.
-#' @param clean_tweets logical indicating whether to remove non-ASCII
-#'   characters in text of tweets. defaults to TRUE.
-#' @param as_double logical indicating whether to handle ID variables
-#'   as double (numeric) class. By default, this is set to FALSE, meaning
-#'   ID variables are treated as character vectors. Setting this to
-#'   TRUE can provide performance (speed and memory) boost but can also
-#'   lead to issues when printing and saving, depending on the format.
 #'
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
@@ -42,9 +35,7 @@
 lookup_users <- function(users,
                          token = NULL,
                          parse = TRUE,
-                         tw = TRUE,
-                         clean_tweets = TRUE,
-                         as_double = FALSE) {
+                         tw = TRUE) {
 
     if (is.list(users)) {
         users <- unlist(users, use.names = FALSE)

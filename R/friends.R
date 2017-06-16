@@ -12,11 +12,6 @@
 #'   vector or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves you the time [and frustrations]
 #'   associated with disentangling the Twitter API return objects.
-#' @param as_double logical indicating whether to handle ID variables
-#'   as double (numeric) class. By default, this is set to FALSE, meaning
-#'   ID variables are treated as character vectors. Setting this to
-#'   TRUE can provide performance (speed and memory) boost but can also
-#'   lead to issues when printing and saving, depending on the format.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -36,8 +31,7 @@
 #' @return friends User ids for everyone a user follows.
 #' @family ids
 #' @export
-get_friends <- function(user, page = "-1", parse = TRUE,
-                        as_double = FALSE, token = NULL) {
+get_friends <- function(user, page = "-1", parse = TRUE, token = NULL) {
 
     stopifnot(is.atomic(user),
               is.atomic(page),
@@ -65,7 +59,6 @@ get_friends <- function(user, page = "-1", parse = TRUE,
 
     if (is.null(f)) {
         missing <- NA_character_
-        if (as_double) missing <- NA_real_
   	f[["ids"]] <- missing
     } else {
         if (parse) f <- parse.piper.fnd(f)

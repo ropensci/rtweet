@@ -5,8 +5,7 @@
 \title{get_favorites}
 \usage{
 get_favorites(user, n = 3000, since_id = NULL, max_id = NULL,
-  parse = TRUE, clean_tweets = FALSE, as_double = FALSE, usr = TRUE,
-  token = NULL)
+  parse = TRUE, usr = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -30,15 +29,6 @@ equal to (if hit limit) the specified status_id.}
 vector or nested list (fromJSON) object. By default,
 \code{parse = TRUE} saves you the time [and frustrations]
 associated with disentangling the Twitter API return objects.}
-
-\item{clean_tweets}{logical indicating whether to remove non-ASCII
-characters in text of tweets. defaults to FALSE.}
-
-\item{as_double}{logical indicating whether to handle ID variables
-as double (numeric) class. By default, this is set to FALSE, meaning
-ID variables are treated as character vectors. Setting this to
-TRUE can provide performance (speed and memory) boost but can also
-lead to issues when printing and saving, depending on the format.}
 
 \item{usr}{Logical indicating whether to return users data frame.
 Defaults to true.}

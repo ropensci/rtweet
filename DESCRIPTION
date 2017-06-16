@@ -15,6 +15,7 @@ Imports:
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
+    methods,
     openssl
 License: MIT + file LICENSE
 LazyData: TRUE

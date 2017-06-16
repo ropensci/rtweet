@@ -243,6 +243,7 @@ search_tweets <- function(q = "",
         rt <- .search_tweets(
             q = q, n = n,
             type = type,
+            geocode = geocode,
             max_id = max_id,
             include_rts = include_rts,
             full_text = full_text,
@@ -288,6 +289,7 @@ search_tweets <- function(q = "",
                     q = q, n = remaining,
                     check = FALSE,
                     type = type,
+                    geocode = geocode,
                     max_id = maxid,
                     include_rts = include_rts,
                     full_text = full_text,
@@ -368,7 +370,8 @@ search_tweets <- function(q = "",
                            filter_links = FALSE,
                            ...) {
     ## path name
-    query <- "search/tweets"
+  query <- "search/tweets"
+
     ## validate
     stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
     ## number of loops
@@ -457,6 +460,18 @@ search_tweets <- function(q = "",
     } else {
         full_text <- NULL
     }
+  if (!is.null(geocode)) {
+
+    if (inherits(geocode, "coords")) {
+      mls1 <- abs(geocode@box[2] - geocode@box[4]) * 69
+      mls2 <- abs(geocode@box[1] - geocode@box[3]) * (69 - abs(.093 * geocode@point[1])^2)
+
+      mls <- (mls1/1.8 + mls2/1.8) / 1.8
+      mls <- round(mls, 3)
+      geocode <- paste0(paste(geocode@point, collapse = ","), ",", mls, "mi")
+    }
+  }
+
     ## make params list
     params <- list(q = q,
                    result_type = type,

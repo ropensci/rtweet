@@ -115,3 +115,56 @@ get_timeline <- function(user, n = 200,
 
     tm
 }
+
+
+#' get timelines
+#'
+#' @param users Vector user names and or user IDs. Can be mixture of both.
+#' @param n Number of desired tweets to return per user. Must be either one value
+#'   or the same length as supplied number of users.
+#' @param parse Logical, indicating whether to return parsed
+#'   vector or nested list (fromJSON) object. By default,
+#'   \code{parse = TRUE} saves you the time [and frustrations]
+#'   associated with disentangling the Twitter API return objects.
+#' @param \dots Other args passed along to get_timeline.
+#' @examples
+#' \dontrun{
+#' rt <- get_timelines(
+#'   users = c("hadleywickham", "hspter", "rdpeng", "calbon", "dataandme"),
+#'   n = 400
+#' )
+#' if (requireNamespace("dplyr", quietly = TRUE)) {
+#'   rt %>%
+#'     dplyr::group_by(screen_name) %>%
+#'     word_n() %>%
+#'     dplyr::filter(!word %in% stopwords) %>%
+#'     dplyr::group_by(screen_name) %>%
+#'     dplyr::top_n(10, n) %>%
+#'     print(n = 50)
+#' } else {
+#'   rt %>%
+#'     word_n("screen_name") %>%
+#'     subset(!word %in% stopwords & n > 8) %>%
+#'     print(n = 50)
+#' }
+#' }
+#' @return Data frame or if parse is false then list.
+get_timelines <- function(users, n = 200, parse = TRUE, ...) {
+  stopifnot(is.atomic(users), is.numeric(n))
+  if (length(n) > 1L) {
+    stopifnot(length(users) == length(n))
+    n <- n[!is.na(users)]
+  }
+  users <- na_omit(users)
+  usrs <- Map(get_timeline,
+              user = users,
+              n = n,
+              parse = parse,
+              USE.NAMES = FALSE)
+  if (parse) {
+    tweets <- do.call("rbind", lapply(usrs, users_data))
+    usrs <- do.call("rbind", usrs)
+    attr(usrs, "tweets") <- tweets
+  }
+  usrs
+}

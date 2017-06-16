@@ -136,13 +136,14 @@ stream_tweets <- function(q = "",
 
     token <- check_token(token)
 
-    if (!timeout) {
+  if (!timeout) {
         timeout <- Inf
-    }
+  }
 
     stopifnot(
         is.numeric(timeout), timeout > 0,
-        is.atomic(q), is.atomic(file_name))
+        any(is.atomic(q), inherits(q, "coords")),
+        is.atomic(file_name))
 
     if (missing(q)) q <- ""
 
@@ -217,15 +218,19 @@ stream_tweets <- function(q = "",
 }
 
 stream_params <- function(stream, ...) {
-    if (length(stream) > 1) {
-        params <- list(locations = paste(stream, collapse = ","))
-    } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
-        params <- list(follow = stream, ...)
-    } else {
-        params <- list(track = stream, ...)
-    }
-    params[["filter_level"]] <- "low"
-    params
+  if (inherits(stream, "coords")) {
+    stream <- stream@box
+  }
+
+  if (length(stream) > 1) {
+    params <- list(locations = paste(stream, collapse = ","))
+  } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
+    params <- list(follow = stream, ...)
+  } else {
+    params <- list(track = stream, ...)
+  }
+  params[["filter_level"]] <- "low"
+  params
 }
 
 

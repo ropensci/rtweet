@@ -15,51 +15,74 @@ na_omit <- function(x) {
 
 #' lookup_coords
 #'
-#' Returns lat long coordinates using google geocode api
+#' Returns coordinates using google geocode api
 #'
-#' @param address Desired location, e.g., \code{"lawrence, KS"}
+#' @param address Desired location typically in the form of placename,
+#'   subregion, e.g., \code{"lawrence, KS"}. Also accepts the name of
+#'   countries, e.g., \code{"usa"}, \code{"brazil"} or states, e.g.,
+#'   \code{"missouri"} or cities, e.g., \code{"chicago"}. In most
+#'   cases using only address should be suffice.
 #' @param components Unit of analysis for address e.g.,
 #'    \code{"country:US"}. Potential components include postal_code,
 #'    country, administrative_area, locality, route.
-#' @param box Logical indicating whether to return a bounding box of
-#'   coordinates (long1, lat1, long2, lat2) or a single point (long, lat).
-#'   Defaults to TRUE. For single point, set to false.
 #' @param \dots Additional args passed along to params portion of
 #'    http request
-#' @return Numeric vector with lat and long coordinates
+#' @return Object of class coords.
 #' @examples
 #' \dontrun{
-#' lookup_coords("san francisco, CA", "country:US")
+#' sf <- lookup_coords("san francisco, CA", "country:US")
+#' usa <- lookup_coords("usa")
+#' lnd <- lookup_coords("london", box = FALSE)
+#' bz <- lookup_coords("brazil")
+#'
+#' search_tweets(geocode = bz)
 #' }
 #' @importFrom jsonlite fromJSON
 #' @export
-lookup_coords <- function(address, components = NULL, box = TRUE, ...) {
+lookup_coords <- function(address, components = NULL, ...) {
     if (missing(address)) stop("must supply address", call. = FALSE)
     stopifnot(is.atomic(address), is.atomic(components))
-    ## encode address
-    address <- gsub(" ", "+", gsub(",", "", address))
-    ## compose query
-    params <- list(address = address,
-                   components = components, ...)
-    params <- params[!vapply(params, is.null, logical(1))]
-    params <- paste0(
+    place <- address
+    if (grepl("^us$|^usa$|^united states$|^u\\.s", address, ignore.case = TRUE)) {
+      boxp <- c(
+        sw.lng = -124.848974,
+        sw.lat = 24.396308,
+        ne.lng = -66.885444,
+        ne.lat = 49.384358
+      )
+      point <- c(
+        lat = 36.89,
+        lng = -95.867
+      )
+    } else {
+      ## encode address
+      address <- gsub(" ", "+", gsub(",", "", address))
+      ## compose query
+      params <- list(address = address,
+                     components = components, ...)
+      params <- params[!vapply(params, is.null, logical(1))]
+      params <- paste0(
         mapply(function(x, y) paste0(x, "=", y),
                names(params), params),
         collapse = "&")
-    ## build URL
-    geourl <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
-                     params)
-    ## read and convert to list obj
-    r <- jsonlite::fromJSON(geourl)
-    ## extract, name, and then format
-    coords <- rev(unlist(r$results$geometry[1, 1], use.names = FALSE))
-    names(coords) <- c("long1", "lat1", "long2", "lat2")
-    if (box) {
-        coords
-    } else {
-        c(long = mean(coords[c(1, 3)]),
-          lat = mean(coords[c(2, 4)]))
+      ## build URL
+      geourl <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
+                       params)
+      ## read and convert to list obj
+      r <- jsonlite::fromJSON(geourl)
+      ## extract and name box and point data frames
+      boxp <- c(
+        sw.lng = r$results$geometry$bounds$southwest$lng,
+        sw.lat = r$results$geometry$bounds$southwest$lat,
+        ne.lng = r$results$geometry$bounds$northeast$lng,
+        ne.lat = r$results$geometry$bounds$northeast$lat
+      )
+      point <- c(
+        lat = r$results$geometry$location$lat,
+        lng = r$results$geometry$location$lng
+      )
     }
+    as_coords(place = place, box = boxp, point = point)
 }
 
 mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
@@ -113,4 +136,30 @@ mutate.coords <- function(x) {
         stop("coordinates variable not found")
     }
     invisible(x)
+}
+
+#' coords class
+#'
+#' @name coords
+NULL
+
+#' @importFrom methods new
+as_coords <- setClass(
+  "coords", slots = c(place = "character", box = "numeric", point = "numeric"),
+  prototype = list(place = character(),
+                   box = numeric(4),
+                   point = numeric(2)))
+
+setMethod("show", "coords", function(object) print(object))
+
+#' print coords
+#'
+#' @param x Object of class coords.
+print.coords <- function(x) {
+  message("An object of class \"coords\"")
+  message("\nPlace: \"", x@place, "\"")
+  message("\nBounding box:")
+  print(x@box)
+  message("\nPoint:")
+  print(x@point)
 }

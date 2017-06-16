@@ -4,30 +4,35 @@
 \alias{lookup_coords}
 \title{lookup_coords}
 \usage{
-lookup_coords(address, components = NULL, box = TRUE, ...)
+lookup_coords(address, components = NULL, ...)
 }
 \arguments{
-\item{address}{Desired location, e.g., \code{"lawrence, KS"}}
+\item{address}{Desired location typically in the form of placename,
+subregion, e.g., \code{"lawrence, KS"}. Also accepts the name of
+countries, e.g., \code{"usa"}, \code{"brazil"} or states, e.g.,
+\code{"missouri"} or cities, e.g., \code{"chicago"}. In most
+cases using only address should be suffice.}
 
 \item{components}{Unit of analysis for address e.g.,
 \code{"country:US"}. Potential components include postal_code,
 country, administrative_area, locality, route.}
 
-\item{box}{Logical indicating whether to return a bounding box of
-coordinates (long1, lat1, long2, lat2) or a single point (long, lat).
-Defaults to TRUE. For single point, set to false.}
-
 \item{\dots}{Additional args passed along to params portion of
 http request}
 }
 \value{
-Numeric vector with lat and long coordinates
+Object of class coords.
 }
 \description{
-Returns lat long coordinates using google geocode api
+Returns coordinates using google geocode api
 }
 \examples{
 \dontrun{
-lookup_coords("san francisco, CA", "country:US")
+sf <- lookup_coords("san francisco, CA", "country:US")
+usa <- lookup_coords("usa")
+lnd <- lookup_coords("london", box = FALSE)
+bz <- lookup_coords("brazil")
+
+search_tweets(geocode = bz)
 }
 }
