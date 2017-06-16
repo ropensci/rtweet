@@ -598,7 +598,7 @@ search_users <- function(q, n = 20,
             nrows <- 0
         }
         k <- k + nrows
-        if (k >= n) break
+        if (k >= n * 20) break
     }
     if (parse) {
         usr <- parse.piper.usr(usr, tw = tw)
