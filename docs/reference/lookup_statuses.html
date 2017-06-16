@@ -82,8 +82,7 @@
   specified user_ids or screen_names.</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>clean_tweets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>as_double</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -107,19 +106,6 @@ return object into data frame(s).</p></td>
       <th>usr</th>
       <td><p>Logical indicating whether to return users data frame.
 Defaults to true.</p></td>
-    </tr>
-    <tr>
-      <th>clean_tweets</th>
-      <td><p>logical indicating whether to remove non-ASCII
-characters in text of tweets. defaults to FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>as_double</th>
-      <td><p>logical indicating whether to handle ID variables
-as double (numeric) class. By default, this is set to FALSE, meaning
-ID variables are treated as character vectors. Setting this to
-TRUE can provide performance (speed and memory) boost but can also
-lead to issues when printing and saving, depending on the format.</p></td>
     </tr>
     </table>
     

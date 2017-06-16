@@ -163,3 +163,11 @@ print.coords <- function(x) {
   message("\nPoint:")
   print(x@point)
 }
+
+setMethod("as.numeric", "coords", function(x) x@box)
+setMethod("range", "coords", function(x) x@box)
+setMethod("mean", "coords", function(x) x@point)
+setMethod("unlist", "coords", function(x) x@box)
+setMethod("$", "coords", function(x, name) slot(x, name))
+
+
