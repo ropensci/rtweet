@@ -10,7 +10,7 @@
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like
-#'   to reply.
+#'   to reply. Note: in line with the Twitter API, this parameter is ignored unless the author of the tweet this parameter references is mentioned within the status text.
 #' @examples
 #' \dontrun{
 #' x <- rnorm(300)
