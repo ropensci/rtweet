@@ -5,7 +5,7 @@
 #'   to create and save an R user profile declaring the path to your
 #'   Twitter tokens. This allows Tokens to be instantly  [re]loaded
 #'   for future sessions. It also makes it easier to write teh card -
-#'   allowing internals of the functions t call your tokens for you.
+#'   allowing internals of the functions to call your tokens for you.
 #' @return path
 #' @family tokens
 #' @export
@@ -23,8 +23,8 @@ get_tokens <- function() {
 #' create_token
 #'
 #' @description Sends request to generate oauth 1.0 tokens. Twitter
-#'   also allows uers to create user-only (oauth 2.0) access token.
-#'   Unlike the 1.0 tokens, oath 2.0 tokens are not at all centered
+#'   also allows users to create user-only (oauth 2.0) access token.
+#'   Unlike the 1.0 tokens, oauth 2.0 tokens are not at all centered
 #'   on a host user. Which means these tokens cannot be used to
 #'   send information (follow requests, Twitter statuses, etc.).
 #'   If you have no interest in those capabilities, then 2.0 oauth
