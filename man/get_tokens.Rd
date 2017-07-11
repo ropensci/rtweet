@@ -15,7 +15,7 @@ Call function used to load Twitter oauth tokens.
   to create and save an R user profile declaring the path to your
   Twitter tokens. This allows Tokens to be instantly  [re]loaded
   for future sessions. It also makes it easier to write teh card -
-  allowing internals of the functions t call your tokens for you.
+  allowing internals of the functions to call your tokens for you.
 }
 \seealso{
 Other tokens: \code{\link{create_token}}

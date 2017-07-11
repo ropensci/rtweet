@@ -28,8 +28,8 @@ Twitter personal access token object
 }
 \description{
 Sends request to generate oauth 1.0 tokens. Twitter
-  also allows uers to create user-only (oauth 2.0) access token.
-  Unlike the 1.0 tokens, oath 2.0 tokens are not at all centered
+  also allows users to create user-only (oauth 2.0) access token.
+  Unlike the 1.0 tokens, oauth 2.0 tokens are not at all centered
   on a host user. Which means these tokens cannot be used to
   send information (follow requests, Twitter statuses, etc.).
   If you have no interest in those capabilities, then 2.0 oauth

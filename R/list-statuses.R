@@ -22,14 +22,14 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return data
-f <- function(list_id = NULL,
-              slug = NULL,
-              owner_user = NULL,
-              since_id = NULL,
-              max_id = NULL,
-              count = 5000,
-              include_rts = TRUE,
-              token = NULL) {
+list_statuses <- function(list_id = NULL,
+                          slug = NULL,
+                          owner_user = NULL,
+                          since_id = NULL,
+                          max_id = NULL,
+                          count = 5000,
+                          include_rts = TRUE,
+                          token = NULL) {
   query <- "lists/statuses"
   params <- list(list_id = list_id,
                  slug = slug,
