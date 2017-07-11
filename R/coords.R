@@ -199,41 +199,18 @@ max_coords <- function(x) {
 }
 
 
-setMethod("show", "gcoords", function(object) print(object))
-
-#' print gcoords
+#' gcoords class
 #'
-#' @param x Object of class coords.
-#' @param n Number of obs to return
-#' @param digits Number of digits to print.
-print.gcoords <- function(x, n = 10, digits = 2) {
-  message("An object of class \"gcoords\"")
-  message("\nBounding box:")
-  b <- apply(
-    x@box[1:n, ], 2,
-    function(.) as.double(round(., digits = digits))
-  )
-  print(b)
-  message("\nPoint:")
-  p <- apply(
-    x@point[1:n, ], 2,
-    function(.) as.double(round(., digits = digits))
-  )
-  print(p)
-}
+#' @name gcoords
+NULL
 
-setMethod("$", "gcoords", function(x, name) slot(x, name))
-
-
-
+#' @importFrom methods new
 gcoords <- setClass(
   "gcoords",
   slots = c(
     point = "matrix",
     box = "matrix")
 )
-
-
 
 as_gcoords <- function(point, box) {
   ## point
@@ -277,3 +254,28 @@ as_gcoords <- function(point, box) {
   gcoords(point = point, box = box)
 }
 
+
+setMethod("show", "gcoords", function(object) print(object))
+
+#' print gcoords
+#'
+#' @param x Object of class coords.
+#' @param n Number of obs to return
+#' @param digits Number of digits to print.
+print.gcoords <- function(x, n = 10, digits = 2) {
+  message("An object of class \"gcoords\"")
+  message("\nBounding box:")
+  b <- apply(
+    x@box[1:n, ], 2,
+    function(.) as.double(round(., digits = digits))
+  )
+  print(b)
+  message("\nPoint:")
+  p <- apply(
+    x@point[1:n, ], 2,
+    function(.) as.double(round(., digits = digits))
+  )
+  print(p)
+}
+
+setMethod("$", "gcoords", function(x, name) slot(x, name))

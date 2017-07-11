@@ -11,9 +11,7 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
 
     for (i in seq_along(x)) {
         ## send GET request
-  	x[[i]] <- tryCatch(
-            TWIT(get = TRUE, url, ...),
-            error = function(e) return(NULL))
+  	x[[i]] <- httr::GET(url, ...)
 
         ## if NULL (error) break
         if (is.null(x[[i]])) break
@@ -42,7 +40,7 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
     }
     ## drop NULLs
     if (is.null(names(x))) {
-        x <- x[vapply(x, length, double(1)) > 0]
+        x <- x[lengths(x) > 0]
     }
     x
 }
@@ -87,8 +85,17 @@ unique_id_count <- function(x, type = NULL) {
     length(unique(x))
 }
 
-
+#' get max id
+#'
+#' Returns max ID for search iteration.
+#'
+#' @param x Data object returned by Twitter API.
+#' @param adj Deired adjustment to the max ID number. Defaults to
+#'   one ID older than the previous max.
+#' @return Max id string.
 #' @importFrom bit64 as.integer64
+#' @noRd
+#' @export
 get_max_id <- function(x, adj = -1L) {
   if (!is.atomic(x)) {
 

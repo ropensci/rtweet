@@ -209,46 +209,51 @@ parser <- function(rt, att = TRUE) {
 }
 
 parse.piper <- function(rt, usr = TRUE) {
-    rt <- get.status.obj(rt)
+  rt <- get.status.obj(rt)
+  if ("full_text" %in% names(rt)) {
+    names(rt)[names(rt) == "text"] <- "texttrunc"
+    names(rt)[names(rt) == "full_text"] <- "text"
+  }
+  ## if empty return empty df
+  if (identical(length(rt), 0L)) {
+    if (usr) attr(rt, "users") <- data.frame()
+    return(rt)
+  }
+  if (usr) {
     if ("full_text" %in% names(rt)) {
-        names(rt)[names(rt) == "text"] <- "texttrunc"
-        names(rt)[names(rt) == "full_text"] <- "text"
+      names(rt)[names(rt) == "text"] <- "texttrunc"
+      names(rt)[names(rt) == "full_text"] <- "text"
     }
-    ## if empty return empty df
-    if (identical(length(rt), 0L)) {
-        if (usr) attr(rt, "users") <- data.frame()
-        return(rt)
-    }
-    if (usr) {
-        users <- parse.piper.usr(rt)
-        uservars <- list(
-            screen_name = users[["screen_name"]],
-            user_id = users[["user_id"]])
-        if (requireNamespace("tibble", quietly = TRUE)) {
-            users <- tryCatch(tibble::as_tibble(users),
-                              error = function(e) return(users))
-        }
-        rt <- c(uservars,
-                atomic.parsed(rt),
-                entities.parsed(rt),
-                place.parsed(rt))
-    } else {
-        rt <- c(atomic.parsed(rt),
-                entities.parsed(rt),
-                place.parsed(rt))
-    }
-    rt <- tryCatch(
-        as.data.frame(rt, stringsAsFactors = FALSE),
-        error = function(e)
-            return(rt))
-    if (usr) {
-        attr(rt, "users") <- users
-    }
+    users <- parse.piper.usr(rt)
+    uservars <- list(
+      screen_name = users[["screen_name"]],
+      user_id = users[["user_id"]])
     if (requireNamespace("tibble", quietly = TRUE)) {
-        rt <- tryCatch(tibble::as_tibble(rt),
-                       error = function(e) return(rt))
+      users <- tryCatch(tibble::as_tibble(users),
+                        error = function(e) return(users))
     }
-    rt
+    rt <- c(uservars,
+            atomic.parsed(rt),
+            entities.parsed(rt),
+            place.parsed(rt))
+  } else {
+    rt <- c(atomic.parsed(rt),
+            entities.parsed(rt),
+            place.parsed(rt))
+  }
+  
+  rt <- tryCatch(
+    as.data.frame(rt, stringsAsFactors = FALSE),
+    error = function(e)
+      return(rt))
+  if (usr) {
+    attr(rt, "users") <- users
+  }
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    rt <- tryCatch(tibble::as_tibble(rt),
+                   error = function(e) return(rt))
+  }
+  rt
 }
 
 
@@ -259,7 +264,7 @@ get.status.obj <- function(x) {
   if (is.null(names(x))) {
     if ("statuses" %in% names(x[[1]])) {
       x <- lapply(x, "[[", "statuses")
-    } else if ("status" %in% names(x)) {
+    } else if ("status" %in% names(x[[1]])) {
       x <- lapply(x, "[[", "status")
     }
     x <- x[vapply(x, length, integer(1)) > 0]
@@ -296,25 +301,28 @@ qtstatus.safecheck <- function(x) {
     }
 }
 atomic.parsed <- function(rt) {
-    list(
-        created_at = format_date(unL(plyget(rt, "created_at"))),
-        status_id = unL(plyget(rt, "id_str")),
-        text = unL(plyget(rt, "text")),
-        retweet_count = unL(plyget(rt, "retweet_count")),
-        favorite_count = unL(plyget(rt, "favorite_count")),
-        is_quote_status = is.na.not(unL(plyget(rt, qtstatus.safecheck))),
-        quote_status_id = unL(plyget(rt, qtstatus.safecheck)),
-        is_retweet = is.na.not(unL(plyget(rt, rtstatus.safecheck))),
-        retweet_status_id = unL(plyget(rt, rtstatus.safecheck)),
-        in_reply_to_status_status_id = unL(plyget(rt, "in_reply_to_status_id_str")),
-        in_reply_to_status_user_id = unL(plyget(rt, "in_reply_to_user_id_str")),
-        in_reply_to_status_screen_name = unL(plyget(rt, "in_reply_to_screen_name")),
-        lang = unL(plyget(rt, "lang")),
-        source = gsub("^[^>]*>|</a>$", "",
-            unL(plyget(rt, "source")))
-    )
+  txt <- unL(plyget(rt, "text"))
+  if (all(is.na(txt))) {
+    txt <- unL(plyget(rt, "full_text"))
+  }
+  list(
+    created_at = format_date(unL(plyget(rt, "created_at"))),
+    status_id = unL(plyget(rt, "id_str")),
+    text = txt,
+    retweet_count = unL(plyget(rt, "retweet_count")),
+    favorite_count = unL(plyget(rt, "favorite_count")),
+    is_quote_status = is.na.not(unL(plyget(rt, qtstatus.safecheck))),
+    quote_status_id = unL(plyget(rt, qtstatus.safecheck)),
+    is_retweet = is.na.not(unL(plyget(rt, rtstatus.safecheck))),
+    retweet_status_id = unL(plyget(rt, rtstatus.safecheck)),
+    in_reply_to_status_status_id = unL(plyget(rt, "in_reply_to_status_id_str")),
+    in_reply_to_status_user_id = unL(plyget(rt, "in_reply_to_user_id_str")),
+    in_reply_to_status_screen_name = unL(plyget(rt, "in_reply_to_screen_name")),
+    lang = unL(plyget(rt, "lang")),
+    source = gsub("^[^>]*>|</a>$", "",
+                  unL(plyget(rt, "source")))
+  )
 }
-
 
 coords.parsed <- function(rt) {
   if (is.data.frame(rt)) {
@@ -326,8 +334,10 @@ coords.parsed <- function(rt) {
       if (is.null(geo)) {
         return(geo <- rep(NA, nrow(rt)))
       } else {
-        geo[vapply(geo, slength, integer(1)) == 0] <- NA
-        geo[!is.na(geo)] <- vapply(geo[!is.na(geo)], paste, collapse = " ", character(1))
+        geo[lengths(geo) == 0] <- NA
+        geo[!is.na(geo)] <- vapply(
+          geo[!is.na(geo)], paste,
+          collapse = " ", character(1))
         geo <- unL(geo)
         return(geo)
       }
@@ -338,7 +348,13 @@ coords.parsed <- function(rt) {
 
   for (i in seq_along(geo)) {
     if (is.data.frame(geo[[i]])) {
-      geo[[i]] <- unL(unlpst(geo[[i]][['coordinates']]))
+      gco <- unlpst(geo[[i]][['coordinates']])
+      if (any(lengths(gco) > 1L)) {
+        gco[lengths(gco) > 1L] <- vapply(
+          gco[lengths(gco) > 1L], paste, collapse = " ",
+          character(1))
+        geo[[i]] <- unL(gco)
+      }
     }
   }
   coordinates <- unL(geo)
@@ -371,9 +387,7 @@ coords.parsed <- function(rt) {
 }
 
 unlpst <- function(x) {
-  ln <- vapply(x, length, integer(1))
-  x[ln == 0] <- NA
-  x[ln > 1L] <- vapply(x[ln > 1L], paste, collapse = " ", character(1))
+  x[lengths(x) == 0] <- NA
   x
 }
 
@@ -545,7 +559,8 @@ user_mentions.parsed <- function(rt) {
         )
     } else {
         user_mentions <- list(
-            mentions_screen_name = unL(plyget(plycp(user_mentions, "screen_name"), unL)),
+          mentions_screen_name = unL(
+            plyget(plycp(user_mentions, "screen_name"), unL)),
             mentions_user_id = unL(plyget(plycp(user_mentions, "id_str"), unL))
         )
     }
@@ -589,8 +604,6 @@ hashtags.parsed <- function(rt) {
     }
     hashtags
 }
-
-
 
 place.parsed <- function(rt) {
     coordinates <- coords.parsed(rt)
@@ -735,7 +748,11 @@ atomic.parsed.usr <- function(rt) {
 parse.piper.usr <- function(rt, tw = FALSE) {
     rt <- get.user.obj(rt)
     if (tw) {
-        tweets <- parse.piper(rt, usr = FALSE)
+      tweets <- parse.piper(rt, usr = FALSE)
+      if ("full_text" %in% names(tweets)) {
+        names(tweets)[names(tweets) == "text"] <- "texttrunc"
+        names(tweets)[names(tweets) == "full_text"] <- "text"
+      }
     }
     rt <- atomic.parsed.usr(rt)
     rt <- tryCatch(
