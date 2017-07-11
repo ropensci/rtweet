@@ -7,7 +7,7 @@ rtweet
 
 R client for interacting with Twitter's REST and stream API's.
 
-Check out the [rtweet package documentation website](https://mkearney.github.io/rtweet).
+Check out the [rtweet package documentation website](http://rtweet.info).
 
 Install
 -------
@@ -32,11 +32,13 @@ library(rtweet)
 Getting started
 ---------------
 
--   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](https://mkearney.github.io/rtweet/index.html). However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the [rtweet documentation website](https://mkearney.github.io/rtweet/index.html).
+-   ***Quick authorization method***: To make your life easier, follow the recommended steps in [obtaining and using access tokens](http://rtweet.info/index.html). However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the [rtweet documentation website](http://rtweet.info/index.html).
+
+Update: rtweet's website has a new domain: <http://rtweet.info>
 
 -   First, you'll need to [create a Twitter app](https://apps.twitter.com/). For the callback field, make sure to enter: `http://127.0.0.1:1410`.
 
--   Once you've created an app, record your consumer (api) and secret keys. Screeshots can be found [here](https://mkearney.github.io/rtweet/articles/auth.html).
+-   Once you've created an app, record your consumer (api) and secret keys. Screeshots can be found [here](http://rtweet.info/articles/auth.html).
 
 -   Generate a token by using the `create_token()` function.
 
@@ -61,26 +63,26 @@ twitter_token <- create_token(
 rt <- search_tweets("data science", n = 1000, token = twitter_token)
 ```
 
--   ***Recommended authorization method***: [Obtaining and using access tokens](https://mkearney.github.io/rtweet/articles/auth.html) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
+-   ***Recommended authorization method***: [Obtaining and using access tokens](http://rtweet.info/articles/auth.html) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
 
 Vignettes
 ---------
 
--   [Obtaining and using user access tokens](https://mkearney.github.io/rtweet/articles/auth.html)
+-   [Obtaining and using user access tokens](http://rtweet.info/articles/auth.html)
 
 ``` r
 ## authorizing API access
 vignette("auth", package = "rtweet")
 ```
 
--   [Quick overview of rtweet package](https://mkearney.github.io/rtweet/articles/intro.html)
+-   [Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
 
 ``` r
 ## quick overview of rtweet functions
 vignette("intro", package = "rtweet")
 ```
 
--   [Live streaming tweets data](https://mkearney.github.io/rtweet/articles/stream.html)
+-   [Live streaming tweets data](http://rtweet.info/articles/stream.html)
 
 ``` r
 ## working with the stream

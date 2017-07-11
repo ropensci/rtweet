@@ -161,3 +161,24 @@ code a, pre a {
 .error   { color: orange;  font-weight: bolder;}
 .warning { color: #6A0366; font-weight: bolder;}
 
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+  background-color: greenyellow;
+  color: #17546a;
+}
+
+.navbar-default {
+  background-color: #37748a;
+}
+.navbar-default .navbar-brand {
+  color: #fff;
+}
+.navbar-default .navbar-nav>li>a {
+  color: #fff;
+}
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
+    color:greenyellow;
+}
+a {
+    color: #dd3366;
+}

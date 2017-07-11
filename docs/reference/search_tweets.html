@@ -11,7 +11,7 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -23,6 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,10 +52,31 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/auth.html">Obtaining and using access tokens</a>
+    </li>
+    <li>
+      <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+    </li>
+    <li>
+      <a href="../articles/stream.html">Live streaming tweets</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -194,7 +217,7 @@ defaults to true, see <code><a href='users_data.html'>users_data</a></code>.</p>
       <td><p>OAuth token. By default <code>token = NULL</code> fetches a
 non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code>?tokens</code> to
+variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
 console).</p></td>
     </tr>
     <tr>
@@ -350,7 +373,7 @@ API documentation.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><a href = 'https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
+    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
 <p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
   <code><a href='get_timeline.html'>get_timeline</a></code>,
   <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
@@ -358,33 +381,33 @@ API documentation.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='co'>## search for 1000 tweets mentioning Hillary Clinton</span>
-  <span class='no'>hrc</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"hillaryclinton"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## search for 1000 tweets mentioning Hillary Clinton</span>
+<span class='no'>hrc</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"hillaryclinton"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
-  <span class='co'>## data frame where each observation (row) is a different tweet</span>
-  <span class='no'>hrc</span>
+<span class='co'>## data frame where each observation (row) is a different tweet</span>
+<span class='no'>hrc</span>
 
-  <span class='co'>## users data also retrieved. can access it via users_data()</span>
-  <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>hrc</span>)
+<span class='co'>## users data also retrieved. can access it via users_data()</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>hrc</span>)
 
-  <span class='co'>## search for 1000 tweets in English</span>
-  <span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"realdonaldtrump"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>)
-  <span class='no'>djt</span>
-  <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
+<span class='co'>## search for 1000 tweets in English</span>
+<span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"realdonaldtrump"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>)
+<span class='no'>djt</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
 
-  <span class='co'>## exclude retweets</span>
-  <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'>## exclude retweets</span>
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-  <span class='co'>## perform search for lots of tweets</span>
-  <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"trump OR president OR potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100000</span>,
-                      <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'>## perform search for lots of tweets</span>
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"trump OR president OR potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100000</span>,
+                    <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-  <span class='co'>## plot time series of tweets frequency</span>
-  <span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"spacegray"</span>,
-          <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Tweets about Trump"</span>)
+<span class='co'>## plot time series of tweets frequency</span>
+<span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"spacegray"</span>,
+        <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Tweets about Trump"</span>)
 
-})</div></pre>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

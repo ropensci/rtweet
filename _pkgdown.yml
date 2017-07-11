@@ -2,4 +2,4 @@ navbar:
   type: default
 template:
   params:
-    bootswatch: readable
+    bootswatch: paper

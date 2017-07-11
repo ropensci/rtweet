@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Citation and Authors • rtweet</title>
+<title>GET lists/list¶ — list_list • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -20,9 +20,9 @@
 
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
+<script src="../pkgdown.js"></script>
   
   
 <!-- mathjax -->
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-citation-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,18 +47,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">rtweet</a>
+      <a class="navbar-brand" href="../index.html">rtweet</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="/index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -68,18 +68,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/auth.html">Obtaining and using access tokens</a>
+      <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
-      <a href="articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+      <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="articles/stream.html">Live streaming tweets</a>
+      <a href="../articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
@@ -94,38 +94,60 @@
       </header>
 
       <div class="row">
-  <div class="contents col-md-9">
-
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Citation</h1>
+    <h1>GET lists/list¶</h1>
     </div>
 
-    <p>Kearney MW (2017).
-<em>rtweet: Collecting Twitter Data</em>.
-R package version 0.4.5, <a href="https://cran.r-project.org/package=rtweet">https://cran.r-project.org/package=rtweet</a>. 
-</p>
-    <pre>@Manual{rtweet-package,
-  title = {rtweet: Collecting Twitter Data},
-  author = {Michael W. Kearney},
-  year = {2017},
-  note = {R package version 0.4.5},
-  url = {https://cran.r-project.org/package=rtweet},
-}</pre>
-    <div class="page-header">
-      <h1>Authors</h1>
-    </div>
+    
+    <p>Returns all lists the authenticating or specified user subscribes to,
+  including their own. The user is specified using the user_id or
+  screen_name parameters. If no user is given, the authenticating
+  user is used.</p>
+    
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Michael W. Kearney</strong>. Author, maintainer.
-        </p>
-      </li>
-    </ul>
+    <pre class="usage"><span class='fu'>list_list</span>(<span class='no'>user</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>user</th>
+      <td><p>The ID of the user or screen name for whom to return results.
+Helpful for disambiguating when a valid user ID is also a valid screen name.</p></td>
+    </tr>
+    <tr>
+      <th>reverse</th>
+      <td><p>optional Set this to true if you would like owned lists
+to be returned first. See description above for information on
+how this parameter works.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
+console).</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>data</p>
+    
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
+  </div>
 </div>
-
 
       <footer>
       <div class="copyright">

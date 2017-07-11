@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>print coords — print.coords • rtweet</title>
+<title>GET collections/entries¶ — f • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,24 +96,52 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>print coords</h1>
+    <h1>GET collections/entries¶</h1>
     </div>
 
     
-    <p>print coords</p>
+    <p>Retrieve the identified Collection, presented as a list of the
+  Tweets curated within. The response structure of this method
+  differs significantly from timelines you may be used to
+  working with in the Twitter REST API. To navigate a
+  Collection, use the position object of a response, which includes
+  attributes for max_position, min_position, and was_truncated.
+  was_truncated indicates whether additional Tweets exist in
+  the collection outside of the range of the current request.
+  To retrieve Tweets further back in time, use the value of
+  min_position found in the current response as the max_position
+  parameter in your next call to this endpoint.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for coords</span>
-<span class='fu'>print</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>f</span>(<span class='no'>id</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>max_position</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>min_position</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Object of class coords.</p></td>
+      <th>id</th>
+      <td><p>required The identifier of the Collection to return results for. "539487832448843776"</p></td>
+    </tr>
+    <tr>
+      <th>count</th>
+      <td><p>optional Specifies the maximum number of results to include in the response. Specify a
+count between 1 and 200. A next_cursor value will be provided in the response
+if additional results are available.</p></td>
+    </tr>
+    <tr>
+      <th>max_position</th>
+      <td><p>optional Returns results with a position value less than or equal to the specified
+position.</p></td>
+    </tr>
+    <tr>
+      <th>min_position</th>
+      <td><p>optional Returns results with a position greater than the specified position.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>data</p>
     
 
   </div>
@@ -121,7 +149,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>
