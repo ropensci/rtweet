@@ -95,6 +95,4 @@ More technical description: An implementation of calls designed to extract and o
 Contact
 -------
 
-Communicating with Twitter's APIs relies on an internet connection, which can sometimes be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active [issue](https://github.com/mkearney/rtweet/issues), please [create a new issue](https://github.com/mkearney/rtweet/issues/new) with all code used (preferably a reproducible example) on Github. For questions or other discussion, please use [rtweet's Google group](https://groups.google.com/group/rtweet). Update: I've been a lot better about responding to things posted on Github than I have to posts on the Google group.
-
-[rtweet's Google group](https://groups.google.com/group/rtweet)
+Communicating with Twitter's APIs relies on an internet connection, which can sometimes be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active [issue](https://github.com/mkearney/rtweet/issues), please [create a new issue](https://github.com/mkearney/rtweet/issues/new) with all code used (preferably a reproducible example) on Github.

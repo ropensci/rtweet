@@ -1,3 +1,9 @@
+# rtweet 0.4.6
+- More efficient iterations through pages of results.
+- Added to documentation, including new package documentation domain:
+  http://rtweet.info.
+- Improvements made in collecting and using geo data.
+
 # rtweet 0.4.5
 - Convenience function `plain_tweets()` added for textual analysis.
 - Overhaul of `ts_plot()` with improved time-aggregating method. Now a
