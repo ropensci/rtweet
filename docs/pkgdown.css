@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,600,600i');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
 /* Sticker footer */
 body > .container {
   display: flex;
@@ -67,8 +71,8 @@ a.anchor {
 /* Fixes for fixed navbar --------------------------*/
 
 .contents h1, .contents h2, .contents h3, .contents h4 {
-  padding-top: 60px;
-  margin-top: -60px;
+  padding-top: 30px;
+  margin-top: -30px;
 }
 
 /* Static header placement on mobile devices */
@@ -100,6 +104,17 @@ a.anchor {
   margin-bottom: 0.5em;
 }
 
+h1, h2, h3, h4, h5 {
+    font-family: 'Montserrat';
+    color: #222;
+}
+
+h1 {font-size: 2.4em;}
+h2 {font-size: 2.2em;}
+h3 {font-size: 2.0em;}
+h4 {font-size: 1.8em;}
+
+
 /* Reference index & topics ----------------------------------------------- */
 
 .ref-index th {font-weight: normal;}
@@ -125,14 +140,23 @@ table {
 }
 
 /* Syntax highlighting ---------------------------------------------------- */
+body {
+    font-family: "Roboto";
+    font-size: 15px;
+    background-color: #fff;
+    color: #444;
+    line-height: 1.85;
+}
 
 pre {
   word-wrap: normal;
   word-break: normal;
-  border: 1px solid #eee;
+  border: 0px solid #eee;
 }
 
 pre, code {
+    font-family: Inconsolata, mono;
+    font-size: 15px;
   background-color: #f8f8f8;
   color: #333;
 }
@@ -148,7 +172,7 @@ pre .img img {
 }
 
 code a, pre a {
-  color: #375f84;
+  color: #1858a5;
 }
 
 .fl      {color: #1514b5;}
@@ -163,22 +187,28 @@ code a, pre a {
 
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-  background-color: greenyellow;
-  color: #17546a;
+    background-color: #fbfbfb;
 }
 
 .navbar-default {
-  background-color: #37748a;
+    background-color: #fbfbfb;
+    font-family: 'Roboto';
 }
 .navbar-default .navbar-brand {
-  color: #fff;
+  color: #444;
 }
 .navbar-default .navbar-nav>li>a {
-  color: #fff;
+  color: #444;
 }
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
-    color:greenyellow;
+    color: #820;
 }
 a {
-    color: #dd3366;
+    color: #068;
+}
+a:hover {
+    color: #820;
+}
+.navbar {
+    box-shadow: 0 0px 1px rgba(0,0,0,0.3);
 }
