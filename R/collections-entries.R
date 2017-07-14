@@ -13,15 +13,28 @@
 #'   parameter in your next call to this endpoint.
 
 #' @param id required The identifier of the Collection to return results for. "539487832448843776"
-#' @param count optional Specifies the maximum number of results to include in the response. Specify a
-#'   count between 1 and 200. A next_cursor value will be provided in the response
+#' @param count optional Specifies the maximum number of results to include in the response.
+#'   Specify count between 1 and 200. A next_cursor value will be provided in the response
 #'   if additional results are available.
-#' @param max_position optional Returns results with a position value less than or equal to the specified
-#'   position.
+#' @param max_position optional Returns results with a position value less than or equal to
+#'   the specified position.
 #' @param min_position optional Returns results with a position greater than the specified position.
 #' @return data
-f <- function(id, count = 200, max_position = NULL, min_position = NULL) {
-  1L
+get_collections <- function(id, count = 200,
+                            max_position = NULL,
+                            min_position = NULL,
+                            token = NULL) {
+    query <- "collections/entries"
+    params <- list(
+        id = id,
+        count = count,
+        max_position = max_position,
+        min_position = min_position
+    )
+    url <- make_url(query = query, param = params)
+    token <- check_token(token)
+    r <- httr::GET(url, token)
+    httr::warn_for_status(r)
 }
 
 

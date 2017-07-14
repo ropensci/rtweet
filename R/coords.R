@@ -59,7 +59,8 @@ lookup_coords <- function(address, components = NULL, ...) {
     address <- gsub(" ", "+", gsub(",", "", address))
     ## compose query
     params <- list(address = address,
-                   components = components, ...)
+                   components = components,
+                   ...)
     params <- params[!vapply(params, is.null, logical(1))]
     params <- paste0(
       mapply(function(x, y) paste0(x, "=", y),
@@ -111,7 +112,7 @@ mutate.coords <- function(x) {
   }
 
   if (is.list(coordinates)) {
-    lns <- vapply(coordinates, length, integer(1))
+    lns <- lengths(coordinates)
     if (all(lns < 3)) {
       coordinates <- do.call(
         "rbind",
@@ -125,12 +126,13 @@ mutate.coords <- function(x) {
     }
   }
 
-  if (any(is.data.frame(coordinates), is.matrix(coordinates))) {
+  if (any(is.data.frame(coordinates),
+      is.matrix(coordinates))) {
     coordinates <- apply(coordinates, 2, as.double)
     if (ncol(coordinates) == 8) {
       coordinates <- cbind(
-        rowMeans(coordinates[, 1:4], na.rm = TRUE),
-        rowMeans(coordinates[, 5:8], na.rm = TRUE)
+      rowMeans(coordinates[, 1:4], na.rm = TRUE),
+      rowMeans(coordinates[, 5:8], na.rm = TRUE)
       )
     }
   }
@@ -156,14 +158,14 @@ mutate.coords <- function(x) {
 #' coords class
 #'
 #' @name coords
-NULL
-
 #' @importFrom methods new
 as_coords <- setClass(
   "coords", slots = c(place = "character", box = "numeric", point = "numeric"),
-  prototype = list(place = character(),
-                   box = numeric(4),
-                   point = numeric(2)))
+  prototype = list(
+      place = character(),
+      box = numeric(4),
+      point = numeric(2))
+)
 
 setMethod("show", "coords", function(object) print(object))
 setMethod("$", "coords", function(x, name) slot(x, name))
@@ -202,8 +204,6 @@ max_coords <- function(x) {
 #' gcoords class
 #'
 #' @name gcoords
-NULL
-
 #' @importFrom methods new
 gcoords <- setClass(
   "gcoords",
@@ -279,3 +279,4 @@ print.gcoords <- function(x, n = 10, digits = 2) {
 }
 
 setMethod("$", "gcoords", function(x, name) slot(x, name))
+
