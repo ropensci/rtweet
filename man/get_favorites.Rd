@@ -4,14 +4,14 @@
 \alias{get_favorites}
 \title{get_favorites}
 \usage{
-get_favorites(user, n = 3000, since_id = NULL, max_id = NULL,
+get_favorites(user, n = 300, since_id = NULL, max_id = NULL,
   parse = TRUE, usr = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
 
 \item{n}{Specifies the number of records to retrieve. Must be
-less than or equal to 200; defaults to 3000, which is the max
+less than or equal to 200; defaults to 300. 3000 is the max
 number of favorites returned per token. Due to suspended or
 deleted content, this function may return fewer tweets than
 the desired (n) number.}

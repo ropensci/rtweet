@@ -67,53 +67,54 @@ get_timeline <- function(user, n = 200,
                          usr = TRUE,
                          token = NULL, ...) {
 
-    stopifnot(is_n(n), is.atomic(user), is.atomic(max_id),
-              is.logical(home))
+  stopifnot(is_n(n), is.atomic(user), is.atomic(max_id),
+    is.logical(home))
 
-    if (home) {
-        query <- "statuses/home_timeline"
-    } else {
-        query <- "statuses/user_timeline"
-    }
+  if (home) {
+    query <- "statuses/home_timeline"
+  } else {
+    query <- "statuses/user_timeline"
+  }
 
-    if (length(user) > 1) {
-        stop("can only return tweets for one user at a time.",
-             call. = FALSE)
-    }
+  if (length(user) > 1) {
+    stop("can only return tweets for one user at a time.",
+      call. = FALSE)
+  }
 
-    token <- check_token(token, query)
+  token <- check_token(token, query)
 
-    if (check) {
-        n.times <- rate_limit(token, query)[["remaining"]]
-    } else {
-        n.times <- ceiling(n / 200)
-    }
+  if (check) {
+    n.times <- rate_limit(token, query)[["remaining"]]
+  } else {
+    n.times <- ceiling(n / 200)
+  }
 
-    if (full_text) {
-        full_text <- "extended"
-    } else {
-        full_text <- NULL
-    }
-    params <- list(
-        user_type = user,
-        count = 200,
-        max_id = max_id,
-        tweet_mode = full_text,
-        ...)
+  if (full_text) {
+    full_text <- "extended"
+  } else {
+    full_text <- NULL
+  }
+  params <- list(
+    user_type = user,
+    count = 200,
+    max_id = max_id,
+    tweet_mode = full_text,
+    ...)
 
-    names(params)[1] <- .id_type(user)
+  names(params)[1] <- .id_type(user)
 
-    url <- make_url(
-        query = query,
-        param = params)
+  url <- make_url(
+    query = query,
+    param = params)
 
-    tm <- scroller(url, n, n.times, type = "timeline", token)
+  tm <- scroller(url, n, n.times, type = "timeline", token)
 
-    if (parse) {
-        tm <- parse.piper(tm, usr = usr)
-    }
+  if (parse) {
+    tm <- parser(as_tweets(tm))
+    ##tm <- parse.piper(tm, usr = usr)
+  }
 
-    tm
+  tm
 }
 
 
@@ -157,10 +158,10 @@ get_timelines <- function(users, n = 200, parse = TRUE, ...) {
   }
   users <- na_omit(users)
   usrs <- Map(get_timeline,
-              user = users,
-              n = n,
-              parse = parse,
-              USE.NAMES = FALSE)
+    user = users,
+    n = n,
+    parse = parse,
+    USE.NAMES = FALSE)
   if (parse) {
     tweets <- do.call("rbind", lapply(usrs, users_data))
     usrs <- do.call("rbind", usrs)

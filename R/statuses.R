@@ -28,72 +28,71 @@
 #' @family tweets
 #' @export
 lookup_statuses <- function(statuses,
-                            token = NULL,
-                            parse = TRUE,
-                            usr = TRUE) {
+  token = NULL,
+  parse = TRUE,
+  usr = TRUE) {
 
-    if (is.list(statuses)) {
-        statuses <- unlist(statuses)
+  stopifnot(is.atomic(statuses))
+
+  if (length(statuses) > 90000) {
+    warning("number of statuses exceed max per token",
+      "collecting data for first 90,000 ids")
+    statuses <- statuses[1:90000]
+  }
+
+  n.times <- ceiling(length(statuses) / 100)
+
+  from <- 1
+
+  twt <- vector("list", n.times)
+
+  for (i in seq_len(n.times)) {
+    to <- from + 99
+
+    if (to > length(statuses)) {
+      to <- length(statuses)
     }
 
-    if (length(statuses) > 90000) {
-        warning("number of statuses exceed max per token",
-                "collecting data for first 90,000 ids")
-        statuses <- statuses[1:90000]
-    }
+    twt[[i]] <- .status_lookup(
+      statuses[from:to],
+      token, parse = parse)
 
-    n.times <- ceiling(length(statuses) / 100)
+    from <- to + 1
 
-    from <- 1
+    if (from > length(statuses)) break
+  }
 
-    twt <- vector("list", n.times)
+  if (parse) {
+    twt <- parser(as_tweets(twt))
+    ##twt <- parse.piper(twt, usr = usr)
+  }
 
-    for (i in seq_len(n.times)) {
-        to <- from + 99
-
-        if (to > length(statuses)) {
-            to <- length(statuses)
-        }
-
-        twt[[i]] <- .status_lookup(
-            statuses[from:to],
-            token, parse = parse)
-
-        from <- to + 1
-
-        if (from > length(statuses)) break
-    }
-
-    if (parse) {
-        twt <- parse.piper(twt, usr = usr)
-    }
-
-    twt
+  twt
 }
 
 .status_lookup <- function(statuses, token = NULL, parse) {
 
-    query <- "statuses/lookup"
+  query <- "statuses/lookup"
 
-    if (is.list(statuses)) {
-        statuses <- unlist(statuses)
-    }
+  if (is.list(statuses)) {
+    statuses <- unlist(statuses)
+  }
 
-    stopifnot(is.atomic(statuses))
+  stopifnot(is.atomic(statuses))
 
-    if (length(statuses) > 100) {
-        statuses <- statuses[1:100]
-    }
+  if (length(statuses) > 100) {
+    statuses <- statuses[1:100]
+  }
 
-    params <- list(id = paste(statuses, collapse = ","))
+  params <- list(id = paste(statuses, collapse = ","))
 
-    url <- make_url(
-        query = query,
-        param = params)
+  url <- make_url(
+    query = query,
+    param = params)
 
-    token <- check_token(token, query = "statuses/lookup")
+  token <- check_token(token, query = "statuses/lookup")
 
-    resp <- TWIT(get = TRUE, url, token)
+  resp <- TWIT(get = TRUE, url, token)
 
-    from_js(resp)
+  from_js(resp)
 }

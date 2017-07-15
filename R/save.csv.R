@@ -22,72 +22,83 @@
 #' @importFrom utils write.csv
 #' @export
 save_as_csv <- function(x, file_name) {
-    if (missing(file_name)) {
-        stop("must provide file_name.", call. = FALSE)
+  if (missing(file_name)) {
+    stop("must provide file_name.", call. = FALSE)
+  }
+  tweets_names <- c(
+    "reply_to_status_id",
+    "quote_status",
+    "retweet_count",
+    "is_retweet")
+  users_names <- c(
+    "followers_count",
+    "description",
+    "statuses count",
+    "friends_count")
+  if (any(tweets_names %in% names(x))) {
+    write_as_csv(
+      x, modify_file_name(file_name, "tweets"))
+
+    if ("users" %in% names(attributes(x))) {
+      write_as_csv(
+        users_data(x),
+        modify_file_name(file_name, "users"))
     }
-    tweets_names <- c(
-        "in_reply_to_status_id",
-        "is_quote_status",
-        "retweet_count",
-        "is_retweet")
-    users_names <- c(
-        "followers_count",
-        "description",
-        "statuses count",
-        "friends_count")
-    if (any(tweets_names %in% names(x))) {
-        write_as_csv(
-            x, modify_file_name(file_name, "tweets"))
+  } else if (any(users_names %in% names(x))) {
+    write_as_csv(
+      x, modify_file_name(file_name, "users"))
 
-        if ("users" %in% names(attributes(x))) {
-            write_as_csv(
-                users_data(x),
-                modify_file_name(file_name, "users"))
-        }
-    } else if (any(users_names %in% names(x))) {
-        write_as_csv(
-            x, modify_file_name(file_name, "users"))
-
-        if ("tweets" %in% names(attributes(x))) {
-            write_as_csv(
-                tweets_data(x),
-                modify_file_name(file_name, "tweets"))
-        }
-
-    } else {
-        write_as_csv(x, modify_file_name(file_name))
+    if ("tweets" %in% names(attributes(x))) {
+      write_as_csv(
+        tweets_data(x),
+        modify_file_name(file_name, "tweets"))
     }
+
+  } else {
+    write_as_csv(x, modify_file_name(file_name))
+  }
 }
 
 modify_file_name <- function(file_name, ext = NULL) {
-    stopifnot(is.character(file_name),
-              length(file_name) == 1)
-    file_name <- gsub(".csv$", "", file_name)
-    if (is.null(ext)) {
-        file_name <- paste0(file_name, ".csv")
-    } else {
-        file_name <- paste0(file_name, ".", ext, ".csv")
-    }
-    file_name
+  stopifnot(is.character(file_name),
+    length(file_name) == 1)
+  file_name <- gsub(".csv$", "", file_name)
+  if (is.null(ext)) {
+    file_name <- paste0(file_name, ".csv")
+  } else {
+    file_name <- paste0(file_name, ".", ext, ".csv")
+  }
+  file_name
 }
 
+#' write_as_csv
+#'
+#' Saves as flattened CSV file Twitter data.
+#'
+#' @param x Data frame with tweets and users data.
+#' @param file_name Desired name(stem) to save files as (one save for tweets,
+#'   one save for users).
+#' @return Saved csv files in current working directory.
+#' @export
+#' @noRd
 write_as_csv <- function(x, file_name) {
-    stopifnot(is.data.frame(x))
-    write.csv(x, file_name, row.names = FALSE)
+  stopifnot(is.data.frame(x))
+  x <- flatten_df(x)
+  write.csv(x, file_name, row.names = FALSE)
 }
 
 collapse_list <- function(x) {
-    ## collapse recursive columns into strings
-    vapply(x, function(x) paste(x, collapse = " "), character(1),
-           USE.NAMES = FALSE)
+  ## collapse recursive columns into strings
+  vapply(x, function(x) paste(x, collapse = " "), character(1),
+    USE.NAMES = FALSE)
 }
 
 clean_nas <- function(x) {
-    ## replace NAs with blanks
-    x[vapply(x, is.na, logical(1), USE.NAMES = FALSE)] <- ""
-    x
+  ## replace NAs with blanks
+  x[vapply(x, is.na, logical(1), USE.NAMES = FALSE)] <- ""
+  x
 }
 
 is_list <- function(x) {
-    unlist(apply(x[, ], 2, is.list), use.names = FALSE)
+  unlist(apply(x[, ], 2, is.list), use.names = FALSE)
 }

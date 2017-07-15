@@ -4,7 +4,7 @@
 #'   the authenticating or specified user.
 #' @param user Screen name or user id of target user.
 #' @param n Specifies the number of records to retrieve. Must be
-#'   less than or equal to 200; defaults to 3000, which is the max
+#'   less than or equal to 200; defaults to 300. 3000 is the max
 #'   number of favorites returned per token. Due to suspended or
 #'   deleted content, this function may return fewer tweets than
 #'   the desired (n) number.
@@ -39,46 +39,47 @@
 #' @return Tweets data frame.
 #' @export
 get_favorites <- function(user,
-                          n = 3000,
-                          since_id = NULL,
-                          max_id = NULL,
-                          parse = TRUE,
-                          usr = TRUE,
-                          token = NULL) {
+  n = 300,
+  since_id = NULL,
+  max_id = NULL,
+  parse = TRUE,
+  usr = TRUE,
+  token = NULL) {
 
-    query <- "favorites/list"
+  query <- "favorites/list"
 
-    if (n > 3000) {
-        warning(paste0("n exceeds max favs returned per ",
-                       "token. Setting n to 3000..."),
-                call. = FALSE)
-        n <- 3000
-    }
+  if (n > 3000) {
+    warning(paste0("n exceeds max favs returned per ",
+      "token. Setting n to 3000..."),
+      call. = FALSE)
+    n <- 3000
+  }
 
-    stopifnot(is_n(n),
-              is.atomic(user),
-              isTRUE(length(user) == 1))
+  stopifnot(is_n(n),
+    is.atomic(user),
+    isTRUE(length(user) == 1))
 
-    token <- check_token(token, query)
+  token <- check_token(token, query)
 
-    n.times <- rate_limit(token, query)[["remaining"]]
-    if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
+  n.times <- rate_limit(token, query)[["remaining"]]
+  if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
 
-    params <- list(
-        user_type = user,
-        count = 200)
+  params <- list(
+    user_type = user,
+    count = 200)
 
-    names(params)[1] <- .id_type(user)
+  names(params)[1] <- .id_type(user)
 
-    url <- make_url(
-        query = query,
-        param = params)
+  url <- make_url(
+    query = query,
+    param = params)
 
-    fav <- scroller(url, n, n.times, type = "timeline", token)
+  fav <- scroller(url, n, n.times, type = "timeline", token)
 
-    if (parse) {
-        fav <- parse.piper(fav, usr = usr)
-    }
+  if (parse) {
+    fav <- parser(as_tweets(fav))
+    ##  fav <- parse.piper(fav, usr = usr)
+  }
 
-    fav
+  fav
 }

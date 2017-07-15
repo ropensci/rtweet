@@ -33,7 +33,7 @@ list_members <- function(list_id,
   if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
     params <- list(
       slug = slug,
-      owner_user = ownwer_user,
+      owner_user = owner_user,
       count = count,
       cursor = cursor
     )

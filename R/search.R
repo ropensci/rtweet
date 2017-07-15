@@ -205,261 +205,261 @@
 #' @family tweets
 #' @export
 search_tweets <- function(q = "",
-                          n = 100,
-                          type = "recent",
-                          geocode = NULL,
-                          max_id = NULL,
-                          include_rts = TRUE,
-                          full_text = TRUE,
-                          parse = TRUE,
-                          usr = TRUE,
-                          token = NULL,
-                          retryonratelimit = FALSE,
-                          verbose = TRUE,
-                          adjtimer = 20,
-                          exact = FALSE,
-                          from = NULL,
-                          to = NULL,
-                          list = NULL,
-                          mention = NULL,
-                          hashtag = NULL,
-                          filter_media = FALSE,
-                          filter_native_video= FALSE,
-                          filter_vine = FALSE,
-                          filter_periscope = FALSE,
-                          filter_images = FALSE,
-                          filter_twimg = FALSE,
-                          filter_links = FALSE,
-                          ...) {
+  n = 100,
+  type = "recent",
+  geocode = NULL,
+  max_id = NULL,
+  include_rts = TRUE,
+  full_text = TRUE,
+  parse = TRUE,
+  usr = TRUE,
+  token = NULL,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
+  adjtimer = 20,
+  exact = FALSE,
+  from = NULL,
+  to = NULL,
+  list = NULL,
+  mention = NULL,
+  hashtag = NULL,
+  filter_media = FALSE,
+  filter_native_video= FALSE,
+  filter_vine = FALSE,
+  filter_periscope = FALSE,
+  filter_images = FALSE,
+  filter_twimg = FALSE,
+  filter_links = FALSE,
+  ...) {
 
-    ## check token and get rate limit data
-    token <- check_token(token, "search/tweets")
-    rtlimit <- rate_limit(token, "search/tweets")
-    remaining <- rtlimit[["remaining"]] * 100
-    reset <- rtlimit[["reset"]]
-    mins <- as.numeric(reset, "mins")
+  ## check token and get rate limit data
+  token <- check_token(token, "search/tweets")
+  rtlimit <- rate_limit(token, "search/tweets")
+  remaining <- rtlimit[["remaining"]] * 100
+  reset <- rtlimit[["reset"]]
+  mins <- as.numeric(reset, "mins")
 
-    if (any(n <= remaining, !retryonratelimit)) {
-        rt <- .search_tweets(
-            q = q, n = n,
-            type = type,
-            geocode = geocode,
-            max_id = max_id,
-            include_rts = include_rts,
-            full_text = full_text,
-            parse = parse,
-            usr = usr,
-            token = token,
-            verbose = verbose,
-            exact = exact,
-            from = from,
-            to = to,
-            list = list,
-            mention = mention,
-            hashtag = hashtag,
-            filter_media = filter_media,
-            filter_native_video = filter_native_video,
-            filter_vine = filter_vine,
-            filter_periscope = filter_periscope,
-            filter_images = filter_images,
-            filter_twimg = filter_twimg,
-            filter_links = filter_links,
-            ...)
+  if (any(n <= remaining, !retryonratelimit)) {
+    rt <- .search_tweets(
+      q = q, n = n,
+      type = type,
+      geocode = geocode,
+      max_id = max_id,
+      include_rts = include_rts,
+      full_text = full_text,
+      parse = parse,
+      usr = usr,
+      token = token,
+      verbose = verbose,
+      exact = exact,
+      from = from,
+      to = to,
+      list = list,
+      mention = mention,
+      hashtag = hashtag,
+      filter_media = filter_media,
+      filter_native_video = filter_native_video,
+      filter_vine = filter_vine,
+      filter_periscope = filter_periscope,
+      filter_images = filter_images,
+      filter_twimg = filter_twimg,
+      filter_links = filter_links,
+      ...)
+  } else {
+    if (identical(remaining, 0)) {
+      ntimes <- ceiling((n - remaining) / 18000)
     } else {
-        if (identical(remaining, 0)) {
-            ntimes <- ceiling((n - remaining) / 18000)
-        } else {
-            ntimes <- ceiling((n - remaining) / 18000) + 1
-        }
-        rt <- vector("list", ntimes)
-        maxid <- max_id
-        for (i in seq_len(ntimes)) {
-            ## if rate limited (exhausted token)
-            if (any(identical(remaining, 0), isTRUE(remaining < 10))) {
-                message(paste0(
-                    "retry on rate limit...\n",
-                    "waiting about ",
-                    round(reset, 0),
-                    " minutes..."))
-                Sys.sleep(as.numeric(reset, "mins") + adjtimer)
-                remaining <- 180 * 100
-            }
-            rt[[i]] <- tryCatch(
-                .search_tweets(
-                    q = q, n = remaining,
-                    check = FALSE,
-                    type = type,
-                    geocode = geocode,
-                    max_id = maxid,
-                    include_rts = include_rts,
-                    full_text = full_text,
-                    parse = parse,
-                    usr = usr,
-                    token = token,
-                    verbose = verbose,
-                    exact = exact,
-                    from = from,
-                    to = to,
-                    list = list,
-                    mention = mention,
-                    hashtag = hashtag,
-                    filter_media = filter_media,
-                    filter_native_video = filter_native_video,
-                    filter_vine = filter_vine,
-                    filter_periscope = filter_periscope,
-                    filter_images = filter_images,
-                    filter_twimg = filter_twimg,
-                    filter_links = filter_links,
-                    ...),
-                error = function(e) return(NULL))
-            ## break if error
-            if (is.null(rt[[i]])) break
-            ## break if final i
-            if (i == ntimes) break
-            ## get next maxid
-            maxid.new <- rt[[i]][["status_id"]][[NROW(rt[[i]])]]
-            ## break if new maxid is null, empty, or unchanged
-            if (any(is.null(maxid.new),
-                    identical(length(maxid.new), 0L),
-                    identical(maxid, maxid.new))) break
-            ## update maxid value
-            maxid <- maxid.new
-            ## refresh rate limit data
-            rtlimit <- rate_limit(token, "search/tweets")
-            remaining <- rtlimit[["remaining"]] * 100
-            reset <- rtlimit[["reset"]]
-            units(reset) <- "mins"
-        }
-        ## get users data if applicable
-        if (usr) {
-            users <- do.call("rbind", users_data(rt))
-            rt <- do.call("rbind", rt)
-            attr(rt, "users") <- users
-        } else {
-            rt <- do.call("rbind", rt)
-        }
+      ntimes <- ceiling((n - remaining) / 18000) + 1
     }
-    rt
+    rt <- vector("list", ntimes)
+    maxid <- max_id
+    for (i in seq_len(ntimes)) {
+      ## if rate limited (exhausted token)
+      if (any(identical(remaining, 0), isTRUE(remaining < 10))) {
+        message(paste0(
+          "retry on rate limit...\n",
+          "waiting about ",
+          round(reset, 0),
+          " minutes..."))
+        Sys.sleep(as.numeric(reset, "mins") + adjtimer)
+        remaining <- 180 * 100
+      }
+      rt[[i]] <- tryCatch(
+        .search_tweets(
+          q = q, n = remaining,
+          check = FALSE,
+          type = type,
+          geocode = geocode,
+          max_id = maxid,
+          include_rts = include_rts,
+          full_text = full_text,
+          parse = parse,
+          usr = usr,
+          token = token,
+          verbose = verbose,
+          exact = exact,
+          from = from,
+          to = to,
+          list = list,
+          mention = mention,
+          hashtag = hashtag,
+          filter_media = filter_media,
+          filter_native_video = filter_native_video,
+          filter_vine = filter_vine,
+          filter_periscope = filter_periscope,
+          filter_images = filter_images,
+          filter_twimg = filter_twimg,
+          filter_links = filter_links,
+          ...),
+        error = function(e) return(NULL))
+      ## break if error
+      if (is.null(rt[[i]])) break
+      ## break if final i
+      if (i == ntimes) break
+      ## get next maxid
+      maxid.new <- rt[[i]][["status_id"]][[NROW(rt[[i]])]]
+      ## break if new maxid is null, empty, or unchanged
+      if (any(is.null(maxid.new),
+        identical(length(maxid.new), 0L),
+        identical(maxid, maxid.new))) break
+      ## update maxid value
+      maxid <- maxid.new
+      ## refresh rate limit data
+      rtlimit <- rate_limit(token, "search/tweets")
+      remaining <- rtlimit[["remaining"]] * 100
+      reset <- rtlimit[["reset"]]
+      units(reset) <- "mins"
+    }
+    ## get users data if applicable
+    if (usr) {
+      users <- do.call("rbind", users_data(rt))
+      rt <- do.call("rbind", rt)
+      attr(rt, "users") <- users
+    } else {
+      rt <- do.call("rbind", rt)
+    }
+  }
+  rt
 }
 
 
 .search_tweets <- function(q,
-                           n = 100,
-                           check = FALSE,
-                           geocode = NULL,
-                           type = "recent",
-                           max_id = NULL,
-                           include_rts = TRUE,
-                           full_text = TRUE,
-                           parse = TRUE,
-                           usr = TRUE,
-                           token = NULL,
-                           verbose = TRUE,
-                           exact = FALSE,
-                           from = NULL,
-                           to = NULL,
-                           list = NULL,
-                           mention = NULL,
-                           hashtag = NULL,
-                           filter_media = FALSE,
-                           filter_native_video= FALSE,
-                           filter_vine = FALSE,
-                           filter_periscope = FALSE,
-                           filter_images = FALSE,
-                           filter_twimg = FALSE,
-                           filter_links = FALSE,
-                           ...) {
-    ## path name
+  n = 100,
+  check = FALSE,
+  geocode = NULL,
+  type = "recent",
+  max_id = NULL,
+  include_rts = TRUE,
+  full_text = TRUE,
+  parse = TRUE,
+  usr = TRUE,
+  token = NULL,
+  verbose = TRUE,
+  exact = FALSE,
+  from = NULL,
+  to = NULL,
+  list = NULL,
+  mention = NULL,
+  hashtag = NULL,
+  filter_media = FALSE,
+  filter_native_video= FALSE,
+  filter_vine = FALSE,
+  filter_periscope = FALSE,
+  filter_images = FALSE,
+  filter_twimg = FALSE,
+  filter_links = FALSE,
+  ...) {
+  ## path name
   query <- "search/tweets"
 
-    ## validate
-    stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
-    ## number of loops
-    n.times <- ceiling(n / 100)
-    ## build query
-    if (exact) {
-        q <- paste0("\"", q, "\"")
+  ## validate
+  stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
+  ## number of loops
+  n.times <- ceiling(n / 100)
+  ## build query
+  if (exact) {
+    q <- paste0("\"", q, "\"")
+  }
+  if (!is.null(from)) {
+    if (any(grepl(" ", from))) {
+      stop(paste("Object \"from\" should contain vector of screen names",
+        "none of which should include spaces."),
+        call. = FALSE)
     }
-    if (!is.null(from)) {
-        if (any(grepl(" ", from))) {
-            stop(paste("Object \"from\" should contain vector of screen names",
-                       "none of which should include spaces."),
-                 call. = FALSE)
-        }
-        from <- paste(paste0("from:", from), collapse = " ")
-        q <- paste(q, from)
+    from <- paste(paste0("from:", from), collapse = " ")
+    q <- paste(q, from)
+  }
+  if (!is.null(to)) {
+    if (any(grepl(" ", to))) {
+      stop(paste("Object \"to\" should contain vector of screen names",
+        "none of which should include spaces."),
+        call. = FALSE)
     }
-    if (!is.null(to)) {
-        if (any(grepl(" ", to))) {
-            stop(paste("Object \"to\" should contain vector of screen names",
-                       "none of which should include spaces."),
-                 call. = FALSE)
-        }
-        to <- paste(paste0("to:", to), collapse = " ")
-        q <- paste(q, to)
+    to <- paste(paste0("to:", to), collapse = " ")
+    q <- paste(q, to)
+  }
+  if (!is.null(mention)) {
+    if (any(grepl(" ", mention))) {
+      stop(paste("Object \"mention\" should contain vector of screen names",
+        "none of which should include spaces."),
+        call. = FALSE)
     }
-    if (!is.null(mention)) {
-        if (any(grepl(" ", mention))) {
-            stop(paste("Object \"mention\" should contain vector of screen names",
-                       "none of which should include spaces."),
-                 call. = FALSE)
-        }
-        mention <- paste(paste0("@", mention), collapse = " ")
-        q <- paste(q, mention)
+    mention <- paste(paste0("@", mention), collapse = " ")
+    q <- paste(q, mention)
+  }
+  if (!is.null(hashtag)) {
+    if (any(grepl(" ", hashtag))) {
+      stop(paste("Object \"hashtag\" should contain vector of screen names",
+        "none of which should include spaces."),
+        call. = FALSE)
     }
-    if (!is.null(hashtag)) {
-        if (any(grepl(" ", hashtag))) {
-            stop(paste("Object \"hashtag\" should contain vector of screen names",
-                       "none of which should include spaces."),
-                 call. = FALSE)
-        }
-        hashtag <- paste(paste0("#", hashtag), collapse = " ")
-        q <- paste(q, hashtag)
+    hashtag <- paste(paste0("#", hashtag), collapse = " ")
+    q <- paste(q, hashtag)
+  }
+  if (!is.null(list)) {
+    if (any(grepl(" ", list))) {
+      stop(paste("Object \"list\" should contain vector of Twitter lists",
+        "none of which should include spaces. If the list actually",
+        "has spaces in it, try using dashes instead"),
+        call. = FALSE)
     }
-    if (!is.null(list)) {
-        if (any(grepl(" ", list))) {
-            stop(paste("Object \"list\" should contain vector of Twitter lists",
-                       "none of which should include spaces. If the list actually",
-                       "has spaces in it, try using dashes instead"),
-                 call. = FALSE)
-        }
-        from <- paste(paste0("list:", from), collapse = " ")
-        q <- paste(q, from)
-    }
-    if (filter_media) q <- paste(q, "filter:media")
-    if (filter_native_video) q <- paste(q, "filter:native_video")
-    if (filter_vine) q <- paste(q, "filter:vine")
-    if (filter_periscope) q <- paste(q, "filter:periscope")
-    if (filter_images) q <- paste(q, "filter:images")
-    if (filter_twimg) q <- paste(q, "filter:twimg")
-    if (!identical(filter_links, FALSE)) {
-        if (is.logical(filter_links)) {
-            q <- paste(q, "filter:links")
-        } else {
-            q <- paste(q, paste0("url:", filter_links))
-        }
-    }
-    ## validate query length
-    if (nchar(q) > 500) {
-        stop("q cannot exceed 500 characters.", call. = FALSE)
-    }
-    ## only select one type
-    if (length(type) > 1) {
-        stop("can only select one search type. Try type = 'recent'.",
-             call. = FALSE)
-    }
-    if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
-        stop("invalid search type - must be mixed, recent, or popular.",
-             call. = FALSE)
-    }
-    ## if no retweets add filter to query
-    if (!include_rts) q <- paste0(q, " -filter:retweets")
-    ## full text should be yes
-    if (full_text) {
-        full_text <- "extended"
+    from <- paste(paste0("list:", from), collapse = " ")
+    q <- paste(q, from)
+  }
+  if (filter_media) q <- paste(q, "filter:media")
+  if (filter_native_video) q <- paste(q, "filter:native_video")
+  if (filter_vine) q <- paste(q, "filter:vine")
+  if (filter_periscope) q <- paste(q, "filter:periscope")
+  if (filter_images) q <- paste(q, "filter:images")
+  if (filter_twimg) q <- paste(q, "filter:twimg")
+  if (!identical(filter_links, FALSE)) {
+    if (is.logical(filter_links)) {
+      q <- paste(q, "filter:links")
     } else {
-        full_text <- NULL
+      q <- paste(q, paste0("url:", filter_links))
     }
+  }
+  ## validate query length
+  if (nchar(q) > 500) {
+    stop("q cannot exceed 500 characters.", call. = FALSE)
+  }
+  ## only select one type
+  if (length(type) > 1) {
+    stop("can only select one search type. Try type = 'recent'.",
+      call. = FALSE)
+  }
+  if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
+    stop("invalid search type - must be mixed, recent, or popular.",
+      call. = FALSE)
+  }
+  ## if no retweets add filter to query
+  if (!include_rts) q <- paste0(q, " -filter:retweets")
+  ## full text should be yes
+  if (full_text) {
+    full_text <- "extended"
+  } else {
+    full_text <- NULL
+  }
   if (!is.null(geocode)) {
 
     if (inherits(geocode, "coords")) {
@@ -472,33 +472,34 @@ search_tweets <- function(q = "",
     }
   }
 
-    ## make params list
-    params <- list(q = q,
-                   result_type = type,
-                   count = 100,
-                   max_id = max_id,
-                   tweet_mode = full_text,
-                   geocode = geocode,
-                   ...)
-    ## make url
-    url <- make_url(
-        query = query,
-        param = params)
+  ## make params list
+  params <- list(q = q,
+    result_type = type,
+    count = 100,
+    max_id = max_id,
+    tweet_mode = full_text,
+    geocode = geocode,
+    ...)
+  ## make url
+  url <- make_url(
+    query = query,
+    param = params)
 
-    if (verbose) {
-        message("Searching for tweets...")
-        if (n > 10000) message("This may take a few seconds...")
-    }
+  if (verbose) {
+    message("Searching for tweets...")
+    if (n > 10000) message("This may take a few seconds...")
+  }
 
-    tw <- scroller(url, n, n.times, type = "search", token)
+  tw <- scroller(url, n, n.times, type = "search", token)
 
-    if (parse) {
-        tw <- parse.piper(tw, usr = usr)
-    }
-    if (verbose) {
-        message("Finished collecting tweets!")
-    }
-    tw
+  if (parse) {
+    tw <- parser(as_tweets(tw))
+    ##tw <- parse.piper(tw, usr = usr)
+  }
+  if (verbose) {
+    message("Finished collecting tweets!")
+  }
+  tw
 }
 
 
@@ -556,85 +557,86 @@ search_tweets <- function(q = "",
 #' @family users
 #' @export
 search_users <- function(q, n = 20,
-                         parse = TRUE,
-                         full_text = TRUE,
-                         tw = TRUE,
-                         token = NULL,
-                         verbose = TRUE) {
+  parse = TRUE,
+  full_text = TRUE,
+  tw = TRUE,
+  token = NULL,
+  verbose = TRUE) {
 
-    query <- "users/search"
-    stopifnot(is_n(n), is.atomic(q))
-    token <- check_token(token, query)
-    if (n > 1000) {
-        warning(
-            paste0("search only returns up to 1,000 users per ",
-                   "unique search. Setting n to 1000..."))
-        n <- 1000
-    }
-    n.times <- ceiling(n / 20)
-    if (n.times > 50) n.times <- 50
+  query <- "users/search"
+  stopifnot(is_n(n), is.atomic(q))
+  token <- check_token(token, query)
+  if (n > 1000) {
+    warning(
+      paste0("search only returns up to 1,000 users per ",
+        "unique search. Setting n to 1000..."))
+    n <- 1000
+  }
+  n.times <- ceiling(n / 20)
+  if (n.times > 50) n.times <- 50
 
-    if (nchar(q) > 500) {
-        stop("q cannot exceed 500 characters.", call. = FALSE)
-    }
-    if (full_text) {
-        full_text <- "extended"
+  if (nchar(q) > 500) {
+    stop("q cannot exceed 500 characters.", call. = FALSE)
+  }
+  if (full_text) {
+    full_text <- "extended"
+  } else {
+    full_text <- NULL
+  }
+  if (verbose) message("Searching for users...")
+
+  usr <- vector("list", n.times)
+  k <- 0
+  nrows <- NULL
+
+  for (i in seq_len(n.times)) {
+    params <- list(q = q,
+      count = 20,
+      page = i,
+      tweet_mode = full_text)
+    url <- make_url(
+      query = query,
+      param = params)
+
+    r <- tryCatch(
+      TWIT(get = TRUE, url, token),
+      error = function(e) return(NULL))
+
+    if (is.null(r)) break
+
+    usr[[i]] <- from_js(r)
+
+    if (identical(length(usr[[i]]), 0)) break
+    if (isTRUE(is.numeric(NROW(usr[[i]])))) {
+      nrows <- NROW(usr[[i]])
     } else {
-        full_text <- NULL
+      if (identical(nrows, 0)) break
+      nrows <- 0
     }
-    if (verbose) message("Searching for users...")
-
-    usr <- vector("list", n.times)
-    k <- 0
-    nrows <- NULL
-
-    for (i in seq_len(n.times)) {
-        params <- list(q = q,
-                       count = 20,
-                       page = i,
-                       tweet_mode = full_text)
-        url <- make_url(
-            query = query,
-            param = params)
-
-        r <- tryCatch(
-            TWIT(get = TRUE, url, token),
-            error = function(e) return(NULL))
-
-        if (is.null(r)) break
-
-        usr[[i]] <- from_js(r)
-
-        if (identical(length(usr[[i]]), 0)) break
-        if (isTRUE(is.numeric(NROW(usr[[i]])))) {
-            nrows <- NROW(usr[[i]])
-        } else {
-            if (identical(nrows, 0)) break
-            nrows <- 0
-        }
-        k <- k + nrows
-        if (k >= n * 20) break
-    }
-    if (parse) {
-        usr <- parse.piper.usr(usr, tw = tw)
-    }
-    if (verbose) {
-        message("Finished collecting users!")
-    }
-    usr
+    k <- k + nrows
+    if (k >= n * 20) break
+  }
+  if (parse) {
+    usr <- parser(as_users(usr))
+    ##usr <- parse.piper.usr(usr, tw = tw)
+  }
+  if (verbose) {
+    message("Finished collecting users!")
+  }
+  usr
 }
 
 count_users_returned <- function(x) {
-    length(unique(unlist(lapply(x, function(x) x[["id_str"]]),
-                         use.names = FALSE)))
+  length(unique(unlist(lapply(x, function(x) x[["id_str"]]),
+    use.names = FALSE)))
 }
 
 
 next_id <- function(df) {
-    if (!all(c("created_at", "status_id") %in% names(df))) {
-        stop("wrong data frame - function requires tweets data")
-    }
-    df <- df[!is.na(df$status_id), ]
-    df <- df[order(df$created_at), ]
-    df$status_id[1]
+  if (!all(c("created_at", "status_id") %in% names(df))) {
+    stop("wrong data frame - function requires tweets data")
+  }
+  df <- df[!is.na(df$status_id), ]
+  df <- df[order(df$created_at), ]
+  df$status_id[1]
 }

@@ -1,6 +1,22 @@
 
 
-
+#' parser method
+#'
+#' Wrangling methods for converting nested lists (supplied by Twitter)
+#'   into data frames
+#'
+#' @param x Data object.
+#' @param \dots Args passed along to various methods. Basically, it's used to
+#'   specify the desired variable to extract.
+#' @return Parsed data object.
+#' @examples
+#' \dontrun{
+#' rt <- search_tweets("lang:en", n = 500, parse = FALSE)
+#' df <- parser(rt)
+#' df
+#' users_data(df)
+#' }
+#' @export
 parser <- function(x, ...) UseMethod("parser")
 
 parser.default <- function(x, ...) x
@@ -48,7 +64,7 @@ parser.coordinates <- function(x, ...) {
         lng <- mean(a[, 1], na.rm = TRUE)
         lat <- mean(a[, 2], na.rm = TRUE)
         c(lng, lat)
-      }  
+      }
     )
     x[lengths(x) == 0] <- list(rep(NA_real_, 2))
     x <- do.call("rbind", x)
@@ -99,7 +115,7 @@ parser.data.frame <- function(x, i = NULL) {
 #'   appropriate number of NAs, or a data frame.
 #' @noRd
 parser.list <- function(x, i = NULL) parser.data.frame(x, i)
-  
+
 #' parser.NULL
 #'
 #' Side-steps default behavior when dealing with NULL elements to return
@@ -171,7 +187,7 @@ parser.not_false <- function(x, i) {
 #' @noRd
 parser.statuses <- function(x) {
   class(x) <- "data.frame"
-  geo <- parser(as_coordinates(x), "geo")
+  geo <- parser(x, "geo")
   coordinates <- parser(x, "coordinates")
   bounding_box <- parser.placebb(x)
   if (inherits(x$user, "no_user")) {
