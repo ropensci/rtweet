@@ -1,3 +1,23 @@
+# rtweet 0.4.7
+- The relatively lightweight tibble package is now a package dependency.
+- Internals now use S3 classes and methods to parse Twitter data into 
+  tidy[er] data frames
+- Speed boosts to parsing process. It's possible to convert from json to 
+  data frames in parallel, but I'm not sure minimal gains are worth the 
+  headache. Regardless, the current version should return more data, 
+  more reliably, and faster.
+- By default, functions now return data frames (tibbles) with recursive 
+  lists (e.g., the 3rd observation of `mentions_screen_name` may consist of 
+  4 screen names).
+- To revert back to the flattened/delim object, use the `flatten()` function.
+  Exporting methods such as `save_as_csv` will apply flatten by default.
+- Three different pairs of coordinate variables are now returned: coordinates,
+  geo, and bounding box. I'm not sure if the first two ever differ, but in
+  theory they could. By default the bounding box coordinates are converted to a 
+  point estimates using the mean of the lng and lat box params. Each pair of 
+  coordinates includes a "lng", and a "lat." This should allow users to 
+  maximize returns on geo-location data.
+
 # rtweet 0.4.6
 - More efficient iterations through pages of results.
 - Added to documentation, including new package documentation domain:

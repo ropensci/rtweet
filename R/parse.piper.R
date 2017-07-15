@@ -186,28 +186,6 @@ parse_data <- function(rt, tw = TRUE) {
     }
 }
 
-#' parser
-#'
-#' Returns Parses tweets and users data
-#'
-#' @param rt Nested list converted from json structure
-#' @param att Logical indicating whether to include user
-#'   obj (users data) as attribute if tweets data provided to
-#'   rt argument or tweets obj (tweets data) as attribute if
-#'   users data provided to rt. Defaults to true.
-#' @return Data frame of tweets or users data with the other (tweets/users)
-#'   included as an attribute. If something breaks during the parsing process,
-#'   this function has a fail safe that will return a list (presumably with
-#'   unbalanced lengths).
-#' @export
-parser <- function(rt, att = TRUE) {
-    if (all(c("friends_count", "description") %in% names(rt[[1]]))) {
-        parse.piper.usr(rt, tw = att)
-    } else {
-        parse.piper(rt, usr = att)
-    }
-}
-
 parse.piper <- function(rt, usr = TRUE) {
   rt <- get.status.obj(rt)
   if ("full_text" %in% names(rt)) {
