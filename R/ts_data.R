@@ -13,6 +13,7 @@
 #'   a named column.
 #' @param \dots Passed along to trim_time. Most likely used to specify timezone.
 #' @return Data frame with time, n, and grouping column if applicable.
+#' @importFrom graphics legend
 #' @export
 ts_plot <- function(data, by = "days", group = NULL, ...) {
   data <- ts_data(data, by, group = group, ...)

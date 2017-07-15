@@ -2,41 +2,43 @@
 % Please edit documentation in R/list-members.R
 \name{list_members}
 \alias{list_members}
-\title{GET lists/members¶}
+\title{GET lists/members}
 \usage{
-list_members(list_id, owner_user, count = 5000, cursor = "-1",
-  token = NULL)
+list_members(list_id, slug = NULL, owner_user = NULL, count = 5000,
+  cursor = "-1", token = NULL)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
 
-\item{count}{optional Specifies the number of results to return per page (see cursor below). The
-default is 20, with a maximum of 5,000.}
+\item{slug}{required You can identify a list by its slug instead of
+its numerical id. If you decide to do so, note that you'll also
+have to specify the list owner using the owner_id or
+owner_user parameters.}
 
-\item{cursor}{semi-optional Causes the collection of list members to be broken into “pages” of consistent
-sizes (specified by the count parameter). If no cursor is provided, a value of
--1 will be assumed, which is the first “page.”
-The response from the API will include a previous_cursor and next_cursor
-to allow paging back and forth. See Using cursors to navigate
-collections for more information.}
+\item{owner_user}{optional The screen name or user ID of the user
+who owns the list being requested by a slug.}
+
+\item{count}{optional Specifies the number of results to return
+per page (see cursor below). The default is 20, with a maximum
+of 5,000.}
+
+\item{cursor}{semi-optional Causes the collection of list members
+to be broken into "pages" of consistent sizes (specified by
+the count parameter). If no cursor is provided, a
+value of -1 will be assumed, which is the first "page."
+The response from the API will include a previous_cursor
+and next_cursor to allow paging back and forth. See Using
+cursors to navigate collections for more information.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
-
-\item{slug}{required You can identify a list by its slug instead of its numerical id. If you decide
-to do so, note that you’ll also have to specify the list owner using the
-owner_id or owner_screen_name parameters.}
-
-\item{owner_screen_name}{optional The screen name of the user who owns the list being requested by a slug.}
-
-\item{owner_id}{optional The user ID of the user who owns the list being requested by a slug.}
 }
 \value{
 data
 }
 \description{
-GET lists/members¶
+GET lists/members
 }

@@ -1,4 +1,4 @@
-#' GET users/suggestions¶
+#' GET users/suggestions
 #'
 #' @param lang optional Restricts the suggested categories to the requested language. The language must
 #'   be specified by the appropriate two letter ISO 639-1 representation. Currently
@@ -13,7 +13,8 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return List of categories which should be passed on to slug.
-.user_suggestions <- function(lang = NULL, token = NULL) {
+#' @noRd
+internal_user_suggestions <- function(lang = NULL, token = NULL) {
   query <- "users/suggestions"
   token <- check_token(token, query)
   params <- list(lang = lang)

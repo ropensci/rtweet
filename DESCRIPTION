@@ -16,7 +16,8 @@ Imports:
     jsonlite,
     magrittr,
     methods,
-    openssl
+    openssl,
+    tibble
 License: MIT + file LICENSE
 LazyData: TRUE
 URL: https://CRAN.R-project.org/package=rtweet
@@ -26,6 +27,5 @@ Suggests:
     ggplot2,
     knitr,
     rmarkdown,
-    testthat,
-    tibble
+    testthat
 VignetteBuilder: knitr

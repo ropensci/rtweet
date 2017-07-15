@@ -5,10 +5,6 @@ parser <- function(x, ...) UseMethod("parser")
 
 parser.default <- function(x, ...) x
 
-#' coordinates object
-#coordinates <- setClass("coordinates", contains = "data.frame")
-
-#' convert to coordinates class
 as_coordinates <- function(x) {
   if (!inherits(x, "data.frame")) {
     if (isTRUE(all(c("type", "coordinates") %in%
@@ -102,7 +98,7 @@ parser.data.frame <- function(x, i = NULL) {
 #' @return This is a top-level function that either returns a vector, the
 #'   appropriate number of NAs, or a data frame.
 #' @noRd
-parser.list <- function(x, i) parser.data.frame(x, i)
+parser.list <- function(x, i = NULL) parser.data.frame(x, i)
   
 #' parser.NULL
 #'
@@ -117,7 +113,6 @@ parser.list <- function(x, i) parser.data.frame(x, i)
 parser.NULL <- function(x, i) NA
 
 
-#' manipulate classes/methods
 as_false <- function(x, i) {
   if (length(x[[i]]) == 0) {
     x <- rep(NA, nrow(x))
@@ -166,19 +161,24 @@ parser.not_false <- function(x, i) {
 }
 
 
-#' parser statuses
+#' parser.statuses
 #'
 #' Converts statuses Twitter object to tidy[er] data frame.
 #'
 #' @param x A data frame of class "statuses."
 #' @return A tibble data frame of tweets data.
 #' @importFrom tibble as_tibble
+#' @noRd
 parser.statuses <- function(x) {
-  ##x <- data.frame(x)
-  geo <- parser(x, "geo")
+  class(x) <- "data.frame"
+  geo <- parser(as_coordinates(x), "geo")
   coordinates <- parser(x, "coordinates")
   bounding_box <- parser.placebb(x)
-  users <- parser.user(x$user)
+  if (inherits(x$user, "no_user")) {
+    users <- x$user
+  } else {
+    users <- parser.user(x$user)
+  }
   data <- as_tibble(list(
     status_id = parser(x, "id_str"),
     created_at = format_date(as.character(parser(x, "created_at"))),
@@ -220,13 +220,15 @@ parser.statuses <- function(x) {
   data
 }
 
-#' parse statuses
+#' parsestatuses
 #'
 #' @param x List of returned Twitter data containing object statuses.
 #' @return Tibble data frame with users attribute.
-#' @export
-parse_statuses <- function(x) {
-  x <- lapply(x, "[[", "statuses")
+#' @noRd
+parsestatuses <- function(x) {
+  if (all(vapply(x, has_var, i = "statuses", logical(1)))) {
+    x <- lapply(x, "[[", "statuses")
+  }
   x <- lapply(x, parser.statuses)
   users <- do.call("rbind", lapply(x, users_data))
   x <- do.call("rbind", x)
@@ -234,6 +236,17 @@ parse_statuses <- function(x) {
   x
 }
 
+parser.tweets <- function(x) {
+  users <- do.call("rbind", lapply(x, users_data))
+  x <- do.call("rbind", x)
+  attr(x, "users") <- users
+  x
+}
+
+parser.tweet <- function(x) {
+  x <- do.call("rbind", x)
+  x
+}
 
 parse_timelines <- function(x) {
   x <- lapply(x, parser.statuses)
@@ -243,7 +256,6 @@ parse_timelines <- function(x) {
   x
 }
 
-#' place object is annoying
 parser.placebb <- function(x) {
   if (length(x$place) == 0) {
     x <- rep(NA, nrow(x))
@@ -262,16 +274,48 @@ as_placebb <- function(x) {
   x
 }
 
+as_tweets <- function(x) {
+  if (all(vapply(x, has_var, i = "statuses", logical(1)))) {
+    x <- lapply(x, "[[", "statuses")
+  }
+  x <- lapply(x, `class<-`, c("statuses", "data.frame"))
+  x <- lapply(x, function(i) UseMethod(generic = "parser", i))
+  class(x) <- c("tweets", "list")
+  x
+}
 
-is_statuses <- function(x) "statuses" %in% names(x)
+as_tweet <- function(x) {
+  x <- lapply(x, as_status)
+  x <- lapply(x, function(i) UseMethod(generic = "parser", i))
+  class(x) <- c("tweet", "list")
+  x
+}
 
+as_users <- function(x) {
+  x <- lapply(x, as_user)
+  x <- lapply(x, function(i) UseMethod("parser", i))
+  class(x) <- c("users", "list")
+  x
+}
 
-as_statuses <- function(x) {
+as_status <- function(x) {
+  id_str <- x$id_str
+  screen_name <- x$screen_name
+  x <- x$status
+  x$user <- data.frame(
+    id_str, screen_name, stringsAsFactors = FALSE
+  )
+  class(x$user) <- c("no_user", "data.frame")
   class(x) <- c("statuses", "data.frame")
   x
 }
 
-
+parser.users <- function(x) {
+  users <- do.call("rbind", lapply(x, users_data))
+  x <- do.call("rbind", x)
+  attr(x, "users") <- users
+  x
+}
 
 
 as_userenturl <- function(x) {
@@ -312,6 +356,7 @@ as_user <- function(x) {
 #' @return Tibble data frame.
 #' @importFrom tibble as_tibble
 parser.user <- function(x) {
+  class(x) <- "data.frame"
   ueu <- as_userenturl(x)
   as_tibble(list(
     user_id = parser(x, "id_str"),

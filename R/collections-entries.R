@@ -1,4 +1,4 @@
-#' GET collections/entries¶
+#' GET collections/entries
 #'
 #' Retrieve the identified Collection, presented as a list of the
 #'   Tweets curated within. The response structure of this method
@@ -12,13 +12,20 @@
 #'   min_position found in the current response as the max_position
 #'   parameter in your next call to this endpoint.
 
-#' @param id required The identifier of the Collection to return results for. "539487832448843776"
+#' @param id required The identifier of the Collection to return results for.
+#'   "539487832448843776"
 #' @param count optional Specifies the maximum number of results to include in the response.
 #'   Specify count between 1 and 200. A next_cursor value will be provided in the response
 #'   if additional results are available.
 #' @param max_position optional Returns results with a position value less than or equal to
 #'   the specified position.
-#' @param min_position optional Returns results with a position greater than the specified position.
+#' @param min_position optional Returns results with a position greater than the
+#'   specified position.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @return data
 get_collections <- function(id, count = 200,
                             max_position = NULL,

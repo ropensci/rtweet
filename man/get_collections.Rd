@@ -2,13 +2,14 @@
 % Please edit documentation in R/collections-entries.R
 \name{get_collections}
 \alias{get_collections}
-\title{GET collections/entries¶}
+\title{GET collections/entries}
 \usage{
 get_collections(id, count = 200, max_position = NULL, min_position = NULL,
   token = NULL)
 }
 \arguments{
-\item{id}{required The identifier of the Collection to return results for. "539487832448843776"}
+\item{id}{required The identifier of the Collection to return results for.
+"539487832448843776"}
 
 \item{count}{optional Specifies the maximum number of results to include in the response.
 Specify count between 1 and 200. A next_cursor value will be provided in the response
@@ -17,7 +18,14 @@ if additional results are available.}
 \item{max_position}{optional Returns results with a position value less than or equal to
 the specified position.}
 
-\item{min_position}{optional Returns results with a position greater than the specified position.}
+\item{min_position}{optional Returns results with a position greater than the
+specified position.}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 }
 \value{
 data

@@ -2,7 +2,7 @@
 % Please edit documentation in R/list-list.R
 \name{list_list}
 \alias{list_list}
-\title{GET lists/list¶}
+\title{GET lists/list}
 \usage{
 list_list(user, reverse = FALSE, token = NULL)
 }

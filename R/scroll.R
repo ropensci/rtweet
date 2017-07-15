@@ -1,88 +1,88 @@
 scroller <- function(url, n, n.times, type = NULL, ...) {
-    ## check args
-    stopifnot(is_n(n), is_url(url))
+  ## check args
+  stopifnot(is_n(n), is_url(url))
 
-    ## if missing set to 1
-    if (missing(n.times)) n.times <- 1
+  ## if missing set to 1
+  if (missing(n.times)) n.times <- 1
 
-    ## initialize vector and counter
-    x <- vector("list", n.times)
-    counter <- 0
+  ## initialize vector and counter
+  x <- vector("list", n.times)
+  counter <- 0
 
-    for (i in seq_along(x)) {
-        ## send GET request
-  	x[[i]] <- httr::GET(url, ...)
+  for (i in seq_along(x)) {
+    ## send GET request
+    x[[i]] <- httr::GET(url, ...)
 
-        ## if NULL (error) break
-        if (is.null(x[[i]])) break
+    ## if NULL (error) break
+    if (is.null(x[[i]])) break
 
-        ## convert from json to R list
-        x[[i]] <- from_js(x[[i]])
+    ## convert from json to R list
+    x[[i]] <- from_js(x[[i]])
 
-        ## if length of x or len of statuses == 0, break
-        if (any(length(x[[i]]) == 0L,
-                all("statuses" %in% names(x[[i]]),
-                    length(x[[i]][['statuses']]) == 0L))) {
-            break
-        }
-        ## if reach counter, break
-        counter <- counter +
-            as.numeric(unique_id_count(x[[i]], type = type))
-        if (counter >= n) break
-        ## check other possible fails
-        if (break_check(x[[i]], url)) break
-        ## if cursor in URL then update otherwise use max id
-        if ("cursor" %in% names(url$query)) {
-            url$query$cursor <- get_max_id(x[[i]])
-        } else {
-            url$query$max_id <- get_max_id(x[[i]])
-        }
+    ## if length of x or len of statuses == 0, break
+    if (any(length(x[[i]]) == 0L,
+            all("statuses" %in% names(x[[i]]),
+                length(x[[i]][['statuses']]) == 0L))) {
+      break
     }
-    ## drop NULLs
-    if (is.null(names(x))) {
-        x <- x[lengths(x) > 0]
+    ## if reach counter, break
+    counter <- counter +
+      as.numeric(unique_id_count(x[[i]], type = type))
+    if (counter >= n) break
+    ## check other possible fails
+    if (break_check(x[[i]], url)) break
+    ## if cursor in URL then update otherwise use max id
+    if ("cursor" %in% names(url$query)) {
+      url$query$cursor <- get_max_id(x[[i]])
+    } else {
+      url$query$max_id <- get_max_id(x[[i]])
     }
-    x
+  }
+  ## drop NULLs
+  if (is.null(names(x))) {
+    x <- x[lengths(x) > 0]
+  }
+  x
 }
 
 
 unique_id <- function(x) {
-    if ("statuses" %in% tolower(names(x))) {
-        x <- x[["statuses"]]
-    }
-    if ("id_str" %in% names(x)) {
-        x[["id_str"]]
-    } else if ("ids" %in% names(x)) {
-        x[["ids"]]
-    } else if ("ids" %in% names(x[[1]])) {
-        x[[1]][["ids"]]
-    } else if ("status_id" %in% names(x)) {
-        x[["status_id"]]
-    } else if ("user_id" %in% names(x)) {
-        x[["user_id"]]
-    }
+  if ("statuses" %in% tolower(names(x))) {
+    x <- x[["statuses"]]
+  }
+  if ("id_str" %in% names(x)) {
+    x[["id_str"]]
+  } else if ("ids" %in% names(x)) {
+    x[["ids"]]
+  } else if ("ids" %in% names(x[[1]])) {
+    x[[1]][["ids"]]
+  } else if ("status_id" %in% names(x)) {
+    x[["status_id"]]
+  } else if ("user_id" %in% names(x)) {
+    x[["user_id"]]
+  }
 }
 
 
 unique_id_count <- function(x, type = NULL) {
-    if (!is.null(type)) {
-        if (type == "search") return(100)
-        if (type == "timeline") return(200)
-        if (type == "followers") return(5000)
-    }
-    if (isTRUE(length(x) > 1L)) {
-        if (!is.null(names(x[[2]]))) {
-            x <- unlist(lapply(x, unique_id),
-                        use.names = FALSE)
-        } else {
-            x <- unique_id(x)
-        }
+  if (!is.null(type)) {
+    if (type == "search") return(100)
+    if (type == "timeline") return(200)
+    if (type == "followers") return(5000)
+  }
+  if (isTRUE(length(x) > 1L)) {
+    if (!is.null(names(x[[2]]))) {
+      x <- unlist(lapply(x, unique_id),
+                  use.names = FALSE)
     } else {
-        x <- unique_id(x)
+      x <- unique_id(x)
     }
-    if (any(is.null(x), identical(length(x), 0L)))
-        return(0)
-    length(unique(x))
+  } else {
+    x <- unique_id(x)
+  }
+  if (any(is.null(x), identical(length(x), 0L)))
+    return(0)
+  length(unique(x))
 }
 
 #' get max id
@@ -95,7 +95,6 @@ unique_id_count <- function(x, type = NULL) {
 #' @return Max id string.
 #' @importFrom bit64 as.integer64
 #' @noRd
-#' @export
 get_max_id <- function(x, adj = -1L) {
   if (!is.atomic(x)) {
 
@@ -129,21 +128,21 @@ last_dig <- function(x, adj = -1L) {
 
 
 break_check <- function(r, url, count = NULL) {
-    if (!is.null(count)) {
-        if (as.numeric(count) <= 0) return(TRUE)
-    }
+  if (!is.null(count)) {
+    if (as.numeric(count) <= 0) return(TRUE)
+  }
 
-    if (is.null(r)) return(TRUE)
+  if (is.null(r)) return(TRUE)
 
-    x <- get_max_id(r)
+  x <- get_max_id(r)
 
-    if (is.null(x)) return(TRUE)
-    if (any(identical(x, 0), identical(x, "0"))) return(TRUE)
+  if (is.null(x)) return(TRUE)
+  if (any(identical(x, 0), identical(x, "0"))) return(TRUE)
 
-    if ("max_id" %in% names(url$query)) {
-        if (is.null(url$query$max_id)) return(FALSE)
-        if (identical(as.character(x),
-                      as.character(url$query$max_id))) return(TRUE)
-    }
-    FALSE
+  if ("max_id" %in% names(url$query)) {
+    if (is.null(url$query$max_id)) return(FALSE)
+    if (identical(as.character(x),
+                  as.character(url$query$max_id))) return(TRUE)
+  }
+  FALSE
 }

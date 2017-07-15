@@ -1,4 +1,4 @@
-#' GET lists/list¶
+#' GET lists/list
 #'
 #' Returns all lists the authenticating or specified user subscribes to,
 #'   including their own. The user is specified using the user_id or

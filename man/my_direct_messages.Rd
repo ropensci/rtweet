@@ -2,7 +2,7 @@
 % Please edit documentation in R/direct-messages.R
 \name{my_direct_messages}
 \alias{my_direct_messages}
-\title{GET direct_messages¶}
+\title{GET direct_messages}
 \usage{
 my_direct_messages(since_id = NULL, max_id = NULL, count = 200,
   token = NULL)

@@ -2,23 +2,25 @@
 % Please edit documentation in R/retweets.R
 \name{statuses_retweeters}
 \alias{statuses_retweeters}
-\title{GET statuses/retweeters/ids¶}
+\title{GET statuses/retweeters/ids}
 \usage{
 statuses_retweeters(id, cursor = "-1", token = NULL)
 }
 \arguments{
 \item{id}{required The numerical ID of the desired status.}
 
-\item{cursor}{semi-optional Causes the list of IDs to be broken into pages of no more than 100 IDs at a
-time. The number of IDs returned is not guaranteed to be 100 as suspended users
-are filtered out after connections are queried. If no cursor is provided, a
-value of -1 will be assumed, which is the first “page.”
+\item{cursor}{semi-optional Causes the list of IDs to be broken into pages
+of no more than 100 IDs at a time. The number of IDs returned is not
+guaranteed to be 100 as suspended users are filtered out after
+connections are queried. If no cursor is provided, a
+value of -1 will be assumed, which is the first "page."
 The response from the API will include a previous_cursor and next_cursor
 to allow paging back and forth. See our cursor
 docs for more information.
-While this method supports the cursor parameter, the entire result set can be
-returned in a single cursored collection. Using the count parameter with this
-method will not provide segmented cursors for use with this parameter.}
+While this method supports the cursor parameter, the entire result set
+can be returned in a single cursored collection. Using the count
+parameter with this method will not provide segmented cursors for
+use with this parameter.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find

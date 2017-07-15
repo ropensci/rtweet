@@ -1,4 +1,4 @@
-#' GET direct_messages¶
+#' GET direct_messages
 #'
 #' Returns the 20 most recent direct messages sent to the authenticating
 #'   user. Includes detailed information about the sender and recipient user.
@@ -6,16 +6,22 @@
 #'   recent 200 DMs will be available using this endpoint. Important: This
 #'   method requires an access token with RWD (read, write & direct
 #'   message) permissions.
-#' @param since_id optional Returns results with an ID greater than (that is, more recent than) the
-#'   specified ID. There are limits to the number of Tweets which can be accessed
-#'   through the API. If the limit of Tweets has occured since the since_id, the
-#'   since_id will be forced to the oldest ID available.
-#' @param max_id optional Returns results with an ID less than (that is, older than) or equal to the
-#'   specified ID.
-#' @param count optional Specifies the number of direct messages to try and retrieve, up to a maximum of
-#'   200. The value of count is best thought of as a limit to the number of Tweets
-#'   to return because suspended or deleted content is removed after the count has
-#'   been applied.
+#' @param since_id optional Returns results with an ID greater than (that is,
+#'   more recent than) the specified ID. There are limits to the number of
+#'   Tweets which can be accessed through the API. If the limit of Tweets has
+#'   occured since the since_id, the since_id will be forced to the oldest ID
+#'   available.
+#' @param max_id optional Returns results with an ID less than (that is,
+#'   older than) or equal to the specified ID.
+#' @param count optional Specifies the number of direct messages to try and
+#'   retrieve, up to a maximum of 200. The value of count is best thought of as
+#'   a limit to the number of Tweets to return because suspended or deleted
+#'   content is removed after the count has been applied.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @return data
 my_direct_messages <- function(since_id = NULL,
                                max_id = NULL,
