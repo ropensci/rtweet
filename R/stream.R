@@ -304,7 +304,7 @@ parse_stream <- function(file_name, ...) {
     "normal fixes didn't work. perhaps you should try ",
     "starting a new R session.",
     call. = FALSE))
-  parser(as_tweets(list(s)))
+  tweets_with_users(s)
   ##parse.piper(s, usr = TRUE) %>%
   ##tryCatch(error = function(e) return(s))
 }

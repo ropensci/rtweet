@@ -110,8 +110,7 @@ get_timeline <- function(user, n = 200,
   tm <- scroller(url, n, n.times, type = "timeline", token)
 
   if (parse) {
-    tm <- parser(as_tweets(tm))
-    ##tm <- parse.piper(tm, usr = usr)
+    tm <- tweets_with_users(tm)
   }
 
   tm

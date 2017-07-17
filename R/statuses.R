@@ -26,6 +26,7 @@
 #'
 #' @return json response object (max is 18000 per token)
 #' @family tweets
+#' @aliases lookup_tweets
 #' @export
 lookup_statuses <- function(statuses,
   token = NULL,
@@ -63,8 +64,7 @@ lookup_statuses <- function(statuses,
   }
 
   if (parse) {
-    twt <- parser(as_tweets(twt))
-    ##twt <- parse.piper(twt, usr = usr)
+    twt <- tweets_with_users(twt)
   }
 
   twt

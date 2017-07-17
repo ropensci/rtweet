@@ -77,8 +77,7 @@ get_favorites <- function(user,
   fav <- scroller(url, n, n.times, type = "timeline", token)
 
   if (parse) {
-    fav <- parser(as_tweets(fav))
-    ##  fav <- parse.piper(fav, usr = usr)
+    fav <- tweets_with_users(fav)
   }
 
   fav

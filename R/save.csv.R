@@ -33,7 +33,7 @@ save_as_csv <- function(x, file_name) {
   users_names <- c(
     "followers_count",
     "description",
-    "statuses count",
+    "statuses_count",
     "friends_count")
   if (any(tweets_names %in% names(x))) {
     write_as_csv(
@@ -80,7 +80,6 @@ modify_file_name <- function(file_name, ext = NULL) {
 #'   one save for users).
 #' @return Saved csv files in current working directory.
 #' @export
-#' @noRd
 write_as_csv <- function(x, file_name) {
   stopifnot(is.data.frame(x))
   x <- flatten_df(x)
@@ -101,4 +100,19 @@ clean_nas <- function(x) {
 
 is_list <- function(x) {
   unlist(apply(x[, ], 2, is.list), use.names = FALSE)
+}
+
+
+flatten_df <- function(x) {
+  recs <- !unlist(lapply(x, is.atomic))
+  recs <- names(x)[which(recs)]
+  for (i in recs) {
+    x[[i]][is.na(x[[i]])] <- NA_character_
+    x[[i]][!is.na(x[[i]])] <- vapply(
+      x[[i]][!is.na(x[[i]])], paste, collapse = " ",
+      character(1)
+    )
+    x[[i]] <- unlist(x[[i]])
+  }
+  x
 }

@@ -493,8 +493,7 @@ search_tweets <- function(q = "",
   tw <- scroller(url, n, n.times, type = "search", token)
 
   if (parse) {
-    tw <- parser(as_tweets(tw))
-    ##tw <- parse.piper(tw, usr = usr)
+    tw <- tweets_with_users(tw)
   }
   if (verbose) {
     message("Finished collecting tweets!")
@@ -617,8 +616,7 @@ search_users <- function(q, n = 20,
     if (k >= n * 20) break
   }
   if (parse) {
-    usr <- parser(as_users(usr))
-    ##usr <- parse.piper.usr(usr, tw = tw)
+    usr <- users_with_tweets(usr)
   }
   if (verbose) {
     message("Finished collecting users!")

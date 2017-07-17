@@ -2,6 +2,7 @@
 % Please edit documentation in R/statuses.R
 \name{lookup_statuses}
 \alias{lookup_statuses}
+\alias{lookup_tweets}
 \title{lookup_tweets}
 \usage{
 lookup_statuses(statuses, token = NULL, parse = TRUE, usr = TRUE)
