@@ -41,17 +41,23 @@ users_df_ <- function(x) {
 ##-----------------------------------------------------
 ## safe extractor
 ##-----------------------------------------------------
-`[[[` <- function(...) {
-  dat <- list(...)[[1]]
-  if (!is.recursive(dat)) {
-    return(rep(NA, length.out = length(dat)))
+`[[[` <- function(dat, var, NA_ = NA_character_) {
+  if (length(dat) == 0L) {
+    return(NA_)
+  } else if (!is.recursive(dat)) {
+    dat[lengths(dat) == 0L] <- NA_
+    return(dat)
   }
-  x <- `[[`(...)
+  x <- `[[`(dat, var)
+  ## if empty give number of NAs equal to obs
   if (length(x) == 0L && is.data.frame(dat)) {
-    return(rep(NA, length.out = nrow(dat)))
+    return(rep(NA_, length.out = nrow(dat)))
   } else if (length(x) == 0L && is.list(dat)) {
-    return(rep(NA, length.out = length(dat)))
+    return(rep(NA_, length.out = length(dat)))
+  } else if (length(x) == 0L) {
+    return(NA_)
   }
+  x[lengths(x) == 0L] <- NA_
   x
 }
 
@@ -107,18 +113,18 @@ status_object_ <- function(x) {
 
 tweets_to_tbl_ <- function(dat) {
   dat <- wrangle_entities(dat)
+  dat$bbox_coords <- bbox_coords_(dat)
   dat <- wrangle_place(dat)
   dat <- wrangle_quote_status(dat)
   dat <- wrangle_retweet_status(dat)
   dat$geo_coords <- geo_coords_(dat)
   dat$coords_coords <- coords_coords_(dat)
-  dat$bbox_coords <- bbox_coords_(dat)
   statuscols <- statuscols_()
   dat <- dat[, statuscols[statuscols %in% names(dat)]]
   names(dat) <- names(statuscols)[statuscols %in% names(dat)]
   dat$created_at <- format_date(dat$created_at)
   dat$source <- clean_source_(dat$source)
-  tibble::as_tibble(dat)
+  tibble::as_tibble(dat, validate = FALSE)
 }
 
 
@@ -217,8 +223,8 @@ statuscols_ <- function() {
   created_at = "created_at",
   text = "text",
   source = "source",
-  reply_to_status_id = "in_reply_to_status_id",
-  reply_to_user_id = "in_reply_to_user_id",
+  reply_to_status_id = "in_reply_to_status_id_str",
+  reply_to_user_id = "in_reply_to_user_id_str",
   reply_to_screen_name = "in_reply_to_screen_name",
   is_quote = "is_quote",
   is_retweet = "is_retweet",
@@ -232,6 +238,7 @@ statuscols_ <- function() {
   mentions_screen_name = "mentions_screen_name",
   lang = "lang",
   quoted_status_id = "quoted_status_id",
+  retweet_status_id = "retweet_status_id",
   place_url = "place_url",
   place_type = "place_type",
   place_name = "place_name",
@@ -280,9 +287,10 @@ bbox_coords_ <- function(dat) {
   dat <- `[[[`(dat, "bounding_box")
   dat <- `[[[`(dat, "coordinates")
   dat <- lapply(dat, function(x) {
-    if (is.array(x)) c(x[, , 1], x[, , 2]) else x
+    if (is.array(x)) c(x[, , 1], x[, , 2]) else rep(NA_real_, 8)
   })
-  m_l_(dat, NA_real_, 8)
+  dat
+  ##m_l_(dat, NA_real_, 8)
 }
 
 
