@@ -27,12 +27,27 @@ users_with_tweets <- function(x) {
   users
 }
 
-
+##' tweets data
+##'
+##' Returns tweets data frame.
+##' 
+##' @title tweets_df
+##' @param x Nested list parsed from Twitter's returned json object.
+##' @return tbl
+##' @export
 tweets_df_ <- function(x) {
   x <- lapply(x, tweets_to_tbl_)
   do.call("rbind", x)
 }
 
+##' users data
+##'
+##' Returns users data frame.
+##' 
+##' @title users_df
+##' @param x Nested list parsed from Twitter's returned json object.
+##' @return tbl
+##' @export
 users_df_ <- function(x) {
   x <- lapply(x, users_to_tbl_)
   do.call("rbind", x)
