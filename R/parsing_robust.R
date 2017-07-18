@@ -195,7 +195,11 @@ users_to_tbl_ <- function(dat) {
   )
   dat$created_at <- format_date(dat$created_at)
   usercols <- usercols_()
-  dat <- dat[, usercols]
+  nacols <- usercols[!usercols %in% names(dat)]
+  for (i in nacols) {
+    dat[[i]] <- NA
+  }
+  dat <- dat[, usercols[usercols %in% names(dat)]]
   names(dat) <- names(usercols)[usercols %in% names(dat)]
   tibble::as_tibble(dat, validate = FALSE)
 }
