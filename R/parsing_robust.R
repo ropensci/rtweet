@@ -135,8 +135,13 @@ tweets_to_tbl_ <- function(dat) {
   dat$geo_coords <- geo_coords_(dat)
   dat$coords_coords <- coords_coords_(dat)
   statuscols <- statuscols_()
+  nacols <- statuscols[!statuscols %in% names(dat)]
+  for (i in nacols) {
+    dat[[i]] <- NA
+  }
   dat <- dat[, statuscols[statuscols %in% names(dat)]]
   names(dat) <- names(statuscols)[statuscols %in% names(dat)]
+  
   dat$created_at <- format_date(dat$created_at)
   dat$source <- clean_source_(dat$source)
   tibble::as_tibble(dat, validate = FALSE)

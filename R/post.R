@@ -10,7 +10,8 @@
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like
-#'   to reply. Note: in line with the Twitter API, this parameter is ignored unless the author of the tweet this parameter references is mentioned within the status text.
+#'   to reply. Note: in line with the Twitter API, this parameter is ignored unless the author of the
+#'   tweet this parameter references is mentioned within the status text.
 #' @examples
 #' \dontrun{
 #' x <- rnorm(300)
@@ -45,43 +46,52 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        token = NULL,
                        in_reply_to_status_id = NULL) {
 
-    ## validate
-    stopifnot(is.character(status))
-    stopifnot(length(status) == 1)
-    ## media if provided
-    if (is.null(media)) {
-        query <- "statuses/update"
-        params <- list(status = status)
-    } else {
-        query <- "statuses/update_with_media"
-        params <- list(media = httr::upload_file(media),
-                       status = status)
-    }
-    if (all(nchar(status) > 140, !grepl("http", status))) {
-        stop("cannot exceed 140 characters.", call. = FALSE)
-    }
-    if (length(status) > 1) {
-        stop("can only post one status at a time",
-             call. = FALSE)
-    }
-    token <- check_token(token, query)
+  ## validate
+  stopifnot(is.character(status))
+  stopifnot(length(status) == 1)
+  ## media if provided
+  if (!is.null(media)) {
+    media2upload <- httr::upload_file(media)
+    query <- "media/upload"
+    rurl <- paste0(
+      "https://upload.twitter.com/1.1/media/upload.json"
+    )
+    r <- httr::POST(rurl, body = list(media = media2upload), token)
+    r <- httr::content(r, "parsed")
+    params <- list(
+      status = status,
+      media_ids = r$media_id_string
+    )
+  } else {
+    params <- list(status = status)
+  }
+  query <- "statuses/update"
+  if (all(nchar(status) > 140, !grepl("http", status))) {
+    stop("cannot exceed 140 characters.", call. = FALSE)
+  }
+  if (length(status) > 1) {
+    stop("can only post one status at a time",
+         call. = FALSE)
+  }
+  token <- check_token(token, query)
 
-    if (!is.null(in_reply_to_status_id)) {
-        params[["in_reply_to_status_id"]] <- in_reply_to_status_id
-    }
+  if (!is.null(in_reply_to_status_id)) {
+    params[["in_reply_to_status_id"]] <- in_reply_to_status_id
+  }
 
-    url <- make_url(query = query) ##param = params)
+  url <- make_url(query = query, param = params)
 
-    r <- TWIT(get = FALSE, url, body = params, token)
+  r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) {
-        message(paste0(
-            "something didn't work. are you using the token associated ",
-            "with *your* Twitter account? if so you may need to set read/write ",
-            "permissions or reset your token at apps.twitter.com."))
-    }
-    message("your tweet has been posted!")
-    invisible(r)
+  if (r$status_code != 200) {
+    httr::content(r, "parsed")
+    ##message(paste0(
+    ##  "something didn't work. are you using the token associated ",
+    ##  "with *your* Twitter account? if so you may need to set read/write ",
+    ##  "permissions or reset your token at apps.twitter.com."))
+  }
+  message("your tweet has been posted!")
+  invisible(r)
 }
 
 
@@ -116,46 +126,46 @@ post_follow <- function(user,
                         retweets = TRUE,
                         token = NULL) {
 
-    stopifnot(is.atomic(user), is.logical(notify))
+  stopifnot(is.atomic(user), is.logical(notify))
 
-    token <- check_token(token)
+  token <- check_token(token)
 
-    if (all(!destroy, !retweets)) {
-        query <- "friendships/update"
-        params <- list(
-            user_type = user,
-            notify = notify,
-            retweets = retweets)
-    } else if (mute) {
-        query <- "mutes/users/create"
-        params <- list(
-            user_type = user)
-    } else if (destroy) {
-        query <- "friendships/destroy"
-        params <- list(
-            user_type = user,
-            notify = notify)
-    } else {
-        query <- "friendships/create"
-        params <- list(
-            user_type = user,
-            notify = notify)
-    }
+  if (all(!destroy, !retweets)) {
+    query <- "friendships/update"
+    params <- list(
+      user_type = user,
+      notify = notify,
+      retweets = retweets)
+  } else if (mute) {
+    query <- "mutes/users/create"
+    params <- list(
+      user_type = user)
+  } else if (destroy) {
+    query <- "friendships/destroy"
+    params <- list(
+      user_type = user,
+      notify = notify)
+  } else {
+    query <- "friendships/create"
+    params <- list(
+      user_type = user,
+      notify = notify)
+  }
 
-    names(params)[1] <- .id_type(user)
+  names(params)[1] <- .id_type(user)
 
-    url <- make_url(query = query, param = params)
+  url <- make_url(query = query, param = params)
 
-    r <- TWIT(get = FALSE, url, token)
+  r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) {
-        message(paste0(
-            "something didn't work. are you using a token associated ",
-            "with *your* Twitter account? if so you may need to set read/write ",
-            "permissions or reset your token at apps.twitter.com."))
-    }
+  if (r$status_code != 200) {
+    message(paste0(
+      "something didn't work. are you using a token associated ",
+      "with *your* Twitter account? if so you may need to set read/write ",
+      "permissions or reset your token at apps.twitter.com."))
+  }
 
-    r
+  r
 }
 
 #' post_unfollow
@@ -171,7 +181,7 @@ post_follow <- function(user,
 #' @family post
 #' @export
 post_unfollow_user <- function(user, token = NULL) {
-    post_follow(user, destroy = TRUE, token = token)
+  post_follow(user, destroy = TRUE, token = token)
 }
 
 #' post_mute
@@ -187,7 +197,7 @@ post_unfollow_user <- function(user, token = NULL) {
 #' @family post
 #' @export
 post_mute <- function(user, token = NULL) {
-    post_follow(user, mute = TRUE, token = token)
+  post_follow(user, mute = TRUE, token = token)
 }
 
 
@@ -216,30 +226,30 @@ post_favorite <- function(status_id,
                           include_entities = FALSE,
                           token = NULL) {
 
-    stopifnot(is.atomic(status_id))
+  stopifnot(is.atomic(status_id))
 
-    token <- check_token(token)
+  token <- check_token(token)
 
-    if (destroy) {
-        query <- "favorites/destroy"
-    } else {
-        query <- "favorites/create"
-    }
+  if (destroy) {
+    query <- "favorites/destroy"
+  } else {
+    query <- "favorites/create"
+  }
 
-    params <- list(
-        id = status_id)
+  params <- list(
+    id = status_id)
 
-    url <- make_url(query = query, param = params)
+  url <- make_url(query = query, param = params)
 
-    r <- TWIT(get = FALSE, url, token)
+  r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) {
-        message(paste0(
-            "something didn't work. are you using a token associated ",
-            "with *your* Twitter account? if so you may need to set read/write ",
-            "permissions or reset your token at apps.twitter.com."))
-    }
-    invisible(r)
+  if (r$status_code != 200) {
+    message(paste0(
+      "something didn't work. are you using a token associated ",
+      "with *your* Twitter account? if so you may need to set read/write ",
+      "permissions or reset your token at apps.twitter.com."))
+  }
+  invisible(r)
 }
 
 
@@ -260,34 +270,34 @@ post_favorite <- function(status_id,
 #' @family post
 #' @export
 post_friendship <- function(user,
-                              device = FALSE,
-                              retweets = FALSE,
-                              token = NULL) {
+                            device = FALSE,
+                            retweets = FALSE,
+                            token = NULL) {
 
-    stopifnot(is.atomic(user), is.logical(device),
-              is.logical(retweets))
+  stopifnot(is.atomic(user), is.logical(device),
+            is.logical(retweets))
 
-    token <- check_token(token)
+  token <- check_token(token)
 
-    query <- "friendships/update"
+  query <- "friendships/update"
 
-    params <- list(
-        user_type = user,
-        device = device,
-        retweets = retweets)
+  params <- list(
+    user_type = user,
+    device = device,
+    retweets = retweets)
 
-    names(params)[1] <- .id_type(user)
+  names(params)[1] <- .id_type(user)
 
-    url <- make_url(query = query, param = params)
+  url <- make_url(query = query, param = params)
 
-    r <- TWIT(get = FALSE, url, token)
+  r <- TWIT(get = FALSE, url, token)
 
-    if (r$status_code != 200) {
-        message(paste0(
-            "something didn't work. are you using a token associated ",
-            "with *your* Twitter account? if so you may need to set read/write ",
-            "permissions or reset your token at apps.twitter.com."))
-    }
-    invisible(r)
+  if (r$status_code != 200) {
+    message(paste0(
+      "something didn't work. are you using a token associated ",
+      "with *your* Twitter account? if so you may need to set read/write ",
+      "permissions or reset your token at apps.twitter.com."))
+  }
+  invisible(r)
 }
 
