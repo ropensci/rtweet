@@ -23,6 +23,14 @@ users_with_tweets <- function(x) {
   tweets <- tweets_df_(tweets)
   users <- user_object(x)
   users <- users_df_(users)
+  if (nrow(tweets) == nrow(users)) {
+    if (hasName(users, "user_id")) {
+      tweets$user_id <- users$user_id
+    if (hasName(users, "screen_name")) {
+      tweets$screen_name <- users$screen_name
+    }
+    }
+  }
   attr(users, "tweets") <- tweets
   users
 }
@@ -128,6 +136,16 @@ status_object_ <- function(x) {
 
 tweets_to_tbl_ <- function(dat) {
   if (nrow(dat) == 0L) return(data.frame())
+  if (hasName(dat, "user")) {
+    dat$user_id <- `[[[`(dat$user, "id_str")
+    dat$screen_name <- `[[[`(dat$user, "screen_name")
+  }
+  if (!hasName(dat, "user_id")) {
+    dat$user_id <- NA_character_
+  } 
+  if (!hasName(dat, "screen_name")) {
+    dat$screen_name <- NA_character_
+  } 
   dat <- wrangle_entities(dat)
   dat$bbox_coords <- bbox_coords_(dat)
   dat <- wrangle_place(dat)
@@ -247,6 +265,8 @@ statuscols_ <- function() {
   c(
   status_id = "id_str",
   created_at = "created_at",
+  user_id = "user_id",
+  screen_name = "screen_name",
   text = "text",
   source = "source",
   reply_to_status_id = "in_reply_to_status_id_str",
