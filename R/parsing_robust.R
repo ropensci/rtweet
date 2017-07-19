@@ -255,9 +255,9 @@ usercols_ <- function() {
   profile_url = "profile_url",
   profile_expanded_url = "profile_expanded_url",
   account_lang = "lang",
-  profile_banner = "profile_banner_url",
-  profile_bg = "profile_background_image_url",
-  profile_image = "profile_image_url"
+  profile_banner_url = "profile_banner_url",
+  profile_background_url = "profile_background_image_url",
+  profile_image_url = "profile_image_url"
 )
 }
 
