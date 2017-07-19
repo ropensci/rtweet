@@ -49,7 +49,6 @@ post_tweet <- function(status = "my first rtweet #rstats",
   ## validate
   stopifnot(is.character(status))
   stopifnot(length(status) == 1)
-  query <- "statuses/update"
   if (all(nchar(status) > 140, !grepl("http", status))) {
     stop("cannot exceed 140 characters.", call. = FALSE)
   }
@@ -75,6 +74,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   } else {
     params <- list(status = status)
   }
+  query <- "statuses/update"
   if (!is.null(in_reply_to_status_id)) {
     params[["in_reply_to_status_id"]] <- in_reply_to_status_id
   }
