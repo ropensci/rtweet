@@ -581,11 +581,11 @@ search_tweets_ <- function(q, n, parse = FALSE, ...) {
 #' @family users
 #' @export
 search_users <- function(q, n = 20,
-  parse = TRUE,
-  full_text = TRUE,
-  tw = TRUE,
-  token = NULL,
-  verbose = TRUE) {
+                         parse = TRUE,
+                         full_text = TRUE,
+                         tw = TRUE,
+                         token = NULL,
+                         verbose = TRUE) {
 
   query <- "users/search"
   stopifnot(is_n(n), is.atomic(q))
@@ -614,14 +614,16 @@ search_users <- function(q, n = 20,
   nrows <- NULL
 
   for (i in seq_len(n.times)) {
-    params <- list(q = q,
+    params <- list(
+      q = q,
       count = 20,
       page = i,
-      tweet_mode = full_text)
+      tweet_mode = full_text
+    )
     url <- make_url(
       query = query,
-      param = params)
-
+      param = params
+    )
     r <- tryCatch(
       TWIT(get = TRUE, url, token),
       error = function(e) return(NULL))
@@ -629,6 +631,13 @@ search_users <- function(q, n = 20,
     if (is.null(r)) break
 
     usr[[i]] <- from_js(r)
+
+    if (i > 1L) {
+      if (identical(usr[[i]], usr[[i - 1L]])) {
+        usr <- usr[-i]
+        break
+      }
+    }
 
     if (identical(length(usr[[i]]), 0)) break
     if (isTRUE(is.numeric(NROW(usr[[i]])))) {
@@ -642,6 +651,9 @@ search_users <- function(q, n = 20,
   }
   if (parse) {
     usr <- users_with_tweets(usr)
+    uq <- !duplicated(usr$user_id)
+    usr <- usr[uq, ]
+    attr(usr, "tweets") <- tweets_data(usr)[uq, ]
   }
   if (verbose) {
     message("Finished collecting users!")
