@@ -104,7 +104,7 @@
   the authenticating or specified user.</p>
     
 
-    <pre class="usage"><span class='fu'>get_favorites</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3000</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>get_favorites</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -117,7 +117,7 @@
     <tr>
       <th>n</th>
       <td><p>Specifies the number of records to retrieve. Must be
-less than or equal to 200; defaults to 3000, which is the max
+less than or equal to 200; defaults to 300. 3000 is the max
 number of favorites returned per token. Due to suspended or
 deleted content, this function may return fewer tweets than
 the desired (n) number.</p></td>

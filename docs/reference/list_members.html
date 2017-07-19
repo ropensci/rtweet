@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET lists/members¶ — list_members • rtweet</title>
+<title>GET lists/members — list_members • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,15 +96,15 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET lists/members¶</h1>
+    <h1>GET lists/members</h1>
     </div>
 
     
-    <p>GET lists/members¶</p>
+    <p>GET lists/members</p>
     
 
-    <pre class="usage"><span class='fu'>list_members</span>(<span class='no'>list_id</span>, <span class='no'>owner_user</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>list_members</span>(<span class='no'>list_id</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
+  <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -114,18 +114,32 @@
       <td><p>required The numerical id of the list.</p></td>
     </tr>
     <tr>
+      <th>slug</th>
+      <td><p>required You can identify a list by its slug instead of
+its numerical id. If you decide to do so, note that you'll also
+have to specify the list owner using the owner_id or
+owner_user parameters.</p></td>
+    </tr>
+    <tr>
+      <th>owner_user</th>
+      <td><p>optional The screen name or user ID of the user
+who owns the list being requested by a slug.</p></td>
+    </tr>
+    <tr>
       <th>count</th>
-      <td><p>optional Specifies the number of results to return per page (see cursor below). The
-default is 20, with a maximum of 5,000.</p></td>
+      <td><p>optional Specifies the number of results to return
+per page (see cursor below). The default is 20, with a maximum
+of 5,000.</p></td>
     </tr>
     <tr>
       <th>cursor</th>
-      <td><p>semi-optional Causes the collection of list members to be broken into “pages” of consistent
-sizes (specified by the count parameter). If no cursor is provided, a value of
--1 will be assumed, which is the first “page.”
-The response from the API will include a previous_cursor and next_cursor
-to allow paging back and forth. See Using cursors to navigate
-collections for more information.</p></td>
+      <td><p>semi-optional Causes the collection of list members
+to be broken into "pages" of consistent sizes (specified by
+the count parameter). If no cursor is provided, a
+value of -1 will be assumed, which is the first "page."
+The response from the API will include a previous_cursor
+and next_cursor to allow paging back and forth. See Using
+cursors to navigate collections for more information.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -134,20 +148,6 @@ non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
 console).</p></td>
-    </tr>
-    <tr>
-      <th>slug</th>
-      <td><p>required You can identify a list by its slug instead of its numerical id. If you decide
-to do so, note that you’ll also have to specify the list owner using the
-owner_id or owner_screen_name parameters.</p></td>
-    </tr>
-    <tr>
-      <th>owner_screen_name</th>
-      <td><p>optional The screen name of the user who owns the list being requested by a slug.</p></td>
-    </tr>
-    <tr>
-      <th>owner_id</th>
-      <td><p>optional The user ID of the user who owns the list being requested by a slug.</p></td>
     </tr>
     </table>
     

@@ -5,12 +5,12 @@ citEntry(
     title        = "rtweet: Collecting Twitter Data",
     author       = as.person("Michael W. Kearney"),
     year         = "2017",
-    note         = "R package version 0.4.7",
+    note         = "R package version 0.4.8",
     url          = "https://cran.r-project.org/package=rtweet",
     key          = "rtweet-package",
     textVersion  = paste(
         "Kearney, M. W. (2017). rtweet: Collecting Twitter",
-        "Data. R package version 0.4.5. Retrieved from",
+        "Data. R package version 0.4.8. Retrieved from",
         "https://cran.r-project.org/package=rtweet"
     )
 )

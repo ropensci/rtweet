@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET statuses/retweeters/ids¶ — statuses_retweeters • rtweet</title>
+<title>GET statuses/retweeters/ids — statuses_retweeters • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,7 +96,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET statuses/retweeters/ids¶</h1>
+    <h1>GET statuses/retweeters/ids</h1>
     </div>
 
     
@@ -115,16 +115,18 @@
     </tr>
     <tr>
       <th>cursor</th>
-      <td><p>semi-optional Causes the list of IDs to be broken into pages of no more than 100 IDs at a
-time. The number of IDs returned is not guaranteed to be 100 as suspended users
-are filtered out after connections are queried. If no cursor is provided, a
-value of -1 will be assumed, which is the first “page.”
+      <td><p>semi-optional Causes the list of IDs to be broken into pages
+of no more than 100 IDs at a time. The number of IDs returned is not
+guaranteed to be 100 as suspended users are filtered out after
+connections are queried. If no cursor is provided, a
+value of -1 will be assumed, which is the first "page."
 The response from the API will include a previous_cursor and next_cursor
 to allow paging back and forth. See our cursor
 docs for more information.
-While this method supports the cursor parameter, the entire result set can be
-returned in a single cursored collection. Using the count parameter with this
-method will not provide segmented cursors for use with this parameter.</p></td>
+While this method supports the cursor parameter, the entire result set
+can be returned in a single cursored collection. Using the count
+parameter with this method will not provide segmented cursors for
+use with this parameter.</p></td>
     </tr>
     <tr>
       <th>token</th>

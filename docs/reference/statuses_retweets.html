@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET statuses/retweets/:id¶ — statuses_retweets • rtweet</title>
+<title>GET statuses/retweets/:id — statuses_retweets • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,11 +96,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET statuses/retweets/:id¶</h1>
+    <h1>GET statuses/retweets/:id</h1>
     </div>
 
     
-    <p>GET statuses/retweets/:id¶</p>
+    <p>GET statuses/retweets/:id</p>
     
 
     <pre class="usage"><span class='fu'>statuses_retweets</span>(<span class='no'>id</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -114,7 +114,16 @@
     </tr>
     <tr>
       <th>count</th>
-      <td><p>optional Specifies the number of records to retrieve. Must be less than or equal to 100.</p></td>
+      <td><p>optional Specifies the number of records to retrieve.
+Must be less than or equal to 100.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
+console).</p></td>
     </tr>
     </table>
     

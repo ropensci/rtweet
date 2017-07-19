@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,600,600i');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 /* Sticker footer */
 body > .container {
@@ -11,9 +10,12 @@ body > .container {
 }
 
 body > .container .row {
-  flex: 1;
+    flex: 1;
 }
 
+body {
+    line-height: 1.65;
+}
 footer {
   margin-top: 45px;
   padding: 35px 0 36px;
@@ -71,8 +73,8 @@ a.anchor {
 /* Fixes for fixed navbar --------------------------*/
 
 .contents h1, .contents h2, .contents h3, .contents h4 {
-  padding-top: 30px;
-  margin-top: -30px;
+  padding-top: 60px;
+  margin-top: -60px;
 }
 
 /* Static header placement on mobile devices */
@@ -85,6 +87,16 @@ a.anchor {
   }
 }
 
+h1, h2, h3, h4, h5 {
+    font-family: 'Roboto', Helvetica;
+    font-weight: 400;
+    color: #222;
+}
+
+h1 {font-size: 2.4em;}
+h2 {font-size: 2.2em;}
+h3 {font-size: 2.0em;}
+h4 {font-size: 1.8em;}
 
 /* Sidebar --------------------------*/
 
@@ -103,17 +115,6 @@ a.anchor {
 #sidebar .list-unstyled li {
   margin-bottom: 0.5em;
 }
-
-h1, h2, h3, h4, h5 {
-    font-family: 'Montserrat';
-    color: #222;
-}
-
-h1 {font-size: 2.4em;}
-h2 {font-size: 2.2em;}
-h3 {font-size: 2.0em;}
-h4 {font-size: 1.8em;}
-
 
 /* Reference index & topics ----------------------------------------------- */
 
@@ -140,23 +141,14 @@ table {
 }
 
 /* Syntax highlighting ---------------------------------------------------- */
-body {
-    font-family: "Roboto";
-    font-size: 15px;
-    background-color: #fff;
-    color: #444;
-    line-height: 1.85;
-}
 
 pre {
   word-wrap: normal;
   word-break: normal;
-  border: 0px solid #eee;
+  border: 1px solid #eee;
 }
 
 pre, code {
-    font-family: Inconsolata, mono;
-    font-size: 15px;
   background-color: #f8f8f8;
   color: #333;
 }
@@ -172,7 +164,7 @@ pre .img img {
 }
 
 code a, pre a {
-  color: #1858a5;
+  color: #1858c5;
 }
 
 .fl      {color: #1514b5;}
@@ -204,11 +196,16 @@ code a, pre a {
     color: #820;
 }
 a {
-    color: #068;
+    color: #06d;
 }
 a:hover {
-    color: #820;
+    color: #c22;
 }
 .navbar {
     box-shadow: 0 0px 1px rgba(0,0,0,0.3);
+}
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
+    background: #ddd;
+    color: #000;
+    border-radius: 5px;
 }

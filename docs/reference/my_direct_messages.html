@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET direct_messages¶ — my_direct_messages • rtweet</title>
+<title>GET direct_messages — my_direct_messages • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,7 +96,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET direct_messages¶</h1>
+    <h1>GET direct_messages</h1>
     </div>
 
     
@@ -116,22 +116,31 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>since_id</th>
-      <td><p>optional Returns results with an ID greater than (that is, more recent than) the
-specified ID. There are limits to the number of Tweets which can be accessed
-through the API. If the limit of Tweets has occured since the since_id, the
-since_id will be forced to the oldest ID available.</p></td>
+      <td><p>optional Returns results with an ID greater than (that is,
+more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</p></td>
     </tr>
     <tr>
       <th>max_id</th>
-      <td><p>optional Returns results with an ID less than (that is, older than) or equal to the
-specified ID.</p></td>
+      <td><p>optional Returns results with an ID less than (that is,
+older than) or equal to the specified ID.</p></td>
     </tr>
     <tr>
       <th>count</th>
-      <td><p>optional Specifies the number of direct messages to try and retrieve, up to a maximum of
-200. The value of count is best thought of as a limit to the number of Tweets
-to return because suspended or deleted content is removed after the count has
-been applied.</p></td>
+      <td><p>optional Specifies the number of direct messages to try and
+retrieve, up to a maximum of 200. The value of count is best thought of as
+a limit to the number of Tweets to return because suspended or deleted
+content is removed after the count has been applied.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
+console).</p></td>
     </tr>
     </table>
     

@@ -101,6 +101,27 @@
     </div>
 
     <div class="contents">
+    <div id="rtweet-0-4-8" class="section level1">
+<h1 class="hasAnchor">
+<a href="#rtweet-0-4-8" class="anchor"></a>rtweet 0.4.8</h1>
+<ul>
+<li>Support for additional APIs has been added–including APIs designed to return information related to lists and retweets.</li>
+<li>The <code><a href="../reference/post_tweet.html">post_status()</a></code> function has been fixed and can now be used to upload media.</li>
+<li>Several adjustments have been made in response to various changes in Twitter’s APIs.</li>
+<li>Thanks to all the great feedback on Github, numerous bug fixes and improvements have been included as well. In general, things should become a lot more stable across functions and data structures.</li>
+</ul>
+</div>
+    <div id="rtweet-0-4-7" class="section level1">
+<h1 class="hasAnchor">
+<a href="#rtweet-0-4-7" class="anchor"></a>rtweet 0.4.7</h1>
+<ul>
+<li>The relatively lightweight tibble package is now a package dependency.</li>
+<li>Speed boosts to parsing process. It’s possible to convert from json to data frames in parallel, but I’m not sure minimal gains are worth the headache. Regardless, the current version should return more data, more reliably, and faster.</li>
+<li>By default, functions now return data frames (tibbles) with recursive lists (e.g., the 3rd observation of <code>mentions_screen_name</code> may consist of 4 screen names).</li>
+<li>To revert back to the flattened/delim object, use the <code>flatten()</code> function. Exporting functions such as <code>save_as_csv</code> will apply flatten by default.</li>
+<li>Three different sets of coordinate variables are now returned: <code>coords_coords</code>, <code>geo_coords</code>, and <code>bbox_coords</code> bounding box. The first two come in pairs of coords (a list column) and bbox_coords comes with 8 values (longX4 latX4). This should allow users to maximize returns on geo-location data.</li>
+</ul>
+</div>
     <div id="rtweet-0-4-6" class="section level1">
 <h1 class="hasAnchor">
 <a href="#rtweet-0-4-6" class="anchor"></a>rtweet 0.4.6</h1>
@@ -476,6 +497,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rtweet-0-4-8">0.4.8</a></li>
+        <li><a href="#rtweet-0-4-7">0.4.7</a></li>
         <li><a href="#rtweet-0-4-6">0.4.6</a></li>
         <li><a href="#rtweet-0-4-5">0.4.5</a></li>
         <li><a href="#rtweet-0-4-4">0.4.4</a></li>

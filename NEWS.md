@@ -1,7 +1,17 @@
+# rtweet 0.4.8
+- Support for additional APIs has been added--including APIs designed
+  to return information related to lists and retweets.
+- The `post_status()` function has been fixed and can now be used to 
+  upload media.
+- Several adjustments have been made in response to various changes in
+  Twitter's APIs.
+- Thanks to all the great feedback on Github, numerous bug fixes
+  and improvements have been included as well. In general, things
+  should become a lot more stable across functions and data
+  structures. 
+
 # rtweet 0.4.7
 - The relatively lightweight tibble package is now a package dependency.
-- Internals now use S3 classes and methods to parse Twitter data into 
-  tidy[er] data frames
 - Speed boosts to parsing process. It's possible to convert from json to 
   data frames in parallel, but I'm not sure minimal gains are worth the 
   headache. Regardless, the current version should return more data, 
@@ -10,13 +20,13 @@
   lists (e.g., the 3rd observation of `mentions_screen_name` may consist of 
   4 screen names).
 - To revert back to the flattened/delim object, use the `flatten()` function.
-  Exporting methods such as `save_as_csv` will apply flatten by default.
-- Three different pairs of coordinate variables are now returned: coordinates,
-  geo, and bounding box. I'm not sure if the first two ever differ, but in
-  theory they could. By default the bounding box coordinates are converted to a 
-  point estimates using the mean of the lng and lat box params. Each pair of 
-  coordinates includes a "lng", and a "lat." This should allow users to 
-  maximize returns on geo-location data.
+  Exporting functions such as `save_as_csv` will apply flatten by default.
+- Three different sets of coordinate variables are now returned: `coords_coords`,
+  `geo_coords`, and `bbox_coords` bounding box. The first two come in
+  pairs of coords (a list column) and bbox_coords comes with 8
+  values (longX4 latX4). This should allow users to maximize returns
+  on 
+  geo-location data.
 
 # rtweet 0.4.6
 - More efficient iterations through pages of results.
