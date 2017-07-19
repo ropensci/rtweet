@@ -262,7 +262,9 @@ statuscols_ <- function() {
   mentions_screen_name = "mentions_screen_name",
   lang = "lang",
   quoted_status_id = "quoted_status_id",
+  quoted_text = "quoted_text",
   retweet_status_id = "retweet_status_id",
+  retweet_text = "retweet_text",
   place_url = "place_url",
   place_type = "place_type",
   place_name = "place_name",
@@ -383,6 +385,11 @@ wrangle_retweet_status <- function(x) {
   } else {
     x$retweet_status_id <- NA_character_
   }
+  if (hasName(rst, "full_text")) {
+    x$retweet_text <- rst$full_text
+  } else {
+    x$retweet_text <- NA_character_
+  }
   x$is_retweet <- !is.na(x$retweet_status_id)
   x[["retweeted_status"]] <- NULL
   x
@@ -401,6 +408,11 @@ wrangle_quote_status <- function(x) {
     x$quoted_status_id <- qst$id_str
   } else {
     x$quoted_status_id <- NA_character_
+  }
+  if (hasName(qst, "full_text")) {
+    x$quoted_text <- qst$full_text
+  } else {
+    x$quoted_text <- NA_character_
   }
   x$is_quote <- !is.na(x$quoted_status_id)
   x[["quoted_status"]] <- NULL

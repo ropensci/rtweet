@@ -502,6 +502,30 @@ search_tweets <- function(q = "",
 }
 
 
+search_tweets_ <- function(q, n, parse = FALSE, ...) {
+  rt <- .search_tweets_(
+    q = q, n = n, parse = parse, ...)
+}
+
+.search_tweets_ <- function(q, n, parse, ...) {
+  n.times <- ceiling(n / 100)
+  query <- "search/tweets"
+  params <- list(q = q,
+    result_type = "recent",
+    count = 100,
+    max_id = NULL,
+    tweet_mode = "extended",
+    ...)
+  url <- make_url(
+    query = query,
+    param = params)
+  tw <- scroller_(url, n, n.times, type = "search", token)
+  if (parse) {
+    tw <- tweets_with_users(tw)
+  }
+  tw
+}
+
 #' search_users
 #'
 #' @description Returns data frame of users data using a provided

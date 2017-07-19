@@ -46,6 +46,24 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
 }
 
 
+scroller_ <- function(url, n, n.times, type = NULL, ...) {
+  ## check args
+  stopifnot(is_n(n), is_url(url))
+  ## if missing set to 1
+  ##if (missing(n.times)) n.times <- 1
+  ## initialize vector and counter
+  x <- vector("list", n.times)
+  counter <- 0
+  x <- httr::GET(url, ...)
+  for (i in seq_along(x)) {
+    ## send GET request
+    x[[i]] <- httr::GET(url, ...)
+    url[["max_id"]] <- x[[i]]$search_metadata$max_id_str
+  }
+  x
+}
+
+
 unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
