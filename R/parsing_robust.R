@@ -127,6 +127,7 @@ status_object_ <- function(x) {
 }
 
 tweets_to_tbl_ <- function(dat) {
+  if (nrow(dat) == 0L) return(data.frame())
   dat <- wrangle_entities(dat)
   dat$bbox_coords <- bbox_coords_(dat)
   dat <- wrangle_place(dat)
@@ -185,6 +186,7 @@ user_object_ <- function(x) {
 }
 
 users_to_tbl_ <- function(dat) {
+  if (nrow(dat) == 0L) return(data.frame())
   urls <- `[[[`(dat, "entities")
   urls <- `[[[`(urls, "url")
   urls <- `[[[`(urls, "urls")

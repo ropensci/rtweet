@@ -409,11 +409,12 @@ search_tweets <- function(q = "",
   }
   if (!is.null(hashtag)) {
     if (any(grepl(" ", hashtag))) {
-      stop(paste("Object \"hashtag\" should contain vector of screen names",
+      stop(paste("Object \"hashtag\" should contain vector of hashtags",
         "none of which should include spaces."),
         call. = FALSE)
     }
     hashtag <- paste(paste0("#", hashtag), collapse = " ")
+    hashtag <- gsub("##", "#", hashtag)
     q <- paste(q, hashtag)
   }
   if (!is.null(list)) {

@@ -96,6 +96,56 @@ post_tweet <- function(status = "my first rtweet #rstats",
 }
 
 
+#' post_message
+#'
+#' @description Posts direct message from user's Twitter account
+#'
+#' @param text Character, text of message.
+#' @param user Screen name or user ID of message target.
+#' @param media File path to image or video media to be
+#'   included in tweet.
+#' @param token OAuth token. By default \code{token = NULL}
+#'   fetches a non-exhausted token from an environment
+#'   variable tokens.
+#' @importFrom httr POST upload_file content
+#' @export
+post_message <- function(text, user, media = NULL, token = NULL) {
+    ## validate
+  stopifnot(is.character(text))
+  stopifnot(length(text) == 1)
+  query <- "direct_messages/new"
+  if (length(text) > 1) {
+    stop("can only post one message at a time",
+         call. = FALSE)
+  }
+  token <- check_token(token, query)
+  ## media if provided
+  if (!is.null(media)) {
+    media2upload <- httr::upload_file(media)
+    rurl <- paste0(
+      "https://upload.twitter.com/1.1/media/upload.json"
+    )
+    r <- httr::POST(rurl, body = list(media = media2upload), token)
+    r <- httr::content(r, "parsed")
+    params <- list(
+      text = text,
+      user = user,
+      media_ids = r$media_id_string
+    )
+  } else {
+    params <- list(text = text, user = user)
+  }
+  names(params)[2] <- .id_type(user)
+  query <- "direct_messages/new"
+  url <- make_url(query = query, param = params)
+  r <- TWIT(get = FALSE, url, token)
+  if (r$status_code != 200) {
+    httr::content(r, "parsed")
+  }
+  message("your tweet has been posted!")
+  invisible(r)
+}
+
 #' post_follow
 #'
 #' @description Follows target twitter user.
