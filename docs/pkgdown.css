@@ -151,6 +151,7 @@ pre {
 pre, code {
   background-color: #f8f8f8;
   color: #333;
+  line-height: 1.4;
 }
 
 pre .img {
@@ -167,16 +168,16 @@ code a, pre a {
   color: #1858c5;
 }
 
-.fl      {color: #1514b5;}
-.fu      {color: #000000;} /* function */
-.ch,.st  {color: #036a07;} /* string */
-.kw      {color: #264D66;} /* keyword */
-.co      {color: #888888;} /* comment */
-
+.fl      {color: #11b;}
+.fu      {color: #000;} /* function */
+.ch,.st  {color: #060;} /* string */
+.kw      {color: #039;} /* keyword */
+.co      {color: #888;} /* comment */
+.dt      {color: #a60;}
 .message { color: black;   font-weight: bolder;}
 .error   { color: orange;  font-weight: bolder;}
-.warning { color: #6A0366; font-weight: bolder;}
-
+.warning { color: #506; font-weight: bolder;}
+.sourceCode { color: #444; }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
     background-color: #fbfbfb;
