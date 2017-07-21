@@ -4,9 +4,11 @@
 \alias{get_timelines}
 \title{get timelines}
 \usage{
-get_timelines(users, n = 200, parse = TRUE, ...)
+get_timelines(...)
 }
 \arguments{
+\item{\dots}{Other args passed along to get_timeline.}
+
 \item{users}{Vector user names and or user IDs. Can be mixture of both.}
 
 \item{n}{Number of desired tweets to return per user. Must be either one value
@@ -16,8 +18,6 @@ or the same length as supplied number of users.}
 vector or nested list (fromJSON) object. By default,
 \code{parse = TRUE} saves you the time [and frustrations]
 associated with disentangling the Twitter API return objects.}
-
-\item{\dots}{Other args passed along to get_timeline.}
 }
 \value{
 Data frame or if parse is false then list.

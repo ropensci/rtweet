@@ -503,12 +503,12 @@ search_tweets <- function(q = "",
 }
 
 
-search_tweets_ <- function(q, n, parse = FALSE, ...) {
-  rt <- .search_tweets_(
+search_tweets_internal <- function(q, n, parse = FALSE, ...) {
+  rt <- .search_tweets_internal(
     q = q, n = n, parse = parse, ...)
 }
 
-.search_tweets_ <- function(q, n, parse, ...) {
+.search_tweets_internal <- function(q, n, parse, ...) {
   n.times <- ceiling(n / 100)
   query <- "search/tweets"
   params <- list(q = q,

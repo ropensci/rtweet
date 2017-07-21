@@ -1,0 +1,116 @@
+#' Search tweets (vectorized)
+#'
+#' Returns data from one or more search queries.
+#' 
+#' @param q Vector of search queries.
+#' @param n Number of tweets to return per query. Defaults to 100.
+#'   Must be of length 1 or equal to length of user.
+#' @param \dots Other arguments passed on to \code{search_tweets}.
+#' @return A tbl data frame with additional "query" feature.
+#' @export
+search_tweets_ <- function(q, n = 100, ...) {
+  ## check inputs
+  stopifnot(is.atomic(q), is.numeric(n))
+  if (length(q) == 0L) {
+    stop("No query found", call. = FALSE)
+  }  
+  ## search for each string in column of queries
+  rt <- Map(search_tweets, q, n = n, ...)
+  ## add query variable to data frames
+  rt <- Map(cbind, rt, query = q, stringsAsFactors = FALSE)
+  ## merge users data into one data frame
+  rt_users <- do.call("rbind", lapply(rt, users_data))
+  ## merge tweets data into one data frame
+  rt <- do.call("rbind", rt)
+  ## set users attribute
+  attr(rt, "users") <- rt_users
+  ## return tibble (validate = FALSE makes it a bit faster)
+  tibble::as_tibble(rt, validate = FALSE)
+}
+
+
+#' Get timeline (vectorized)
+#'
+#' Returns one or more user timelines.
+#' 
+#' @param user Vector of user names, user IDs, or a mixture of both.
+#' @param n Number of tweets to return per timeline. Defaults to 100.
+#'   Must be of length 1 or equal to length of user.
+#' @param \dots Other arguments passed on to \code{get_timeline}.
+#' @return A tbl data frame of tweets data with users data attribute.
+#' @aliases get_timelines
+#' @export
+get_timeline_ <- function(user, n = 100, ...) {
+  ## check inputs
+  stopifnot(is.atomic(user), is.numeric(n))
+  if (length(user) == 0L) {
+    stop("No query found", call. = FALSE)
+  }
+  ## search for each string in column of queries
+  rt <- Map(get_timeline, user, n = n, ...)
+  ## merge users data into one data frame
+  rt_users <- do.call("rbind", lapply(rt, users_data))
+  ## merge tweets data into one data frame
+  rt <- do.call("rbind", rt)
+  ## set users attribute
+  attr(rt, "users") <- rt_users
+  ## return tibble (validate = FALSE makes it a bit faster)
+  tibble::as_tibble(rt, validate = FALSE)
+}
+
+#' @export
+get_timelines <- function(...) get_timeline_(...)
+
+#' Get favorites (vectorized)
+#'
+#' Returns favorites data from one or more users.
+#' 
+#' @param user Vector of user names, user IDs, or a mixture of both.
+#' @param n Number of favorites to return per user. Defaults to 100.
+#'   Must be of length 1 or equal to length of user.
+#' @param \dots Other arguments passed on to \code{get_favorites}.
+#' @return A tbl data frame of tweets data with users data attribute.
+#' @export
+get_favorites_ <- function(user, n = 100, ...) {
+  ## check inputs
+  stopifnot(is.atomic(user), is.numeric(n))
+  if (length(user) == 0L) {
+    stop("No query found", call. = FALSE)
+  }
+  ## search for each string in column of queries
+  rt <- Map(get_favorites, user, n = n, ...)
+  ## add favoriter variable to data frames
+  rt <- Map(cbind, rt, favoriter = user, stringsAsFactors = FALSE)
+  ## merge users data into one data frame
+  rt_users <- do.call("rbind", lapply(rt, users_data))
+  ## merge tweets data into one data frame
+  rt <- do.call("rbind", rt)
+  ## set users attribute
+  attr(rt, "users") <- rt_users
+  ## return tibble (validate = FALSE makes it a bit faster)
+  tibble::as_tibble(rt, validate = FALSE)
+}
+
+#' Get friends (vectorized)
+#'
+#' Returns friends for one or more users
+#'
+#' @param user Vector of user names, user IDs, or both.
+#' @param \dots Other arguments passed along to \code{get_friends}
+#' @return A tbl data frame of user and friends (user_id column)
+#' @export
+get_friends_ <- function(user, ...) {
+  ## check inputs
+  stopifnot(is.atomic(user))
+  if (length(user) == 0L) {
+    stop("No query found", call. = FALSE)
+  }
+  ## search for each string in column of queries
+  rt <- lapply(user, get_friends, ...)
+  rt <- Map(cbind, user = user, rt, stringsAsFactors = FALSE)
+  ## merge data into one data frame
+  rt <- do.call("rbind", rt)
+  ## return tibble (validate = FALSE makes it a bit faster)
+  tibble::as_tibble(rt, validate = FALSE)
+}
+
