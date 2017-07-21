@@ -78,6 +78,12 @@ get_favorites <- function(user,
 
   if (parse) {
     fav <- tweets_with_users(fav)
+    usr <- users_data(fav)
+    if (nrow(usr) > 0L) {
+      uq <- !duplicated(usr$user_id)
+      usr <- usr[uq, ]
+      attr(fav, "users") <- usr[uq, ]
+    }
   }
 
   fav

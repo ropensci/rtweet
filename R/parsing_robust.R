@@ -84,78 +84,6 @@ users_df_ <- function(x) {
   x
 }
 
-`[**[` <- function(dat, x) {
-  if (!is.recursive(dat) || length(dat) == 0L) {
-    return(NA_character_)
-  }
-  if (!has_name(dat, x)) {
-    dat[[x]] <- NA_character_
-  }
-  dat <- dat[[x]]
-  dat[lengths(dat) == 0L] <- NA_character_
-  dat
-}
-
-`[*[` <- function(dat, x) {
-  if (all(
-    is.list(dat),
-    is.null(names(dat)),
-    length(dat) > 0L
-  )) {
-    lapply(dat, "[[[", x)
-  } else {
-    `[[[`(dat, x)
-  }
-}
-
-##  lapply(dat, function(i) {
-##    i <- i[[x]]
-##    if (length(i) == 0L) {
-##      return(list(NA_character_))
-##    }
-##    i
-##  })
-##}
-
-##-----------------------------------------------------
-## vectorized safe extractors
-##-----------------------------------------------------
-gget <- function(x, ...) {
-  dots <- list(...)
-  for (i in dots) {
-    x <- lapply(x, `[[[`, i)
-  }
-  x
-}
-
-##-----------------------------------------------------
-## NSE version of gget
-##-----------------------------------------------------
-get_ <- function(x, ...) {
-  dots <- as.character(eval(substitute(alist(...))))
-  for (i in dots) {
-    x <- lapply(x, `[*[`, i)
-  }
-  x
-}
-
-
-##-----------------------------------------------------
-## make dim list
-##-----------------------------------------------------
-make_list_ <- function(x, what = NULL, n) {
-  if (is.null(what)) what <- NA
-  m_l_ <- function(x, n) {
-    zips <- lengths(x) == 0L | is.na(x)
-    x[zips] <- replicate(
-      sum(zips),
-      rep(what, length.out = n),
-      simplify = FALSE
-    )
-    x
-  }
-  lapply(x, m_l_, n)
-}
 
 ##-----------------------------------------------------
 ## get status object(s)
@@ -191,7 +119,6 @@ status_object_ <- function(x) {
   lapply(x, s_o_)
 }
 
-has_name <- function(x, name) isTRUE(name %in% names(x))
 
 tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
@@ -290,13 +217,8 @@ tweets_to_tbl_ <- function(dat) {
     dat$user_id <- NA_character_
     dat$screen_name <- NA_character_
   }
-  ##dat <- wrangle_entities(dat)
-  ##dat$bbox_coords <- bbox_coords_(dat)
-  ##dat <- wrangle_place(dat)
   dat <- wrangle_quote_status(dat)
   dat <- wrangle_retweet_status(dat)
-  ##dat$geo_coords <- geo_coords_(dat)
-  ##dat$coords_coords <- coords_coords_(dat)
   statuscols <- statuscols_()
   nacols <- statuscols[!statuscols %in% names(dat)]
   for (i in nacols) {
@@ -451,14 +373,8 @@ statuscols_ <- function() {
 ##-----------------------------------------------------
 ## utility funs
 ##-----------------------------------------------------
-m_l_ <- function(x, what, n) {
-    zips <- lengths(x) == 0L | is.na(x)
-    x[zips] <- replicate(
-      sum(zips),
-      rep(what, length.out = n),
-      simplify = FALSE)
-    x
-}
+
+has_name <- function(x, name) isTRUE(name %in% names(x))
 
 clean_source_ <- function(x) {
   unlist(lapply(
@@ -466,84 +382,6 @@ clean_source_ <- function(x) {
     function(x) x[3]), use.names = FALSE)
 }
 
-##-----------------------------------------------------
-## coordinate extraction funs
-##-----------------------------------------------------
-geo_coords_ <- function(dat) {
-  if (!has_name(dat, "geo")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "geo")
-  if (!has_name(dat, "coordinates")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "coordinates")
-  m_l_(dat, NA_real_, 2)
-}
-
-coords_coords_ <- function(dat) {
-  if (!has_name(dat, "coordinates")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "coordinates")
-  if (!has_name(dat, "coordinates")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "coordinates")
-  m_l_(dat, NA_real_, 2)
-}
-
-bbox_coords_ <- function(dat) {
-  if (!has_name(dat, "place")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "place")
-  if (!has_name(dat, "bounding_box")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "bounding_box")
-  if (!has_name(dat, "coordinates")) return(list(NA_real_, NA_real_))
-  dat <- `[[[`(dat, "coordinates")
-  dat <- lapply(dat, function(x) {
-    if (is.array(x)) c(x[, , 1], x[, , 2]) else rep(NA_real_, 8)
-  })
-  dat
-  ##m_l_(dat, NA_real_, 8)
-}
-
-
-##-----------------------------------------------------
-## extracting nested objects
-##-----------------------------------------------------
-#' @importFrom utils hasName
-wrangle_entities <- function(x) {
-  n <- nrow(x)
-  if (has_name(x, "entities")) {
-    ent <- x[["entities"]]
-  } else {
-    ent <- data.frame()
-  }
-  ## user mentions
-  if (has_name(ent, "user_mentions")) {
-    x$mentions_user_id <- lapply(ent$user_mentions, "[[[", "id_str")
-    x$mentions_screen_name <- lapply(ent$user_mentions, "[[[", "screen_name")
-  } else {
-    x$mentions_user_id <- NA_character_
-    x$mentions_screen_name <- NA_character_
-  }
-  ## media object
-  if (hasName(ent, "media")) {
-    x$media_t.co <- lapply(ent$media, "[[[", "url")
-    x$media_url <- lapply(ent$media, "[[[", "media_url")
-    x$media_expanded_url <- lapply(ent$media, "[[[", "expanded_url")
-  } else {
-    x$media_t.co_url <- NA_character_
-    x$media_url <- NA_character_
-    x$media_expanded_url <- NA_character_
-  }
-  ## hashtags
-  if (hasName(ent, "hashtags")) {
-    x$hashtags <- lapply(ent$hashtags, "[[[", "text")
-  } else {
-    x$hashtags <- NA_character_
-  }
-  ## symbols
-  if (hasName(ent, "symbols")) {
-    x$symbols <- lapply(ent$symbols, "[[[", "text")
-  } else {
-    x$symbols <- NA_character_
-  }
-  x$entities <- NULL
-  x
-}
 
 #' @importFrom utils hasName
 wrangle_retweet_status <- function(x) {
@@ -592,38 +430,3 @@ wrangle_quote_status <- function(x) {
   x[["quoted_status"]] <- NULL
   x
 }
-
-
-#' @importFrom utils hasName
-wrangle_place <- function(x) {
-  n <- nrow(x)
-  if (has_name(x, "place")) {
-    plc <- x[["place"]]
-  } else {
-    plc <- data.frame()
-  }
-  ## user mentions
-  if (has_name(plc, "full_name")) {
-    x$place_name <- plc$full_name
-  } else {
-    x$place_name <- NA_character_
-  }
-  if (has_name(plc, "place_type")) {
-    x$place_type <- plc$place_type
-  } else {
-    x$place_type <- NA_character_
-  }
-  if (has_name(plc, "country")) {
-    x$country <- plc$country
-  } else {
-    x$country <- NA_character_
-  }
-  if (has_name(plc, "place_url")) {
-    x$place_url <- plc$place_url
-  } else {
-    x$place_url <- NA_character_
-  }
-  x$place <- NULL
-  x
-}
-

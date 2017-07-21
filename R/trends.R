@@ -38,29 +38,30 @@ get_trends <- function(woeid = 1,
                        token = NULL,
                        parse = TRUE) {
 
-    stopifnot(is.atomic(woeid), length(woeid) == 1)
+  stopifnot(is.atomic(woeid), length(woeid) == 1)
 
-    woeid <- check_woeid(woeid)
+  woeid <- check_woeid(woeid)
 
-    query <- "trends/place"
+  query <- "trends/place"
 
-    token <- check_token(token, query)
+  token <- check_token(token, query)
 
-    params <- list(
-        id = woeid,
-        exclude = exclude)
+  params <- list(
+    id = woeid,
+    exclude = exclude)
 
-    url <- make_url(
-        query = query,
-        param = params)
+  url <- make_url(
+    query = query,
+    param = params)
 
-    gt <- TWIT(get = TRUE, url, token)
+  gt <- TWIT(get = TRUE, url, token)
 
-    gt <- from_js(gt)
+  gt <- from_js(gt)
 
-    if (parse) gt <- parse_trends(gt)
-
-    gt
+  if (parse) {
+    gt <- parse_trends(gt)
+  }
+  gt
 }
 
 #' get_trends_closest
@@ -96,15 +97,14 @@ get_trends_closest <- function(lat = NULL,
                                exclude = FALSE,
                                token = NULL,
                                parse = TRUE) {
-    query <- "trends/place"
+  query <- "trends/place"
 
-    stopifnot(!is.null(lat), !is.null(long))
-    token <- check_token(token, query)
+  stopifnot(!is.null(lat), !is.null(long))
+  token <- check_token(token, query)
 
-    woeid <- trends_closest(lat, long, token)$woeid
+  woeid <- trends_closest(lat, long, token)$woeid
 
-    get_trends(woeid = woeid, exclude = exclude, token = token, parse = parse)
-
+  get_trends(woeid = woeid, exclude = exclude, token = token, parse = parse)
 }
 
 #' Get closest available location to given Lat, Long
@@ -121,37 +121,39 @@ get_trends_closest <- function(lat = NULL,
 #' nyc_woeid <- trends_closest(40.7, -74.0, twitter_token)
 #' }
 trends_closest <- function(lat, long, token) {
-    query <- "trends/closest"
-    token <- check_token(token, query)
-    url <- make_url(query = query,
-                    param = list(lat=lat, long=long))
-    trd <- TWIT(get = TRUE, url, token)
-    trd <- from_js(trd)
-    trd
+  query <- "trends/closest"
+  token <- check_token(token, query)
+  url <- make_url(query = query,
+                  param = list(lat=lat, long=long))
+  trd <- TWIT(get = TRUE, url, token)
+  from_js(trd)
 }
 
 parse_trends <- function(x) {
-    trends <- data.frame(x$trends[[1]],
-                         stringsAsFactors = FALSE)
-    rows <- nrow(trends)
-    names(trends)[names(trends) == "name"] <- "trend"
-    cbind(trends,
-          data.frame(
-              as_of = format_trend_date(rep(x$as_of, rows)),
-              created_at = format_trend_date(rep(x$created_at, rows)),
-              place = rep(x$locations[[1]]$name, rows),
-              woeid = rep(x$locations[[1]]$woeid, rows)),
-          stringsAsFactors = FALSE)
+  trends <- data.frame(x$trends[[1]],
+                       stringsAsFactors = FALSE)
+  rows <- nrow(trends)
+  names(trends)[names(trends) == "name"] <- "trend"
+  trends <- cbind(
+    trends,
+    data.frame(
+      as_of = format_trend_date(rep(x$as_of, rows)),
+      created_at = format_trend_date(rep(x$created_at, rows)),
+      place = rep(x$locations[[1]]$name, rows),
+      woeid = rep(x$locations[[1]]$woeid, rows)),
+    stringsAsFactors = FALSE
+  )
+  tibble::as_tibble(trends, validate = FALSE)
 }
 
 
 format_trend_date <- function(x, date = FALSE) {
-    x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ",
-                    tz = Sys.timezone())
-    if (date) {
-        x <- as.Date(x)
-    }
-    x
+  x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ",
+                  tz = Sys.timezone())
+  if (date) {
+    x <- as.Date(x)
+  }
+  x
 }
 
 #' trends_available

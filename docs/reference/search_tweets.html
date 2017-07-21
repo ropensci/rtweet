@@ -105,13 +105,12 @@
     
 
     <pre class="usage"><span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>geocode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full_text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>adjtimer</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>mention</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hashtag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filter_media</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>filter_native_video</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_vine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>filter_periscope</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_images</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_twimg</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>filter_links</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>adjtimer</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mention</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hashtag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filter_media</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_native_video</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_vine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_periscope</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_images</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_twimg</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_links</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -182,12 +181,6 @@ additional text provided from sender) or manual retweets
 of one's tweets).</p></td>
     </tr>
     <tr>
-      <th>full_text</th>
-      <td><p>Logical, indicating whether to return full text of
-tweets. Defaults to TRUE. Setting this to FALSE will truncate any
-tweet that exceed 140 characters.</p></td>
-    </tr>
-    <tr>
       <th>parse</th>
       <td><p>Logical, indicating whether to return parsed
 data.frame, if true, or nested list (fromJSON), if false. By default,
@@ -202,15 +195,6 @@ rtweet parse process returns nearly all bits of information returned
 from Twitter. However, users may occassionally encounter new or
 omitted variables. In these rare cases, the nested list object will
 be the only way to access these variables.</p></td>
-    </tr>
-    <tr>
-      <th>usr</th>
-      <td><p>Logical indicating whether to return a data frame of
-users data. Users data is stored as an attribute. To access this
-data, see <code><a href='users_data.html'>users_data</a></code>. Useful for marginal returns in
-memory demand. However, any gains are likely to be negligible as
-Twitter's API invariably returns this data anyway. As such, this
-defaults to true, see <code><a href='users_data.html'>users_data</a></code>.</p></td>
     </tr>
     <tr>
       <th>token</th>

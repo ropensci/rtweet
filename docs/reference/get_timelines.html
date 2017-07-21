@@ -103,11 +103,15 @@
     <p>get timelines</p>
     
 
-    <pre class="usage"><span class='fu'>get_timelines</span>(<span class='no'>users</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_timelines</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>Other args passed along to get_timeline.</p></td>
+    </tr>
     <tr>
       <th>users</th>
       <td><p>Vector user names and or user IDs. Can be mixture of both.</p></td>
@@ -123,10 +127,6 @@ or the same length as supplied number of users.</p></td>
 vector or nested list (fromJSON) object. By default,
 <code>parse = TRUE</code> saves you the time [and frustrations]
 associated with disentangling the Twitter API return objects.</p></td>
-    </tr>
-    <tr>
-      <th>&#8230;</th>
-      <td><p>Other args passed along to get_timeline.</p></td>
     </tr>
     </table>
     

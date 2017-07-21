@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>tweets_df — tweets_df_ • rtweet</title>
+<title>Get friends (vectorized) — get_friends_ • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,31 +96,31 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>tweets_df</h1>
+    <h1>Get friends (vectorized)</h1>
     </div>
 
     
-    <p>tweets data</p>
+    <p>Returns friends for one or more users</p>
     
 
-    <pre class="usage"><span class='fu'>tweets_df_</span>(<span class='no'>dat</span>)</pre>
+    <pre class="usage"><span class='fu'>get_friends_</span>(<span class='no'>user</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Nested list parsed from Twitter's returned json object.</p></td>
+      <th>user</th>
+      <td><p>Vector of user names, user IDs, or both.</p></td>
+    </tr>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>Other arguments passed along to <code>get_friends</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tbl</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Returns tweets data frame.</p>
+    <p>A tbl data frame of user and friends (user_id column)</p>
     
 
   </div>
@@ -130,8 +130,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

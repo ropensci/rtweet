@@ -75,24 +75,24 @@ next_cursor <- function(ids) {
 #' @family users
 #' @export
 users_data <- function(tweets) {
-	stopifnot(is.recursive(tweets))
-	if (isTRUE("users" %in% names(attributes(tweets)))) {
-		attr(tweets, "users")
-	} else {
-		tweets
-	}
+  if(!is.recursive(tweets)) return(data.frame())
+  if (isTRUE("users" %in% names(attributes(tweets)))) {
+    attr(tweets, "users")
+  } else {
+    tweets
+  }
 }
 
 all_tw <- function(search = TRUE) {
-	if (search) {
-		x <- " OR "
-	} else {
-		x <- ","
-	}
-	paste(letters, collapse = x)
+  if (search) {
+    x <- " OR "
+  } else {
+    x <- ","
+  }
+  paste(letters, collapse = x)
 }
 firehose <- function(search = TRUE) {
-    all_tw(search)
+  all_tw(search)
 }
 
 
@@ -130,46 +130,46 @@ firehose <- function(search = TRUE) {
 #' @family tweets
 #' @export
 tweets_data <- function(users) {
-	stopifnot(is.recursive(users))
-	if (isTRUE("tweets" %in% names(attributes(users)))) {
-		attr(users, "tweets")
-	} else {
-		users
-	}
+  if(!is.recursive(users)) return(data.frame())
+  if (isTRUE("tweets" %in% names(attributes(users)))) {
+    attr(users, "tweets")
+  } else {
+    users
+  }
 }
 
 
 attr_tweetusers <- function(x) {
 
-	stopifnot(is.list(x))
+  stopifnot(is.list(x))
 
-	if (identical(names(x)[1], "tweets")) {
-		if (is.null(x[["tweets"]])) {
-			d <- data.frame()
-		} else {
-			d <- x[["tweets"]]
-		}
-		if ("users" %in% names(x)) {
-			if (is.null(x[["users"]])) {
-			attr(d, "users") <- data.frame()
-		} else {
-			attr(d, "users") <- x[["users"]]
-		}
-		}
-	}
-	if (identical(names(x)[1], "users")) {
-		if (is.null(x[["users"]])) {
-			d <- data.frame()
-		} else {
-			d <- x[["users"]]
-		}
-		if ("tweets" %in% names(x)) {
-			if (is.null(x[["tweets"]])) {
-			attr(d, "tweets") <- data.frame()
-		} else {
-			attr(d, "tweets") <- x[["tweets"]]
-		}
-		}
-	}
-	d
+  if (identical(names(x)[1], "tweets")) {
+    if (is.null(x[["tweets"]])) {
+      d <- data.frame()
+    } else {
+      d <- x[["tweets"]]
+    }
+    if ("users" %in% names(x)) {
+      if (is.null(x[["users"]])) {
+        attr(d, "users") <- data.frame()
+      } else {
+        attr(d, "users") <- x[["users"]]
+      }
+    }
+  }
+  if (identical(names(x)[1], "users")) {
+    if (is.null(x[["users"]])) {
+      d <- data.frame()
+    } else {
+      d <- x[["users"]]
+    }
+    if ("tweets" %in% names(x)) {
+      if (is.null(x[["tweets"]])) {
+        attr(d, "tweets") <- data.frame()
+      } else {
+        attr(d, "tweets") <- x[["tweets"]]
+      }
+    }
+  }
+  d
 }

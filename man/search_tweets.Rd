@@ -5,13 +5,12 @@
 \title{search_tweets}
 \usage{
 search_tweets(q = "", n = 100, type = "recent", geocode = NULL,
-  max_id = NULL, include_rts = TRUE, full_text = TRUE, parse = TRUE,
-  usr = TRUE, token = NULL, retryonratelimit = FALSE, verbose = TRUE,
-  adjtimer = 20, exact = FALSE, from = NULL, to = NULL, list = NULL,
-  mention = NULL, hashtag = NULL, filter_media = FALSE,
-  filter_native_video = FALSE, filter_vine = FALSE,
-  filter_periscope = FALSE, filter_images = FALSE, filter_twimg = FALSE,
-  filter_links = FALSE, ...)
+  max_id = NULL, include_rts = TRUE, parse = TRUE, token = NULL,
+  retryonratelimit = FALSE, verbose = TRUE, adjtimer = 20,
+  exact = FALSE, from = NULL, to = NULL, list = NULL, mention = NULL,
+  hashtag = NULL, filter_media = FALSE, filter_native_video = FALSE,
+  filter_vine = FALSE, filter_periscope = FALSE, filter_images = FALSE,
+  filter_twimg = FALSE, filter_links = FALSE, ...)
 }
 \arguments{
 \item{q}{Query to be searched, used to filter and select tweets
@@ -67,10 +66,6 @@ additional text provided from sender) or manual retweets
 (old school method of manually entering "RT" into the text
 of one's tweets).}
 
-\item{full_text}{Logical, indicating whether to return full text of
-tweets. Defaults to TRUE. Setting this to FALSE will truncate any
-tweet that exceed 140 characters.}
-
 \item{parse}{Logical, indicating whether to return parsed
 data.frame, if true, or nested list (fromJSON), if false. By default,
 \code{parse = TRUE} saves users from the wreck of time and frustration
@@ -84,13 +79,6 @@ rtweet parse process returns nearly all bits of information returned
 from Twitter. However, users may occassionally encounter new or
 omitted variables. In these rare cases, the nested list object will
 be the only way to access these variables.}
-
-\item{usr}{Logical indicating whether to return a data frame of
-users data. Users data is stored as an attribute. To access this
-data, see \code{\link{users_data}}. Useful for marginal returns in
-memory demand. However, any gains are likely to be negligible as
-Twitter's API invariably returns this data anyway. As such, this
-defaults to true, see \code{\link{users_data}}.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find

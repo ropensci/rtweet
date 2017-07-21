@@ -25,6 +25,11 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
                 length(x[[i]][['statuses']]) == 0L))) {
       break
     }
+    if (has_name(x[[i]], "errors")) {
+      warning(x[[i]]$errors[["message"]], call. = FALSE)
+      x[[i]] <- list(data.frame())
+      break
+    }
     ## if reach counter, break
     counter <- counter +
       as.numeric(unique_id_count(x[[i]], type = type))

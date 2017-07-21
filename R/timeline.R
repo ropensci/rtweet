@@ -111,6 +111,12 @@ get_timeline <- function(user, n = 200,
 
   if (parse) {
     tm <- tweets_with_users(tm)
+    usr <- users_data(tm)
+    if (nrow(usr) > 0L) {
+      uq <- !duplicated(usr$user_id)
+      usr <- usr[uq, ]
+      attr(tm, "users") <- usr[uq, ]
+    }
   }
 
   tm

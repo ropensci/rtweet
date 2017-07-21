@@ -50,15 +50,6 @@
 #'   useful to leverage \code{retryonratelimit} for sets of tweets
 #'   and \code{max_id} to allow results to continue where previous
 #'   efforts left off.
-#' @param usr Logical indicating whether to return a data frame of
-#'   users data. Users data is stored as an attribute. To access this
-#'   data, see \code{\link{users_data}}. Useful for marginal returns in
-#'   memory demand. However, any gains are likely to be negligible as
-#'   Twitter's API invariably returns this data anyway. As such, this
-#'   defaults to true, see \code{\link{users_data}}.
-#' @param full_text Logical, indicating whether to return full text of
-#'   tweets. Defaults to TRUE. Setting this to FALSE will truncate any
-#'   tweet that exceed 140 characters.
 #' @param parse Logical, indicating whether to return parsed
 #'   data.frame, if true, or nested list (fromJSON), if false. By default,
 #'   \code{parse = TRUE} saves users from the wreck of time and frustration
@@ -205,32 +196,30 @@
 #' @family tweets
 #' @export
 search_tweets <- function(q = "",
-  n = 100,
-  type = "recent",
-  geocode = NULL,
-  max_id = NULL,
-  include_rts = TRUE,
-  full_text = TRUE,
-  parse = TRUE,
-  usr = TRUE,
-  token = NULL,
-  retryonratelimit = FALSE,
-  verbose = TRUE,
-  adjtimer = 20,
-  exact = FALSE,
-  from = NULL,
-  to = NULL,
-  list = NULL,
-  mention = NULL,
-  hashtag = NULL,
-  filter_media = FALSE,
-  filter_native_video= FALSE,
-  filter_vine = FALSE,
-  filter_periscope = FALSE,
-  filter_images = FALSE,
-  filter_twimg = FALSE,
-  filter_links = FALSE,
-  ...) {
+                          n = 100,
+                          type = "recent",
+                          geocode = NULL,
+                          max_id = NULL,
+                          include_rts = TRUE,
+                          parse = TRUE,
+                          token = NULL,
+                          retryonratelimit = FALSE,
+                          verbose = TRUE,
+                          adjtimer = 20,
+                          exact = FALSE,
+                          from = NULL,
+                          to = NULL,
+                          list = NULL,
+                          mention = NULL,
+                          hashtag = NULL,
+                          filter_media = FALSE,
+                          filter_native_video= FALSE,
+                          filter_vine = FALSE,
+                          filter_periscope = FALSE,
+                          filter_images = FALSE,
+                          filter_twimg = FALSE,
+                          filter_links = FALSE,
+                          ...) {
 
   ## check token and get rate limit data
   token <- check_token(token, "search/tweets")
@@ -239,16 +228,14 @@ search_tweets <- function(q = "",
   reset <- rtlimit[["reset"]]
   mins <- as.numeric(reset, "mins")
 
-  if (any(n <= remaining, !retryonratelimit)) {
+  if (n <= remaining || !retryonratelimit) {
     rt <- .search_tweets(
       q = q, n = n,
       type = type,
       geocode = geocode,
       max_id = max_id,
       include_rts = include_rts,
-      full_text = full_text,
       parse = parse,
-      usr = usr,
       token = token,
       verbose = verbose,
       exact = exact,
@@ -292,9 +279,7 @@ search_tweets <- function(q = "",
           geocode = geocode,
           max_id = maxid,
           include_rts = include_rts,
-          full_text = full_text,
           parse = parse,
-          usr = usr,
           token = token,
           verbose = verbose,
           exact = exact,
@@ -331,13 +316,9 @@ search_tweets <- function(q = "",
       units(reset) <- "mins"
     }
     ## get users data if applicable
-    if (usr) {
-      users <- do.call("rbind", users_data(rt))
-      rt <- do.call("rbind", rt)
-      attr(rt, "users") <- users
-    } else {
-      rt <- do.call("rbind", rt)
-    }
+    users <- do.call("rbind", users_data(rt))
+    rt <- do.call("rbind", rt)
+    attr(rt, "users") <- users
   }
   rt
 }
@@ -350,9 +331,7 @@ search_tweets <- function(q = "",
   type = "recent",
   max_id = NULL,
   include_rts = TRUE,
-  full_text = TRUE,
   parse = TRUE,
-  usr = TRUE,
   token = NULL,
   verbose = TRUE,
   exact = FALSE,
@@ -405,6 +384,7 @@ search_tweets <- function(q = "",
         call. = FALSE)
     }
     mention <- paste(paste0("@", mention), collapse = " ")
+    mention <- 
     q <- paste(q, mention)
   }
   if (!is.null(hashtag)) {
@@ -455,12 +435,7 @@ search_tweets <- function(q = "",
   }
   ## if no retweets add filter to query
   if (!include_rts) q <- paste0(q, " -filter:retweets")
-  ## full text should be yes
-  if (full_text) {
-    full_text <- "extended"
-  } else {
-    full_text <- NULL
-  }
+  ## geocode prep
   if (!is.null(geocode)) {
 
     if (inherits(geocode, "coords")) {
@@ -478,7 +453,7 @@ search_tweets <- function(q = "",
     result_type = type,
     count = 100,
     max_id = max_id,
-    tweet_mode = full_text,
+    tweet_mode = "extended",
     geocode = geocode,
     ...)
   ## make url
@@ -503,14 +478,17 @@ search_tweets <- function(q = "",
 }
 
 
-search_tweets_internal <- function(q, n, parse = FALSE, ...) {
+search_tweets_internal <- function(q, n, parse = FALSE, token = NULL, ...) {
   rt <- .search_tweets_internal(
-    q = q, n = n, parse = parse, ...)
+    q = q, n = n, parse = parse, token, ...)
 }
 
-.search_tweets_internal <- function(q, n, parse, ...) {
+.search_tweets_internal <- function(q, n, parse, token = NULL, ...) {
   n.times <- ceiling(n / 100)
   query <- "search/tweets"
+  if (is.null(token)) {
+    token <- check_token(token)
+  }
   params <- list(q = q,
     result_type = "recent",
     count = 100,
@@ -549,16 +527,11 @@ search_tweets_internal <- function(q, n, parse = FALSE, ...) {
 #' @param n Numeric, specifying the total number of desired users to
 #'   return. Defaults to 100. Maximum number of users returned from
 #'   a single search is 1,000.
-#' @param full_text Logical, indicating whether to return full text of
-#'   tweets. Defaults to TRUE. Setting this to FALSE will truncate any
-#'   tweet that exceed 140 characters.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
-#' @param tw Logical indicating whether to return tweets data frame.
-#'   Defaults to true.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
@@ -582,8 +555,6 @@ search_tweets_internal <- function(q, n, parse = FALSE, ...) {
 #' @export
 search_users <- function(q, n = 20,
                          parse = TRUE,
-                         full_text = TRUE,
-                         tw = TRUE,
                          token = NULL,
                          verbose = TRUE) {
 
@@ -602,11 +573,6 @@ search_users <- function(q, n = 20,
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
-  if (full_text) {
-    full_text <- "extended"
-  } else {
-    full_text <- NULL
-  }
   if (verbose) message("Searching for users...")
 
   usr <- vector("list", n.times)
@@ -618,7 +584,7 @@ search_users <- function(q, n = 20,
       q = q,
       count = 20,
       page = i,
-      tweet_mode = full_text
+      tweet_mode = "extended"
     )
     url <- make_url(
       query = query,

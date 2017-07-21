@@ -1,93 +1,24 @@
 
-parser.old <- function(x, n = NULL,
-                       return_tweets = TRUE,
-                       return_users = TRUE) {
-
-    tweets <- data.frame()
-    users <- data.frame()
-
-    if (all(is.data.frame(x), isTRUE("id_str" %in% names(x)))) {
-        if (return_tweets) {
-            tweets <- parse_tweets(x)
-        }
-        if (return_users) {
-            users <- parse_users(x)
-        }
-    } else {
-        stopifnot(is.list(x))
-        if (return_tweets) {
-            tweets <- bply(x, parse_tweets)
-        }
-        if (return_users) {
-            users <- bply(x, parse_users)
-        }
-    }
-    if (return_tweets) {
-        if (!is.null(tweets[["status_id"]])) {
-            tweets <- tweets[!is.na(tweets$status_id), ]
-            ##tweets <- tweets[row.names(unique(tweets[, 1:13])), ]
-            row.names(tweets) <- NULL
-        }
-        tweets <- return_n_rows(tweets, n)
-    }
-    if (return_users) {
-        if (!is.null(users[["user_id"]])) {
-                                        #users <- filter_na_rows(users)
-            users <- users[!is.na(users$user_id), ]
-                                        #users <- unique(users)
-        }
-        users <- return_n_rows(users, n)
-    }
-    list(tweets = tweets, users = users)
-}
-
-parse_fs <- function(x, n = NULL) {
-    op <- options()
-    on.exit(options(op))
-    options(scipen = 10)
-    if (identical(length(x), 1)) {
-        next_cursor <- as.character(x[[1]][["next_cursor_str"]])
-        x <- as.character(x[[1]][["ids"]])
-    } else if (all(c("ids", "next_cursor_str") %in% names(x))) {
-        next_cursor <- x[["next_cursor_str"]]
-        x <- as.character(x[["ids"]])
-    } else if (length(x) > 1) {
-        next_cursor <- unlist(lapply(x, function(x)
-            as.character(x[[1]][["next_cursor_str"]])),
-            use.names = FALSE)
-        next_cursor <- return_last(next_cursor)
-        x <- unlist(lapply(x, function(x) x[[1]][["ids"]]),
-                    use.names = FALSE)
-        x <- as.character(x)
-    }
-    x <- return_n_rows(x, n)
-    x <- data.frame(x, stringsAsFactors = FALSE)
-    names(x) <- "ids"
-
-    attr(x, "next_cursor") <- next_cursor
-    x
-}
-
 parse.piper.fs <- function(f, n = NULL) {
-  df <- plyget(f, "ids") %>%
-    make.vector() %>%
-    as.character() %>%
-    as.df("user_id") %>%
-    tryCatch(error = function(e) return(NULL))
-
-  if (is.null(df)) return(f)
-  next_cursor <- plyget(f, "next_cursor") %>%
-    return_last() %>%
-    unL() %>%
-    tryCatch(error = function(e) return(NULL))
-  if (is.null(next_cursor))  {
-    next_cursor <- NA_character_
+  if (!is.list(f)) {
+    f <- list(f)
   }
-  attr(df, "next_cursor") <- next_cursor
+  if (length(f) == 0L) {
+    return(data.frame())
+  }
+  df <- unlist(lapply(f, "[[[", "ids"), use.names = FALSE)
+  if (length(df) == 0L) {
+    return(data.frame())
+  }
+  nextcursor <- unlist(lapply(f, "[[[", "next_cursor_str"), use.names = FALSE)
+  nextcursor <- na_omit(nextcursor)
+  nextcursor <- nextcursor[length(nextcursor)]
+  df <- tibble::as_tibble(list(user_id = df), validate = FALSE)
+  attr(df, "next_cursor") <- nextcursor
   if (!is.null(n)) {
-    if (n < NROW(df)) df <- df[seq_len(n), ]
+    if (n < nrow(df)) {
+      df <- df[seq_len(n), ]
+    }
   }
   df
 }
-
-make.vector <- function(x) do.call("c", x)

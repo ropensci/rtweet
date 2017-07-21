@@ -104,8 +104,7 @@
   search query.</p>
     
 
-    <pre class="usage"><span class='fu'>search_users</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full_text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tw</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>search_users</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -140,17 +139,6 @@ a single search is 1,000.</p></td>
 <code>parse = TRUE</code> saves users from the time
 [and frustrations] associated with disentangling the Twitter
 API return objects.</p></td>
-    </tr>
-    <tr>
-      <th>full_text</th>
-      <td><p>Logical, indicating whether to return full text of
-tweets. Defaults to TRUE. Setting this to FALSE will truncate any
-tweet that exceed 140 characters.</p></td>
-    </tr>
-    <tr>
-      <th>tw</th>
-      <td><p>Logical indicating whether to return tweets data frame.
-Defaults to true.</p></td>
     </tr>
     <tr>
       <th>token</th>
