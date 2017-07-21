@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,600,600i');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
 /* Sticker footer */
 body > .container {
   display: flex;
@@ -7,9 +10,12 @@ body > .container {
 }
 
 body > .container .row {
-  flex: 1;
+    flex: 1;
 }
 
+body {
+    line-height: 1.65;
+}
 footer {
   margin-top: 45px;
   padding: 35px 0 36px;
@@ -81,6 +87,16 @@ a.anchor {
   }
 }
 
+h1, h2, h3, h4, h5 {
+    font-family: 'Roboto', Helvetica;
+    font-weight: 400;
+    color: #222;
+}
+
+h1 {font-size: 2.4em;}
+h2 {font-size: 2.2em;}
+h3 {font-size: 2.0em;}
+h4 {font-size: 1.8em;}
 
 /* Sidebar --------------------------*/
 
@@ -135,6 +151,7 @@ pre {
 pre, code {
   background-color: #f8f8f8;
   color: #333;
+  line-height: 1.4;
 }
 
 pre .img {
@@ -148,16 +165,48 @@ pre .img img {
 }
 
 code a, pre a {
-  color: #375f84;
+  color: #1858c5;
 }
 
-.fl      {color: #1514b5;}
-.fu      {color: #000000;} /* function */
-.ch,.st  {color: #036a07;} /* string */
-.kw      {color: #264D66;} /* keyword */
-.co      {color: #888888;} /* comment */
-
+.fl      {color: #11b;}
+.fu      {color: #000;} /* function */
+.ch,.st  {color: #060;} /* string */
+.kw      {color: #039;} /* keyword */
+.co      {color: #888;} /* comment */
+.dt      {color: #a60;}
 .message { color: black;   font-weight: bolder;}
 .error   { color: orange;  font-weight: bolder;}
-.warning { color: #6A0366; font-weight: bolder;}
+.warning { color: #506; font-weight: bolder;}
+.sourceCode { color: #444; }
 
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+    background-color: #fbfbfb;
+}
+
+.navbar-default {
+    background-color: #fbfbfb;
+    font-family: 'Roboto';
+}
+.navbar-default .navbar-brand {
+  color: #444;
+}
+.navbar-default .navbar-nav>li>a {
+  color: #444;
+}
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
+    color: #820;
+}
+a {
+    color: #06d;
+}
+a:hover {
+    color: #c22;
+}
+.navbar {
+    box-shadow: 0 0px 1px rgba(0,0,0,0.3);
+}
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
+    background: #ddd;
+    color: #000;
+    border-radius: 5px;
+}
