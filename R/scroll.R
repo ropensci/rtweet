@@ -69,22 +69,6 @@ scroller_ <- function(url, n, n.times, type = NULL, ...) {
 }
 
 
-unique_id <- function(x) {
-  if ("statuses" %in% tolower(names(x))) {
-    x <- x[["statuses"]]
-  }
-  if ("id_str" %in% names(x)) {
-    x[["id_str"]]
-  } else if ("ids" %in% names(x)) {
-    x[["ids"]]
-  } else if ("ids" %in% names(x[[1]])) {
-    x[[1]][["ids"]]
-  } else if ("status_id" %in% names(x)) {
-    x[["status_id"]]
-  } else if ("user_id" %in% names(x)) {
-    x[["user_id"]]
-  }
-}
 
 
 unique_id_count <- function(x, type = NULL) {

@@ -15,28 +15,6 @@ return_last <- function(x, n = 1) {
     x[length(x) - seq_len(n) + 1]
 }
 
-bply <- function(x, f, ...) {
-    do.call("rbind", lapply(x, f, ...))
-}
-
-return_n_rows <- function(x, n = NULL) {
-    if (is.data.frame(x)) {
-        if (is.null(n)) return(x)
-        if (nrow(x) > n) {
-            x <- x[seq_n_rows(n), ]
-        }
-        rownames(x) <- NULL
-    }
-    return(x)
-}
-
-seq_n_rows <- function(n) {
-    if (is.null(n)) {
-        return(TRUE)
-    } else {
-        seq_len(n)
-    }
-}
 
 nanull <- function(x) {
     if (is.null(x)) return(NA)
@@ -126,72 +104,6 @@ flatten <- function(x) {
 
 
 
-check_user_id <- function(dat, n = NULL) {
-
-    dat <- check_response_obj(dat)
-
-    if (is.null(n)) n <- length(dat[["id_str"]])
-
-    user_id <- rep(NA_character_, n)
-
-    if ("user" %in% names(dat)) {
-        user <- dat[["user"]]
-
-        if ("id_str" %in% names(user)) {
-            user_id <- user[["id_str"]]
-        }
-    }
-    user_id
-}
-
-check_screen_name <- function(dat, n = NULL) {
-
-    screen_name <- NULL
-
-    dat <- check_response_obj(dat)
-
-    if (is.null(n)) n <- length(dat[["id_str"]])
-
-    screen_name <- rep(NA_character_, n)
-
-    if ("user" %in% names(dat)) {
-        user <- dat[["user"]]
-
-        if ("screen_name" %in% names(user)) {
-            screen_name <- user[["screen_name"]]
-        }
-    }
-    screen_name
-}
-
-
-return_with_NA <- function(x, n) {
-    if (is.character(x)) {
-        myNA <- NA_character_
-    } else if (is.logical(x)) {
-        myNA <- NA
-    } else if (is.integer(x)) {
-        myNA <- NA_integer_
-    } else if (is.numeric(x)) {
-        myNA <- NA_real_
-    } else {
-  	myNA <- NA_character_
-    }
-    if (any(is.null(x), identical(x, ""),
-            identical(length(x), 0L))) {
-        x <- rep(NA, n)
-    } else {
-  	for (i in seq_along(x)) {
-            if (any(is.null(x[[i]]),
-                    identical(x[[i]], ""),
-                    identical(length(x), 0L))) {
-                x[[i]] <- NA
-            }
-  	}
-    }
-    x
-}
-
 
 is_empty_list <- function(x) {
     if (is.null(x)) return(TRUE)
@@ -204,26 +116,6 @@ is_empty_list <- function(x) {
     FALSE
 }
 
-is_na <- function(x) {
-    if (is.list(x)) {
-        x <- unlist(lapply(x, function(x)
-            any(is.null(x), suppressWarnings(is.na(x)),
-                is_empty_list(x))),
-            use.names = FALSE)
-    } else {
-        x <- is.na(x)
-    }
-    x
-}
-
-filter_na_rows <- function(x) {
-    foo <- function(x) all(is_na(x))
-    if (is.data.frame(x)) {
-        x[!unlist(apply(x, 1, foo),
-                  use.names = FALSE), ]
-    }
-
-}
 
 is_n <- function(n) {
     if (is.character(n)) {
@@ -248,39 +140,4 @@ is_url <- function(url) {
     } else {
         return(FALSE)
     }
-}
-
-check_response_obj <- function(dat) {
-
-    if (missing(dat)) {
-        stop("Must specify tweets object, dat.",
-             call. = TRUE)
-    }
-
-    if ("statuses" %in% names(dat)) {
-        dat <- dat[["statuses"]]
-    }
-
-    if (!"id_str" %in% names(dat)) {
-        if ("id" %in% names(dat)) {
-            dat$id_str <- dat$id
-        }
-    }
-    dat
-}
-
-check_user_obj <- function(x) {
-
-    if ("user" %in% names(x)) {
-        x <- x[["user"]]
-    }
-    if (!"id_str" %in% names(x)) {
-        if ("id" %in% names(x)) {
-            x$id_str <- x$id
-        } else {
-            stop("object does not contain ID variable.",
-                 call. = FALSE)
-        }
-    }
-    x
 }
