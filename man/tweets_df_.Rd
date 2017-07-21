@@ -7,7 +7,7 @@
 tweets_df_(dat)
 }
 \arguments{
-\item{x}{Nested list parsed from Twitter's returned json object.}
+\item{dat}{Nested list parsed from Twitter's returned json object.}
 }
 \value{
 tbl

@@ -40,7 +40,7 @@ users_with_tweets <- function(x) {
 ##' Returns tweets data frame.
 ##' 
 ##' @title tweets_df
-##' @param x Nested list parsed from Twitter's returned json object.
+##' @param dat Nested list parsed from Twitter's returned json object.
 ##' @return tbl
 ##' @export
 tweets_df_ <- function(dat) {

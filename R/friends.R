@@ -33,70 +33,70 @@
 #' @export
 get_friends <- function(user, page = "-1", parse = TRUE, token = NULL) {
 
-    stopifnot(is.atomic(user),
-              is.atomic(page),
-              isTRUE(length(user) == 1))
+  stopifnot(is.atomic(user),
+            is.atomic(page),
+            isTRUE(length(user) == 1))
 
-    token <- check_token(token)
+  token <- check_token(token)
 
-    query <- "friends/ids"
+  query <- "friends/ids"
 
-    params <- list(
-        user_type = user,
-        count = 5000,
-        cursor = page,
-        stringify = TRUE)
+  params <- list(
+    user_type = user,
+    count = 5000,
+    cursor = page,
+    stringify = TRUE)
 
-    names(params)[1] <- .id_type(user)
+  names(params)[1] <- .id_type(user)
 
-    url <- make_url(
-        query = query,
-        param = params)
+  url <- make_url(
+    query = query,
+    param = params)
 
-    f <- tryCatch(
-  	TWIT(get = TRUE, url, token),
-  	error = function(e) return(NULL))
+  f <- tryCatch(
+    TWIT(get = TRUE, url, token),
+    error = function(e) return(NULL))
 
-    if (is.null(f)) {
-        missing <- NA_character_
-  	f[["ids"]] <- missing
-    } else {
-        if (parse) f <- parse.piper.fnd(f)
-    }
-    f
+  if (is.null(f)) {
+    missing <- NA_character_
+    f[["ids"]] <- missing
+  } else {
+    if (parse) f <- parse.piper.fnd(f)
+  }
+  f
 }
 
 #' @importFrom jsonlite fromJSON
 parse.piper.fnd <- function(r) {
-    if (isTRUE("content" %in% names(r))) {
-        r <- tryCatch(
-            jsonlite::fromJSON(rawToChar(r[["content"]])),
-            error = function(e) return(NULL))
-        r <- fnd_internal(r)
-    } else {
-        if (length(r) > 1L) {
-            r <- lapply(r, fnd_internal)
-            r <- do.call("rbind", r)
+  if (isTRUE("content" %in% names(r))) {
+    r <- tryCatch(
+      jsonlite::fromJSON(rawToChar(r[["content"]])),
+      error = function(e) return(NULL))
+    r <- fnd_internal(r)
+  } else {
+    if (length(r) > 1L) {
+      r <- lapply(r, fnd_internal)
+      r <- do.call("rbind", r)
 
-        } else {
-            r <- fnd_internal(r)
-        }
+    } else {
+      r <- fnd_internal(r)
     }
-    if (requireNamespace("tibble", quietly = TRUE)) {
-        r <- tibble::as_tibble(r)
-    }
-    r
+  }
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    r <- tibble::as_tibble(r, validate = FALSE)
+  }
+  r
 }
 
 fnd_internal <- function(r) {
-    if (is.null(r)) return(data.frame(user_id = NA_character_))
-    next_cursor <- as.character(r[["next_cursor_str"]])
-    usrs <- data.frame(as.character(r[["ids"]]),
-                       stringsAsFactors = FALSE)
-    names(usrs) <- "user_id"
-    if (is.null(next_cursor)) next_cursor <- NA_character_
-    attr(usrs, "next_cursor") <- next_cursor
-    usrs
+  if (is.null(r)) return(data.frame(user_id = NA_character_))
+  next_cursor <- as.character(r[["next_cursor_str"]])
+  usrs <- data.frame(as.character(r[["ids"]]),
+                     stringsAsFactors = FALSE)
+  names(usrs) <- "user_id"
+  if (is.null(next_cursor)) next_cursor <- NA_character_
+  attr(usrs, "next_cursor") <- next_cursor
+  usrs
 }
 
 ply_friends <- function(users, token = NULL, ...) {
@@ -154,7 +154,7 @@ parse_fndshp <- function(fndshp) {
     fndshp <- fndshp[["content"]] %>%
         rawToChar() %>%
         jsonlite::fromJSON() %>%
-        plyget("connections")
+        lapply("[[[", "connections")
     fndshp$followed_by <- fndshp %>%
         plyget(function(x) "followed_by" %in% x) %>%
         unlist(use.names = FALSE)
@@ -171,4 +171,17 @@ parse_fndshp <- function(fndshp) {
         plyget(function(x) "none" %in% x) %>%
         unlist(use.names = FALSE)
     fndshp[, c(1:2, 4, 6:10)]
+}
+
+
+plyget <- function(x, f, ...) {
+    if (!is.function(f)) {
+        if (any(is.data.frame(x),
+                f %in% names(x))) return(x[[f]])
+        lapply(x, function(x) x[[f]])
+    } else if (is.data.frame(x)) {
+        f(x, ...)
+    } else {
+        lapply(x, f, ...)
+    }
 }

@@ -107,9 +107,8 @@
   home argument to true.</p>
     
 
-    <pre class="usage"><span class='fu'>get_timeline</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>full_text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_timeline</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -136,12 +135,6 @@ To return a user's home timeline feed, that is, the tweets posted
 by accounts followed by a user, set the home to false.</p></td>
     </tr>
     <tr>
-      <th>full_text</th>
-      <td><p>Logical, indicating whether to return full text of
-tweets. Defaults to TRUE. Setting this to FALSE will truncate any
-tweet that exceed 140 characters.</p></td>
-    </tr>
-    <tr>
       <th>parse</th>
       <td><p>Logical, indicating whether to return parsed
 (data.frames) or nested list (fromJSON) object. By default,
@@ -154,11 +147,6 @@ API return objects.</p></td>
       <td><p>Logical indicating whether to remove check available
 rate limit. Ensures the request does not exceed the maximum remaining
 number of calls. Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>usr</th>
-      <td><p>Logical indicating whether to return users data frame.
-Defaults to true.</p></td>
     </tr>
     <tr>
       <th>token</th>
