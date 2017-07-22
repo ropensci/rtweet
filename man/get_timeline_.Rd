@@ -2,7 +2,6 @@
 % Please edit documentation in R/vectorized.R
 \name{get_timeline_}
 \alias{get_timeline_}
-\alias{get_timelines}
 \title{Get timeline (vectorized)}
 \usage{
 get_timeline_(user, n = 100, ...)

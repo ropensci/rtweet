@@ -52,7 +52,6 @@ search_tweets_ <- function(q, n = 100, ...) {
 #'   Must be of length 1 or equal to length of user.
 #' @param \dots Other arguments passed on to \code{get_timeline}.
 #' @return A tbl data frame of tweets data with users data attribute.
-#' @aliases get_timelines
 #' @export
 get_timeline_ <- function(user, n = 100, ...) {
   ## check inputs
