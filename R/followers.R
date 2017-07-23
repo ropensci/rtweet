@@ -7,6 +7,14 @@
 #' @param page Default \code{page = -1} specifies first page of json
 #'   results. Other pages specified via cursor values supplied by
 #'   Twitter API response object.
+#' @param retryonratelimit The max number of followers returned every
+#'   15 minutes is 75,000. If you'd like more than that, then you can
+#'   set this to TRUE and the function will try to implement a sleep
+#'   functional call internally and iterate through until n is achieved.
+#'   Defaults to FALSE.
+#' @param verbose Logical indicating whether or not to print messages.
+#'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
+#'   sleep times and followers gathered count.
 #' @param parse Logical, indicating whether to return parsed
 #'   vector or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves you the time [and frustrations]
@@ -33,43 +41,124 @@
 #'   rate limits)
 #' @family ids
 #' @export
-get_followers <- function(user, n = 75000,
-                          page = "-1",
-                          parse = TRUE,
-                          token = NULL) {
-
-    query <- "followers/ids"
-
-    if (identical(n, "all")) {
-        n <- 75000
-    }
-
-    stopifnot(is_n(n),
-              is.atomic(user),
-              is.atomic(page),
-              isTRUE(length(user) == 1))
-
-    token <- check_token(token, query)
-
-    n.times <- rate_limit(token, query)[["remaining"]]
-
-    params <- list(
-        user_type = user,
-        count = 5000,
-        cursor = page,
-        stringify = TRUE)
-
-    names(params)[1] <- .id_type(user)
-
-    url <- make_url(
-        query = query,
-        param = params)
-
-    f <- scroller(url, n, n.times, type = "followers", token)
-
-    f <- f[!vapply(f, is.null, logical(1))]
-
-    if (parse) f <- parse.piper.fs(f, n)
-
-    f
+get_followers <- function(user, n = 5000, ...) {
+  UseMethod("get_followers")
 }
+
+get_followers.default <- function(user, n = 75000,
+                                  page = "-1",
+                                  retryonratelimit = FALSE,
+                                  parse = TRUE,
+                                  verbose = TRUE,
+                                  token = NULL) {
+  ## if n == all or Inf then lookup followers count
+  if (identical(n, "all") || identical(n, Inf)) {
+    usr <- lookup_users(user)
+    n <- usr$followers_count
+  }
+  ## check params
+  stopifnot(is_n(n),
+            is.atomic(user),
+            is.atomic(page),
+            isTRUE(length(user) == 1))
+  ## build URL
+  query <- "followers/ids"
+  token <- check_token(token, query)
+  params <- list(
+    user_type = user,
+    count = 5000,
+    cursor = page,
+    stringify = TRUE
+  )
+  names(params)[1] <- .id_type(user)
+  url <- make_url(
+    query = query,
+    param = params
+  )
+  ## for larger requests implement Sys.sleep
+  if (retryonratelimit) {
+    ## total N
+    n5k <- ceiling(n / 5000)
+    f <- vector("list", n5k)
+    ## default (counter) values
+    more <- TRUE
+    i <- 0L
+    ctr <- 0L
+    ## until n followers have been retrieved
+    while (more) {
+      rl <- rate_limit(token, query)
+      n.times <- rl[["remaining"]]
+      i <- i + 1L
+      ## if no calls remaining then sleep until no longer rate limited
+      rate_limited <- isTRUE(n.times == 0)
+      while (rate_limited) {
+        if (verbose) {
+          message(
+            paste("Waiting about",
+                  ceiling(as.numeric(rl$reset, "secs") / 60),
+                  "minutes",
+                  "for rate limit reset...")
+          )
+        }
+        Sys.sleep(as.numeric(rl$reset + 2, "secs"))
+        rl <- rate_limit(token, query)
+        n.times <- rl$remaining
+        rate_limited <- isTRUE(n.times == 0)
+      }
+      ## exhaust rate limit
+      f[[i]] <- scroller(url, n, n.times, type = "followers", token)
+      url$query$cursor <- ncs_(f[[i]])
+      ## counter
+      ctr <- ctr + n.times * 5000
+      if (verbose) {
+        message(paste(ctr, "followers!"))
+      }
+      ## update more (logical)
+      more <- more_followers(f[[i]], i, n, ctr)
+    }
+    ## i don't think this line is needed anymore but just in case
+    f <- f[!vapply(f, is.null, logical(1))]
+    ## parse into data frame
+    if (parse) {
+      f <- lapply(f, parse.piper.fs, n = n)
+      f <- do.call("rbind", f)
+    }
+  } else {
+    ## if !retryonratelimit then if necessary exhaust what can with token
+    rl <- rate_limit(token, query)
+    n.times <- rl[["remaining"]]
+    f <- scroller(url, n, n.times, type = "followers", token)
+    ## drop NULL and parse into data frame
+    f <- f[!vapply(f, is.null, logical(1))]
+    if (parse) f <- parse.piper.fs(f, n)
+  }
+  f
+}
+
+more_followers <- function(f, i, n, ctr) {
+  ## if null then return FALSE to prevent error
+  if (length(f) == 0L) return(FALSE)
+  ## only interested in value of last 'next_cursor'
+  f <- f[[length(f)]]
+  ## if n >= obs, f has nex_cursor, next_cursor != 0
+  ##   then yes, TRUE, there are more followers to get
+  all(
+    n >= ctr,
+    has_name(f, "next_cursor_str"),
+    !isTRUE(identical(`[[`(f, "next_cursor_str"), "0"))
+  )
+}
+
+ncs_ <- function(f) {
+  if (length(f) == 0) return("0")
+  f <- f[[length(f)]]
+  if (has_name(f, "next_cursor_str")) {
+    ## next cursor
+    nc <- f[["next_cursor_str"]]
+    if (is.null(nc)) return("0")
+    return(nc)
+  }
+  "0"
+}
+
+

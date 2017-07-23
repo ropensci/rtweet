@@ -4,7 +4,7 @@
 \alias{search_users}
 \title{search_users}
 \usage{
-search_users(q, n = 20, parse = TRUE, token = NULL, verbose = TRUE)
+search_users(q, n, ...)
 }
 \arguments{
 \item{q}{Query to be searched, used in filtering relevant tweets

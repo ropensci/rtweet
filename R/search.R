@@ -195,31 +195,35 @@
 #'   data frame.
 #' @family tweets
 #' @export
-search_tweets <- function(q = "",
-                          n = 100,
-                          type = "recent",
-                          geocode = NULL,
-                          max_id = NULL,
-                          include_rts = TRUE,
-                          parse = TRUE,
-                          token = NULL,
-                          retryonratelimit = FALSE,
-                          verbose = TRUE,
-                          adjtimer = 20,
-                          exact = FALSE,
-                          from = NULL,
-                          to = NULL,
-                          list = NULL,
-                          mention = NULL,
-                          hashtag = NULL,
-                          filter_media = FALSE,
-                          filter_native_video= FALSE,
-                          filter_vine = FALSE,
-                          filter_periscope = FALSE,
-                          filter_images = FALSE,
-                          filter_twimg = FALSE,
-                          filter_links = FALSE,
-                          ...) {
+search_tweets <- function(q, n, ...) {
+  UseMethod("search_tweets")
+}
+
+search_tweets.default <- function(q = "",
+                                  n = 100,
+                                  type = "recent",
+                                  geocode = NULL,
+                                  max_id = NULL,
+                                  include_rts = TRUE,
+                                  parse = TRUE,
+                                  token = NULL,
+                                  retryonratelimit = FALSE,
+                                  verbose = TRUE,
+                                  adjtimer = 20,
+                                  exact = FALSE,
+                                  from = NULL,
+                                  to = NULL,
+                                  list = NULL,
+                                  mention = NULL,
+                                  hashtag = NULL,
+                                  filter_media = FALSE,
+                                  filter_native_video= FALSE,
+                                  filter_vine = FALSE,
+                                  filter_periscope = FALSE,
+                                  filter_images = FALSE,
+                                  filter_twimg = FALSE,
+                                  filter_links = FALSE,
+                                  ...) {
 
   ## check token and get rate limit data
   token <- check_token(token, "search/tweets")
@@ -325,29 +329,29 @@ search_tweets <- function(q = "",
 
 
 .search_tweets <- function(q,
-  n = 100,
-  check = FALSE,
-  geocode = NULL,
-  type = "recent",
-  max_id = NULL,
-  include_rts = TRUE,
-  parse = TRUE,
-  token = NULL,
-  verbose = TRUE,
-  exact = FALSE,
-  from = NULL,
-  to = NULL,
-  list = NULL,
-  mention = NULL,
-  hashtag = NULL,
-  filter_media = FALSE,
-  filter_native_video= FALSE,
-  filter_vine = FALSE,
-  filter_periscope = FALSE,
-  filter_images = FALSE,
-  filter_twimg = FALSE,
-  filter_links = FALSE,
-  ...) {
+                           n = 100,
+                           check = FALSE,
+                           geocode = NULL,
+                           type = "recent",
+                           max_id = NULL,
+                           include_rts = TRUE,
+                           parse = TRUE,
+                           token = NULL,
+                           verbose = TRUE,
+                           exact = FALSE,
+                           from = NULL,
+                           to = NULL,
+                           list = NULL,
+                           mention = NULL,
+                           hashtag = NULL,
+                           filter_media = FALSE,
+                           filter_native_video= FALSE,
+                           filter_vine = FALSE,
+                           filter_periscope = FALSE,
+                           filter_images = FALSE,
+                           filter_twimg = FALSE,
+                           filter_links = FALSE,
+                           ...) {
   ## path name
   query <- "search/tweets"
 
@@ -362,8 +366,8 @@ search_tweets <- function(q = "",
   if (!is.null(from)) {
     if (any(grepl(" ", from))) {
       stop(paste("Object \"from\" should contain vector of screen names",
-        "none of which should include spaces."),
-        call. = FALSE)
+                 "none of which should include spaces."),
+           call. = FALSE)
     }
     from <- paste(paste0("from:", from), collapse = " ")
     q <- paste(q, from)
@@ -371,8 +375,8 @@ search_tweets <- function(q = "",
   if (!is.null(to)) {
     if (any(grepl(" ", to))) {
       stop(paste("Object \"to\" should contain vector of screen names",
-        "none of which should include spaces."),
-        call. = FALSE)
+                 "none of which should include spaces."),
+           call. = FALSE)
     }
     to <- paste(paste0("to:", to), collapse = " ")
     q <- paste(q, to)
@@ -380,18 +384,18 @@ search_tweets <- function(q = "",
   if (!is.null(mention)) {
     if (any(grepl(" ", mention))) {
       stop(paste("Object \"mention\" should contain vector of screen names",
-        "none of which should include spaces."),
-        call. = FALSE)
+                 "none of which should include spaces."),
+           call. = FALSE)
     }
     mention <- paste(paste0("@", mention), collapse = " ")
     mention <- 
-    q <- paste(q, mention)
+      q <- paste(q, mention)
   }
   if (!is.null(hashtag)) {
     if (any(grepl(" ", hashtag))) {
       stop(paste("Object \"hashtag\" should contain vector of hashtags",
-        "none of which should include spaces."),
-        call. = FALSE)
+                 "none of which should include spaces."),
+           call. = FALSE)
     }
     hashtag <- paste(paste0("#", hashtag), collapse = " ")
     hashtag <- gsub("##", "#", hashtag)
@@ -400,9 +404,9 @@ search_tweets <- function(q = "",
   if (!is.null(list)) {
     if (any(grepl(" ", list))) {
       stop(paste("Object \"list\" should contain vector of Twitter lists",
-        "none of which should include spaces. If the list actually",
-        "has spaces in it, try using dashes instead"),
-        call. = FALSE)
+                 "none of which should include spaces. If the list actually",
+                 "has spaces in it, try using dashes instead"),
+           call. = FALSE)
     }
     from <- paste(paste0("list:", from), collapse = " ")
     q <- paste(q, from)
@@ -427,11 +431,11 @@ search_tweets <- function(q = "",
   ## only select one type
   if (length(type) > 1) {
     stop("can only select one search type. Try type = 'recent'.",
-      call. = FALSE)
+         call. = FALSE)
   }
   if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
     stop("invalid search type - must be mixed, recent, or popular.",
-      call. = FALSE)
+         call. = FALSE)
   }
   ## if no retweets add filter to query
   if (!include_rts) q <- paste0(q, " -filter:retweets")
@@ -450,12 +454,12 @@ search_tweets <- function(q = "",
 
   ## make params list
   params <- list(q = q,
-    result_type = type,
-    count = 100,
-    max_id = max_id,
-    tweet_mode = "extended",
-    geocode = geocode,
-    ...)
+                 result_type = type,
+                 count = 100,
+                 max_id = max_id,
+                 tweet_mode = "extended",
+                 geocode = geocode,
+                 ...)
   ## make url
   url <- make_url(
     query = query,
@@ -553,10 +557,15 @@ search_tweets_internal <- function(q, n, parse = FALSE, token = NULL, ...) {
 #' @return Data frame of users returned by query.
 #' @family users
 #' @export
-search_users <- function(q, n = 20,
-                         parse = TRUE,
-                         token = NULL,
-                         verbose = TRUE) {
+search_users <- function(q, n, ...) {
+  UseMethod("seach_users")
+}
+
+
+search_users.default <- function(q, n = 20,
+                                 parse = TRUE,
+                                 token = NULL,
+                                 verbose = TRUE) {
 
   query <- "users/search"
   stopifnot(is_n(n), is.atomic(q))

@@ -5,7 +5,7 @@
 \alias{lookup_tweets}
 \title{lookup_tweets}
 \usage{
-lookup_statuses(statuses, token = NULL, parse = TRUE, usr = TRUE)
+lookup_statuses(statuses, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{statuses}{User id or screen name of target user.}
@@ -16,9 +16,6 @@ an environment variable @describeIn tokens.}
 
 \item{parse}{Logical, indicating whether or not to parse
 return object into data frame(s).}
-
-\item{usr}{Logical indicating whether to return users data frame.
-Defaults to true.}
 }
 \value{
 json response object (max is 18000 per token)

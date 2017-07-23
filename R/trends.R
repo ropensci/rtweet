@@ -33,10 +33,14 @@
 #' @return Trend data for a given location.
 #' @family trends
 #' @export
-get_trends <- function(woeid = 1,
-                       exclude = FALSE,
-                       token = NULL,
-                       parse = TRUE) {
+get_trends <- function(woeid = 1, ...) {
+  UseMethod("get_trends")
+}
+
+get_trends.default <- function(woeid = 1,
+                               exclude = FALSE,
+                               token = NULL,
+                               parse = TRUE) {
 
   stopifnot(is.atomic(woeid), length(woeid) == 1)
 

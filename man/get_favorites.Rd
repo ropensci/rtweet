@@ -4,8 +4,7 @@
 \alias{get_favorites}
 \title{get_favorites}
 \usage{
-get_favorites(user, n = 300, since_id = NULL, max_id = NULL,
-  parse = TRUE, token = NULL)
+get_favorites(user, n, ...)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}

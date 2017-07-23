@@ -9,8 +9,6 @@
 #'   an environment variable @describeIn tokens.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
-#' @param tw Logical indicating whether to return tweets data frame.
-#'   Defaults to true.
 #'
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
@@ -32,10 +30,13 @@
 #' @return json response object
 #' @family users
 #' @export
+lookup_users <- function(users, ...) {
+  UseMethod("lookup_users")
+}
+
 lookup_users <- function(users,
-  token = NULL,
-  parse = TRUE,
-  tw = TRUE) {
+                         token = NULL,
+                         parse = TRUE) {
 
   if (is.list(users)) {
     users <- unlist(users, use.names = FALSE)

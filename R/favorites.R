@@ -36,12 +36,16 @@
 #' @family tweets
 #' @return Tweets data frame.
 #' @export
-get_favorites <- function(user,
-                          n = 300,
-                          since_id = NULL,
-                          max_id = NULL,
-                          parse = TRUE,
-                          token = NULL) {
+get_favorites <- function(user, n, ...) {
+  UseMethod("get_favorites")
+}
+
+get_favorites.default <- function(user,
+                                  n = 300,
+                                  since_id = NULL,
+                                  max_id = NULL,
+                                  parse = TRUE,
+                                  token = NULL) {
 
   query <- "favorites/list"
 

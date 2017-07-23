@@ -9,8 +9,6 @@
 #'   an environment variable @describeIn tokens.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
-#' @param usr Logical indicating whether to return users data frame.
-#'   Defaults to true.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
 #' \dontrun{
@@ -28,10 +26,13 @@
 #' @family tweets
 #' @aliases lookup_tweets
 #' @export
+lookup_statuses <- function(statuses, ...) {
+  UseMethod("lookup_statuses")
+}
+
 lookup_statuses <- function(statuses,
-  token = NULL,
-  parse = TRUE,
-  usr = TRUE) {
+                            token = NULL,
+                            parse = TRUE) {
 
   stopifnot(is.atomic(statuses))
 

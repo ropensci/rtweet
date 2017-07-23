@@ -4,7 +4,7 @@
 \alias{lookup_users}
 \title{lookup_users}
 \usage{
-lookup_users(users, token = NULL, parse = TRUE, tw = TRUE)
+lookup_users(users, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{users}{User id or screen name of target user.}
@@ -15,9 +15,6 @@ an environment variable @describeIn tokens.}
 
 \item{parse}{Logical, indicating whether or not to parse
 return object into data frame(s).}
-
-\item{tw}{Logical indicating whether to return tweets data frame.
-Defaults to true.}
 }
 \value{
 json response object

@@ -31,7 +31,11 @@
 #' @return friends User ids for everyone a user follows.
 #' @family ids
 #' @export
-get_friends <- function(user, page = "-1", parse = TRUE, token = NULL) {
+get_friends <- function(user, ...) {
+  UseMethod("get_friends")
+}
+
+get_friends.default <- function(user, page = "-1", parse = TRUE, token = NULL) {
 
   stopifnot(is.atomic(user),
             is.atomic(page),
@@ -45,7 +49,8 @@ get_friends <- function(user, page = "-1", parse = TRUE, token = NULL) {
     user_type = user,
     count = 5000,
     cursor = page,
-    stringify = TRUE)
+    stringify = TRUE
+  )
 
   names(params)[1] <- .id_type(user)
 

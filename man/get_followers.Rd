@@ -4,7 +4,7 @@
 \alias{get_followers}
 \title{get_followers}
 \usage{
-get_followers(user, n = 75000, page = "-1", parse = TRUE, token = NULL)
+get_followers(user, n = 5000, ...)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -15,6 +15,16 @@ get_followers(user, n = 75000, page = "-1", parse = TRUE, token = NULL)
 \item{page}{Default \code{page = -1} specifies first page of json
 results. Other pages specified via cursor values supplied by
 Twitter API response object.}
+
+\item{retryonratelimit}{The max number of followers returned every
+15 minutes is 75,000. If you'd like more than that, then you can
+set this to TRUE and the function will try to implement a sleep
+functional call internally and iterate through until n is achieved.
+Defaults to FALSE.}
+
+\item{verbose}{Logical indicating whether or not to print messages.
+Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
+sleep times and followers gathered count.}
 
 \item{parse}{Logical, indicating whether to return parsed
 vector or nested list (fromJSON) object. By default,

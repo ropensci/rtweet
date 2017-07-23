@@ -4,7 +4,7 @@
 \alias{get_trends}
 \title{get_trends}
 \usage{
-get_trends(woeid = 1, exclude = FALSE, token = NULL, parse = TRUE)
+get_trends(woeid = 1, ...)
 }
 \arguments{
 \item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or

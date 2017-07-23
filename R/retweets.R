@@ -44,6 +44,7 @@ statuses_retweets <- function(id, count = 100, token = NULL) {
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return data
+#' @export
 statuses_retweeters <- function(id, cursor = "-1", token = NULL) {
   query <- "statuses/retweets"
   params <- list(id = id,

@@ -15,7 +15,11 @@
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @importFrom graphics legend
 #' @export
-ts_plot <- function(data, by = "days", group = NULL, ...) {
+ts_plot <- function(data, by, ...) {
+  UseMethod("ts_plot")
+}
+
+ts_plot.default <- function(data, by = "days", group = NULL, ...) {
   data <- ts_data(data, by, group = group, ...)
   if (requireNamespace("ggplot2", quietly = TRUE)) {
     if (ncol(data) == 3) {
@@ -86,6 +90,10 @@ groupfun <- function(data, group, f, ...) {
 #' @param \dots Passed along to trim_time. Most likely used to specify timezone.
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @export
+ts_data <- function(data, by, ...) {
+  UseMethod("ts_data")
+}
+
 ts_data <- function(data, by = "days", group = NULL, ...) {
   if (inherits(data, "grouped_df")) {
     group <- names(attr(data, "labels"))
