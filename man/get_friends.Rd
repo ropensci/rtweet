@@ -2,49 +2,39 @@
 % Please edit documentation in R/friends.R
 \name{get_friends}
 \alias{get_friends}
-\title{get_friends}
+\title{GET friends/ids}
 \usage{
-get_friends(user, ...)
+get_friends(users, n = 5000, retryonratelimit = FALSE, ...)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{users}{Screen name or user ID of target user from which the user IDs
+of friends (accounts followed BY target user) will be retrieved.}
 
-\item{page}{Default \code{page = -1} specifies first page of json
-results. Other pages specified via cursor values supplied by
-Twitter API response object.}
+\item{retryonratelimit}{If you'd like to retrieve 5,000 or fewer friends for
+more than 15 target users, then set \code{retryonratelimit = TRUE} and
+this function will use \code{\link{Sys.sleep}} until rate limits reset and
+the desired number of friend networks is retrieved. This defaults
+to FALSE. See details for more info regarding possible issues with timing
+misfires.}
 
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
-
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+\item{...}{For other possible args see \code{\link{get_friends.default}}.}
 }
 \value{
-friends User ids for everyone a user follows.
+A tibble data frame with two columns, "user" for name or ID of target
+  user and "user_id" for follower IDs.
 }
 \description{
-Requests information from Twitter's REST API
-  regarding a user's friend network (i.e., accounts followed
-  by a user). To request information on followers of accounts
+Returns user IDs of accounts followed by target user.
 }
-\examples{
-\dontrun{
-# get ids of users followed by the president of the US
-pres <- get_friends(user = "potus")
-pres
-
-# get ids of users followed by the Environmental Protection Agency
-epa <- get_friends(user = "epa")
-epa
-}
-
-}
-\seealso{
-\url{https://dev.twitter.com/overview/documentation}
-
-Other ids: \code{\link{get_followers}}
+\details{
+When \code{retryonratelimit = TRUE} this function internally
+  makes a rate limit API call to get information on (a) the number of requests
+  remaining and (b) the amount of time until the rate limit resets. So, in
+  theory, the sleep call should only be called once between waves of data
+  collection. However, as a fail safe, if a system's time is calibrated such
+  that it expires before the rate limit reset, or if, in another session, the
+  user dips into the rate limit, then this function will wait (use Sys.sleep
+  for a second time) until the next rate limit reset. Users should monitor
+  and test this before making especially large calls as any systematic issues
+  could create sizable inefficiencies.
 }

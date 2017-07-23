@@ -2,63 +2,43 @@
 % Please edit documentation in R/followers.R
 \name{get_followers}
 \alias{get_followers}
-\title{get_followers}
+\title{GET followers/ids}
 \usage{
-get_followers(user, n = 5000, ...)
+get_followers(user, n = 5000, retryonratelimit = FALSE, ...)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{user}{Screen name or user ID of target user from which the user IDs
+of followers will be retrieved.}
 
-\item{n}{Number of followers to return. For max return, enter
-\code{n = "all"} or \code{n = 75000} (max per token).}
+\item{n}{Number of followers to return. Defaults to 5000, which is the max
+number of followers returned by a single API request. Twitter allows up
+to 15 of these requests every 15 minutes, which means 75,000 is the max
+number of followers to return without waiting for the rate limit to reset.}
 
-\item{page}{Default \code{page = -1} specifies first page of json
-results. Other pages specified via cursor values supplied by
-Twitter API response object.}
+\item{retryonratelimit}{If you'd like to retrieve more than 75,000 followers
+in a single call, then set \code{retryonratelimit = TRUE} and this function
+will use \code{\link{Sys.sleep}} until rate limits reset and the desired n
+is achieved or the number of total followers is exhausted. This defaults
+to FALSE. See details for more info regarding possible issues with timing
+misfires.}
 
-\item{retryonratelimit}{The max number of followers returned every
-15 minutes is 75,000. If you'd like more than that, then you can
-set this to TRUE and the function will try to implement a sleep
-functional call internally and iterate through until n is achieved.
-Defaults to FALSE.}
-
-\item{verbose}{Logical indicating whether or not to print messages.
-Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
-sleep times and followers gathered count.}
-
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
-
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+\item{...}{For other possible arguments see \code{\link{get_followers.default}}.}
 }
 \value{
-list of follower ids and next page value (presumably
-  this would be used in loops extracting more than 75,000
-  followers using either multiple tokens or by waiting out
-  rate limits)
+A tibble data frame of follower IDs (one column named "user_id").
 }
 \description{
-Returns max followers per token
+Get user IDs of accounts following target user.
 }
-\examples{
-\dontrun{
-# get ids of users following the president of the US
-pres <- get_followers(user = "potus")
-pres
-
-# get ids of users following the Environmental Protection Agency
-epa <- get_followers(user = "epa")
-epa
-}
-
-}
-\seealso{
-\url{https://dev.twitter.com/overview/documentation}
-
-Other ids: \code{\link{get_friends}}
+\details{
+When \code{retryonratelimit = TRUE} this function internally
+  makes a rate limit API call to get information on (a) the number of requests
+  remaining and (b) the amount of time until the rate limit resets. So, in
+  theory, the sleep call should only be called once between waves of data
+  collection. However, as a fail safe, if a system's time is calibrated such
+  that it expires before the rate limit reset, or if, in another session, the
+  user dips into the rate limit, then this function will wait (use Sys.sleep
+  for a second time) until the next rate limit reset. Users should monitor
+  and test this before making especially large calls as any systematic issues
+  could create sizable inefficiencies.
 }

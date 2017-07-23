@@ -14,7 +14,7 @@
 #'   Defaults to FALSE.
 #' @param verbose Logical indicating whether or not to print messages.
 #'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
-#'   sleep times and followers gathered count.
+#'   sleep times and followers gathered counts.
 #' @param parse Logical, indicating whether to return parsed
 #'   vector or nested list (fromJSON) object. By default,
 #'   \code{parse = TRUE} saves you the time [and frustrations]
@@ -41,13 +41,10 @@
 #'   rate limits)
 #' @family ids
 #' @export
-get_followers <- function(user, n = 5000, ...) {
-  UseMethod("get_followers")
-}
-
-get_followers.default <- function(user, n = 75000,
-                                  page = "-1",
+get_followers.default <- function(user,
+                                  n = 5000,
                                   retryonratelimit = FALSE,
+                                  page = "-1",
                                   parse = TRUE,
                                   verbose = TRUE,
                                   token = NULL) {
@@ -95,12 +92,12 @@ get_followers.default <- function(user, n = 75000,
         if (verbose) {
           message(
             paste("Waiting about",
-                  ceiling(as.numeric(rl$reset, "secs") / 60),
+                  round(as.numeric(rl$reset, "secs") / 60, 1),
                   "minutes",
                   "for rate limit reset...")
           )
         }
-        Sys.sleep(as.numeric(rl$reset + 2, "secs"))
+        Sys.sleep(as.numeric(rl$reset, "secs") + 2)
         rl <- rate_limit(token, query)
         n.times <- rl$remaining
         rate_limited <- isTRUE(n.times == 0)
@@ -135,15 +132,48 @@ get_followers.default <- function(user, n = 75000,
   f
 }
 
+#' GET followers/ids
+#'
+#' Get user IDs of accounts following target user.
+#'
+#' @param user Screen name or user ID of target user from which the user IDs
+#'   of followers will be retrieved.
+#' @param n Number of followers to return. Defaults to 5000, which is the max
+#'   number of followers returned by a single API request. Twitter allows up
+#'   to 15 of these requests every 15 minutes, which means 75,000 is the max
+#'   number of followers to return without waiting for the rate limit to reset.
+#' @param retryonratelimit If you'd like to retrieve more than 75,000 followers
+#'   in a single call, then set \code{retryonratelimit = TRUE} and this function
+#'   will use \code{\link{Sys.sleep}} until rate limits reset and the desired n
+#'   is achieved or the number of total followers is exhausted. This defaults
+#'   to FALSE. See details for more info regarding possible issues with timing
+#'   misfires.
+#' @details When \code{retryonratelimit = TRUE} this function internally
+#'   makes a rate limit API call to get information on (a) the number of requests
+#'   remaining and (b) the amount of time until the rate limit resets. So, in
+#'   theory, the sleep call should only be called once between waves of data
+#'   collection. However, as a fail safe, if a system's time is calibrated such
+#'   that it expires before the rate limit reset, or if, in another session, the
+#'   user dips into the rate limit, then this function will wait (use Sys.sleep
+#'   for a second time) until the next rate limit reset. Users should monitor
+#'   and test this before making especially large calls as any systematic issues
+#'   could create sizable inefficiencies.
+#' @param ... For other possible arguments see \code{\link{get_followers.default}}.
+#' @return A tibble data frame of follower IDs (one column named "user_id").
+#' @export
+get_followers <- function(user, n = 5000, retryonratelimit = FALSE, ...) {
+  UseMethod("get_followers")
+}
+
 more_followers <- function(f, i, n, ctr) {
   ## if null then return FALSE to prevent error
   if (length(f) == 0L) return(FALSE)
   ## only interested in value of last 'next_cursor'
   f <- f[[length(f)]]
-  ## if n >= obs, f has nex_cursor, next_cursor != 0
+  ## if n > obs, f has nex_cursor, next_cursor != 0
   ##   then yes, TRUE, there are more followers to get
   all(
-    n >= ctr,
+    n > ctr,
     has_name(f, "next_cursor_str"),
     !isTRUE(identical(`[[`(f, "next_cursor_str"), "0"))
   )
