@@ -24,7 +24,7 @@
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.
 #' @export
-get_friends <- function(users, n = 5000, retryonratelimit = FALSE, ...) {
+get_friends <- function(users, retryonratelimit = FALSE, ...) {
   UseMethod("get_friends")
 }
 

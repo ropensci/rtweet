@@ -53,7 +53,7 @@
 #'   the user provided.
 #' @family tweets
 #' @export
-get_timeline <- function(user, n = 200,
+get_timeline_ <- function(user, n = 200,
                          max_id = NULL,
                          home = FALSE,
                          parse = TRUE,
@@ -143,7 +143,7 @@ get_timeline <- function(user, n = 200,
 #' }
 #' }
 #' @return Data frame or if parse is false then list.
-get_timelines <- function(users, n = 200, parse = TRUE, ...) {
+get_timelines2 <- function(users, n = 200, parse = TRUE, ...) {
   stopifnot(is.atomic(users), is.numeric(n))
   if (length(n) > 1L) {
     stopifnot(length(users) == length(n))
@@ -162,3 +162,4 @@ get_timelines <- function(users, n = 200, parse = TRUE, ...) {
   }
   usrs
 }
+

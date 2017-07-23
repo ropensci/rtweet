@@ -4,7 +4,7 @@
 \alias{get_friends}
 \title{GET friends/ids}
 \usage{
-get_friends(users, n = 5000, retryonratelimit = FALSE, ...)
+get_friends(users, retryonratelimit = FALSE, ...)
 }
 \arguments{
 \item{users}{Screen name or user ID of target user from which the user IDs

@@ -1,7 +1,7 @@
 #' get_favorites
 #'
-#' @description Returns the 20 most recent Tweets liked by
-#'   the authenticating or specified user.
+#' Returns the most recent Tweets liked by target user.
+#' 
 #' @param user Screen name or user id of target user.
 #' @param n Specifies the number of records to retrieve. Must be
 #'   less than or equal to 200; defaults to 300. 3000 is the max
@@ -25,21 +25,17 @@
 #'   tokens vignette (in r, send \code{?tokens} to console).
 #' @examples
 #' \dontrun{
-#' # get ids of users following the president of the US
-#' pres <- get_followers(user = "potus")
+#' # get favorites of the president of the US
+#' pres <- get_favorites(user = "potus")
 #' pres
 #'
-#' # get ids of users following the Environmental Protection Agency
-#' epa <- get_followers(user = "epa")
+#' # get favorites of the Environmental Protection Agency
+#' epa <- get_favorites(user = "epa")
 #' epa
 #' }
 #' @family tweets
 #' @return Tweets data frame.
 #' @export
-get_favorites <- function(user, n, ...) {
-  UseMethod("get_favorites")
-}
-
 get_favorites.default <- function(user,
                                   n = 300,
                                   since_id = NULL,
@@ -67,7 +63,8 @@ get_favorites.default <- function(user,
 
   params <- list(
     user_type = user,
-    count = 200)
+    count = 200
+  )
 
   names(params)[1] <- .id_type(user)
 
@@ -88,4 +85,31 @@ get_favorites.default <- function(user,
   }
 
   fav
+}
+
+#' get_favorites
+#'
+#' Returns the most recent Tweets liked by target user.
+#' 
+#' @param user Screen name or user id of target user.
+#' @param n Specifies the number of records to retrieve. Must be
+#'   less than or equal to 200; defaults to 300. 3000 is the max
+#'   number of favorites returned per token. Due to suspended or
+#'   deleted content, this function may return fewer tweets than
+#'   the desired (n) number.
+#' @param ... For other possible args see \code{\link{get_favorites.default}}.
+#' @examples
+#' \dontrun{
+#' # get favorites of the president of the US
+#' pres <- get_favorites(user = "potus")
+#' pres
+#'
+#' # get favorites of the Environmental Protection Agency
+#' epa <- get_favorites(user = "epa")
+#' epa
+#' }
+#' @family tweets
+#' @return Tweets data frame.
+get_favorites <- function(user, n, ...) {
+  UseMethod("get_favorites")
 }

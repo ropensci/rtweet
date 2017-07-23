@@ -15,45 +15,28 @@ number of favorites returned per token. Due to suspended or
 deleted content, this function may return fewer tweets than
 the desired (n) number.}
 
-\item{since_id}{Returns results with an status_id greater
-than (that is, more recent than) the specified status_id.
-There are limits to the number of tweets returned by the REST
-API. If the limit is hit, since_id is adjusted (by Twitter) to
-the oldest ID available.}
-
-\item{max_id}{Returns results with status_id less (older) than or
-equal to (if hit limit) the specified status_id.}
-
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
-
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+\item{...}{For other possible args see \code{\link{get_favorites.default}}.}
 }
 \value{
 Tweets data frame.
 }
 \description{
-Returns the 20 most recent Tweets liked by
-  the authenticating or specified user.
+Returns the most recent Tweets liked by target user.
 }
 \examples{
 \dontrun{
-# get ids of users following the president of the US
-pres <- get_followers(user = "potus")
+# get favorites of the president of the US
+pres <- get_favorites(user = "potus")
 pres
 
-# get ids of users following the Environmental Protection Agency
-epa <- get_followers(user = "epa")
+# get favorites of the Environmental Protection Agency
+epa <- get_favorites(user = "epa")
 epa
 }
 }
 \seealso{
-Other tweets: \code{\link{get_timeline}},
+Other tweets: \code{\link{get_favorites.default}},
+  \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
   \code{\link{tweets_data}}

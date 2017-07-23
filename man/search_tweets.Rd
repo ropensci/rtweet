@@ -231,8 +231,8 @@ ts_plot(rt, by = "mins", theme = "spacegray",
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_timeline}},
+Other tweets: \code{\link{get_favorites.default}},
+  \code{\link{get_favorites}}, \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}
 }

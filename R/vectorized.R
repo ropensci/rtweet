@@ -53,14 +53,14 @@ search_tweets_ <- function(q, n = 100, ...) {
 #' @param \dots Other arguments passed on to \code{get_timeline}.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @export
-get_timeline_ <- function(user, n = 100, ...) {
+get_timeline.default <- function(user, n = 100, ...) {
   ## check inputs
   stopifnot(is.atomic(user), is.numeric(n))
   if (length(user) == 0L) {
     stop("No query found", call. = FALSE)
   }
   ## search for each string in column of queries
-  rt <- Map(get_timeline, user, n = n, ...)
+  rt <- Map(get_timeline_, user, n = n, ...)
   ## merge users data into one data frame
   rt_users <- do.call("rbind", lapply(rt, users_data))
   ## merge tweets data into one data frame
@@ -71,8 +71,20 @@ get_timeline_ <- function(user, n = 100, ...) {
   tibble::as_tibble(rt, validate = FALSE)
 }
 
+#' Get timeline
+#'
+#' Returns one or more user timelines (tweets posted by target user(s))
+#' 
+#' @param user Vector of user names, user IDs, or a mixture of both.
+#' @param n Number of tweets to return per timeline. Defaults to 100.
+#'   Must be of length 1 or equal to length of user.
+#' @param \dots Other arguments passed on to \code{get_timeline}.
+#' @return A tbl data frame of tweets data with users data attribute.
 #' @export
-get_timelines <- function(...) get_timeline_(...)
+get_timeline <- function(user, n, ...) {
+  UseMethod("get_timeline")
+}
+
 
 #' Get favorites (vectorized)
 #'
