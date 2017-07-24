@@ -2,19 +2,18 @@
 % Please edit documentation in R/favorites.R
 \name{get_favorites.default}
 \alias{get_favorites.default}
-\title{get_favorites}
+\title{get_favorites.default}
 \usage{
-\method{get_favorites}{default}(user, n = 300, since_id = NULL,
-  max_id = NULL, parse = TRUE, token = NULL)
+\method{get_favorites}{default}(user, n = 200, since_id = NULL,
+  max_id = NULL, parse = TRUE)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{user}{Screen names and/or user IDs of target users.}
 
-\item{n}{Specifies the number of records to retrieve. Must be
-less than or equal to 200; defaults to 300. 3000 is the max
-number of favorites returned per token. Due to suspended or
-deleted content, this function may return fewer tweets than
-the desired (n) number.}
+\item{n}{Specifies the number of records to retrieve. Defaults
+to 200. 3000 is the max number of favorites returned per token.
+Due to suspended or deleted content, this function may return
+fewer tweets than the desired (n) number.}
 
 \item{since_id}{Returns results with an status_id greater
 than (that is, more recent than) the specified status_id.
@@ -39,7 +38,7 @@ tokens vignette (in r, send \code{?tokens} to console).}
 Tweets data frame.
 }
 \description{
-Returns the most recent Tweets liked by target user.
+Returns favorite tweets data for one or more target users.
 }
 \examples{
 \dontrun{
@@ -53,8 +52,7 @@ epa
 }
 }
 \seealso{
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_timeline_}},
+Other tweets: \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
   \code{\link{tweets_data}}

@@ -1,0 +1,42 @@
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[latin1]{inputenc} % @SET ENCODING@
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge Package `rtweet'}}
+\par\bigskip{\large \today}
+\end{center}
+\begin{description}
+\raggedright{}
+\item[Type]\AsIs{Package}
+\item[Title]\AsIs{Collecting Twitter Data}
+\item[Version]\AsIs{0.4.8}
+\item[Date]\AsIs{2017-07-19}
+\item[Description]\AsIs{An implementation of calls designed to extract and organize Twitter data via
+Twitter's REST and stream APIs. Functions formulate and send API requests, convert
+response objects to more user friendly data structures---e.g., data frames---and
+provide some aesthetically pleasing visualizations for exploring the data.}
+\item[Depends]\AsIs{R (>= 3.1.0)}
+\item[Imports]\AsIs{bit64,
+httr (>= 1.0.0),
+jsonlite,
+magrittr,
+methods,
+openssl,
+tibble}
+\item[License]\AsIs{MIT + file LICENSE}
+\item[LazyData]\AsIs{TRUE}
+\item[URL]\AsIs{}\url{https://CRAN.R-project.org/package=rtweet}\AsIs{}
+\item[BugReports]\AsIs{}\url{https://github.com/mkearney/rtweet/issues}\AsIs{}
+\item[RoxygenNote]\AsIs{6.0.1}
+\item[Suggests]\AsIs{ggplot2,
+knitr,
+rmarkdown,
+testthat}
+\item[VignetteBuilder]\AsIs{knitr}
+\end{description}
+\Rdcontents{\R{} topics documented:}

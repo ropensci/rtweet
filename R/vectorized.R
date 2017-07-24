@@ -86,35 +86,9 @@ get_timeline <- function(user, n, ...) {
 }
 
 
-#' Get favorites (vectorized)
-#'
-#' Returns favorites data from one or more users.
-#' 
-#' @param user Vector of user names, user IDs, or a mixture of both.
-#' @param n Number of favorites to return per user. Defaults to 100.
-#'   Must be of length 1 or equal to length of user.
-#' @param \dots Other arguments passed on to \code{get_favorites}.
-#' @return A tbl data frame of tweets data with users data attribute.
-#' @export
-get_favorites_ <- function(user, n = 100, ...) {
-  ## check inputs
-  stopifnot(is.atomic(user), is.numeric(n))
-  if (length(user) == 0L) {
-    stop("No query found", call. = FALSE)
-  }
-  ## search for each string in column of queries
-  rt <- Map(get_favorites, user, n = n, ...)
-  ## add favoriter variable to data frames
-  rt <- Map(cbind, rt, favoriter = user, stringsAsFactors = FALSE)
-  ## merge users data into one data frame
-  rt_users <- do.call("rbind", lapply(rt, users_data))
-  ## merge tweets data into one data frame
-  rt <- do.call("rbind", rt)
-  ## set users attribute
-  attr(rt, "users") <- rt_users
-  ## return tibble (validate = FALSE makes it a bit faster)
-  tibble::as_tibble(rt, validate = FALSE)
-}
+
+
+
 
 #' Get friends (vectorized)
 #'

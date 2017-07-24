@@ -140,7 +140,7 @@ x <- mutate.coords(rtworld)
 \url{https://stream.twitter.com/1.1/statuses/filter.json}
 
 Other tweets: \code{\link{get_favorites.default}},
-  \code{\link{get_favorites}}, \code{\link{get_timeline_}},
+  \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}}
 }

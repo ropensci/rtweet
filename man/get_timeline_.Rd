@@ -73,7 +73,6 @@ users_data(djt)
 \url{https://dev.twitter.com/overview/documentation}
 
 Other tweets: \code{\link{get_favorites.default}},
-  \code{\link{get_favorites}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
   \code{\link{tweets_data}}

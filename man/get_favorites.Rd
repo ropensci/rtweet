@@ -2,42 +2,25 @@
 % Please edit documentation in R/favorites.R
 \name{get_favorites}
 \alias{get_favorites}
-\title{get_favorites}
+\title{GET favorites/statuses}
 \usage{
 get_favorites(user, n, ...)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{user}{Vector of user names, user IDs, or a mixture of both.}
 
-\item{n}{Specifies the number of records to retrieve. Must be
-less than or equal to 200; defaults to 300. 3000 is the max
-number of favorites returned per token. Due to suspended or
-deleted content, this function may return fewer tweets than
-the desired (n) number.}
+\item{n}{Specifies the number of records to retrieve. Defaults to
+200. 3000 is the max number of favorites returned per token.  Due
+to suspended or deleted content, this function may return fewer
+tweets than the desired (n) number. Must be of length 1 or of
+length equal to users}
 
-\item{...}{For other possible args see \code{\link{get_favorites.default}}.}
+\item{...}{To see other possible arguments see
+\link{\code{get_favorites.default}}.}
 }
 \value{
-Tweets data frame.
+A tbl data frame of tweets data with users data attribute.
 }
 \description{
-Returns the most recent Tweets liked by target user.
-}
-\examples{
-\dontrun{
-# get favorites of the president of the US
-pres <- get_favorites(user = "potus")
-pres
-
-# get favorites of the Environmental Protection Agency
-epa <- get_favorites(user = "epa")
-epa
-}
-}
-\seealso{
-Other tweets: \code{\link{get_favorites.default}},
-  \code{\link{get_timeline_}},
-  \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}}
+Returns favorite tweets data for one or more target users.
 }
