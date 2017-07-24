@@ -5,13 +5,11 @@
 #' Returns time series-like data frame.
 #'
 #' @param data Data frame or grouped data frame.
-#' @param by Desired interval of time expressed as numeral plus secs, mins,
-#'   hours, days, weeks, months, years. If a numeric is provided, the value
-#'   is assumed to be in seconds.
-#' @param group Name of grouping variable to construct multiple time series,
-#'   which still returns a data frame but it includes the group variable as
-#'   a named column.
-#' @param \dots Passed along to trim_time. Most likely used to specify timezone.
+#' @param by Desired interval of time expressed as numeral plus secs,
+#'   mins, hours, days, weeks, months, years. If a numeric is
+#'   provided, the value is assumed to be in seconds.
+#' @param ... For info on all possible arguments see
+#'   \code{\link{ts_plot.default}}.
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @importFrom graphics legend
 #' @export
@@ -19,6 +17,23 @@ ts_plot <- function(data, by, ...) {
   UseMethod("ts_plot")
 }
 
+
+#' ts_plot.default
+#'
+#' Returns time series-like data frame.
+#'
+#' @param data Data frame or grouped data frame.
+#' @param by Desired interval of time expressed as numeral plus secs,
+#'   mins, hours, days, weeks, months, years. If a numeric is
+#'   provided, the value is assumed to be in seconds.
+#' @param group Name of grouping variable to construct multiple time
+#'   series, which still returns a data frame but it includes the
+#'   group variable as a named column.
+#' @param \dots Passed along to trim_time. Most likely used to specify
+#'   timezone.
+#' @return Data frame with time, n, and grouping column if applicable.
+#' @importFrom graphics legend
+#' @export
 ts_plot.default <- function(data, by = "days", group = NULL, ...) {
   data <- ts_data(data, by, group = group, ...)
   if (requireNamespace("ggplot2", quietly = TRUE)) {

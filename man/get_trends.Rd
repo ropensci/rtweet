@@ -2,7 +2,7 @@
 % Please edit documentation in R/trends.R
 \name{get_trends}
 \alias{get_trends}
-\title{get_trends}
+\title{GET trends/place}
 \usage{
 get_trends(woeid = 1, ...)
 }
@@ -11,16 +11,8 @@ get_trends(woeid = 1, ...)
 character string of desired town or country. To browse all
 available trend places, see \code{\link{trends_available}}}
 
-\item{exclude}{Logical, indicating whether or not to exclude
-hashtags}
-
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
-
-\item{parse}{Logical, indicating whether or not to parse return
-trends data.}
+\item{...}{For more info on all possible arguments see
+\code{\link{get_trends.default}}.}
 }
 \value{
 Trend data for a given location.
@@ -47,6 +39,7 @@ ww_trends
 }
 \seealso{
 Other trends: \code{\link{find_woeid}},
+  \code{\link{get_trends.default}},
   \code{\link{get_trends_closest}},
   \code{\link{trends_available}}
 }

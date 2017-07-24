@@ -5,7 +5,7 @@
 \title{get_favorites.default}
 \usage{
 \method{get_favorites}{default}(user, n = 200, since_id = NULL,
-  max_id = NULL, parse = TRUE)
+  max_id = NULL, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen names and/or user IDs of target users.}

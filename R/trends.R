@@ -1,19 +1,12 @@
-#' get_trends
+#' GET trends/place
 #'
 #' @description Returns Twitter trends
 #'
 #' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
 #'   character string of desired town or country. To browse all
 #'   available trend places, see \code{\link{trends_available}}
-#' @param exclude Logical, indicating whether or not to exclude
-#'   hashtags
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @param parse Logical, indicating whether or not to parse return
-#'   trends data.
-#'
+#' @param ... For more info on all possible arguments see
+#'   \code{\link{get_trends.default}}.
 #' @examples
 #' \dontrun{
 #' # Retrieve available trends
@@ -37,6 +30,24 @@ get_trends <- function(woeid = 1, ...) {
   UseMethod("get_trends")
 }
 
+#' get_trends.default
+#'
+#' Returns trend data by location
+#'
+#' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
+#'   character string of desired town or country. To browse all
+#'   available trend places, see \code{\link{trends_available}}
+#' @param exclude Logical, indicating whether or not to exclude
+#'   hashtags
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
+#' @param parse Logical, indicating whether or not to parse return
+#'   trends data.
+#' @return Tibble data frame of trends data.
+#' @family trends
+#' @export
 get_trends.default <- function(woeid = 1,
                                exclude = FALSE,
                                token = NULL,

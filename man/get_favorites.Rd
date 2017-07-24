@@ -2,7 +2,7 @@
 % Please edit documentation in R/favorites.R
 \name{get_favorites}
 \alias{get_favorites}
-\title{GET favorites/statuses}
+\title{GET favorites/list}
 \usage{
 get_favorites(user, n, ...)
 }
@@ -16,7 +16,7 @@ tweets than the desired (n) number. Must be of length 1 or of
 length equal to users}
 
 \item{...}{To see other possible arguments see
-\link{\code{get_favorites.default}}.}
+\code{\link{get_favorites.default}}.}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.

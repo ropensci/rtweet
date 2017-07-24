@@ -21,7 +21,8 @@ WOEID matching funcitons are offered for convenience.
   Google search.
 }
 \seealso{
-Other trends: \code{\link{get_trends_closest}},
+Other trends: \code{\link{get_trends.default}},
+  \code{\link{get_trends_closest}},
   \code{\link{get_trends}}, \code{\link{trends_available}}
 }
 \keyword{internal}

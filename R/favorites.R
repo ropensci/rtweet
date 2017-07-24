@@ -1,4 +1,4 @@
-#' GET favorites/statuses
+#' GET favorites/list
 #'
 #' Returns favorite tweets data for one or more target users.
 #' 
@@ -9,7 +9,7 @@
 #'   tweets than the desired (n) number. Must be of length 1 or of
 #'   length equal to users
 #' @param ... To see other possible arguments see
-#'   \link{\code{get_favorites.default}}.
+#'   \code{\link{get_favorites.default}}.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @export
 get_favorites <- function(user, n, ...) {
@@ -57,7 +57,11 @@ get_favorites.default <- function(user,
                                   n = 200,
                                   since_id = NULL,
                                   max_id = NULL,
-                                  parse = TRUE) {
+                                  parse = TRUE,
+                                  token = NULL) {
+  if (is.null(token)) {
+    token <- check_token(token)
+  }
   ## check inputs
   stopifnot(is.atomic(user), is.numeric(n))
   if (length(user) == 0L) {
@@ -71,7 +75,8 @@ get_favorites.default <- function(user,
       n = n,
       since_id = since_id,
       max_id = max_id,
-      parse = parse
+      parse = parse,
+      token = list(token)
     )
   } else if (!is.null(since_id)) {
     rt <- Map(
@@ -79,7 +84,8 @@ get_favorites.default <- function(user,
       user = user,
       n = n,
       since_id = since_id,
-      parse = parse
+      parse = parse,
+      token = list(token)
     )
   } else if (!is.null(max_id)) {
     rt <- Map(
@@ -87,14 +93,16 @@ get_favorites.default <- function(user,
     user = user,
     n = n,
     max_id = max_id,
-    parse = parse
+    parse = parse,
+    token = list(token)
     )
   } else {
     rt <- Map(
       get_favorites_,
       user = user,
       n = n,
-      parse = parse
+      parse = parse,
+      token = list(token)
     )
   }
   ## add favoriter variable to data frames
