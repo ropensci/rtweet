@@ -154,6 +154,18 @@ get_friends.default <- function(users,
       attr(f, "next_cursor") <- nextcursors
     }
   } else {
+    ## compose query
+    params <- list(
+      user_type = users,
+      count = 5000,
+      cursor = page,
+      stringify = TRUE
+    )
+    names(params)[1] <- .id_type(users)
+    url <- make_url(
+      query = query,
+      param = params
+    )
     ## if !retryonratelimit then if necessary exhaust what can with token
     f <- get_friend(url, token = token)
       if (has_name(f, "errors")) {
