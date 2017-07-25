@@ -383,7 +383,6 @@ clean_source_ <- function(x) {
 }
 
 
-#' @importFrom utils hasName
 wrangle_retweet_status <- function(x) {
   n <- nrow(x)
   if (has_name(x, "retweeted_status")) {
@@ -407,7 +406,6 @@ wrangle_retweet_status <- function(x) {
   x
 }
 
-#' @importFrom utils hasName
 wrangle_quote_status <- function(x) {
   n <- nrow(x)
   if (has_name(x, "quoted_status")) {
