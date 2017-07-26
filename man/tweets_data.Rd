@@ -45,5 +45,6 @@ head(users_data(r))
 Other tweets: \code{\link{get_favorites.default}},
   \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}}
+  \code{\link{search_tweets.default}},
+  \code{\link{stream_tweets}}
 }

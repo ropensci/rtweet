@@ -1,5 +1,15 @@
 #' search_tweets
 #'
+#' @param q Search query.
+#' @param n Number of desired tweets
+#' @param ... For all args see \code{\link{search_tweets.default}}. 
+#' @export
+search_tweets <- function(q, n, ...) {
+  UseMethod("search_tweets")
+}
+
+#' search_tweets.default
+#'
 #' @description Returns two data frames (tweets data and users data)
 #'   using a provided search query.
 #'
@@ -195,10 +205,6 @@
 #'   data frame.
 #' @family tweets
 #' @export
-search_tweets <- function(q, n, ...) {
-  UseMethod("search_tweets")
-}
-
 search_tweets.default <- function(q = "",
                                   n = 100,
                                   type = "recent",

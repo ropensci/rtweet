@@ -74,6 +74,6 @@ users_data(djt)
 
 Other tweets: \code{\link{get_favorites.default}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}}
+  \code{\link{search_tweets.default}},
+  \code{\link{stream_tweets}}, \code{\link{tweets_data}}
 }

@@ -41,6 +41,7 @@ users_data(statuses)
 \url{https://dev.twitter.com/overview/documentation}
 
 Other tweets: \code{\link{get_favorites.default}},
-  \code{\link{get_timeline_}}, \code{\link{search_tweets}},
+  \code{\link{get_timeline_}},
+  \code{\link{search_tweets.default}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}
 }
