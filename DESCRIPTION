@@ -17,6 +17,7 @@ Imports:
     magrittr,
     methods,
     openssl,
+    readr,
     tibble
 License: MIT + file LICENSE
 LazyData: TRUE
@@ -26,6 +27,7 @@ RoxygenNote: 6.0.1
 Suggests:
     ggplot2,
     knitr,
+    parallel,
     rmarkdown,
     testthat
 VignetteBuilder: knitr

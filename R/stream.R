@@ -204,7 +204,7 @@ stream_tweets <- function(q = "",
   }
 
   if (parse) {
-    out <- parse_stream(file_name)
+    out <- stream_data(file_name)
     if (tmp) {
       file.remove(file_name)
     } else {
@@ -334,4 +334,66 @@ parse_stream_xl <- function(x, by = 10000) {
     tryCatch(error = function(e) return(NULL))
   attr(df, "usr") <- usr
   df
+}
+
+
+#' @importFrom readr read_lines write_lines
+readfromto <- function(x, from, to) {
+ if (!file.exists(x)) {
+  stop("No such file exists", call. = FALSE)
+ }
+ n_max <- to - from + 1
+ skip <- from - 1L
+ x <- readr::read_lines(x, skip = skip, n_max = n_max)
+ kp <- grep("limit", substr(x, 1, 10), invert = TRUE)
+ if (length(kp) == 0L) {
+  return(NULL)
+ }
+ x <- x[kp]
+ tmp <- tempfile()
+ readr::write_lines(x, tmp)
+ con <- file(tmp)
+ x <- parse_stream(tmp)
+ close(con)
+ x
+}
+
+fsz <- function(x) file.info(x)[["size"]]
+
+
+data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
+ estimated_lines <- ceiling(fsz(x) / 4500)
+ sq1 <- seq(1, estimated_lines, n)
+ sq2 <- sq1 + n
+ if (n.cores > 1L && requireNamespace("parallel", quietly = TRUE)) {
+  n_max <- parallel::detectCores()
+  if (n.cores > n_max) {
+   stop("n.cores exceeds number of system cores", call. = FALSE)
+  }
+  data <- parallel::mcMap(function(a, b) readfromto(x, a, b), sq1, sq2, mc.cores = n.cores)
+ } else {
+  data <- Map(function(a, b) readfromto(x, a, b), sq1, sq2)
+ }
+ twt <- do.call("rbind", data)
+ usr <- do.call("rbind", lapply(data, attr, "users"))
+ attr(twt, "users") <- usr
+ twt
+}
+
+
+#' stream_data
+#'
+#' Converts Twitter stream data (json file) into parsed data frame.
+#'
+#' @param path Character, name of json file with data collected by \code{\link{stream_tweets}}.
+#' @param ... Other arguments passed on to \code{\link{data_from_stream}}.
+#' @return A tbl of tweets data with attribute of users data
+#' @export
+stream_data <- function(path, ...) {
+ dots <- list(...)
+ if (length(dots) > 0L) {
+  do.call("data_from_stream", c(path, dots))
+ } else {
+  eval(call("data_from_stream", path))
+ }
 }
