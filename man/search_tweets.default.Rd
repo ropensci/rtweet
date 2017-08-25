@@ -4,9 +4,9 @@
 \alias{search_tweets.default}
 \title{search_tweets.default}
 \usage{
-\method{search_tweets}{default}(q = "", n = 100, type = "recent",
-  geocode = NULL, max_id = NULL, include_rts = TRUE, parse = TRUE,
-  token = NULL, retryonratelimit = FALSE, verbose = TRUE, adjtimer = 20,
+search_tweets.default(q = "", n = 100, type = "recent", geocode = NULL,
+  max_id = NULL, include_rts = TRUE, parse = TRUE, token = NULL,
+  retryonratelimit = FALSE, verbose = TRUE, adjtimer = 20,
   exact = FALSE, from = NULL, to = NULL, list = NULL, mention = NULL,
   hashtag = NULL, filter_media = FALSE, filter_native_video = FALSE,
   filter_vine = FALSE, filter_periscope = FALSE, filter_images = FALSE,
@@ -173,7 +173,7 @@ List object with tweets and users each returned as a
   data frame.
 }
 \description{
-Returns two data frames (tweets data and users data)
+Returns tweets data with users data attribute
   using a provided search query.
 }
 \details{

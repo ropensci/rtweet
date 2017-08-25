@@ -1,16 +1,37 @@
 #' search_tweets
 #'
-#' @param q Search query.
-#' @param n Number of desired tweets
-#' @param ... For all args see \code{\link{search_tweets.default}}. 
+#' @description Returns tweets data with users data attribute
+#'   using a provided search query.
+#' @param q Query to be searched, used to filter and select tweets
+#'   to return from Twitter's REST API. Must be a character string not
+#'   to exceed maximum of 500 characters. Spaces behave like boolean
+#'   "AND" operator. To search for tweets containing at least one of
+#'   multiple possible terms, separate each search term with spaces
+#'   and "OR" (in caps). For example, the search
+#'   \code{q = "data science"} looks for tweets containing both
+#'   "data" and "science" anywhere located anywhere in the tweets and
+#'   in any order. When "OR" is entered between search terms,
+#'   \code{query = "data OR science"}, Twitter's REST API should return
+#'   any tweet that contains either "data" or
+#'   "science." It is also possible to search for exact phrases using
+#'   double quotes. To do this, either wrap single quotes around a
+#'   search query using double quotes, e.g.,
+#'   \code{q = '"data science"'} or escape each internal double quote
+#'   with a single backslash, e.g., \code{q = "\"data science\""}.
+#' @param n Integer, specifying the total number of desired tweets to
+#'   return. Defaults to 100. Maximum number of tweets returned from
+#'   a single token is 18,000. To return more than 18,000 tweets, users
+#'   are encouraged to set \code{retryonratelimit} to TRUE. See details
+#'   for more information.
+#' @param ... For all args see \code{\link{search_tweets.default}}.
 #' @export
-search_tweets <- function(q, n, ...) {
-  UseMethod("search_tweets")
+search_tweets <- function(q, n = 100, ...) {
+  do.call("search_tweets.default", list(q = q, n = n, ...))
 }
 
 #' search_tweets.default
 #'
-#' @description Returns two data frames (tweets data and users data)
+#' @description Returns tweets data with users data attribute
 #'   using a provided search query.
 #'
 #' @param q Query to be searched, used to filter and select tweets
@@ -394,7 +415,7 @@ search_tweets.default <- function(q = "",
            call. = FALSE)
     }
     mention <- paste(paste0("@", mention), collapse = " ")
-    mention <- 
+    mention <-
       q <- paste(q, mention)
   }
   if (!is.null(hashtag)) {
