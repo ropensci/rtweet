@@ -38,7 +38,7 @@ users_with_tweets <- function(x) {
 ##' tweets data
 ##'
 ##' Returns tweets data frame.
-##' 
+##'
 ##' @title tweets_df
 ##' @param dat Nested list parsed from Twitter's returned json object.
 ##' @return tbl
@@ -51,7 +51,7 @@ tweets_df_ <- function(dat) {
 ##' users data
 ##'
 ##' Returns users data frame.
-##' 
+##'
 ##' @title users_df
 ##' @param x Nested list parsed from Twitter's returned json object.
 ##' @return tbl
@@ -122,10 +122,13 @@ status_object_ <- function(x) {
 
 tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
-  ## extended entitites
-  if (has_name(dat, "extended_entities") && has_name(dat[['extended_entities']], "media")) {
-    dat$ext_media_url <- lapply(dat$extended_entities$media, "[[[", "media_url")
-    dat$ext_media_expanded_url <- lapply(dat$extended_entities$media, "[[[", "expanded_url")
+  ## extended entitites > media
+  if (has_name(dat, "extended_entities") &&
+      has_name(dat[['extended_entities']], "media")) {
+    dat$ext_media_url <- lapply(
+      dat$extended_entities$media, "[[[", "media_url")
+    dat$ext_media_expanded_url <- lapply(
+      dat$extended_entities$media, "[[[", "expanded_url")
     dat$ext_media_t.co <- lapply(dat$extended_entities$media, "[[[", "url")
     dat$ext_media_type <- lapply(dat$extended_entities$media, "[[[", "type")
   } else {
@@ -134,6 +137,17 @@ tweets_to_tbl_ <- function(dat) {
     dat$ext_media_t.co <- as.list(NA_character_)
     dat$ext_media_type <- as.list(NA_character_)
   }
+  ## entities > urls
+  if (has_name(dat, "entities") && has_name(dat[['entities']], "urls")) {
+    dat$urls_url <- lapply(dat$entities$urls, "[[[", "display_url")
+    dat$urls_expanded_url <- lapply(dat$entities$urls, "[[[", "expanded_url")
+    dat$urls_t.co <- lapply(dat$entities$urls, "[[[", "url")
+  } else {
+    dat$urls_url <- as.list(NA_character_)
+    dat$urls_expanded_url <- as.list(NA_character_)
+    dat$urls_t.co <- as.list(NA_character_)
+  }
+  ## entities > media
   if (has_name(dat, "entities") && has_name(dat[['entities']], "media")) {
     dat$media_url <- lapply(dat$entities$media, "[[[", "media_url")
     dat$media_expanded_url <- lapply(dat$entities$media, "[[[", "expanded_url")
@@ -145,13 +159,18 @@ tweets_to_tbl_ <- function(dat) {
     dat$media_t.co <- as.list(NA_character_)
     dat$media_type <- as.list(NA_character_)
   }
-  if (has_name(dat, "entities") && has_name(dat[["entities"]], "user_mentions")) {
-    dat$mentions_user_id <- lapply(dat$entities$user_mentions, "[[[", "id_str")
-    dat$mentions_screen_name <- lapply(dat$entities$user_mentions, "[[[", "screen_name")
+  ## entities > user_mentions
+  if (has_name(dat, "entities") &&
+      has_name(dat[["entities"]], "user_mentions")) {
+    dat$mentions_user_id <- lapply(
+      dat$entities$user_mentions, "[[[", "id_str")
+    dat$mentions_screen_name <- lapply(
+      dat$entities$user_mentions, "[[[", "screen_name")
   } else {
     dat$mentions_user_id <- as.list(NA_character_)
     dat$mentions_screen_name <- as.list(NA_character_)
   }
+  ## entities > hashtags
   if (has_name(dat, "entities") && has_name(dat[["entities"]], "hashtags")) {
     dat$hashtags <- lapply(dat$entities$hashtags, "[[[", "text")
   } else {
@@ -163,14 +182,17 @@ tweets_to_tbl_ <- function(dat) {
     dat$symbols <- as.list(NA_character_)
   }
   if (has_name(dat, "geo") && has_name(dat[["geo"]], "coordinates")) {
-    dat$geo_coords <- lapply(dat$geo$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
+    dat$geo_coords <- lapply(
+      dat$geo$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
     dat$geo_coords <- list(
         c(NA_real_, NA_real_)
       )
   }
-  if (has_name(dat, "coordinates") && has_name(dat[["coordinates"]], "coordinates")) {
-    dat$coordinates_coords <- lapply(dat$coordinates$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
+  if (has_name(dat, "coordinates") &&
+      has_name(dat[["coordinates"]], "coordinates")) {
+    dat$coordinates_coords <- lapply(
+      dat$coordinates$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
     dat$coordinates_coords <- list(
         c(NA_real_, NA_real_)
@@ -183,7 +205,8 @@ tweets_to_tbl_ <- function(dat) {
     dat$country_code <- `[[[`(dat$place, "country_code")
     dat$place_type <- `[[[`(dat$place, "place_type")
     dat$country <- `[[[`(dat$place, "country")
-    if (has_name(dat$place, "bounding_box") && has_name(dat$place[["bounding_box"]], "coordinates")) {
+    if (has_name(dat$place, "bounding_box") &&
+        has_name(dat$place[["bounding_box"]], "coordinates")) {
       dat$bbox_coords <- lapply(
         dat$place$bounding_box[["coordinates"]], function(i) {
           if (is.array(i)) {
@@ -193,10 +216,11 @@ tweets_to_tbl_ <- function(dat) {
               NA_real_, NA_real_, NA_real_, NA_real_)
           }
         })
-      
+
     } else {
       dat$bbox_coords <- list(
-        c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_, NA_real_, NA_real_, NA_real_)
+        c(NA_real_, NA_real_, NA_real_, NA_real_,
+          NA_real_, NA_real_, NA_real_, NA_real_)
       )
     }
   } else {
@@ -207,7 +231,8 @@ tweets_to_tbl_ <- function(dat) {
     dat$place_type <- NA_character_
     dat$country <- NA_character_
     dat$bbox_coords <- list(
-        c(NA_real_, NA_real_, NA_real_, NA_real_, NA_real_, NA_real_, NA_real_, NA_real_)
+        c(NA_real_, NA_real_, NA_real_, NA_real_,
+          NA_real_, NA_real_, NA_real_, NA_real_)
       )
   }
   if (has_name(dat, "user") && has_name(dat[["user"]], "id_str")) {
@@ -226,7 +251,7 @@ tweets_to_tbl_ <- function(dat) {
   }
   dat <- dat[, statuscols[statuscols %in% names(dat)]]
   names(dat) <- names(statuscols)[statuscols %in% names(dat)]
-  
+
   dat$created_at <- format_date(dat$created_at)
   dat$source <- clean_source_(dat$source)
   tibble::as_tibble(dat, validate = FALSE)
@@ -344,6 +369,9 @@ statuscols_ <- function() {
   retweet_count = "retweet_count",
   hashtags = "hashtags",
   symbols = "symbols",
+  urls_url = "urls_url",
+  urls_t.co = "urls_t.co",
+  urls_expanded_url = "urls_expanded_url",
   media_url = "media_url",
   media_t.co = "media_t.co",
   media_expanded_url = "media_expanded_url",
@@ -426,5 +454,26 @@ wrangle_quote_status <- function(x) {
   }
   x$is_quote <- !is.na(x$quoted_status_id)
   x[["quoted_status"]] <- NULL
+  x
+}
+
+status_url_ <- function(x) {
+  stopifnot(is.data.frame(x))
+  if (all(c("screen_name", "status_id") %in% names(x))) {
+    nas <- apply(
+      x[, c("screen_name", "status_id")],
+      1, function(x)
+        all(is.na(x))
+    )
+    x$status_url <- paste0(
+      "https://twitter.com/",
+      x$screen_name,
+      "/status/",
+      x$status_id
+    )
+    x$status_url[nas] <- NA_character_
+  } else {
+    x$status_url <- NA_character_
+  }
   x
 }
