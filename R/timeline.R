@@ -15,7 +15,12 @@ get_timeline_call <- function(user, n = 100, ...) {
     stop("No query found", call. = FALSE)
   }
   ## search for each string in column of queries
-  rt <- Map(get_timeline_, user, n = n, ...)
+  dots <- list(...)
+  if (length(dots) > 0L) {
+    rt <- Map(get_timeline_, user = user, n = n, MoreArgs = dots)
+  } else {
+    rt <- Map(get_timeline_, user = user, n = n)
+  }
   ## merge users data into one data frame
   rt_users <- do.call("rbind", lapply(rt, users_data))
   ## merge tweets data into one data frame

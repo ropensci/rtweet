@@ -75,11 +75,11 @@ next_cursor <- function(ids) {
 #' @family users
 #' @export
 users_data <- function(tweets) {
-  if(!is.recursive(tweets)) return(data.frame())
+  if (!is.recursive(tweets)) return(data.frame())
   if (isTRUE("users" %in% names(attributes(tweets)))) {
     attr(tweets, "users")
   } else {
-    warning("No \"users\" attribute found.", call. = FALSE)
+    ##warning("No \"users\" attribute found.", call. = FALSE)
     data.frame()
   }
 }
@@ -131,11 +131,11 @@ firehose <- function(search = TRUE) {
 #' @family tweets
 #' @export
 tweets_data <- function(users) {
-  if(!is.recursive(users)) return(data.frame())
+  if (!is.recursive(users)) return(data.frame())
   if (isTRUE("tweets" %in% names(attributes(users)))) {
     attr(users, "tweets")
   } else {
-    warning("No \"tweets\" attribute found.", call. = FALSE)
+    ##warning("No \"tweets\" attribute found.", call. = FALSE)
     data.frame()
   }
 }

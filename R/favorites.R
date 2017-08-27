@@ -105,16 +105,21 @@ get_favorites_call <- function(user,
       token = list(token)
     )
   }
-  ## add favoriter variable to data frames
-  rt <- Map(cbind, rt, favoriter = user, stringsAsFactors = FALSE)
-  ## merge users data into one data frame
-  rt_users <- do.call("rbind", lapply(rt, users_data))
-  ## merge tweets data into one data frame
-  rt <- do.call("rbind", rt)
-  ## set users attribute
-  attr(rt, "users") <- rt_users
-  ## return tibble (validate = FALSE makes it a bit faster)
-  tibble::as_tibble(rt, validate = FALSE)
+  if (parse) {
+    ## add favoriter variable to data frames
+    for (i in seq_along(user)) {
+      rt[[i]]$favoriter <- user[i]
+    }
+    ## merge users data into one data frame
+    rt_users <- do.call("rbind", lapply(rt, users_data))
+    ## merge tweets data into one data frame
+    rt <- do.call("rbind", rt)
+    ## set users attribute
+    attr(rt, "users") <- rt_users
+    ## return tibble (validate = FALSE makes it a bit faster)
+    rt <- tibble::as_tibble(rt, validate = FALSE)
+  }
+  rt
 }
 
 
