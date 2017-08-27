@@ -127,7 +127,7 @@ search_tweets <- function(q, n = 100, ...) {
 #'   could be reset. If this happens to you, add to this value to
 #'   achieve smoother experience. If you're trying to maximize
 #'   efficiency, you may be able to set this to 0 or 1 without any
-#'   issue.
+#' issue.
 #' @param exact Logical indicating whether to search for exact matches. Defaults
 #'   to false. Setting this to true is equivalent to using quotations around a
 #'   search query.
@@ -141,23 +141,25 @@ search_tweets <- function(q, n = 100, ...) {
 #' @param mention Screen name(s) of MENTIONED account(s) for which to search.
 #'   Vectors of multiple names are accepted, but no promises it'll work.
 #' @param hashtag Hashtag(s) for which to search. Can provide multiple hashtags
-#'   in a single vector, but tweets will only be returned if they include all
-#'   of the supplied hashtags. To search for tweets that use ANY hashtag, include
-#'   the hashtags separated by OR (#rstats OR #datascience) as part of the string
-#'   provided to q (query).
-#' @param filter_media Logical requesting to only return tweets with image or video.
+#'   in a single vector, but tweets will only be returned if they include all of
+#'   the supplied hashtags. To search for tweets that use ANY hashtag, include
+#'   the hashtags separated by OR (#rstats OR #datascience) as part of the
+#'   string provided to q (query).
+#' @param filter_media Logical requesting to only return tweets with image or
+#'   video.
 #' @param filter_native_video Logical requesting to only return tweets with
 #'   uploaded video (amplify, periscope, and vine included)
-#' @param filter_vine Logical requesting to only return tweets that include vines.
+#' @param filter_vine Logical requesting to only return tweets that include
+#'   vines.
 #' @param filter_periscope Logical requesting to only return tweets that include
 #'   vines.
 #' @param filter_images Logical requesting to only return tweets that have links
 #'   to photos (Instagram included)
-#' @param filter_twimg Logical requesting to only return tweets with
-#'   Twitter [linked] images
+#' @param filter_twimg Logical requesting to only return tweets with Twitter
+#'   [linked] images
 #' @param filter_links Logical requesting to only return tweets with URL links.
-#'   If keyword(s) are provided, the search will only return tweets with URL links
-#'   that include the supplied key word(s).
+#'   If keyword(s) are provided, the search will only return tweets with URL
+#'   links that include the supplied key word(s).
 #' @param \dots Futher arguments passed on to \code{make_url}.
 #'   All named arguments that do not match the above arguments
 #'   (i.e., count, type, etc.) will be built into the request.
@@ -509,7 +511,10 @@ search_tweets.default <- function(q = "",
 }
 
 
-search_tweets_internal <- function(q, n, parse = FALSE, token = NULL, ...) {
+search_tweets_internal <- function(q, n,
+                                   parse = FALSE,
+                                   token = NULL,
+                                   ...) {
   rt <- .search_tweets_internal(
     q = q, n = n, parse = parse, token, ...)
 }
@@ -535,6 +540,49 @@ search_tweets_internal <- function(q, n, parse = FALSE, token = NULL, ...) {
   }
   tw
 }
+
+#' search_users
+#'
+#' @description Returns data frame of users data using a provided
+#'   search query.
+#'
+#' @param q Query to be searched, used in filtering relevant tweets
+#'   to return from Twitter's REST API. Should be a character
+#'   string not to exceed 500 characters maximum. Spaces are assumed
+#'   to function like boolean "AND" operators. To search for tweets
+#'   including one of multiple possible terms, separate search terms
+#'   with spaces and the word "OR". For example, the search
+#'   \code{query = "data science"} searches for tweets using both
+#'   "data" and "science" though the words can appear anywhere and
+#'   in any order in the tweet. However, when OR is added between
+#'   search terms, \code{query = "data OR science"}, Twitter's REST
+#'   API should return any tweet that includes either "data" or
+#'   "science" appearing in the tweets. At this time, Twitter's users/search
+#'   API does not allow complex searches or queries targetting exact phrases
+#'   as is allowed by \code{search_tweets}.
+#' @param n Numeric, specifying the total number of desired users to
+#'   return. Defaults to 100. Maximum number of users returned from
+#'   a single search is 1,000.
+#' @param ... Other arguments passed along to \code{\link{search_users_call}}
+#' @examples
+#' \dontrun{
+#' # search for 1000 tweets mentioning Hillary Clinton
+#' pc <- search_users(q = "political communication", n = 1000)
+#'
+#' # data frame where each observation (row) is a different user
+#' pc
+#'
+#' # tweets data also retrieved. can access it via tweets_data()
+#' users_data(hrc)
+#' }
+#' @return Data frame of users returned by query.
+#' @family users
+#' @export
+search_users <- function(q, n = 100, ...) {
+  do.call("search_users_call", list(q = q, n = n, ...))
+}
+
+
 
 #' search_users
 #'
@@ -584,16 +632,10 @@ search_tweets_internal <- function(q, n, parse = FALSE, token = NULL, ...) {
 #' @return Data frame of users returned by query.
 #' @family users
 #' @export
-search_users <- function(q, n, ...) {
-  UseMethod("seach_users")
-}
-
-
-search_users.default <- function(q, n = 20,
-                                 parse = TRUE,
-                                 token = NULL,
-                                 verbose = TRUE) {
-
+search_users_call <- function(q, n = 20,
+                              parse = TRUE,
+                              token = NULL,
+                              verbose = TRUE) {
   query <- "users/search"
   stopifnot(is_n(n), is.atomic(q))
   token <- check_token(token, query)
@@ -652,10 +694,10 @@ search_users.default <- function(q, n = 20,
     if (k >= n * 20) break
   }
   if (parse) {
-    usr <- users_with_tweets(usr)
-    uq <- !duplicated(usr$user_id)
-    usr <- usr[uq, ]
-    attr(usr, "tweets") <- tweets_data(usr)[uq, ]
+    usr2 <- users_with_tweets(usr)
+    uq <- !duplicated(usr2$user_id)
+    usr <- usr2[uq, ]
+    attr(usr, "tweets") <- tweets_data(usr2)[uq, ]
   }
   if (verbose) {
     message("Finished collecting users!")

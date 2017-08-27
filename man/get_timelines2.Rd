@@ -9,13 +9,13 @@ get_timelines2(users, n = 200, parse = TRUE, ...)
 \arguments{
 \item{users}{Vector user names and or user IDs. Can be mixture of both.}
 
-\item{n}{Number of desired tweets to return per user. Must be either one value
-or the same length as supplied number of users.}
+\item{n}{Number of desired tweets to return per user. Must be either one
+value or the same length as supplied number of users.}
 
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
+\item{parse}{Logical, indicating whether to return parsed vector or nested
+list (fromJSON) object. By default, \code{parse = TRUE} saves you the time
+[and frustrations] associated with disentangling the Twitter API return
+objects.}
 
 \item{\dots}{Other args passed along to get_timeline.}
 }

@@ -5,7 +5,7 @@
 \title{GET direct_messages}
 \usage{
 my_direct_messages(since_id = NULL, max_id = NULL, count = 200,
-  token = NULL)
+  parse = TRUE, token = NULL)
 }
 \arguments{
 \item{since_id}{optional Returns results with an ID greater than (that is,
@@ -14,28 +14,30 @@ Tweets which can be accessed through the API. If the limit of Tweets has
 occured since the since_id, the since_id will be forced to the oldest ID
 available.}
 
-\item{max_id}{optional Returns results with an ID less than (that is,
-older than) or equal to the specified ID.}
+\item{max_id}{optional Returns results with an ID less than (that is, older
+than) or equal to the specified ID.}
 
 \item{count}{optional Specifies the number of direct messages to try and
 retrieve, up to a maximum of 200. The value of count is best thought of as
 a limit to the number of Tweets to return because suspended or deleted
 content is removed after the count has been applied.}
 
+\item{parse}{Logical indicating whether to convert response object into
+nested list. Defaults to true.}
+
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send \code{?tokens} to
-console).}
+non-exhausted token from an environment variable. Find instructions on how
+to create tokens and setup an environment variable in the tokens vignette
+(in r, send \code{?tokens} to console).}
 }
 \value{
-data
+Return object converted to nested list. If status code of response
+  object is not 200, the response object is returned directly.
 }
 \description{
-Returns the 20 most recent direct messages sent to the authenticating
-  user. Includes detailed information about the sender and recipient user.
-  You can request up to 200 direct messages per call, and only the most
-  recent 200 DMs will be available using this endpoint. Important: This
-  method requires an access token with RWD (read, write & direct
-  message) permissions.
+Returns the 20 most recent direct messages sent to the authenticating user.
+Includes detailed information about the sender and recipient user. You can
+request up to 200 direct messages per call, and only the most recent 200 DMs
+will be available using this endpoint. Important: This method requires an
+access token with RWD (read, write & direct message) permissions.
 }

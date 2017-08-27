@@ -4,7 +4,7 @@
 \alias{get_favorites}
 \title{GET favorites/list}
 \usage{
-get_favorites(user, n, ...)
+get_favorites(user, n = 200, ...)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
@@ -16,7 +16,7 @@ tweets than the desired (n) number. Must be of length 1 or of
 length equal to users}
 
 \item{...}{To see other possible arguments see
-\code{\link{get_favorites.default}}.}
+\code{\link{get_favorites_call}}.}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.

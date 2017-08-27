@@ -27,7 +27,7 @@
 #' @family trends
 #' @export
 get_trends <- function(woeid = 1, ...) {
-  UseMethod("get_trends")
+  do.call("get_trends.default", list(woeid = woeid, ...))
 }
 
 #' get_trends.default

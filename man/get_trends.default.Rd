@@ -4,7 +4,7 @@
 \alias{get_trends.default}
 \title{get_trends.default}
 \usage{
-\method{get_trends}{default}(woeid = 1, exclude = FALSE, token = NULL,
+get_trends.default(woeid = 1, exclude = FALSE, token = NULL,
   parse = TRUE)
 }
 \arguments{

@@ -162,7 +162,8 @@ get_followers.default <- function(user,
 #' @return A tibble data frame of follower IDs (one column named "user_id").
 #' @export
 get_followers <- function(user, n = 5000, retryonratelimit = FALSE, ...) {
-  UseMethod("get_followers")
+  do.call("get_followers.default",
+          list(user = user, n = n, retryonratelimit = retryonratelimit, ...))
 }
 
 more_followers <- function(f, i, n, ctr) {

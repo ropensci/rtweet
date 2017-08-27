@@ -4,7 +4,7 @@
 \alias{get_friends.default}
 \title{get_friends}
 \usage{
-\method{get_friends}{default}(users, retryonratelimit = FALSE, page = "-1",
+get_friends.default(users, retryonratelimit = FALSE, page = "-1",
   parse = TRUE, verbose = TRUE, token = NULL)
 }
 \arguments{

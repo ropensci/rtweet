@@ -7,7 +7,8 @@
 stream_data(path, ...)
 }
 \arguments{
-\item{path}{Character, name of json file with data collected by \code{\link{stream_tweets}}.}
+\item{path}{Character, name of json file with data collected by
+\code{\link{stream_tweets}}.}
 
 \item{...}{Other arguments passed on to \code{\link{data_from_stream}}.}
 }

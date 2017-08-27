@@ -8,10 +8,6 @@ test_that("get_timeline", {
     x <- get_timeline("jack", n = n, token = token)
     xts <- ts_data(x, by = "hours")
 
-    if ("Rplot.pdf" %in% list.files()) {
-        file.remove("Rplot.pdf")
-    }
-
     expect_equal(is.data.frame(x), TRUE)
     expect_named(x)
     expect_true("status_id" %in% names(x))

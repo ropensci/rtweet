@@ -139,7 +139,7 @@ x <- mutate.coords(rtworld)
 \seealso{
 \url{https://stream.twitter.com/1.1/statuses/filter.json}
 
-Other tweets: \code{\link{get_favorites.default}},
+Other tweets: \code{\link{get_favorites_call}},
   \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets.default}},

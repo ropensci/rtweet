@@ -79,7 +79,8 @@ users_data <- function(tweets) {
   if (isTRUE("users" %in% names(attributes(tweets)))) {
     attr(tweets, "users")
   } else {
-    tweets
+    warning("No \"users\" attribute found.", call. = FALSE)
+    data.frame()
   }
 }
 
@@ -89,7 +90,7 @@ all_tw <- function(search = TRUE) {
   } else {
     x <- ","
   }
-  paste(letters, collapse = x)
+  paste(c(letters, stopwords), collapse = x)
 }
 firehose <- function(search = TRUE) {
   all_tw(search)
@@ -134,7 +135,8 @@ tweets_data <- function(users) {
   if (isTRUE("tweets" %in% names(attributes(users)))) {
     attr(users, "tweets")
   } else {
-    users
+    warning("No \"tweets\" attribute found.", call. = FALSE)
+    data.frame()
   }
 }
 

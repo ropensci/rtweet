@@ -12,49 +12,45 @@ get_timeline_(user, n = 200, max_id = NULL, home = FALSE, parse = TRUE,
 
 \item{n}{Numeric, number of tweets to return.}
 
-\item{max_id}{Character, status_id from which returned tweets
-should be older than.}
+\item{max_id}{Character, status_id from which returned tweets should be older
+than.}
 
-\item{home}{Logical, indicating whether to return a user-timeline
-or home-timeline. By default, home is set to FALSe, which means
-\code{get_timeline} returns tweets posted by the given user.
-To return a user's home timeline feed, that is, the tweets posted
-by accounts followed by a user, set the home to false.}
+\item{home}{Logical, indicating whether to return a user-timeline or
+home-timeline. By default, home is set to FALSe, which means
+\code{get_timeline} returns tweets posted by the given user. To return a
+user's home timeline feed, that is, the tweets posted by accounts followed
+by a user, set the home to false.}
 
-\item{parse}{Logical, indicating whether to return parsed
-(data.frames) or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves users from the time
-[and frustrations] associated with disentangling the Twitter
+\item{parse}{Logical, indicating whether to return parsed (data.frames) or
+nested list (fromJSON) object. By default, \code{parse = TRUE} saves users
+from the time [and frustrations] associated with disentangling the Twitter
 API return objects.}
 
-\item{check}{Logical indicating whether to remove check available
-rate limit. Ensures the request does not exceed the maximum remaining
-number of calls. Defaults to TRUE.}
+\item{check}{Logical indicating whether to remove check available rate limit.
+Ensures the request does not exceed the maximum remaining number of calls.
+Defaults to TRUE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+non-exhausted token from an environment variable. Find instructions on how
+to create tokens and setup an environment variable in the tokens vignette
+(in r, send \code{?tokens} to console).}
 
-\item{\dots}{Futher arguments passed on to \code{make_url}.
-All named arguments that do not match the above arguments
-(i.e., count, type, etc.) will be built into the request.
-To return only English language tweets, for example, use
-\code{lang = "en"}. Or, to exclude retweets, use
-\code{include_rts = FALSE}. For more options see Twitter's
-API documentation.}
+\item{\dots}{Futher arguments passed on to \code{make_url}. All named
+arguments that do not match the above arguments (i.e., count, type, etc.)
+will be built into the request. To return only English language tweets, for
+example, use \code{lang = "en"}. Or, to exclude retweets, use
+\code{include_rts = FALSE}. For more options see Twitter's API
+documentation.}
 }
 \value{
-List consisting of two data frames. One with the tweets
-  data for a specified user and the second is a single row for
-  the user provided.
+List consisting of two data frames. One with the tweets data for a
+  specified user and the second is a single row for the user provided.
 }
 \description{
-Returns timeline of tweets from a specified
-  Twitter user. By default, get_timeline returns tweets
-  posted by a given user. To return a user's timeline feed,
-  that is, tweets posted by accounts you follow, set the
-  home argument to true.
+Returns timeline of tweets from a specified Twitter user. By
+  default, get_timeline returns tweets posted by a given user. To return a
+  user's timeline feed, that is, tweets posted by accounts you follow, set
+  the home argument to true.
 }
 \examples{
 \dontrun{
@@ -72,7 +68,7 @@ users_data(djt)
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other tweets: \code{\link{get_favorites.default}},
+Other tweets: \code{\link{get_favorites_call}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets.default}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}

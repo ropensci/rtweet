@@ -42,7 +42,7 @@ head(users_data(r))
 
 }
 \seealso{
-Other tweets: \code{\link{get_favorites.default}},
+Other tweets: \code{\link{get_favorites_call}},
   \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets.default}},

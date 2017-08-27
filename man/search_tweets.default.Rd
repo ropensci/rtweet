@@ -110,12 +110,12 @@ of requested tweets by 18,000 and then multiplying the quotient
 by 15 (token cooldown time, in minutes).}
 
 \item{adjtimer}{Numeric buffer (in seconds) used when sleeping
-between API requests with \code{retryonratelimit}. Defaults to
-20. Added this because for my linux laptop has a high resting
-heart rate, so it kept sending requests before the rate limit
-could be reset. If this happens to you, add to this value to
-achieve smoother experience. If you're trying to maximize
-efficiency, you may be able to set this to 0 or 1 without any
+  between API requests with \code{retryonratelimit}. Defaults to
+  20. Added this because for my linux laptop has a high resting
+  heart rate, so it kept sending requests before the rate limit
+  could be reset. If this happens to you, add to this value to
+  achieve smoother experience. If you're trying to maximize
+  efficiency, you may be able to set this to 0 or 1 without any
 issue.}
 
 \item{exact}{Logical indicating whether to search for exact matches. Defaults
@@ -136,17 +136,19 @@ promising that it'll work.}
 Vectors of multiple names are accepted, but no promises it'll work.}
 
 \item{hashtag}{Hashtag(s) for which to search. Can provide multiple hashtags
-in a single vector, but tweets will only be returned if they include all
-of the supplied hashtags. To search for tweets that use ANY hashtag, include
-the hashtags separated by OR (#rstats OR #datascience) as part of the string
-provided to q (query).}
+in a single vector, but tweets will only be returned if they include all of
+the supplied hashtags. To search for tweets that use ANY hashtag, include
+the hashtags separated by OR (#rstats OR #datascience) as part of the
+string provided to q (query).}
 
-\item{filter_media}{Logical requesting to only return tweets with image or video.}
+\item{filter_media}{Logical requesting to only return tweets with image or
+video.}
 
 \item{filter_native_video}{Logical requesting to only return tweets with
 uploaded video (amplify, periscope, and vine included)}
 
-\item{filter_vine}{Logical requesting to only return tweets that include vines.}
+\item{filter_vine}{Logical requesting to only return tweets that include
+vines.}
 
 \item{filter_periscope}{Logical requesting to only return tweets that include
 vines.}
@@ -154,12 +156,12 @@ vines.}
 \item{filter_images}{Logical requesting to only return tweets that have links
 to photos (Instagram included)}
 
-\item{filter_twimg}{Logical requesting to only return tweets with
-Twitter [linked] images}
+\item{filter_twimg}{Logical requesting to only return tweets with Twitter
+[linked] images}
 
 \item{filter_links}{Logical requesting to only return tweets with URL links.
-If keyword(s) are provided, the search will only return tweets with URL links
-that include the supplied key word(s).}
+If keyword(s) are provided, the search will only return tweets with URL
+links that include the supplied key word(s).}
 
 \item{\dots}{Futher arguments passed on to \code{make_url}.
 All named arguments that do not match the above arguments
@@ -237,7 +239,7 @@ ts_plot(rt, by = "mins", theme = "spacegray",
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other tweets: \code{\link{get_favorites.default}},
+Other tweets: \code{\link{get_favorites_call}},
   \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}

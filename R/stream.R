@@ -360,7 +360,14 @@ readfromto <- function(x, from, to) {
 
 fsz <- function(x) file.info(x)[["size"]]
 
-
+#' data_from_stream
+#'
+#' @param x Character, name of json file with data collected by
+#'   \code{\link{stream_tweets}}.
+#' @param n Number of articles to process per interval. Defaults to 10,000.
+#' @param n.cores Number of cores to use when processing data. Defaults to 1.
+#' @return A tbl of tweets data with attribute of users data
+#' @export
 data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
  estimated_lines <- ceiling(fsz(x) / 4500)
  sq1 <- seq(1, estimated_lines, n)
@@ -370,7 +377,8 @@ data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
   if (n.cores > n_max) {
    stop("n.cores exceeds number of system cores", call. = FALSE)
   }
-  data <- parallel::mcMap(function(a, b) readfromto(x, a, b), sq1, sq2, mc.cores = n.cores)
+  data <- parallel::mcMap(function(a, b)
+    readfromto(x, a, b), sq1, sq2, mc.cores = n.cores)
  } else {
   data <- Map(function(a, b) readfromto(x, a, b), sq1, sq2)
  }
@@ -385,7 +393,8 @@ data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
 #'
 #' Converts Twitter stream data (json file) into parsed data frame.
 #'
-#' @param path Character, name of json file with data collected by \code{\link{stream_tweets}}.
+#' @param path Character, name of json file with data collected by
+#'   \code{\link{stream_tweets}}.
 #' @param ... Other arguments passed on to \code{\link{data_from_stream}}.
 #' @return A tbl of tweets data with attribute of users data
 #' @export

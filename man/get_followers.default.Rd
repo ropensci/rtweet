@@ -4,7 +4,7 @@
 \alias{get_followers.default}
 \title{get_followers}
 \usage{
-\method{get_followers}{default}(user, n = 5000, retryonratelimit = FALSE,
+get_followers.default(user, n = 5000, retryonratelimit = FALSE,
   page = "-1", parse = TRUE, verbose = TRUE, token = NULL)
 }
 \arguments{

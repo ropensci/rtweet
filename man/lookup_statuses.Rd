@@ -40,7 +40,7 @@ users_data(statuses)
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other tweets: \code{\link{get_favorites.default}},
+Other tweets: \code{\link{get_favorites_call}},
   \code{\link{get_timeline_}},
   \code{\link{search_tweets.default}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}

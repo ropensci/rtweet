@@ -36,5 +36,6 @@ head(users_data(r))
 }
 \seealso{
 Other users: \code{\link{lookup_users}},
+  \code{\link{search_users_call}},
   \code{\link{search_users}}
 }

@@ -1,7 +1,7 @@
 #' GET favorites/list
 #'
 #' Returns favorite tweets data for one or more target users.
-#' 
+#'
 #' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Specifies the number of records to retrieve. Defaults to
 #'   200. 3000 is the max number of favorites returned per token.  Due
@@ -9,17 +9,17 @@
 #'   tweets than the desired (n) number. Must be of length 1 or of
 #'   length equal to users
 #' @param ... To see other possible arguments see
-#'   \code{\link{get_favorites.default}}.
+#'   \code{\link{get_favorites_call}}.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @export
-get_favorites <- function(user, n, ...) {
-  UseMethod("get_favorites")
+get_favorites <- function(user, n = 200, ...) {
+  do.call("get_favorites_call", list(user = user, n = n, ...))
 }
 
-#' get_favorites.default
+#' get_favorites_call
 #'
 #' Returns favorite tweets data for one or more target users.
-#' 
+#'
 #' @param user Screen names and/or user IDs of target users.
 #' @param n Specifies the number of records to retrieve. Defaults
 #'   to 200. 3000 is the max number of favorites returned per token.
@@ -53,12 +53,12 @@ get_favorites <- function(user, n, ...) {
 #' }
 #' @family tweets
 #' @export
-get_favorites.default <- function(user,
-                                  n = 200,
-                                  since_id = NULL,
-                                  max_id = NULL,
-                                  parse = TRUE,
-                                  token = NULL) {
+get_favorites_call <- function(user,
+                               n = 200,
+                               since_id = NULL,
+                               max_id = NULL,
+                               parse = TRUE,
+                               token = NULL) {
   if (is.null(token)) {
     token <- check_token(token)
   }

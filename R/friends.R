@@ -25,7 +25,8 @@
 #'   user and "user_id" for follower IDs.
 #' @export
 get_friends <- function(users, retryonratelimit = FALSE, ...) {
-  UseMethod("get_friends")
+  do.call("get_friends.default",
+          list(users = users, retryonratelimit = retryonratelimit, ...))
 }
 
 #' get_friends
