@@ -4,7 +4,7 @@
 \alias{ts_plot}
 \title{ts plot}
 \usage{
-ts_plot(data, by, ...)
+ts_plot(data, by = "days", ...)
 }
 \arguments{
 \item{data}{Data frame or grouped data frame.}

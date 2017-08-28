@@ -4,7 +4,7 @@
 \alias{ts_plot.default}
 \title{ts_plot.default}
 \usage{
-\method{ts_plot}{default}(data, by = "days", group = NULL, ...)
+ts_plot.default(data, by = "days", group = NULL, ...)
 }
 \arguments{
 \item{data}{Data frame or grouped data frame.}

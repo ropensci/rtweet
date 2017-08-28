@@ -4,10 +4,14 @@
 \alias{trim_ts}
 \title{trim_ts}
 \usage{
-trim_ts(x)
+trim_ts(x, group = NULL)
 }
 \arguments{
 \item{x}{Data from ts_filter.}
+
+\item{group}{Name of grouping variable. Default (NULL) will use
+variable of grouped data frames or look for variables labelled
+"group" or "filter". Set this to FALSE to override these defaults.}
 }
 \value{
 Trimmed data frame

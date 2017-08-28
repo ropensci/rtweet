@@ -1,5 +1,3 @@
-
-
 #' ts plot
 #'
 #' Returns time series-like data frame.
@@ -13,8 +11,8 @@
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @importFrom graphics legend
 #' @export
-ts_plot <- function(data, by, ...) {
-  UseMethod("ts_plot")
+ts_plot <- function(data, by = "days", ...) {
+  do.call("ts_plot.default", list(data = data, by = by, ...))
 }
 
 
@@ -38,12 +36,14 @@ ts_plot.default <- function(data, by = "days", group = NULL, ...) {
   data <- ts_data(data, by, group = group, ...)
   if (requireNamespace("ggplot2", quietly = TRUE)) {
     if (ncol(data) == 3) {
-      ggplot2::ggplot(data,
-                      ggplot2::aes_string(x = "time", y = "n",
-                                          colour = names(data)[3])) +
-        ggplot2::geom_line(...)
+      ggplot2::ggplot(
+        data, ggplot2::aes_string(
+          x = "time", y = "n", colour = names(data)[3])
+      ) +
+      ggplot2::geom_line(...)
     } else {
-      ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "n")) +
+      ggplot2::ggplot(
+        data, ggplot2::aes_string(x = "time", y = "n")) +
         ggplot2::geom_line(...)
     }
   } else {
@@ -64,9 +64,9 @@ ts_plot.default <- function(data, by = "days", group = NULL, ...) {
 }
 
 
-ggcols <- function (n) {
-    hues = seq(15, 375, length = n + 1)
-    hcl(h = hues, l = 65, c = 100)[1:n]
+ggcols <- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
 }
 
 #' apply functions to data frame by group
@@ -105,11 +105,11 @@ groupfun <- function(data, group, f, ...) {
 #' @param \dots Passed along to trim_time. Most likely used to specify timezone.
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @export
-ts_data <- function(data, by, ...) {
-  UseMethod("ts_data")
+ts_data <- function(data, by = "days", ...) {
+  do.call("ts_data.default", list(data = data, by = by, ...))
 }
 
-ts_data <- function(data, by = "days", group = NULL, ...) {
+ts_data.default <- function(data, by = "days", group = NULL, ...) {
   if (inherits(data, "grouped_df")) {
     group <- names(attr(data, "labels"))
     data <- data.frame(data)
@@ -136,7 +136,7 @@ ts_data <- function(data, by = "days", group = NULL, ...) {
 #' @param \dots Args passed to trim_time. Most likely this is used to specify time zone.
 #' @return Data frame of time and n (like a frequency table).
 #' @noRd
-aggregate_time <- function (dt, by = "days", trim = TRUE, ...) {
+aggregate_time <- function(dt, by = "days", trim = TRUE, ...) {
   if (all(is.data.frame(dt), isTRUE("created_at" %in% names(dt)))) {
     dt <- dt[["created_at"]]
   }
