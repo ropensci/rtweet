@@ -100,16 +100,15 @@
     </div>
 
     
-    <p>Returns the 20 most recent direct messages sent to the authenticating
-  user. Includes detailed information about the sender and recipient user.
-  You can request up to 200 direct messages per call, and only the most
-  recent 200 DMs will be available using this endpoint. Important: This
-  method requires an access token with RWD (read, write &amp; direct
-  message) permissions.</p>
+    <p>Returns the 20 most recent direct messages sent to the authenticating user.
+Includes detailed information about the sender and recipient user. You can
+request up to 200 direct messages per call, and only the most recent 200 DMs
+will be available using this endpoint. Important: This method requires an
+access token with RWD (read, write &amp; direct message) permissions.</p>
     
 
     <pre class="usage"><span class='fu'>my_direct_messages</span>(<span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='fl'>200</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,8 +123,8 @@ available.</p></td>
     </tr>
     <tr>
       <th>max_id</th>
-      <td><p>optional Returns results with an ID less than (that is,
-older than) or equal to the specified ID.</p></td>
+      <td><p>optional Returns results with an ID less than (that is, older
+than) or equal to the specified ID.</p></td>
     </tr>
     <tr>
       <th>count</th>
@@ -135,18 +134,23 @@ a limit to the number of Tweets to return because suspended or deleted
 content is removed after the count has been applied.</p></td>
     </tr>
     <tr>
+      <th>parse</th>
+      <td><p>Logical indicating whether to convert response object into
+nested list. Defaults to true.</p></td>
+    </tr>
+    <tr>
       <th>token</th>
       <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
-console).</p></td>
+non-exhausted token from an environment variable. Find instructions on how
+to create tokens and setup an environment variable in the tokens vignette
+(in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data</p>
+    <p>Return object converted to nested list. If status code of response
+  object is not 200, the response object is returned directly.</p>
     
 
   </div>

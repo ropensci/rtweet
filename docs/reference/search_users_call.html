@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_trends_closest — get_trends_closest • rtweet</title>
+<title>search_users — search_users_call • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,31 +96,49 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_trends_closest</h1>
+    <h1>search_users</h1>
     </div>
 
     
-    <p>Returns Twitter trends</p>
+    <p>Returns data frame of users data using a provided
+  search query.</p>
     
 
-    <pre class="usage"><span class='fu'>get_trends_closest</span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>search_users_call</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lat</th>
-      <td><p>Numeric, Latitude in degrees</p></td>
+      <th>q</th>
+      <td><p>Query to be searched, used in filtering relevant tweets
+to return from Twitter's REST API. Should be a character
+string not to exceed 500 characters maximum. Spaces are assumed
+to function like boolean "AND" operators. To search for tweets
+including one of multiple possible terms, separate search terms
+with spaces and the word "OR". For example, the search
+<code>query = "data science"</code> searches for tweets using both
+"data" and "science" though the words can appear anywhere and
+in any order in the tweet. However, when OR is added between
+search terms, <code>query = "data OR science"</code>, Twitter's REST
+API should return any tweet that includes either "data" or
+"science" appearing in the tweets. At this time, Twitter's users/search
+API does not allow complex searches or queries targetting exact phrases
+as is allowed by <code>search_tweets</code>.</p></td>
     </tr>
     <tr>
-      <th>long</th>
-      <td><p>Numeric, Longitude in degrees</p></td>
+      <th>n</th>
+      <td><p>Numeric, specifying the total number of desired users to
+return. Defaults to 100. Maximum number of users returned from
+a single search is 1,000.</p></td>
     </tr>
     <tr>
-      <th>exclude</th>
-      <td><p>Logical, indicating whether or not to exclude
-hashtags</p></td>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed
+(data.frames) or nested list (fromJSON) object. By default,
+<code>parse = TRUE</code> saves users from the time
+[and frustrations] associated with disentangling the Twitter
+API return objects.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -130,32 +148,34 @@ on how to create tokens and setup an environment variable in the
 tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
     </tr>
     <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse return
-trends data.</p></td>
+      <th>verbose</th>
+      <td><p>Logical, indicating whether or not to output
+processing/retrieval messages.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Trend data closest to a given location.</p>
+    <p>Data frame of users returned by query.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other trends: <code><a href='find_woeid.html'>find_woeid</a></code>,
-  <code><a href='get_trends.default.html'>get_trends.default</a></code>,
-  <code><a href='get_trends.html'>get_trends</a></code>, <code><a href='trends_available.html'>trends_available</a></code></p>
+    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
+<p>Other users: <code><a href='lookup_users.html'>lookup_users</a></code>,
+  <code><a href='search_users.html'>search_users</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Retrieve trends data for latitude, longitude near New York City</span>
-<span class='no'>nyc_trends</span> <span class='kw'>&lt;-</span> <span class='fu'>get_trends_closest</span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>40.7</span>, <span class='kw'>long</span><span class='kw'>=</span>-<span class='fl'>74.0</span>, <span class='kw'>token</span><span class='kw'>=</span><span class='no'>twitter_token</span>)
+<span class='co'># search for 1000 tweets mentioning Hillary Clinton</span>
+<span class='no'>pc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_users.html'>search_users</a></span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"political communication"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
-<span class='co'># Preview trends data</span>
-<span class='no'>nyc_trends</span>
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='co'># data frame where each observation (row) is a different user</span>
+<span class='no'>pc</span>
+
+<span class='co'># tweets data also retrieved. can access it via tweets_data()</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>hrc</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

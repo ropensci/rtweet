@@ -103,7 +103,7 @@
     <p>Returns time series-like data frame.</p>
     
 
-    <pre class="usage"><span class='fu'>ts_data</span>(<span class='no'>data</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ts_data</span>(<span class='no'>data</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -119,14 +119,14 @@ hours, days, weeks, months, years. If a numeric is provided, the value
 is assumed to be in seconds.</p></td>
     </tr>
     <tr>
+      <th>&#8230;</th>
+      <td><p>Passed along to trim_time. Most likely used to specify timezone.</p></td>
+    </tr>
+    <tr>
       <th>group</th>
       <td><p>Name of grouping variable to construct multiple time series,
 which still returns a data frame but it includes the group variable as
 a named column.</p></td>
-    </tr>
-    <tr>
-      <th>&#8230;</th>
-      <td><p>Passed along to trim_time. Most likely used to specify timezone.</p></td>
     </tr>
     </table>
     

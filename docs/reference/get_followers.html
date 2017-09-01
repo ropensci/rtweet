@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_followers — get_followers • rtweet</title>
+<title>GET followers/ids — get_followers • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,73 +96,63 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_followers</h1>
+    <h1>GET followers/ids</h1>
     </div>
 
     
-    <p>Returns max followers per token</p>
+    <p>Get user IDs of accounts following target user.</p>
     
 
-    <pre class="usage"><span class='fu'>get_followers</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_followers</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>user</th>
-      <td><p>Screen name or user id of target user.</p></td>
+      <td><p>Screen name or user ID of target user from which the user IDs
+of followers will be retrieved.</p></td>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>Number of followers to return. For max return, enter
-<code>n = "all"</code> or <code>n = 75000</code> (max per token).</p></td>
+      <td><p>Number of followers to return. Defaults to 5000, which is the max
+number of followers returned by a single API request. Twitter allows up
+to 15 of these requests every 15 minutes, which means 75,000 is the max
+number of followers to return without waiting for the rate limit to reset.</p></td>
     </tr>
     <tr>
-      <th>page</th>
-      <td><p>Default <code>page = -1</code> specifies first page of json
-results. Other pages specified via cursor values supplied by
-Twitter API response object.</p></td>
+      <th>retryonratelimit</th>
+      <td><p>If you'd like to retrieve more than 75,000 followers
+in a single call, then set <code>retryonratelimit = TRUE</code> and this function
+will use <code>Sys.sleep</code> until rate limits reset and the desired n
+is achieved or the number of total followers is exhausted. This defaults
+to FALSE. See details for more info regarding possible issues with timing
+misfires.</p></td>
     </tr>
     <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-<code>parse = TRUE</code> saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
+      <th>...</th>
+      <td><p>For other possible arguments see <code><a href='get_followers.default.html'>get_followers.default</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of follower ids and next page value (presumably
-  this would be used in loops extracting more than 75,000
-  followers using either multiple tokens or by waiting out
-  rate limits)</p>
+    <p>A tibble data frame of follower IDs (one column named "user_id").</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-<p>Other ids: <code><a href='get_friends.html'>get_friends</a></code></p>
+    <p>When <code>retryonratelimit = TRUE</code> this function internally
+  makes a rate limit API call to get information on (a) the number of requests
+  remaining and (b) the amount of time until the rate limit resets. So, in
+  theory, the sleep call should only be called once between waves of data
+  collection. However, as a fail safe, if a system's time is calibrated such
+  that it expires before the rate limit reset, or if, in another session, the
+  user dips into the rate limit, then this function will wait (use Sys.sleep
+  for a second time) until the next rate limit reset. Users should monitor
+  and test this before making especially large calls as any systematic issues
+  could create sizable inefficiencies.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># get ids of users following the president of the US</span>
-<span class='no'>pres</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"potus"</span>)
-<span class='no'>pres</span>
-
-<span class='co'># get ids of users following the Environmental Protection Agency</span>
-<span class='no'>epa</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"epa"</span>)
-<span class='no'>epa</span>
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -171,10 +161,8 @@ tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to co
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

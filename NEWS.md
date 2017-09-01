@@ -1,3 +1,10 @@
+# rtweet 0.4.9
+- Functions `get_timeline()`, `get_favorites()`, `get_friends()`, and
+ `get_followers()` now accept vectors of length > 1.
+- Fixed bugs related to users data and its extracter, `users_data()`
+- New stream parser, `stream_data()`, designed to parse files that cannot
+  wholely fit into memory. `stream_data()` can now work in parallel as well.
+
 # rtweet 0.4.8
 - Support for additional APIs has been added--including APIs designed
   to return information related to lists and retweets.

@@ -104,7 +104,7 @@
   search query.</p>
     
 
-    <pre class="usage"><span class='fu'>search_users</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>search_users</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -133,24 +133,8 @@ return. Defaults to 100. Maximum number of users returned from
 a single search is 1,000.</p></td>
     </tr>
     <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether to return parsed
-(data.frames) or nested list (fromJSON) object. By default,
-<code>parse = TRUE</code> saves users from the time
-[and frustrations] associated with disentangling the Twitter
-API return objects.</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Logical, indicating whether or not to output
-processing/retrieval messages.</p></td>
+      <th>...</th>
+      <td><p>Other arguments passed along to <code><a href='search_users_call.html'>search_users_call</a></code></p></td>
     </tr>
     </table>
     
@@ -160,9 +144,8 @@ processing/retrieval messages.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-<p>Other users: <code><a href='lookup_users.html'>lookup_users</a></code>,
-  <code><a href='users_data.html'>users_data</a></code></p>
+    <p>Other users: <code><a href='lookup_users.html'>lookup_users</a></code>,
+  <code><a href='search_users_call.html'>search_users_call</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

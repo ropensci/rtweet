@@ -6,7 +6,6 @@ tweets.json
 rtweet.Rproj
 cran-comments.md
 README_cache
-README.Rmd
 README.html
 inst/doc
 tests/testthat/twitter_tokens

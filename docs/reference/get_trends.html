@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_trends — get_trends • rtweet</title>
+<title>GET trends/place — get_trends • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,14 +96,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_trends</h1>
+    <h1>GET trends/place</h1>
     </div>
 
     
     <p>Returns Twitter trends</p>
     
 
-    <pre class="usage"><span class='fu'>get_trends</span>(<span class='kw'>woeid</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_trends</span>(<span class='kw'>woeid</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -115,21 +115,9 @@ character string of desired town or country. To browse all
 available trend places, see <code><a href='trends_available.html'>trends_available</a></code></p></td>
     </tr>
     <tr>
-      <th>exclude</th>
-      <td><p>Logical, indicating whether or not to exclude
-hashtags</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse return
-trends data.</p></td>
+      <th>...</th>
+      <td><p>For more info on all possible arguments see
+<code><a href='get_trends.default.html'>get_trends.default</a></code>.</p></td>
     </tr>
     </table>
     
@@ -140,6 +128,7 @@ trends data.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other trends: <code><a href='find_woeid.html'>find_woeid</a></code>,
+  <code><a href='get_trends.default.html'>get_trends.default</a></code>,
   <code><a href='get_trends_closest.html'>get_trends_closest</a></code>,
   <code><a href='trends_available.html'>trends_available</a></code></p>
     

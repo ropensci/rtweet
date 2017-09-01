@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_trends_closest — get_trends_closest • rtweet</title>
+<title>get_followers — get_followers.default • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,31 +96,54 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_trends_closest</h1>
+    <h1>get_followers</h1>
     </div>
 
     
-    <p>Returns Twitter trends</p>
+    <p>Returns max followers per token</p>
     
 
-    <pre class="usage"><span class='fu'>get_trends_closest</span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_followers.default</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>page</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lat</th>
-      <td><p>Numeric, Latitude in degrees</p></td>
+      <th>user</th>
+      <td><p>Screen name or user id of target user.</p></td>
     </tr>
     <tr>
-      <th>long</th>
-      <td><p>Numeric, Longitude in degrees</p></td>
+      <th>n</th>
+      <td><p>Number of followers to return. For max return, enter
+<code>n = "all"</code> or <code>n = 75000</code> (max per token).</p></td>
     </tr>
     <tr>
-      <th>exclude</th>
-      <td><p>Logical, indicating whether or not to exclude
-hashtags</p></td>
+      <th>retryonratelimit</th>
+      <td><p>The max number of followers returned every
+15 minutes is 75,000. If you'd like more than that, then you can
+set this to TRUE and the function will try to implement a sleep
+functional call internally and iterate through until n is achieved.
+Defaults to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>page</th>
+      <td><p>Default <code>page = -1</code> specifies first page of json
+results. Other pages specified via cursor values supplied by
+Twitter API response object.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+<code>parse = TRUE</code> saves you the time [and frustrations]
+associated with disentangling the Twitter API return objects.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical indicating whether or not to print messages.
+Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
+sleep times and followers gathered counts.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -129,31 +152,30 @@ non-exhausted token from an environment variable. Find instructions
 on how to create tokens and setup an environment variable in the
 tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
     </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse return
-trends data.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Trend data closest to a given location.</p>
+    <p>list of follower ids and next page value (presumably
+  this would be used in loops extracting more than 75,000
+  followers using either multiple tokens or by waiting out
+  rate limits)</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other trends: <code><a href='find_woeid.html'>find_woeid</a></code>,
-  <code><a href='get_trends.default.html'>get_trends.default</a></code>,
-  <code><a href='get_trends.html'>get_trends</a></code>, <code><a href='trends_available.html'>trends_available</a></code></p>
+    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
+<p>Other ids: <code><a href='get_friends.default.html'>get_friends.default</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Retrieve trends data for latitude, longitude near New York City</span>
-<span class='no'>nyc_trends</span> <span class='kw'>&lt;-</span> <span class='fu'>get_trends_closest</span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>40.7</span>, <span class='kw'>long</span><span class='kw'>=</span>-<span class='fl'>74.0</span>, <span class='kw'>token</span><span class='kw'>=</span><span class='no'>twitter_token</span>)
+<span class='co'># get ids of users following the president of the US</span>
+<span class='no'>pres</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"potus"</span>)
+<span class='no'>pres</span>
 
-<span class='co'># Preview trends data</span>
-<span class='no'>nyc_trends</span>
+<span class='co'># get ids of users following the Environmental Protection Agency</span>
+<span class='no'>epa</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"epa"</span>)
+<span class='no'>epa</span>
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

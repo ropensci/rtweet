@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get timeline (vectorized) — get_timeline_ • rtweet</title>
+<title>get_timeline — get_timeline_ • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,38 +96,100 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get timeline (vectorized)</h1>
+    <h1>get_timeline</h1>
     </div>
 
     
-    <p>Returns one or more user timelines.</p>
+    <p>Returns timeline of tweets from a specified Twitter user. By
+  default, get_timeline returns tweets posted by a given user. To return a
+  user's timeline feed, that is, tweets posted by accounts you follow, set
+  the home argument to true.</p>
     
 
-    <pre class="usage"><span class='fu'>get_timeline_</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_timeline_</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>user</th>
-      <td><p>Vector of user names, user IDs, or a mixture of both.</p></td>
+      <td><p>Screen name or user id of target user.</p></td>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>Number of tweets to return per timeline. Defaults to 100.
-Must be of length 1 or equal to length of user.</p></td>
+      <td><p>Numeric, number of tweets to return.</p></td>
+    </tr>
+    <tr>
+      <th>max_id</th>
+      <td><p>Character, status_id from which returned tweets should be older
+than.</p></td>
+    </tr>
+    <tr>
+      <th>home</th>
+      <td><p>Logical, indicating whether to return a user-timeline or
+home-timeline. By default, home is set to FALSe, which means
+<code>get_timeline</code> returns tweets posted by the given user. To return a
+user's home timeline feed, that is, the tweets posted by accounts followed
+by a user, set the home to false.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed (data.frames) or
+nested list (fromJSON) object. By default, <code>parse = TRUE</code> saves users
+from the time [and frustrations] associated with disentangling the Twitter
+API return objects.</p></td>
+    </tr>
+    <tr>
+      <th>check</th>
+      <td><p>Logical indicating whether to remove check available rate limit.
+Ensures the request does not exceed the maximum remaining number of calls.
+Defaults to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find instructions on how
+to create tokens and setup an environment variable in the tokens vignette
+(in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
-      <td><p>Other arguments passed on to <code>get_timeline</code>.</p></td>
+      <td><p>Futher arguments passed on to <code>make_url</code>. All named
+arguments that do not match the above arguments (i.e., count, type, etc.)
+will be built into the request. To return only English language tweets, for
+example, use <code>lang = "en"</code>. Or, to exclude retweets, use
+<code>include_rts = FALSE</code>. For more options see Twitter's API
+documentation.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tbl data frame of tweets data with users data attribute.</p>
+    <p>List consisting of two data frames. One with the tweets data for a
+  specified user and the second is a single row for the user provided.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
+<p>Other tweets: <code><a href='get_favorites_call.html'>get_favorites_call</a></code>,
+  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
+  <code><a href='search_tweets.default.html'>search_tweets.default</a></code>,
+  <code><a href='stream_tweets.html'>stream_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># get 2000 from Donald Trump's account</span>
+<span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timeline</a></span>(<span class='st'>"realDonaldTrump"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2000</span>)
+
+<span class='co'># data frame where each observation (row) is a different tweet</span>
+<span class='no'>djt</span>
+
+<span class='co'># users data for realDonaldTrump is also retrieved.</span>
+<span class='co'># access it via users_data() users_data(hrc)</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -135,7 +197,11 @@ Must be of length 1 or equal to length of user.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

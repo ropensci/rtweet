@@ -104,7 +104,7 @@
   specified user_ids or screen_names.</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,11 +124,6 @@ an environment variable @describeIn tokens.</p></td>
       <td><p>Logical, indicating whether or not to parse
 return object into data frame(s).</p></td>
     </tr>
-    <tr>
-      <th>usr</th>
-      <td><p>Logical indicating whether to return users data frame.
-Defaults to true.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -138,8 +133,9 @@ Defaults to true.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='search_tweets.html'>search_tweets</a></code>,
+<p>Other tweets: <code><a href='get_favorites_call.html'>get_favorites_call</a></code>,
+  <code><a href='get_timeline_.html'>get_timeline_</a></code>,
+  <code><a href='search_tweets.default.html'>search_tweets.default</a></code>,
   <code><a href='stream_tweets.html'>stream_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code></p>
     
 

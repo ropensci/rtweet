@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_trends_closest — get_trends_closest • rtweet</title>
+<title>Get timeline (vectorized) — get_timeline_call • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,66 +96,38 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_trends_closest</h1>
+    <h1>Get timeline (vectorized)</h1>
     </div>
 
     
-    <p>Returns Twitter trends</p>
+    <p>Returns one or more user timelines.</p>
     
 
-    <pre class="usage"><span class='fu'>get_trends_closest</span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_timeline_call</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lat</th>
-      <td><p>Numeric, Latitude in degrees</p></td>
+      <th>user</th>
+      <td><p>Vector of user names, user IDs, or a mixture of both.</p></td>
     </tr>
     <tr>
-      <th>long</th>
-      <td><p>Numeric, Longitude in degrees</p></td>
+      <th>n</th>
+      <td><p>Number of tweets to return per timeline. Defaults to 100.
+Must be of length 1 or equal to length of user.</p></td>
     </tr>
     <tr>
-      <th>exclude</th>
-      <td><p>Logical, indicating whether or not to exclude
-hashtags</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse return
-trends data.</p></td>
+      <th>&#8230;</th>
+      <td><p>Other arguments passed on to <code>get_timeline</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Trend data closest to a given location.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other trends: <code><a href='find_woeid.html'>find_woeid</a></code>,
-  <code><a href='get_trends.default.html'>get_trends.default</a></code>,
-  <code><a href='get_trends.html'>get_trends</a></code>, <code><a href='trends_available.html'>trends_available</a></code></p>
+    <p>A tbl data frame of tweets data with users data attribute.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Retrieve trends data for latitude, longitude near New York City</span>
-<span class='no'>nyc_trends</span> <span class='kw'>&lt;-</span> <span class='fu'>get_trends_closest</span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>40.7</span>, <span class='kw'>long</span><span class='kw'>=</span>-<span class='fl'>74.0</span>, <span class='kw'>token</span><span class='kw'>=</span><span class='no'>twitter_token</span>)
-
-<span class='co'># Preview trends data</span>
-<span class='no'>nyc_trends</span>
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -163,11 +135,7 @@ trends data.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
