@@ -2,6 +2,7 @@
 % Please edit documentation in R/tokens.R
 \name{get_tokens}
 \alias{get_tokens}
+\alias{get_token}
 \title{get_tokens}
 \usage{
 get_tokens()
