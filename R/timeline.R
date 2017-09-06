@@ -142,7 +142,6 @@ get_timeline_ <- function(user,
     usr <- users_data(tm)
     if (nrow(usr) > 0L) {
       uq <- !duplicated(usr$user_id)
-      usr <- usr[uq, ]
       attr(tm, "users") <- usr[uq, ]
     }
   }
