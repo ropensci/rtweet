@@ -417,8 +417,7 @@ search_tweets.default <- function(q = "",
            call. = FALSE)
     }
     mention <- paste(paste0("@", mention), collapse = " ")
-    mention <-
-      q <- paste(q, mention)
+    q <- paste(q, mention)
   }
   if (!is.null(hashtag)) {
     if (any(grepl(" ", hashtag))) {
