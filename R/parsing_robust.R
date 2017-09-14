@@ -96,6 +96,9 @@ status_object <- function(x) {
 }
 status_object_ <- function(x) {
   s_o_ <- function(x) {
+    if (is.atomic(x) && length(x) == 1L) {
+      return(data.frame())
+    }
     if (is.list(x) && length(x) == 1L) {
       x <- x[[1]]
     }
@@ -271,6 +274,9 @@ user_object <- function(x) {
 }
 user_object_ <- function(x) {
   u_o_ <- function(x) {
+    if (is.atomic(x) && length(x) == 1L) {
+      return(data.frame())
+    }
     if (is.list(x) && length(x) == 1L) {
       x <- x[[1]]
     }
@@ -279,7 +285,7 @@ user_object_ <- function(x) {
     }
     if (`&&`(
       is.data.frame(x),
-      c("description", "location") %in% names(x)
+      all(c("description", "location") %in% names(x))
     )) {
       return(x)
     }
@@ -390,6 +396,8 @@ statuscols_ <- function() {
   place_url = "place_url",
   place_type = "place_type",
   place_name = "place_name",
+  place_full_name = "place_full_name",
+  place_type = "place_type",
   country = "country",
   country_code = "country_code",
   geo_coords = "geo_coords",

@@ -41,22 +41,26 @@ nanull <- function(x) {
 }
 
 is_response <- function(x) {
-  any(identical(class(x), "response"),
-    all(c("content", "headers") %in% names(x)))
+  inherits(x, "response")
 }
 
 is_json <- function(x) {
-  stopifnot(is_response(x))
   grepl("application/json", x$headers[["content-type"]])
 }
 
 #' @importFrom jsonlite fromJSON
-from_js <- function(rsp, check_rate_limit = TRUE) {
+from_js <- function(rsp) {
+  stopifnot(is_response(rsp))
   if (!is_json(rsp)) {
     stop("API did not return json", call. = FALSE)
   }
-  rsp <- rawToChar(rsp[["content"]])
-  rsp <- fromJSON(rsp)
+  msg <- check_if_error_codes(rsp)
+  if (!identical(msg, FALSE)) {
+    warning(msg, call. = FALSE)
+    return(msg)
+  }
+  rsp <- httr::content(rsp, "text", encoding = "UTF-8")
+  rsp <- jsonlite::fromJSON(rsp)
   if ("statuses" %in% names(rsp) && "full_text" %in% names(rsp$statuses)) {
     names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "text"] <- "texttrunc"
     names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "full_text"] <- "text"
@@ -66,15 +70,6 @@ from_js <- function(rsp, check_rate_limit = TRUE) {
   } else if ("full_text" %in% names(rsp)) {
     names(rsp)[names(rsp) == "text"] <- "texttrunc"
     names(rsp)[names(rsp) == "full_text"] <- "text"
-  }
-  if (check_rate_limit) {
-    if (all(
-      identical(names(rsp), "errors"),
-      identical(rsp$errors[["message"]],
-        "Rate limit exceeded"))) {
-      warning("rate limit exceeded.", call. = FALSE)
-      rsp <- NULL
-    }
   }
   rsp
 }
