@@ -19,3 +19,5 @@ tokens.html
 timeseries.html
 pkg.R
 vignettes/files/electweets.rds
+.make.R
+.make/**

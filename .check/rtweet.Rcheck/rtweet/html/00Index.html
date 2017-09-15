@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Collecting Twitter Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Collecting Twitter Data
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;rtweet&rsquo; version 0.4.9</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="rtweet.html">rtweet-package</a></td>
+<td>rtweet</td></tr>
+<tr><td style="width: 25%;"><a href="create_token.html">create_token</a></td>
+<td>create_token</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">cursor_next</a></td>
+<td>next_cursor</td></tr>
+<tr><td style="width: 25%;"><a href="data_from_stream.html">data_from_stream</a></td>
+<td>data_from_stream</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">data_tweet</a></td>
+<td>tweets_data</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">data_tweets</a></td>
+<td>tweets_data</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">data_user</a></td>
+<td>users_data</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">data_users</a></td>
+<td>users_data</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">family</a></td>
+<td>next_cursor</td></tr>
+<tr><td style="width: 25%;"><a href="post_favorite.html">favorite_tweet</a></td>
+<td>post_favorite</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">follow_user</a></td>
+<td>post_follow</td></tr>
+<tr><td style="width: 25%;"><a href="post_friendship.html">friendship_update</a></td>
+<td>post_friendship</td></tr>
+<tr><td style="width: 25%;"><a href="get_collections.html">get_collections</a></td>
+<td>GET collections/entries</td></tr>
+<tr><td style="width: 25%;"><a href="get_favorites.html">get_favorites</a></td>
+<td>GET favorites/list</td></tr>
+<tr><td style="width: 25%;"><a href="get_favorites_call.html">get_favorites_call</a></td>
+<td>get_favorites_call</td></tr>
+<tr><td style="width: 25%;"><a href="get_followers.html">get_followers</a></td>
+<td>GET followers/ids</td></tr>
+<tr><td style="width: 25%;"><a href="get_followers.default.html">get_followers.default</a></td>
+<td>get_followers</td></tr>
+<tr><td style="width: 25%;"><a href="get_friends.html">get_friends</a></td>
+<td>GET friends/ids</td></tr>
+<tr><td style="width: 25%;"><a href="get_friends.default.html">get_friends.default</a></td>
+<td>get_friends</td></tr>
+<tr><td style="width: 25%;"><a href="get_friends_.html">get_friends_</a></td>
+<td>Get friends (vectorized)</td></tr>
+<tr><td style="width: 25%;"><a href="get_timeline.html">get_timeline</a></td>
+<td>Get timeline</td></tr>
+<tr><td style="width: 25%;"><a href="get_timelines2.html">get_timelines2</a></td>
+<td>get timelines</td></tr>
+<tr><td style="width: 25%;"><a href="get_timeline_.html">get_timeline_</a></td>
+<td>get_timeline</td></tr>
+<tr><td style="width: 25%;"><a href="get_timeline_call.html">get_timeline_call</a></td>
+<td>Get timeline (vectorized)</td></tr>
+<tr><td style="width: 25%;"><a href="get_tokens.html">get_token</a></td>
+<td>get_tokens</td></tr>
+<tr><td style="width: 25%;"><a href="get_tokens.html">get_tokens</a></td>
+<td>get_tokens</td></tr>
+<tr><td style="width: 25%;"><a href="get_trends.html">get_trends</a></td>
+<td>GET trends/place</td></tr>
+<tr><td style="width: 25%;"><a href="get_trends.default.html">get_trends.default</a></td>
+<td>get_trends.default</td></tr>
+<tr><td style="width: 25%;"><a href="get_trends_closest.html">get_trends_closest</a></td>
+<td>get_trends_closest</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">ids</a></td>
+<td>next_cursor</td></tr>
+<tr><td style="width: 25%;"><a href="lat_long.html">lat_long</a></td>
+<td>lat_long</td></tr>
+<tr><td style="width: 25%;"><a href="list_list.html">list_list</a></td>
+<td>GET lists/list</td></tr>
+<tr><td style="width: 25%;"><a href="list_members.html">list_members</a></td>
+<td>GET lists/members</td></tr>
+<tr><td style="width: 25%;"><a href="list_statuses.html">list_statuses</a></td>
+<td>GET lists/statuses</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_coords.html">lookup_coords</a></td>
+<td>lookup_coords</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_friendships.html">lookup_friendships</a></td>
+<td>lookup_friendships</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_statuses.html">lookup_statuses</a></td>
+<td>lookup_tweets</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_statuses.html">lookup_tweets</a></td>
+<td>lookup_tweets</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_users.html">lookup_users</a></td>
+<td>lookup_users</td></tr>
+<tr><td style="width: 25%;"><a href="mutate_coords.html">mutate_coords</a></td>
+<td>mutate_coords</td></tr>
+<tr><td style="width: 25%;"><a href="post_mute.html">mute_user</a></td>
+<td>post_mute</td></tr>
+<tr><td style="width: 25%;"><a href="my_direct_messages.html">my_direct_messages</a></td>
+<td>GET direct_messages</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">next_cursor</a></td>
+<td>next_cursor</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">next_page</a></td>
+<td>next_cursor</td></tr>
+<tr><td style="width: 25%;"><a href="parse_stream.html">parse_stream</a></td>
+<td>parse_stream</td></tr>
+<tr><td style="width: 25%;"><a href="plain_tweets.html">plain_tweets</a></td>
+<td>plain text tweets</td></tr>
+<tr><td style="width: 25%;"><a href="post_favorite.html">post_favorite</a></td>
+<td>post_favorite</td></tr>
+<tr><td style="width: 25%;"><a href="post_favorite.html">post_favourite</a></td>
+<td>post_favorite</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">post_follow</a></td>
+<td>post_follow</td></tr>
+<tr><td style="width: 25%;"><a href="post_friendship.html">post_friendship</a></td>
+<td>post_friendship</td></tr>
+<tr><td style="width: 25%;"><a href="post_message.html">post_message</a></td>
+<td>post_message</td></tr>
+<tr><td style="width: 25%;"><a href="post_mute.html">post_mute</a></td>
+<td>post_mute</td></tr>
+<tr><td style="width: 25%;"><a href="post_tweet.html">post_status</a></td>
+<td>post_tweet</td></tr>
+<tr><td style="width: 25%;"><a href="post_tweet.html">post_tweet</a></td>
+<td>post_tweet</td></tr>
+<tr><td style="width: 25%;"><a href="post_unfollow_user.html">post_unfollow_user</a></td>
+<td>post_unfollow</td></tr>
+<tr><td style="width: 25%;"><a href="rate_limit.html">rate_limit</a></td>
+<td>rate_limit</td></tr>
+<tr><td style="width: 25%;"><a href="round_time.html">round_time</a></td>
+<td>round_time</td></tr>
+<tr><td style="width: 25%;"><a href="rtweet.html">rtweet</a></td>
+<td>rtweet</td></tr>
+<tr><td style="width: 25%;"><a href="rtweet.html">rtweets</a></td>
+<td>rtweet</td></tr>
+<tr><td style="width: 25%;"><a href="rtweet.html">rtwitter</a></td>
+<td>rtweet</td></tr>
+<tr><td style="width: 25%;"><a href="save_as_csv.html">save_as_csv</a></td>
+<td>save_as_csv</td></tr>
+<tr><td style="width: 25%;"><a href="search_tweets.html">search_tweets</a></td>
+<td>search_tweets</td></tr>
+<tr><td style="width: 25%;"><a href="search_tweets.default.html">search_tweets.default</a></td>
+<td>search_tweets.default</td></tr>
+<tr><td style="width: 25%;"><a href="search_tweets_.html">search_tweets_</a></td>
+<td>Search tweets (vectorized)</td></tr>
+<tr><td style="width: 25%;"><a href="search_users.html">search_users</a></td>
+<td>search_users</td></tr>
+<tr><td style="width: 25%;"><a href="search_users_call.html">search_users_call</a></td>
+<td>search_users</td></tr>
+<tr><td style="width: 25%;"><a href="statuses_retweeters.html">statuses_retweeters</a></td>
+<td>GET statuses/retweeters/ids</td></tr>
+<tr><td style="width: 25%;"><a href="statuses_retweets.html">statuses_retweets</a></td>
+<td>GET statuses/retweets/:id</td></tr>
+<tr><td style="width: 25%;"><a href="stopwords.html">stopwords</a></td>
+<td>stopwords</td></tr>
+<tr><td style="width: 25%;"><a href="stream_data.html">stream_data</a></td>
+<td>stream_data</td></tr>
+<tr><td style="width: 25%;"><a href="stream_tweets.html">stream_tweets</a></td>
+<td>stream_tweets</td></tr>
+<tr><td style="width: 25%;"><a href="rtweet.html">tokens</a></td>
+<td>rtweet</td></tr>
+<tr><td style="width: 25%;"><a href="trends_available.html">trends_available</a></td>
+<td>trends_available</td></tr>
+<tr><td style="width: 25%;"><a href="trends_closest.html">trends_closest</a></td>
+<td>Get closest available location to given Lat, Long</td></tr>
+<tr><td style="width: 25%;"><a href="trim_ts.html">trim_ts</a></td>
+<td>trim_ts</td></tr>
+<tr><td style="width: 25%;"><a href="ts_data.html">ts_data</a></td>
+<td>ts data</td></tr>
+<tr><td style="width: 25%;"><a href="ts_filter.html">ts_filter</a></td>
+<td>ts_filter</td></tr>
+<tr><td style="width: 25%;"><a href="ts_plot.html">ts_plot</a></td>
+<td>ts plot</td></tr>
+<tr><td style="width: 25%;"><a href="ts_plot.default.html">ts_plot.default</a></td>
+<td>ts_plot.default</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">tweets_data</a></td>
+<td>tweets_data</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_df_.html">tweets_df_</a></td>
+<td>tweets_df</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_with_users.html">tweets_with_users</a></td>
+<td>tweets_with_users</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">tweet_data</a></td>
+<td>tweets_data</td></tr>
+<tr><td style="width: 25%;"><a href="post_unfollow_user.html">unfollow_user</a></td>
+<td>post_unfollow</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">users_data</a></td>
+<td>users_data</td></tr>
+<tr><td style="width: 25%;"><a href="users_df_.html">users_df_</a></td>
+<td>users_df</td></tr>
+<tr><td style="width: 25%;"><a href="users_with_tweets.html">users_with_tweets</a></td>
+<td>users_with_tweets</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">user_data</a></td>
+<td>users_data</td></tr>
+<tr><td style="width: 25%;"><a href="user_suggestions.html">user_suggestions</a></td>
+<td>GET users/suggestions/:slug</td></tr>
+<tr><td style="width: 25%;"><a href="word_freq.html">word_freq</a></td>
+<td>word frequency table</td></tr>
+<tr><td style="width: 25%;"><a href="word_n.html">word_n</a></td>
+<td>word_n</td></tr>
+<tr><td style="width: 25%;"><a href="write_as_csv.html">write_as_csv</a></td>
+<td>write_as_csv</td></tr>
+</table>
+</body></html>

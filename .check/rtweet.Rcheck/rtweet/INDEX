@@ -1,0 +1,70 @@
+create_token            create_token
+data_from_stream        data_from_stream
+get_collections         GET collections/entries
+get_favorites           GET favorites/list
+get_favorites_call      get_favorites_call
+get_followers           GET followers/ids
+get_followers.default   get_followers
+get_friends             GET friends/ids
+get_friends.default     get_friends
+get_friends_            Get friends (vectorized)
+get_timeline            Get timeline
+get_timeline_           get_timeline
+get_timeline_call       Get timeline (vectorized)
+get_timelines2          get timelines
+get_tokens              get_tokens
+get_trends              GET trends/place
+get_trends.default      get_trends.default
+get_trends_closest      get_trends_closest
+lat_long                lat_long
+list_list               GET lists/list
+list_members            GET lists/members
+list_statuses           GET lists/statuses
+lookup_coords           lookup_coords
+lookup_friendships      lookup_friendships
+lookup_statuses         lookup_tweets
+lookup_users            lookup_users
+mutate_coords           mutate_coords
+my_direct_messages      GET direct_messages
+next_cursor             next_cursor
+parse_stream            parse_stream
+plain_tweets            plain text tweets
+post_favorite           post_favorite
+post_follow             post_follow
+post_friendship         post_friendship
+post_message            post_message
+post_mute               post_mute
+post_tweet              post_tweet
+post_unfollow_user      post_unfollow
+rate_limit              rate_limit
+round_time              round_time
+rtweet                  rtweet
+save_as_csv             save_as_csv
+search_tweets           search_tweets
+search_tweets.default   search_tweets.default
+search_tweets_          Search tweets (vectorized)
+search_users            search_users
+search_users_call       search_users
+statuses_retweeters     GET statuses/retweeters/ids
+statuses_retweets       GET statuses/retweets/:id
+stopwords               stopwords
+stream_data             stream_data
+stream_tweets           stream_tweets
+trends_available        trends_available
+trends_closest          Get closest available location to given Lat,
+                        Long
+trim_ts                 trim_ts
+ts_data                 ts data
+ts_filter               ts_filter
+ts_plot                 ts plot
+ts_plot.default         ts_plot.default
+tweets_data             tweets_data
+tweets_df_              tweets_df
+tweets_with_users       tweets_with_users
+user_suggestions        GET users/suggestions/:slug
+users_data              users_data
+users_df_               users_df
+users_with_tweets       users_with_tweets
+word_freq               word frequency table
+word_n                  word_n
+write_as_csv            write_as_csv
