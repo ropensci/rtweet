@@ -20,4 +20,4 @@ timeseries.html
 pkg.R
 vignettes/files/electweets.rds
 .make.R
-\.check/**
+.check/**
