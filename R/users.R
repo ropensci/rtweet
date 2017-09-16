@@ -42,7 +42,7 @@ lookup_users <- function(users,
     users <- unlist(users, use.names = FALSE)
   }
   stopifnot(is.atomic(users))
-  users <- as.character(users) %>% unique()
+  users <- unique(as.character(users))
   users <- users[!is.na(users)]
   if (length(users) < 101) {
     usr <- .user_lookup(users, token)
@@ -66,6 +66,12 @@ lookup_users <- function(users,
   }
   if (parse) {
     if (identical(c("code", "message"), names(usr[[1]]))) {
+      message("Error code: ", usr[[1]]$code)
+      message(usr[[1]]$message)
+      usr <- tibble::as_tibble()
+      attr(usr, "tweets") <- tibble::as_tibble()
+    } else if (is.character(usr)) {
+      message(usr)
       usr <- tibble::as_tibble()
       attr(usr, "tweets") <- tibble::as_tibble()
     } else {
@@ -87,7 +93,8 @@ lookup_users <- function(users,
   names(params)[1] <- .ids_type(users)
   url <- make_url(
     query = query,
-    param = params)
+    param = params
+  )
   token <- check_token(token, query = query)
   resp <- TWIT(get = get, url, token)
   from_js(resp)

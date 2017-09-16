@@ -54,11 +54,6 @@ from_js <- function(rsp) {
   if (!is_json(rsp)) {
     stop("API did not return json", call. = FALSE)
   }
-  msg <- check_if_error_codes(rsp)
-  if (!identical(msg, FALSE)) {
-    warning(msg, call. = FALSE)
-    return(msg)
-  }
   rsp <- httr::content(rsp, "text", encoding = "UTF-8")
   rsp <- jsonlite::fromJSON(rsp)
   if ("statuses" %in% names(rsp) && "full_text" %in% names(rsp$statuses)) {

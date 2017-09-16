@@ -109,6 +109,8 @@ check_if_error_codes <- function(r) {
     warnmessage <- "You attempted to reply to a tweet that is deleted or not visible to you. A reply can only be sent with reference to an existing public Tweet."
   } else if (e == 386) {
     warnmessage <- "The Tweet exceeds the number of allowed attachment types. A Tweet is limited to a single attachment resource (media, Quote Tweet, etc.)."
+  } else {
+    warnmessage <- FALSE
   }
   warnmessage
 }
