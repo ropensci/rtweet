@@ -11,7 +11,7 @@ format_date2 <- function(created_at, tz = "UTC") {
              tz = tz)
 }
 
-format_date <- function(x, date = FALSE, tz = "UTZ") {
+format_date <- function(x, date = FALSE, tz = "UTC") {
   o <- tryCatch(
     as.POSIXct(
       x,
