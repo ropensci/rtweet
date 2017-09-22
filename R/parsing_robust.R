@@ -394,7 +394,6 @@ statuscols_ <- function() {
   retweet_status_id = "retweet_status_id",
   retweet_text = "retweet_text",
   place_url = "place_url",
-  place_type = "place_type",
   place_name = "place_name",
   place_full_name = "place_full_name",
   place_type = "place_type",
