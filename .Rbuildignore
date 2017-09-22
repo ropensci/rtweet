@@ -14,5 +14,6 @@ tests/testthat/twitter_tokens\.enc
 ^_pkgdown\.yml$
 ^data/rjourn*
 R/media.R$
-^.make.*
-
+^\.make.*
+^make$
+^\.pkg-funs.R$

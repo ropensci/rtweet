@@ -17,7 +17,8 @@ rtweet.html
 satweets.html
 tokens.html
 timeseries.html
-pkg.R
 vignettes/files/electweets.rds
 .make.R
 .check/**
+make
+.pkg-funs.R

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ts data — ts_data • rtweet</title>
+<title>lat_long — lat_long • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,43 +96,34 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>ts data</h1>
+    <h1>lat_long</h1>
     </div>
 
     
-    <p>Returns time series-like data frame.</p>
+    <p>Computes lat and lng variables and adds to data frame.</p>
     
 
-    <pre class="usage"><span class='fu'>ts_data</span>(<span class='no'>data</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>lat_long</span>(<span class='no'>x</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"bbox_coords"</span>, <span class='st'>"coords_coords"</span>, <span class='st'>"geo_coords"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Data frame or grouped data frame.</p></td>
+      <th>x</th>
+      <td><p>Data frame returned by rtweet function.</p></td>
     </tr>
     <tr>
-      <th>by</th>
-      <td><p>Desired interval of time expressed as numeral plus secs, mins,
-hours, days, weeks, months, years. If a numeric is provided, the value
-is assumed to be in seconds.</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>Name of grouping variable to construct multiple time series,
-which still returns a data frame but it includes the group variable as
-a named column.</p></td>
-    </tr>
-    <tr>
-      <th>&#8230;</th>
-      <td><p>Passed along to trim_time. Most likely used to specify timezone.</p></td>
+      <th>coords</th>
+      <td><p>Names of variables containing latitude and longitude coordinates.
+Priority is given to bounding box coordinates (each obs consists of eight
+entries) followed by the supplied order of variable names. Defaults to
+c("bbox_coords", "coords_coords", "geo_coords").</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame with time, n, and grouping column if applicable.</p>
+    <p>Returns updated data object with full information lng and lat vars.</p>
     
 
   </div>
