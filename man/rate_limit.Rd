@@ -4,14 +4,9 @@
 \alias{rate_limit}
 \title{rate_limit}
 \usage{
-rate_limit(token = NULL, query = NULL, rest = TRUE, parse = TRUE)
+rate_limit(query = NULL, token = NULL, parse = TRUE, ...)
 }
 \arguments{
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
-
 \item{query}{If null, returns entire rate limit request object as
 data frame. otherwise, query returns specific values matching
 the query of interest; e.g., \code{query = "lookup/users"} returns
@@ -20,11 +15,16 @@ remaining limit for user lookup requests;
 follower id requests; \code{type = "friends/ids"} returns
 remaining limit for friend id requests.}
 
-\item{rest}{Logical indicating whether to send request to REST
-API. At this time, this should always be TRUE.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{parse}{Logical indicating whether to parse response object
 into tidy data frame.}
+
+\item{rest}{Logical indicating whether to send request to REST
+API. At this time, this should always be TRUE.}
 }
 \value{
 Data frame with rate limit respones details. If query

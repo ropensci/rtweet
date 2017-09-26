@@ -259,7 +259,7 @@ search_tweets.default <- function(q = "",
   rtlimit <- rate_limit(token, "search/tweets")
   remaining <- rtlimit[["remaining"]] * 100
   reset <- rtlimit[["reset"]]
-  mins <- as.numeric(reset, "mins")
+  reset <- as.numeric(reset, "secs")
 
   if (n <= remaining || !retryonratelimit) {
     rt <- .search_tweets(
@@ -299,9 +299,9 @@ search_tweets.default <- function(q = "",
         message(paste0(
           "retry on rate limit...\n",
           "waiting about ",
-          round(reset, 0),
+          round(reset / 60, 0),
           " minutes..."))
-        Sys.sleep(as.numeric(reset, "mins") + adjtimer)
+        Sys.sleep(reset + 2)
         remaining <- 180 * 100
       }
       rt[[i]] <- tryCatch(
@@ -346,7 +346,7 @@ search_tweets.default <- function(q = "",
       rtlimit <- rate_limit(token, "search/tweets")
       remaining <- rtlimit[["remaining"]] * 100
       reset <- rtlimit[["reset"]]
-      units(reset) <- "mins"
+      reset <- as.numeric(reset, "secs")
     }
     ## get users data if applicable
     users <- do.call("rbind", users_data(rt))

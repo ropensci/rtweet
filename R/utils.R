@@ -1,3 +1,51 @@
+go_get_var <- function(x, ..., expect_n = NULL) {
+  vars <- c(...)
+  success <- FALSE
+  for (i in vars) {
+    if (!is.recursive(x)) break
+    if (has_name_(x, i)) {
+      x <- x[[i]]
+      if (i == vars[length(vars)]) {
+        success <- TRUE
+      }
+    } else if (any_recursive(x) && any(sapply(x, has_name_, i))) {
+      kp <- sapply(x, has_name_, i)
+      x <- x[kp]
+      x <- lapply(x, "[[", i)
+      if (i == vars[length(vars)]) {
+        success <- TRUE
+      }
+    }
+  }
+  if (!success && is.null(expect_n)) {
+    return(NULL)
+  }  
+  if (any_recursive(x) && is.null(expect_n)) {
+    return(x)
+  }
+  x <- unlist(x)
+  if (!is.null(expect_n) && length(x) < expect_n) {
+      x <- c(x, rep(NA, expect_n - length(x)))
+  }
+  x  
+}
+
+has_name_ <- function(x, ...) {
+  vars <- c(...)
+  stopifnot(is.character(vars))
+  if (!is.recursive(x)) {
+    return(FALSE)
+  }
+  all(vars %in% names(x))
+}
+
+any_recursive <- function(x) {
+  if (!is.recursive(x)) {
+    return(FALSE)
+  }
+  any(vapply(x, is.recursive, logical(1)))
+}
+
 
 #' trim_ts
 #'
