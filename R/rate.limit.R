@@ -23,25 +23,29 @@
 #' @return Data frame with rate limit respones details. If query
 #'   is specified, only relevant rows are returned.
 #' @export
-rate_limit <- function(token,
+rate_limit <- function(token = NULL,
                        query = NULL,
                        rest = TRUE,
                        parse = TRUE) {
-    token <- check_token(token, query = NULL)
-    url <- make_url(
-        restapi = rest,
-        query = "application/rate_limit_status")
-    r <- TWIT(get = TRUE, url, config = token)
-    if (parse) {
-        rl_df <- .rl_df(r)
-        if (!is.null(query)) {
-            rl_df <- rl_df[grep(query, rl_df$query), ]
-            row.names(rl_df) <- NULL
-        }
-        rl_df
-    } else {
-        r
+  if (is.null(token)) {
+    token <- get_tokens()
+  }
+  token <- check_token(token, query = NULL)
+  url <- make_url(
+    restapi = rest,
+    query = "application/rate_limit_status")
+  r <- TWIT(get = TRUE, url, config = token)
+  if (parse) {
+    rl_df <- .rl_df(r)
+    if (!is.null(query)) {
+      query <- fun2api(query)
+      rl_df <- rl_df[grep(query, rl_df$query), ]
+      row.names(rl_df) <- NULL
     }
+    rl_df
+  } else {
+    r
+  }
 }
 
 
@@ -72,4 +76,37 @@ rate_limit <- function(token,
         units = "mins")
 
     rl_df
+}
+
+
+funs_and_apis <- function() {
+  list(
+    `search/tweets` = "search",
+    `statuses/user_timeline` = "timeline",
+    `statuses/user_timeline` = "get_timeline",
+    `statuses/home_timeline` = "home_timeline",
+    `statuses/home_timeline` = "get_home_timeline",
+    `trends/place` = "get_trends",
+    `followers/ids` = "get_followers",
+    `followers/ids` = "followers",
+    `friends/ids` = "get_friends",
+    `friends/ids` = "friends",
+    `favorites/list` = "get_favorites",
+    `favorites/list` = "favorites",
+    `search/tweets` = "search_tweets",
+    `users/lookup` = "users",
+    `users/search` = "search_users",
+    `statuses/lookup` = "lookup_statuses",
+    `statuses/lookup` = "statuses",
+    `users/lookup` = "lookup_users"
+  )
+}
+
+
+fun2api <- function(x) {
+  funs <- funs_and_apis()
+  if (x %in% names(funs)) {
+    return(x)
+  }
+  names(funs)[match(x, funs)]
 }

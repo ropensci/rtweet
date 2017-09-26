@@ -1,13 +1,4 @@
-#' Get timeline (vectorized)
-#'
-#' Returns one or more user timelines.
-#'
-#' @param user Vector of user names, user IDs, or a mixture of both.
-#' @param n Number of tweets to return per timeline. Defaults to 100.
-#'   Must be of length 1 or equal to length of user.
-#' @param \dots Other arguments passed on to \code{get_timeline}.
-#' @return A tbl data frame of tweets data with users data attribute.
-#' @export
+
 get_timeline_call <- function(user, n = 100, ...) {
   ## check inputs
   stopifnot(is.atomic(user), is.numeric(n))
@@ -46,7 +37,7 @@ get_timeline <- function(user, n = 100, ...) {
 }
 
 
-#' get_timeline
+#' get_timeline_
 #'
 #' @description Returns timeline of tweets from a specified Twitter user. By
 #'   default, get_timeline returns tweets posted by a given user. To return a
@@ -122,13 +113,31 @@ get_timeline_ <- function(user,
   }
   token <- check_token(token, query)
   if (check) {
-    n.times <- rate_limit(token, query)[["remaining"]]
+    rl <- rate_limit(token, query)
+    n.times <- rl[["remaining"]]
   } else {
+    rl <- NULL
     n.times <- ceiling(n / 200L)
+  }
+  if (n.times == 0L) {
+    if (!is.null(rl)) {
+      reset <- round(as.numeric(rl[["reset"]], "mins"), 2)
+    } else {
+      reset <- "An unknown number of"
+    }
+    warning("rate limit exceeded. ",
+            round(reset, 2), " mins until rate limit resets.",
+            call. = FALSE)
+    return(data.frame())
+  }
+  if (n < 200) {
+    count <- n
+  } else {
+    count <- 200
   }
   params <- list(
     user_type = user,
-    count = 200,
+    count = count,
     max_id = max_id,
     tweet_mode = "extended",
     ...)
@@ -188,11 +197,13 @@ get_timelines2 <- function(users, n = 200, parse = TRUE, ...) {
     n <- n[!is.na(users)]
   }
   users <- na_omit(users)
-  usrs <- Map(get_timeline,
+  usrs <- Map(
+    get_timeline,
     user = users,
     n = n,
     parse = parse,
-    USE.NAMES = FALSE)
+    USE.NAMES = FALSE
+  )
   if (parse) {
     tweets <- do.call("rbind", lapply(usrs, users_data))
     usrs <- do.call("rbind", usrs)

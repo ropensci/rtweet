@@ -2,7 +2,7 @@
 % Please edit documentation in R/timeline.R
 \name{get_timeline_}
 \alias{get_timeline_}
-\title{get_timeline}
+\title{get_timeline_}
 \usage{
 get_timeline_(user, n = 200, max_id = NULL, home = FALSE, parse = TRUE,
   check = TRUE, token = NULL, ...)
