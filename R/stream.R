@@ -221,7 +221,6 @@ stream_params <- function(stream, ...) {
   if (inherits(stream, "coords")) {
     stream <- stream$box
   }
-
   if (length(stream) > 1) {
     params <- list(locations = paste(stream, collapse = ","))
   } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
@@ -263,7 +262,12 @@ stream_params <- function(stream, ...) {
 #' @importFrom jsonlite stream_in
 #' @export
 parse_stream <- function(file_name, ...) {
-  parse_stream_xl(file_name, ...)
+  tw <- parse_stream_xl(file_name, ...)
+  usr <- users_data(tw)
+  tw <- tw[!is.na(tw$status_id), ]
+  usr <- usr[!is.na(usr$user_id), ]
+  attr(tw, "users") <- usr
+  tw
 }
 
 .parse_stream <- function(file_name) {
@@ -275,28 +279,25 @@ parse_stream <- function(file_name, ...) {
   }
 
   s <- tryCatch(suppressWarnings(
-    stream_in(file(file_name),
-      verbose = TRUE)),
+    jsonlite::stream_in(file_name, verbose = TRUE)),
     error = function(e) return(NULL))
 
   if (is.null(s)) {
-    rl <- readLines(file_name, warn = FALSE)
+    rl <- readr::read_lines(file_name)
     cat(paste0(rl[seq_len(length(rl) - 1)],
       collapse = "\n"),
       file = file_name)
 
     s <- tryCatch(suppressWarnings(
-      stream_in(file(file_name),
+      jsonlite::stream_in(file(file_name),
         verbose = TRUE)),
       error = function(e) return(NULL))
   }
   if (is.null(s)) {
-    cat("\n", file = file_name, append = TRUE)
-
-    s <- tryCatch(suppressWarnings(
-      stream_in(file(file_name),
-        verbose = TRUE)),
-      error = function(e) return(NULL))
+    rl <- readr::read_lines(file_name)
+    cat(paste0(rl[seq_len(length(rl) - 1)],
+      collapse = "\n"),
+      file = file_name)
   }
   if (is.null(s)) stop(paste0(
     "it's not right. -luther\n",
@@ -305,14 +306,15 @@ parse_stream <- function(file_name, ...) {
     "starting a new R session.",
     call. = FALSE))
   tweets_with_users(s)
-  ##parse.piper(s, usr = TRUE) %>%
-  ##tryCatch(error = function(e) return(s))
 }
 
+parse_stream_xl <- function(x) {
+  .parse_stream(x)
+}
 
-parse_stream_xl <- function(x, by = 10000) {
+parse_stream_xl2 <- function(x, by = 10000) {
   stopifnot(is.character(x), is.numeric(by))
-  x <- readLines(x, warn = FALSE)
+  x <- readr::read_lines(x)
   n <- length(x)
   N <- ceiling(n / by)
   jmin <- 1L
@@ -339,23 +341,23 @@ parse_stream_xl <- function(x, by = 10000) {
 
 #' @importFrom readr read_lines write_lines
 readfromto <- function(x, from, to) {
- if (!file.exists(x)) {
-  stop("No such file exists", call. = FALSE)
- }
- n_max <- to - from + 1
- skip <- from - 1L
- x <- readr::read_lines(x, skip = skip, n_max = n_max)
- kp <- grep("limit", substr(x, 1, 10), invert = TRUE)
- if (length(kp) == 0L) {
-  return(NULL)
- }
- x <- x[kp]
- tmp <- tempfile()
- readr::write_lines(x, tmp)
- con <- file(tmp)
- x <- parse_stream(tmp)
- close(con)
- x
+  if (!file.exists(x)) {
+    stop("No such file exists", call. = FALSE)
+  }
+  n_max <- to - from + 1
+  skip <- from - 1L
+  x <- readr::read_lines(x, skip = skip, n_max = n_max)
+  kp <- grep("limit", substr(x, 1, 10), invert = TRUE)
+  if (length(kp) == 0L) {
+    return(NULL)
+  }
+  x <- x[kp]
+  tmp <- tempfile()
+  readr::write_lines(x, tmp)
+  con <- file(tmp)
+  x <- parse_stream(tmp)
+  close(con)
+  x
 }
 
 fsz <- function(x) file.info(x)[["size"]]
@@ -364,28 +366,33 @@ fsz <- function(x) file.info(x)[["size"]]
 #'
 #' @param x Character, name of json file with data collected by
 #'   \code{\link{stream_tweets}}.
-#' @param n Number of articles to process per interval. Defaults to 10,000.
+#' @param n Number of documents (tweets) to process per interval. Defaults to 10,000.
 #' @param n.cores Number of cores to use when processing data. Defaults to 1.
 #' @return A tbl of tweets data with attribute of users data
 #' @export
-data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
- estimated_lines <- ceiling(fsz(x) / 4500)
- sq1 <- seq(1, estimated_lines, n)
- sq2 <- sq1 + n
- if (n.cores > 1L && requireNamespace("parallel", quietly = TRUE)) {
-  n_max <- parallel::detectCores()
-  if (n.cores > n_max) {
-   stop("n.cores exceeds number of system cores", call. = FALSE)
+data_from_stream <- function(x, n = 10000L, n.cores = 1L, ...) {
+  if (!file.exists(x)) {
+    stop("No such file exists", call. = FALSE)
   }
-  data <- parallel::mcMap(function(a, b)
-    readfromto(x, a, b), sq1, sq2, mc.cores = n.cores)
- } else {
-  data <- Map(function(a, b) readfromto(x, a, b), sq1, sq2)
- }
- twt <- do.call("rbind", data)
- usr <- do.call("rbind", lapply(data, attr, "users"))
- attr(twt, "users") <- usr
- twt
+  continue <- TRUE
+  skip <- 0L
+  data <- list()
+  
+  while (continue) {
+    d <- readr::read_lines(x, skip = skip, n_max = n)
+    if (length(d) > 0L) {
+      skip <- length(d)
+      tmp <- tempfile()
+      readr::write_lines(d, tmp)
+      data[[length(data) + 1L]] <- parse_stream(tmp)
+    } else {
+      continue <- FALSE
+    }
+  }
+  twt <- do.call("rbind", data)
+  usr <- do.call("rbind", lapply(data, attr, "users"))
+  attr(twt, "users") <- usr
+  twt
 }
 
 
@@ -399,10 +406,10 @@ data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
 #' @return A tbl of tweets data with attribute of users data
 #' @export
 stream_data <- function(path, ...) {
- dots <- list(...)
- if (length(dots) > 0L) {
-  do.call("data_from_stream", c(path, dots))
- } else {
-  eval(call("data_from_stream", path))
- }
+  dots <- list(...)
+  if (length(dots) > 0L) {
+    do.call("data_from_stream", c(path, dots))
+  } else {
+    eval(call("data_from_stream", path))
+  }
 }

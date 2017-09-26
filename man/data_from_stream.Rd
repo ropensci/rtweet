@@ -4,13 +4,13 @@
 \alias{data_from_stream}
 \title{data_from_stream}
 \usage{
-data_from_stream(x, n = 10000L, n.cores = 1L)
+data_from_stream(x, n = 10000L, n.cores = 1L, ...)
 }
 \arguments{
 \item{x}{Character, name of json file with data collected by
 \code{\link{stream_tweets}}.}
 
-\item{n}{Number of articles to process per interval. Defaults to 10,000.}
+\item{n}{Number of documents (tweets) to process per interval. Defaults to 10,000.}
 
 \item{n.cores}{Number of cores to use when processing data. Defaults to 1.}
 }
