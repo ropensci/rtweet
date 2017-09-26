@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>data_from_stream — data_from_stream • rtweet</title>
+<title>langs data — langs • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,46 +96,48 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>data_from_stream</h1>
+    <h1>langs data</h1>
     </div>
 
     
-    <p>data_from_stream</p>
+    <p>This data comes from the Library of Congress, 
+<a href='http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt'>http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt</a>. The data are
+descriptions and codes associated with internationally recognized languages.
+Variables include translations for each language represented as
+bibliographic, terminologic, alpha, english, and french.</p>
     
 
-    <pre class="usage"><span class='fu'>data_from_stream</span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000L</span>, <span class='kw'>n.cores</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>Character, name of json file with data collected by
-<code><a href='stream_tweets.html'>stream_tweets</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>Number of documents (tweets) to process per interval. Defaults to 10,000.</p></td>
-    </tr>
-    <tr>
-      <th>n.cores</th>
-      <td><p>Number of cores to use when processing data. Defaults to 1.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>langs</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A tbl of tweets data with attribute of users data</p>
+    <p>A tibble with five variables and 486 observations.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>langs</span></div><div class='output co'>#&gt; # A tibble: 486 x 5
+#&gt;    bibliographic terminologic alpha                english
+#&gt;            &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;                  &lt;chr&gt;
+#&gt;  1           aar         &lt;NA&gt;    aa                   Afar
+#&gt;  2           abk         &lt;NA&gt;    ab              Abkhazian
+#&gt;  3           ace         &lt;NA&gt;  &lt;NA&gt;               Achinese
+#&gt;  4           ach         &lt;NA&gt;  &lt;NA&gt;                  Acoli
+#&gt;  5           ada         &lt;NA&gt;  &lt;NA&gt;                Adangme
+#&gt;  6           ady         &lt;NA&gt;  &lt;NA&gt;         Adyghe; Adygei
+#&gt;  7           afa         &lt;NA&gt;  &lt;NA&gt; Afro-Asiatic languages
+#&gt;  8           afh         &lt;NA&gt;  &lt;NA&gt;               Afrihili
+#&gt;  9           afr         &lt;NA&gt;    af              Afrikaans
+#&gt; 10           ain         &lt;NA&gt;  &lt;NA&gt;                   Ainu
+#&gt; # ... with 476 more rows, and 1 more variables: french &lt;chr&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-          </ul>
+      <li><a href="#format">Format</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
