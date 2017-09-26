@@ -118,14 +118,14 @@
 #' @importFrom httr POST write_disk add_headers progress timeout
 #' @export
 stream_tweets <- function(q = "",
-  timeout = 30,
-  parse = TRUE,
-  token = NULL,
-  file_name = NULL,
-  gzip = FALSE,
-  verbose = TRUE,
-  fix.encoding = TRUE,
-  ...) {
+                          timeout = 30,
+                          parse = TRUE,
+                          token = NULL,
+                          file_name = NULL,
+                          gzip = FALSE,
+                          verbose = TRUE,
+                          fix.encoding = TRUE,
+                          ...) {
 
   if (all(fix.encoding,
     !identical(getOption("encoding"), "UTF-8"))) {
@@ -158,7 +158,8 @@ stream_tweets <- function(q = "",
   url <- make_url(
     restapi = FALSE,
     query,
-    param = params)
+    param = params
+  )
 
   tmp <- FALSE
 
@@ -169,7 +170,7 @@ stream_tweets <- function(q = "",
 
   if (is.infinite(timeout)) tmp <- FALSE
 
-  if (!grepl(".json", file_name)) {
+  if (!grepl("\\.json$", file_name)) {
     file_name <- paste0(file_name, ".json")
   }
 
@@ -183,20 +184,23 @@ stream_tweets <- function(q = "",
   r <- NULL
 
   if (gzip) {
-    r <- tryCatch(POST(
+    r <- tryCatch(httr::POST(
       url = url,
-      config = token,
-      write_disk(file_name, overwrite = TRUE),
-      add_headers(`Accept-Encoding` = "deflate, gzip"),
-      progress(), timeout(timeout)),
-      error = function(e) return(NULL))
+      httr::config(token = token, timeout = timeout),
+      httr::write_disk(file_name, overwrite = TRUE),
+      httr::add_headers(`Accept-Encoding` = "deflate, gzip"),
+      httr::progress()),
+      error = function(e) return(NULL)
+    )
+    
   } else {
-    r <- tryCatch(POST(
+    r <- tryCatch(httr::POST(
       url = url,
-      config = token,
-      write_disk(file_name, overwrite = TRUE),
-      progress(), timeout(timeout)),
-      error = function(e) return(NULL))
+      httr::config(token = token, timeout = timeout),
+      httr::write_disk(file_name, overwrite = TRUE),
+      httr::progress()),
+      error = function(e) return(NULL)
+    )
   }
 
   if (verbose) {
