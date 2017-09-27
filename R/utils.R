@@ -199,3 +199,27 @@ is_url <- function(url) {
     return(FALSE)
   }
 }
+
+
+extract_att_data <- function(df) {
+  att <- names(attributes(df))
+  att <- att[att %in% c("users", "tweets")]
+  if (att == "users") {
+    users_data(df)
+  } else {
+    tweets_data(df)
+  }
+}
+
+do_call_rbind <- function(df) {
+  att_df <- lapply(df, extract_att_data)
+  att_df <- do.call("rbind", att_df)
+  if (all(c("text", "hashtags") %in% names(att_df))) {
+    att <- "tweets"
+  } else {
+    att <- "users"
+  }
+  df <- do.call("rbind", df)
+  attr(df, att) <- att_df
+  df
+}

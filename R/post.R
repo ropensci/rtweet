@@ -86,11 +86,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   r <- TWIT(get = FALSE, url, token)
 
   if (r$status_code != 200) {
-    httr::content(r, "parsed")
-    ##message(paste0(
-    ##  "something didn't work. are you using the token associated ",
-    ##  "with *your* Twitter account? if so you may need to set read/write ",
-    ##  "permissions or reset your token at apps.twitter.com."))
+    return(httr::content(r))
   }
   message("your tweet has been posted!")
   invisible(r)
@@ -141,7 +137,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
   url <- make_url(query = query, param = params)
   r <- TWIT(get = FALSE, url, token)
   if (r$status_code != 200) {
-    httr::content(r, "parsed")
+    return(httr::content(r))
   }
   message("your tweet has been posted!")
   invisible(r)
@@ -201,24 +197,56 @@ post_follow <- function(user,
     query <- "friendships/create"
     params <- list(
       user_type = user,
-      notify = notify)
+      notify = notify
+    )
   }
 
   names(params)[1] <- .id_type(user)
-
   url <- make_url(query = query, param = params)
-
   r <- TWIT(get = FALSE, url, token)
-
-  if (r$status_code != 200) {
-    message(paste0(
-      "something didn't work. are you using a token associated ",
-      "with *your* Twitter account? if so you may need to set read/write ",
-      "permissions or reset your token at apps.twitter.com."))
+  if (!check_status_code(r)) {
+    return(httr::content(r))
   }
-
   r
 }
+
+check_status_code <- function(x) {
+  if (has_name_(x, "status_code") && is.integer(x$status_code)) {
+    status <- x$status_code
+  } else if (has_name_(x, "status") && is.integer(x$status)) {
+    status <- x$status
+  } else if (any(grepl("status", names(x)))) {
+    int <- sapply(
+      x[grep("status", names(x))],
+      is.integer
+    )
+    if (sum(int) > 0L) {
+      status <- x[grep("status", names(x))][int][1]
+    } else {
+      return(FALSE)
+    }
+  } else if (any(grepl("code", names(x)))) {
+    int <- sapply(
+      x[grep("code", names(x))],
+      is.integer
+    )
+    if (sum(int) > 0L) {
+      status <- x[grep("code", names(x))][int][1]
+    } else {
+      return(FALSE)
+    }
+  } else {
+    return(FALSE)
+  }
+  if (!is.integer(status)) {
+    return(FALSE)
+  }
+  if (status == 200) {
+    return(TRUE)
+  }
+  FALSE
+}
+
 
 #' post_unfollow
 #'
@@ -295,11 +323,8 @@ post_favorite <- function(status_id,
 
   r <- TWIT(get = FALSE, url, token)
 
-  if (r$status_code != 200) {
-    message(paste0(
-      "something didn't work. are you using a token associated ",
-      "with *your* Twitter account? if so you may need to set read/write ",
-      "permissions or reset your token at apps.twitter.com."))
+  if (!check_status_code(r)) {
+    return(httr::content(r))
   }
   invisible(r)
 }
@@ -344,11 +369,8 @@ post_friendship <- function(user,
 
   r <- TWIT(get = FALSE, url, token)
 
-  if (r$status_code != 200) {
-    message(paste0(
-      "something didn't work. are you using a token associated ",
-      "with *your* Twitter account? if so you may need to set read/write ",
-      "permissions or reset your token at apps.twitter.com."))
+  if (!check_status_code(r)) {
+    return(httr::content(r))
   }
   invisible(r)
 }
