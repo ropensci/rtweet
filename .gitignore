@@ -22,3 +22,4 @@ vignettes/files/electweets.rds
 .check/**
 make
 .pkg-funs.R
+.#.make.R
