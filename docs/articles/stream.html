@@ -93,7 +93,7 @@
 <a href="#specifying-parameters" class="anchor"></a>Specifying parameters</h2>
 <p>In addition to accessing Twitter’s REST API (e.g., <code>search_tweets</code>, <code>get_timeline</code>), rtweet makes it possible to capture live streams of Twitter data using the <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, <code>stream_tweets</code> will stream for 30 seconds and return a random sample of tweets. To modify the default settings, <code>stream_tweets</code> accepts several parameters, including <code>q</code> (query used to filter tweets), <code>timeout</code> (duration or time of stream), and <code>file_name</code> (path name for saving raw json data).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Stream keywords used to filter tweets
-q &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"hillaryclinton,imwithher,realdonaldtrump,maga,electionday"</span>)
+q &lt;-<span class="st"> "hillaryclinton,imwithher,realdonaldtrump,maga,electionday"</span>
 
 ## Stream time in seconds so for one minute set timeout = 60
 ## For larger chunks of time, I recommend multiplying 60 by the number
@@ -118,38 +118,43 @@ rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_t
 <a href="#saving-files" class="anchor"></a>Saving files</h2>
 <p>Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on. To do this, simply add <code>parse = FALSE</code> and make sure you provide a path (file name) to a location you can find later. The code below creates a dedicated rtweet data folder and demonstrates a time-based file naming system.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Name of dedicated rtweet data directory
-rtweet.folder &lt;-<span class="st"> </span><span class="kw">path.expand</span>(<span class="st">"~/rtweet-data"</span>)
+rtweet.folder &lt;-<span class="st"> "rtweet-data"</span>
 
 ## Create dedicated rtweet data directory
 <span class="cf">if</span> (<span class="op">!</span><span class="kw">dir.exists</span>(rtweet.folder)) {
-    <span class="kw">dir.create</span>(rtweet.folder)
+  <span class="kw">dir.create</span>(rtweet.folder)
 }
 
 ## Name streaming file based on time of stream
 ## Combine with directory to form path
 filename &lt;-<span class="st"> </span><span class="kw">file.path</span>(
-    rtweet.folder, <span class="kw">paste0</span>(<span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">"%F-%H-%S"</span>), <span class="st">".json"</span>))
+  rtweet.folder, <span class="kw">paste0</span>(<span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">"%F-%H-%S"</span>), <span class="st">".json"</span>)
+)
 
 ## create meta data
 metadata &lt;-<span class="st"> </span><span class="kw">paste0</span>(
-    <span class="st">"q = "</span>, q, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
-    <span class="st">"streamtime = "</span>, streamtime, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
-    <span class="st">"filename = "</span>, filename)
+  <span class="st">"q = "</span>, q, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
+  <span class="st">"streamtime = "</span>, streamtime, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
+  <span class="st">"filename = "</span>, filename
+)
 
 ## create file name for stream's meta data
 metafile &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">".json$"</span>, <span class="st">".txt"</span>, filename)
 
 ## save meta data
-<span class="kw">cat</span>(metadata, <span class="dt">file =</span> metafile)</code></pre></div>
+<span class="kw">cat</span>(metadata, <span class="dt">file =</span> metafile, <span class="dt">fill =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="parsing-stream-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#parsing-stream-files" class="anchor"></a>Parsing stream files</h2>
 <p>Regardless of whether you decide to setup an organizational system for streaming data, the process of streaming a file to disk and parsing it at a later point in space-time is the same, as illustrated in the example below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## No upfront-parse save as json file instead method
-<span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="dt">q =</span> q, <span class="dt">parse =</span> <span class="ot">FALSE</span>,
-              <span class="dt">timeout =</span> streamtime,
-              <span class="dt">file_name =</span> filename)
+<span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(
+  <span class="dt">q =</span> q, 
+  <span class="dt">parse =</span> <span class="ot">FALSE</span>,
+  <span class="dt">timeout =</span> streamtime,
+  <span class="dt">file_name =</span> filename
+)
 ## Parse from json file
 rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_stream.html">parse_stream</a></span>(filename)</code></pre></div>
 </div>
@@ -161,8 +166,8 @@ rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_st
 <span class="kw">head</span>(rt)</code></pre></div>
 <p>The returned object should also include a data frame of users data, which Twitter’s stream API automatically returns along with tweets data. To access users data, use the <code>users_data</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preview users data
-<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt) <span class="op">%&gt;%</span>
-<span class="st">     </span><span class="kw">head</span>()</code></pre></div>
+<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">head</span>()</code></pre></div>
 </div>
 <div id="plotting" class="section level2">
 <h2 class="hasAnchor">
@@ -180,20 +185,14 @@ rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_st
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot multiple time series by first filtering the data using
 ## regular expressions on the tweet "text" variable
 rt <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="../reference/ts_filter.html">ts_filter</a></span>(
-        <span class="dt">by =</span> <span class="st">"mins"</span>,
-        <span class="dt">filter =</span> <span class="kw">c</span>(<span class="st">"hillary|clinton|imwithher"</span>,
-                   <span class="st">"donald|trump|maga"</span>,
-                   <span class="st">"vot|democracy"</span>),
-        <span class="dt">key =</span> <span class="kw">c</span>(<span class="st">"Clinton"</span>, <span class="st">"Trump"</span>, <span class="st">"Democracy"</span>),
-        <span class="dt">trim =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
-<span class="st">    </span>## The pipe operator allows you to combine this with ts_plot
-<span class="st">    </span>## without things getting too messy.
-<span class="st">    </span><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(
-        <span class="dt">theme =</span> <span class="st">"spacegray"</span>,
-        <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">"#6699ee"</span>, <span class="st">"#dd7a7a"</span>, <span class="st">"#7acc7a"</span>),
-        <span class="dt">main =</span> <span class="st">"Tweets during election day for the 2016 U.S. election"</span>,
-        <span class="dt">subtitle =</span> <span class="st">"Tweets collected, parsed, and plotted using `rtweet`"</span>)</code></pre></div>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(screen_name) <span class="op">%&gt;%</span>
+<span class="st">  </span>## The pipe operator allows you to combine this with ts_plot
+<span class="st">  </span>## without things getting too messy.
+<span class="st">  </span><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(
+    <span class="dt">title =</span> <span class="st">"Tweets during election day for the 2016 U.S. election"</span>,
+    <span class="dt">subtitle =</span> <span class="st">"Tweets collected, parsed, and plotted using `rtweet`"</span>
+  )</code></pre></div>
 <p>Often times these plots kinda resemble a frowny face with the first and last points appearing significantly lower than the rest. This is because the first and last intervals of time are artificially shrunken by connection and disconnection processes. To remedy this, users can specify <code>trim = TRUE</code> to tell R to drop the first and last observation for each time series. This usually yields a much more attractive looking plot.</p>
 <p align="center">
 <img src="files/stream-filter.png" alt="stream-filter"></p>

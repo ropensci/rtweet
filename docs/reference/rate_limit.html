@@ -104,18 +104,11 @@
   access tokens.</p>
     
 
-    <pre class="usage"><span class='fu'>rate_limit</span>(<span class='no'>token</span>, <span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rest</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>rate_limit</span>(<span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
-    </tr>
     <tr>
       <th>query</th>
       <td><p>If null, returns entire rate limit request object as
@@ -127,14 +120,21 @@ follower id requests; <code>type = "friends/ids"</code> returns
 remaining limit for friend id requests.</p></td>
     </tr>
     <tr>
-      <th>rest</th>
-      <td><p>Logical indicating whether to send request to REST
-API. At this time, this should always be TRUE.</p></td>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to console).</p></td>
     </tr>
     <tr>
       <th>parse</th>
       <td><p>Logical indicating whether to parse response object
 into tidy data frame.</p></td>
+    </tr>
+    <tr>
+      <th>rest</th>
+      <td><p>Logical indicating whether to send request to REST
+API. At this time, this should always be TRUE.</p></td>
     </tr>
     </table>
     
