@@ -18,7 +18,7 @@
 #'   to the oldest ID available.
 #' @param max_id optional Returns results with an ID less than (that is,
 #'   older than) or equal to the specified ID.
-#' @param count optional Specifies the number of results to retrieve per "page."
+#' @param n optional Specifies the number of results to retrieve per "page."
 #' @param include_rts optional When set to either true, t or 1,
 #'   the list timeline will contain native retweets (if they exist) in
 #'   addition to the standard stream of tweets. The output format of
@@ -33,31 +33,41 @@
 #'   console).
 #' @return data
 lists_statuses <- function(list_id = NULL,
-                          slug = NULL,
-                          owner_user = NULL,
-                          since_id = NULL,
-                          max_id = NULL,
-                          count = 5000,
-                          include_rts = TRUE,
-                          parse = TRUE,
-                          token = NULL) {
+                           slug = NULL,
+                           owner_user = NULL,
+                           since_id = NULL,
+                           max_id = NULL,
+                           n = 5000,
+                           include_rts = TRUE,
+                           parse = TRUE,
+                           token = NULL) {
   query <- "lists/statuses"
-  params <- list(list_id = list_id,
-                 slug = slug,
-                 owner_user = owner_user,
-                 since_id = since_id,
-                 max_id = max_id,
-                 count = count,
-                 include_rts = include_rts)
-  names(params)[3] <- paste0("owner_", .id_type(owner_user))
-  names(params)[3] <- gsub("user\\_", "", names(params)[3])
+  if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
+    params <- list(
+      slug = slug,
+      owner_user = owner_user,
+      since_id = since_id,
+      max_id = max_id,
+      count = n,
+      include_rts = include_rts
+    )
+    names(params)[2] <- paste0("owner_", .id_type(owner_user))
+  } else {
+    params <- list(
+      list_id = list_id,
+      since_id = since_id,
+      max_id = max_id,
+      count = n,
+      include_rts = include_rts
+    )
+  }
   token <- check_token(token, query)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
-    class(r) <- c("lists", class(r))
-    r <- tibble::as_tibble(r)
+    r <- as_lists_statuses(r)
+    r <- as.data.frame(r)
   }
   r
 }

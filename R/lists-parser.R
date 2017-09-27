@@ -73,4 +73,37 @@ as.data.frame.lists_members <- function(x) {
 }
 
 
+##----------------------------------------------------------------------------##
+##                               lists_statuses                               ##
+##----------------------------------------------------------------------------##
 
+as_lists_statuses <- function(x) {
+  structure(x, class = "lists_statuses")
+}
+
+as.data.frame.lists_statuses <- function(x) {
+  out <- tibble::as_tibble(keep_atomic(x))
+  if (has_name_(x, "user")) {
+    users <- tibble::as_tibble(keep_atomic(x$user))
+    attr(out, "users") <- users
+  }
+  out
+}
+
+
+##----------------------------------------------------------------------------##
+##                                lists_users                                 ##
+##----------------------------------------------------------------------------##
+
+as_lists_users <- function(x) {
+  structure(x, class = "lists_users")
+}
+
+as.data.frame.lists_users <- function(x) {
+  out <- tibble::as_tibble(keep_atomic(x))
+  if (has_name_(x, "user")) {
+    users <- tibble::as_tibble(keep_atomic(x$user))
+    attr(out, "users") <- users
+  }
+  out
+}

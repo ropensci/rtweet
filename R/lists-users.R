@@ -20,16 +20,18 @@
 #' @return data
 lists_users <- function(user, reverse = FALSE, token = NULL, parse = TRUE) {
   query <- "lists/list"
-  params <- list(user = user,
-                 reverse = reverse)
+  params <- list(
+    user = user,
+    reverse = reverse
+  )
   names(params)[1] <- .id_type(user)
   token <- check_token(token, query)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
-    #class(r) <- c("lists", class(r))
-    #r <- tibble::as_tibble(r)
+    r <- as_lists_users(r)
+    r <- as.data.frame(r)
   }
   r
 }
