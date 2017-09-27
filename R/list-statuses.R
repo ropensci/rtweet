@@ -24,19 +24,22 @@
 #'   addition to the standard stream of tweets. The output format of
 #'   retweeted tweets is identical to the representation you see in
 #'   home_timeline.
+#' @param parse Logical indicating whether to convert the response object into
+#'   an R list. Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return data
-list_statuses <- function(list_id = NULL,
+lists_statuses <- function(list_id = NULL,
                           slug = NULL,
                           owner_user = NULL,
                           since_id = NULL,
                           max_id = NULL,
                           count = 5000,
                           include_rts = TRUE,
+                          parse = TRUE,
                           token = NULL) {
   query <- "lists/statuses"
   params <- list(list_id = list_id,
@@ -47,8 +50,14 @@ list_statuses <- function(list_id = NULL,
                  count = count,
                  include_rts = include_rts)
   names(params)[3] <- paste0("owner_", .id_type(owner_user))
+  names(params)[3] <- gsub("user\\_", "", names(params)[3])
   token <- check_token(token, query)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
-  from_js(r)
+  if (parse) {
+    r <- from_js(r)
+    class(r) <- c("lists", class(r))
+    r <- tibble::as_tibble(r)
+  }
+  r
 }

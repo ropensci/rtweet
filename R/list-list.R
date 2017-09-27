@@ -28,6 +28,8 @@ lists_users <- function(user, reverse = FALSE, token = NULL, parse = TRUE) {
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
+    #class(r) <- c("lists", class(r))
+    #r <- tibble::as_tibble(r)
   }
   r
 }
