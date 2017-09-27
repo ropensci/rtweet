@@ -107,7 +107,7 @@ lists_memberships_call <- function(user,
 #' @return Vector of class screen_name.
 #' @export
 as_screen_name <- function(x) {
-  is.atomic(x)
+  stopifnot(is.atomic(x))
   x <- as.character(x)
   class(x) <- c("screen_name", class(x))
   x
@@ -150,11 +150,18 @@ keep_atomic <- function(x) {
   x[!vapply(x, is.recursive, logical(1))]
 }
 
-
 as_tibble.lists <- function(x) {
-  x <- x[["lists"]]
-  users <- tibble::as_tibble(keep_atomic(x$user))
-  x <- tibble::as_tibble(keep_atomic(x))
-  attr(x, "users") <- users
-  x
+  if (has_name_(x, "lists")) {
+    x <- x[["lists"]]
+  }
+  out <- tibble::as_tibble(keep_atomic(x))
+  if (has_name_(x, "user")) {
+    users <- tibble::as_tibble(keep_atomic(x$user))
+    attr(out, "users") <- users
+  }
+  if (has_name_(x, "status")) {
+    tweets <- tibble::as_tibble(keep_atomic(x$status))
+    attr(out, "tweets") <- tweets
+  }
+  out
 }
