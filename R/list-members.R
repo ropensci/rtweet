@@ -29,14 +29,18 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @param ... Other args used as parameters in query composition.
+#' @param parse Logical indicating whether to convert the response object into
+#'   an R list. Defaults to TRUE.
 #' @return data
-list_members <- function(list_id,
-                         slug = NULL,
-                         owner_user = NULL,
-                         count = 5000,
-                         cursor = "-1",
-                         token = NULL,
-                         ...) {
+#' @export
+lists_members <- function(list_id = NULL,
+                          slug = NULL,
+                          owner_user = NULL,
+                          count = 5000,
+                          cursor = "-1",
+                          token = NULL,
+                          parse = TRUE,
+                          ...) {
   query <- "lists/members"
   if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
     params <- list(
@@ -59,8 +63,8 @@ list_members <- function(list_id,
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
-    class(r) <- c("lists", class(r))
-    r <- tibble::as_tibble(r)
+    r <- as_lists_members(r)
+    r <- as.data.frame(r)
   }
   r
 }

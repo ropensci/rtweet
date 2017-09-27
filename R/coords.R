@@ -43,7 +43,8 @@ lookup_coords <- function(address, components = NULL, ...) {
   if (missing(address)) stop("must supply address", call. = FALSE)
   stopifnot(is.atomic(address), is.atomic(components))
   place <- address
-  if (grepl("^us$|^usa$|^united states$|^u\\.s", address, ignore.case = TRUE)) {
+  if (grepl("^us$|^usa$|^united states$|^u\\.s",
+            address, ignore.case = TRUE)) {
     boxp <- c(
       sw.lng = -124.848974,
       sw.lat = 24.396308,
@@ -53,6 +54,18 @@ lookup_coords <- function(address, components = NULL, ...) {
     point <- c(
       lat = 36.89,
       lng = -95.867
+    )
+  } else if (grepl("^world$|^all$|^globe$|^earth$",
+            address, ignore.case = TRUE)) {
+    boxp <- c(
+      sw.lng = -180,
+      sw.lat = -90,
+      ne.lng = 180,
+      ne.lat = 90
+    )
+    point <- c(
+      lat = 0,
+      lng = 0
     )
   } else {
     ## encode address

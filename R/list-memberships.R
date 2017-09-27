@@ -41,11 +41,11 @@ lists_memberships <- function(user,
 }
 
 lists_memberships_ <- function(user,
-                                   n = 20,
-                                   cursor = "-1",
-                                   filter_to_owned_lists = FALSE,
-                                   token = NULL,
-                                   parse = TRUE) {
+                               n = 20,
+                               cursor = "-1",
+                               filter_to_owned_lists = FALSE,
+                               token = NULL,
+                               parse = TRUE) {
   args <- list(
     cursor = cursor,
     filter_to_owned_lists = filter_to_owned_lists,
@@ -54,9 +54,7 @@ lists_memberships_ <- function(user,
   )
   r <- Map("lists_memberships_call", user, n, MoreArgs = args)
   if (parse) {
-    usr <- do.call("rbind", lapply(r, users_data))
-    r <- do.call("rbind", r)
-    attr(r, "users") <- usr
+    r <- do_call_rbind(r)
   }
   r
 }
@@ -91,77 +89,12 @@ lists_memberships_call <- function(user,
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
-    class(r) <- c("lists", class(r))
-    r <- tibble::as_tibble(r)
+    r <- as_lists_memberships(r)
+    r <- as.data.frame(r)
   }
   r
 }
 
 
 
-#' as screen name
-#'
-#' Forces user of type screen name.
-#'
-#' @param x Vector of users (screen names).
-#' @return Vector of class screen_name.
-#' @export
-as_screen_name <- function(x) {
-  stopifnot(is.atomic(x))
-  x <- as.character(x)
-  class(x) <- c("screen_name", class(x))
-  x
-}
 
-print.screen_name <- function(x) {
-  cat("Twitter user type: screen name\nUsers:", fill = TRUE)
-  print(as.character(x))
-}
-
-is_screen_name <- function(x) {
-  inherits(x, "screen_name")
-}
-
-
-#' as user ID
-#'
-#' Forces user of type user ID.
-#'
-#' @param x Vector of users (user IDs).
-#' @return Vector of class user_Id.
-#' @export
-as_user_id <- function(x) {
-  stopifnot(is.atomic(x))
-  x <- as.character(x)
-  class(x) <- c("user_id", class(x))
-  x
-}
-
-print.user_id <- function(x) {
-  cat("Twitter user type: user id\nUsers:", fill = TRUE)
-  print(as.character(x))
-}
-
-is_user_id <- function(x) {
-  inherits(x, "user_id")
-}
-
-keep_atomic <- function(x) {
-  x[!vapply(x, is.recursive, logical(1))]
-}
-
-as_tibble.lists <- function(x) {
-  if (has_name_(x, "lists")) {
-    x <- x[["lists"]]
-  }
-  out <- tibble::as_tibble(keep_atomic(x))
-  if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(keep_atomic(x$user))
-    attr(out, "users") <- users
-  }
-  if (has_name_(x, "status")) {
-    tweets <- tibble::as_tibble(keep_atomic(x$status))
-    attr(out, "tweets") <- tweets
-  }
-  out
-}
