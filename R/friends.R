@@ -103,7 +103,7 @@ get_friends.default <- function(users,
         user_type = users[i],
         count = 5000,
         cursor = page,
-        stringify = TRUE
+        stringify_ids = TRUE
       )
       names(params)[1] <- .id_type(users[i])
       url <- make_url(
@@ -160,7 +160,7 @@ get_friends.default <- function(users,
       user_type = users,
       count = 5000,
       cursor = page,
-      stringify = TRUE
+      stringify_ids = TRUE
     )
     names(params)[1] <- .id_type(users)
     url <- make_url(
