@@ -65,7 +65,7 @@ get_followers.default <- function(user,
     user_type = user,
     count = 5000,
     cursor = page,
-    stringify = TRUE
+    stringify_ids = TRUE
   )
   names(params)[1] <- .id_type(user)
   url <- make_url(
