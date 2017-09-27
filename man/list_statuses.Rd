@@ -46,5 +46,7 @@ console).}
 data
 }
 \description{
-GET lists/statuses
+Returns a timeline of tweets authored by members of the specified
+list. Retweets are included by default. Use the include_rts=false
+parameter to omit retweets.
 }

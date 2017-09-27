@@ -5,7 +5,7 @@
 \title{GET lists/members}
 \usage{
 list_members(list_id, slug = NULL, owner_user = NULL, count = 5000,
-  cursor = "-1", token = NULL)
+  cursor = "-1", token = NULL, ...)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -35,10 +35,17 @@ non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
+
+\item{...}{Other args used as parameters in query composition.}
+
+\item{parse}{Logical indicating whether to convert the response object into
+an R list. Defaults to TRUE.}
 }
 \value{
 data
 }
 \description{
-GET lists/members
+Returns the members of the specified list. Private list members
+will only be shown if the authenticated user owns the specified
+list.
 }

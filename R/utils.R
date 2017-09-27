@@ -128,10 +128,15 @@ from_js <- function(rsp) {
 }
 
 .id_type <- function(x) {
+  if (is_screen_name(x)) {
+    return("screen_name")
+  }
+  if (is_user_id(x)) {
+    return("user_id")
+  }
   x <- suppressWarnings(is.na(as.numeric(x)))
   if (length(unique(x)) > 1) {
     return("screen_name")
-    ##stop("users must be user_ids OR screen_names, not both.")
   }
   x <- unique(x)
   if (x) {

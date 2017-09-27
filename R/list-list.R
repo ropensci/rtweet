@@ -15,8 +15,10 @@
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
+#' @param parse Logical indicating whether to convert the response object into
+#'   an R list. Defaults to TRUE.
 #' @return data
-list_list <- function(user, reverse = FALSE, token = NULL) {
+lists_users <- function(user, reverse = FALSE, token = NULL, parse = TRUE) {
   query <- "lists/list"
   params <- list(user = user,
                  reverse = reverse)
@@ -24,5 +26,8 @@ list_list <- function(user, reverse = FALSE, token = NULL) {
   token <- check_token(token, query)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
-  from_js(r)
+  if (parse) {
+    r <- from_js(r)
+  }
+  r
 }
