@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • rtweet</title>
+<title>GET statuses/retweets/:id — get_retweets • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -93,22 +93,66 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Articles <small>version&nbsp;0.5.12</small></h1>
-</div>
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="auth.html">Obtaining and using access tokens</a></li>
-        <li><a href="intro.html">Intro to rtweet: Collecting Twitter Data</a></li>
-        <li><a href="stream.html">Live streaming tweets</a></li>
-      </ul>
+      <div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+    <h1>GET statuses/retweets/:id</h1>
     </div>
+
+    
+    <p>Returns a collection of the 100 most recent retweets of the Tweet
+specified by the id parameter. Twitter's API is currently limited to 100
+or fewer retweeters.</p>
+    
+
+    <pre class="usage"><span class='fu'>get_retweets</span>(<span class='no'>status_id</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>n</th>
+      <td><p>optional Specifies the number of records to retrieve.
+Must be less than or equal to 100.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical indicating whether to convert the response object into
+an R list. Defaults to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments used as parameters in the query sent to
+Twitter's rest API, for example, <code>trim_user = TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
+console).</p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p>required The numerical ID of the desired status.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>data</p>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
+
   </div>
 </div>
 
