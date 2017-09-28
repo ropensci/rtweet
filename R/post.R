@@ -62,16 +62,20 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## media if provided
   if (!is.null(media)) {
-    media2upload <- httr::upload_file(media)
-    query <- "media/upload"
-    rurl <- paste0(
-      "https://upload.twitter.com/1.1/media/upload.json"
-    )
-    r <- httr::POST(rurl, body = list(media = media2upload), token)
-    r <- httr::content(r, "parsed")
+    r <- vector("list", length(media))
+    media_id_string <- vector("list", length(media))
+    for (i in seq_along(media)) {
+      r[[i]] <- upload_media_to_twitter(media[[i]], token)
+      if (has_name_(r[[i]], "media_id_string")) {
+        media_id_string[[i]] <- r[[i]]$media_id_string
+      } else {
+        stop(paste("media file number", i, "failed to upload"), call. = FALSE)
+      }
+    }
+    media_id_string <- paste(media_id_string, collapse = ",")
     params <- list(
       status = status,
-      media_ids = r$media_id_string
+      media_ids = media_id_string
     )
   } else {
     params <- list(status = status)
@@ -90,6 +94,17 @@ post_tweet <- function(status = "my first rtweet #rstats",
   }
   message("your tweet has been posted!")
   invisible(r)
+}
+
+
+upload_media_to_twitter <- function(media, token) {
+  media2upload <- httr::upload_file(media)
+  query <- "media/upload"
+  rurl <- paste0(
+    "https://upload.twitter.com/1.1/media/upload.json"
+  )
+  r <- httr::POST(rurl, body = list(media = media2upload), token)
+  httr::content(r)
 }
 
 
