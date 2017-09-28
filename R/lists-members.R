@@ -11,7 +11,7 @@
 #'   owner_user parameters.
 #' @param owner_user optional The screen name or user ID of the user
 #'   who owns the list being requested by a slug.
-#' @param count optional Specifies the number of results to return
+#' @param n optional Specifies the number of results to return
 #'   per page (see cursor below). The default is 20, with a maximum
 #'   of 5,000.
 #' @param cursor semi-optional Causes the collection of list members
@@ -36,7 +36,7 @@
 lists_members <- function(list_id = NULL,
                           slug = NULL,
                           owner_user = NULL,
-                          count = 5000,
+                          n = 5000,
                           cursor = "-1",
                           token = NULL,
                           parse = TRUE,
@@ -46,7 +46,7 @@ lists_members <- function(list_id = NULL,
     params <- list(
       slug = slug,
       owner_user = owner_user,
-      count = count,
+      count = n,
       cursor = cursor,
       ...
     )
@@ -54,7 +54,7 @@ lists_members <- function(list_id = NULL,
   } else {
     params <- list(
       list_id = list_id,
-      count = count,
+      count = n,
       cursor = cursor
     )
   }

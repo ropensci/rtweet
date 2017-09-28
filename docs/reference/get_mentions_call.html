@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET lists/members — lists_members • rtweet</title>
+<title>get_mentions_call — get_mentions_call • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,52 +96,53 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET lists/members</h1>
+    <h1>get_mentions_call</h1>
     </div>
 
     
-    <p>Returns the members of the specified list. Private list members
-will only be shown if the authenticated user owns the specified
-list.</p>
+    <p>Returns the 20 most recent mentions (Tweets containing a users’s
+  screen_name) for the authenticating user. The timeline returned is
+  the equivalent of the one seen when you view your mentions on
+  twitter.com. This method can only return up to 800 tweets.</p>
     
 
-    <pre class="usage"><span class='fu'>lists_members</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
-  <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_mentions_call</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>list_id</th>
-      <td><p>required The numerical id of the list.</p></td>
-    </tr>
-    <tr>
-      <th>slug</th>
-      <td><p>required You can identify a list by its slug instead of
-its numerical id. If you decide to do so, note that you'll also
-have to specify the list owner using the owner_id or
-owner_user parameters.</p></td>
-    </tr>
-    <tr>
-      <th>owner_user</th>
-      <td><p>optional The screen name or user ID of the user
-who owns the list being requested by a slug.</p></td>
-    </tr>
-    <tr>
       <th>n</th>
-      <td><p>optional Specifies the number of results to return
-per page (see cursor below). The default is 20, with a maximum
-of 5,000.</p></td>
+      <td><p>Specifies the number of Tweets to try and retrieve, up to
+a maximum of 200. The value of count is best thought of as a
+limit to the number of tweets to return because suspended or
+deleted content is removed after the count has been applied. We
+include retweets in the count, even if include_rts is not
+supplied. It is recommended you always send include_rts=1 when
+using this API method.</p></td>
     </tr>
     <tr>
-      <th>cursor</th>
-      <td><p>semi-optional Causes the collection of list members
-to be broken into "pages" of consistent sizes (specified by
-the count parameter). If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."
-The response from the API will include a previous_cursor
-and next_cursor to allow paging back and forth. See Using
-cursors to navigate collections for more information.</p></td>
+      <th>since_id</th>
+      <td><p>Returns results with an ID greater than (that is,
+more recent than) the specified ID. There are limits to the
+number of Tweets which can be accessed through the API. If the
+limit of Tweets has occured since the since_id, the since_id will
+be forced to the oldest ID available.</p></td>
+    </tr>
+    <tr>
+      <th>max_id</th>
+      <td><p>Returns results with an ID less than (that is, older
+than) or equal to the specified ID.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other args passed as parameters in composed API query.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical indicating whether to convert the response object into
+an R list. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -151,25 +152,11 @@ instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
 console).</p></td>
     </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Other args used as parameters in query composition.</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data</p>
+    <p>Output</p>
     
 
   </div>

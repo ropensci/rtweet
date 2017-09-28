@@ -4,8 +4,8 @@
 \alias{lists_members}
 \title{GET lists/members}
 \usage{
-lists_members(list_id = NULL, slug = NULL, owner_user = NULL,
-  count = 5000, cursor = "-1", token = NULL, parse = TRUE, ...)
+lists_members(list_id = NULL, slug = NULL, owner_user = NULL, n = 5000,
+  cursor = "-1", token = NULL, parse = TRUE, ...)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -18,7 +18,7 @@ owner_user parameters.}
 \item{owner_user}{optional The screen name or user ID of the user
 who owns the list being requested by a slug.}
 
-\item{count}{optional Specifies the number of results to return
+\item{n}{optional Specifies the number of results to return
 per page (see cursor below). The default is 20, with a maximum
 of 5,000.}
 
