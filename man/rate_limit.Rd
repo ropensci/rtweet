@@ -22,9 +22,6 @@ tokens vignette (in r, send \code{?tokens} to console).}
 
 \item{parse}{Logical indicating whether to parse response object
 into tidy data frame.}
-
-\item{rest}{Logical indicating whether to send request to REST
-API. At this time, this should always be TRUE.}
 }
 \value{
 Data frame with rate limit respones details. If query

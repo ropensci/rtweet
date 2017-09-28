@@ -40,9 +40,6 @@ console).}
 an R list. Defaults to TRUE.}
 
 \item{...}{Other args used as parameters in query composition.}
-
-\item{parse}{Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.}
 }
 \value{
 data

@@ -4,7 +4,7 @@
 \alias{data_from_stream}
 \title{data_from_stream}
 \usage{
-data_from_stream(x, n = 10000L, n.cores = 1L, ...)
+data_from_stream(x, n = 10000L, n.cores = 1L)
 }
 \arguments{
 \item{x}{Character, name of json file with data collected by

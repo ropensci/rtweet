@@ -29,8 +29,6 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @param ... Other args used as parameters in query composition.
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
 #' @return data
 #' @export
 lists_members <- function(list_id = NULL,

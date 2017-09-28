@@ -374,7 +374,7 @@ fsz <- function(x) file.info(x)[["size"]]
 #' @param n.cores Number of cores to use when processing data. Defaults to 1.
 #' @return A tbl of tweets data with attribute of users data
 #' @export
-data_from_stream <- function(x, n = 10000L, n.cores = 1L, ...) {
+data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
   if (!file.exists(x)) {
     stop("No such file exists", call. = FALSE)
   }

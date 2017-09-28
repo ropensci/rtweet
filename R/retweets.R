@@ -4,7 +4,7 @@
 #' specified by the id parameter. Twitter's API is currently limited to 100
 #' or fewer retweeters.
 #' 
-#' @param id required The numerical ID of the desired status.
+#' @param status_id required The numerical ID of the desired status.
 #' @param n optional Specifies the number of records to retrieve.
 #'   Must be less than or equal to 100.
 #' @param parse Logical indicating whether to convert the response object into
@@ -34,6 +34,23 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, ..., token = NULL) {
   }
   r
 }
+
+as_retweets <- function(x) {
+  structure(x, class = "retweets")
+}
+
+as.data.frame.retweets <- function(x) {
+  if (has_name_(x, "ids")) {
+    x <- data.frame(
+      user_id = x$ids,
+      stringsAsFactors = FALSE
+    )
+  } else {
+    x <- data.frame()
+  }
+  x
+}
+
 
 
 #' GET statuses/retweeters/ids

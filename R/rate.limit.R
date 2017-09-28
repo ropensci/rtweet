@@ -14,8 +14,6 @@
 #'   \code{type = "followers/ids"} returns remaining limit for
 #'   follower id requests; \code{type = "friends/ids"} returns
 #'   remaining limit for friend id requests.
-#' @param rest Logical indicating whether to send request to REST
-#'   API. At this time, this should always be TRUE.
 #' @param parse Logical indicating whether to parse response object
 #'   into tidy data frame.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
@@ -52,17 +50,16 @@ rate_limit <- function(query = NULL,
     }
     do.call("rbind", rl)
   } else {
-    rate_limit_(token, query, parse = parse, ...)
+    rate_limit_(token, query, parse = parse)
   }
 }
 
 rate_limit_ <- function(token,
                         query = NULL,
-                        rest = TRUE,
                         parse = TRUE) {
   token <- check_token(token, query = NULL)
   url <- make_url(
-    restapi = rest,
+    restapi = TRUE,
     query = "application/rate_limit_status")
   r <- TWIT(get = TRUE, url, config = token)
   if (parse) {

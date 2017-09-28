@@ -90,7 +90,7 @@ all_tw <- function(search = TRUE) {
   } else {
     x <- ","
   }
-  paste(c(letters, stopwords), collapse = x)
+  paste(c(letters, stop_words("en", n = 50)), collapse = x)
 }
 firehose <- function(search = TRUE) {
   all_tw(search)

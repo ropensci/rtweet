@@ -7,6 +7,8 @@
 get_retweets(status_id, n = 100, parse = TRUE, ..., token = NULL)
 }
 \arguments{
+\item{status_id}{required The numerical ID of the desired status.}
+
 \item{n}{optional Specifies the number of records to retrieve.
 Must be less than or equal to 100.}
 
@@ -21,8 +23,6 @@ non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
-
-\item{id}{required The numerical ID of the desired status.}
 }
 \value{
 data

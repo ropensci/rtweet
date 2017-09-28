@@ -31,19 +31,5 @@ rt <- get_timelines(
   users = c("hadleywickham", "hspter", "rdpeng", "calbon", "dataandme"),
   n = 400
 )
-if (requireNamespace("dplyr", quietly = TRUE)) {
-  rt \%>\%
-    dplyr::group_by(screen_name) \%>\%
-    word_n() \%>\%
-    dplyr::filter(!word \%in\% stopwords) \%>\%
-    dplyr::group_by(screen_name) \%>\%
-    dplyr::top_n(10, n) \%>\%
-    print(n = 50)
-} else {
-  rt \%>\%
-    word_n("screen_name") \%>\%
-    subset(!word \%in\% stopwords & n > 8) \%>\%
-    print(n = 50)
-}
 }
 }
