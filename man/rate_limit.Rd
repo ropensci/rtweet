@@ -4,7 +4,7 @@
 \alias{rate_limit}
 \title{rate_limit}
 \usage{
-rate_limit(query = NULL, token = NULL, parse = TRUE, ...)
+rate_limit(query = NULL, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{query}{If null, returns entire rate limit request object as

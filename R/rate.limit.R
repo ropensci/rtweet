@@ -23,8 +23,7 @@
 #' @export
 rate_limit <- function(query = NULL,
                        token = NULL,
-                       parse = TRUE,
-                       ...) {
+                       parse = TRUE) {
   if (!is.null(query) && inherits(query, "Token") ||
         is.list(query) && inherits(query[[1]], "Token")) {
     if (!is.null(token) && is.character(token)) {
@@ -39,7 +38,8 @@ rate_limit <- function(query = NULL,
     token <- get_tokens()
   }
   if (is.list(token) && length(token) > 1L) {
-    rl <- Map("rate_limit_", token, MoreArgs = list(query = query, parse = parse, ...))
+    rl <- Map("rate_limit_", token,
+              MoreArgs = list(query = query, parse = parse))
     token_names <- go_get_var(token, "app", "appname", expect_n = length(rl))
     if (!parse) {
       names(rl) <- token_names
