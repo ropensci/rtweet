@@ -102,9 +102,9 @@ as_mentions <- function(x) {
 }
 
 as.data.frame.mentions <- function(x) {
-  out <- tibble::as_tibble(keep_atomic(x))
+  out <- tibble::as_tibble(wrangle_into_clean_data(x, "status"))
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(keep_atomic(x$user))
+    users <- tibble::as_tibble(wrangle_into_clean_data(x, "user"))
     attr(out, "users") <- users
   }
   out

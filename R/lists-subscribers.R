@@ -64,7 +64,7 @@ lists_subscribers_ <- function(list_id,
     list_id = list_id,
     slug = slug,
     owner_user = owner_user,
-    n = n,
+    n = count,
     cursor = cursor,
     parse = parse,
     token = token
@@ -126,16 +126,3 @@ lists_subscribers_call <- function(list_id = NULL,
   r
 }
 
-
-as_lists_subscribers <- function(x) {
-  structure(x, class = "lists_subscribers")
-}
-
-as.data.frame.lists_subscribers <- function(x) {
-  out <- tibble::as_tibble(keep_atomic(x))
-  if (has_name_(x, "users")) {
-    users <- tibble::as_tibble(keep_atomic(x$users))
-    attr(out, "users") <- users
-  }
-  out
-}
