@@ -97,8 +97,7 @@ lists_subscribers_call <- function(list_id = NULL,
       slug = slug,
       owner_user = owner_user,
       count = n,
-      cursor = cursor,
-      ...
+      cursor = cursor
     )
     names(params)[2] <- paste0("owner_", .id_type(owner_user))
   } else {
