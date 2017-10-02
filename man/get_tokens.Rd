@@ -3,21 +3,28 @@
 \name{get_tokens}
 \alias{get_tokens}
 \alias{get_token}
+\alias{get_token}
 \title{get_tokens}
 \usage{
 get_tokens()
+
+get_token()
 }
 \value{
-path
+Twitter oauth token(s) (Token1.0).
 }
 \description{
-Call function used to load Twitter oauth tokens.
-  Since Twitter app key should be stored private, you are encouraged
-  to create and save an R user profile declaring the path to your
-  Twitter tokens. This allows Tokens to be instantly  [re]loaded
-  for future sessions. It also makes it easier to write teh card -
-  allowing internals of the functions to call your tokens for you.
+Call function used to fetch and load Twitter oauth tokens.
+Since Twitter app key should be stored privately, users should save
+the path to token(s) as an environment variable. This allows Tokens
+to be instantly [re]loaded in future sessions. See the "tokens"
+vignette for instructions on obtaining and using access tokens.
+}
+\details{
+This function will search for tokens using R, internal, and
+global environment variables (in that order).
 }
 \seealso{
-Other tokens: \code{\link{create_token}}
+Other tokens: \code{\link{create_token}},
+  \code{\link{rate_limit}}
 }

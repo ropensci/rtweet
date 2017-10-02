@@ -39,7 +39,8 @@ Sends request to generate oauth 1.0 tokens. Twitter
   Consequently, I encourage you to use 1.0 tokens.
 }
 \seealso{
-\url{https://dev.twitter.com/overview/documentation}
+\url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 
-Other tokens: \code{\link{get_tokens}}
+Other tokens: \code{\link{get_tokens}},
+  \code{\link{rate_limit}}
 }

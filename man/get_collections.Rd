@@ -2,24 +2,19 @@
 % Please edit documentation in R/collections-entries.R
 \name{get_collections}
 \alias{get_collections}
-\title{GET collections/entries}
+\title{GET collections/list}
 \usage{
-get_collections(id, count = 200, max_position = NULL, min_position = NULL,
+get_collections(user, status_id = NULL, n = 200, cursor = NULL,
   parse = TRUE, token = NULL)
 }
 \arguments{
-\item{id}{required The identifier of the Collection to return results for
-e.g., "custom-539487832448843776"}
+\item{user}{Screen name or user id of target user.}
 
-\item{count}{optional Specifies the maximum number of results to include in
-the response. Specify count between 1 and 200. A next_cursor value will be
-provided in the response if additional results are available.}
+\item{status_id}{Optional, the identifer of the tweet for which to return results.}
 
-\item{max_position}{optional Returns results with a position value less than
-or equal to the specified position.}
+\item{n}{Maximum number of results to return.}
 
-\item{min_position}{optional Returns results with a position greater than the
-specified position.}
+\item{cursor}{Page identifier of results to retrieve.}
 
 \item{parse}{Logical indicating whether to convert response object into
 nested list. Defaults to true.}
@@ -34,13 +29,6 @@ Return object converted to nested list. If status code of response
   object is not 200, the response object is returned directly.
 }
 \description{
-Retrieve the identified Collection, presented as a list of the Tweets curated
-within. The response structure of this method differs significantly from
-timelines you may be used to working with in the Twitter REST API. To
-navigate a Collection, use the position object of a response, which includes
-attributes for max_position, min_position, and was_truncated. was_truncated
-indicates whether additional Tweets exist in the collection outside of the
-range of the current request. To retrieve Tweets further back in time, use
-the value of min_position found in the current response as the max_position
-parameter in your next call to this endpoint.
+Find Collections created by a specific user or containing a specific curated Tweet.
+Results are organized in a cursored collection.
 }

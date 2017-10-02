@@ -2,35 +2,50 @@
 % Please edit documentation in R/rate.limit.R
 \name{rate_limit}
 \alias{rate_limit}
+\alias{rate_limits}
 \title{rate_limit}
 \usage{
-rate_limit(query = NULL, token = NULL, parse = TRUE)
+rate_limit(token = NULL, query = NULL, parse = TRUE)
+
+rate_limits(token = NULL, query = NULL, parse = TRUE)
 }
 \arguments{
-\item{query}{If null, returns entire rate limit request object as
-data frame. otherwise, query returns specific values matching
-the query of interest; e.g., \code{query = "lookup/users"} returns
-remaining limit for user lookup requests;
+\item{token}{One or more OAuth tokens. By default \code{token =
+NULL} fetches a non-exhausted token from an environment
+variable. Find instructions on how to create tokens and setup an
+environment variable in the tokens vignette (in r, send
+\code{?tokens} to console).}
+
+\item{query}{Specific API (path) or a character function name,
+e.g., \code{query = "get_timelines"}, used to subset the returned
+data.  If null, this function returns entire rate limit request
+object as a tibble data frame. Otherwise, query returns specific
+values matching the query of interest; e.g., \code{query =
+"lookup/users"} returns remaining limit for user lookup requests;
 \code{type = "followers/ids"} returns remaining limit for
 follower id requests; \code{type = "friends/ids"} returns
 remaining limit for friend id requests.}
 
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
-
 \item{parse}{Logical indicating whether to parse response object
-into tidy data frame.}
+into a data frame.}
 }
 \value{
-Data frame with rate limit respones details. If query
-  is specified, only relevant rows are returned.
+Tibble data frame with rate limit information pertaining to
+  the limit (max allowed), remaining (specific to token), reset
+  (mins until reset), and reset_at (time of rate limit reset). If
+  query is specified, only relevant rows are returned.
 }
 \description{
-Returns rate limit information for Twitter
-  access tokens.
+Returns rate limit information for Twitter access tokens.
+}
+\details{
+If multiple tokens are provided, this function will return
+  the names of the associated [token] apps as new variable (column)
+  or as a named element (if parse = FALSE).
 }
 \seealso{
-\url{https://dev.twitter.com/overview/documentation}
+\url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
+
+Other tokens: \code{\link{create_token}},
+  \code{\link{get_tokens}}
 }

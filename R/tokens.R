@@ -1,12 +1,15 @@
 #' get_tokens
 #'
-#' @description Call function used to load Twitter oauth tokens.
-#'   Since Twitter app key should be stored private, you are encouraged
-#'   to create and save an R user profile declaring the path to your
-#'   Twitter tokens. This allows Tokens to be instantly  [re]loaded
-#'   for future sessions. It also makes it easier to write teh card -
-#'   allowing internals of the functions to call your tokens for you.
-#' @return path
+#' Call function used to fetch and load Twitter oauth tokens.
+#' Since Twitter app key should be stored privately, users should save
+#' the path to token(s) as an environment variable. This allows Tokens
+#' to be instantly [re]loaded in future sessions. See the "tokens"
+#' vignette for instructions on obtaining and using access tokens.
+#' 
+#' @return Twitter oauth token(s) (Token1.0).
+#' @details This function will search for tokens using R, internal, and
+#' global environment variables (in that order).
+#' 
 #' @family tokens
 #' @aliases get_token
 #' @export
@@ -22,7 +25,7 @@ get_tokens <- function() {
 }
 
 #' @export
-#' @noRd
+#' @rdname get_tokens
 get_token <- function() get_tokens()
 
 #' create_token
@@ -48,7 +51,7 @@ get_token <- function() get_tokens()
 #'   Ideally, users will store their token as an environment variable
 #'   (see the tokens vignette for instructions), but the cache file
 #'   works as long as always return to the same working directory.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @seealso \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 #'
 #' @return Twitter personal access token object
 #' @importFrom httr oauth_app oauth1.0_token oauth_endpoints

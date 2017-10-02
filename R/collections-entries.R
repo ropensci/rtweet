@@ -12,7 +12,7 @@
 #'
 #' @param id required The identifier of the Collection to return results for
 #'   e.g., "custom-539487832448843776"
-#' @param count optional Specifies the maximum number of results to include in
+#' @param n optional Specifies the maximum number of results to include in
 #'   the response. Specify count between 1 and 200. A next_cursor value will be
 #'   provided in the response if additional results are available.
 #' @param max_position optional Returns results with a position value less than
@@ -28,11 +28,11 @@
 #' @return Return object converted to nested list. If status code of response
 #'   object is not 200, the response object is returned directly.
 #' @export
-get_collections <- function(id, count = 200,
-                            max_position = NULL,
-                            min_position = NULL,
-                            parse = TRUE,
-                            token = NULL) {
+lookup_collections <- function(id, n = 200,
+                               max_position = NULL,
+                               min_position = NULL,
+                               parse = TRUE,
+                               token = NULL) {
   stopifnot(is.character(id), is_n(count))
   query <- "collections/entries"
   params <- list(
@@ -49,4 +49,50 @@ get_collections <- function(id, count = 200,
     r <- jsonlite::fromJSON(httr::content(r, "text", "UTF-8"))
   }
   r
+}
+
+
+#' GET collections/list
+#'
+#' Find Collections created by a specific user or containing a specific curated Tweet.
+#' Results are organized in a cursored collection.
+#'
+#' @param user Screen name or user id of target user.
+#' @param status_id Optional, the identifer of the tweet for which to return results.
+#' @param n Maximum number of results to return.
+#' @param cursor Page identifier of results to retrieve.
+#' @param parse Logical indicating whether to convert response object into
+#'   nested list. Defaults to true.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions on how
+#'   to create tokens and setup an environment variable in the tokens vignette
+#'   (in r, send \code{?tokens} to console).
+#' @return Return object converted to nested list. If status code of response
+#'   object is not 200, the response object is returned directly.
+#' @export
+get_collections <- function(user,
+                            status_id = NULL,
+                            n = 200,
+                            cursor = NULL,
+                            parse = TRUE,
+                            token = NULL) {
+  stopifnot(is.character(user), is_n(count))
+  query <- "collections/list"
+  params <- list(
+    user = user,
+    tweet_id = status_id,
+    count = n,
+    cursor = cursor
+  )
+  names(params)[1] <- .ids_type(params[[1]])
+  url <- make_url(query = query, param = params)
+  token <- check_token(token)
+  r <- httr::GET(url, token)
+  httr::warn_for_status(r)
+  cursor <- httr::content(r)
+  cursor <- cursor[["response"]][["cursors"]][["next_cursor"]]
+  if (r$status_code == 200L && parse) {
+    r <- jsonlite::fromJSON(httr::content(r, "text", "UTF-8"))
+  }
+  attr(r, "next_cursor") <- cursor
 }

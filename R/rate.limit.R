@@ -1,29 +1,44 @@
 #' rate_limit
 #'
-#' @description Returns rate limit information for Twitter
-#'   access tokens.
+#' Returns rate limit information for Twitter access tokens.
 #'
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @param query If null, returns entire rate limit request object as
-#'   data frame. otherwise, query returns specific values matching
-#'   the query of interest; e.g., \code{query = "lookup/users"} returns
-#'   remaining limit for user lookup requests;
+#' @param token One or more OAuth tokens. By default \code{token =
+#'   NULL} fetches a non-exhausted token from an environment
+#'   variable. Find instructions on how to create tokens and setup an
+#'   environment variable in the tokens vignette (in r, send
+#'   \code{?tokens} to console).
+#' @param query Specific API (path) or a character function name,
+#'   e.g., \code{query = "get_timelines"}, used to subset the returned
+#'   data.  If null, this function returns entire rate limit request
+#'   object as a tibble data frame. Otherwise, query returns specific
+#'   values matching the query of interest; e.g., \code{query =
+#'   "lookup/users"} returns remaining limit for user lookup requests;
 #'   \code{type = "followers/ids"} returns remaining limit for
 #'   follower id requests; \code{type = "friends/ids"} returns
 #'   remaining limit for friend id requests.
 #' @param parse Logical indicating whether to parse response object
-#'   into tidy data frame.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#'
-#' @return Data frame with rate limit respones details. If query
-#'   is specified, only relevant rows are returned.
+#'   into a data frame.
+#' @seealso
+#'   \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
+#' @details If multiple tokens are provided, this function will return
+#'   the names of the associated [token] apps as new variable (column)
+#'   or as a named element (if parse = FALSE).
+#' @return Tibble data frame with rate limit information pertaining to
+#'   the limit (max allowed), remaining (specific to token), reset
+#'   (mins until reset), and reset_at (time of rate limit reset). If
+#'   query is specified, only relevant rows are returned.
+#' @family tokens
 #' @export
-rate_limit <- function(query = NULL,
-                       token = NULL,
+rate_limit <- function(token = NULL,
+                       query = NULL,
                        parse = TRUE) {
+  UseMethod("rate_limit")
+}
+
+#' @export
+rate_limit.Token <- function(token = NULL,
+                             query = NULL,
+                             parse = TRUE) {
   if (!is.null(query) && inherits(query, "Token") ||
         is.list(query) && inherits(query[[1]], "Token")) {
     if (!is.null(token) && is.character(token)) {
@@ -37,21 +52,48 @@ rate_limit <- function(query = NULL,
   if (is.null(token)) {
     token <- get_tokens()
   }
-  if (is.list(token) && length(token) > 1L) {
-    rl <- Map("rate_limit_", token,
-              MoreArgs = list(query = query, parse = parse))
-    token_names <- go_get_var(token, "app", "appname", expect_n = length(rl))
-    if (!parse) {
-      names(rl) <- token_names
-      return(rl)
+  rate_limit_(token, query, parse = parse)
+}
+
+#' export
+`rate_limit.Token1.0` <- function(token = NULL,
+                             query = NULL,
+                             parse = TRUE) {
+  if (!is.null(query) && inherits(query, "Token") ||
+        is.list(query) && inherits(query[[1]], "Token")) {
+    if (!is.null(token) && is.character(token)) {
+      fix_query <- token
+    } else {
+      fix_query <- NULL
     }
-    for (i in seq_along(rl)) {
-      rl[[i]]$token <- token_names[i]
-    }
-    do.call("rbind", rl)
-  } else {
-    rate_limit_(token, query, parse = parse)
+    token <- query
+    query <- fix_query
+  } 
+  if (is.null(token)) {
+    token <- get_tokens()
   }
+  rate_limit_(token, query, parse = parse)
+}
+
+
+#' @export
+rate_limit.list <- function(token = NULL,
+                            query = NULL,
+                            parse = TRUE) {
+  rl <- Map(
+    "rate_limit_",
+    token,
+    MoreArgs = list(query = query, parse = parse)
+  )
+  token_names <- go_get_var(token, "app", "appname", expect_n = length(rl))
+  if (!parse) {
+    names(rl) <- token_names
+    return(rl)
+  }
+  for (i in seq_along(rl)) {
+    rl[[i]]$token <- token_names[i]
+  }
+  do.call("rbind", rl)
 }
 
 rate_limit_ <- function(token,
@@ -78,54 +120,89 @@ rate_limit_ <- function(token,
 
 .rl_df <- function(r) {
 
-    r <- from_js(r)
+  r <- from_js(r)
 
-    data <- r$resources
+  data <- r$resources
 
-    rl_df <- data.frame(
-        query = gsub(".limit|.remaining|.reset", "",
-                     gsub(".*[.][/]", "",
-                          grep(".limit$", names(unlist(data)),
-                               value = TRUE))),
-        limit = unlist(lapply(data, function(y)
-            lapply(y, function(x) getElement(x, "limit")))),
-        remaining = unlist(lapply(data, function(y)
-            lapply(y, function(x) getElement(x, "remaining")))),
-        reset = unlist(lapply(data, function(y)
-            lapply(y, function(x) getElement(x, "reset")))),
-  	stringsAsFactors = FALSE,
-        row.names = NULL)
+  rl_df <- data.frame(
+    query = gsub(".limit|.remaining|.reset", "",
+                 gsub(".*[.][/]", "",
+                      grep(".limit$", names(unlist(data)),
+                           value = TRUE))),
+    limit = unlist(lapply(data, function(y)
+      lapply(y, function(x) getElement(x, "limit")))),
+    remaining = unlist(lapply(data, function(y)
+      lapply(y, function(x) getElement(x, "remaining")))),
+    reset = unlist(lapply(data, function(y)
+      lapply(y, function(x) getElement(x, "reset")))),
+    stringsAsFactors = FALSE,
+    row.names = NULL)
 
-    rl_df$reset <- difftime(
-        as.POSIXct(as.numeric(rl_df$reset),
-                   origin = "1970-01-01"),
-        Sys.time(),
-        units = "mins")
+  rl_df$reset_at <- format_rate_limit_reset(rl_df$reset)
+  rl_df$reset <- difftime(
+    rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
+  )
+  
+  tibble::as_tibble(rl_df)
+}
 
-    rl_df
+
+format_rate_limit_reset <- function(x) {
+  as.POSIXct(
+    x,
+    origin = "1970-01-01",
+    tz = "UTC"
+  )
 }
 
 
 funs_and_apis <- function() {
   list(
-    `search/tweets` = "search",
-    `statuses/user_timeline` = "timeline",
-    `statuses/user_timeline` = "get_timeline",
-    `statuses/home_timeline` = "home_timeline",
-    `statuses/home_timeline` = "get_home_timeline",
-    `trends/place` = "get_trends",
+    `favorites/list` = "get_favorites",
+    `favorites/list` = "favorites",
     `followers/ids` = "get_followers",
     `followers/ids` = "followers",
     `friends/ids` = "get_friends",
     `friends/ids` = "friends",
-    `favorites/list` = "get_favorites",
-    `favorites/list` = "favorites",
+    
+    `lists/lists` = "lists_users",
+    `lists/members` = "lists_members",
+    `lists/memberships` = "lists_memberships",
+    `lists/subscribers` = "lists_subscribers",
+    `lists/subscriptions` = "lists_subscriptions",
+    
+    `search/tweets` = "search_twitter",
+    `search/tweets` = "search_tweet",
     `search/tweets` = "search_tweets",
-    `users/lookup` = "users",
-    `users/search` = "search_users",
+    `search/tweets` = "search_statuses",
+    `search/tweets` = "search_status",
+    
+    `statuses/user_timeline` = "timeline",
+    `statuses/user_timeline` = "get_timeline",
+    `statuses/home_timeline` = "home_timeline",
+    `statuses/home_timeline` = "get_home_timeline",
+    `statuses/mentions_timeline` = "get_mentions",
+    `statuses/mentions_timeline` = "mentions",
+
+    `statuses/retweets/:id` = "get_retweets",
+    `statuses/retweeters/ids` = "get_retweeters",
+    
     `statuses/lookup` = "lookup_statuses",
-    `statuses/lookup` = "statuses",
-    `users/lookup` = "lookup_users"
+    `statuses/lookup` = "statuses_lookup",
+    `statuses/lookup` = "get_statuses",
+    `statuses/lookup` = "lookup_tweets",
+    `statuses/lookup` = "get_tweets",
+    
+    `trends/place` = "get_trends",
+
+    `users/lookup` = "get_users",
+    `users/lookup` = "users_lookup",
+    `users/lookup` = "user_lookup",
+    `users/lookup` = "lookup_user",
+    `users/lookup` = "lookup_users",
+    `users/search` = "search_users",
+    `users/search` = "search_user",
+    `users/search` = "get_user"
   )
 }
 
@@ -137,3 +214,9 @@ fun2api <- function(x) {
   }
   names(funs)[match(x, funs)]
 }
+
+
+#' @export
+#' @rdname rate_limit
+#' @inheritParams rate_limit
+rate_limits <- rate_limit
