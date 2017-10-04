@@ -62,7 +62,7 @@
 #' ## plot tweet frequency
 #' ts_plot(e, "secs")
 #'
-#' ## stream tweets mentioning Obama for 30 seconds
+#' ## stream tweets mentioning Trump for 30 seconds
 #' djt <- stream_tweets("realdonaldtrump", timeout = 30)
 #'
 #' ## preview tweets data
