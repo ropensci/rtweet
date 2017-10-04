@@ -27,7 +27,7 @@ b. make Twitter data more accessible to researchers
 
 Consequently, most of my attention gets funneled toward data retrieval
 and data exploration functions---as opposed to post/interactive
-functions, e.g., `post_follow_user()`. Currently, `rtweet` offers
+functions, e.g., `post_follow()`. Currently, `rtweet` offers
 users several functions for posting on behalf of their own Twitter
 accounts, but efforts to add documentation and support for those
 functions has been thin. I'm not opposed to these things, but
@@ -231,5 +231,5 @@ post_tweet("my first rtweet #rstats")
 
 ```{r}
 ## ty for the follow ;)
-post_follow_user("kearneymw")
+post_follow("kearneymw")
 ```
