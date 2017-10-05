@@ -349,7 +349,7 @@ search_tweets.default <- function(q = "",
       reset <- as.numeric(reset, "secs")
     }
     ## get users data if applicable
-    users <- do.call("rbind", users_data(rt))
+    users <- do.call("rbind", lapply(rt, users_data))
     rt <- do.call("rbind", rt)
     attr(rt, "users") <- users
   }
@@ -524,7 +524,8 @@ search_tweets_internal <- function(q, n,
   if (is.null(token)) {
     token <- check_token(token)
   }
-  params <- list(q = q,
+  params <- list(
+    q = q,
     result_type = "recent",
     count = 100,
     max_id = NULL,
