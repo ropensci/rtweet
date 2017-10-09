@@ -12,3 +12,4 @@ tests/testthat/twitter_tokens
 .make.R
 make
 .pkg-funs.R
+.DS_Store

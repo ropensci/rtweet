@@ -17,3 +17,4 @@ R/media.R$
 ^\.make.*
 ^make$
 ^\.pkg-funs.R$
+.DS_Store
