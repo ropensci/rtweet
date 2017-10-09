@@ -47,7 +47,4 @@ test_that("search_tweets returns tweets data", {
 
     expect_equal(nrow(users_data(letters)), 0L)
 
-    sint <- search_tweets_internal("lang:en", n = 200)
-    expect_true(is.list(sint))
-    
 })
