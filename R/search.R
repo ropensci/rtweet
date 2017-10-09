@@ -90,7 +90,7 @@
 #'   can be estimated by dividing the number of requested tweets by
 #'   18,000 and then multiplying the quotient by 15 (token cooldown
 #'   time, in minutes).
-#' @param .. Futher arguments passed as query parameters in request
+#' @param ... Futher arguments passed as query parameters in request
 #'   sent to Twitter's REST API. To return only English language
 #'   tweets, for example, use \code{lang = "en"}. For more options see
 #'   Twitter's API documentation.
@@ -163,6 +163,7 @@ search_tweets <- function(q, n = 100,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL,
+                          retryonratelimit = FALSE,
                           verbose = TRUE,
                           ...) {
   args <- list(
@@ -174,6 +175,7 @@ search_tweets <- function(q, n = 100,
     max_id = max_id,
     parse = parse,
     token = token,
+    retryonratelimit = retryonratelimit,
     verbose = verbose,
     ...
   )

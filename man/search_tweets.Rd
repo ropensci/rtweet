@@ -6,7 +6,7 @@
 \usage{
 search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
-  verbose = TRUE, ...)
+  retryonratelimit = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{q}{Query tobe searched, used to filter and select tweets to
@@ -83,17 +83,6 @@ instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
 
-\item{verbose}{Logical, indicating whether or not to include output
-processing/retrieval messages. Defaults to TRUE. For larger
-searches, messages include rough estimates for time remaining
-between searches. It should be noted, however, that these time
-estimates only describe the amount of time between searches and
-not the total time remaining. For large searches conducted with
-\code{retryonratelimit} set to TRUE, the estimated retreival time
-can be estimated by dividing the number of requested tweets by
-18,000 and then multiplying the quotient by 15 (token cooldown
-time, in minutes).}
-
 \item{retryonratelimit}{Logical indicating whether to wait and
 retry when rate limited. This argument is only relevant if the
 desired return (n) exceeds the remaining limit of available
@@ -106,7 +95,18 @@ for broad, generic, or popular topics, the total number of tweets
 within the REST window of time (7-10 days) can easily reach the
 millions.}
 
-\item{..}{Futher arguments passed as query parameters in request
+\item{verbose}{Logical, indicating whether or not to include output
+processing/retrieval messages. Defaults to TRUE. For larger
+searches, messages include rough estimates for time remaining
+between searches. It should be noted, however, that these time
+estimates only describe the amount of time between searches and
+not the total time remaining. For large searches conducted with
+\code{retryonratelimit} set to TRUE, the estimated retreival time
+can be estimated by dividing the number of requested tweets by
+18,000 and then multiplying the quotient by 15 (token cooldown
+time, in minutes).}
+
+\item{...}{Futher arguments passed as query parameters in request
 sent to Twitter's REST API. To return only English language
 tweets, for example, use \code{lang = "en"}. For more options see
 Twitter's API documentation.}
