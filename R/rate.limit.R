@@ -35,6 +35,7 @@ rate_limit <- function(token = NULL,
   UseMethod("rate_limit")
 }
 
+
 #' @export
 rate_limit.Token <- function(token = NULL,
                              query = NULL,
@@ -48,17 +49,17 @@ rate_limit.Token <- function(token = NULL,
     }
     token <- query
     query <- fix_query
-  } 
+  }
   if (is.null(token)) {
     token <- get_tokens()
   }
   rate_limit_(token, query, parse = parse)
 }
 
-#' export
+#' @export
 `rate_limit.Token1.0` <- function(token = NULL,
-                             query = NULL,
-                             parse = TRUE) {
+                                  query = NULL,
+                                  parse = TRUE) {
   if (!is.null(query) && inherits(query, "Token") ||
         is.list(query) && inherits(query[[1]], "Token")) {
     if (!is.null(token) && is.character(token)) {
@@ -68,7 +69,7 @@ rate_limit.Token <- function(token = NULL,
     }
     token <- query
     query <- fix_query
-  } 
+  }
   if (is.null(token)) {
     token <- get_tokens()
   }
@@ -142,7 +143,7 @@ rate_limit_ <- function(token,
   rl_df$reset <- difftime(
     rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
   )
-  
+
   tibble::as_tibble(rl_df)
 }
 
@@ -164,19 +165,19 @@ funs_and_apis <- function() {
     `followers/ids` = "followers",
     `friends/ids` = "get_friends",
     `friends/ids` = "friends",
-    
+
     `lists/lists` = "lists_users",
     `lists/members` = "lists_members",
     `lists/memberships` = "lists_memberships",
     `lists/subscribers` = "lists_subscribers",
     `lists/subscriptions` = "lists_subscriptions",
-    
+
     `search/tweets` = "search_twitter",
     `search/tweets` = "search_tweet",
     `search/tweets` = "search_tweets",
     `search/tweets` = "search_statuses",
     `search/tweets` = "search_status",
-    
+
     `statuses/user_timeline` = "timeline",
     `statuses/user_timeline` = "get_timeline",
     `statuses/home_timeline` = "home_timeline",
@@ -186,13 +187,13 @@ funs_and_apis <- function() {
 
     `statuses/retweets/:id` = "get_retweets",
     `statuses/retweeters/ids` = "get_retweeters",
-    
+
     `statuses/lookup` = "lookup_statuses",
     `statuses/lookup` = "statuses_lookup",
     `statuses/lookup` = "get_statuses",
     `statuses/lookup` = "lookup_tweets",
     `statuses/lookup` = "get_tweets",
-    
+
     `trends/place` = "get_trends",
 
     `users/lookup` = "get_users",

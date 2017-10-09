@@ -163,8 +163,21 @@ search_tweets <- function(q, n = 100,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL,
+                          verbose = TRUE,
                           ...) {
-  do.call("search_tweets.default", list(q = q, n = n, ...))
+  args <- list(
+    q = q,
+    n = n,
+    type = type,
+    include_rts = include_rts,
+    geocode = geocode,
+    max_id = max_id,
+    parse = parse,
+    token = token,
+    verbose = verbose,
+    ...
+  )
+  do.call("search_tweets.default", args)
 }
 
 search_tweets.default <- function(q = "",
