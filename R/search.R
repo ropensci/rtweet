@@ -2,98 +2,68 @@
 #'
 #' @description Returns tweets data with users data attribute
 #'   using a provided search query.
-#' @param q Query to be searched, used to filter and select tweets
-#'   to return from Twitter's REST API. Must be a character string not
-#'   to exceed maximum of 500 characters. Spaces behave like boolean
+#'
+#' @param q Query tobe searched, used to filter and select tweets to
+#'   return from Twitter's REST API. Must be a character string not to
+#'   exceed maximum of 500 characters. Spaces behave like boolean
 #'   "AND" operator. To search for tweets containing at least one of
 #'   multiple possible terms, separate each search term with spaces
-#'   and "OR" (in caps). For example, the search
-#'   \code{q = "data science"} looks for tweets containing both
-#'   "data" and "science" anywhere located anywhere in the tweets and
-#'   in any order. When "OR" is entered between search terms,
-#'   \code{query = "data OR science"}, Twitter's REST API should return
-#'   any tweet that contains either "data" or
-#'   "science." It is also possible to search for exact phrases using
-#'   double quotes. To do this, either wrap single quotes around a
-#'   search query using double quotes, e.g.,
-#'   \code{q = '"data science"'} or escape each internal double quote
-#'   with a single backslash, e.g., \code{q = "\"data science\""}.
+#'   and "OR" (in caps). For example, the search \code{q =
+#'   "data science"} looks for tweets containing both "data" and
+#'   "science" anywhere located anywhere in the tweets and in any
+#'   order. When "OR" is entered between search terms, \code{query =
+#'   "data OR science"}, Twitter's REST API should return any tweet
+#'   that contains either "data" or "science." It is also possible to
+#'   search for exact phrases using double quotes. To do this, either
+#'   wrap single quotes around a search query using double quotes,
+#'   e.g., \code{q = '"data science"'} or escape each internal double
+#'   quote with a single backslash, e.g., \code{q =
+#'   "\"data science\""}.
 #' @param n Integer, specifying the total number of desired tweets to
-#'   return. Defaults to 100. Maximum number of tweets returned from
-#'   a single token is 18,000. To return more than 18,000 tweets, users
-#'   are encouraged to set \code{retryonratelimit} to TRUE. See details
-#'   for more information.
-#' @param ... For all args see \code{\link{search_tweets.default}}.
-#' @export
-search_tweets <- function(q, n = 100, ...) {
-  do.call("search_tweets.default", list(q = q, n = n, ...))
-}
-
-#' search_tweets.default
-#'
-#' @description Returns tweets data with users data attribute
-#'   using a provided search query.
-#'
-#' @param q Query to be searched, used to filter and select tweets
-#'   to return from Twitter's REST API. Must be a character string not
-#'   to exceed maximum of 500 characters. Spaces behave like boolean
-#'   "AND" operator. To search for tweets containing at least one of
-#'   multiple possible terms, separate each search term with spaces
-#'   and "OR" (in caps). For example, the search
-#'   \code{q = "data science"} looks for tweets containing both
-#'   "data" and "science" anywhere located anywhere in the tweets and
-#'   in any order. When "OR" is entered between search terms,
-#'   \code{query = "data OR science"}, Twitter's REST API should return
-#'   any tweet that contains either "data" or
-#'   "science." It is also possible to search for exact phrases using
-#'   double quotes. To do this, either wrap single quotes around a
-#'   search query using double quotes, e.g.,
-#'   \code{q = '"data science"'} or escape each internal double quote
-#'   with a single backslash, e.g., \code{q = "\"data science\""}.
-#' @param n Integer, specifying the total number of desired tweets to
-#'   return. Defaults to 100. Maximum number of tweets returned from
-#'   a single token is 18,000. To return more than 18,000 tweets, users
-#'   are encouraged to set \code{retryonratelimit} to TRUE. See details
-#'   for more information.
+#'   return. Defaults to 100. Maximum number of tweets returned from a
+#'   single token is 18,000. To return more than 18,000 tweets, users
+#'   are encouraged to set \code{retryonratelimit} to TRUE. See
+#'   details for more information.
 #' @param type Character string specifying which type of search
 #'   results to return from Twitter's REST API. The current default is
-#'   \code{type = "recent"}, other valid types include
-#'   \code{type = "mixed"} and \code{type = "popular"}.
+#'   \code{type = "recent"}, other valid types include \code{type =
+#'   "mixed"} and \code{type = "popular"}.
 #' @param geocode Geographical limiter of the template
-#'   "latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.
+#'   "latitude,longitude,radius" e.g., \code{geocode =
+#'   "37.78,-122.40,1mi"}.
 #' @param include_rts Logical, indicating whether to include retweets
-#'   in search results. Retweets are classified as any tweet
-#'   generated by Twitter's built-in "retweet" (recycle arrows)
-#'   function. These are distinct from quotes (retweets with
-#'   additional text provided from sender) or manual retweets
-#'   (old school method of manually entering "RT" into the text
-#'   of one's tweets).
-#' @param max_id Character string specifying the [oldest] status
-#'   id beyond which search results should resume returning.
-#'   Especially useful large data returns that require multiple
-#'   iterations interrupted by user time constraints. For searches
-#'   exceeding 18,000 tweets, users are encouraged to take advantage
-#'   of rtweet's internal automation procedures for waiting on
-#'   rate limits by setting \code{retryonratelimit} argument to TRUE.
-#'   It some cases, it is possible that due to processing time and
-#'   rate limits, retreiving several million tweets can take several
-#'   hours or even multiple days. In these cases, it would likely be
-#'   useful to leverage \code{retryonratelimit} for sets of tweets
-#'   and \code{max_id} to allow results to continue where previous
-#'   efforts left off.
+#'   in search results. Retweets are classified as any tweet generated
+#'   by Twitter's built-in "retweet" (recycle arrows) function. These
+#'   are distinct from quotes (retweets with additional text provided
+#'   from sender) or manual retweets (old school method of manually
+#'   entering "RT" into the text of one's tweets).
+#' @param max_id Character string specifying the [oldest] status id
+#'   beyond which search results should resume returning.  Especially
+#'   useful large data returns that require multiple iterations
+#'   interrupted by user time constraints. For searches exceeding
+#'   18,000 tweets, users are encouraged to take advantage of rtweet's
+#'   internal automation procedures for waiting on rate limits by
+#'   setting \code{retryonratelimit} argument to TRUE.  It some cases,
+#'   it is possible that due to processing time and rate limits,
+#'   retreiving several million tweets can take several hours or even
+#'   multiple days. In these cases, it would likely be useful to
+#'   leverage \code{retryonratelimit} for sets of tweets and
+#'   \code{max_id} to allow results to continue where previous efforts
+#'   left off.
 #' @param parse Logical, indicating whether to return parsed
-#'   data.frame, if true, or nested list (fromJSON), if false. By default,
-#'   \code{parse = TRUE} saves users from the wreck of time and frustration
-#'   associated with disentangling the nasty nested list returned
-#'   from Twitter's API (for proof, check rtweet's Github commit history).
-#'   As Twitter's APIs are subject to change, this argument would be
-#'   especially useful when changes to Twitter's APIs affect performance of
-#'   internal parsers. Setting \code{parse = FALSE} also ensures the
-#'   maximum amount of possible information is returned. By default, the
-#'   rtweet parse process returns nearly all bits of information returned
-#'   from Twitter. However, users may occassionally encounter new or
-#'   omitted variables. In these rare cases, the nested list object will
-#'   be the only way to access these variables.
+#'   data.frame, if true, or nested list (fromJSON), if false. By
+#'   default, \code{parse = TRUE} saves users from the wreck of time
+#'   and frustration associated with disentangling the nasty nested
+#'   list returned from Twitter's API (for proof, check rtweet's
+#'   Github commit history).  As Twitter's APIs are subject to change,
+#'   this argument would be especially useful when changes to
+#'   Twitter's APIs affect performance of internal parsers. Setting
+#'   \code{parse = FALSE} also ensures the maximum amount of possible
+#'   information is returned. By default, the rtweet parse process
+#'   returns nearly all bits of information returned from
+#'   Twitter. However, users may occassionally encounter new or
+#'   omitted variables. In these rare cases, the nested list object
+#'   will be the only way to access these variables.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
@@ -104,76 +74,34 @@ search_tweets <- function(q, n = 100, ...) {
 #'   desired return (n) exceeds the remaining limit of available
 #'   requests (assuming no other searches have been conducted in the
 #'   past 15 minutes, this limit is 18,000 tweets). Defaults to false.
-#'   Set to TRUE to automate process of conducting big searches
-#'   (i.e., n > 18000). For many search queries, esp. specific or
-#'   specialized searches, there won't be more than
-#'   18,000 tweets to return. But for broad, generic, or popular
-#'   topics, the total number of tweets within the REST window of
-#'   time (7-10 days) can easily reach the millions.
-#' @param verbose Logical, indicating whether or not to include
-#'   output processing/retrieval messages. Defaults to TRUE. For
-#'   larger searches, messages include rough estimates for time
-#'   remaining between searches. It should be noted, however, that
-#'   these time estimates only describe the amount of time between
-#'   searches and not the total time remaining. For large searches
-#'   conducted with \code{retryonratelimit} set to TRUE, the
-#'   estimated retreival time can be estimated by dividing the number
-#'   of requested tweets by 18,000 and then multiplying the quotient
-#'   by 15 (token cooldown time, in minutes).
-#' @param adjtimer Numeric buffer (in seconds) used when sleeping
-#'   between API requests with \code{retryonratelimit}. Defaults to
-#'   20. Added this because for my linux laptop has a high resting
-#'   heart rate, so it kept sending requests before the rate limit
-#'   could be reset. If this happens to you, add to this value to
-#'   achieve smoother experience. If you're trying to maximize
-#'   efficiency, you may be able to set this to 0 or 1 without any
-#' issue.
-#' @param exact Logical indicating whether to search for exact matches. Defaults
-#'   to false. Setting this to true is equivalent to using quotations around a
-#'   search query.
-#' @param from Screen name(s) of users FROM whom the search should be limited.
-#'   Vectors of multiple names are accepted, but no promises it'll work.
-#' @param to Screen name(s) of users TO whom the search should be limited.
-#'   Vectors of multiple names are accepted, but no promises it'll work.
-#' @param list Name(s) of Twitter lists from which to search for tweets having
-#'   been sent from. Vectors with multiple list names are accepted, but I'm not
-#'   promising that it'll work.
-#' @param mention Screen name(s) of MENTIONED account(s) for which to search.
-#'   Vectors of multiple names are accepted, but no promises it'll work.
-#' @param hashtag Hashtag(s) for which to search. Can provide multiple hashtags
-#'   in a single vector, but tweets will only be returned if they include all of
-#'   the supplied hashtags. To search for tweets that use ANY hashtag, include
-#'   the hashtags separated by OR (#rstats OR #datascience) as part of the
-#'   string provided to q (query).
-#' @param filter_media Logical requesting to only return tweets with image or
-#'   video.
-#' @param filter_native_video Logical requesting to only return tweets with
-#'   uploaded video (amplify, periscope, and vine included)
-#' @param filter_vine Logical requesting to only return tweets that include
-#'   vines.
-#' @param filter_periscope Logical requesting to only return tweets that include
-#'   vines.
-#' @param filter_images Logical requesting to only return tweets that have links
-#'   to photos (Instagram included)
-#' @param filter_twimg Logical requesting to only return tweets with Twitter
-#'   [linked] images
-#' @param filter_links Logical requesting to only return tweets with URL links.
-#'   If keyword(s) are provided, the search will only return tweets with URL
-#'   links that include the supplied key word(s).
-#' @param \dots Futher arguments passed on to \code{make_url}.
-#'   All named arguments that do not match the above arguments
-#'   (i.e., count, type, etc.) will be built into the request.
-#'   To return only English language tweets, for example, use
-#'   \code{lang = "en"}. For more options see Twitter's
-#'   API documentation.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#'   Set to TRUE to automate process of conducting big searches (i.e.,
+#'   n > 18000). For many search queries, esp. specific or specialized
+#'   searches, there won't be more than 18,000 tweets to return. But
+#'   for broad, generic, or popular topics, the total number of tweets
+#'   within the REST window of time (7-10 days) can easily reach the
+#'   millions.
+#' @param verbose Logical, indicating whether or not to include output
+#'   processing/retrieval messages. Defaults to TRUE. For larger
+#'   searches, messages include rough estimates for time remaining
+#'   between searches. It should be noted, however, that these time
+#'   estimates only describe the amount of time between searches and
+#'   not the total time remaining. For large searches conducted with
+#'   \code{retryonratelimit} set to TRUE, the estimated retreival time
+#'   can be estimated by dividing the number of requested tweets by
+#'   18,000 and then multiplying the quotient by 15 (token cooldown
+#'   time, in minutes).
+#' @param .. Futher arguments passed as query parameters in request
+#'   sent to Twitter's REST API. To return only English language
+#'   tweets, for example, use \code{lang = "en"}. For more options see
+#'   Twitter's API documentation.
+#' @seealso
+#'   \url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
 #' @details Twitter API documentation recommends limiting searches to
-#'   10 keywords and operators. Complex queries may also produce
-#'   API errors preventing recovery of information related to
-#'   the query.
-#'   It should also be noted Twitter's search API does not consist
-#'   of an index of all Tweets. At the time of searching, the
-#'   search API index includes between only 6-9 days of Tweets.
+#'   10 keywords and operators. Complex queries may also produce API
+#'   errors preventing recovery of information related to the query.
+#'   It should also be noted Twitter's search API does not consist of
+#'   an index of all Tweets. At the time of searching, the search API
+#'   index includes between only 6-9 days of Tweets.
 #'
 #'
 #'   Number of tweets returned will often be less than what was
@@ -228,30 +156,27 @@ search_tweets <- function(q, n = 100, ...) {
 #'   data frame.
 #' @family tweets
 #' @export
+search_tweets <- function(q, n = 100,
+                          type = "recent",
+                          include_rts = TRUE,
+                          geocode = NULL,
+                          max_id = NULL,
+                          parse = TRUE,
+                          token = NULL,
+                          ...) {
+  do.call("search_tweets.default", list(q = q, n = n, ...))
+}
+
 search_tweets.default <- function(q = "",
                                   n = 100,
                                   type = "recent",
-                                  geocode = NULL,
                                   max_id = NULL,
+                                  geocode = NULL,
                                   include_rts = TRUE,
                                   parse = TRUE,
                                   token = NULL,
                                   retryonratelimit = FALSE,
                                   verbose = TRUE,
-                                  adjtimer = 20,
-                                  exact = FALSE,
-                                  from = NULL,
-                                  to = NULL,
-                                  list = NULL,
-                                  mention = NULL,
-                                  hashtag = NULL,
-                                  filter_media = FALSE,
-                                  filter_native_video= FALSE,
-                                  filter_vine = FALSE,
-                                  filter_periscope = FALSE,
-                                  filter_images = FALSE,
-                                  filter_twimg = FALSE,
-                                  filter_links = FALSE,
                                   ...) {
 
   ## check token and get rate limit data
@@ -271,19 +196,6 @@ search_tweets.default <- function(q = "",
       parse = parse,
       token = token,
       verbose = verbose,
-      exact = exact,
-      from = from,
-      to = to,
-      list = list,
-      mention = mention,
-      hashtag = hashtag,
-      filter_media = filter_media,
-      filter_native_video = filter_native_video,
-      filter_vine = filter_vine,
-      filter_periscope = filter_periscope,
-      filter_images = filter_images,
-      filter_twimg = filter_twimg,
-      filter_links = filter_links,
       ...)
   } else {
     if (identical(remaining, 0)) {
@@ -315,19 +227,6 @@ search_tweets.default <- function(q = "",
           parse = parse,
           token = token,
           verbose = verbose,
-          exact = exact,
-          from = from,
-          to = to,
-          list = list,
-          mention = mention,
-          hashtag = hashtag,
-          filter_media = filter_media,
-          filter_native_video = filter_native_video,
-          filter_vine = filter_vine,
-          filter_periscope = filter_periscope,
-          filter_images = filter_images,
-          filter_twimg = filter_twimg,
-          filter_links = filter_links,
           ...),
         error = function(e) return(NULL))
       ## break if error
@@ -367,91 +266,13 @@ search_tweets.default <- function(q = "",
                            parse = TRUE,
                            token = NULL,
                            verbose = TRUE,
-                           exact = FALSE,
-                           from = NULL,
-                           to = NULL,
-                           list = NULL,
-                           mention = NULL,
-                           hashtag = NULL,
-                           filter_media = FALSE,
-                           filter_native_video= FALSE,
-                           filter_vine = FALSE,
-                           filter_periscope = FALSE,
-                           filter_images = FALSE,
-                           filter_twimg = FALSE,
-                           filter_links = FALSE,
                            ...) {
   ## path name
   query <- "search/tweets"
-
   ## validate
   stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
   ## number of loops
   n.times <- ceiling(n / 100)
-  ## build query
-  if (exact) {
-    q <- paste0("\"", q, "\"")
-  }
-  if (!is.null(from)) {
-    if (any(grepl(" ", from))) {
-      stop(paste("Object \"from\" should contain vector of screen names",
-                 "none of which should include spaces."),
-           call. = FALSE)
-    }
-    from <- paste(paste0("from:", from), collapse = " ")
-    q <- paste(q, from)
-  }
-  if (!is.null(to)) {
-    if (any(grepl(" ", to))) {
-      stop(paste("Object \"to\" should contain vector of screen names",
-                 "none of which should include spaces."),
-           call. = FALSE)
-    }
-    to <- paste(paste0("to:", to), collapse = " ")
-    q <- paste(q, to)
-  }
-  if (!is.null(mention)) {
-    if (any(grepl(" ", mention))) {
-      stop(paste("Object \"mention\" should contain vector of screen names",
-                 "none of which should include spaces."),
-           call. = FALSE)
-    }
-    mention <- paste(paste0("@", mention), collapse = " ")
-    q <- paste(q, mention)
-  }
-  if (!is.null(hashtag)) {
-    if (any(grepl(" ", hashtag))) {
-      stop(paste("Object \"hashtag\" should contain vector of hashtags",
-                 "none of which should include spaces."),
-           call. = FALSE)
-    }
-    hashtag <- paste(paste0("#", hashtag), collapse = " ")
-    hashtag <- gsub("##", "#", hashtag)
-    q <- paste(q, hashtag)
-  }
-  if (!is.null(list)) {
-    if (any(grepl(" ", list))) {
-      stop(paste("Object \"list\" should contain vector of Twitter lists",
-                 "none of which should include spaces. If the list actually",
-                 "has spaces in it, try using dashes instead"),
-           call. = FALSE)
-    }
-    from <- paste(paste0("list:", from), collapse = " ")
-    q <- paste(q, from)
-  }
-  if (filter_media) q <- paste(q, "filter:media")
-  if (filter_native_video) q <- paste(q, "filter:native_video")
-  if (filter_vine) q <- paste(q, "filter:vine")
-  if (filter_periscope) q <- paste(q, "filter:periscope")
-  if (filter_images) q <- paste(q, "filter:images")
-  if (filter_twimg) q <- paste(q, "filter:twimg")
-  if (!identical(filter_links, FALSE)) {
-    if (is.logical(filter_links)) {
-      q <- paste(q, "filter:links")
-    } else {
-      q <- paste(q, paste0("url:", filter_links))
-    }
-  }
   ## validate query length
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -476,10 +297,9 @@ search_tweets.default <- function(q = "",
 
       mls <- (mls1/1.8 + mls2/1.8) / 1.8
       mls <- round(mls, 3)
-      geocode <- paste0(paste(geocode@point, collapse = ","), ",", mls, "mi")
+      geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
     }
   }
-
   ## make params list
   params <- list(q = q,
                  result_type = type,
@@ -497,7 +317,6 @@ search_tweets.default <- function(q = "",
     message("Searching for tweets...")
     if (n > 10000) message("This may take a few seconds...")
   }
-
   tw <- scroller(url, n, n.times, type = "search", token)
 
   if (parse) {
@@ -508,81 +327,6 @@ search_tweets.default <- function(q = "",
   }
   tw
 }
-
-
-search_tweets_internal <- function(q, n,
-                                   parse = FALSE,
-                                   token = NULL,
-                                   ...) {
-  rt <- .search_tweets_internal(
-    q = q, n = n, parse = parse, token, ...)
-}
-
-.search_tweets_internal <- function(q, n, parse, token = NULL, ...) {
-  n.times <- ceiling(n / 100)
-  query <- "search/tweets"
-  if (is.null(token)) {
-    token <- check_token(token)
-  }
-  params <- list(
-    q = q,
-    result_type = "recent",
-    count = 100,
-    max_id = NULL,
-    tweet_mode = "extended",
-    ...)
-  url <- make_url(
-    query = query,
-    param = params)
-  tw <- scroller_(url, n, n.times, type = "search", token)
-  if (parse) {
-    tw <- tweets_with_users(tw)
-  }
-  tw
-}
-
-#' search_users
-#'
-#' @description Returns data frame of users data using a provided
-#'   search query.
-#'
-#' @param q Query to be searched, used in filtering relevant tweets
-#'   to return from Twitter's REST API. Should be a character
-#'   string not to exceed 500 characters maximum. Spaces are assumed
-#'   to function like boolean "AND" operators. To search for tweets
-#'   including one of multiple possible terms, separate search terms
-#'   with spaces and the word "OR". For example, the search
-#'   \code{query = "data science"} searches for tweets using both
-#'   "data" and "science" though the words can appear anywhere and
-#'   in any order in the tweet. However, when OR is added between
-#'   search terms, \code{query = "data OR science"}, Twitter's REST
-#'   API should return any tweet that includes either "data" or
-#'   "science" appearing in the tweets. At this time, Twitter's users/search
-#'   API does not allow complex searches or queries targetting exact phrases
-#'   as is allowed by \code{search_tweets}.
-#' @param n Numeric, specifying the total number of desired users to
-#'   return. Defaults to 100. Maximum number of users returned from
-#'   a single search is 1,000.
-#' @param ... Other arguments passed along to \code{\link{search_users_call}}
-#' @examples
-#' \dontrun{
-#' # search for 1000 tweets mentioning Hillary Clinton
-#' pc <- search_users(q = "political communication", n = 1000)
-#'
-#' # data frame where each observation (row) is a different user
-#' pc
-#'
-#' # tweets data also retrieved. can access it via tweets_data()
-#' users_data(hrc)
-#' }
-#' @return Data frame of users returned by query.
-#' @family users
-#' @export
-search_users <- function(q, n = 100, ...) {
-  do.call("search_users_call", list(q = q, n = n, ...))
-}
-
-
 
 #' search_users
 #'
@@ -632,6 +376,21 @@ search_users <- function(q, n = 100, ...) {
 #' @return Data frame of users returned by query.
 #' @family users
 #' @export
+search_users <- function(q, n = 100,
+                         parse = TRUE,
+                         token = NULL,
+                         verbose = TRUE) {
+  args <- list(
+    q = q,
+    n = n,
+    parse = parse,
+    token = token,
+    verbose = verbose
+  )
+  do.call("search_users_call", args)
+}
+
+
 search_users_call <- function(q, n = 20,
                               parse = TRUE,
                               token = NULL,

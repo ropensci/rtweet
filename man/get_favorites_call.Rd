@@ -54,6 +54,6 @@ epa
 \seealso{
 Other tweets: \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets.default}},
-  \code{\link{stream_tweets}}, \code{\link{tweets_data}}
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_data}}
 }
