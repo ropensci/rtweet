@@ -39,8 +39,8 @@ format_date <- function(x, date = FALSE, tz = "UTC") {
   if (any(is.null(o), all(is.na.quiet(o)))) {
     curLocale <- Sys.getlocale("LC_TIME")
     on.exit(
-      Sys.setlocale("LC_TIME", curLocale),
-      add = TRUE
+      Sys.setlocale("LC_TIME", curLocale)
+      ##add = TRUE
     )
     Sys.setlocale("LC_TIME", "C")
 
