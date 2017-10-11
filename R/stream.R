@@ -192,7 +192,7 @@ stream_tweets <- function(q = "",
       httr::progress()),
       error = function(e) return(NULL)
     )
-    
+
   } else {
     r <- tryCatch(httr::POST(
       url = url,
@@ -381,11 +381,11 @@ data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
   continue <- TRUE
   skip <- 0L
   data <- list()
-  
+
   while (continue) {
     d <- readr::read_lines(x, skip = skip, n_max = n)
     if (length(d) > 0L) {
-      skip <- length(d)
+      skip <- length(d) + skip
       tmp <- tempfile()
       readr::write_lines(d, tmp)
       data[[length(data) + 1L]] <- parse_stream(tmp)
