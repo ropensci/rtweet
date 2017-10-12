@@ -19,9 +19,15 @@
 #'   file_name will be used as base for the two saved files.
 #'   For example, \code{file_name = "election"} would save files
 #'   as "election.tweets.csv" and "election.users.csv".
-#' @importFrom utils write.csv
+#' @param prepend_ids Logical indicating whether to prepend an "x" before all
+#'   Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
+#'   CSV as these values otherwise get treated as numeric and as a result the values
+#'   are often less precise due to rounding or other class-related quirks. Defaults
+#'   to true.
+#' @param na Value to be used for missing (NA)s. Defaults to empty character, "".
+#' @param fileEncoding Encoding to be used when saving to CSV. defaults to utf-8.
 #' @export
-save_as_csv <- function(x, file_name) {
+save_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8") {
   if (missing(file_name)) {
     stop("must provide file_name.", call. = FALSE)
   }
@@ -29,33 +35,56 @@ save_as_csv <- function(x, file_name) {
     "reply_to_status_id",
     "quote_status",
     "retweet_count",
-    "is_retweet")
+    "is_retweet"
+  )
   users_names <- c(
     "followers_count",
     "description",
     "statuses_count",
-    "friends_count")
+    "friends_count"
+  )
   if (any(tweets_names %in% names(x))) {
     write_as_csv(
-      x, modify_file_name(file_name, "tweets"))
+      x, modify_file_name(file_name, "tweets"),
+      prepend_ids = prepend_ids,
+      na = na,
+      fileEncoding = fileEncoding
+    )
 
     if ("users" %in% names(attributes(x))) {
       write_as_csv(
         users_data(x),
-        modify_file_name(file_name, "users"))
+        modify_file_name(file_name, "users"),
+        prepend_ids = prepend_ids,
+        na = na,
+        fileEncoding = fileEncoding
+      )
     }
   } else if (any(users_names %in% names(x))) {
     write_as_csv(
-      x, modify_file_name(file_name, "users"))
+      x, modify_file_name(file_name, "users"),
+      prepend_ids = prepend_ids,
+      na = na,
+      fileEncoding = fileEncoding
+    )
 
     if ("tweets" %in% names(attributes(x))) {
       write_as_csv(
         tweets_data(x),
-        modify_file_name(file_name, "tweets"))
+        modify_file_name(file_name, "tweets"),
+        prepend_ids = prepend_ids,
+        na = na,
+        fileEncoding = fileEncoding
+      )
     }
 
   } else {
-    write_as_csv(x, modify_file_name(file_name))
+    write_as_csv(
+      x, modify_file_name(file_name),
+      prepend_ids = prepend_ids,
+      na = na,
+      fileEncoding = fileEncoding
+    )
   }
 }
 
@@ -78,41 +107,42 @@ modify_file_name <- function(file_name, ext = NULL) {
 #' @param x Data frame with tweets and users data.
 #' @param file_name Desired name(stem) to save files as (one save for tweets,
 #'   one save for users).
+#' @param prepend_ids Logical indicating whether to prepend an "x" before all
+#'   Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
+#'   CSV as these values otherwise get treated as numeric and as a result the values
+#'   are often less precise due to rounding or other class-related quirks. Defaults
+#'   to true.
+#' @param na Value to be used for missing (NA)s. Defaults to empty character, "".
+#' @param fileEncoding Encoding to be used when saving to CSV. defaults to utf-8.
 #' @return Saved csv files in current working directory.
+#' @importFrom utils write.csv
 #' @export
-write_as_csv <- function(x, file_name) {
+write_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8") {
   stopifnot(is.data.frame(x))
-  x <- flatten_df(x)
-  write.csv(x, file_name, row.names = FALSE)
-}
-
-collapse_list <- function(x) {
-  ## collapse recursive columns into strings
-  vapply(x, function(x) paste(x, collapse = " "), character(1),
-    USE.NAMES = FALSE)
-}
-
-clean_nas <- function(x) {
-  ## replace NAs with blanks
-  x[vapply(x, is.na, logical(1), USE.NAMES = FALSE)] <- ""
-  x
-}
-
-is_list <- function(x) {
-  unlist(apply(x[, ], 2, is.list), use.names = FALSE)
-}
-
-
-flatten_df <- function(x) {
-  recs <- !unlist(lapply(x, is.atomic))
-  recs <- names(x)[which(recs)]
-  for (i in recs) {
-    x[[i]][is.na(x[[i]])] <- NA_character_
-    x[[i]][!is.na(x[[i]])] <- vapply(
-      x[[i]][!is.na(x[[i]])], paste, collapse = " ",
-      character(1)
-    )
-    x[[i]] <- unlist(x[[i]])
+  x <- flatten_rtweet(x)
+  if (prepend_ids) {
+    x <- prepend_ids(x)
   }
+  write.csv(x, file_name, row.names = FALSE, na = na, fileEncoding = fileEncoding)
+}
+
+prepend_ids <- function(x) {
+  ids <- grepl("\\_id$", names(x))
+  x[ids] <- lapply(x[ids], x_ids)
   x
+}
+
+x_ids <- function(x) {
+  x[!is.na(x)] <- paste0("x", x[!is.na(x)])
+  x
+}
+
+unprepend_ids <- function(x) {
+  ids <- grepl("\\_id$", names(x))
+  x[ids] <- lapply(x[ids], unx_ids)
+  x
+}
+
+unx_ids <- function(x) {
+  gsub("^x", x)
 }

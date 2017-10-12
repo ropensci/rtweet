@@ -19,7 +19,7 @@ go_get_var <- function(x, ..., expect_n = NULL) {
   }
   if (!success && is.null(expect_n)) {
     return(NULL)
-  }  
+  }
   if (any_recursive(x) && is.null(expect_n)) {
     return(x)
   }
@@ -27,7 +27,7 @@ go_get_var <- function(x, ..., expect_n = NULL) {
   if (!is.null(expect_n) && length(x) < expect_n) {
       x <- c(x, rep(NA, expect_n - length(x)))
   }
-  x  
+  x
 }
 
 has_name_ <- function(x, ...) {
@@ -155,11 +155,30 @@ unlister <- function(x) {
   unlist(x, use.names = FALSE, recursive = TRUE)
 }
 
-flatten <- function(x) {
-  vapply(x, function(i) paste0(unlister(i), collapse = ","),
-    vector("character", 1), USE.NAMES = FALSE)
+flatten_rtweet <- function(x) {
+  lst <- vapply(x, is.list, logical(1))
+  x[lst] <- lapply(x[lst], vobs2string)
+  x
 }
 
+vobs2string <- function(x, sep = " ") {
+  x[lengths(x) == 0L] <- NA_character_
+  x[lengths(x) > 1L] <- vapply(
+    x[lengths(x) > 1L],
+    obs2string, sep = sep,
+    FUN.VALUE = character(1)
+  )
+  as.character(x)
+}
+
+obs2string <- function(x, sep) {
+  stopifnot(is.atomic(x))
+  if (all(is.na(x))) {
+    return(NA_character_)
+  }
+  x[is.na(x)] <- ""
+  paste(x, collapse = sep)
+}
 
 
 

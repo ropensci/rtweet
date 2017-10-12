@@ -3,7 +3,7 @@
 #' Returns a collection of the 100 most recent retweets of the Tweet
 #' specified by the id parameter. Twitter's API is currently limited to 100
 #' or fewer retweeters.
-#' 
+#'
 #' @param status_id required The numerical ID of the desired status.
 #' @param n optional Specifies the number of records to retrieve.
 #'   Must be less than or equal to 100.
@@ -57,7 +57,7 @@ as.data.frame.retweets <- function(x) {
 #'
 #' Returns a collection of up to 100 user IDs belonging to users who
 #' have retweeted the Tweet specified by the id parameter.
-#' 
+#'
 #' @param status_id required The status ID of the desired status.
 #' @param n Specifies the number of records to retrieve.
 #'   Best if intervals of 100.
@@ -87,6 +87,10 @@ get_retweeters <- function(status_id,
                            cursor = "-1",
                            parse = TRUE,
                            token = NULL) {
+  ## paging not possible with get_retweeters see posts from pipes
+  ## on community forum:
+  ## https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8
+
   get_retweeters_(
     status_id = status_id, n = n, cursor = cursor, parse = parse, token = token
   )

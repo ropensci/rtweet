@@ -4,7 +4,8 @@
 \alias{save_as_csv}
 \title{save_as_csv}
 \usage{
-save_as_csv(x, file_name)
+save_as_csv(x, file_name, prepend_ids = TRUE, na = "",
+  fileEncoding = "UTF-8")
 }
 \arguments{
 \item{x}{Data table to be saved (tweets or user object)
@@ -24,6 +25,16 @@ If object includes both tweets and users data then provided
 file_name will be used as base for the two saved files.
 For example, \code{file_name = "election"} would save files
 as "election.tweets.csv" and "election.users.csv".}
+
+\item{prepend_ids}{Logical indicating whether to prepend an "x" before all
+Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
+CSV as these values otherwise get treated as numeric and as a result the values
+are often less precise due to rounding or other class-related quirks. Defaults
+to true.}
+
+\item{na}{Value to be used for missing (NA)s. Defaults to empty character, "".}
+
+\item{fileEncoding}{Encoding to be used when saving to CSV. defaults to utf-8.}
 }
 \description{
 Converts and saves data table generated from rtweet

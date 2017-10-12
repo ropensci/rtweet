@@ -33,11 +33,11 @@ lookup_collections <- function(id, n = 200,
                                min_position = NULL,
                                parse = TRUE,
                                token = NULL) {
-  stopifnot(is.character(id), is_n(count))
+  stopifnot(is.character(id), is_n(n))
   query <- "collections/entries"
   params <- list(
     id = id,
-    count = count,
+    count = n,
     max_position = max_position,
     min_position = min_position
   )
@@ -76,7 +76,7 @@ get_collections <- function(user,
                             cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  stopifnot(is.character(user), is_n(count))
+  stopifnot(is.character(user), is_n(n))
   query <- "collections/list"
   params <- list(
     user = user,
