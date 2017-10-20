@@ -179,7 +179,7 @@ ts_plot(rt, by = "mins", theme = "spacegray",
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
 
-Other tweets: \code{\link{get_favorites_call}},
+Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline_}},
   \code{\link{lookup_statuses}},
   \code{\link{stream_tweets}}, \code{\link{tweets_data}}

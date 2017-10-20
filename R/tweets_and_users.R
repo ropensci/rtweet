@@ -26,9 +26,9 @@ users_with_tweets <- function(x) {
   if (nrow(tweets) == nrow(users)) {
     if (has_name(users, "user_id")) {
       tweets$user_id <- users$user_id
-    if (has_name(users, "screen_name")) {
-      tweets$screen_name <- users$screen_name
-    }
+      if (has_name(users, "screen_name")) {
+        tweets$screen_name <- users$screen_name
+      }
     }
   }
   attr(users, "tweets") <- tweets
@@ -188,18 +188,14 @@ tweets_to_tbl_ <- function(dat) {
     dat$geo_coords <- lapply(
       dat$geo$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
-    dat$geo_coords <- list(
-        c(NA_real_, NA_real_)
-      )
+    dat$geo_coords <- list(c(NA_real_, NA_real_))
   }
   if (has_name(dat, "coordinates") &&
       has_name(dat[["coordinates"]], "coordinates")) {
     dat$coordinates_coords <- lapply(
       dat$coordinates$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
-    dat$coordinates_coords <- list(
-        c(NA_real_, NA_real_)
-      )
+    dat$coordinates_coords <- list(c(NA_real_, NA_real_))
   }
   if (has_name(dat, "place") && has_name(dat[["place"]], "id")) {
     dat$place_url <- `[[[`(dat$place, "url")
@@ -209,7 +205,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$place_type <- `[[[`(dat$place, "place_type")
     dat$country <- `[[[`(dat$place, "country")
     if (has_name(dat$place, "bounding_box") &&
-        has_name(dat$place[["bounding_box"]], "coordinates")) {
+          has_name(dat$place[["bounding_box"]], "coordinates")) {
       dat$bbox_coords <- lapply(
         dat$place$bounding_box[["coordinates"]], function(i) {
           if (is.array(i)) {
@@ -307,12 +303,12 @@ users_to_tbl_ <- function(dat) {
   urls <- `[[[`(urls, "urls")
   dat$profile_url <- unlist(
     lapply(urls, function(x) {
-    if (is.data.frame(x)) x[["url"]] else NA_character_
+      if (is.data.frame(x)) x[["url"]] else NA_character_
     })
   )
   dat$profile_expanded_url <- unlist(
     lapply(urls, function(x) {
-    if (is.data.frame(x)) x[["expanded_url"]] else NA_character_
+      if (is.data.frame(x)) x[["expanded_url"]] else NA_character_
     })
   )
   dat$created_at <- format_date(dat$created_at)

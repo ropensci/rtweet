@@ -4,7 +4,7 @@
 \name{stopwordslangs}
 \alias{stopwordslangs}
 \title{stopwordslangs data}
-\format{A tibble with three variables and 2,931 observations}
+\format{A tibble with three variables and 24,000 observations}
 \usage{
 stopwordslangs
 }
@@ -12,10 +12,12 @@ stopwordslangs
 This data comes form a group of Twitter searches conducted on 2017-09-27.
 The data are commonly observed words associated with 10 different languages,
 including "ar", "en", "es", "fr", "in", "ja", "pt", ru", "tr", and "und".
-Variables include term (the stop words), lang, and z (standard deviation
-units of logged word occurence in stopwords sample).
+Variables include word (potential stop words), lang (two or three word code),
+and p (p value associated with frequency position along a normal distribution
+with higher values meaning the word occurs more frequently and lower values
+meaning the words occur less frequently).
 }
 \examples{
-stop_words("en")
+stopwordslangs
 }
 \keyword{datasets}

@@ -27,7 +27,7 @@
 #'   (in r, send \code{?tokens} to console).
 #' @return Return object converted to nested list. If status code of response
 #'   object is not 200, the response object is returned directly.
-#' @export
+#' @noRd
 lookup_collections <- function(id, n = 200,
                                max_position = NULL,
                                min_position = NULL,
@@ -69,7 +69,7 @@ lookup_collections <- function(id, n = 200,
 #'   (in r, send \code{?tokens} to console).
 #' @return Return object converted to nested list. If status code of response
 #'   object is not 200, the response object is returned directly.
-#' @export
+#' @noRd
 get_collections <- function(user,
                             status_id = NULL,
                             n = 200,

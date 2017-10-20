@@ -30,7 +30,7 @@ Returns coordinates using google geocode api
 \dontrun{
 sf <- lookup_coords("san francisco, CA", "country:US")
 usa <- lookup_coords("usa")
-lnd <- lookup_coords("london", box = FALSE)
+lnd <- lookup_coords("london")
 bz <- lookup_coords("brazil")
 
 search_tweets(geocode = bz)

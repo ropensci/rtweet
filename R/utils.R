@@ -54,7 +54,7 @@ any_recursive <- function(x) {
 #'   variable of grouped data frames or look for variables labelled
 #'   "group" or "filter". Set this to FALSE to override these defaults.
 #' @return Trimmed data frame
-#' @export
+#' @noRd
 trim_ts <- function(x, group = NULL) {
   if (all(is.null(group), inherits(x, "grouped_df"))) {
     group <- attr(x, "vars")
@@ -241,4 +241,14 @@ do_call_rbind <- function(df) {
   df <- do.call("rbind", df)
   attr(df, att) <- att_df
   df
+}
+
+
+rm_fancy_apostrophes <- function(x) gsub(intToUtf8(8217), "'", x)
+
+rm_fancy_spaces <- function(x) gsub(intToUtf8(65039), " ", x)
+
+rm_links <- function(x) {
+  x <- gsub("\\s{0,1}http\\S{1,}\\s{0,1}", "", x)
+  gsub("\\s{0,1}\\S{1,}\\.com\\b\\s{0,1}", "", x)
 }

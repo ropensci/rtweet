@@ -4,7 +4,8 @@
 \alias{get_favorites}
 \title{GET favorites/list}
 \usage{
-get_favorites(user, n = 200, ...)
+get_favorites(user, n = 200, since_id = NULL, max_id = NULL,
+  parse = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
@@ -15,12 +16,45 @@ to suspended or deleted content, this function may return fewer
 tweets than the desired (n) number. Must be of length 1 or of
 length equal to users}
 
-\item{...}{To see other possible arguments see
-\code{\link{get_favorites_call}}.}
+\item{since_id}{Returns results with an status_id greater
+than (that is, more recent than) the specified status_id.
+There are limits to the number of tweets returned by the REST
+API. If the limit is hit, since_id is adjusted (by Twitter) to
+the oldest ID available.}
+
+\item{max_id}{Returns results with status_id less (older) than or
+equal to (if hit limit) the specified status_id.}
+
+\item{parse}{Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves you the time [and frustrations]
+associated with disentangling the Twitter API return objects.}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.
 }
 \description{
 Returns favorite tweets data for one or more target users.
+}
+\examples{
+\dontrun{
+# get favorites of the president of the US
+pres <- get_favorites(user = "potus")
+pres
+
+# get favorites of the Environmental Protection Agency
+epa <- get_favorites(user = "epa")
+epa
+}
+}
+\seealso{
+Other tweets: \code{\link{get_timeline_}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_data}}
 }

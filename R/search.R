@@ -166,6 +166,9 @@ search_tweets <- function(q, n = 100,
                           retryonratelimit = FALSE,
                           verbose = TRUE,
                           ...) {
+  if (missing(q) && !is.null(geocode)) {
+    q <- ""
+  }
   args <- list(
     q = q,
     n = n,

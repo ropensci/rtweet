@@ -8,12 +8,49 @@
 #'   to suspended or deleted content, this function may return fewer
 #'   tweets than the desired (n) number. Must be of length 1 or of
 #'   length equal to users
-#' @param ... To see other possible arguments see
-#'   \code{\link{get_favorites_call}}.
+#' @param since_id Returns results with an status_id greater
+#'   than (that is, more recent than) the specified status_id.
+#'   There are limits to the number of tweets returned by the REST
+#'   API. If the limit is hit, since_id is adjusted (by Twitter) to
+#'   the oldest ID available.
+#' @param max_id Returns results with status_id less (older) than or
+#'   equal to (if hit limit) the specified status_id.
+#' @param parse Logical, indicating whether to return parsed
+#'   vector or nested list (fromJSON) object. By default,
+#'   \code{parse = TRUE} saves you the time [and frustrations]
+#'   associated with disentangling the Twitter API return objects.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
 #' @return A tbl data frame of tweets data with users data attribute.
+#' @examples
+#' \dontrun{
+#' # get favorites of the president of the US
+#' pres <- get_favorites(user = "potus")
+#' pres
+#'
+#' # get favorites of the Environmental Protection Agency
+#' epa <- get_favorites(user = "epa")
+#' epa
+#' }
+#' @family tweets
 #' @export
-get_favorites <- function(user, n = 200, ...) {
-  do.call("get_favorites_call", list(user = user, n = n, ...))
+get_favorites <- function(user,
+                          n = 200,
+                          since_id = NULL,
+                          max_id = NULL,
+                          parse = TRUE,
+                          token = NULL) {
+  args <- list(
+    user = user,
+    n = n,
+    since_id = since_id,
+    max_id = max_id,
+    parse = parse,
+    token = token
+  )
+  do.call("get_favorites_call", args)
 }
 
 #' get_favorites_call
@@ -52,7 +89,7 @@ get_favorites <- function(user, n = 200, ...) {
 #' epa
 #' }
 #' @family tweets
-#' @export
+#' @noRd
 get_favorites_call <- function(user,
                                n = 200,
                                since_id = NULL,
@@ -89,12 +126,12 @@ get_favorites_call <- function(user,
     )
   } else if (!is.null(max_id)) {
     rt <- Map(
-    get_favorites_,
-    user = user,
-    n = n,
-    max_id = max_id,
-    parse = parse,
-    token = list(token)
+      get_favorites_,
+      user = user,
+      n = n,
+      max_id = max_id,
+      parse = parse,
+      token = list(token)
     )
   } else {
     rt <- Map(
@@ -111,20 +148,21 @@ get_favorites_call <- function(user,
       rt[[i]]$favoriter <- user[i]
     }
     ## merge users data into one data frame
-    rt_users <- do.call("rbind", lapply(rt, users_data))
+    #rt_users <- do.call("rbind", lapply(rt, users_data))
     ## merge tweets data into one data frame
-    rt <- do.call("rbind", rt)
+    #rt <- do.call("rbind", rt)
     ## set users attribute
-    attr(rt, "users") <- rt_users
+    #attr(rt, "users") <- rt_users
     ## return tibble (validate = FALSE makes it a bit faster)
-    rt <- tibble::as_tibble(rt, validate = FALSE)
+    #rt <- tibble::as_tibble(rt, validate = FALSE)
+    rt <- do_call_rbind(rt)
   }
   rt
 }
 
 
 get_favorites_ <- function(user,
-                           n = 300,
+                           n = 200,
                            since_id = NULL,
                            max_id = NULL,
                            parse = TRUE,

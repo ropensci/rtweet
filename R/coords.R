@@ -32,7 +32,7 @@ na_omit <- function(x) {
 #' \dontrun{
 #' sf <- lookup_coords("san francisco, CA", "country:US")
 #' usa <- lookup_coords("usa")
-#' lnd <- lookup_coords("london", box = FALSE)
+#' lnd <- lookup_coords("london")
 #' bz <- lookup_coords("brazil")
 #'
 #' search_tweets(geocode = bz)
@@ -169,15 +169,6 @@ mutate.coords <- function(x) {
 
 
 
-#' @importFrom methods new
-#setClass(
-#  "coords", slots = c(place = "character", box = "numeric", point = "numeric"),
-#  prototype = list(
-#      place = character(),
-#      box = numeric(4),
-#      point = numeric(2))
-#)
-
 as.coords <- function(place, box, point) {
   coords <- list(place = place, box = box, point =  point)
   class(coords) <- c("coords", "list")
@@ -199,5 +190,3 @@ max_coords <- function(x) {
     lat = lat
   )
 }
-
-
