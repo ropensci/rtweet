@@ -238,7 +238,7 @@ stream_params <- function(stream, ...) {
 
 
 
-#' parse_stream
+#' stream_data
 #'
 #' @param file_name name of file to be parsed. NOTE: if file
 #'   was created via \code{\link{stream_tweets}}, then it will
@@ -265,8 +265,8 @@ stream_params <- function(stream, ...) {
 #' }
 #' @importFrom jsonlite stream_in
 #' @export
-parse_stream <- function(file_name, ...) {
-  tw <- parse_stream_xl(file_name, ...)
+stream_data <- function(file_name, ...) {
+  tw <- .parse_stream(file_name, ...)
   usr <- users_data(tw)
   tw <- tw[!is.na(tw$status_id), ]
   usr <- usr[!is.na(usr$user_id), ]
@@ -304,7 +304,6 @@ parse_stream <- function(file_name, ...) {
       file = file_name)
   }
   if (is.null(s)) stop(paste0(
-    "it's not right. -luther\n",
     "wasn't able to parse-in json file. ",
     "normal fixes didn't work. perhaps you should try ",
     "starting a new R session.",
@@ -312,86 +311,43 @@ parse_stream <- function(file_name, ...) {
   tweets_with_users(s)
 }
 
-parse_stream_xl <- function(x) {
-  .parse_stream(x)
-}
-
-parse_stream_xl2 <- function(x, by = 10000) {
-  stopifnot(is.character(x), is.numeric(by))
-  x <- readr::read_lines(x)
-  n <- length(x)
-  N <- ceiling(n / by)
-  jmin <- 1L
-  df <- vector("list", N)
-  for (i in seq_len(N)) {
-    tmp <- tempfile()
-    jmax <- jmin + (by - 1)
-    if (jmax > n) jmax <- n
-    cat(paste(x[jmin:jmax], collapse = "\n"),
-      file = tmp, append = FALSE)
-    df[[i]] <- .parse_stream(tmp)
-    if (jmax >= n) break
-    jmin <- jmax + 1
-    message(i, " of ", N)
-  }
-  usr <- do.call("rbind", users_data(df)) %>%
-    tryCatch(error = function(e) return(NULL))
-  df <- do.call("rbind", df) %>%
-    tryCatch(error = function(e) return(NULL))
-  attr(df, "usr") <- usr
-  df
-}
 
 
-#' @importFrom readr read_lines write_lines
-readfromto <- function(x, from, to) {
-  if (!file.exists(x)) {
-    stop("No such file exists", call. = FALSE)
-  }
-  n_max <- to - from + 1
-  skip <- from - 1L
-  x <- readr::read_lines(x, skip = skip, n_max = n_max)
-  kp <- grep("limit", substr(x, 1, 10), invert = TRUE)
-  if (length(kp) == 0L) {
-    return(NULL)
-  }
-  x <- x[kp]
-  tmp <- tempfile()
-  readr::write_lines(x, tmp)
-  con <- file(tmp)
-  x <- parse_stream(tmp)
-  close(con)
-  x
-}
 
-fsz <- function(x) file.info(x)[["size"]]
 
 #' data_from_stream
 #'
 #' @param x Character, name of json file with data collected by
 #'   \code{\link{stream_tweets}}.
 #' @param n Number of documents (tweets) to process per interval. Defaults to 10,000.
-#' @param n.cores Number of cores to use when processing data. Defaults to 1.
-#' @return A tbl of tweets data with attribute of users data
+#' @param n_max Number of maximum documents (tweets) to process in total. This value
+#'   is set independent from n, but it's only really useful when it's larger than n,
+#'   like when you only want to read the first million tweets from a json file that
+#'   contains 5 million tweets. Defaults to -1L, which means all lines will be read.
 #' @export
-data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
+data_from_stream <- function(x, n = 10000L, n_max = -1L) {
   if (!file.exists(x)) {
     stop("No such file exists", call. = FALSE)
   }
-  continue <- TRUE
+  ## initalize counters and output vector
+  d <- NA_character_
   skip <- 0L
   data <- list()
-
-  while (continue) {
-    d <- readr::read_lines(x, skip = skip, n_max = n)
-    if (length(d) > 0L) {
-      skip <- length(d) + skip
-      tmp <- tempfile()
-      readr::write_lines(d, tmp)
-      data[[length(data) + 1L]] <- parse_stream(tmp)
-    } else {
-      continue <- FALSE
+  ## read in chunks until completion
+  if (identical(n_max, -1L)) {
+    n_max2 <- Inf
+  } else {
+    n_max2 <- n_max
+  }
+  while (length(d) > 0L && skip < n_max2) {
+    if (n_max > 0L && (skip + n) > n_max2) {
+      n <- n_max - skip
     }
+    d <- readr::read_lines(x, skip = skip, n_max = n)
+    skip <- length(d) + skip
+    tmp <- tempfile()
+    readr::write_lines(d, tmp)
+    data[[length(data) + 1L]] <- stream_data(tmp)
   }
   twt <- do.call("rbind", data)
   usr <- do.call("rbind", lapply(data, attr, "users"))
@@ -400,7 +356,7 @@ data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
 }
 
 
-#' stream_data
+#' parse_stream
 #'
 #' Converts Twitter stream data (json file) into parsed data frame.
 #'
@@ -409,7 +365,7 @@ data_from_stream <- function(x, n = 10000L, n.cores = 1L) {
 #' @param ... Other arguments passed on to \code{\link{data_from_stream}}.
 #' @return A tbl of tweets data with attribute of users data
 #' @export
-stream_data <- function(path, ...) {
+parse_stream <- function(path, ...) {
   dots <- list(...)
   if (length(dots) > 0L) {
     do.call("data_from_stream", c(path, dots))
