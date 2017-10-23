@@ -4,38 +4,17 @@
 \alias{parse_stream}
 \title{parse_stream}
 \usage{
-parse_stream(file_name, ...)
+parse_stream(path, ...)
 }
 \arguments{
-\item{file_name}{name of file to be parsed. NOTE: if file
-was created via \code{\link{stream_tweets}}, then it will
-end in ".json" (see example below)}
+\item{path}{Character, name of json file with data collected by
+\code{\link{stream_tweets}}.}
 
-\item{\dots}{For developmental purposes.}
+\item{...}{Other arguments passed on to \code{\link{data_from_stream}}.}
 }
 \value{
-Data frame of tweets data with attributes users data
+A tbl of tweets data with attribute of users data
 }
 \description{
-parse_stream
-}
-\details{
-Reading and simplifying json files can be very slow. To
-  make things more managable, \code{parse_stream_xl} does one chunk
-  of Tweets at a time and then compiles the data into a data frame.
-}
-\examples{
-\dontrun{
-## file extension automatically converted to .json whether or
-## not file_name already includes .json
-stream_tweets(q = "", timeout = 30,
-              file_name = "rtweet-stream", parse = FALSE)
-rt <- parse_stream("rtweet-stream.json")
-## preview tweets data
-head(rt)
-## preview users data
-head(users_data(rt))
-## plot time series
-ts_plot(rt, "secs")
-}
+Converts Twitter stream data (json file) into parsed data frame.
 }

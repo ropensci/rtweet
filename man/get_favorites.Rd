@@ -11,10 +11,10 @@ get_favorites(user, n = 200, since_id = NULL, max_id = NULL,
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
 
 \item{n}{Specifies the number of records to retrieve. Defaults to
-200. 3000 is the max number of favorites returned per token.  Due
+200. 3000 is the max number of favorites returned per token. Due
 to suspended or deleted content, this function may return fewer
 tweets than the desired (n) number. Must be of length 1 or of
-length equal to users}
+length equal to the provided number of users.}
 
 \item{since_id}{Returns results with an status_id greater
 than (that is, more recent than) the specified status_id.
@@ -43,13 +43,13 @@ Returns favorite tweets data for one or more target users.
 }
 \examples{
 \dontrun{
-# get favorites of the president of the US
-pres <- get_favorites(user = "potus")
-pres
+## get max number of statuses favorited by KFC
+kfc <- get_favorites("KFC", n = 3000)
+kfc
 
-# get favorites of the Environmental Protection Agency
-epa <- get_favorites(user = "epa")
-epa
+## get 400 statuses favorited by each of three users
+favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
+favs
 }
 }
 \seealso{

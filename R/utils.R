@@ -219,14 +219,13 @@ is_url <- function(url) {
   }
 }
 
-
 extract_att_data <- function(df) {
-  att <- names(attributes(df))
-  att <- att[att %in% c("users", "tweets")]
-  if (att == "users") {
+  if (has_name_(attributes(df), "users") || has_name_(attributes(df), "usr")) {
     users_data(df)
-  } else {
+  } else if (has_name_(attributes(df), "tweets") || has_name_(attributes(df), "tw")) {
     tweets_data(df)
+  } else {
+    data.frame()
   }
 }
 
@@ -251,4 +250,9 @@ rm_fancy_spaces <- function(x) gsub(intToUtf8(65039), " ", x)
 rm_links <- function(x) {
   x <- gsub("\\s{0,1}http\\S{1,}\\s{0,1}", "", x)
   gsub("\\s{0,1}\\S{1,}\\.com\\b\\s{0,1}", "", x)
+}
+
+
+all_uq_names <- function(x) {
+  unique(unlist(lapply(x, names)))
 }

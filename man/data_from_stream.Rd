@@ -4,7 +4,7 @@
 \alias{data_from_stream}
 \title{data_from_stream}
 \usage{
-data_from_stream(x, n = 10000L, n.cores = 1L)
+data_from_stream(x, n = 10000L, n_max = -1L)
 }
 \arguments{
 \item{x}{Character, name of json file with data collected by
@@ -12,10 +12,10 @@ data_from_stream(x, n = 10000L, n.cores = 1L)
 
 \item{n}{Number of documents (tweets) to process per interval. Defaults to 10,000.}
 
-\item{n.cores}{Number of cores to use when processing data. Defaults to 1.}
-}
-\value{
-A tbl of tweets data with attribute of users data
+\item{n_max}{Number of maximum documents (tweets) to process in total. This value
+is set independent from n, but it's only really useful when it's larger than n,
+like when you only want to read the first million tweets from a json file that
+contains 5 million tweets. Defaults to -1L, which means all lines will be read.}
 }
 \description{
 data_from_stream

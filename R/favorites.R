@@ -4,10 +4,10 @@
 #'
 #' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Specifies the number of records to retrieve. Defaults to
-#'   200. 3000 is the max number of favorites returned per token.  Due
+#'   200. 3000 is the max number of favorites returned per token. Due
 #'   to suspended or deleted content, this function may return fewer
 #'   tweets than the desired (n) number. Must be of length 1 or of
-#'   length equal to users
+#'   length equal to the provided number of users.
 #' @param since_id Returns results with an status_id greater
 #'   than (that is, more recent than) the specified status_id.
 #'   There are limits to the number of tweets returned by the REST
@@ -26,13 +26,13 @@
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @examples
 #' \dontrun{
-#' # get favorites of the president of the US
-#' pres <- get_favorites(user = "potus")
-#' pres
+#' ## get max number of statuses favorited by KFC
+#' kfc <- get_favorites("KFC", n = 3000)
+#' kfc
 #'
-#' # get favorites of the Environmental Protection Agency
-#' epa <- get_favorites(user = "epa")
-#' epa
+#' ## get 400 statuses favorited by each of three users
+#' favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
+#' favs
 #' }
 #' @family tweets
 #' @export
@@ -143,9 +143,26 @@ get_favorites_call <- function(user,
     )
   }
   if (parse) {
+    nms <- all_uq_names(rt)
+    for (i in seq_along(rt)) {
+      for (j in nms) {
+        if (!has_name_(rt[[i]], j) && nrow(rt[[i]]) > 0L) {
+          rt[[i]][[j]] <- NA
+          if (j == "created_at") {
+            rt[[i]][[j]] <- as.POSIXct(rt[[i]][[j]])
+          }
+        } else if (!has_name_(rt[[i]], j) && nrow(rt[[i]]) == 0L) {
+          rt[[i]] <- tibble::as_tibble(data.frame(j = NA), validate = FALSE)
+          names(rt[[i]]) <- j
+          if (j == "created_at") {
+            rt[[i]][[j]] <- as.POSIXct(rt[[i]][[j]])
+          }
+        }
+      }
+    }
     ## add favoriter variable to data frames
     for (i in seq_along(user)) {
-      rt[[i]]$favoriter <- user[i]
+      rt[[i]]$favorited_by <- user[i]
     }
     ## merge users data into one data frame
     #rt_users <- do.call("rbind", lapply(rt, users_data))
@@ -160,7 +177,6 @@ get_favorites_call <- function(user,
   rt
 }
 
-
 get_favorites_ <- function(user,
                            n = 200,
                            since_id = NULL,
@@ -174,10 +190,6 @@ get_favorites_ <- function(user,
       call. = FALSE)
     n <- 3000
   }
-  stopifnot(is_n(n),
-    is.atomic(user),
-    isTRUE(length(user) == 1))
-  token <- check_token(token, query)
   n.times <- rate_limit(token, query)[["remaining"]]
   if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
   params <- list(
@@ -194,7 +206,6 @@ get_favorites_ <- function(user,
     usr <- users_data(fav)
     if (nrow(usr) > 0L) {
       uq <- !duplicated(usr$user_id)
-      usr <- usr[uq, ]
       attr(fav, "users") <- usr[uq, ]
     }
   }

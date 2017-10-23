@@ -1,10 +1,14 @@
-
 #' tweets_with_users
 #'
 #' @param x Data
 #' @return Tbl
 #' @export
 tweets_with_users <- function(x) {
+  if (is.null(x) || length(x) == 0L) {
+    x <- data.frame()
+    attr(x, "users") <- data.frame()
+    return(x)
+  }
   tweets <- status_object(x)
   tweets <- tweets_df_(tweets)
   users <- user_object(x)
@@ -19,6 +23,11 @@ tweets_with_users <- function(x) {
 #' @return Tbl
 #' @export
 users_with_tweets <- function(x) {
+  if (is.null(x) || length(x) == 0L) {
+    x <- data.frame()
+    attr(x, "tweets") <- data.frame()
+    return(x)
+  }
   tweets <- status_object(x)
   tweets <- tweets_df_(tweets)
   users <- user_object(x)
