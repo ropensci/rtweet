@@ -1,3 +1,8 @@
+
+##----------------------------------------------------------------------------##
+##                            fetch/return features                           ##
+##----------------------------------------------------------------------------##
+
 go_get_var <- function(x, ..., expect_n = NULL) {
   vars <- c(...)
   success <- FALSE
@@ -30,6 +35,18 @@ go_get_var <- function(x, ..., expect_n = NULL) {
   x
 }
 
+all_uq_names <- function(x) {
+  unique(unlist(lapply(x, names)))
+}
+
+return_last <- function(x, n = 1) {
+  x[length(x) - seq_len(n) + 1]
+}
+
+##----------------------------------------------------------------------------##
+##                                 check data                                 ##
+##----------------------------------------------------------------------------##
+
 has_name_ <- function(x, ...) {
   vars <- c(...)
   stopifnot(is.character(vars))
@@ -46,38 +63,58 @@ any_recursive <- function(x) {
   any(vapply(x, is.recursive, logical(1)))
 }
 
+is_response <- function(x) {
+  inherits(x, "response")
+}
 
-#' trim_ts
-#'
-#' @param x Data from ts_filter.
-#' @param group Name of grouping variable. Default (NULL) will use
-#'   variable of grouped data frames or look for variables labelled
-#'   "group" or "filter". Set this to FALSE to override these defaults.
-#' @return Trimmed data frame
-#' @noRd
-trim_ts <- function(x, group = NULL) {
-  if (all(is.null(group), inherits(x, "grouped_df"))) {
-    group <- attr(x, "vars")
-  } else if (all(is.null(group), "group" %in% names(x))) {
-    group <- "group"
-  } else if (all(is.null(group), "filter" %in% names(x))) {
-    group <- "filter"
+is_json <- function(x) {
+  grepl("application/json", x$headers[["content-type"]])
+}
+
+is.na.quiet <- function(x) {
+  suppressWarnings(is.na(x))
+}
+
+is_empty_list <- function(x) {
+  if (is.null(x)) return(TRUE)
+  if (is.list(x)) {
+    return(identical(length(unlist(
+      x, use.names = FALSE)), 0))
+  } else if (identical(length(x), 0)) {
+    return(TRUE)
   }
-  if (any(is.null(group), identical(group, FALSE))) {
-    n <- nrow(x)
+  FALSE
+}
+
+is_n <- function(n) {
+  if (is.character(n)) {
+    n <- suppressWarnings(as.numeric(n))
+  }
+  if (all(
+    length(n) == 1,
+    is.numeric(n),
+    n > 0)) {
+    return(TRUE)
   } else {
-    n <- sum(x[[group]] == x[[group]][1])
+    return(FALSE)
   }
-  nope <- c(seq(1, nrow(x), n), seq(n, nrow(x), n))
-  x <- x[-nope, ]
-  row.names(x) <- NULL
-  x
 }
 
-return_last <- function(x, n = 1) {
-  x[length(x) - seq_len(n) + 1]
+is_url <- function(url) {
+  url_names <- c("scheme", "hostname",
+    "port", "path", "query")
+  if (all(length(url) > 1, is.list(url),
+    url_names %in% names(url))) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
 }
 
+
+##----------------------------------------------------------------------------##
+##                                  wranglers                                 ##
+##----------------------------------------------------------------------------##
 
 nanull <- function(x) {
   if (is.null(x)) return(NA)
@@ -86,14 +123,6 @@ nanull <- function(x) {
   x[x == ""] <- NA
   x[is.null(x)] <- NA
   x
-}
-
-is_response <- function(x) {
-  inherits(x, "response")
-}
-
-is_json <- function(x) {
-  grepl("application/json", x$headers[["content-type"]])
 }
 
 #' @importFrom jsonlite fromJSON
@@ -117,6 +146,15 @@ from_js <- function(rsp) {
   rsp
 }
 
+na_omit <- function(x) {
+  x[!is.na(x)]
+}
+
+
+
+##----------------------------------------------------------------------------##
+##                            user type classifers                            ##
+##----------------------------------------------------------------------------##
 
 .ids_type <- function(x) {
   if (is.list(x)) x <- unlist(x, use.names = FALSE)
@@ -146,14 +184,10 @@ from_js <- function(rsp) {
   }
 }
 
-is.na.quiet <- function(x) {
-  suppressWarnings(is.na(x))
-}
 
-
-unlister <- function(x) {
-  unlist(x, use.names = FALSE, recursive = TRUE)
-}
+##----------------------------------------------------------------------------##
+##                                flatten data                                ##
+##----------------------------------------------------------------------------##
 
 flatten_rtweet <- function(x) {
   lst <- vapply(x, is.list, logical(1))
@@ -181,54 +215,9 @@ obs2string <- function(x, sep) {
 }
 
 
-
-is_empty_list <- function(x) {
-  if (is.null(x)) return(TRUE)
-  if (is.list(x)) {
-    return(identical(length(unlist(
-      x, use.names = FALSE)), 0))
-  } else if (identical(length(x), 0)) {
-    return(TRUE)
-  }
-  FALSE
-}
-
-
-is_n <- function(n) {
-  if (is.character(n)) {
-    n <- suppressWarnings(as.numeric(n))
-  }
-  if (all(
-    length(n) == 1,
-    is.numeric(n),
-    n > 0)) {
-    return(TRUE)
-  } else {
-    return(FALSE)
-  }
-}
-
-is_url <- function(url) {
-  url_names <- c("scheme", "hostname",
-    "port", "path", "query")
-  if (all(length(url) > 1, is.list(url),
-    url_names %in% names(url))) {
-    return(TRUE)
-  } else {
-    return(FALSE)
-  }
-}
-
-extract_att_data <- function(df) {
-  if (has_name_(attributes(df), "users") || has_name_(attributes(df), "usr")) {
-    users_data(df)
-  } else if (has_name_(attributes(df), "tweets") || has_name_(attributes(df), "tw")) {
-    tweets_data(df)
-  } else {
-    data.frame()
-  }
-}
-
+##----------------------------------------------------------------------------##
+##                                do_call_rbind                               ##
+##----------------------------------------------------------------------------##
 do_call_rbind <- function(df) {
   att_df <- lapply(df, extract_att_data)
   att_df <- do.call("rbind", att_df)
@@ -242,6 +231,20 @@ do_call_rbind <- function(df) {
   df
 }
 
+extract_att_data <- function(df) {
+  if (has_name_(attributes(df), "users") || has_name_(attributes(df), "usr")) {
+    users_data(df)
+  } else if (has_name_(attributes(df), "tweets") || has_name_(attributes(df), "tw")) {
+    tweets_data(df)
+  } else {
+    data.frame()
+  }
+}
+
+
+##----------------------------------------------------------------------------##
+##                  remove/replace tricky chars and URL links                 ##
+##----------------------------------------------------------------------------##
 
 rm_fancy_apostrophes <- function(x) gsub(intToUtf8(8217), "'", x)
 
@@ -250,9 +253,4 @@ rm_fancy_spaces <- function(x) gsub(intToUtf8(65039), " ", x)
 rm_links <- function(x) {
   x <- gsub("\\s{0,1}http\\S{1,}\\s{0,1}", "", x)
   gsub("\\s{0,1}\\S{1,}\\.com\\b\\s{0,1}", "", x)
-}
-
-
-all_uq_names <- function(x) {
-  unique(unlist(lapply(x, names)))
 }

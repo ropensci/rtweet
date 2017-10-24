@@ -4,8 +4,8 @@
 \alias{lists_subscribers}
 \title{GET lists/subscribers}
 \usage{
-lists_subscribers(list_id, slug = NULL, owner_user = NULL, n = 20,
-  cursor = "-1", parse = TRUE, token = NULL)
+lists_subscribers(list_id = NULL, slug = NULL, owner_user = NULL,
+  n = 20, cursor = "-1", parse = TRUE, token = NULL)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -43,4 +43,18 @@ console).}
 Returns the subscribers of the specified list. Private list
 subscribers will only be shown if the authenticated user owns the
 specified list.
+}
+\examples{
+\dontrun{
+## get subscribers of new york times politics list
+rstats <- lists_subscribers(slug = "new-york-times-politics", owner_user = "nytpolitics", n = 1000)
+
+}
+}
+\seealso{
+Other lists: \code{\link{lists_members}},
+  \code{\link{lists_statuses}}, \code{\link{lists_users}}
+
+Other users: \code{\link{lookup_users}},
+  \code{\link{search_users}}, \code{\link{users_data}}
 }

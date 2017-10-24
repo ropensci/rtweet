@@ -1,31 +1,26 @@
 #' lists/memberships
-#' 
+#'
 #' Returns the lists the specified user has been added to. If user_id
 #' or screen_name are not provided the memberships for the
 #' authenticating user are returned.
-#' 
+#'
 #' @param user The user id or screen_name of the user for whom to
 #'   return results for.
-#' @param n The amount of results to return per page. Defaults to
-#'   20. No more than 1000 results will ever be returned in a single
-#'   page.
-#' @param cursor optional Breaks the results into pages. Provide a
-#'   value of -1 to begin paging. Provide values as returned in the
-#'   response body's next_cursor and previous_cursor attributes to
-#'   page back and forth in the list. It is recommended to always use
-#'   cursors when the method supports them. See [node:10362] for more
-#'   information.
+#' @inheritParams lists_members
 #' @param filter_to_owned_lists When set to true . t or 1 , will
 #'   return just lists the authenticating user owns, and the user
 #'   represented by user_id or screen_name is a member of.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
-#' @return Either a nested list (if parsed) or an http response object.
+#' @details Due to deleted or removed lists, the returned number of memberships
+#'   is often less than the provided n value. This is a reflection of the API and
+#'   not a unique quirk of rtweet.
+#' @examples
+#' \dontrun{
+#' ## get up to 200 list memberships of Nate Silver
+#' ns538 <- lists_memberships("NateSilver538", n = 200)
+#' ns538
+#'
+#' }
+#' @rdname lists_members
 #' @export
 lists_memberships <- function(user,
                               n = 20,
@@ -94,7 +89,3 @@ lists_memberships_call <- function(user,
   }
   r
 }
-
-
-
-

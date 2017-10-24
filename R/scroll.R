@@ -68,9 +68,6 @@ scroller_ <- function(url, n, n.times, type = NULL, ...) {
   x
 }
 
-
-
-
 unique_id_count <- function(x, type = NULL) {
   if (!is.null(type)) {
     if (type == "search") return(100)
@@ -92,8 +89,6 @@ unique_id_count <- function(x, type = NULL) {
   length(unique(x))
 }
 
-
-
 unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
@@ -110,49 +105,6 @@ unique_id <- function(x) {
     x[["user_id"]]
   }
 }
-
-
-#' get max id
-#'
-#' Returns max ID for search iteration.
-#'
-#' @param x Data object returned by Twitter API.
-#' @param adj Deired adjustment to the max ID number. Defaults to
-#'   one ID older than the previous max.
-#' @return Max id string.
-#' @importFrom bit64 as.integer64
-#' @noRd
-get_max_id <- function(x, adj = -1L) {
-  if (!is.atomic(x)) {
-
-    if ("statuses" %in% tolower(names(x))) {
-      x <- x[["statuses"]]
-    }
-    if ("id" %in% names(x)) {
-      x <- x[["id"]]
-    } else if ("ids" %in% names(x)) {
-      return(x[["next_cursor_str"]])
-    } else if (is.null(names(x))) {
-      if ("ids" %in% names(x[[1]])) {
-        return(x[[1]][["next_cursor_str"]])
-      }
-    } else if ("status_id" %in% names(x)) {
-      x <- x[["status_id"]]
-    } else if ("user_id" %in% names(x)) {
-      x <- x[["user_id"]]
-    }
-  }
-  ##return_last(x) + adj
-  bit64::as.integer64(return_last(x)) + adj
-}
-
-last_dig <- function(x, adj = -1L) {
-  stopifnot(is.atomic(x), length(x) == 1L)
-  n <- nchar(x)
-  x2 <- as.integer(substr(x, n, n)) + adj
-  paste0(x, x2)
-}
-
 
 break_check <- function(r, url, count = NULL) {
   if (!is.null(count)) {

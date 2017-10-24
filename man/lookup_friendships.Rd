@@ -17,6 +17,10 @@ non-exhausted token from an environment variable. Find instructions
 on how to create tokens and setup an environment variable in the
 tokens vignette (in r, send \code{?tokens} to console).}
 }
+\value{
+Data frame converted form returned json object. If parse is
+  not true, the httr response object is returned instead.
+}
 \description{
 Look up informaiton on friendship between authenticated
   user and up to 100 users.

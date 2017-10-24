@@ -2,15 +2,54 @@
 #'
 #' Returns user IDs of accounts followed by target user.
 #'
-#' @param users Screen name or user ID of target user from which the user IDs
-#'   of friends (accounts followed BY target user) will be retrieved.
-#' @param retryonratelimit If you'd like to retrieve 5,000 or fewer friends for
-#'   more than 15 target users, then set \code{retryonratelimit = TRUE} and
-#'   this function will use \code{\link{Sys.sleep}} until rate limits reset and
-#'   the desired number of friend networks is retrieved. This defaults
-#'   to FALSE. See details for more info regarding possible issues with timing
-#'   misfires.
-#' @param ... For other possible args see \code{\link{get_friends.default}}.
+#' @param users Screen name or user ID of target user from which the
+#'   user IDs of friends (accounts followed BY target user) will be
+#'   retrieved.
+#' @param n Number of friends (user IDs) to return. Defaults to 5,000,
+#'   which is the maximum returned by a single API call. Users are
+#'   limited to 15 of these requests per 15 minutes. Twitter limits
+#'   the number of friends a user can have to 5,000. To follow more
+#'   than 5,000 accounts (to have more than 5 thousand "friends")
+#'   accounts must meet certain requirements (e.g., a certain ratio of
+#'   followers to friends). Consequently, the vast majority of users
+#'   follow fewer than five thousand accounts. This function has been
+#'   oriented accordingly (i.e., it assumes the maximum value of n is
+#'   5000). To return more than 5,000 friends for a single user, call
+#'   this function multiple times with requests after the first using
+#'   the \code{page} parameter.
+#' @param retryonratelimit If you'd like to retrieve 5,000 or fewer
+#'   friends for more than 15 target users, then set
+#'   \code{retryonratelimit = TRUE} and this function will use
+#'   \code{\link{Sys.sleep}} until rate limits reset and the desired
+#'   number of friend networks is retrieved. This defaults to
+#'   FALSE. See details for more info regarding possible issues with
+#'   timing misfires.
+#' @param page Default \code{page = -1} specifies first page of json
+#'   results. Other pages specified via cursor values supplied by
+#'   Twitter API response object. This is only relevant if a user has
+#'   over 5000 friends (follows more than 5000 accounts).
+#' @param parse Logical, indicating whether to return parsed vector or
+#'   nested list (fromJSON) object. By default, \code{parse = TRUE}
+#'   saves you the time [and frustrations] associated with
+#'   disentangling the Twitter API return objects.
+#' @param verbose Logical indicating whether or not to include output
+#'   messages. Defaults to TRUE, which includes printing a success message
+#'   for each inputted user.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
+#' @seealso \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
+#' @examples
+#' \dontrun{
+#' ## get user ids of accounts followed by Donald Trump
+#' (djt <- get_friends("realDonaldTrump"))
+#'
+#' ## get user ids of accounts followed by (friends) KFC, Trump, and Nate Silver.
+#' (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
+#'
+#' }
 #' @details When \code{retryonratelimit = TRUE} this function internally
 #'   makes a rate limit API call to get information on (a) the number of requests
 #'   remaining and (b) the amount of time until the rate limit resets. So, in
@@ -23,64 +62,43 @@
 #'   could create sizable inefficiencies.
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.
-#' @export
-get_friends <- function(users, retryonratelimit = FALSE, ...) {
-  do.call("get_friends.default",
-          list(users = users, retryonratelimit = retryonratelimit, ...))
-}
-
-#' get_friends
-#'
-#' @description Requests information from Twitter's REST API
-#'   regarding a user's friend network (i.e., accounts followed
-#'   by a user). To request information on followers of accounts
-#'
-#' @param users Screen name or user ID of target user from which the user IDs
-#'   of friends (accounts followed BY target user) will be retrieved.
-#' @param retryonratelimit If you'd like to retrieve 5,000 or fewer friends for
-#'   more than 15 target users, then set \code{retryonratelimit = TRUE} and
-#'   this function will use \code{\link{Sys.sleep}} until rate limits reset and
-#'   the desired number of friend networks is retrieved. This defaults
-#'   to FALSE. See details for more info regarding possible issues with timing
-#'   misfires.
-#' @param page Default \code{page = -1} specifies first page of json
-#'   results. Other pages specified via cursor values supplied by
-#'   Twitter API response object.
-#' @param parse Logical, indicating whether to return parsed
-#'   vector or nested list (fromJSON) object. By default,
-#'   \code{parse = TRUE} saves you the time [and frustrations]
-#'   associated with disentangling the Twitter API return objects.
-#' @param verbose Logical indicating whether or not to include output messages.
-#'   Defaults to TRUE.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
-#' @examples
-#' \dontrun{
-#' # get ids of users followed by the president of the US
-#' pres <- get_friends(users = "potus")
-#' pres
-#'
-#' # get friend networks of multiple users
-#' epa <- get_friends(users = c("jack", "epa"))
-#' epa
-#' }
-#'
-#' @return A tibble data frame of follower IDs (one column named "user_id").
 #' @family ids
 #' @export
-get_friends.default <- function(users,
-                                retryonratelimit = FALSE,
-                                page = "-1",
-                                parse = TRUE,
-                                verbose = TRUE,
-                                token = NULL) {
-  stopifnot(is.atomic(users))
+get_friends <- function(users,
+                        n = 5000,
+                        retryonratelimit = FALSE,
+                        page = "-1",
+                        parse = TRUE,
+                        verbose = TRUE,
+                        token = NULL) {
+  args <- list(
+    users = users,
+    n = n,
+    retryonratelimit = retryonratelimit,
+    page = page,
+    parse = parse,
+    verbose = verbose,
+    token = token
+  )
+  do.call("get_friends_", args)
+}
+
+get_friends_ <- function(users,
+                         n = 5000,
+                         retryonratelimit = FALSE,
+                         page = "-1",
+                         parse = TRUE,
+                         verbose = TRUE,
+                         token = NULL) {
+  stopifnot(is.atomic(users), is_n(n))
   if (any(is.na(users))) {
     warning("Missing users omitted", call. = FALSE)
     users <- na_omit(users)
+  }
+  if (n < 5000) {
+    count <- n
+  } else {
+    count <- 5000
   }
   ## number of users to return
   n <- length(users)
@@ -101,7 +119,7 @@ get_friends.default <- function(users,
       i <- i + 1L
       params <- list(
         user_type = users[i],
-        count = 5000,
+        count = count,
         cursor = page,
         stringify_ids = TRUE
       )
@@ -158,7 +176,7 @@ get_friends.default <- function(users,
     ## compose query
     params <- list(
       user_type = users,
-      count = 5000,
+      count = count,
       cursor = page,
       stringify_ids = TRUE
     )
@@ -186,7 +204,8 @@ get_friends.default <- function(users,
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET
 get_friend <- function(url, token = NULL) {
-  jsonlite::fromJSON(httr::content(httr::GET(url, token), "text"))
+  ##jsonlite::fromJSON(httr::content(httr::GET(url, token), "text"))
+  from_js(httr::GET(url, token))
 }
 
 
@@ -206,10 +225,7 @@ parse.piper.fnd <- function(r) {
       r <- fnd_internal(r)
     }
   }
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    r <- tibble::as_tibble(r, validate = FALSE)
-  }
-  r
+  tibble::as_tibble(r, validate = FALSE)
 }
 
 fnd_internal <- function(r) {
@@ -236,70 +252,28 @@ fnd_internal <- function(r) {
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
 #'   tokens vignette (in r, send \code{?tokens} to console).
+#' @return Data frame converted form returned json object. If parse is
+#'   not true, the httr response object is returned instead.
 #' @export
-lookup_friendships <- function(user, parse = TRUE,
+lookup_friendships <- function(user,
+                               parse = TRUE,
                                token = NULL) {
-
-    stopifnot(is.atomic(user))
-
-    token <- check_token(token)
-
-    query <- "friendships/lookup"
-
-    params <- list(
-        user_type = paste(user, collapse = ","))
-
-    names(params)[1] <- .id_type(user)
-
-    url <- make_url(
-        query = query,
-        param = params)
-
-    f <- tryCatch(
-  	TWIT(get = TRUE, url, token),
-  	error = function(e) return(NULL))
-
-    if (parse) {
-        parse_fndshp(f)
-    } else {
-        f
-    }
-}
-
-
-#' @importFrom jsonlite fromJSON
-parse_fndshp <- function(fndshp) {
-    fndshp <- fndshp[["content"]] %>%
-        rawToChar() %>%
-        jsonlite::fromJSON() %>%
-        lapply("[[[", "connections")
-    fndshp$followed_by <- fndshp %>%
-        plyget(function(x) "followed_by" %in% x) %>%
-        unlist(use.names = FALSE)
-    fndshp$following <- fndshp %>%
-        plyget(function(x) "following" %in% x) %>%
-        unlist(use.names = FALSE)
-    fndshp$blocking <- fndshp %>%
-        plyget(function(x) "blocking" %in% x) %>%
-        unlist(use.names = FALSE)
-    fndshp$muting <- fndshp %>%
-        plyget(function(x) "muting" %in% x) %>%
-        unlist(use.names = FALSE)
-    fndshp$none <- fndshp %>%
-        plyget(function(x) "none" %in% x) %>%
-        unlist(use.names = FALSE)
-    fndshp[, c(1:2, 4, 6:10)]
-}
-
-
-plyget <- function(x, f, ...) {
-    if (!is.function(f)) {
-        if (any(is.data.frame(x),
-                f %in% names(x))) return(x[[f]])
-        lapply(x, function(x) x[[f]])
-    } else if (is.data.frame(x)) {
-        f(x, ...)
-    } else {
-        lapply(x, f, ...)
-    }
+  stopifnot(is.atomic(user))
+  token <- check_token(token)
+  query <- "friendships/lookup"
+  params <- list(
+    user_type = paste(user, collapse = ",")
+  )
+  names(params)[1] <- .id_type(user)
+  url <- make_url(
+    query = query,
+    param = params)
+  f <- tryCatch(
+    TWIT(get = TRUE, url, token),
+    error = function(e) return(NULL))
+  if (parse) {
+    from_js(f)
+  } else {
+    f
+  }
 }

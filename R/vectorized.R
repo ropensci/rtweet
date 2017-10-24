@@ -41,27 +41,3 @@ search_tweets_ <- function(q, n = 100, ...) {
   ## return tibble (validate = FALSE makes it a bit faster)
   tibble::as_tibble(rt, validate = FALSE)
 }
-
-#' Get friends (vectorized)
-#'
-#' Returns friends for one or more users
-#'
-#' @param user Vector of user names, user IDs, or both.
-#' @param \dots Other arguments passed along to \code{get_friends}
-#' @return A tbl data frame of user and friends (user_id column)
-#' @export
-get_friends_ <- function(user, ...) {
-  ## check inputs
-  stopifnot(is.atomic(user))
-  if (length(user) == 0L) {
-    stop("No query found", call. = FALSE)
-  }
-  ## search for each string in column of queries
-  rt <- lapply(user, get_friends, ...)
-  rt <- Map(cbind, user = user, rt, stringsAsFactors = FALSE)
-  ## merge data into one data frame
-  rt <- do.call("rbind", rt)
-  ## return tibble (validate = FALSE makes it a bit faster)
-  tibble::as_tibble(rt, validate = FALSE)
-}
-

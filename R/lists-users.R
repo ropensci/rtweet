@@ -1,10 +1,9 @@
 #' GET lists/list
 #'
-#' Returns all lists the authenticating or specified user subscribes to,
-#'   including their own. The user is specified using the user_id or
-#'   screen_name parameters. If no user is given, the authenticating
+#' Returns all lists a specified user subscribes to,
+#'   including their own. If no user is given, the authenticating
 #'   user is used.
-#' 
+#'
 #' @param user The ID of the user or screen name for whom to return results.
 #'   Helpful for disambiguating when a valid user ID is also a valid screen name.
 #' @param reverse optional Set this to true if you would like owned lists
@@ -18,7 +17,17 @@
 #' @param parse Logical indicating whether to convert the response object into
 #'   an R list. Defaults to TRUE.
 #' @return data
+#' @examples
+#' \dontrun{
+#' ## get lists subsribed to by Nate Silver
+#' lists_users("NateSilver538")
+#' }
+#' @family lists
+#' @export
 lists_users <- function(user, reverse = FALSE, token = NULL, parse = TRUE) {
+  if (missing(user)) {
+    user <- home_user()
+  }
   query <- "lists/list"
   params <- list(
     user = user,

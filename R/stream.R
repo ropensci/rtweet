@@ -109,8 +109,9 @@
 #' ## read in json file
 #' rtworld <- parse_stream("word-tweets.json")
 #'
-#' ## word with coords
-#' x <- mutate.coords(rtworld)
+#' ## world data set with with lat lng coords variables
+#' x <- lat_lng(rtworld)
+#'
 #' }
 #'
 #' @return Tweets data returned as data frame with users data as attribute.

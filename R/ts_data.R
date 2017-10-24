@@ -1,95 +1,3 @@
-#' ts plot
-#'
-#' Returns time series-like data frame.
-#'
-#' @param data Data frame or grouped data frame.
-#' @param by Desired interval of time expressed as numeral plus secs,
-#'   mins, hours, days, weeks, months, years. If a numeric is
-#'   provided, the value is assumed to be in seconds.
-#' @param ... For info on all possible arguments see
-#'   \code{\link{ts_plot.default}}.
-#' @return Data frame with time, n, and grouping column if applicable.
-#' @importFrom graphics legend
-#' @export
-ts_plot <- function(data, by = "days", ...) {
-  do.call("ts_plot.default", list(data = data, by = by, ...))
-}
-
-
-#' ts_plot.default
-#'
-#' Returns time series-like data frame.
-#'
-#' @param data Data frame or grouped data frame.
-#' @param by Desired interval of time expressed as numeral plus secs,
-#'   mins, hours, days, weeks, months, years. If a numeric is
-#'   provided, the value is assumed to be in seconds.
-#' @param group Name of grouping variable to construct multiple time
-#'   series, which still returns a data frame but it includes the
-#'   group variable as a named column.
-#' @param \dots Passed along to trim_time. Most likely used to specify
-#'   timezone.
-#' @return Data frame with time, n, and grouping column if applicable.
-#' @importFrom graphics legend
-#' @export
-ts_plot.default <- function(data, by = "days", group = NULL, ...) {
-  data <- ts_data(data, by, group = group, ...)
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
-    if (ncol(data) == 3) {
-      ggplot2::ggplot(
-        data, ggplot2::aes_string(
-          x = "time", y = "n", colour = names(data)[3])
-      ) +
-      ggplot2::geom_line(...)
-    } else {
-      ggplot2::ggplot(
-        data, ggplot2::aes_string(x = "time", y = "n")) +
-        ggplot2::geom_line(...)
-    }
-  } else {
-    if (ncol(data) == 3) {
-      cols <- ggcols(length(unique(data[[3]])))
-      with(data, plot(time, n, col = cols, type = "n"))
-      invisible(lapply(
-        seq_along(unique(data[[3]])), function(i)
-          with(data[data[[names(data)[3]]] == unique(data[[3]])[i], ],
-               lines(time, n, col = cols[i]))
-      ))
-      legend("topleft", unique(data[[3]]), bty = "n", inset = 0,
-             col = cols, lwd = rep(1, length(unique(data[[3]]))))
-    } else {
-      with(data, plot(time, n, ..., type = "l"))
-    }
-  }
-}
-
-
-ggcols <- function(n) {
-  hues = seq(15, 375, length = n + 1)
-  hcl(h = hues, l = 65, c = 100)[1:n]
-}
-
-#' apply functions to data frame by group
-#'
-#' @param data Data frame.
-#' @param group Name of grouping variable.
-#' @param f Function to be applied to data frame for each group.
-#' @param \dots Args passed along to function.
-#' @noRd
-groupfun <- function(data, group, f, ...) {
-  data <- lapply(
-    unique(data[[group]]),
-    function(x) {
-      dg <- f(data[data[[group]] == x, ], ...)
-      dg[[group]] <- x
-      dg
-    })
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    tibble::as_tibble(do.call("rbind", data))
-  } else {
-    do.call("rbind", data)
-  }
-}
 
 #' ts data
 #'
@@ -106,13 +14,22 @@ groupfun <- function(data, group, f, ...) {
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @export
 ts_data <- function(data, by = "days", group = NULL, ...) {
-  do.call("ts_data.default", list(data = data, by = by, group = group, ...))
+  do.call("ts_data_", list(data = data, by = by, group = group, ...))
 }
 
-ts_data.default <- function(data, by = "days", group = NULL, ...) {
+
+ts_data_ <- function(data, by = "days", group = NULL, ...) {
   if (inherits(data, "grouped_df")) {
-    group <- names(attr(data, "labels"))
-    data <- data.frame(data)
+    indices <- attr(data, "indices")
+    group_vars <- paste0("g", seq_along(indices))
+    data <- lapply(indices, function(x) data[x, ])
+    for (i in seq_along(data)) {
+      if (nrow(data[[i]]) > 0L) {
+        data[[i]]$group_var <- group_vars[i]
+      }
+    }
+    data <- do.call("rbind", data)
+    group <- "group_var"
   }
   if (!is.null(group)) {
     groupfun(data, group, aggregate_time, by, ...)
@@ -121,6 +38,38 @@ ts_data.default <- function(data, by = "days", group = NULL, ...) {
   }
 }
 
+
+
+#' apply functions to data frame by group
+#'
+#' @param data Data frame.
+#' @param group Name of grouping variable.
+#' @param f Function to be applied to data frame for each group.
+#' @param \dots Args passed along to function.
+#' @noRd
+groupfun <- function(data, group, f, ...) {
+  data <- lapply(
+    unique(data[[group]]),
+    function(x) {
+      dg <- f(data[data[[group]] == x, ], ...)
+      dg[[group]] <- x
+      dg
+    })
+  tibble::as_tibble(do.call("rbind", data))
+}
+
+groupsfun <- function(data, groups, f, ...) {
+  data <- lapply(groups, function(x) groupfun(data, x, f, ...))
+  for (i in seq_along(data)) {
+    nacols <- vapply(groups, function(x) has_name_(data[[i]], x), FUN.VALUE = logical(1))
+    if (sum(nacols) > 0L) {
+      for (j in seq_along(nacols)) {
+        data[[i]][[j]] <- NA_character_
+      }
+    }
+  }
+  tibble::as_tibble(do.call("rbind", data))
+}
 
 
 #' aggregate (count) tweets by time
@@ -144,7 +93,7 @@ aggregate_time <- function(dt, by = "days", trim = TRUE, ...) {
   dt <- sort(na_omit(dt))
   .unit <- parse_unit(by)
 
-  dt <- round_time(dt, .unit)
+  dt <- round_time(dt, by)
   dt <- trim_time(dt, by, ...)
   dtb <- table(dt)
 
@@ -189,6 +138,7 @@ trim_time <- function(dt, by, tz = "UTC", ...) {
 }
 
 parse_unit <- function(by) {
+  stopifnot(is.atomic(by))
   if (is.numeric(by)) {
     n <- by
   } else if (grepl("year", by)) {
@@ -216,3 +166,54 @@ parse_unit <- function(by) {
   n * x
 }
 
+
+#' round_time
+#'
+#' Aggregates POSIXct object
+#'
+#' @param x Vector of class POSIXct.
+#' @param interval Amount, in seconds, of aggregated window of time.
+#' @param center Logical indicating whether to center datetime value at interval
+#'   midpoint.
+#' @export
+round_time <- function(x, interval = 60, center = TRUE) {
+  stopifnot(inherits(x, "POSIXct"))
+  ## parse interval
+  interval <- parse_unit(interval)
+  ## round off to lowest value
+  rounded <- floor(as.numeric(x) / interval) * interval
+  if (center) {
+    ## center so value is interval mid-point
+    rounded <- rounded + round(interval * .5, 0)
+  }
+  ## return to date-time
+  as.POSIXct(rounded, origin = "1970-01-01")
+}
+
+
+#' trim_ts
+#'
+#' @param x Time series Twitter data.
+#' @param group Name of grouping variable. Default (NULL) will use
+#'   variable of grouped data frames or look for variables labelled
+#'   "group" or "filter". Set this to FALSE to override these defaults.
+#' @return Trimmed data frame
+#' @noRd
+trim_ts <- function(x, group = NULL) {
+  if (all(is.null(group), inherits(x, "grouped_df"))) {
+    group <- attr(x, "vars")
+  } else if (all(is.null(group), "group" %in% names(x))) {
+    group <- "group"
+  } else if (all(is.null(group), "filter" %in% names(x))) {
+    group <- "filter"
+  }
+  if (any(is.null(group), identical(group, FALSE))) {
+    n <- nrow(x)
+  } else {
+    n <- sum(x[[group]] == x[[group]][1])
+  }
+  nope <- c(seq(1, nrow(x), n), seq(n, nrow(x), n))
+  x <- x[-nope, ]
+  row.names(x) <- NULL
+  x
+}

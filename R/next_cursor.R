@@ -1,10 +1,9 @@
 #' next_cursor
 #'
-#' Returns next cursor value from ids object. Return
-#'   object used to retrieve next page of results from API request.
+#' Method for returning next value (used to request next page or results)
+#' object returned from Twitter APIs.
 #'
-#' @param ids Data frame of Twitter IDs generated via
-#'   \code{\link{get_followers}} or \code{\link{get_friends}}.
+#' @param x Data object returned by Twitter API.
 #'
 #' @examples
 #' \dontrun{
@@ -36,15 +35,58 @@
 #'   Modify previous data request function by entering the returned
 #'   value from \code{next_cursor} for the \code{page} argument.
 #' @aliases next_page cursor_next
-#' family ids
+#' @family ids
+#' @family extractors
 #' @export
-next_cursor <- function(ids) {
-  x <- attr(ids, "next_cursor")
-  if (is.numeric(x)) {
-    op <- options()
-    on.exit(options(op))
-    options(scipen = 14)
-    x <- as.character(x)
+next_cursor <- function(x) UseMethod("next_cursor")
+
+
+#next_cursor_ <- function(ids) {
+#  x <- attr(ids, "next_cursor")
+#  if (is.numeric(x)) {
+#    op <- options()
+#    on.exit(options(op))
+#    options(scipen = 14)
+#    x <- as.character(x)
+#  }
+#  x
+#}
+
+
+
+next_cursor.default <- function(x) return_last(x)
+
+next_cursor.numeric <- function(x) {
+  op <- options()
+  on.exit(options(op))
+  options(scipen = 14)
+  x <- as.character(x)
+  NextMethod()
+}
+
+next_cursor.character <- function(x) {
+  return_last(x)
+}
+
+next_cursor.data.frame <- function(x) {
+  if (has_name_(x, "next_cursor_str")) return(x[["next_cursor_str"]])
+  if (has_name_(attributes(x), "next_cursor")) return(attr(x, "next_cursor"))
+  x <- x[[grep("id$", names(x))[1]]]
+  NextMethod()
+}
+
+next_cursor.list <- function(x) {
+  if (has_name_(x, "next_cursor_str")) return(x[["next_cursor_str"]])
+  if (has_name_(x, "next_cursor")) return(x[["next_cursor"]])
+  if (!is.null(names(x))) {
+    x <- list(x)
   }
-  x
+  x <- lapply(x, function(x) x[[grep("id$", names(x))[1]]])
+  x <- unlist(lapply(x, next_cursor))
+  return_last(x)
+}
+
+next_cursor.response <- function(x) {
+  x <- from_js(x)
+  NextMethod()
 }

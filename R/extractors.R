@@ -23,6 +23,7 @@
 #' @return Users data frame from tweets returned in a tweets data object.
 #' @aliases user_data data_user data_users
 #' @family users
+#' @family extractors
 #' @export
 users_data <- function(tweets) {
   if (!is.recursive(tweets)) return(data.frame())
@@ -65,6 +66,7 @@ users_data <- function(tweets) {
 #'
 #' @aliases tweet_data data_tweet data_tweets
 #' @family tweets
+#' @family extractors
 #' @export
 tweets_data <- function(users) {
   if (!is.recursive(users)) return(data.frame())

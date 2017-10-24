@@ -53,3 +53,14 @@ Returns a timeline of tweets authored by members of the specified
 list. Retweets are included by default. Use the include_rts=false
 parameter to omit retweets.
 }
+\seealso{
+Other lists: \code{\link{lists_members}},
+  \code{\link{lists_subscribers}},
+  \code{\link{lists_users}}
+
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{get_timeline_}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_data}}
+}

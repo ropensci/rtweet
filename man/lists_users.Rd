@@ -27,8 +27,18 @@ an R list. Defaults to TRUE.}
 data
 }
 \description{
-Returns all lists the authenticating or specified user subscribes to,
-  including their own. The user is specified using the user_id or
-  screen_name parameters. If no user is given, the authenticating
+Returns all lists a specified user subscribes to,
+  including their own. If no user is given, the authenticating
   user is used.
+}
+\examples{
+\dontrun{
+## get lists subsribed to by Nate Silver
+lists_users("NateSilver538")
+}
+}
+\seealso{
+Other lists: \code{\link{lists_members}},
+  \code{\link{lists_statuses}},
+  \code{\link{lists_subscribers}}
 }

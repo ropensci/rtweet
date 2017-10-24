@@ -4,20 +4,54 @@
 \alias{get_friends}
 \title{GET friends/ids}
 \usage{
-get_friends(users, retryonratelimit = FALSE, ...)
+get_friends(users, n = 5000, retryonratelimit = FALSE, page = "-1",
+  parse = TRUE, verbose = TRUE, token = NULL)
 }
 \arguments{
-\item{users}{Screen name or user ID of target user from which the user IDs
-of friends (accounts followed BY target user) will be retrieved.}
+\item{users}{Screen name or user ID of target user from which the
+user IDs of friends (accounts followed BY target user) will be
+retrieved.}
 
-\item{retryonratelimit}{If you'd like to retrieve 5,000 or fewer friends for
-more than 15 target users, then set \code{retryonratelimit = TRUE} and
-this function will use \code{\link{Sys.sleep}} until rate limits reset and
-the desired number of friend networks is retrieved. This defaults
-to FALSE. See details for more info regarding possible issues with timing
-misfires.}
+\item{n}{Number of friends (user IDs) to return. Defaults to 5,000,
+which is the maximum returned by a single API call. Users are
+limited to 15 of these requests per 15 minutes. Twitter limits
+the number of friends a user can have to 5,000. To follow more
+than 5,000 accounts (to have more than 5 thousand "friends")
+accounts must meet certain requirements (e.g., a certain ratio of
+followers to friends). Consequently, the vast majority of users
+follow fewer than five thousand accounts. This function has been
+oriented accordingly (i.e., it assumes the maximum value of n is
+5000). To return more than 5,000 friends for a single user, call
+this function multiple times with requests after the first using
+the \code{page} parameter.}
 
-\item{...}{For other possible args see \code{\link{get_friends.default}}.}
+\item{retryonratelimit}{If you'd like to retrieve 5,000 or fewer
+friends for more than 15 target users, then set
+\code{retryonratelimit = TRUE} and this function will use
+\code{\link{Sys.sleep}} until rate limits reset and the desired
+number of friend networks is retrieved. This defaults to
+FALSE. See details for more info regarding possible issues with
+timing misfires.}
+
+\item{page}{Default \code{page = -1} specifies first page of json
+results. Other pages specified via cursor values supplied by
+Twitter API response object. This is only relevant if a user has
+over 5000 friends (follows more than 5000 accounts).}
+
+\item{parse}{Logical, indicating whether to return parsed vector or
+nested list (fromJSON) object. By default, \code{parse = TRUE}
+saves you the time [and frustrations] associated with
+disentangling the Twitter API return objects.}
+
+\item{verbose}{Logical indicating whether or not to include output
+messages. Defaults to TRUE, which includes printing a success message
+for each inputted user.}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 }
 \value{
 A tibble data frame with two columns, "user" for name or ID of target
@@ -37,4 +71,20 @@ When \code{retryonratelimit = TRUE} this function internally
   for a second time) until the next rate limit reset. Users should monitor
   and test this before making especially large calls as any systematic issues
   could create sizable inefficiencies.
+}
+\examples{
+\dontrun{
+## get user ids of accounts followed by Donald Trump
+(djt <- get_friends("realDonaldTrump"))
+
+## get user ids of accounts followed by (friends) KFC, Trump, and Nate Silver.
+(fds <- get_friends(c("kfc", "jack", "NateSilver538")))
+
+}
+}
+\seealso{
+\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
+
+Other ids: \code{\link{get_followers}},
+  \code{\link{max_id}}
 }

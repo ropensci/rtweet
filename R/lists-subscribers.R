@@ -28,7 +28,16 @@
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
-lists_subscribers <- function(list_id,
+#' @examples
+#' \dontrun{
+#' ## get subscribers of new york times politics list
+#' rstats <- lists_subscribers(slug = "new-york-times-politics", owner_user = "nytpolitics", n = 1000)
+#'
+#' }
+#' @family lists
+#' @family users
+#' @export
+lists_subscribers <- function(list_id = NULL,
                               slug = NULL,
                               owner_user = NULL,
                               n = 20,
@@ -46,7 +55,7 @@ lists_subscribers <- function(list_id,
   )
 }
 
-lists_subscribers_ <- function(list_id,
+lists_subscribers_ <- function(list_id = NULL,
                                slug = NULL,
                                owner_user = NULL,
                                n = 20,
@@ -124,4 +133,3 @@ lists_subscribers_call <- function(list_id = NULL,
   attr(r, "next_cursor") <- next_cursor
   r
 }
-

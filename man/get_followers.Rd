@@ -4,7 +4,8 @@
 \alias{get_followers}
 \title{GET followers/ids}
 \usage{
-get_followers(user, n = 5000, retryonratelimit = FALSE, ...)
+get_followers(user, n = 5000, page = "-1", retryonratelimit = FALSE,
+  parse = TRUE, verbose = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user ID of target user from which the user IDs
@@ -13,7 +14,16 @@ of followers will be retrieved.}
 \item{n}{Number of followers to return. Defaults to 5000, which is the max
 number of followers returned by a single API request. Twitter allows up
 to 15 of these requests every 15 minutes, which means 75,000 is the max
-number of followers to return without waiting for the rate limit to reset.}
+number of followers to return without waiting for the rate limit to reset.
+If this number exceeds either 75,000 or the remaining number of possible
+requests for a given token, then the returned object will only return what
+it can (less than n) unless retryonratelimit is set to true.}
+
+\item{page}{Default \code{page = -1} specifies first page of json
+results. Other pages specified via cursor values supplied by
+Twitter API response object. If \code{parse = TRUE} then the cursor
+value can be extracted from the return object by using the
+\code{next_cursor} function.}
 
 \item{retryonratelimit}{If you'd like to retrieve more than 75,000 followers
 in a single call, then set \code{retryonratelimit = TRUE} and this function
@@ -22,7 +32,19 @@ is achieved or the number of total followers is exhausted. This defaults
 to FALSE. See details for more info regarding possible issues with timing
 misfires.}
 
-\item{...}{For other possible arguments see \code{\link{get_followers.default}}.}
+\item{parse}{Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+\code{parse = TRUE} saves you the time [and frustrations]
+associated with disentangling the Twitter API return objects.}
+
+\item{verbose}{Logical indicating whether or not to print messages.
+Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
+sleep times and followers gathered counts.}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
 }
 \value{
 A tibble data frame of follower IDs (one column named "user_id").
@@ -41,4 +63,35 @@ When \code{retryonratelimit = TRUE} this function internally
   for a second time) until the next rate limit reset. Users should monitor
   and test this before making especially large calls as any systematic issues
   could create sizable inefficiencies.
+}
+\examples{
+\dontrun{
+## get 5000 ids of users following the KFC account
+(kfc <- get_followers("KFC"))
+
+## get max number [per fresh token] of POTUS follower IDs
+(pres <- get_followers("potus", n = 75000))
+
+## resume data collection (warning: rate limits reset every 15 minutes)
+pres2 <- get_followers("potus", n = 75000, page = next_cursor(pres))
+
+## store next cursor in object before merging data
+nextpage <- next_cursor(pres2)
+
+## merge data frames
+pres <- rbind(pres, pres2)
+
+## store next cursor as an attribute in the merged data frame
+attr(pres, "next_cursor") <- next_page
+
+## view merged ddata
+pres
+
+}
+
+}
+\seealso{
+\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
+
+Other ids: \code{\link{get_friends}}, \code{\link{max_id}}
 }

@@ -131,8 +131,9 @@ world.old <- stream_tweets(
 ## read in json file
 rtworld <- parse_stream("word-tweets.json")
 
-## word with coords
-x <- mutate.coords(rtworld)
+## world data set with with lat lng coords variables
+x <- lat_lng(rtworld)
+
 }
 
 }
@@ -141,6 +142,7 @@ x <- mutate.coords(rtworld)
 
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline_}},
+  \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}}
 }

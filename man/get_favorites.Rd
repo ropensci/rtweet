@@ -54,6 +54,7 @@ favs
 }
 \seealso{
 Other tweets: \code{\link{get_timeline_}},
+  \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
   \code{\link{tweets_data}}

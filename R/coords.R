@@ -1,43 +1,36 @@
-#' mutate_coords
-#'
-#' Initializes rt plotting sequence
-#'
-#' @param data Data frame generated via rtweet function.
-#' @aliases mutate_coords
-#' @export
-mutate_coords <- function(data) {
-  mutate.coords(data)
-}
-
-na_omit <- function(x) {
-  x[!is.na(x)]
-}
 
 #' lookup_coords
 #'
 #' Returns coordinates using google geocode api
 #'
 #' @param address Desired location typically in the form of placename,
-#'   subregion, e.g., \code{"lawrence, KS"}. Also accepts the name of
-#'   countries, e.g., \code{"usa"}, \code{"brazil"} or states, e.g.,
-#'   \code{"missouri"} or cities, e.g., \code{"chicago"}. In most
-#'   cases using only address should be suffice.
+#'   subregion, e.g., \code{address = "lawrence, KS"}. Also accepts the name of
+#'   countries, e.g., \code{address = "usa"}, \code{address = "brazil"} or
+#'   states, e.g., \code{address = "missouri"} or cities, e.g.,
+#'   \code{address = "chicago"}. In most cases using only address should be
+#'   sufficient.
 #' @param components Unit of analysis for address e.g.,
-#'    \code{"country:US"}. Potential components include postal_code,
-#'    country, administrative_area, locality, route.
-#' @param \dots Additional args passed along to params portion of
-#'    http request
+#'   \code{components = "country:US"}. Potential components include
+#'   postal_code, country, administrative_area, locality, route.
+#' @param \dots Additional args passed as parameters in the http reqeust
 #' @return Object of class coords.
 #' @examples
 #' \dontrun{
+#' ## get coordinates associated with the following addresses/components
 #' sf <- lookup_coords("san francisco, CA", "country:US")
 #' usa <- lookup_coords("usa")
 #' lnd <- lookup_coords("london")
 #' bz <- lookup_coords("brazil")
 #'
-#' search_tweets(geocode = bz)
+#' ## pass a returned coords object to search_tweets
+#' bztw <- search_tweets(geocode = bz)
+#'
+#' ## or stream tweets
+#' ustw <- stream_tweets(usa, timeout = 10)
+#'
 #' }
 #' @importFrom jsonlite fromJSON
+#' @family geo
 #' @export
 lookup_coords <- function(address, components = NULL, ...) {
   if (missing(address)) stop("must supply address", call. = FALSE)

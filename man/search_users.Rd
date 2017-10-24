@@ -62,6 +62,6 @@ users_data(hrc)
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other users: \code{\link{lookup_users}},
-  \code{\link{users_data}}
+Other users: \code{\link{lists_subscribers}},
+  \code{\link{lookup_users}}, \code{\link{users_data}}
 }

@@ -3,7 +3,7 @@
 #' Returns a timeline of tweets authored by members of the specified
 #' list. Retweets are included by default. Use the include_rts=false
 #' parameter to omit retweets.
-#' 
+#'
 #' @param list_id required The numerical id of the list.
 #' @param slug required You can identify a list by its slug instead of
 #'   its numerical id. If you decide to do so, note that you'll also have
@@ -31,6 +31,8 @@
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
+#' @family lists
+#' @family tweets
 #' @return data
 lists_statuses <- function(list_id = NULL,
                            slug = NULL,

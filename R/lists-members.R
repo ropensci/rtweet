@@ -11,16 +11,13 @@
 #'   owner_user parameters.
 #' @param owner_user optional The screen name or user ID of the user
 #'   who owns the list being requested by a slug.
-#' @param n optional Specifies the number of results to return
+#' @param n Specifies the number of results to return
 #'   per page (see cursor below). The default is 20, with a maximum
 #'   of 5,000.
-#' @param cursor semi-optional Causes the collection of list members
-#'   to be broken into "pages" of consistent sizes (specified by
-#'   the count parameter). If no cursor is provided, a
-#'   value of -1 will be assumed, which is the first "page."
-#'   The response from the API will include a previous_cursor
-#'   and next_cursor to allow paging back and forth. See Using
-#'   cursors to navigate collections for more information.
+#' @param cursor optional Breaks the results into pages. Provide a
+#'   value of -1 to begin paging. Provide values as returned in the
+#'   response body's next_cursor and previous_cursor attributes to
+#'   page back and forth in the list.
 #' @param parse Logical indicating whether to convert the response object into
 #'   an R list. Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
@@ -29,7 +26,20 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @param ... Other args used as parameters in query composition.
-#' @return data
+#' @return Either a nested list (if parsed) or an http response object.
+#' @examples
+#' \dontrun{
+#' ## get list memebers for a list of polling experts using list_id
+#' (pollsters <- lists_members("105140588"))
+#'
+#' ## get list members for a rstats list using list slug and the screen name
+#' ## of the list owner
+#' rstats <- lists_members(slug = "rstats", owner_user = "scultrera")
+#' rstats
+#'
+#' }
+#' @family lists
+#' @rdname lists_members
 #' @export
 lists_members <- function(list_id = NULL,
                           slug = NULL,
@@ -66,4 +76,3 @@ lists_members <- function(list_id = NULL,
   }
   r
 }
-
