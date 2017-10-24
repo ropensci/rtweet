@@ -4,7 +4,8 @@
 \alias{get_timeline}
 \title{Get timeline}
 \usage{
-get_timeline(user, n = 100, ...)
+get_timeline(user, n = 100, max_id = NULL, home = FALSE, parse = TRUE,
+  check = TRUE, token = NULL, ...)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
@@ -12,11 +13,65 @@ get_timeline(user, n = 100, ...)
 \item{n}{Number of tweets to return per timeline. Defaults to 100.
 Must be of length 1 or equal to length of user.}
 
-\item{\dots}{Other arguments passed on to \code{get_timeline}.}
+\item{max_id}{Character, status_id from which returned tweets should be older
+than.}
+
+\item{home}{Logical, indicating whether to return a user-timeline or
+home-timeline. By default, home is set to FALSe, which means
+\code{get_timeline} returns tweets posted by the given user. To return a
+user's home timeline feed, that is, the tweets posted by accounts followed
+by a user, set the home to false.}
+
+\item{parse}{Logical, indicating whether to return parsed (data.frames) or
+nested list (fromJSON) object. By default, \code{parse = TRUE} saves users
+from the time [and frustrations] associated with disentangling the Twitter
+API return objects.}
+
+\item{check}{Logical indicating whether to remove check available rate limit.
+Ensures the request does not exceed the maximum remaining number of calls.
+Defaults to TRUE.}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions on how
+to create tokens and setup an environment variable in the tokens vignette
+(in r, send \code{?tokens} to console).}
+
+\item{...}{Futher arguments passed on as parameters in API query.}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.
 }
 \description{
 Returns one or more user timelines (tweets posted by target user(s))
+}
+\examples{
+\dontrun{
+## get most recent 3200 tweets posted by Donald Trump's account
+djt <- get_timeline("realDonaldTrump", n = 3200)
+
+## data frame where each observation (row) is a different tweet
+djt
+
+## users data for realDonaldTrump is also retrieved
+users_data(djt)
+
+## retrieve timelines of mulitple users
+tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
+
+## it's returned as one data frame
+tmls
+
+## count observations for each timeline
+table(tmls$screen_name)
+
+}
+}
+\seealso{
+\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
+
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{lists_statuses}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_data}}
 }

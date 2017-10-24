@@ -22,10 +22,6 @@ get_max_id <- function(x, adj = -1L) {
 }
 
 
-#' max_id
-#'
-#' @inheritParams next_cursor
-#' @return Character string containing the oldest ID associated with supplied data.
 #' @rdname next_cursor
 #' @export
 max_id <- function(x) UseMethod("max_id")

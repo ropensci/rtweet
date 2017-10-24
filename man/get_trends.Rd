@@ -4,18 +4,26 @@
 \alias{get_trends}
 \title{GET trends/place}
 \usage{
-get_trends(woeid = 1, ...)
+get_trends(woeid = 1, exclude = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or
 character string of desired town or country. To browse all
 available trend places, see \code{\link{trends_available}}}
 
-\item{...}{For more info on all possible arguments see
-\code{\link{get_trends.default}}.}
+\item{exclude}{Logical, indicating whether or not to exclude
+hashtags}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send \code{?tokens} to console).}
+
+\item{parse}{Logical, indicating whether or not to parse return
+trends data.}
 }
 \value{
-Trend data for a given location.
+Tibble data frame of trends data for a given geographical area.
 }
 \description{
 Returns Twitter trends
@@ -38,8 +46,6 @@ ww_trends
 
 }
 \seealso{
-Other trends: \code{\link{find_woeid}},
-  \code{\link{get_trends.default}},
-  \code{\link{get_trends_closest}},
+Other trends: \code{\link{get_trends_closest}},
   \code{\link{trends_available}}
 }

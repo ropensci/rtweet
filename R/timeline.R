@@ -29,23 +29,6 @@ get_timeline_call <- function(user, n = 100, ...) {
 #' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user.
-#' @param \dots Other arguments passed on to \code{get_timeline}.
-#' @return A tbl data frame of tweets data with users data attribute.
-#' @export
-get_timeline <- function(user, n = 100, ...) {
-  do.call("get_timeline_call", list(user = user, n = n, ...))
-}
-
-
-#' get_timeline_
-#'
-#' @description Returns timeline of tweets from a specified Twitter user. By
-#'   default, get_timeline returns tweets posted by a given user. To return a
-#'   user's timeline feed, that is, tweets posted by accounts you follow, set
-#'   the home argument to true.
-#'
-#' @param user Screen name or user id of target user.
-#' @param n Numeric, number of tweets to return.
 #' @param max_id Character, status_id from which returned tweets should be older
 #'   than.
 #' @param home Logical, indicating whether to return a user-timeline or
@@ -64,30 +47,52 @@ get_timeline <- function(user, n = 100, ...) {
 #'   non-exhausted token from an environment variable. Find instructions on how
 #'   to create tokens and setup an environment variable in the tokens vignette
 #'   (in r, send \code{?tokens} to console).
-#' @param \dots Futher arguments passed on to \code{make_url}. All named
-#'   arguments that do not match the above arguments (i.e., count, type, etc.)
-#'   will be built into the request. To return only English language tweets, for
-#'   example, use \code{lang = "en"}. Or, to exclude retweets, use
-#'   \code{include_rts = FALSE}. For more options see Twitter's API
-#'   documentation.
-#'
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @param ... Futher arguments passed on as parameters in API query.
+#' @return A tbl data frame of tweets data with users data attribute.
+#' @seealso \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
 #' @examples
 #' \dontrun{
-#' # get 2000 from Donald Trump's account
-#' djt <- get_timeline("realDonaldTrump", n = 2000)
+#' ## get most recent 3200 tweets posted by Donald Trump's account
+#' djt <- get_timeline("realDonaldTrump", n = 3200)
 #'
-#' # data frame where each observation (row) is a different tweet
+#' ## data frame where each observation (row) is a different tweet
 #' djt
 #'
-#' # users data for realDonaldTrump is also retrieved.
-#' # access it via users_data() users_data(hrc)
+#' ## users data for realDonaldTrump is also retrieved
 #' users_data(djt)
+#'
+#' ## retrieve timelines of mulitple users
+#' tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
+#'
+#' ## it's returned as one data frame
+#' tmls
+#'
+#' ## count observations for each timeline
+#' table(tmls$screen_name)
+#'
 #' }
-#' @return List consisting of two data frames. One with the tweets data for a
-#'   specified user and the second is a single row for the user provided.
 #' @family tweets
 #' @export
+get_timeline <- function(user,
+                         n = 100,
+                         max_id = NULL,
+                         home = FALSE,
+                         parse = TRUE,
+                         check = TRUE,
+                         token = NULL,
+                         ...) {
+  args <- list(
+    user = user,
+    n = n,
+    max_id = max_id,
+    parse = parse,
+    check = check,
+    token = token
+  )
+  do.call("get_timeline_call", args)
+}
+
+
 get_timeline_ <- function(user,
                           n = 200,
                           max_id = NULL,
@@ -156,45 +161,3 @@ get_timeline_ <- function(user,
   }
   tm
 }
-
-
-#' get timelines
-#'
-#' @param users Vector user names and or user IDs. Can be mixture of both.
-#' @param n Number of desired tweets to return per user. Must be either one
-#'   value or the same length as supplied number of users.
-#' @param parse Logical, indicating whether to return parsed vector or nested
-#'   list (fromJSON) object. By default, \code{parse = TRUE} saves you the time
-#'   [and frustrations] associated with disentangling the Twitter API return
-#'   objects.
-#' @param \dots Other args passed along to get_timeline.
-#' @examples
-#' \dontrun{
-#' rt <- get_timelines(
-#'   users = c("hadleywickham", "hspter", "rdpeng", "calbon", "dataandme"),
-#'   n = 400
-#' )
-#' }
-#' @return Data frame or if parse is false then list.
-get_timelines2 <- function(users, n = 200, parse = TRUE, ...) {
-  stopifnot(is.atomic(users), is.numeric(n))
-  if (length(n) > 1L) {
-    stopifnot(length(users) == length(n))
-    n <- n[!is.na(users)]
-  }
-  users <- na_omit(users)
-  usrs <- Map(
-    get_timeline,
-    user = users,
-    n = n,
-    parse = parse,
-    USE.NAMES = FALSE
-  )
-  if (parse) {
-    tweets <- do.call("rbind", lapply(usrs, users_data))
-    usrs <- do.call("rbind", usrs)
-    attr(usrs, "tweets") <- tweets
-  }
-  usrs
-}
-

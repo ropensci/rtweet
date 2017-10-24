@@ -3,9 +3,7 @@
 \name{max_id}
 \alias{max_id}
 \alias{next_cursor}
-\alias{next_page}
-\alias{cursor_next}
-\title{max_id}
+\title{next_cursor/max_id}
 \usage{
 max_id(x)
 
@@ -15,8 +13,6 @@ next_cursor(x)
 \item{x}{Data object returned by Twitter API.}
 }
 \value{
-Character string containing the oldest ID associated with supplied data.
-
 Character string of next cursor value used to retrieved
   the next page of results. This should be used to resume data
   collection efforts that were interrupted by API rate limits.
@@ -24,10 +20,8 @@ Character string of next cursor value used to retrieved
   value from \code{next_cursor} for the \code{page} argument.
 }
 \description{
-max_id
-
 Method for returning next value (used to request next page or results)
-object returned from Twitter APIs.
+  object returned from Twitter APIs.
 }
 \examples{
 \dontrun{

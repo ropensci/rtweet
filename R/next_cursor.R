@@ -1,7 +1,7 @@
-#' next_cursor
+#' next_cursor/max_id
 #'
 #' Method for returning next value (used to request next page or results)
-#' object returned from Twitter APIs.
+#'   object returned from Twitter APIs.
 #'
 #' @param x Data object returned by Twitter API.
 #'
@@ -34,9 +34,9 @@
 #'   collection efforts that were interrupted by API rate limits.
 #'   Modify previous data request function by entering the returned
 #'   value from \code{next_cursor} for the \code{page} argument.
-#' @aliases next_page cursor_next
 #' @family ids
 #' @family extractors
+#' @rdname next_cursor
 #' @export
 next_cursor <- function(x) UseMethod("next_cursor")
 

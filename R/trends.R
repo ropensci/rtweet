@@ -5,8 +5,14 @@
 #' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
 #'   character string of desired town or country. To browse all
 #'   available trend places, see \code{\link{trends_available}}
-#' @param ... For more info on all possible arguments see
-#'   \code{\link{get_trends.default}}.
+#' @param exclude Logical, indicating whether or not to exclude
+#'   hashtags
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
+#' @param parse Logical, indicating whether or not to parse return
+#'   trends data.
 #' @examples
 #' \dontrun{
 #' # Retrieve available trends
@@ -23,56 +29,38 @@
 #' ww_trends
 #' }
 #'
-#' @return Trend data for a given location.
+#' @return Tibble data frame of trends data for a given geographical area.
 #' @family trends
 #' @export
-get_trends <- function(woeid = 1, ...) {
-  do.call("get_trends.default", list(woeid = woeid, ...))
+get_trends <- function(woeid = 1,
+                       exclude = FALSE,
+                       token = NULL,
+                       parse = TRUE) {
+  args <- list(
+    woeid = woeid,
+    exclude = exclude,
+    token = token,
+    parse = parse)
+  do.call("get_trends.default", args)
 }
 
-#' get_trends.default
-#'
-#' Returns trend data by location
-#'
-#' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
-#'   character string of desired town or country. To browse all
-#'   available trend places, see \code{\link{trends_available}}
-#' @param exclude Logical, indicating whether or not to exclude
-#'   hashtags
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @param parse Logical, indicating whether or not to parse return
-#'   trends data.
-#' @return Tibble data frame of trends data.
-#' @family trends
-#' @export
 get_trends.default <- function(woeid = 1,
                                exclude = FALSE,
                                token = NULL,
                                parse = TRUE) {
 
   stopifnot(is.atomic(woeid), length(woeid) == 1)
-
   woeid <- check_woeid(woeid)
-
   query <- "trends/place"
-
   token <- check_token(token, query)
-
   params <- list(
     id = woeid,
     exclude = exclude)
-
   url <- make_url(
     query = query,
     param = params)
-
   gt <- TWIT(get = TRUE, url, token)
-
   gt <- from_js(gt)
-
   if (parse) {
     gt <- parse_trends(gt)
   }
@@ -206,22 +194,21 @@ format_trend_date <- function(x, date = FALSE) {
 #' @family trends
 #' @export
 trends_available <- function(token = NULL, parse = TRUE) {
-    query <- "trends/available"
-    token <- check_token(token, query)
-    url <- make_url(query = query,
-                    param = NULL)
-    trd <- TWIT(get = TRUE, url, token)
-    trd <- from_js(trd)
-    if (parse) trd <- parse_trends_available(trd)
-    trd
+  query <- "trends/available"
+  token <- check_token(token, query)
+  url <- make_url(query = query,
+                  param = NULL)
+  trd <- TWIT(get = TRUE, url, token)
+  trd <- from_js(trd)
+  if (parse) trd <- parse_trends_available(trd)
+  trd
 }
 
 parse_trends_available <- function(x) {
-    p <- cbind(data.frame(x[names(x) != "placeType"],
-                          stringsAsFactors = FALSE),
-               data.frame(x[["placeType"]],
-                          stringsAsFactors = FALSE))
-    names(p)[ncol(p)] <- "place_type"
-    p
+  p <- cbind(data.frame(x[names(x) != "placeType"],
+                        stringsAsFactors = FALSE),
+             data.frame(x[["placeType"]],
+                        stringsAsFactors = FALSE))
+  names(p)[ncol(p)] <- "place_type"
+  p
 }
-
