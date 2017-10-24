@@ -1,3 +1,10 @@
+# rtweet 0.5.0
+- Added access to direct messages, mentions, list subscriptions, list
+  users, list members, and list memberships
+- Various fixes to parsing, integrating tibble for output, and
+  streamling geolocation-related functions and data.
+- Fixed issues with streaming and parsing streamed data.
+
 # rtweet 0.4.9
 - Functions `get_timeline()`, `get_favorites()`, `get_friends()`, and
  `get_followers()` now accept vectors of length > 1.
@@ -8,23 +15,23 @@
 # rtweet 0.4.8
 - Support for additional APIs has been added--including APIs designed
   to return information related to lists and retweets.
-- The `post_status()` function has been fixed and can now be used to 
+- The `post_status()` function has been fixed and can now be used to
   upload media.
 - Several adjustments have been made in response to various changes in
   Twitter's APIs.
 - Thanks to all the great feedback on Github, numerous bug fixes
   and improvements have been included as well. In general, things
   should become a lot more stable across functions and data
-  structures. 
+  structures.
 
 # rtweet 0.4.7
 - The relatively lightweight tibble package is now a package dependency.
-- Speed boosts to parsing process. It's possible to convert from json to 
-  data frames in parallel, but I'm not sure minimal gains are worth the 
-  headache. Regardless, the current version should return more data, 
+- Speed boosts to parsing process. It's possible to convert from json to
+  data frames in parallel, but I'm not sure minimal gains are worth the
+  headache. Regardless, the current version should return more data,
   more reliably, and faster.
-- By default, functions now return data frames (tibbles) with recursive 
-  lists (e.g., the 3rd observation of `mentions_screen_name` may consist of 
+- By default, functions now return data frames (tibbles) with recursive
+  lists (e.g., the 3rd observation of `mentions_screen_name` may consist of
   4 screen names).
 - To revert back to the flattened/delim object, use the `flatten()` function.
   Exporting functions such as `save_as_csv` will apply flatten by default.
@@ -32,7 +39,7 @@
   `geo_coords`, and `bbox_coords` bounding box. The first two come in
   pairs of coords (a list column) and bbox_coords comes with 8
   values (longX4 latX4). This should allow users to maximize returns
-  on 
+  on
   geo-location data.
 
 # rtweet 0.4.6

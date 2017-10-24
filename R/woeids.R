@@ -32,7 +32,7 @@ is_zero <- function(x) isTRUE(identical(length(x), 0L))
 match_woeid <- function(x) {
   if (tolower(x) %in% c("world", "worldwide",
                         "world wide", "all")) {
-    return(1)
+    return("1")
   } else if (tolower(x) %in% c("us", "u.s.", "u s", "usa", "unitedstates")) {
     return("23424977")
   } else {
