@@ -44,5 +44,6 @@ tweets_data(usr_df)
 \url{https://dev.twitter.com/overview/documentation}
 
 Other users: \code{\link{lists_subscribers}},
-  \code{\link{search_users}}, \code{\link{users_data}}
+  \code{\link{search_users}},
+  \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }

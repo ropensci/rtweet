@@ -4,12 +4,23 @@
 #'
 #' @param x Vector of users (screen names).
 #' @return Vector of class screen_name.
+#' @examples
+#' \dontrun{
+#' get_friends(as_screen_name("1234"))
+#' as_screen_name(c("kearneymw", "1234"))
+#' }
 #' @export
 as_screen_name <- function(x) {
   stopifnot(is.atomic(x))
   x <- as.character(x)
   class(x) <- c("screen_name", class(x))
   x
+}
+
+`[.screen_name` <- function(x, i) {
+  x <- as.character(x)
+  x <- x[i]
+  as_screen_name(x)
 }
 
 print.screen_name <- function(x) {
@@ -34,6 +45,12 @@ as_user_id <- function(x) {
   x <- as.character(x)
   class(x) <- c("user_id", class(x))
   x
+}
+
+`[.user_id` <- function(x, i) {
+  x <- as.character(x)
+  x <- x[i]
+  as_screen_name(x)
 }
 
 print.user_id <- function(x) {

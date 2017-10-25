@@ -7,7 +7,7 @@
 #'   Must be of length 1 or equal to length of user.
 #' @param \dots Other arguments passed on to \code{search_tweets}.
 #' @return A tbl data frame with additional "query" feature.
-#' @export
+#' @noRd
 search_tweets_ <- function(q, n = 100, ...) {
   ## check inputs
   stopifnot(is.atomic(q), is.numeric(n))

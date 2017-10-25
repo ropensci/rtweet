@@ -43,5 +43,6 @@ users_data(statuses)
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
   \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}}
+  \code{\link{tweets_data}},
+  \code{\link{tweets_with_users}}
 }

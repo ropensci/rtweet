@@ -1,7 +1,27 @@
-#' tweets_with_users
+#' parsing
 #'
-#' @param x Data
-#' @return Tbl
+#' Parsing data into tweets/users data tibbles
+#'
+#' @param x Unparsed data returned by rtweet API request.
+#' @return A tweets/users tibble (data frame) with users/tweets tibble attribute.
+#' @family parsing
+#' @family tweets
+#' @rdname parsing
+#' @examples
+#' \dontrun{
+#' ## search with parse = FALSE
+#' rt <- search_tweets("rstats", n = 500, parse = FALSE)
+#'
+#' ## parse to tweets data tibble with users data attribute object
+#' tweets_with_users(rt)
+#'
+#' ## search with parse = FALSE
+#' usr <- search_users("rstats", n = 300, parse = FALSE)
+#'
+#' ## parse to users data tibble with users data attribute object
+#' users_with_tweets(usr)
+#'
+#' }
 #' @export
 tweets_with_users <- function(x) {
   if (is.null(x) || length(x) == 0L) {
@@ -17,10 +37,10 @@ tweets_with_users <- function(x) {
   tweets
 }
 
-#' users_with_tweets
-#'
-#' @param x Data
-#' @return Tbl
+#' @inheritParams tweets_with_users
+#' @family parsing
+#' @family users
+#' @rdname parsing
 #' @export
 users_with_tweets <- function(x) {
   if (is.null(x) || length(x) == 0L) {
@@ -44,27 +64,11 @@ users_with_tweets <- function(x) {
   users
 }
 
-##' tweets data
-##'
-##' Returns tweets data frame.
-##'
-##' @title tweets_df
-##' @param dat Nested list parsed from Twitter's returned json object.
-##' @return tbl
-##' @export
 tweets_df_ <- function(dat) {
   dat <- lapply(dat, tweets_to_tbl_)
   do.call("rbind", dat)
 }
 
-##' users data
-##'
-##' Returns users data frame.
-##'
-##' @title users_df
-##' @param x Nested list parsed from Twitter's returned json object.
-##' @return tbl
-##' @export
 users_df_ <- function(x) {
   x <- lapply(x, users_to_tbl_)
   do.call("rbind", x)

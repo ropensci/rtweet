@@ -45,7 +45,8 @@ head(users_data(r))
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}}
+  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{tweets_with_users}}
 
 Other extractors: \code{\link{max_id}},
   \code{\link{users_data}}

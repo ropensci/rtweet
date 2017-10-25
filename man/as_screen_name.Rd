@@ -15,3 +15,9 @@ Vector of class screen_name.
 \description{
 Forces user of type screen name.
 }
+\examples{
+\dontrun{
+get_friends(as_screen_name("1234"))
+as_screen_name(c("kearneymw", "1234"))
+}
+}

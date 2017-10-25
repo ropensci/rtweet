@@ -27,22 +27,13 @@ Returns Twitter trends based on requested WOEID.
 }
 \examples{
 \dontrun{
-# Retrieve available trends
-trends <- available_trends()
+## Retrieve available trends
+trends <- trends_available()
 trends
 
-# Store WOEID for Worldwide trends
-worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
-
-# Retrieve worldwide trends datadata
-ww_trends <- get_trends(woeid = Worldwide)
-
-# Preview Worldwide trends data
-ww_trends
 }
 
 }
 \seealso{
-Other trends: \code{\link{get_trends_closest}},
-  \code{\link{get_trends}}
+Other trends: \code{\link{get_trends}}
 }

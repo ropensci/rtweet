@@ -36,7 +36,8 @@ head(users_data(r))
 }
 \seealso{
 Other users: \code{\link{lists_subscribers}},
-  \code{\link{lookup_users}}, \code{\link{search_users}}
+  \code{\link{lookup_users}}, \code{\link{search_users}},
+  \code{\link{tweets_with_users}}
 
 Other extractors: \code{\link{max_id}},
   \code{\link{tweets_data}}

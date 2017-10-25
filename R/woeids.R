@@ -1,30 +1,34 @@
 
 find_woeid <- function(x) {
-  out <- NA_real_
-  if (length(match_woeid(x)) > 0) {
-    out <- match_woeid(x)
+  if (length(x) == 0L) {
+    warning(paste0(
+      "unable to find matching location.",
+      "Using WOEID for Worldwide trends instead."))
+    x <- "1"
+  } else if (length(match_woeid(x)) > 0L) {
+    x <- match_woeid(x)
   } else {
     warning(paste0(
       "unable to find matching location.",
       "Using WOEID for Worldwide trends instead."))
-    out <- 1
+    x <- "1"
   }
-  if (length(out) > 1) {
-    out <- out[1]
+  if (length(x) == 0L) {
+    warning(paste0(
+      "unable to find matching location.",
+      "Using WOEID for Worldwide trends instead."))
+    x <- "1"
   }
-  out
+  if (length(x) > 1L) {
+    x <- x[1L]
+  }
+  x
 }
 
 check_woeid <- function(x) {
-  out <- suppressWarnings(as.numeric(x))
-  if (is.na(out)) {
-    out <- find_woeid(x)
-  }
-  if (is_zero(out)) {
-    out <- 1
-  }
-  ##stopifnot(is.numeric(out))
-  out
+  if (is_n(x)) return(as.character(x))
+  x <- find_woeid(x)
+  as.character(x)
 }
 
 is_zero <- function(x) isTRUE(identical(length(x), 0L))

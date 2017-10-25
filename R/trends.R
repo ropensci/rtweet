@@ -3,8 +3,18 @@
 #' @description Returns Twitter trends
 #'
 #' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
-#'   character string of desired town or country. To browse all
-#'   available trend places, see \code{\link{trends_available}}
+#'   character string of desired town or country. Users may also supply
+#'   latitude and longitude coordinates to fetch the closest available trends
+#'   data given the provided location. Latitutde/longitude coordinates should
+#'   be provided as woeid value consisting of 2 numeric values or via one
+#'   lat value and one lng value (to the appropriately named parameters).
+#'   To browse all available trend places, see \code{\link{trends_available}}
+#' @param lat Optional alternative to woeid. Numeric, latitude in degrees.
+#'   If two coordinates are providded for woeid, this function will coerce the
+#'   first value to lat.
+#' @param lng Optional alternative to woeid. Numeric, longitude in degrees.
+#'   If two coordinates are providded for woeid, this function will coerce the
+#'   second value to lng.
 #' @param exclude Logical, indicating whether or not to exclude
 #'   hashtags
 #' @param token OAuth token. By default \code{token = NULL} fetches a
@@ -12,45 +22,85 @@
 #'   on how to create tokens and setup an environment variable in the
 #'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param parse Logical, indicating whether or not to parse return
-#'   trends data.
+#'   trends data. Defaults to true.
 #' @examples
 #' \dontrun{
-#' # Retrieve available trends
-#' trends <- available_trends()
+#' ## Retrieve available trends
+#' trends <- trends_available()
 #' trends
 #'
-#' # Store WOEID for Worldwide trends
-#' worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
+#' ## Store WOEID for Worldwide trends
+#' worldwide <- trends$woeid[grep("world", trends$name, ignore.case = TRUE)[1]]
 #'
-#' # Retrieve worldwide trends datadata
-#' ww_trends <- get_trends(woeid = worldwide)
+#' ## Retrieve worldwide trends datadata
+#' ww_trends <- get_trends(worldwide)
 #'
-#' # Preview trends data
+#' ## Preview trends data
 #' ww_trends
+#'
+#' ## Retrieve trends data using latitude, longitude near New York City
+#' nyc_trends <- get_trends_closest(lat = 40.7, lng = -74.0)
+#'
+#' ## should be same result if lat/long supplied as first argument
+#' nyc_trends <- get_trends_closest(c(40.7, -74.0))
+#'
+#' ## Preview trends data
+#' nyc_trends
+#'
+#' ## Provide a city or location name using a regular expression string to
+#' ## have the function internals do the woeid lookup/matching for you
+#' (luk <- get_trends("london"))
 #' }
 #'
 #' @return Tibble data frame of trends data for a given geographical area.
 #' @family trends
 #' @export
 get_trends <- function(woeid = 1,
+                       lat = NULL,
+                       lng = NULL,
                        exclude = FALSE,
                        token = NULL,
                        parse = TRUE) {
   args <- list(
     woeid = woeid,
+    lat = lat,
+    lng = lng,
     exclude = exclude,
     token = token,
     parse = parse)
-  do.call("get_trends.default", args)
+  do.call("get_trends_", args)
 }
 
-get_trends.default <- function(woeid = 1,
-                               exclude = FALSE,
-                               token = NULL,
-                               parse = TRUE) {
+is_latlng <- function(x) {
+  if (!is.numeric(x) || length(x) != 2L) return(FALSE)
+  x[1] <= 90 && x[1] >= -90 && x[2] <= 180 && x[2] >= -180
+}
 
-  stopifnot(is.atomic(woeid), length(woeid) == 1)
-  woeid <- check_woeid(woeid)
+get_trends_ <- function(woeid = 1,
+                        lat = NULL,
+                        lng = NULL,
+                        exclude = FALSE,
+                        token = NULL,
+                        parse = TRUE) {
+  if (is_latlng(woeid)) {
+    lat <- woeid[1]
+    lng <- woeid[2]
+  }
+  if (!is.null(lat) && !is.null(lng)) {
+    stopifnot(maybe_n(lat), maybe_n(lng))
+    woeid <- trends_closest(lat, lng, token = token)
+    woeid <- as.character(woeid$woeid[1])
+    if (length(woeid) == 0L || is.na(woeid)) {
+      stop("could not find woe id for provided lat/lng coordinates", call. = FALSE)
+    }
+  } else {
+    stopifnot(is.atomic(woeid), length(woeid) == 1)
+    if (!is_n(woeid)) {
+      trends <- trends_available(token = token)
+      woeid <- trends$woeid[grep(woeid, trends$name, ignore.case = TRUE)[1]]
+    }
+    woeid <- check_woeid(woeid)
+  }
   query <- "trends/place"
   token <- check_token(token, query)
   params <- list(
@@ -59,6 +109,7 @@ get_trends.default <- function(woeid = 1,
   url <- make_url(
     query = query,
     param = params)
+  rate_limit(get_tokens(), "get_trends")
   gt <- TWIT(get = TRUE, url, token)
   gt <- from_js(gt)
   if (parse) {
@@ -67,95 +118,46 @@ get_trends.default <- function(woeid = 1,
   gt
 }
 
-#' get_trends_closest
-#'
-#' @description Returns Twitter trends
-#'
-#' @param lat Numeric, Latitude in degrees
-#' @param long Numeric, Longitude in degrees
-#' @param exclude Logical, indicating whether or not to exclude
-#'   hashtags
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @param parse Logical, indicating whether or not to parse return
-#'   trends data.
-#'
-#' @examples
-#' \dontrun{
-#'
-#' # Retrieve trends data for latitude, longitude near New York City
-#' nyc_trends <- get_trends_closest(lat = 40.7, long=-74.0, token=twitter_token)
-#'
-#' # Preview trends data
-#' nyc_trends
-#' }
-#'
-#' @return Trend data closest to a given location.
-#' @family trends
-#' @export
-get_trends_closest <- function(lat = NULL,
-                               long = NULL,
-                               exclude = FALSE,
-                               token = NULL,
-                               parse = TRUE) {
-  query <- "trends/place"
 
-  stopifnot(!is.null(lat), !is.null(long))
-  token <- check_token(token, query)
-
-  woeid <- trends_closest(lat, long, token)$woeid
-
-  get_trends(woeid = woeid, exclude = exclude, token = token, parse = parse)
-}
-
-#' Get closest available location to given Lat, Long
-#'
-#' @description Uses the trends/closest API endpoint to get the
-#'  the closest location to a given Latitude, Longitude pair. Returns
-#'  a data frame describing the location.
-#' @param lat Latitude in degrees.
-#' @param long Longitude in degrees.
-#' @param token OAuth token.
-#' @examples
-#' \dontrun{
-#' # New York is ~ 40.7N, 74.0W
-#' nyc_woeid <- trends_closest(40.7, -74.0, twitter_token)
-#' }
-trends_closest <- function(lat, long, token) {
+trends_closest <- function(lat, long, token = NULL) {
   query <- "trends/closest"
   token <- check_token(token, query)
   url <- make_url(query = query,
-                  param = list(lat=lat, long=long))
+                  param = list(lat = lat, long = long))
   trd <- TWIT(get = TRUE, url, token)
   from_js(trd)
 }
 
 parse_trends <- function(x) {
-  trends <- data.frame(x$trends[[1]],
-                       stringsAsFactors = FALSE)
-  rows <- nrow(trends)
-  names(trends)[names(trends) == "name"] <- "trend"
-  trends <- cbind(
-    trends,
-    data.frame(
-      as_of = format_trend_date(rep(x$as_of, rows)),
-      created_at = format_trend_date(rep(x$created_at, rows)),
-      place = rep(x$locations[[1]]$name, rows),
-      woeid = rep(x$locations[[1]]$woeid, rows)),
-    stringsAsFactors = FALSE
-  )
-  tibble::as_tibble(trends, validate = FALSE)
+  if (!is.recursive(x) || !has_name_(x, "trends")) return(data.frame())
+  locations <- x$locations[[1]]
+  place <- var_or_na(locations$name)
+  woeid <- var_or_na(locations$woeid)
+  as_of <- format_trend_date(x$as_of)
+  created_at <- format_trend_date(x$created_at)
+  x <- x$trends[[1]]
+  if (!is.data.frame(x)) {
+    x <- as.data.frame(x, stringsAsFactors = FALSE)
+  }
+  names(x)[names(x) == "name"] <- "trend"
+  x$place <- place
+  x$woeid <- woeid
+  x$as_of <- as_of
+  x$created_at <- created_at
+  tibble::as_tibble(x, validate = FALSE)
 }
 
+var_or_na <- function(x) {
+  if (length(x) == 0L) return(NA_character_)
+  x
+}
 
-format_trend_date <- function(x, date = FALSE) {
+format_trend_date <- function(x) {
+  if (length(x) == 0L) return(as.POSIXct(NA_character_))
+  if (all(is.na(x))) return(as.POSIXct(NA_character_))
   x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ",
                   tz = Sys.timezone())
-  if (date) {
-    x <- as.Date(x)
-  }
+  if (all(is.na(x))) return(as.POSIXct(NA_character_))
   x
 }
 
@@ -175,18 +177,10 @@ format_trend_date <- function(x, date = FALSE) {
 #'
 #' @examples
 #' \dontrun{
-#' # Retrieve available trends
-#' trends <- available_trends()
+#' ## Retrieve available trends
+#' trends <- trends_available()
 #' trends
 #'
-#' # Store WOEID for Worldwide trends
-#' worldwide <- subset(trends, name == "Worldwide")[["woeid"]]
-#'
-#' # Retrieve worldwide trends datadata
-#' ww_trends <- get_trends(woeid = Worldwide)
-#'
-#' # Preview Worldwide trends data
-#' ww_trends
 #' }
 #'
 #' @return Data frame with WOEIDs. WOEID is a Yahoo! Where On
@@ -208,7 +202,8 @@ parse_trends_available <- function(x) {
   p <- cbind(data.frame(x[names(x) != "placeType"],
                         stringsAsFactors = FALSE),
              data.frame(x[["placeType"]],
-                        stringsAsFactors = FALSE))
+                        stringsAsFactors = FALSE),
+             stringsAsFactors = FALSE)
   names(p)[ncol(p)] <- "place_type"
-  p
+  tibble::as_tibble(p, validate = FALSE)
 }

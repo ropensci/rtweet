@@ -90,14 +90,14 @@ is_n <- function(n) {
   if (is.character(n)) {
     n <- suppressWarnings(as.numeric(n))
   }
-  if (all(
-    length(n) == 1,
-    is.numeric(n),
-    n > 0)) {
-    return(TRUE)
-  } else {
-    return(FALSE)
+  length(n) == 1L && is.numeric(n) && !is.na(n) && n > 0L
+}
+
+maybe_n <- function(x) {
+  if (is.character(x)) {
+    x <- suppressWarnings(as.numeric(x))
   }
+  length(x) == 1L && is.numeric(x) && !is.na(x)
 }
 
 is_url <- function(url) {
