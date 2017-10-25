@@ -20,16 +20,7 @@ ts_data <- function(data, by = "days", group = NULL, ...) {
 
 ts_data_ <- function(data, by = "days", group = NULL, ...) {
   if (inherits(data, "grouped_df")) {
-    indices <- attr(data, "indices")
-    group_vars <- paste0("g", seq_along(indices))
-    data <- lapply(indices, function(x) data[x, ])
-    for (i in seq_along(data)) {
-      if (nrow(data[[i]]) > 0L) {
-        data[[i]]$group_var <- group_vars[i]
-      }
-    }
-    data <- do.call("rbind", data)
-    group <- "group_var"
+    group <- names(attr(data, "labels"))[1]
   }
   if (!is.null(group)) {
     groupfun(data, group, aggregate_time, by, ...)
