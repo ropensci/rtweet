@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>next_cursor — next_cursor • rtweet</title>
+<title>next_cursor/max_id — max_id • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,23 +96,24 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>next_cursor</h1>
+    <h1>next_cursor/max_id</h1>
     </div>
 
     
-    <p>Returns next cursor value from ids object. Return
-  object used to retrieve next page of results from API request.</p>
+    <p>Method for returning next value (used to request next page or results)
+  object returned from Twitter APIs.</p>
     
 
-    <pre class="usage"><span class='fu'>next_cursor</span>(<span class='no'>ids</span>)</pre>
+    <pre class="usage"><span class='fu'>max_id</span>(<span class='no'>x</span>)
+
+<span class='fu'>next_cursor</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ids</th>
-      <td><p>Data frame of Twitter IDs generated via
-<code><a href='get_followers.html'>get_followers</a></code> or <code><a href='get_friends.html'>get_friends</a></code>.</p></td>
+      <th>x</th>
+      <td><p>Data object returned by Twitter API.</p></td>
     </tr>
     </table>
     
@@ -123,6 +124,13 @@
   collection efforts that were interrupted by API rate limits.
   Modify previous data request function by entering the returned
   value from <code>next_cursor</code> for the <code>page</code> argument.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other ids: <code><a href='get_followers.html'>get_followers</a></code>,
+  <code><a href='get_friends.html'>get_friends</a></code></p>
+<p>Other extractors: <code><a href='tweets_data.html'>tweets_data</a></code>,
+  <code><a href='users_data.html'>users_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -156,6 +164,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

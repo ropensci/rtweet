@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET lists/members — lists_members • rtweet</title>
+<title>Get the members of a specified Twitter list. — lists_members • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,17 +96,19 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET lists/members</h1>
+    <h1>Get the members of a specified Twitter list.</h1>
     </div>
 
     
-    <p>Returns the members of the specified list. Private list members
-will only be shown if the authenticated user owns the specified
-list.</p>
+    <p>Get the members of a specified Twitter list.</p>
+<p>Get the lists a specified user has been added to.</p>
     
 
     <pre class="usage"><span class='fu'>lists_members</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
-  <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>lists_memberships</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
+  <span class='kw'>filter_to_owned_lists</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -129,26 +131,23 @@ who owns the list being requested by a slug.</p></td>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>optional Specifies the number of results to return
+      <td><p>Specifies the number of results to return
 per page (see cursor below). The default is 20, with a maximum
 of 5,000.</p></td>
     </tr>
     <tr>
       <th>cursor</th>
-      <td><p>semi-optional Causes the collection of list members
-to be broken into "pages" of consistent sizes (specified by
-the count parameter). If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."
-The response from the API will include a previous_cursor
-and next_cursor to allow paging back and forth. See Using
-cursors to navigate collections for more information.</p></td>
+      <td><p>optional Breaks the results into pages. Provide a
+value of -1 to begin paging. Provide values as returned in the
+response body's next_cursor and previous_cursor attributes to
+page back and forth in the list.</p></td>
     </tr>
     <tr>
       <th>token</th>
       <td><p>OAuth token. By default <code>token = NULL</code> fetches a
 non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
+variable in the tokens vignette (in r, send <code>?tokens</code> to
 console).</p></td>
     </tr>
     <tr>
@@ -160,13 +159,52 @@ an R list. Defaults to TRUE.</p></td>
       <th>...</th>
       <td><p>Other args used as parameters in query composition.</p></td>
     </tr>
+    <tr>
+      <th>user</th>
+      <td><p>The user id or screen_name of the user for whom to
+return results for.</p></td>
+    </tr>
+    <tr>
+      <th>filter_to_owned_lists</th>
+      <td><p>When set to true . t or 1 , will
+return just lists the authenticating user owns, and the user
+represented by user_id or screen_name is a member of.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data</p>
+    <p>Either a nested list (if parsed) or an http response object.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Due to deleted or removed lists, the returned number of memberships
+  is often less than the provided n value. This is a reflection of the API and
+  not a unique quirk of rtweet.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other lists: <code><a href='lists_statuses.html'>lists_statuses</a></code>,
+  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
+  <code><a href='lists_users.html'>lists_users</a></code></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## get list memebers for a list of polling experts using list_id</span>
+(<span class='no'>pollsters</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_members</span>(<span class='st'>"105140588"</span>))
+
+<span class='co'>## get list members for a rstats list using list slug and the screen name</span>
+<span class='co'>## of the list owner</span>
+<span class='no'>rstats</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_members</span>(<span class='kw'>slug</span> <span class='kw'>=</span> <span class='st'>"rstats"</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='st'>"scultrera"</span>)
+<span class='no'>rstats</span>
+
+<span class='co'># }</span><span class='co'># NOT RUN {</span>
+<span class='co'>## get up to 200 list memberships of Nate Silver</span>
+<span class='no'>ns538</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_memberships</span>(<span class='st'>"NateSilver538"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)
+<span class='no'>ns538</span>
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -174,7 +212,13 @@ an R list. Defaults to TRUE.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

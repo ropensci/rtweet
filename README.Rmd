@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
-[![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet)
+<!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) -->
 <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) -->
 [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
 
@@ -39,10 +39,14 @@ library(rtweet)
 
 To get the current development version from Github:
 ```{r, eval=FALSE}
+## install devtools package if it's not already
 if (!"devtools" %in% installed.packages()) {
   install.packages("devtools")
 }
+## install dev version of rtweet from github
 devtools::install_github("mkearney/rtweet")
+
+## load rtweet package
 library(rtweet)
 ```
 
@@ -58,7 +62,7 @@ you can also follow the instructions below or via the
 Update: rtweet's website has a new domain: http://rtweet.info
 
 - First, you'll need to [create a Twitter app](https://apps.twitter.com/).
-For the callback field, make sure to enter: `http://127.0.0.1:1410`.
+For the callback field, **make sure to enter the following**: `http://127.0.0.1:1410`.
 
 - Once you've created an app, record your consumer (api) and secret
 keys. Screeshots can be found
@@ -67,16 +71,23 @@ keys. Screeshots can be found
 - Generate a token by using the `create_token()` function.
 
 ```{r, eval=FALSE}
-## name assigned to created app
+## name of app you created (replace rtweet_token with name of your app)
 appname <- "rtweet_token"
+
 ## api key (example below is not a real key)
 key <- "XYznzPFOFZR2a39FwWKN1Jp41"
+
 ## api secret (example below is not a real key)
 secret <- "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"
+
+## create a token, storing it as object 'twitter_token'
 twitter_token <- create_token(
   app = appname,
   consumer_key = key,
-  consumer_secret = secret)
+  consumer_secret = secret
+)
+
+
 ```
 
 - Once `twitter_token` is part of your global environment, rtweet
@@ -91,7 +102,7 @@ token every time you start a new session).
 rt <- search_tweets("data science", n = 1000, token = twitter_token)
 ```
 
-- ***Recommended authorization method***:
+- **Recommended authorization method**:
 [Obtaining and using access tokens](http://rtweet.info/articles/auth.html)
 (vignette showing how to *sustainably* setup authorization to use
 Twitter's APIs).

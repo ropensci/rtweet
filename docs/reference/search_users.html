@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>search_users — search_users • rtweet</title>
+<title>Get users data on accounts identified via search query. — search_users • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,15 +96,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>search_users</h1>
+    <h1>Get users data on accounts identified via search query.</h1>
     </div>
 
     
-    <p>Returns data frame of users data using a provided
-  search query.</p>
+    <p>Get users data on accounts identified via search query.</p>
     
 
-    <pre class="usage"><span class='fu'>search_users</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>search_users</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -133,8 +132,24 @@ return. Defaults to 100. Maximum number of users returned from
 a single search is 1,000.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Other arguments passed along to <code><a href='search_users_call.html'>search_users_call</a></code></p></td>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed
+(data.frames) or nested list (fromJSON) object. By default,
+<code>parse = TRUE</code> saves users from the time
+[and frustrations] associated with disentangling the Twitter
+API return objects.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send <code>?tokens</code> to console).</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical, indicating whether or not to output
+processing/retrieval messages.</p></td>
     </tr>
     </table>
     
@@ -144,8 +159,11 @@ a single search is 1,000.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other users: <code><a href='lookup_users.html'>lookup_users</a></code>,
-  <code><a href='search_users_call.html'>search_users_call</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
+    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
+<p>Other users: <code><a href='as_screenname.html'>as_screenname</a></code>,
+  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
+  <code><a href='lookup_users.html'>lookup_users</a></code>,
+  <code><a href='parsing.html'>tweets_with_users</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

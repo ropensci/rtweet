@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Twitter users data for given users (user IDs or screen names). — lookup_users • rtweet</title>
+<title>Returns the list of suggested user categories. — suggested_slugs • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,64 +96,57 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Twitter users data for given users (user IDs or screen names).</h1>
+    <h1>Returns the list of suggested user categories.</h1>
     </div>
 
     
-    <p>Get Twitter users data for given users (user IDs or screen names).</p>
+    <p>Returns the list of suggested user categories.</p>
+<p>Returns users in a given category of the Twitter suggested user list</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_users</span>(<span class='no'>users</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>suggested_slugs</span>(<span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>suggested_users</span>(<span class='no'>slug</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>users</th>
-      <td><p>User id or screen name of target user.</p></td>
+      <th>lang</th>
+      <td><p>optional Restricts the suggested categories to the
+requested language. The language must be specified by the
+appropriate two letter ISO 639-1 representation.</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>OAuth token (1.0 or 2.0). By default
-<code>token = NULL</code> fetches a non-exhausted token from
-an environment variable @describeIn tokens.</p></td>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
     </tr>
     <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse
-return object into data frame(s).</p></td>
+      <th>slug</th>
+      <td><p>required The short name of list or a category</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>json response object</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-<p>Other users: <code><a href='as_screenname.html'>as_screenname</a></code>,
-  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
-  <code><a href='search_users.html'>search_users</a></code>,
-  <code><a href='parsing.html'>tweets_with_users</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
+    <p>List of recommended categories which can be passed along as
+  the "slug" parameter in <code>suggested_users</code></p>
+<p>Recommended users</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## lookup vector of 1 or more user_id or screen_name</span>
-<span class='no'>users</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"potus"</span>, <span class='st'>"hillaryclinton"</span>, <span class='st'>"realdonaldtrump"</span>,
-  <span class='st'>"fivethirtyeight"</span>, <span class='st'>"cnn"</span>, <span class='st'>"espn"</span>, <span class='st'>"twitter"</span>)
+<span class='co'>## get slugs</span>
+<span class='no'>slugs</span> <span class='kw'>&lt;-</span> <span class='fu'>suggested_slugs</span>()
 
-<span class='co'>## get users data</span>
-<span class='no'>usr_df</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_users</span>(<span class='no'>users</span>)
+<span class='co'>## use slugs to get suggested users</span>
+<span class='fu'>suggested_users</span>(<span class='no'>slugs</span>$<span class='no'>slug</span>[<span class='fl'>1</span>])
 
-<span class='co'>## view users data</span>
-<span class='no'>usr_df</span>
-
-<span class='co'>## view tweet data for these users via tweets_data()</span>
-<span class='fu'><a href='tweets_data.html'>tweets_data</a></span>(<span class='no'>usr_df</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -161,8 +154,6 @@ return object into data frame(s).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

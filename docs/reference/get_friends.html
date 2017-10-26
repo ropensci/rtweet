@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET friends/ids — get_friends • rtweet</title>
+<title>Get user IDs of accounts followed by target user(s). — get_friends • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,35 +96,77 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET friends/ids</h1>
+    <h1>Get user IDs of accounts followed by target user(s).</h1>
     </div>
 
     
-    <p>Returns user IDs of accounts followed by target user.</p>
+    <p>Get user IDs of accounts followed by target user(s).</p>
     
 
-    <pre class="usage"><span class='fu'>get_friends</span>(<span class='no'>users</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_friends</span>(<span class='no'>users</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>users</th>
-      <td><p>Screen name or user ID of target user from which the user IDs
-of friends (accounts followed BY target user) will be retrieved.</p></td>
+      <td><p>Screen name or user ID of target user from which the
+user IDs of friends (accounts followed BY target user) will be
+retrieved.</p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>Number of friends (user IDs) to return. Defaults to 5,000,
+which is the maximum returned by a single API call. Users are
+limited to 15 of these requests per 15 minutes. Twitter limits
+the number of friends a user can have to 5,000. To follow more
+than 5,000 accounts (to have more than 5 thousand "friends")
+accounts must meet certain requirements (e.g., a certain ratio of
+followers to friends). Consequently, the vast majority of users
+follow fewer than five thousand accounts. This function has been
+oriented accordingly (i.e., it assumes the maximum value of n is
+5000). To return more than 5,000 friends for a single user, call
+this function multiple times with requests after the first using
+the <code>page</code> parameter.</p></td>
     </tr>
     <tr>
       <th>retryonratelimit</th>
-      <td><p>If you'd like to retrieve 5,000 or fewer friends for
-more than 15 target users, then set <code>retryonratelimit = TRUE</code> and
-this function will use <code>Sys.sleep</code> until rate limits reset and
-the desired number of friend networks is retrieved. This defaults
-to FALSE. See details for more info regarding possible issues with timing
-misfires.</p></td>
+      <td><p>If you'd like to retrieve 5,000 or fewer
+friends for more than 15 target users, then set
+<code>retryonratelimit = TRUE</code> and this function will use
+base <code>Sys.sleep</code> until rate limits reset and the desired
+number of friend networks is retrieved. This defaults to
+FALSE. See details for more info regarding possible issues with
+timing misfires.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>For other possible args see <code><a href='get_friends.default.html'>get_friends.default</a></code>.</p></td>
+      <th>page</th>
+      <td><p>Default <code>page = -1</code> specifies first page of json
+results. Other pages specified via cursor values supplied by
+Twitter API response object. This is only relevant if a user has
+over 5000 friends (follows more than 5000 accounts).</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed vector or
+nested list (fromJSON) object. By default, <code>parse = TRUE</code>
+saves you the time [and frustrations] associated with
+disentangling the Twitter API return objects.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical indicating whether or not to include output
+messages. Defaults to TRUE, which includes printing a success message
+for each inputted user.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
     </tr>
     </table>
     
@@ -146,7 +188,22 @@ misfires.</p></td>
   and test this before making especially large calls as any systematic issues
   could create sizable inefficiencies.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <p><a href='https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids'>https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a></p>
+<p>Other ids: <code><a href='get_followers.html'>get_followers</a></code>,
+  <code><a href='next_cursor.html'>max_id</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## get user ids of accounts followed by Donald Trump</span>
+(<span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>get_friends</span>(<span class='st'>"realDonaldTrump"</span>))
+
+<span class='co'>## get user ids of accounts followed by (friends) KFC, Trump, and Nate Silver.</span>
+(<span class='no'>fds</span> <span class='kw'>&lt;-</span> <span class='fu'>get_friends</span>(<span class='fu'>c</span>(<span class='st'>"kfc"</span>, <span class='st'>"jack"</span>, <span class='st'>"NateSilver538"</span>)))
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -156,7 +213,11 @@ misfires.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>users_data — users_data • rtweet</title>
+<title>Extracts users data from tweets data object. — users_data • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,12 +96,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>users_data</h1>
+    <h1>Extracts users data from tweets data object.</h1>
     </div>
 
     
-    <p>Returns users data frame from returned tweets
-  data object.</p>
+    <p>Extracts users data from tweets data object.</p>
     
 
     <pre class="usage"><span class='fu'>users_data</span>(<span class='no'>tweets</span>)</pre>
@@ -111,9 +110,9 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tweets</th>
-      <td><p>Data frame of Twitter statuses (tweets) generated via
-<code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='search_tweets.html'>search_tweets</a></code>, or
-<code><a href='stream_tweets.html'>stream_tweets</a></code>.</p></td>
+      <td><p>Parsed data object of tweets data as returned via
+<code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='search_tweets.html'>search_tweets</a></code>,
+<code><a href='stream_tweets.html'>stream_tweets</a></code>, etc..</p></td>
     </tr>
     </table>
     
@@ -123,9 +122,12 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other users: <code><a href='lookup_users.html'>lookup_users</a></code>,
-  <code><a href='search_users_call.html'>search_users_call</a></code>,
-  <code><a href='search_users.html'>search_users</a></code></p>
+    <p>Other users: <code><a href='as_screenname.html'>as_screenname</a></code>,
+  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
+  <code><a href='lookup_users.html'>lookup_users</a></code>, <code><a href='search_users.html'>search_users</a></code>,
+  <code><a href='parsing.html'>tweets_with_users</a></code></p>
+<p>Other extractors: <code><a href='next_cursor.html'>max_id</a></code>,
+  <code><a href='tweets_data.html'>tweets_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

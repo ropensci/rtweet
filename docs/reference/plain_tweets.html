@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>plain text tweets — plain_tweets • rtweet</title>
+<title>plain_tweets — plain_tweets • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,48 +96,29 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>plain text tweets</h1>
+    <h1>plain_tweets</h1>
     </div>
 
     
-    <p>plain text tweets</p>
+    <p>Clean up character vector (tweets) to more of a plain text.</p>
     
 
-    <pre class="usage"><span class='fu'>plain_tweets</span>(<span class='no'>txt</span>, <span class='kw'>tokenize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>hashtags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mentions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>links</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>plain_tweets</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>txt</th>
-      <td><p>Tweet text, character vector.</p></td>
-    </tr>
-    <tr>
-      <th>tokenize</th>
-      <td><p>Logical indicating whether to split each tweet into
-a vector of individual words. Defaults to FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>hashtags</th>
-      <td><p>Logical indicating whether to treat hashtags as
-normal text. Defaults to false.</p></td>
-    </tr>
-    <tr>
-      <th>mentions</th>
-      <td><p>Logical indicating whether to treat user mentions
-as normal text. Defaults to false.</p></td>
-    </tr>
-    <tr>
-      <th>links</th>
-      <td><p>Logical indicating whether to treat links as normal
-text. Defaults to false.</p></td>
+      <th>x</th>
+      <td><p>The desired character vector or data frame/list with named column/element
+"text" to be cleaned and processed.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Stripped and cleaned up version of tweet text.</p>
+    <p>Data reformatted with ascii encoding and normal ampersands and
+  without URL links, linebreaks, fancy spaces/tabs, fancy apostrophes,</p>
     
 
   </div>

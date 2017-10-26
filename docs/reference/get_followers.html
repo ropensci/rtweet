@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET followers/ids — get_followers • rtweet</title>
+<title>Get user IDs for accounts following target user(s). — get_followers • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,14 +96,15 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET followers/ids</h1>
+    <h1>Get user IDs for accounts following target user(s).</h1>
     </div>
 
     
-    <p>Get user IDs of accounts following target user.</p>
+    <p>Get user IDs for accounts following target user(s).</p>
     
 
-    <pre class="usage"><span class='fu'>get_followers</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_followers</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -118,20 +119,47 @@ of followers will be retrieved.</p></td>
       <td><p>Number of followers to return. Defaults to 5000, which is the max
 number of followers returned by a single API request. Twitter allows up
 to 15 of these requests every 15 minutes, which means 75,000 is the max
-number of followers to return without waiting for the rate limit to reset.</p></td>
+number of followers to return without waiting for the rate limit to reset.
+If this number exceeds either 75,000 or the remaining number of possible
+requests for a given token, then the returned object will only return what
+it can (less than n) unless retryonratelimit is set to true.</p></td>
+    </tr>
+    <tr>
+      <th>page</th>
+      <td><p>Default <code>page = -1</code> specifies first page of json
+results. Other pages specified via cursor values supplied by
+Twitter API response object. If <code>parse = TRUE</code> then the cursor
+value can be extracted from the return object by using the
+<code>next_cursor</code> function.</p></td>
     </tr>
     <tr>
       <th>retryonratelimit</th>
       <td><p>If you'd like to retrieve more than 75,000 followers
 in a single call, then set <code>retryonratelimit = TRUE</code> and this function
-will use <code>Sys.sleep</code> until rate limits reset and the desired n
+will use base <code>Sys.sleep</code> until rate limits reset and the desired n
 is achieved or the number of total followers is exhausted. This defaults
 to FALSE. See details for more info regarding possible issues with timing
 misfires.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>For other possible arguments see <code><a href='get_followers.default.html'>get_followers.default</a></code>.</p></td>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+<code>parse = TRUE</code> saves you the time [and frustrations]
+associated with disentangling the Twitter API return objects.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical indicating whether or not to print messages.
+Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
+sleep times and followers gathered counts.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send <code>?tokens</code> to console).</p></td>
     </tr>
     </table>
     
@@ -152,7 +180,37 @@ misfires.</p></td>
   and test this before making especially large calls as any systematic issues
   could create sizable inefficiencies.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <p><a href='https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids'>https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</a></p>
+<p>Other ids: <code><a href='get_friends.html'>get_friends</a></code>, <code><a href='next_cursor.html'>max_id</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## get 5000 ids of users following the KFC account</span>
+(<span class='no'>kfc</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"KFC"</span>))
+
+<span class='co'>## get max number [per fresh token] of POTUS follower IDs</span>
+(<span class='no'>pres</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>))
+
+<span class='co'>## resume data collection (warning: rate limits reset every 15 minutes)</span>
+<span class='no'>pres2</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='fu'><a href='next_cursor.html'>next_cursor</a></span>(<span class='no'>pres</span>))
+
+<span class='co'>## store next cursor in object before merging data</span>
+<span class='no'>nextpage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='next_cursor.html'>next_cursor</a></span>(<span class='no'>pres2</span>)
+
+<span class='co'>## merge data frames</span>
+<span class='no'>pres</span> <span class='kw'>&lt;-</span> <span class='fu'>rbind</span>(<span class='no'>pres</span>, <span class='no'>pres2</span>)
+
+<span class='co'>## store next cursor as an attribute in the merged data frame</span>
+<span class='fu'>attr</span>(<span class='no'>pres</span>, <span class='st'>"next_cursor"</span>) <span class='kw'>&lt;-</span> <span class='no'>next_page</span>
+
+<span class='co'>## view merged ddata</span>
+<span class='no'>pres</span>
+
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -162,7 +220,11 @@ misfires.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

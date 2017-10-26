@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>search_tweets — search_tweets • rtweet</title>
+<title>Get tweets data on statuses identified via search query. — search_tweets • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,59 +96,229 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>search_tweets</h1>
+    <h1>Get tweets data on statuses identified via search query.</h1>
     </div>
 
     
-    <p>Returns tweets data with users data attribute
-  using a provided search query.</p>
+    <p>Get tweets data on statuses identified via search query.</p>
     
 
-    <pre class="usage"><span class='fu'>search_tweets</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>search_tweets</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>geocode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>q</th>
-      <td><p>Query to be searched, used to filter and select tweets
-to return from Twitter's REST API. Must be a character string not
-to exceed maximum of 500 characters. Spaces behave like boolean
+      <td><p>Query tobe searched, used to filter and select tweets to
+return from Twitter's REST API. Must be a character string not to
+exceed maximum of 500 characters. Spaces behave like boolean
 "AND" operator. To search for tweets containing at least one of
 multiple possible terms, separate each search term with spaces
-and "OR" (in caps). For example, the search
-<code>q = "data science"</code> looks for tweets containing both
-"data" and "science" anywhere located anywhere in the tweets and
-in any order. When "OR" is entered between search terms,
-<code>query = "data OR science"</code>, Twitter's REST API should return
-any tweet that contains either "data" or
-"science." It is also possible to search for exact phrases using
-double quotes. To do this, either wrap single quotes around a
-search query using double quotes, e.g.,
-<code>q = '"data science"'</code> or escape each internal double quote
-with a single backslash, e.g., <code>q = "\"data science\""</code>.</p></td>
+and "OR" (in caps). For example, the search <code>q =
+"data science"</code> looks for tweets containing both "data" and
+"science" anywhere located anywhere in the tweets and in any
+order. When "OR" is entered between search terms, <code>query =
+"data OR science"</code>, Twitter's REST API should return any tweet
+that contains either "data" or "science." It is also possible to
+search for exact phrases using double quotes. To do this, either
+wrap single quotes around a search query using double quotes,
+e.g., <code>q = '"data science"'</code> or escape each internal double
+quote with a single backslash, e.g., <code>q =
+"\"data science\""</code>.</p></td>
     </tr>
     <tr>
       <th>n</th>
       <td><p>Integer, specifying the total number of desired tweets to
-return. Defaults to 100. Maximum number of tweets returned from
-a single token is 18,000. To return more than 18,000 tweets, users
-are encouraged to set <code>retryonratelimit</code> to TRUE. See details
-for more information.</p></td>
+return. Defaults to 100. Maximum number of tweets returned from a
+single token is 18,000. To return more than 18,000 tweets, users
+are encouraged to set <code>retryonratelimit</code> to TRUE. See
+details for more information.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Character string specifying which type of search
+results to return from Twitter's REST API. The current default is
+<code>type = "recent"</code>, other valid types include <code>type =
+"mixed"</code> and <code>type = "popular"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>include_rts</th>
+      <td><p>Logical, indicating whether to include retweets
+in search results. Retweets are classified as any tweet generated
+by Twitter's built-in "retweet" (recycle arrows) function. These
+are distinct from quotes (retweets with additional text provided
+from sender) or manual retweets (old school method of manually
+entering "RT" into the text of one's tweets).</p></td>
+    </tr>
+    <tr>
+      <th>geocode</th>
+      <td><p>Geographical limiter of the template
+"latitude,longitude,radius" e.g., <code>geocode =
+"37.78,-122.40,1mi"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>max_id</th>
+      <td><p>Character string specifying the [oldest] status id
+beyond which search results should resume returning.  Especially
+useful large data returns that require multiple iterations
+interrupted by user time constraints. For searches exceeding
+18,000 tweets, users are encouraged to take advantage of rtweet's
+internal automation procedures for waiting on rate limits by
+setting <code>retryonratelimit</code> argument to TRUE.  It some cases,
+it is possible that due to processing time and rate limits,
+retreiving several million tweets can take several hours or even
+multiple days. In these cases, it would likely be useful to
+leverage <code>retryonratelimit</code> for sets of tweets and
+<code>max_id</code> to allow results to continue where previous efforts
+left off.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed
+data.frame, if true, or nested list (fromJSON), if false. By
+default, <code>parse = TRUE</code> saves users from the wreck of time
+and frustration associated with disentangling the nasty nested
+list returned from Twitter's API (for proof, check rtweet's
+Github commit history).  As Twitter's APIs are subject to change,
+this argument would be especially useful when changes to
+Twitter's APIs affect performance of internal parsers. Setting
+<code>parse = FALSE</code> also ensures the maximum amount of possible
+information is returned. By default, the rtweet parse process
+returns nearly all bits of information returned from
+Twitter. However, users may occassionally encounter new or
+omitted variables. In these rare cases, the nested list object
+will be the only way to access these variables.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
+    </tr>
+    <tr>
+      <th>retryonratelimit</th>
+      <td><p>Logical indicating whether to wait and
+retry when rate limited. This argument is only relevant if the
+desired return (n) exceeds the remaining limit of available
+requests (assuming no other searches have been conducted in the
+past 15 minutes, this limit is 18,000 tweets). Defaults to false.
+Set to TRUE to automate process of conducting big searches (i.e.,
+n &gt; 18000). For many search queries, esp. specific or specialized
+searches, there won't be more than 18,000 tweets to return. But
+for broad, generic, or popular topics, the total number of tweets
+within the REST window of time (7-10 days) can easily reach the
+millions.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical, indicating whether or not to include output
+processing/retrieval messages. Defaults to TRUE. For larger
+searches, messages include rough estimates for time remaining
+between searches. It should be noted, however, that these time
+estimates only describe the amount of time between searches and
+not the total time remaining. For large searches conducted with
+<code>retryonratelimit</code> set to TRUE, the estimated retreival time
+can be estimated by dividing the number of requested tweets by
+18,000 and then multiplying the quotient by 15 (token cooldown
+time, in minutes).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>For all args see <code><a href='search_tweets.default.html'>search_tweets.default</a></code>.</p></td>
+      <td><p>Futher arguments passed as query parameters in request
+sent to Twitter's REST API. To return only English language
+tweets, for example, use <code>lang = "en"</code>. For more options see
+Twitter's API documentation.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>List object with tweets and users each returned as a
+  data frame.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Twitter API documentation recommends limiting searches to
+  10 keywords and operators. Complex queries may also produce API
+  errors preventing recovery of information related to the query.
+  It should also be noted Twitter's search API does not consist of
+  an index of all Tweets. At the time of searching, the search API
+  index includes between only 6-9 days of Tweets.</p>
+    <p>Number of tweets returned will often be less than what was
+  specified by the user. This can happen because (a) the search
+  query did not return many results (the search pool is already
+  thinned out from the population of tweets to begin with),
+  (b) because user hitting rate limit for a given token, or (c)
+  of recent activity (either more tweets, which affect pagination
+  in returned results or deletion of tweets). To return more than
+  18,000 tweets in a single call, users must set
+  <code>retryonratelimit</code> argument to true. This method relies on
+  updating the <code>max_id</code> parameter and waiting for token rate
+  limits to refresh between searches. As a result, it is possible
+  to search for 50,000, 100,000, or even 10,000,000 tweets, but
+  these searches can take hours or even days. At these durations,
+  it would not be uncommon for connections to timeout. Users are
+  instead encouraged to breakup data retrieval into smaller chunks
+  by leveraging <code>retryonratelimit</code> and then using the
+  status_id of the oldest tweet as the <code>max_id</code> to resume
+  searching where the previous efforts left off.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><a href='https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets'>https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</a></p>
+<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
+  <code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='lists_statuses.html'>lists_statuses</a></code>,
+  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
+  <code><a href='parsing.html'>tweets_with_users</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## search for 1000 tweets mentioning Hillary Clinton</span>
+<span class='no'>hrc</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"hillaryclinton"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+
+<span class='co'>## data frame where each observation (row) is a different tweet</span>
+<span class='no'>hrc</span>
+
+<span class='co'>## users data also retrieved. can access it via users_data()</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>hrc</span>)
+
+<span class='co'>## search for 1000 tweets in English</span>
+<span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"realdonaldtrump"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>)
+<span class='no'>djt</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
+
+<span class='co'>## exclude retweets</span>
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'>## perform search for lots of tweets</span>
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"trump OR president OR potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100000</span>,
+                    <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'>## plot time series of tweets frequency</span>
+<span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"spacegray"</span>,
+        <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Tweets about Trump"</span>)
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

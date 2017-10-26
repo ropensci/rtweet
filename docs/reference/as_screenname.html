@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Twitter users data for given users (user IDs or screen names). — lookup_users • rtweet</title>
+<title>Coerces user identifier(s) to be evaluated as a screen name(s). — as_screenname • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,64 +96,74 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Twitter users data for given users (user IDs or screen names).</h1>
+    <h1>Coerces user identifier(s) to be evaluated as a screen name(s).</h1>
     </div>
 
     
-    <p>Get Twitter users data for given users (user IDs or screen names).</p>
+    <p>Coerces user identifier(s) to be evaluated as a screen name(s).</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_users</span>(<span class='no'>users</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>as_screenname</span>(<span class='no'>x</span>)
+
+<span class='fu'>as_userid</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>users</th>
-      <td><p>User id or screen name of target user.</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token (1.0 or 2.0). By default
-<code>token = NULL</code> fetches a non-exhausted token from
-an environment variable @describeIn tokens.</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse
-return object into data frame(s).</p></td>
+      <th>x</th>
+      <td><p>A vector consisting of one or more Twitter user
+identifiers (i.e., screen names or user IDs).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>json response object</p>
+    <p>A vector of class screen_name or class user_id</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Default rtweet function behaviors will treat "1234" as a
+  user ID, but the inverse (i.e., treating "2973406683" as a screen
+  name) should rarely be an issue. However, in those cases, users
+  may need to mix both screen names and user IDs. To do so, make
+  sure to combine them as a list (and not a character vector, which
+  will override conflicting user identifier classes). See examples
+  code for example of mixing user IDs with screen names. Note: this
+  only works with certain functions, e.g., get_friends,
+  get_followers.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
-<p>Other users: <code><a href='as_screenname.html'>as_screenname</a></code>,
-  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
-  <code><a href='search_users.html'>search_users</a></code>,
+    <p>Other users: <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
+  <code><a href='lookup_users.html'>lookup_users</a></code>, <code><a href='search_users.html'>search_users</a></code>,
   <code><a href='parsing.html'>tweets_with_users</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## lookup vector of 1 or more user_id or screen_name</span>
-<span class='no'>users</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"potus"</span>, <span class='st'>"hillaryclinton"</span>, <span class='st'>"realdonaldtrump"</span>,
-  <span class='st'>"fivethirtyeight"</span>, <span class='st'>"cnn"</span>, <span class='st'>"espn"</span>, <span class='st'>"twitter"</span>)
+<span class='co'>## get friends list for user with the handle "1234"</span>
+<span class='fu'><a href='get_friends.html'>get_friends</a></span>(<span class='fu'>as_screenname</span>(<span class='st'>"1234"</span>))
 
-<span class='co'>## get users data</span>
-<span class='no'>usr_df</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_users</span>(<span class='no'>users</span>)
+<span class='co'>## as_screenname coerces all elements to class "screen_name"</span>
+<span class='no'>sns</span> <span class='kw'>&lt;-</span> <span class='fu'>as_screenname</span>(<span class='fu'>c</span>(<span class='st'>"kearneymw"</span>, <span class='st'>"1234"</span>, <span class='st'>"jack"</span>))
+<span class='fu'>class</span>(<span class='no'>sns</span>)
 
-<span class='co'>## view users data</span>
-<span class='no'>usr_df</span>
+<span class='co'>## print will display user class type</span>
+<span class='no'>sns</span>
 
-<span class='co'>## view tweet data for these users via tweets_data()</span>
-<span class='fu'><a href='tweets_data.html'>tweets_data</a></span>(<span class='no'>usr_df</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='co'>## BAD: combine user id and screen name using c()</span>
+<span class='no'>users</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fu'>as_userid</span>(<span class='st'>"2973406683"</span>), <span class='fu'>as_screenname</span>(<span class='st'>"1234"</span>))
+<span class='fu'>class</span>(<span class='no'>users</span>)
+
+<span class='co'>## GOOD: combine user id and screen name using list()</span>
+<span class='no'>users</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='fu'>as_userid</span>(<span class='st'>"2973406683"</span>), <span class='fu'>as_screenname</span>(<span class='st'>"1234"</span>))
+<span class='no'>users</span>
+
+<span class='co'>## get friend networks for each user</span>
+<span class='fu'><a href='get_friends.html'>get_friends</a></span>(<span class='no'>users</span>)
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -161,6 +171,8 @@ return object into data frame(s).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET lists/statuses — lists_statuses • rtweet</title>
+<title>Get a timeline of tweets authored by members of a specified list. — lists_statuses • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,13 +96,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET lists/statuses</h1>
+    <h1>Get a timeline of tweets authored by members of a specified list.</h1>
     </div>
 
     
-    <p>Returns a timeline of tweets authored by members of the specified
-list. Retweets are included by default. Use the include_rts=false
-parameter to omit retweets.</p>
+    <p>Get a timeline of tweets authored by members of a specified list.</p>
     
 
     <pre class="usage"><span class='fu'>lists_statuses</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -163,7 +161,7 @@ an R list. Defaults to TRUE.</p></td>
       <td><p>OAuth token. By default <code>token = NULL</code> fetches a
 non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code><a href='rtweet.html'>?tokens</a></code> to
+variable in the tokens vignette (in r, send <code>?tokens</code> to
 console).</p></td>
     </tr>
     </table>
@@ -171,6 +169,17 @@ console).</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other lists: <code><a href='lists_members.html'>lists_members</a></code>,
+  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
+  <code><a href='lists_users.html'>lists_users</a></code></p>
+<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
+  <code><a href='get_timeline.html'>get_timeline</a></code>,
+  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
+  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
+  <code><a href='parsing.html'>tweets_with_users</a></code></p>
     
 
   </div>
@@ -180,6 +189,8 @@ console).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

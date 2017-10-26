@@ -103,7 +103,8 @@
     <p>Saves as flattened CSV file Twitter data.</p>
     
 
-    <pre class="usage"><span class='fu'>write_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>)</pre>
+    <pre class="usage"><span class='fu'>write_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -116,6 +117,22 @@
       <th>file_name</th>
       <td><p>Desired name(stem) to save files as (one save for tweets,
 one save for users).</p></td>
+    </tr>
+    <tr>
+      <th>prepend_ids</th>
+      <td><p>Logical indicating whether to prepend an "x" before all
+Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
+CSV as these values otherwise get treated as numeric and as a result the values
+are often less precise due to rounding or other class-related quirks. Defaults
+to true.</p></td>
+    </tr>
+    <tr>
+      <th>na</th>
+      <td><p>Value to be used for missing (NA)s. Defaults to empty character, "".</p></td>
+    </tr>
+    <tr>
+      <th>fileEncoding</th>
+      <td><p>Encoding to be used when saving to CSV. defaults to utf-8.</p></td>
     </tr>
     </table>
     

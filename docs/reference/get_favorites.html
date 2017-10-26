@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET favorites/list — get_favorites • rtweet</title>
+<title>Get tweets data for statuses favorited by one or more target users. — get_favorites • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,14 +96,15 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET favorites/list</h1>
+    <h1>Get tweets data for statuses favorited by one or more target users.</h1>
     </div>
 
     
-    <p>Returns favorite tweets data for one or more target users.</p>
+    <p>Get tweets data for statuses favorited by one or more target users.</p>
     
 
-    <pre class="usage"><span class='fu'>get_favorites</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_favorites</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -115,15 +116,37 @@
     <tr>
       <th>n</th>
       <td><p>Specifies the number of records to retrieve. Defaults to
-200. 3000 is the max number of favorites returned per token.  Due
+200. 3000 is the max number of favorites returned per token. Due
 to suspended or deleted content, this function may return fewer
 tweets than the desired (n) number. Must be of length 1 or of
-length equal to users</p></td>
+length equal to the provided number of users.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>To see other possible arguments see
-<code><a href='get_favorites_call.html'>get_favorites_call</a></code>.</p></td>
+      <th>since_id</th>
+      <td><p>Returns results with an status_id greater
+than (that is, more recent than) the specified status_id.
+There are limits to the number of tweets returned by the REST
+API. If the limit is hit, since_id is adjusted (by Twitter) to
+the oldest ID available.</p></td>
+    </tr>
+    <tr>
+      <th>max_id</th>
+      <td><p>Returns results with status_id less (older) than or
+equal to (if hit limit) the specified status_id.</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether to return parsed
+vector or nested list (fromJSON) object. By default,
+<code>parse = TRUE</code> saves you the time [and frustrations]
+associated with disentangling the Twitter API return objects.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find instructions
+on how to create tokens and setup an environment variable in the
+tokens vignette (in r, send <code>?tokens</code> to console).</p></td>
     </tr>
     </table>
     
@@ -131,7 +154,25 @@ length equal to users</p></td>
 
     <p>A tbl data frame of tweets data with users data attribute.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <p>Other tweets: <code><a href='get_timeline.html'>get_timeline</a></code>,
+  <code><a href='lists_statuses.html'>lists_statuses</a></code>,
+  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
+  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
+  <code><a href='parsing.html'>tweets_with_users</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## get max number of statuses favorited by KFC</span>
+<span class='no'>kfc</span> <span class='kw'>&lt;-</span> <span class='fu'>get_favorites</span>(<span class='st'>"KFC"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3000</span>)
+<span class='no'>kfc</span>
+
+<span class='co'>## get 400 statuses favorited by each of three users</span>
+<span class='no'>favs</span> <span class='kw'>&lt;-</span> <span class='fu'>get_favorites</span>(<span class='fu'>c</span>(<span class='st'>"Lesdoggg"</span>, <span class='st'>"pattonoswalt"</span>, <span class='st'>"meganamram"</span>))
+<span class='no'>favs</span>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -139,7 +180,11 @@ length equal to users</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

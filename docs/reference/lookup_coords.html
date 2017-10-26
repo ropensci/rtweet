@@ -111,21 +111,21 @@
     <tr>
       <th>address</th>
       <td><p>Desired location typically in the form of placename,
-subregion, e.g., <code>"lawrence, KS"</code>. Also accepts the name of
-countries, e.g., <code>"usa"</code>, <code>"brazil"</code> or states, e.g.,
-<code>"missouri"</code> or cities, e.g., <code>"chicago"</code>. In most
-cases using only address should be suffice.</p></td>
+subregion, e.g., <code>address = "lawrence, KS"</code>. Also accepts the name of
+countries, e.g., <code>address = "usa"</code>, <code>address = "brazil"</code> or
+states, e.g., <code>address = "missouri"</code> or cities, e.g.,
+<code>address = "chicago"</code>. In most cases using only address should be
+sufficient.</p></td>
     </tr>
     <tr>
       <th>components</th>
       <td><p>Unit of analysis for address e.g.,
-<code>"country:US"</code>. Potential components include postal_code,
-country, administrative_area, locality, route.</p></td>
+<code>components = "country:US"</code>. Potential components include
+postal_code, country, administrative_area, locality, route.</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
-      <td><p>Additional args passed along to params portion of
-http request</p></td>
+      <td><p>Additional args passed as parameters in the http reqeust</p></td>
     </tr>
     </table>
     
@@ -133,15 +133,25 @@ http request</p></td>
 
     <p>Object of class coords.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other geo: <code><a href='lat_lng.html'>lat_lng</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## get coordinates associated with the following addresses/components</span>
 <span class='no'>sf</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"san francisco, CA"</span>, <span class='st'>"country:US"</span>)
 <span class='no'>usa</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"usa"</span>)
-<span class='no'>lnd</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"london"</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>lnd</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"london"</span>)
 <span class='no'>bz</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"brazil"</span>)
 
-<span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='kw'>geocode</span> <span class='kw'>=</span> <span class='no'>bz</span>)
+<span class='co'>## pass a returned coords object to search_tweets</span>
+<span class='no'>bztw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='kw'>geocode</span> <span class='kw'>=</span> <span class='no'>bz</span>)
+
+<span class='co'>## or stream tweets</span>
+<span class='no'>ustw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stream_tweets.html'>stream_tweets</a></span>(<span class='no'>usa</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -150,6 +160,8 @@ http request</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
