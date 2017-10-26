@@ -26,13 +26,16 @@ get_max_id <- function(x, adj = -1L) {
 #' @export
 max_id <- function(x) UseMethod("max_id")
 
+#' @export
 max_id.default <- function(x) return_last(x)
 
+#' @export
 max_id.character <- function(x) {
   x <- sort(bit64::as.integer64(x))
   as.character(x[1])
 }
 
+#' @export
 max_id.data.frame <- function(x) {
   if (has_name_(attributes(x), "max_id_str")) return(attr(x, "max_id_str"))
   if (has_name_(attributes(x), "max_id")) return(attr(x, "max_id"))
@@ -40,6 +43,7 @@ max_id.data.frame <- function(x) {
   NextMethod()
 }
 
+#' @export
 max_id.list <- function(x) {
   if (has_name_(x, "max_id_str")) return(x[["max_id_str"]])
   if (has_name_(x, "max_id")) return(x[["max_id"]])
@@ -51,6 +55,7 @@ max_id.list <- function(x) {
   return_last(x)
 }
 
+#' @export
 max_id.response <- function(x) {
   x <- from_js(x)
   NextMethod()

@@ -80,45 +80,54 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#rtweet" class="anchor"></a>rtweet <img src="reference/figures/logo.png" align="right">
 </h1></div>
-<p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Travis-CI Build Status"></a> <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --> <a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
+<p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --><!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --><a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
 <p>R client for interacting with Twitter’s REST and stream API’s.</p>
 <p>Check out the <a href="http://rtweet.info">rtweet package documentation website</a>.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <p>To get the current released version from CRAN:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## install rtweet from CRAN
+<span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
+
+## load rtweet package
 <span class="kw">library</span>(rtweet)</code></pre></div>
 <p>To get the current development version from Github:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## install devtools package if it's not already
+<span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()) {
   <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 }
+
+## install dev version of rtweet from github
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"mkearney/rtweet"</span>)
+
+## load rtweet package
 <span class="kw">library</span>(rtweet)</code></pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
 <ul>
-<li>
-<strong><em>Quick authorization method</em></strong>: To make your life easier, follow the recommended steps in <a href="http://rtweet.info/index.html">obtaining and using access tokens</a>. However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the <a href="http://rtweet.info/index.html">rtweet documentation website</a>.</li>
-</ul>
-<p>Update: rtweet’s website has a new domain: <a href="http://rtweet.info" class="uri">http://rtweet.info</a></p>
-<ul>
-<li><p>First, you’ll need to <a href="https://apps.twitter.com/">create a Twitter app</a>. For the callback field, make sure to enter: <code>http://127.0.0.1:1410</code>.</p></li>
+<li><p><strong>Quick authorization method</strong>: To make your life easier, follow the recommended steps in <a href="http://rtweet.info/index.html">obtaining and using access tokens</a>. However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the <a href="http://rtweet.info/index.html">rtweet documentation website</a>.</p></li>
+<li><p>First, you’ll need to <a href="https://apps.twitter.com/">create a Twitter app</a>. For the callback field, <strong>make sure to enter the following</strong>: <code>http://127.0.0.1:1410</code>.</p></li>
 <li><p>Once you’ve created an app, record your consumer (api) and secret keys. Screeshots can be found <a href="http://rtweet.info/articles/auth.html">here</a>.</p></li>
 <li><p>Generate a token by using the <code><a href="reference/create_token.html">create_token()</a></code> function.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## name assigned to created app
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## name of app you created (replace rtweet_token with name of your app)
 appname &lt;-<span class="st"> "rtweet_token"</span>
+
 ## api key (example below is not a real key)
 key &lt;-<span class="st"> "XYznzPFOFZR2a39FwWKN1Jp41"</span>
+
 ## api secret (example below is not a real key)
 secret &lt;-<span class="st"> "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>
+
+## create a token, storing it as object 'twitter_token'
 twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_token.html">create_token</a></span>(
   <span class="dt">app =</span> appname,
   <span class="dt">consumer_key =</span> key,
-  <span class="dt">consumer_secret =</span> secret)</code></pre></div>
+  <span class="dt">consumer_secret =</span> secret
+)</code></pre></div>
 <ul>
 <li><p>Once <code>twitter_token</code> is part of your global environment, rtweet functions should find it. However, using this method, the token will not automatically load in future sessions (you’ll need to create a token every time you start a new session).</p></li>
 <li><p>Although not necessary, functions also accept tokens via the <code>token</code> argument. For example:</p></li>
@@ -126,32 +135,33 @@ twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(<span class="st">"data science"</span>, <span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">token =</span> twitter_token)</code></pre></div>
 <ul>
 <li>
-<strong><em>Recommended authorization method</em></strong>: <a href="http://rtweet.info/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
+<strong>Recommended authorization method</strong>: <a href="http://rtweet.info/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
 </ul>
 </div>
 <div id="vignettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vignettes" class="anchor"></a>Vignettes</h2>
-<ul>
-<li><a href="http://rtweet.info/articles/auth.html">Obtaining and using user access tokens</a></li>
-</ul>
+<div id="obtaining-and-using-user-access-tokens" class="section level3">
+<h3 class="hasAnchor">
+<a href="#obtaining-and-using-user-access-tokens" class="anchor"></a><a href="http://rtweet.info/articles/auth.html">Obtaining and using user access tokens</a>
+</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## authorizing API access
 <span class="kw">vignette</span>(<span class="st">"auth"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
-<ul>
-<li><a href="http://rtweet.info/articles/intro.html">Quick overview of rtweet package</a></li>
-</ul>
+</div>
+<div id="quick-overview-of-rtweet-package" class="section level3">
+<h3 class="hasAnchor">
+<a href="#quick-overview-of-rtweet-package" class="anchor"></a><a href="http://rtweet.info/articles/intro.html">Quick overview of rtweet package</a>
+</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## quick overview of rtweet functions
 <span class="kw">vignette</span>(<span class="st">"intro"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
-<ul>
-<li><a href="http://rtweet.info/articles/stream.html">Live streaming tweets data</a></li>
-</ul>
+</div>
+<div id="live-streaming-tweets-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#live-streaming-tweets-data" class="anchor"></a><a href="http://rtweet.info/articles/stream.html">Live streaming tweets data</a>
+</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## working with the stream
 <span class="kw">vignette</span>(<span class="st">"stream"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
 </div>
-<div id="package-description" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-description" class="anchor"></a>Package description</h2>
-<p>More technical description: An implementation of calls designed to extract and organize Twitter data via Twitter’s REST and stream API’s. Functions formulate GET and POST requests and convert response objects to more user friendly structures, e.g., data frames or lists. Specific consideration is given to functions designed to return tweets data from searches, streams, and timelines and user ids from friends and followers lists.</p>
 </div>
 <div id="contact" class="section level2">
 <h2 class="hasAnchor">

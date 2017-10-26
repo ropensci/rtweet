@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 
 # rtweet <img src="man/figures/logo.png" align="right" />
 
-
 [![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
@@ -33,7 +32,10 @@ Install
 To get the current released version from CRAN:
 
 ```{r, eval=FALSE}
+## install rtweet from CRAN
 install.packages("rtweet")
+
+## load rtweet package
 library(rtweet)
 ```
 
@@ -43,6 +45,7 @@ To get the current development version from Github:
 if (!"devtools" %in% installed.packages()) {
   install.packages("devtools")
 }
+
 ## install dev version of rtweet from github
 devtools::install_github("mkearney/rtweet")
 
@@ -52,14 +55,12 @@ library(rtweet)
 
 ## Getting started
 
-- ***Quick authorization method***: To make your life easier, follow
+- **Quick authorization method**: To make your life easier, follow
 the recommended steps in
 [obtaining and using access tokens](http://rtweet.info/index.html).
 However, for a quick start (note: much slower in long term),
 you can also follow the instructions below or via the
 [rtweet documentation website](http://rtweet.info/index.html).
-
-Update: rtweet's website has a new domain: http://rtweet.info
 
 - First, you'll need to [create a Twitter app](https://apps.twitter.com/).
 For the callback field, **make sure to enter the following**: `http://127.0.0.1:1410`.
@@ -86,8 +87,6 @@ twitter_token <- create_token(
   consumer_key = key,
   consumer_secret = secret
 )
-
-
 ```
 
 - Once `twitter_token` is part of your global environment, rtweet
@@ -108,36 +107,27 @@ rt <- search_tweets("data science", n = 1000, token = twitter_token)
 Twitter's APIs).
 
 ## Vignettes
-- [Obtaining and using user access tokens](http://rtweet.info/articles/auth.html)
+
+### [Obtaining and using user access tokens](http://rtweet.info/articles/auth.html)
 
 ```{r, eval=FALSE}
 ## authorizing API access
 vignette("auth", package = "rtweet")
 ```
 
-- [Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
+### [Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
 
 ```{r, eval=FALSE}
 ## quick overview of rtweet functions
 vignette("intro", package = "rtweet")
 ```
 
-- [Live streaming tweets data](http://rtweet.info/articles/stream.html)
+### [Live streaming tweets data](http://rtweet.info/articles/stream.html)
 
 ```{r, eval=FALSE}
 ## working with the stream
 vignette("stream", package = "rtweet")
 ```
-
-## Package description
-
-More technical description: An implementation of calls designed to
-extract and organize Twitter data via Twitter's REST and stream API's.
-Functions formulate GET and POST requests and convert response objects
-to more user friendly structures, e.g., data frames or lists. Specific
-consideration is given to functions designed to return tweets data
-from searches, streams, and timelines and user ids from friends and
-followers lists.
 
 ## Contact
 

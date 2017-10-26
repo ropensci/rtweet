@@ -54,8 +54,10 @@ next_cursor <- function(x) UseMethod("next_cursor")
 
 
 
+#' @export
 next_cursor.default <- function(x) return_last(x)
 
+#' @export
 next_cursor.numeric <- function(x) {
   op <- options()
   on.exit(options(op))
@@ -64,10 +66,12 @@ next_cursor.numeric <- function(x) {
   NextMethod()
 }
 
+#' @export
 next_cursor.character <- function(x) {
   return_last(x)
 }
 
+#' @export
 next_cursor.data.frame <- function(x) {
   if (has_name_(x, "next_cursor_str")) return(x[["next_cursor_str"]])
   if (has_name_(attributes(x), "next_cursor")) return(attr(x, "next_cursor"))
@@ -75,6 +79,7 @@ next_cursor.data.frame <- function(x) {
   NextMethod()
 }
 
+#' @export
 next_cursor.list <- function(x) {
   if (has_name_(x, "next_cursor_str")) return(x[["next_cursor_str"]])
   if (has_name_(x, "next_cursor")) return(x[["next_cursor"]])
@@ -86,6 +91,7 @@ next_cursor.list <- function(x) {
   return_last(x)
 }
 
+#' @export
 next_cursor.response <- function(x) {
   x <- from_js(x)
   NextMethod()
