@@ -11,7 +11,7 @@
 #'   it can (less than n) unless retryonratelimit is set to true.
 #' @param retryonratelimit If you'd like to retrieve more than 75,000 followers
 #'   in a single call, then set \code{retryonratelimit = TRUE} and this function
-#'   will use \code{\link{Sys.sleep}} until rate limits reset and the desired n
+#'   will use base \code{Sys.sleep} until rate limits reset and the desired n
 #'   is achieved or the number of total followers is exhausted. This defaults
 #'   to FALSE. See details for more info regarding possible issues with timing
 #'   misfires.

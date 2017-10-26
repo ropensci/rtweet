@@ -28,7 +28,7 @@ the \code{page} parameter.}
 \item{retryonratelimit}{If you'd like to retrieve 5,000 or fewer
 friends for more than 15 target users, then set
 \code{retryonratelimit = TRUE} and this function will use
-\code{\link{Sys.sleep}} until rate limits reset and the desired
+base \code{Sys.sleep} until rate limits reset and the desired
 number of friend networks is retrieved. This defaults to
 FALSE. See details for more info regarding possible issues with
 timing misfires.}

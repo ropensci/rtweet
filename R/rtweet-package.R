@@ -1,4 +1,4 @@
-#' @title rtweet
+#' rtweet: Collecting Twitter data
 #'
 #' @description rtweet provides users a range of functions
 #'   designed to extract data from Twitter's REST and
@@ -19,10 +19,6 @@
 #' ## for a quick demo check the rtweet vignette
 #' vignette("rtweet")
 #' }
-#'
-#' @docType package
-#' @aliases tokens rtwitter rtweets
-#' @name rtweet
 NULL
 
 .onAttach <- function(libname, pkgname) {
