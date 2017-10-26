@@ -6,13 +6,11 @@
 #' @param by Desired interval of time expressed as numeral plus secs,
 #'   mins, hours, days, weeks, months, years. If a numeric is
 #'   provided, the value is assumed to be in seconds.
-#' @param group Name of grouping variable for use in plotting multiple
-#'   time series. This is automatically configured if data is a
-#'   grouped_df (dplyr's group_by function).
+#' @param trim The number of observatons to drop off the beginning and
+#'   end of the time series.
 #' @param ... Other args passed to ggplot geom_line or, if ggplot2 is
 #'   not installed, then to lines plotting function.
-#' @return Either a ggplot plot object or an invisibly returned time
-#'   series-like data frame.
+#' @return If ggplot2 is installed then a ggplot2 plot
 #' @examples
 #' \dontrun{
 #' rt <- search_tweets("rstats", n = 10000)
@@ -32,19 +30,25 @@
 #' ts_plot(dplyr::group_by(tmls, screen_name, is_retweet), "months") + theme_minimal()
 #' }
 #' @export
-ts_plot <- function(data, by = "days", group = NULL, ...) {
-  do.call("ts_plot_", list(data = data, by = by, group = group, ...))
+ts_plot <- function(data, by = "days", trim = 0L, ...) {
+  do.call("ts_plot_", list(data = data, by = by, ...))
 }
 
 
 #' @importFrom graphics legend
-ts_plot_ <- function(data, by = "days", group = NULL, ...) {
-  data <- ts_data(data, by, group = group, ...)
+ts_plot_ <- function(data, by = "days", trim = 0L, ...) {
+  data <- ts_data(data, by, trim)
   if (requireNamespace("ggplot2", quietly = TRUE)) {
-    if (ncol(data) == 3) {
+    if (ncol(data) == 3L) {
       ggplot2::ggplot(
         data, ggplot2::aes_string(
           x = "time", y = "n", colour = names(data)[3])
+      ) +
+      ggplot2::geom_line(...)
+    } else if (ncol(data) == 4L) {
+      ggplot2::ggplot(
+        data, ggplot2::aes_string(
+          x = "time", y = "n", colour = names(data)[3], linetype = names(data)[4])
       ) +
       ggplot2::geom_line(...)
     } else {
@@ -53,20 +57,7 @@ ts_plot_ <- function(data, by = "days", group = NULL, ...) {
         ggplot2::geom_line(...)
     }
   } else {
-    if (ncol(data) == 3) {
-      cols <- ggcols(length(unique(data[[3]])))
-      with(data, plot(time, n, col = cols, type = "n"))
-      invisible(lapply(
-        seq_along(unique(data[[3]])), function(i)
-          with(data[data[[names(data)[3]]] == unique(data[[3]])[i], ],
-               lines(time, n, col = cols[i], ...))
-      ))
-      legend("topleft", unique(data[[3]]), bty = "n", inset = 0,
-             col = cols, lwd = rep(1, length(unique(data[[3]]))))
-    } else {
-      with(data, plot(time, n, ..., type = "l"))
-      invisible(data)
-    }
+    stop("please install ggplot2 to use ts_plot", call. = FALSE)
   }
 }
 

@@ -254,3 +254,23 @@ rm_links <- function(x) {
   x <- gsub("\\s{0,1}http\\S{1,}\\s{0,1}", "", x)
   gsub("\\s{0,1}\\S{1,}\\.com\\b\\s{0,1}", "", x)
 }
+
+rm_linebreaks <- function(x, y = " ") {
+  gsub("\\n", y, x)
+}
+
+enc2ascii <- function(x, y = "") {
+  iconv(x, to = "ascii", sub = y)
+}
+
+rm_amp <- function(x, y = "&") {
+  if (is.null(y)) {
+    y <- NULL
+  }
+  gsub("&amp;", y, x)
+}
+
+trim_ws <- function(x) {
+  x <- gsub("\\s{2,}", " ", x)
+  gsub("^\\s|\\s$", "", x)
+}

@@ -4,7 +4,7 @@
 \alias{ts_data}
 \title{ts data}
 \usage{
-ts_data(data, by = "days", group = NULL, ...)
+ts_data(data, by = "days", trim = 0L)
 }
 \arguments{
 \item{data}{Data frame or grouped data frame.}
@@ -13,11 +13,8 @@ ts_data(data, by = "days", group = NULL, ...)
 hours, days, weeks, months, years. If a numeric is provided, the value
 is assumed to be in seconds.}
 
-\item{group}{Name of grouping variable to construct multiple time series,
-which still returns a data frame but it includes the group variable as
-a named column.}
-
-\item{\dots}{Passed along to trim_time. Most likely used to specify timezone.}
+\item{trim}{Number of observations to trim off the front and end of each
+time series}
 }
 \value{
 Data frame with time, n, and grouping column if applicable.

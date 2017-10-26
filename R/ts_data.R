@@ -7,105 +7,106 @@
 #' @param by Desired interval of time expressed as numeral plus secs, mins,
 #'   hours, days, weeks, months, years. If a numeric is provided, the value
 #'   is assumed to be in seconds.
-#' @param group Name of grouping variable to construct multiple time series,
-#'   which still returns a data frame but it includes the group variable as
-#'   a named column.
-#' @param \dots Passed along to trim_time. Most likely used to specify timezone.
+#' @param trim Number of observations to trim off the front and end of each
+#'   time series
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @export
-ts_data <- function(data, by = "days", group = NULL, ...) {
-  do.call("ts_data_", list(data = data, by = by, group = group, ...))
+ts_data <- function(data, by = "days", trim = 0L) {
+  args <- list(data = data, by = by, trim = trim)
+  do.call("ts_data_", args)
 }
 
-
-ts_data_ <- function(data, by = "days", group = NULL, ...) {
-  if (inherits(data, "grouped_df")) {
-    group <- names(attr(data, "labels"))[1]
-  }
-  if (!is.null(group)) {
-    groupfun(data, group, aggregate_time, by, ...)
+ts_data_ <- function(data, by = "days", trim = 0L) {
+  stopifnot(is.data.frame(data), is.atomic(by))
+  if (has_name_(data, "created_at")) {
+    dtvar <- "created_at"
   } else {
-    aggregate_time(data, by, ...)
+    dtvar <- vapply(data, inherits, "POSIXct")
+    if (sum(dtvar) == 0L) stop("no datetime (POSIXct) var found", call. = FALSE)
+    dtvar <- names(data)[which(dtvar)[1]]
   }
-}
-
-
-
-#' apply functions to data frame by group
-#'
-#' @param data Data frame.
-#' @param group Name of grouping variable.
-#' @param f Function to be applied to data frame for each group.
-#' @param \dots Args passed along to function.
-#' @noRd
-groupfun <- function(data, group, f, ...) {
-  data <- lapply(
-    unique(data[[group]]),
-    function(x) {
-      dg <- f(data[data[[group]] == x, ], ...)
-      dg[[group]] <- x
-      dg
-    })
-  tibble::as_tibble(do.call("rbind", data))
-}
-
-groupsfun <- function(data, groups, f, ...) {
-  data <- lapply(groups, function(x) groupfun(data, x, f, ...))
-  for (i in seq_along(data)) {
-    nacols <- vapply(groups, function(x) has_name_(data[[i]], x), FUN.VALUE = logical(1))
-    if (sum(nacols) > 0L) {
-      for (j in seq_along(nacols)) {
-        data[[i]][[j]] <- NA_character_
-      }
-    }
-  }
-  tibble::as_tibble(do.call("rbind", data))
-}
-
-
-#' aggregate (count) tweets by time
-#'
-#' @param dt A date-time vector of class POSIXct. To be consistent with older versions,
-#'   if a data frame is provided, this function looks for a column named "created_at".
-#' @param by Length of time interval expressed in years, months, weeks, days, hours,
-#'   minutes, or seconds. Can include numeric specifier with unit, e.g., 2.5 months.
-#'   If a numeric is provided, it assumes you have specified the desired interval of
-#'   time interval in seconds.
-#' @param trim Logical indicating whether to round off the unit of time, e.g., days at
-#'   0 hours, minutes at 0 secds, etc.
-#' @param \dots Args passed to trim_time. Most likely this is used to specify time zone.
-#' @return Data frame of time and n (like a frequency table).
-#' @noRd
-aggregate_time <- function(dt, by = "days", trim = TRUE, ...) {
-  if (all(is.data.frame(dt), isTRUE("created_at" %in% names(dt)))) {
-    dt <- dt[["created_at"]]
-  }
-  stopifnot(inherits(dt, "POSIXct"), is.atomic(by))
-  dt <- sort(na_omit(dt))
+  ## drop NAs and sort data
+  data <- data[!is.na(data[[dtvar]]), ]
+  data <- data[order(data[[dtvar]]), ]
+  ## reformat time var
   .unit <- parse_unit(by)
-
-  dt <- round_time(dt, by)
-  dt <- trim_time(dt, by, ...)
-  dtb <- table(dt)
-
-  df <- data.frame(
-    time = unique(dt),
-    n = as.integer(dtb)
+  data[[dtvar]] <- round_time(data[[dtvar]], by)
+  data[[dtvar]] <- trim_time(data[[dtvar]], by)
+  ## get unique values of time in series
+  dtm <- unique(
+    seq(data[[dtvar]][1], data[[dtvar]][length(data[[dtvar]])], .unit)
   )
-
-  df2 <- data.frame(
-    time = unique(trim_time(seq(dt[1], dt[length(dt)], .unit), by)),
-    n = 0L
-  )
-
-  if (any(!df2$time %in% df$time)) {
-    df <- rbind(df, df2[!df2$time %in% df$time, ])
+  ## if grouped df (up to 2 groups)
+  if (inherits(data, "grouped_df")) {
+    groups <- names(attr(data, "labels"))
+    if (length(groups) > 1L) {
+      group2 <- groups[2]
+    } else {
+      group2 <- NULL
+    }
+    group1 <- groups[1]
+    lv1 <- unique(data[[group1]])
+    df1 <- as.POSIXct(character())
+    df2 <- integer()
+    df3 <- list()
+    if (!is.null(group2)) {
+      lv2 <- unique(data[[group2]])
+      df4 <- list()
+      ## count expressions for each row for output time series-like data
+      for (i in seq_along(dtm)) {
+        for (j in seq_along(lv1)) {
+          for (k in seq_along(lv2)) {
+            df1[length(df1) + 1L] <- dtm[i]
+            df2[length(df2) + 1L] <- sum(
+              data[[dtvar]] == dtm[i] &
+                data[[group1]] == lv1[j] &
+                data[[group2]] == lv2[k],
+              na.rm = TRUE
+            )
+            df3[[length(df3) + 1L]] <- lv1[j]
+            df4[[length(df4) + 1L]] <- lv2[k]
+          }
+        }
+      }
+      df <- data.frame(
+        time = df1,
+        n = df2,
+        g1 = unlist(df3),
+        g2 = unlist(df4),
+        stringsAsFactors = FALSE
+      )
+      names(df)[3:4] <- groups[1:2]
+    } else {
+      ## count expressions for each row for output time series-like data
+      for (i in seq_along(dtm)) {
+        for (j in seq_along(lv1)) {
+          df1[length(df1) + 1L] <- dtm[i]
+          df2[length(df2) + 1L] <- sum(
+            data[[dtvar]] == dtm[i] &
+              data[[group1]] == lv1[j],
+              na.rm = TRUE
+          )
+          df3[[length(df3) + 1L]] <- lv1[j]
+        }
+      }
+      df <- data.frame(
+        time = df1,
+        n = df2,
+        g1 = unlist(df3),
+        stringsAsFactors = FALSE
+      )
+      names(df)[3] <- group1
+    }
+  } else {
+    df <- data.frame(
+      time = dtm,
+      n = vapply(dtm, function(x) sum(data[[dtvar]] == x), FUN.VALUE = integer(1)),
+      stringsAsFactors = FALSE
+    )
   }
-  df <- df[order(df$time), ]
-  row.names(df) <- NULL
-
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    df <- tibble::as_tibble(df)
+  df <- tibble::as_tibble(df)
+  if (trim > 0L) {
+    df <- trim_ts(df, trim)
   }
   df
 }
@@ -184,27 +185,36 @@ round_time <- function(x, interval = 60, center = TRUE) {
 
 #' trim_ts
 #'
-#' @param x Time series Twitter data.
-#' @param group Name of grouping variable. Default (NULL) will use
-#'   variable of grouped data frames or look for variables labelled
-#'   "group" or "filter". Set this to FALSE to override these defaults.
+#' Trim end values of time series like data.
+#'
+#' @param data Time series Twitter data output by ts_data.
+#' @param trim Number of values to drop from each time series.
 #' @return Trimmed data frame
-#' @noRd
-trim_ts <- function(x, group = NULL) {
-  if (all(is.null(group), inherits(x, "grouped_df"))) {
-    group <- attr(x, "vars")
-  } else if (all(is.null(group), "group" %in% names(x))) {
-    group <- "group"
-  } else if (all(is.null(group), "filter" %in% names(x))) {
-    group <- "filter"
-  }
-  if (any(is.null(group), identical(group, FALSE))) {
-    n <- nrow(x)
+#' @export
+trim_ts <- function(data, trim = 1L) {
+  if (ncol(data) > 2L) {
+    g <- unique(data[[3]])
+    g <- lapply(g, function(x) trim_ots(data[data[[3]] == x, ], trim, trim))
+    g <- do.call("rbind", g)
+    if (ncol(data) == 4L) {
+      g2 <- unique(data[[4]])
+      g2 <- lapply(g2, function(x) trim_ots(data[data[[4]] == x, ], trim, trim))
+      g2 <- do.call("rbind", g2)
+      g <- rbind(g, g2)
+    }
+    g
   } else {
-    n <- sum(x[[group]] == x[[group]][1])
+    trim_ots(data, trim, trim)
   }
-  nope <- c(seq(1, nrow(x), n), seq(n, nrow(x), n))
-  x <- x[-nope, ]
-  row.names(x) <- NULL
-  x
+}
+
+
+trim_ots <- function(x, f = 1L, l = 1L) {
+  x <- x[order(x[[1]]), ]
+  f <- seq_len(f)
+  l <- nrow(x) - seq_len(l) + 1L
+  if ((length(l) + length(f)) >= nrow(x)) {
+    return(x)
+  }
+  x[-c(f, l), ]
 }

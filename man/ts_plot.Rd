@@ -4,7 +4,7 @@
 \alias{ts_plot}
 \title{ts plot}
 \usage{
-ts_plot(data, by = "days", group = NULL, ...)
+ts_plot(data, by = "days", trim = 0L, ...)
 }
 \arguments{
 \item{data}{Data frame or grouped data frame.}
@@ -13,16 +13,14 @@ ts_plot(data, by = "days", group = NULL, ...)
 mins, hours, days, weeks, months, years. If a numeric is
 provided, the value is assumed to be in seconds.}
 
-\item{group}{Name of grouping variable for use in plotting multiple
-time series. This is automatically configured if data is a
-grouped_df (dplyr's group_by function).}
+\item{trim}{The number of observatons to drop off the beginning and
+end of the time series.}
 
 \item{...}{Other args passed to ggplot geom_line or, if ggplot2 is
 not installed, then to lines plotting function.}
 }
 \value{
-Either a ggplot plot object or an invisibly returned time
-  series-like data frame.
+If ggplot2 is installed then a ggplot2 plot
 }
 \description{
 Returns time series-like data frame.
