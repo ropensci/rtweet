@@ -31,7 +31,7 @@
 #' }
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, ...) {
-  do.call("ts_plot_", list(data = data, by = by, ...))
+  do.call("ts_plot_", list(data = data, by = by, trim = trim, ...))
 }
 
 
