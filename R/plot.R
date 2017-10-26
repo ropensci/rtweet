@@ -1,6 +1,4 @@
-#' ts plot
-#'
-#' Returns time series-like data frame.
+#' Plots tweets data as a time series-like data object.
 #'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus secs,

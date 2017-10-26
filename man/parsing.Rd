@@ -38,10 +38,10 @@ users_with_tweets(usr)
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}}
+  \code{\link{search_tweets}}, \code{\link{tweets_data}}
 
-Other users: \code{\link{lists_subscribers}},
+Other users: \code{\link{as_screenname}},
+  \code{\link{lists_subscribers}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{users_data}}
 }

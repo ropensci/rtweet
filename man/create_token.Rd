@@ -2,7 +2,7 @@
 % Please edit documentation in R/tokens.R
 \name{create_token}
 \alias{create_token}
-\title{create_token}
+\title{Creating Twitter authorization token(s).}
 \usage{
 create_token(app = "mytwitterapp", consumer_key, consumer_secret,
   cache = TRUE)
@@ -24,7 +24,7 @@ Ideally, users will store their token as an environment variable
 works as long as always return to the same working directory.}
 }
 \value{
-Twitter personal access token object
+Twitter oauth token(s) (Token1.0).
 }
 \description{
 Sends request to generate oauth 1.0 tokens. Twitter

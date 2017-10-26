@@ -3,10 +3,18 @@
 \name{post_follow}
 \alias{post_follow}
 \alias{follow_user}
-\title{post_follow}
+\alias{post_unfollow_user}
+\alias{unfollow_user}
+\alias{post_mute}
+\alias{unfollow_user}
+\title{Follows target twitter user.}
 \usage{
 post_follow(user, destroy = FALSE, mute = FALSE, notify = FALSE,
   retweets = TRUE, token = NULL)
+
+post_unfollow_user(user, token = NULL)
+
+post_mute(user, token = NULL)
 }
 \arguments{
 \item{user}{Screen name or user id of target user.}
@@ -38,7 +46,5 @@ post_follow("BarackObama")
 }
 \seealso{
 Other post: \code{\link{post_favorite}},
-  \code{\link{post_friendship}}, \code{\link{post_mute}},
-  \code{\link{post_tweet}},
-  \code{\link{post_unfollow_user}}
+  \code{\link{post_friendship}}, \code{\link{post_tweet}}
 }

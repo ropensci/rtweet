@@ -2,7 +2,7 @@
 % Please edit documentation in R/followers.R
 \name{get_followers}
 \alias{get_followers}
-\title{GET followers/ids}
+\title{Get user IDs for accounts following target user(s).}
 \usage{
 get_followers(user, n = 5000, page = "-1", retryonratelimit = FALSE,
   parse = TRUE, verbose = TRUE, token = NULL)
@@ -50,7 +50,7 @@ tokens vignette (in r, send \code{?tokens} to console).}
 A tibble data frame of follower IDs (one column named "user_id").
 }
 \description{
-Get user IDs of accounts following target user.
+Get user IDs for accounts following target user(s).
 }
 \details{
 When \code{retryonratelimit = TRUE} this function internally

@@ -1,51 +1,62 @@
-#' stream_tweets
+#' Collect a live stream of Twitter data.
 #'
-#' @description Returns public statuses via one of three methods
-#'   described below. By design, this function deciphers which
-#'   method to use when processing the \code{stream} argument.
-#' \itemize{
-#'   \item 1. Filtering via a search-like query (up to 400 keywords)
-#'   \item 2. Tracking via vector of user ids (up to 5000 user_ids)
-#'   \item 3. Location via geo coordinates (1-360 degree location boxes)
-#' }
-#' @param q Character vector with desired phrases and keywords
-#'   used to filter tweets, a comma separated list of desired
-#'   user IDs to track, or a set of bounding boxes to track. If
-#'   left empty, the default \code{q = ""}, stream function will
-#'   return sample of all tweets.
-#' @param timeout Numeric scalar specifying amount of time, in seconds,
-#'   to leave connection open while streaming/capturing tweets.
-#'   By default, this is set to 30 seconds. To stream indefinitely,
-#'   use \code{timeout = FALSE} to ensure json file is not deleted
-#'   upon completion or \code{timeout = Inf}.
-#' @param parse Logical, indicating whether to return parsed data.
-#'   By default, \code{parse = TRUE}, this function does the parsing for
-#'   you. However, for larger streams, or for automated scripts designed
-#'   to continuously collect data, this should be set to false as the
-#'   parsing process can eat up processing resources and time. For other
-#'   uses, setting parse to TRUE saves you from having to sort and parse
-#'   the messy list structure returned by Twitter. (Note: if you set parse
-#'   to false, you can use the \code{\link{parse_stream}} function to
-#'   parse the json file at a later point in time.)
+#' Returns public statuses via one of the following four methods:
+#'   \itemize{
+#'     \item 1. Sampling a small random sample of all publicly
+#'              available tweets
+#'     \item 2. Filtering via a search-like query (up to 400
+#'              keywords)
+#'     \item 3. Tracking via vector of user ids (up to 5000
+#'              user_ids)
+#'     \item 4. Location via geo coordinates (1-360 degree
+#'              location boxes)
+#'   }
+#' @param q Query used to select and customize streaming collection
+#'   method.  There are four possible methods. (1) The default,
+#'   \code{q = ""}, returns a small random sample of all publicly
+#'   available Twitter statuses. (2) To filter by keyword, provide a
+#'   comma separated character string with the desired phrase(s) and
+#'   keyword(s). (3) Track users by providing a comma separated list
+#'   of user IDs or screen names. (4) Use four latitude/longitude
+#'   bounding box points to stream by geo location. This must be
+#'   provided via a vector of length 4, e.g., c(-125, 26, -65, 49).
+#' @param timeout Numeric scalar specifying amount of time, in
+#'   seconds, to leave connection open while streaming/capturing
+#'   tweets.  By default, this is set to 30 seconds. To stream
+#'   indefinitely, use \code{timeout = FALSE} to ensure json file is
+#'   not deleted upon completion or \code{timeout = Inf}.
+#' @param parse Logical, indicating whether to return parsed data.  By
+#'   default, \code{parse = TRUE}, this function does the parsing for
+#'   you. However, for larger streams, or for automated scripts
+#'   designed to continuously collect data, this should be set to
+#'   false as the parsing process can eat up processing resources and
+#'   time. For other uses, setting parse to TRUE saves you from having
+#'   to sort and parse the messy list structure returned by
+#'   Twitter. (Note: if you set parse to false, you can use the
+#'   \code{\link{parse_stream}} function to parse the json file at a
+#'   later point in time.)
 #' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @param file_name Character with name of file. By default, a temporary
-#'   file is created, tweets are parsed and returned to parent environment,
-#'   and the temporary file is deleted.
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
+#' @param file_name Character with name of file. By default, a
+#'   temporary file is created, tweets are parsed and returned to
+#'   parent environment, and the temporary file is deleted.
 #' @param gzip Logical indicating whether to request gzip compressed
-#'   stream data. By default this is set to FALSE. After performing some
-#'   tests, it appears gzip requires less bandwidth, but also returns
-#'   slightly fewer tweets. Use of gzip option should, in theory, make
-#'   connection more reliable (by hogging less bandwidth, there's less of
-#'   a chance Twitter cuts you off for getting behind).
+#'   stream data. By default this is set to FALSE. After performing
+#'   some tests, it appears gzip requires less bandwidth, but also
+#'   returns slightly fewer tweets. Use of gzip option should, in
+#'   theory, make connection more reliable (by hogging less bandwidth,
+#'   there's less of a chance Twitter cuts you off for getting
+#'   behind).
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
-#' @param fix.encoding Logical indicating whether to internally specify encoding to
-#'   prevent possible errors caused by things such as non-ascii characters.
-#' @param \dots Insert magical paramaters, spell, or potion here. Or filter for
-#'   tweets by language, e.g., \code{language = "en"}.
+#' @param fix.encoding Logical indicating whether to internally
+#'   specify encoding to prevent possible errors caused by things such
+#'   as non-ascii characters.
+#' @param \dots Insert magical paramaters, spell, or potion here. Or
+#'   filter for tweets by language, e.g., \code{language = "en"}.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
 #' @examples
 #' \dontrun{
@@ -53,11 +64,10 @@
 #' e <- stream_tweets("election", timeout = 90)
 #'
 #' ## data frame where each observation (row) is a different tweet
-#' head(e)
+#' e
 #'
 #' ## users data also retrieved, access it via users_data()
-#' users_data(e) %>%
-#'     head()
+#' users_data(e)
 #'
 #' ## plot tweet frequency
 #' ts_plot(e, "secs")
@@ -66,7 +76,7 @@
 #' djt <- stream_tweets("realdonaldtrump", timeout = 30)
 #'
 #' ## preview tweets data
-#' head(djt)
+#' djt
 #'
 #' ## get user IDs of people who mentioned trump
 #' usrs <- users_data(djt)
@@ -75,36 +85,51 @@
 #' usrdat <- lookup_users(unique(usrs$user_id))
 #'
 #' ## preview users data
-#' head(usrdat)
+#' usrdat
 #'
 #' ## store large amount of tweets in files using continuous streams
 #' ## by default, stream_tweets() returns a random sample of all tweets
 #' ## leave the query field blank for the random sample of all tweets.
-#' stream_tweets(timeout = (60 * 10), parse = FALSE,
-#'     file_name = "tweets1")
-#' stream_tweets(timeout = (60 * 10), parse = FALSE,
-#'     file_name = "tweets2")
+#' stream_tweets(
+#'   timeout = (60 * 10),
+#'   parse = FALSE,
+#'   file_name = "tweets1"
+#' )
+#' stream_tweets(
+#'   timeout = (60 * 10),
+#'   parse = FALSE,
+#'   file_name = "tweets2"
+#' )
 #'
 #' ## parse tweets at a later time using parse_stream function
 #' tw1 <- parse_stream("tweets1.json")
-#' head(tw1)
+#' tw1
 #'
 #' tw2 <- parse_stream("tweets2.json")
-#' head(tw2)
+#' tw2
 #'
 #' ## streaming tweets by specifying lat/long coordinates
 #'
 #' ## stream continental US tweets for 5 minutes
 #' usa <- stream_tweets(
-#'     c(-125,26,-65,49),
-#'     timeout = 300)
+#'   c(-125, 26, -65, 49),
+#'   timeout = 300
+#' )
+#'
+#' ## use lookup_coords() for a shortcut verson of the above code
+#' usa <- stream_tweets(
+#'   lookup_coords("usa"),
+#'   timeout = 300
+#' )
 #'
 #' ## stream world tweets for 5 mins, save to json file
+#' ## shortcut coords note: lookup_coords("world")
 #' world.old <- stream_tweets(
-#'     c(-180, -90, 180, 90),
-#'     timeout = (60 * 5),
-#'     parse = FALSE,
-#'     file_name = "world-tweets.json")
+#'   c(-180, -90, 180, 90),
+#'   timeout = (60 * 5),
+#'   parse = FALSE,
+#'   file_name = "world-tweets.json"
+#' )
 #'
 #' ## read in json file
 #' rtworld <- parse_stream("word-tweets.json")
@@ -115,7 +140,7 @@
 #' }
 #'
 #' @return Tweets data returned as data frame with users data as attribute.
-#' @family tweets
+#' @family stream tweets
 #' @importFrom httr POST write_disk add_headers progress timeout
 #' @export
 stream_tweets <- function(q = "",
@@ -239,33 +264,8 @@ stream_params <- function(stream, ...) {
 
 
 
-#' stream_data
-#'
-#' @param file_name name of file to be parsed. NOTE: if file
-#'   was created via \code{\link{stream_tweets}}, then it will
-#'   end in ".json" (see example below)
-#' @param \dots For developmental purposes.
-#' @return Data frame of tweets data with attributes users data
-#' @details Reading and simplifying json files can be very slow. To
-#'   make things more managable, \code{parse_stream_xl} does one chunk
-#'   of Tweets at a time and then compiles the data into a data frame.
-#'
-#' @examples
-#' \dontrun{
-#' ## file extension automatically converted to .json whether or
-#' ## not file_name already includes .json
-#' stream_tweets(q = "", timeout = 30,
-#'               file_name = "rtweet-stream", parse = FALSE)
-#' rt <- parse_stream("rtweet-stream.json")
-#' ## preview tweets data
-#' head(rt)
-#' ## preview users data
-#' head(users_data(rt))
-#' ## plot time series
-#' ts_plot(rt, "secs")
-#' }
+
 #' @importFrom jsonlite stream_in
-#' @export
 stream_data <- function(file_name, ...) {
   tw <- .parse_stream(file_name, ...)
   usr <- users_data(tw)
@@ -316,16 +316,6 @@ stream_data <- function(file_name, ...) {
 
 
 
-#' data_from_stream
-#'
-#' @param x Character, name of json file with data collected by
-#'   \code{\link{stream_tweets}}.
-#' @param n Number of documents (tweets) to process per interval. Defaults to 10,000.
-#' @param n_max Number of maximum documents (tweets) to process in total. This value
-#'   is set independent from n, but it's only really useful when it's larger than n,
-#'   like when you only want to read the first million tweets from a json file that
-#'   contains 5 million tweets. Defaults to -1L, which means all lines will be read.
-#' @export
 data_from_stream <- function(x, n = 10000L, n_max = -1L) {
   if (!file.exists(x)) {
     stop("No such file exists", call. = FALSE)
@@ -357,15 +347,27 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
 }
 
 
-#' parse_stream
-#'
 #' Converts Twitter stream data (json file) into parsed data frame.
 #'
 #' @param path Character, name of json file with data collected by
 #'   \code{\link{stream_tweets}}.
-#' @param ... Other arguments passed on to \code{\link{data_from_stream}}.
+#' @param ... Other arguments passed on to interal data_from_stream
+#'   function.
 #' @return A tbl of tweets data with attribute of users data
+#' @examples
+#' \dontrun{
+#' ## run and save stream to json file
+#' stream_tweets(
+#'   "the,a,an,and", timeout = 60,
+#'   file_name = "theaanand.json",
+#'   parse = FALSE
+#' )
+#'
+#' ## parse stream file into tibble data frame
+#' rt <- parse_stream("theaanand.json")
+#' }
 #' @export
+#' @family stream tweets
 parse_stream <- function(path, ...) {
   dots <- list(...)
   if (length(dots) > 0L) {

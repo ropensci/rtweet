@@ -1,12 +1,9 @@
 
-#' users_data
+#' Extracts users data from tweets data object.
 #'
-#' Returns users data frame from returned tweets
-#'   data object.
-#'
-#' @param tweets Data frame of Twitter statuses (tweets) generated via
-#'   \code{\link{get_timeline}}, \code{\link{search_tweets}}, or
-#'   \code{\link{stream_tweets}}.
+#' @param tweets Parsed data object of tweets data as returned via
+#'   \code{\link{get_timeline}}, \code{\link{search_tweets}},
+#'   \code{\link{stream_tweets}}, etc..
 #'
 #' @examples
 #' \dontrun{
@@ -34,15 +31,10 @@ users_data <- function(tweets) {
   }
 }
 
-#' tweets_data
+#' Extracts tweets data from users data object.
 #'
-#' Tweets data frame from users returned in a users data object.
-#'   Typically, this involves the most recent tweet of each user, though
-#'   in some cases the most recent tweet may not be available.
-#'
-#' @param users Data frame of status data generated via
-#'   \code{search_tweets}, \code{stream_tweets}, \code{get_timeline},
-#'   \code{lookup_statuses}, etc.
+#' @param users Parsed data object of users data as returned via
+#'   \code{\link{search_users}}, \code{\link{lookup_users}}, etc.
 #'
 #' @examples
 #' \dontrun{

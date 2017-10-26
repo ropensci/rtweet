@@ -1,6 +1,4 @@
-#' rate_limit
-#'
-#' Returns rate limit information for Twitter access tokens.
+#' Get rate limit data for given Twitter access tokens.
 #'
 #' @param token One or more OAuth tokens. By default \code{token =
 #'   NULL} fetches a non-exhausted token from an environment

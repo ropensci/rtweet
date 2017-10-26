@@ -3,7 +3,7 @@
 \name{post_tweet}
 \alias{post_tweet}
 \alias{post_status}
-\title{post_tweet}
+\title{Posts status update to user's Twitter account}
 \usage{
 post_tweet(status = "my first rtweet #rstats", media = NULL, token = NULL,
   in_reply_to_status_id = NULL)
@@ -56,6 +56,5 @@ post_tweet(status="second in the thread", in_reply_to_status_id=reply_id)
 }
 \seealso{
 Other post: \code{\link{post_favorite}},
-  \code{\link{post_follow}}, \code{\link{post_friendship}},
-  \code{\link{post_mute}}, \code{\link{post_unfollow_user}}
+  \code{\link{post_follow}}, \code{\link{post_friendship}}
 }

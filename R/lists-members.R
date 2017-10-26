@@ -1,8 +1,4 @@
-#' GET lists/members
-#'
-#' Returns the members of the specified list. Private list members
-#' will only be shown if the authenticated user owns the specified
-#' list.
+#' Get the members of a specified Twitter list.
 #'
 #' @param list_id required The numerical id of the list.
 #' @param slug required You can identify a list by its slug instead of

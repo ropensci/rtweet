@@ -1,8 +1,4 @@
-#' lists/memberships
-#'
-#' Returns the lists the specified user has been added to. If user_id
-#' or screen_name are not provided the memberships for the
-#' authenticating user are returned.
+#' Get the lists a specified user has been added to.
 #'
 #' @param user The user id or screen_name of the user for whom to
 #'   return results for.

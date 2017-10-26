@@ -1,7 +1,4 @@
-#' search_tweets
-#'
-#' @description Returns tweets data with users data attribute
-#'   using a provided search query.
+#' Get tweets data on statuses identified via search query.
 #'
 #' @param q Query tobe searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
@@ -346,10 +343,7 @@ search_tweets.default <- function(q = "",
   tw
 }
 
-#' search_users
-#'
-#' @description Returns data frame of users data using a provided
-#'   search query.
+#' Get users data on accounts identified via search query.
 #'
 #' @param q Query to be searched, used in filtering relevant tweets
 #'   to return from Twitter's REST API. Should be a character

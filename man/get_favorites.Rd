@@ -2,7 +2,7 @@
 % Please edit documentation in R/favorites.R
 \name{get_favorites}
 \alias{get_favorites}
-\title{GET favorites/list}
+\title{Get tweets data for statuses favorited by one or more target users.}
 \usage{
 get_favorites(user, n = 200, since_id = NULL, max_id = NULL,
   parse = TRUE, token = NULL)
@@ -39,7 +39,7 @@ tokens vignette (in r, send \code{?tokens} to console).}
 A tbl data frame of tweets data with users data attribute.
 }
 \description{
-Returns favorite tweets data for one or more target users.
+Get tweets data for statuses favorited by one or more target users.
 }
 \examples{
 \dontrun{
@@ -56,7 +56,6 @@ favs
 Other tweets: \code{\link{get_timeline}},
   \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}},
+  \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }

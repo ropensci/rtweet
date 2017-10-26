@@ -2,7 +2,7 @@
 % Please edit documentation in R/ts_data.R
 \name{ts_data}
 \alias{ts_data}
-\title{ts data}
+\title{Converts tweets data into time series-like data object.}
 \usage{
 ts_data(data, by = "days", trim = 0L)
 }
@@ -20,5 +20,5 @@ time series}
 Data frame with time, n, and grouping column if applicable.
 }
 \description{
-Returns time series-like data frame.
+Converts tweets data into time series-like data object.
 }

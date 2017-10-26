@@ -3,7 +3,7 @@
 \name{rate_limit}
 \alias{rate_limit}
 \alias{rate_limits}
-\title{rate_limit}
+\title{Get rate limit data for given Twitter access tokens.}
 \usage{
 rate_limit(token = NULL, query = NULL, parse = TRUE)
 
@@ -36,7 +36,7 @@ Tibble data frame with rate limit information pertaining to
   query is specified, only relevant rows are returned.
 }
 \description{
-Returns rate limit information for Twitter access tokens.
+Get rate limit data for given Twitter access tokens.
 }
 \details{
 If multiple tokens are provided, this function will return

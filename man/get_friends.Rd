@@ -2,7 +2,7 @@
 % Please edit documentation in R/friends.R
 \name{get_friends}
 \alias{get_friends}
-\title{GET friends/ids}
+\title{Get user IDs of accounts followed by target user(s).}
 \usage{
 get_friends(users, n = 5000, retryonratelimit = FALSE, page = "-1",
   parse = TRUE, verbose = TRUE, token = NULL)
@@ -58,7 +58,7 @@ A tibble data frame with two columns, "user" for name or ID of target
   user and "user_id" for follower IDs.
 }
 \description{
-Returns user IDs of accounts followed by target user.
+Get user IDs of accounts followed by target user(s).
 }
 \details{
 When \code{retryonratelimit = TRUE} this function internally

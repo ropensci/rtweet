@@ -4,7 +4,7 @@
 \alias{post_favorite}
 \alias{post_favourite}
 \alias{favorite_tweet}
-\title{post_favorite}
+\title{Favorites target status id.}
 \usage{
 post_favorite(status_id, destroy = FALSE, include_entities = FALSE,
   token = NULL)
@@ -33,7 +33,5 @@ r <- lapply(rt$user_id, post_favorite)
 }
 \seealso{
 Other post: \code{\link{post_follow}},
-  \code{\link{post_friendship}}, \code{\link{post_mute}},
-  \code{\link{post_tweet}},
-  \code{\link{post_unfollow_user}}
+  \code{\link{post_friendship}}, \code{\link{post_tweet}}
 }

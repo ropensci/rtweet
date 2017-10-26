@@ -1,7 +1,4 @@
-#' lookup_tweets
-#'
-#' @description Returns Twitter user data_frame object for
-#'   specified user_ids or screen_names.
+#' Get tweets data for given statuses (status IDs).
 #'
 #' @param statuses User id or screen name of target user.
 #' @param token OAuth token (1.0 or 2.0). By default

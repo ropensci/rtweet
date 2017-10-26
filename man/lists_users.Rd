@@ -2,7 +2,7 @@
 % Please edit documentation in R/lists-users.R
 \name{lists_users}
 \alias{lists_users}
-\title{GET lists/list}
+\title{Get all lists a specified user subscribes to, including their own.}
 \usage{
 lists_users(user, reverse = FALSE, token = NULL, parse = TRUE)
 }
@@ -27,9 +27,7 @@ an R list. Defaults to TRUE.}
 data
 }
 \description{
-Returns all lists a specified user subscribes to,
-  including their own. If no user is given, the authenticating
-  user is used.
+Get all lists a specified user subscribes to, including their own.
 }
 \examples{
 \dontrun{

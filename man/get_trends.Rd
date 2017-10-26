@@ -2,7 +2,7 @@
 % Please edit documentation in R/trends.R
 \name{get_trends}
 \alias{get_trends}
-\title{GET trends/place}
+\title{Get Twitter trends data.}
 \usage{
 get_trends(woeid = 1, lat = NULL, lng = NULL, exclude = FALSE,
   token = NULL, parse = TRUE)
@@ -39,7 +39,7 @@ trends data. Defaults to true.}
 Tibble data frame of trends data for a given geographical area.
 }
 \description{
-Returns Twitter trends
+Get Twitter trends data.
 }
 \examples{
 \dontrun{

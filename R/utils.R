@@ -147,9 +147,12 @@ from_js <- function(rsp) {
 }
 
 na_omit <- function(x) {
-  x[!is.na(x)]
+  if (is.atomic(x)) {
+    x[!is.na(x)]
+  } else {
+    x[!vapply(x, function(x) isTRUE(is.na(x)), FUN.VALUE = logical(1))]
+  }
 }
-
 
 
 ##----------------------------------------------------------------------------##

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{ts_plot}
 \alias{ts_plot}
-\title{ts plot}
+\title{Plots tweets data as a time series-like data object.}
 \usage{
 ts_plot(data, by = "days", trim = 0L, ...)
 }
@@ -23,7 +23,7 @@ not installed, then to lines plotting function.}
 If ggplot2 is installed then a ggplot2 plot
 }
 \description{
-Returns time series-like data frame.
+Plots tweets data as a time series-like data object.
 }
 \examples{
 \dontrun{

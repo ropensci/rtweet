@@ -2,7 +2,7 @@
 % Please edit documentation in R/lists-statuses.R
 \name{lists_statuses}
 \alias{lists_statuses}
-\title{GET lists/statuses}
+\title{Get a timeline of tweets authored by members of a specified list.}
 \usage{
 lists_statuses(list_id = NULL, slug = NULL, owner_user = NULL,
   since_id = NULL, max_id = NULL, n = 5000, include_rts = TRUE,
@@ -49,9 +49,7 @@ console).}
 data
 }
 \description{
-Returns a timeline of tweets authored by members of the specified
-list. Retweets are included by default. Use the include_rts=false
-parameter to omit retweets.
+Get a timeline of tweets authored by members of a specified list.
 }
 \seealso{
 Other lists: \code{\link{lists_members}},
@@ -61,7 +59,6 @@ Other lists: \code{\link{lists_members}},
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}},
+  \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }

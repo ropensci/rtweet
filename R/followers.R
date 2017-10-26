@@ -1,6 +1,4 @@
-#' GET followers/ids
-#'
-#' Get user IDs of accounts following target user.
+#' Get user IDs for accounts following target user(s).
 #'
 #' @param user Screen name or user ID of target user from which the user IDs
 #'   of followers will be retrieved.

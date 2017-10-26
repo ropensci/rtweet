@@ -1,6 +1,4 @@
-#' GET friends/ids
-#'
-#' Returns user IDs of accounts followed by target user.
+#' Get user IDs of accounts followed by target user(s).
 #'
 #' @param users Screen name or user ID of target user from which the
 #'   user IDs of friends (accounts followed BY target user) will be
@@ -90,8 +88,8 @@ get_friends_ <- function(users,
                          parse = TRUE,
                          verbose = TRUE,
                          token = NULL) {
-  stopifnot(is.atomic(users), is_n(n))
-  if (any(is.na(users))) {
+  stopifnot(is.vector(users), is_n(n))
+  if (any(is.na(unlist(users)))) {
     warning("Missing users omitted", call. = FALSE)
     users <- na_omit(users)
   }
@@ -118,12 +116,12 @@ get_friends_ <- function(users,
       n.times <- rl[["remaining"]]
       i <- i + 1L
       params <- list(
-        user_type = users[i],
+        user_type = users[[i]],
         count = count,
         cursor = page,
         stringify_ids = TRUE
       )
-      names(params)[1] <- .id_type(users[i])
+      names(params)[1] <- .id_type(users[[i]])
       url <- make_url(
         query = query,
         param = params
@@ -154,7 +152,7 @@ get_friends_ <- function(users,
       } else if (parse) {
         nextcursor <- f[["next_cursor"]]
         f[[i]] <- tibble::as_tibble(
-          list(user = users[i], user_id = f[[i]][["ids"]])
+          list(user = users[[i]], user_id = f[[i]][["ids"]])
         )
         attr(f[[i]], "next_cursor") <- nextcursor
       }
@@ -173,6 +171,8 @@ get_friends_ <- function(users,
       attr(f, "next_cursor") <- nextcursors
     }
   } else {
+    users <- unlist(users)
+    stopifnot(length(users) == 1L)
     ## compose query
     params <- list(
       user_type = users,

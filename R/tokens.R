@@ -1,17 +1,24 @@
-#' get_tokens
+#' Fetching Twitter authorization token(s).
 #'
 #' Call function used to fetch and load Twitter oauth tokens.
 #' Since Twitter app key should be stored privately, users should save
 #' the path to token(s) as an environment variable. This allows Tokens
 #' to be instantly [re]loaded in future sessions. See the "tokens"
 #' vignette for instructions on obtaining and using access tokens.
-#' 
+#'
 #' @return Twitter oauth token(s) (Token1.0).
-#' @details This function will search for tokens using R, internal, and
-#' global environment variables (in that order).
-#' 
+#' @details This function will search for tokens using R, internal,
+#'   and global environment variables (in that order).
+#' @examples
+#' \dontrun{
+#' ## fetch default token(s)
+#' token <- get_tokens()
+#'
+#' ## print token
+#' token
+#'
+#' }
 #' @family tokens
-#' @aliases get_token
 #' @export
 get_tokens <- function() {
   if (all(is.null(.state$twitter_tokens),
@@ -28,7 +35,7 @@ get_tokens <- function() {
 #' @rdname get_tokens
 get_token <- function() get_tokens()
 
-#' create_token
+#' Creating Twitter authorization token(s).
 #'
 #' @description Sends request to generate oauth 1.0 tokens. Twitter
 #'   also allows users to create user-only (oauth 2.0) access token.
@@ -53,7 +60,7 @@ get_token <- function() get_tokens()
 #'   works as long as always return to the same working directory.
 #' @seealso \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 #'
-#' @return Twitter personal access token object
+#' @return Twitter oauth token(s) (Token1.0).
 #' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
 #' @family tokens
 #' @export
@@ -73,19 +80,7 @@ create_token <- function(app = "mytwitterapp",
   )
 }
 
-#' fetch_tokens
-#'
-#' @description Fetches tokens based on remaining rate limit.
-#'   Use this function to cycle through multiple access tokens
-#'   until rate limit remaining is greater than 0.
-#'
-#' @param tokens List of oauth tokens
-#' @param query character vector, Twitter API query of interest
-#' @param sleep logical indicating whether to force system sleep if
-#'   rate limit is exhausted. defaults to \code{sleep = FALSE}.
-#' @return token with non-exhausted rate limit
-#' @keywords internal
-#' @noRd
+
 fetch_tokens <- function(tokens, query, sleep = FALSE) {
   remaining <- NA_real_
   if (missing(query)) {

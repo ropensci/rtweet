@@ -2,7 +2,7 @@
 % Please edit documentation in R/timeline.R
 \name{get_timeline}
 \alias{get_timeline}
-\title{Get timeline}
+\title{Get one or more user timelines (tweets posted by target user(s)).}
 \usage{
 get_timeline(user, n = 100, max_id = NULL, home = FALSE, parse = TRUE,
   check = TRUE, token = NULL, ...)
@@ -42,7 +42,7 @@ to create tokens and setup an environment variable in the tokens vignette
 A tbl data frame of tweets data with users data attribute.
 }
 \description{
-Returns one or more user timelines (tweets posted by target user(s))
+Get one or more user timelines (tweets posted by target user(s)).
 }
 \examples{
 \dontrun{
@@ -72,7 +72,6 @@ table(tmls$screen_name)
 Other tweets: \code{\link{get_favorites}},
   \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}},
+  \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }

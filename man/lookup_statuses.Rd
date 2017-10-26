@@ -3,7 +3,7 @@
 \name{lookup_statuses}
 \alias{lookup_statuses}
 \alias{lookup_tweets}
-\title{lookup_tweets}
+\title{Get tweets data for given statuses (status IDs).}
 \usage{
 lookup_statuses(statuses, token = NULL, parse = TRUE)
 }
@@ -21,8 +21,7 @@ return object into data frame(s).}
 json response object (max is 18000 per token)
 }
 \description{
-Returns Twitter user data_frame object for
-  specified user_ids or screen_names.
+Get tweets data for given statuses (status IDs).
 }
 \examples{
 \dontrun{
@@ -42,7 +41,6 @@ users_data(statuses)
 
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
-  \code{\link{tweets_data}},
+  \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }

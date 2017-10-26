@@ -2,7 +2,7 @@
 % Please edit documentation in R/post.R
 \name{post_message}
 \alias{post_message}
-\title{post_message}
+\title{Posts direct message from user's Twitter account}
 \usage{
 post_message(text, user, media = NULL, token = NULL)
 }

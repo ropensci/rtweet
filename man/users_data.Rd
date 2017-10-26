@@ -5,21 +5,20 @@
 \alias{user_data}
 \alias{data_user}
 \alias{data_users}
-\title{users_data}
+\title{Extracts users data from tweets data object.}
 \usage{
 users_data(tweets)
 }
 \arguments{
-\item{tweets}{Data frame of Twitter statuses (tweets) generated via
-\code{\link{get_timeline}}, \code{\link{search_tweets}}, or
-\code{\link{stream_tweets}}.}
+\item{tweets}{Parsed data object of tweets data as returned via
+\code{\link{get_timeline}}, \code{\link{search_tweets}},
+\code{\link{stream_tweets}}, etc..}
 }
 \value{
 Users data frame from tweets returned in a tweets data object.
 }
 \description{
-Returns users data frame from returned tweets
-  data object.
+Extracts users data from tweets data object.
 }
 \examples{
 \dontrun{
@@ -35,7 +34,8 @@ head(users_data(r))
 
 }
 \seealso{
-Other users: \code{\link{lists_subscribers}},
+Other users: \code{\link{as_screenname}},
+  \code{\link{lists_subscribers}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{tweets_with_users}}
 

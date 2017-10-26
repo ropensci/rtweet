@@ -2,7 +2,7 @@
 % Please edit documentation in R/stream.R
 \name{parse_stream}
 \alias{parse_stream}
-\title{parse_stream}
+\title{Converts Twitter stream data (json file) into parsed data frame.}
 \usage{
 parse_stream(path, ...)
 }
@@ -10,11 +10,28 @@ parse_stream(path, ...)
 \item{path}{Character, name of json file with data collected by
 \code{\link{stream_tweets}}.}
 
-\item{...}{Other arguments passed on to \code{\link{data_from_stream}}.}
+\item{...}{Other arguments passed on to interal data_from_stream
+function.}
 }
 \value{
 A tbl of tweets data with attribute of users data
 }
 \description{
 Converts Twitter stream data (json file) into parsed data frame.
+}
+\examples{
+\dontrun{
+## run and save stream to json file
+stream_tweets(
+  "the,a,an,and", timeout = 60,
+  file_name = "theaanand.json",
+  parse = FALSE
+)
+
+## parse stream file into tibble data frame
+rt <- parse_stream("theaanand.json")
+}
+}
+\seealso{
+Other stream tweets: \code{\link{stream_tweets}}
 }

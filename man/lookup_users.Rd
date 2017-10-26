@@ -2,7 +2,7 @@
 % Please edit documentation in R/users.R
 \name{lookup_users}
 \alias{lookup_users}
-\title{lookup_users}
+\title{Get Twitter users data for given users (user IDs or screen names).}
 \usage{
 lookup_users(users, token = NULL, parse = TRUE)
 }
@@ -20,8 +20,7 @@ return object into data frame(s).}
 json response object
 }
 \description{
-Returns Twitter user data_frame object for
-  specified user_ids or screen_names.
+Get Twitter users data for given users (user IDs or screen names).
 }
 \examples{
 \dontrun{
@@ -43,7 +42,8 @@ tweets_data(usr_df)
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other users: \code{\link{lists_subscribers}},
+Other users: \code{\link{as_screenname}},
+  \code{\link{lists_subscribers}},
   \code{\link{search_users}},
   \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }

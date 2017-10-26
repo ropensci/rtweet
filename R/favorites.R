@@ -1,6 +1,4 @@
-#' GET favorites/list
-#'
-#' Returns favorite tweets data for one or more target users.
+#' Get tweets data for statuses favorited by one or more target users.
 #'
 #' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Specifies the number of records to retrieve. Defaults to

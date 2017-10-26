@@ -55,7 +55,7 @@ rstats <- lists_subscribers(slug = "new-york-times-politics", owner_user = "nytp
 Other lists: \code{\link{lists_members}},
   \code{\link{lists_statuses}}, \code{\link{lists_users}}
 
-Other users: \code{\link{lookup_users}},
-  \code{\link{search_users}},
+Other users: \code{\link{as_screenname}},
+  \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }

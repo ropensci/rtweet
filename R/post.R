@@ -1,6 +1,4 @@
-#' post_tweet
-#'
-#' @description Posts status update to user's Twitter account
+#' Posts status update to user's Twitter account
 #'
 #' @param status Character, tweet status. Must be 140
 #'   characters or less.
@@ -108,9 +106,7 @@ upload_media_to_twitter <- function(media, token) {
 }
 
 
-#' post_message
-#'
-#' @description Posts direct message from user's Twitter account
+#' Posts direct message from user's Twitter account
 #'
 #' @param text Character, text of message.
 #' @param user Screen name or user ID of message target.
@@ -158,9 +154,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
   invisible(r)
 }
 
-#' post_follow
-#'
-#' @description Follows target twitter user.
+#' Follows target twitter user.
 #'
 #' @param user Screen name or user id of target user.
 #' @param destroy Logical indicating whether to post (add) or
@@ -263,42 +257,25 @@ check_status_code <- function(x) {
 }
 
 
-#' post_unfollow
-#'
-#' Remove, or unfollow, current twitter friend. Wrapper function
-#'   for destroy version of follow_user.
-#'
-#' @param user Screen name or user id of target user.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
+#' @inheritParams post_follow
 #' @aliases unfollow_user
-#' @family post
+#' @rdname post_follow
 #' @export
 post_unfollow_user <- function(user, token = NULL) {
   post_follow(user, destroy = TRUE, token = token)
 }
 
-#' post_mute
-#'
-#' Mute, or hide all content coming from, current twitter friend.
-#'   Wrapper function for mute version of follow_user.
-#'
-#' @param user Screen name or user id of target user.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
+#' @inheritParams post_follow
+#' @aliases unfollow_user
+#' @rdname post_follow
 #' @aliases mute_user
-#' @family post
 #' @export
 post_mute <- function(user, token = NULL) {
   post_follow(user, mute = TRUE, token = token)
 }
 
 
-#' post_favorite
-#'
-#' @description Favorites target status id.
+#' Favorites target status id.
 #'
 #' @param status_id Status id of target tweet.
 #' @param destroy Logical indicating whether to post (add) or
@@ -345,8 +322,6 @@ post_favorite <- function(status_id,
 }
 
 
-#' post_friendship
-#'
 #' Updates friendship notifications and retweet abilities.
 #'
 #' @param user Screen name or user id of target user.
@@ -389,4 +364,3 @@ post_friendship <- function(user,
   }
   invisible(r)
 }
-

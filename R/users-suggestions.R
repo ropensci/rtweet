@@ -1,20 +1,11 @@
-#' GET users/suggestions
+#' Returns the list of suggested user categories.
 #'
-#' @param lang optional Restricts the suggested categories to the requested language. The language must
-#'   be specified by the appropriate two letter ISO 639-1 representation. Currently
-#'   supported languages are provided by the GET help /
-#'   languages API request. Unsupported
-#'   language codes will receive English (en) results. If you use lang in this
-#'   request, ensure you also include it when requesting the GET users / suggestions
-#'   / :slug list.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
-#' @return List of categories which should be passed on to slug.
-#' @noRd
-internal_user_suggestions <- function(lang = NULL, token = NULL) {
+#' @inheritParams suggested_users
+#' @return List of recommended categories which can be passed along as
+#'   the "slug" parameter in \code{\link{suggested_users}}
+#' @export
+#' @rdname suggested
+suggested_slugs <- function(lang = NULL, token = NULL) {
   query <- "users/suggestions"
   token <- check_token(token, query)
   params <- list(lang = lang)
@@ -24,24 +15,35 @@ internal_user_suggestions <- function(lang = NULL, token = NULL) {
 }
 
 
-#' GET users/suggestions/:slug
+#' Returns users in a given category of the Twitter suggested user list
 #'
 #' @param slug required The short name of list or a category
-#' @param lang optional Restricts the suggested categories to the requested language. The language must
-#'   be specified by the appropriate two letter ISO 639-1 representation. Currently
-#'   supported languages are provided by the GET help /
-#'   languages API request. Unsupported
-#'   language codes will receive English (en) results. If you use lang in this
-#'   request, ensure you also include it when requesting the GET users / suggestions
-#'   / :slug list.
+#' @param lang optional Restricts the suggested categories to the
+#'   requested language. The language must be specified by the
+#'   appropriate two letter ISO 639-1 representation.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
-#' @return data
-user_suggestions <- function(slug, lang = NULL, token = NULL) {
-  query <- "users/suggestions"
+#' @return Recommended users
+#' @export
+#' @examples
+#' \dontrun{
+#' ## get slugs
+#' slugs <- suggested_slugs()
+#'
+#' ## use slugs to get suggested users
+#' suggested_users(slugs$slug[1])
+#'
+#' }
+#' @rdname suggested
+suggested_users <- function(slug, lang = NULL, token = NULL) {
+  if (missing(slug)) {
+    stop("Must provide slug. See: suggested_slugs for list of possible values",
+         call. = FALSE)
+  }
+  query <- "users/suggestions/:slug"
   token <- check_token(token, query)
   params <- list(slug = slug, lang = lang)
   url <- make_url(query = query, param = params)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/search.R
 \name{search_users}
 \alias{search_users}
-\title{search_users}
+\title{Get users data on accounts identified via search query.}
 \usage{
 search_users(q, n = 100, parse = TRUE, token = NULL, verbose = TRUE)
 }
@@ -44,8 +44,7 @@ processing/retrieval messages.}
 Data frame of users returned by query.
 }
 \description{
-Returns data frame of users data using a provided
-  search query.
+Get users data on accounts identified via search query.
 }
 \examples{
 \dontrun{
@@ -62,7 +61,8 @@ users_data(hrc)
 \seealso{
 \url{https://dev.twitter.com/overview/documentation}
 
-Other users: \code{\link{lists_subscribers}},
+Other users: \code{\link{as_screenname}},
+  \code{\link{lists_subscribers}},
   \code{\link{lookup_users}},
   \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }

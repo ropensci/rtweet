@@ -1,8 +1,4 @@
-#' GET lists/statuses
-#'
-#' Returns a timeline of tweets authored by members of the specified
-#' list. Retweets are included by default. Use the include_rts=false
-#' parameter to omit retweets.
+#' Get a timeline of tweets authored by members of a specified list.
 #'
 #' @param list_id required The numerical id of the list.
 #' @param slug required You can identify a list by its slug instead of

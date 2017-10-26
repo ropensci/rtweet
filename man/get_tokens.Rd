@@ -3,8 +3,7 @@
 \name{get_tokens}
 \alias{get_tokens}
 \alias{get_token}
-\alias{get_token}
-\title{get_tokens}
+\title{Fetching Twitter authorization token(s).}
 \usage{
 get_tokens()
 
@@ -21,8 +20,18 @@ to be instantly [re]loaded in future sessions. See the "tokens"
 vignette for instructions on obtaining and using access tokens.
 }
 \details{
-This function will search for tokens using R, internal, and
-global environment variables (in that order).
+This function will search for tokens using R, internal,
+  and global environment variables (in that order).
+}
+\examples{
+\dontrun{
+## fetch default token(s)
+token <- get_tokens()
+
+## print token
+token
+
+}
 }
 \seealso{
 Other tokens: \code{\link{create_token}},

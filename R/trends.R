@@ -1,6 +1,4 @@
-#' GET trends/place
-#'
-#' @description Returns Twitter trends
+#' Get Twitter trends data.
 #'
 #' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
 #'   character string of desired town or country. Users may also supply

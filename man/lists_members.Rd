@@ -3,7 +3,7 @@
 \name{lists_members}
 \alias{lists_members}
 \alias{lists_memberships}
-\title{GET lists/members}
+\title{Get the members of a specified Twitter list.}
 \usage{
 lists_members(list_id = NULL, slug = NULL, owner_user = NULL, n = 5000,
   cursor = "-1", token = NULL, parse = TRUE, ...)
@@ -53,13 +53,9 @@ represented by user_id or screen_name is a member of.}
 Either a nested list (if parsed) or an http response object.
 }
 \description{
-Returns the members of the specified list. Private list members
-will only be shown if the authenticated user owns the specified
-list.
+Get the members of a specified Twitter list.
 
-Returns the lists the specified user has been added to. If user_id
-or screen_name are not provided the memberships for the
-authenticating user are returned.
+Get the lists a specified user has been added to.
 }
 \details{
 Due to deleted or removed lists, the returned number of memberships

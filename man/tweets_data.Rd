@@ -5,22 +5,19 @@
 \alias{tweet_data}
 \alias{data_tweet}
 \alias{data_tweets}
-\title{tweets_data}
+\title{Extracts tweets data from users data object.}
 \usage{
 tweets_data(users)
 }
 \arguments{
-\item{users}{Data frame of status data generated via
-\code{search_tweets}, \code{stream_tweets}, \code{get_timeline},
-\code{lookup_statuses}, etc.}
+\item{users}{Parsed data object of users data as returned via
+\code{\link{search_users}}, \code{\link{lookup_users}}, etc.}
 }
 \value{
 Tweets data frame.
 }
 \description{
-Tweets data frame from users returned in a users data object.
-  Typically, this involves the most recent tweet of each user, though
-  in some cases the most recent tweet may not be available.
+Extracts tweets data from users data object.
 }
 \examples{
 \dontrun{
@@ -45,7 +42,7 @@ head(users_data(r))
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{stream_tweets}},
+  \code{\link{search_tweets}},
   \code{\link{tweets_with_users}}
 
 Other extractors: \code{\link{max_id}},

@@ -2,7 +2,7 @@
 % Please edit documentation in R/search.R
 \name{search_tweets}
 \alias{search_tweets}
-\title{search_tweets}
+\title{Get tweets data on statuses identified via search query.}
 \usage{
 search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
@@ -116,8 +116,7 @@ List object with tweets and users each returned as a
   data frame.
 }
 \description{
-Returns tweets data with users data attribute
-  using a provided search query.
+Get tweets data on statuses identified via search query.
 }
 \details{
 Twitter API documentation recommends limiting searches to
@@ -181,7 +180,6 @@ ts_plot(rt, by = "mins", theme = "spacegray",
 
 Other tweets: \code{\link{get_favorites}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
-  \code{\link{lookup_statuses}},
-  \code{\link{stream_tweets}}, \code{\link{tweets_data}},
+  \code{\link{lookup_statuses}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }

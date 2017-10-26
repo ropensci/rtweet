@@ -1,8 +1,4 @@
-#' GET lists/list
-#'
-#' Returns all lists a specified user subscribes to,
-#'   including their own. If no user is given, the authenticating
-#'   user is used.
+#' Get all lists a specified user subscribes to, including their own.
 #'
 #' @param user The ID of the user or screen name for whom to return results.
 #'   Helpful for disambiguating when a valid user ID is also a valid screen name.

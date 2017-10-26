@@ -1,7 +1,5 @@
 
-#' ts data
-#'
-#' Returns time series-like data frame.
+#' Converts tweets data into time series-like data object.
 #'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus secs, mins,
@@ -159,15 +157,6 @@ parse_unit <- function(by) {
 }
 
 
-#' round_time
-#'
-#' Aggregates POSIXct object
-#'
-#' @param x Vector of class POSIXct.
-#' @param interval Amount, in seconds, of aggregated window of time.
-#' @param center Logical indicating whether to center datetime value at interval
-#'   midpoint.
-#' @export
 round_time <- function(x, interval = 60, center = TRUE) {
   stopifnot(inherits(x, "POSIXct"))
   ## parse interval
@@ -183,14 +172,6 @@ round_time <- function(x, interval = 60, center = TRUE) {
 }
 
 
-#' trim_ts
-#'
-#' Trim end values of time series like data.
-#'
-#' @param data Time series Twitter data output by ts_data.
-#' @param trim Number of values to drop from each time series.
-#' @return Trimmed data frame
-#' @export
 trim_ts <- function(data, trim = 1L) {
   if (ncol(data) > 2L) {
     g <- unique(data[[3]])
