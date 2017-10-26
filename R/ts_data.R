@@ -8,6 +8,26 @@
 #' @param trim Number of observations to trim off the front and end of each
 #'   time series
 #' @return Data frame with time, n, and grouping column if applicable.
+#' @examples
+#' \dontrun{
+#' ## handles of women senators
+#' sens <- c("SenatorBaldwin", "SenGillibrand", "PattyMurray", "SenatorHeitkamp")
+#'
+#' ## get timelines for each
+#' sens <- get_timeline(sens, n = 3200)
+#'
+#' ## get single time series for tweets
+#' ts_data(sens)
+#'
+#' ## using weekly intervals
+#' ts_data(sens, "weeks")
+#'
+#' ## group by screen name and then use weekly intervals
+#' sens %>%
+#'   dplyr::group_by(screen_name) %>%
+#'   ts_plot("weeks")
+#'
+#' }
 #' @export
 ts_data <- function(data, by = "days", trim = 0L) {
   args <- list(data = data, by = by, trim = trim)

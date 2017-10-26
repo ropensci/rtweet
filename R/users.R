@@ -7,12 +7,14 @@
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
 #'
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @seealso \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
 #' @examples
 #' \dontrun{
-#' ## lookup vector of 1 or more user_id or screen_name
-#' users <- c("potus", "hillaryclinton", "realdonaldtrump",
-#'   "fivethirtyeight", "cnn", "espn", "twitter")
+#' ## select one or more twitter users to lookup
+#' users <- c(
+#'   "potus", "hillaryclinton", "realdonaldtrump",
+#'   "fivethirtyeight", "cnn", "espn", "twitter"
+#' )
 #'
 #' ## get users data
 #' usr_df <- lookup_users(users)
@@ -24,17 +26,17 @@
 #' tweets_data(usr_df)
 #' }
 #'
-#' @return json response object
+#' @return A tibble of users data.
 #' @family users
 #' @export
-lookup_users <- function(users, ...) {
-  UseMethod("lookup_users")
+lookup_users <- function(users, parse = TRUE, token = NULL) {
+  args <- list(users = users, parse = parse, token = token)
+  do.call("lookup_users_", args)
 }
 
-lookup_users <- function(users,
-                         token = NULL,
-                         parse = TRUE) {
-
+lookup_users_ <- function(users,
+                          token = NULL,
+                          parse = TRUE) {
   if (is.list(users)) {
     users <- unlist(users, use.names = FALSE)
   }
@@ -79,7 +81,6 @@ lookup_users <- function(users,
 }
 
 .user_lookup <- function(users, token = NULL) {
-
   query <- "users/lookup"
   get <- TRUE
   if (length(users) > 100) {

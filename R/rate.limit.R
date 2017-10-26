@@ -33,6 +33,16 @@ rate_limit <- function(token = NULL,
   UseMethod("rate_limit")
 }
 
+#' @export
+rate_limit.default <- function(token = NULL, query = NULL, parse = TRUE) {
+  token <- check_token(token)
+  rate_limit(token, query, parse)
+}
+
+rate_limit.NULL <- function(token = NULL, query = NULL, parse = TRUE) {
+  token <- check_token(token)
+  NextMethod()
+}
 
 #' @export
 rate_limit.Token <- function(token = NULL,

@@ -65,9 +65,9 @@ get_token <- function() get_tokens()
 #' @family tokens
 #' @export
 create_token <- function(app = "mytwitterapp",
-  consumer_key,
-  consumer_secret,
-  cache = TRUE) {
+                         consumer_key,
+                         consumer_secret,
+                         cache = TRUE) {
   token <- oauth_app(
     appname = app,
     key = gsub(" ", "", consumer_key),

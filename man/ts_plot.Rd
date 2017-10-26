@@ -27,20 +27,30 @@ Plots tweets data as a time series-like data object.
 }
 \examples{
 \dontrun{
+## search for tweets containing "rstats"
 rt <- search_tweets("rstats", n = 10000)
-ts_plot(rt, "10 mins")
 
+## plot frequency in 1 min intervals
+ts_plot(rt, "mins")
+
+## plot multiple time series--retweets vs non-retweets
 rt \%>\%
   dplyr::group_by(is_retweet) \%>\%
   ts_plot("hours")
 
-## compare account activity for some important national political figures
-tmls <- get_timeline(c("SenSchumer", "SenGillibrand", "realDonaldTrump"), n = 3000)
-## examine all twitter activity
-ts_plot(tmls, "months")
-## group by screen name
-ts_plot(dplyr::group_by(tmls, screen_name), "months") + theme_mwk()
+## compare account activity for some important US political figures
+tmls <- get_timeline(
+  c("SenSchumer", "SenGillibrand", "realDonaldTrump"),
+  n = 3000
+)
+
+## examine all twitter activity using weekly intervals
+ts_plot(tmls, "weeks")
+
+## group by screen name and plot each time series
+ts_plot(dplyr::group_by(tmls, screen_name), "weeks")
+
 ## group by screen name and is_retweet
-ts_plot(dplyr::group_by(tmls, screen_name, is_retweet), "months") + theme_minimal()
+ts_plot(dplyr::group_by(tmls, screen_name, is_retweet), "months")
 }
 }

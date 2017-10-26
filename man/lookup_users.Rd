@@ -4,29 +4,31 @@
 \alias{lookup_users}
 \title{Get Twitter users data for given users (user IDs or screen names).}
 \usage{
-lookup_users(users, token = NULL, parse = TRUE)
+lookup_users(users, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{users}{User id or screen name of target user.}
 
+\item{parse}{Logical, indicating whether or not to parse
+return object into data frame(s).}
+
 \item{token}{OAuth token (1.0 or 2.0). By default
 \code{token = NULL} fetches a non-exhausted token from
 an environment variable @describeIn tokens.}
-
-\item{parse}{Logical, indicating whether or not to parse
-return object into data frame(s).}
 }
 \value{
-json response object
+A tibble of users data.
 }
 \description{
 Get Twitter users data for given users (user IDs or screen names).
 }
 \examples{
 \dontrun{
-## lookup vector of 1 or more user_id or screen_name
-users <- c("potus", "hillaryclinton", "realdonaldtrump",
-  "fivethirtyeight", "cnn", "espn", "twitter")
+## select one or more twitter users to lookup
+users <- c(
+  "potus", "hillaryclinton", "realdonaldtrump",
+  "fivethirtyeight", "cnn", "espn", "twitter"
+)
 
 ## get users data
 usr_df <- lookup_users(users)
@@ -40,7 +42,7 @@ tweets_data(usr_df)
 
 }
 \seealso{
-\url{https://dev.twitter.com/overview/documentation}
+\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
 
 Other users: \code{\link{as_screenname}},
   \code{\link{lists_subscribers}},
