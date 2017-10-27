@@ -1,4 +1,4 @@
-#' emojis data
+#' Emojis codes and descriptions data.
 #'
 #' This data comes from Unicode.org,
 #' \url{http://unicode.org/emoji/charts/full-emoji-list.html}. The data are
@@ -11,7 +11,7 @@
 #' emojis
 "emojis"
 
-#' langs data
+#' Language codes recognized by Twitter data.
 #'
 #' This data comes from the Library of Congress,
 #' \url{http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt}. The data are
@@ -27,7 +27,7 @@
 "langs"
 
 
-#' stopwordslangs data
+#' Twitter stop words in multiple languages data.
 #'
 #' This data comes form a group of Twitter searches conducted on 2017-09-27.
 #' The data are commonly observed words associated with 10 different languages,

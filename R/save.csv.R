@@ -1,7 +1,4 @@
-#' save_as_csv
-#'
-#' @description Converts and saves data table generated from rtweet
-#'   package as csv file(s).
+#' Save tweets and users data as CSV.
 #'
 #' @param x Data table to be saved (tweets or user object)
 #'   generated via rtweet function like \code{search_tweets}. If x
@@ -100,9 +97,7 @@ modify_file_name <- function(file_name, ext = NULL) {
   file_name
 }
 
-#' write_as_csv
-#'
-#' Saves as flattened CSV file Twitter data.
+#' Saves as flattened CSV file of Twitter data.
 #'
 #' @param x Data frame with tweets and users data.
 #' @param file_name Desired name(stem) to save files as (one save for tweets,

@@ -1,23 +1,23 @@
-#' GET statuses/retweets/:id
-#'
-#' Returns a collection of the 100 most recent retweets of the Tweet
-#' specified by the id parameter. Twitter's API is currently limited to 100
-#' or fewer retweeters.
+#' Get a collection of the 100 most recent retweets of a given status.
+#' NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
 #'
 #' @param status_id required The numerical ID of the desired status.
 #' @param n optional Specifies the number of records to retrieve.
 #'   Must be less than or equal to 100.
 #' @param parse Logical indicating whether to convert the response object into
 #'   an R list. Defaults to TRUE.
-#' @param ... Other arguments used as parameters in the query sent to
-#'   Twitter's rest API, for example, \code{trim_user = TRUE}.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
-#' @return data
-get_retweets <- function(status_id, n = 100, parse = TRUE, ..., token = NULL) {
+#' @param ... Other arguments used as parameters in the query sent to
+#'   Twitter's rest API, for example, \code{trim_user = TRUE}.
+#' @return Tweets data of the most recent retweets of a given status
+#' @details NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+#' @export
+#' @family retweets
+get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   query <- "statuses/retweets/:id"
   params <- list(
     id = status_id,
@@ -53,10 +53,7 @@ as.data.frame.retweets <- function(x) {
 
 
 
-#' GET statuses/retweeters/ids
-#'
-#' Returns a collection of up to 100 user IDs belonging to users who
-#' have retweeted the Tweet specified by the id parameter.
+#' Getuser IDs of users who retweeted a given status.
 #'
 #' @param status_id required The status ID of the desired status.
 #' @param n Specifies the number of records to retrieve.
@@ -66,13 +63,6 @@ as.data.frame.retweets <- function(x) {
 #'   guaranteed to be 100 as suspended users are filtered out after
 #'   connections are queried. If no cursor is provided, a
 #'   value of -1 will be assumed, which is the first "page."
-#'   The response from the API will include a previous_cursor and next_cursor
-#'   to allow paging back and forth. See our cursor
-#'   docs for more information.
-#'   While this method supports the cursor parameter, the entire result set
-#'   can be returned in a single cursored collection. Using the count
-#'   parameter with this method will not provide segmented cursors for
-#'   use with this parameter.
 #' @param parse Logical indicating whether to convert the response object into
 #'   an R list. Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
@@ -81,18 +71,16 @@ as.data.frame.retweets <- function(x) {
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return data
+#' @details At time of writing, paginaton offers no additional data. See the
+#'   post from Pipes here: \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
+#' @family retweets
 #' @export
 get_retweeters <- function(status_id,
                            n = 100,
-                           cursor = "-1",
                            parse = TRUE,
                            token = NULL) {
-  ## paging not possible with get_retweeters see posts from pipes
-  ## on community forum:
-  ## https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8
-
   get_retweeters_(
-    status_id = status_id, n = n, cursor = cursor, parse = parse, token = token
+    status_id = status_id, n = n, parse = parse, token = token
   )
 }
 

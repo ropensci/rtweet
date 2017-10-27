@@ -44,7 +44,8 @@ users_data(tw)
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
 
 Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
+  \code{\link{get_mentions}}, \code{\link{get_timeline}},
+  \code{\link{lists_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }

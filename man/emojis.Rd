@@ -3,7 +3,7 @@
 \docType{data}
 \name{emojis}
 \alias{emojis}
-\title{emojis data}
+\title{Emojis codes and descriptions data.}
 \format{A tibble with two variables and 2,623 observations.}
 \usage{
 emojis

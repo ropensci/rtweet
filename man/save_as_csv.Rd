@@ -2,7 +2,7 @@
 % Please edit documentation in R/save.csv.R
 \name{save_as_csv}
 \alias{save_as_csv}
-\title{save_as_csv}
+\title{Save tweets and users data as CSV.}
 \usage{
 save_as_csv(x, file_name, prepend_ids = TRUE, na = "",
   fileEncoding = "UTF-8")
@@ -37,6 +37,5 @@ to true.}
 \item{fileEncoding}{Encoding to be used when saving to CSV. defaults to utf-8.}
 }
 \description{
-Converts and saves data table generated from rtweet
-  package as csv file(s).
+Save tweets and users data as CSV.
 }

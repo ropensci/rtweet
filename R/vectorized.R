@@ -5,7 +5,7 @@
 #' @param q Vector of search queries.
 #' @param n Number of tweets to return per query. Defaults to 100.
 #'   Must be of length 1 or equal to length of user.
-#' @param \dots Other arguments passed on to \code{search_tweets}.
+#' @param ... Other arguments passed on to \code{search_tweets}.
 #' @return A tbl data frame with additional "query" feature.
 #' @noRd
 search_tweets_ <- function(q, n = 100, ...) {
@@ -16,7 +16,8 @@ search_tweets_ <- function(q, n = 100, ...) {
   }
   ## if missing issue warning and save NA position
   if (any(is.na(q))) {
-    warning("NA queries found. Empty data frames returned for missing q values", call. = FALSE)
+    warning("NA queries found. Empty data frames returned for missing q values",
+            call. = FALSE)
     mia <- which(is.na(q))
     q[is.na(q)] <- ""
   }

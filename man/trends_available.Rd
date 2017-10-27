@@ -2,7 +2,7 @@
 % Please edit documentation in R/trends.R
 \name{trends_available}
 \alias{trends_available}
-\title{trends_available}
+\title{Available Twitter trends along with associated WOEIDs.}
 \usage{
 trends_available(token = NULL, parse = TRUE)
 }
@@ -23,7 +23,7 @@ Data frame with WOEIDs. WOEID is a Yahoo! Where On
   Earth ID.
 }
 \description{
-Returns Twitter trends based on requested WOEID.
+Available Twitter trends along with associated WOEIDs.
 }
 \examples{
 \dontrun{

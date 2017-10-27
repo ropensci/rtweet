@@ -2,9 +2,10 @@
 % Please edit documentation in R/retweets.R
 \name{get_retweets}
 \alias{get_retweets}
-\title{GET statuses/retweets/:id}
+\title{Get a collection of the 100 most recent retweets of a given status.
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters.}
 \usage{
-get_retweets(status_id, n = 100, parse = TRUE, ..., token = NULL)
+get_retweets(status_id, n = 100, parse = TRUE, token = NULL, ...)
 }
 \arguments{
 \item{status_id}{required The numerical ID of the desired status.}
@@ -15,20 +16,25 @@ Must be less than or equal to 100.}
 \item{parse}{Logical indicating whether to convert the response object into
 an R list. Defaults to TRUE.}
 
-\item{...}{Other arguments used as parameters in the query sent to
-Twitter's rest API, for example, \code{trim_user = TRUE}.}
-
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
+
+\item{...}{Other arguments used as parameters in the query sent to
+Twitter's rest API, for example, \code{trim_user = TRUE}.}
 }
 \value{
-data
+Tweets data of the most recent retweets of a given status
 }
 \description{
-Returns a collection of the 100 most recent retweets of the Tweet
-specified by the id parameter. Twitter's API is currently limited to 100
-or fewer retweeters.
+Get a collection of the 100 most recent retweets of a given status.
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+}
+\details{
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+}
+\seealso{
+Other retweets: \code{\link{get_retweeters}}
 }

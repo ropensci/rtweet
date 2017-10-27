@@ -2,7 +2,7 @@
 % Please edit documentation in R/lists-subscribers.R
 \name{lists_subscribers}
 \alias{lists_subscribers}
-\title{GET lists/subscribers}
+\title{Get subscribers of a specified list.}
 \usage{
 lists_subscribers(list_id = NULL, slug = NULL, owner_user = NULL,
   n = 20, cursor = "-1", parse = TRUE, token = NULL)
@@ -40,9 +40,7 @@ variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
 }
 \description{
-Returns the subscribers of the specified list. Private list
-subscribers will only be shown if the authenticated user owns the
-specified list.
+Get subscribers of a specified list.
 }
 \examples{
 \dontrun{

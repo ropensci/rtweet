@@ -2,14 +2,11 @@
 % Please edit documentation in R/mentions.R
 \name{get_mentions}
 \alias{get_mentions}
-\alias{get_mentions_call}
-\title{GET statuses/mentions_timeline}
+\title{Get the 20 most recent mentions (Tweets containing a users's
+screen_name) for the authenticating user.}
 \usage{
-get_mentions(n = 100, since_id = NULL, max_id = NULL, ..., parse = TRUE,
-  token = NULL)
-
-get_mentions_call(n = 100, since_id = NULL, max_id = NULL, ...,
-  parse = TRUE, token = NULL)
+get_mentions(n = 100, since_id = NULL, max_id = NULL, parse = TRUE,
+  token = NULL, ...)
 }
 \arguments{
 \item{n}{Specifies the number of Tweets to try and retrieve, up to
@@ -17,8 +14,7 @@ a maximum of 200. The value of count is best thought of as a
 limit to the number of tweets to return because suspended or
 deleted content is removed after the count has been applied. We
 include retweets in the count, even if include_rts is not
-supplied. It is recommended you always send include_rts=1 when
-using this API method.}
+supplied.}
 
 \item{since_id}{Returns results with an ID greater than (that is,
 more recent than) the specified ID. There are limits to the
@@ -29,30 +25,35 @@ be forced to the oldest ID available.}
 \item{max_id}{Returns results with an ID less than (that is, older
 than) or equal to the specified ID.}
 
-\item{...}{Other args passed as parameters in composed API query.}
-
-\item{parse}{Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.}
+\item{parse}{Logical indicating whether to convert the response
+object into an R list. Defaults to TRUE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
+
+\item{...}{Other args passed as parameters in composed API query.}
 }
 \value{
 Tibble of mentions data.
-
-A tibble of mentions data.
 }
 \description{
-Returns the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user. The timeline returned is
-the equivalent of the one seen when you view your mentions on
-twitter.com. This method can only return up to 800 tweets.
+Get the 20 most recent mentions (Tweets containing a users's
+screen_name) for the authenticating user.
+}
+\details{
+The timeline returned is the equivalent of the one seen
+  when you view your mentions on twitter.com. This method can only
+  return up to 800 tweets.
+}
+\seealso{
+\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
 
-Returns the 20 most recent mentions (Tweets containing a users's
-  screen_name) for the authenticating user. The timeline returned is
-  the equivalent of the one seen when you view your mentions on
-  twitter.com. This method can only return up to 800 tweets.
+Other tweets: \code{\link{get_favorites}},
+  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
+  \code{\link{lookup_statuses}},
+  \code{\link{search_tweets}}, \code{\link{tweets_data}},
+  \code{\link{tweets_with_users}}
 }

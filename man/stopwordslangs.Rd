@@ -3,7 +3,7 @@
 \docType{data}
 \name{stopwordslangs}
 \alias{stopwordslangs}
-\title{stopwordslangs data}
+\title{Twitter stop words in multiple languages data.}
 \format{A tibble with three variables and 24,000 observations}
 \usage{
 stopwordslangs

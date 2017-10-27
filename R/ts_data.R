@@ -122,7 +122,7 @@ ts_data_ <- function(data, by = "days", trim = 0L) {
       stringsAsFactors = FALSE
     )
   }
-  df <- tibble::as_tibble(df)
+  df <- tibble::as_tibble(df, validate = FALSE)
   if (trim > 0L) {
     df <- trim_ts(df, trim)
   }

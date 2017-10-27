@@ -2,29 +2,15 @@
 % Please edit documentation in R/retweets.R
 \name{get_retweeters}
 \alias{get_retweeters}
-\title{GET statuses/retweeters/ids}
+\title{Getuser IDs of users who retweeted a given status.}
 \usage{
-get_retweeters(status_id, n = 100, cursor = "-1", parse = TRUE,
-  token = NULL)
+get_retweeters(status_id, n = 100, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{status_id}{required The status ID of the desired status.}
 
 \item{n}{Specifies the number of records to retrieve.
 Best if intervals of 100.}
-
-\item{cursor}{semi-optional Causes the list of IDs to be broken into pages
-of no more than 100 IDs at a time. The number of IDs returned is not
-guaranteed to be 100 as suspended users are filtered out after
-connections are queried. If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."
-The response from the API will include a previous_cursor and next_cursor
-to allow paging back and forth. See our cursor
-docs for more information.
-While this method supports the cursor parameter, the entire result set
-can be returned in a single cursored collection. Using the count
-parameter with this method will not provide segmented cursors for
-use with this parameter.}
 
 \item{parse}{Logical indicating whether to convert the response object into
 an R list. Defaults to TRUE.}
@@ -34,11 +20,23 @@ non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
+
+\item{cursor}{semi-optional Causes the list of IDs to be broken into pages
+of no more than 100 IDs at a time. The number of IDs returned is not
+guaranteed to be 100 as suspended users are filtered out after
+connections are queried. If no cursor is provided, a
+value of -1 will be assumed, which is the first "page."}
 }
 \value{
 data
 }
 \description{
-Returns a collection of up to 100 user IDs belonging to users who
-have retweeted the Tweet specified by the id parameter.
+Getuser IDs of users who retweeted a given status.
+}
+\details{
+At time of writing, paginaton offers no additional data. See the
+  post from Pipes here: \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
+}
+\seealso{
+Other retweets: \code{\link{get_retweets}}
 }

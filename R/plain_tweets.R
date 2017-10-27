@@ -1,6 +1,4 @@
-#' plain_tweets
-#'
-#' Clean up character vector (tweets) to more of a plain text.
+#' Cleans up texts of tweets.
 #'
 #' @param x The desired character vector or data frame/list with named column/element
 #'   "text" to be cleaned and processed.

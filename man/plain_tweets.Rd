@@ -2,7 +2,7 @@
 % Please edit documentation in R/plain_tweets.R
 \name{plain_tweets}
 \alias{plain_tweets}
-\title{plain_tweets}
+\title{Cleans up texts of tweets.}
 \usage{
 plain_tweets(x)
 }
@@ -15,5 +15,5 @@ Data reformatted with ascii encoding and normal ampersands and
   without URL links, linebreaks, fancy spaces/tabs, fancy apostrophes,
 }
 \description{
-Clean up character vector (tweets) to more of a plain text.
+Cleans up texts of tweets.
 }

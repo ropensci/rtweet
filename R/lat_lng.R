@@ -2,10 +2,7 @@
 ##                          COMPUTE LAT/LNG VARIABLES                         ##
 ##----------------------------------------------------------------------------##
 
-#' lat_lng
-#'
-#' Computes lat and lng variables using all available geolocation information
-#' and adds those variables to the provided data frame.
+#' Adds lat and lng variables using all available geolocation information.
 #'
 #' @param x Parsed tweets data as returned by various rtweet functions. This should
 #'   be a data frame with variables such as "bbox_coords", "coords_coords", and

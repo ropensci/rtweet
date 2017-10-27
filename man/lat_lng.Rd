@@ -2,7 +2,7 @@
 % Please edit documentation in R/lat_lng.R
 \name{lat_lng}
 \alias{lat_lng}
-\title{lat_lng}
+\title{Adds lat and lng variables using all available geolocation information.}
 \usage{
 lat_lng(x, coords = c("bbox_coords", "coords_coords", "geo_coords"))
 }
@@ -21,8 +21,7 @@ column names of data returned by most status-oriented rtweet functions).}
 Returns updated data object with full information lng and lat vars.
 }
 \description{
-Computes lat and lng variables using all available geolocation information
-and adds those variables to the provided data frame.
+Adds lat and lng variables using all available geolocation information.
 }
 \details{
 On occassion values may appear to be outliers given a previously used

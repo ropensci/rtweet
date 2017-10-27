@@ -1,12 +1,9 @@
-#' parsing
-#'
 #' Parsing data into tweets/users data tibbles
 #'
 #' @param x Unparsed data returned by rtweet API request.
 #' @return A tweets/users tibble (data frame) with users/tweets tibble attribute.
 #' @family parsing
 #' @family tweets
-#' @rdname parsing
 #' @examples
 #' \dontrun{
 #' ## search with parse = FALSE
@@ -40,7 +37,7 @@ tweets_with_users <- function(x) {
 #' @inheritParams tweets_with_users
 #' @family parsing
 #' @family users
-#' @rdname parsing
+#' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
   if (is.null(x) || length(x) == 0L) {

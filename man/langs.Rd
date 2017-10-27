@@ -3,7 +3,7 @@
 \docType{data}
 \name{langs}
 \alias{langs}
-\title{langs data}
+\title{Language codes recognized by Twitter data.}
 \format{A tibble with five variables and 486 observations.}
 \usage{
 langs

@@ -3,7 +3,7 @@
 \name{tweets_with_users}
 \alias{tweets_with_users}
 \alias{users_with_tweets}
-\title{parsing}
+\title{Parsing data into tweets/users data tibbles}
 \usage{
 tweets_with_users(x)
 
@@ -36,7 +36,8 @@ users_with_tweets(usr)
 }
 \seealso{
 Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
+  \code{\link{get_mentions}}, \code{\link{get_timeline}},
+  \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}}
 

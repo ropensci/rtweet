@@ -1,7 +1,5 @@
 
-#' lookup_coords
-#'
-#' Returns coordinates using google geocode api
+#' Get coordinates of given location using Google's geocode API
 #'
 #' @param address Desired location typically in the form of placename,
 #'   subregion, e.g., \code{address = "lawrence, KS"}. Also accepts the name of
@@ -154,10 +152,7 @@ mutate.coords <- function(x) {
     lng <- coordinates[, 1]
   }
   latlng <- cbind(x, lat, lng)
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    latlng <- tibble::as_tibble(latlng)
-  }
-  latlng
+  tibble::as_tibble(latlng, validate = FALSE)
 }
 
 

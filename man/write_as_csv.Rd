@@ -2,7 +2,7 @@
 % Please edit documentation in R/save.csv.R
 \name{write_as_csv}
 \alias{write_as_csv}
-\title{write_as_csv}
+\title{Saves as flattened CSV file of Twitter data.}
 \usage{
 write_as_csv(x, file_name, prepend_ids = TRUE, na = "",
   fileEncoding = "UTF-8")
@@ -27,5 +27,5 @@ to true.}
 Saved csv files in current working directory.
 }
 \description{
-Saves as flattened CSV file Twitter data.
+Saves as flattened CSV file of Twitter data.
 }

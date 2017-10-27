@@ -159,9 +159,7 @@ format_trend_date <- function(x) {
   x
 }
 
-#' trends_available
-#'
-#' @description Returns Twitter trends based on requested WOEID.
+#' Available Twitter trends along with associated WOEIDs.
 #'
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions

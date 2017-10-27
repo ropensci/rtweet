@@ -2,7 +2,8 @@
 % Please edit documentation in R/friends.R
 \name{lookup_friendships}
 \alias{lookup_friendships}
-\title{lookup_friendships}
+\title{Gets informaiton on friendship between authenticated user and up
+to 100 other users.}
 \usage{
 lookup_friendships(user, parse = TRUE, token = NULL)
 }
@@ -22,6 +23,6 @@ Data frame converted form returned json object. If parse is
   not true, the httr response object is returned instead.
 }
 \description{
-Look up informaiton on friendship between authenticated
-  user and up to 100 users.
+Gets informaiton on friendship between authenticated user and up
+to 100 other users.
 }

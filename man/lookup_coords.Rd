@@ -2,7 +2,7 @@
 % Please edit documentation in R/coords.R
 \name{lookup_coords}
 \alias{lookup_coords}
-\title{lookup_coords}
+\title{Get coordinates of given location using Google's geocode API}
 \usage{
 lookup_coords(address, components = NULL, ...)
 }
@@ -24,7 +24,7 @@ postal_code, country, administrative_area, locality, route.}
 Object of class coords.
 }
 \description{
-Returns coordinates using google geocode api
+Get coordinates of given location using Google's geocode API
 }
 \examples{
 \dontrun{

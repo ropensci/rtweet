@@ -35,62 +35,26 @@ rate_limit <- function(token = NULL,
 
 #' @export
 rate_limit.default <- function(token = NULL, query = NULL, parse = TRUE) {
-  token <- check_token(token)
-  rate_limit(token, query, parse)
-}
-
-rate_limit.NULL <- function(token = NULL, query = NULL, parse = TRUE) {
-  token <- check_token(token)
-  NextMethod()
+  rate_limit_(token, query, parse)
 }
 
 #' @export
-rate_limit.Token <- function(token = NULL,
-                             query = NULL,
-                             parse = TRUE) {
-  if (!is.null(query) && inherits(query, "Token") ||
-        is.list(query) && inherits(query[[1]], "Token")) {
-    if (!is.null(token) && is.character(token)) {
-      fix_query <- token
-    } else {
-      fix_query <- NULL
-    }
+rate_limit.character <- function(token = NULL, query = NULL, parse = TRUE) {
+  if (is.character(token) && length(token) == 1L &&
+        (is.null(query) || inherits(query, "Token"))) {
+    fix_query <- token
     token <- query
     query <- fix_query
   }
-  if (is.null(token)) {
-    token <- get_tokens()
-  }
-  rate_limit_(token, query, parse = parse)
+  rate_limit_(token, query, parse)
 }
-
-#' @export
-`rate_limit.Token1.0` <- function(token = NULL,
-                                  query = NULL,
-                                  parse = TRUE) {
-  if (!is.null(query) && inherits(query, "Token") ||
-        is.list(query) && inherits(query[[1]], "Token")) {
-    if (!is.null(token) && is.character(token)) {
-      fix_query <- token
-    } else {
-      fix_query <- NULL
-    }
-    token <- query
-    query <- fix_query
-  }
-  if (is.null(token)) {
-    token <- get_tokens()
-  }
-  rate_limit_(token, query, parse = parse)
-}
-
 
 #' @export
 rate_limit.list <- function(token = NULL,
                             query = NULL,
                             parse = TRUE) {
   rl <- Map(
-    "rate_limit_",
+    "rate_limit",
     token,
     MoreArgs = list(query = query, parse = parse)
   )
@@ -128,11 +92,8 @@ rate_limit_ <- function(token,
 
 
 .rl_df <- function(r) {
-
   r <- from_js(r)
-
   data <- r$resources
-
   rl_df <- data.frame(
     query = gsub(".limit|.remaining|.reset", "",
                  gsub(".*[.][/]", "",
@@ -145,14 +106,13 @@ rate_limit_ <- function(token,
     reset = unlist(lapply(data, function(y)
       lapply(y, function(x) getElement(x, "reset")))),
     stringsAsFactors = FALSE,
-    row.names = NULL)
-
+    row.names = NULL
+  )
   rl_df$reset_at <- format_rate_limit_reset(rl_df$reset)
   rl_df$reset <- difftime(
     rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
   )
-
-  tibble::as_tibble(rl_df)
+  tibble::as_tibble(rl_df, validate = FALSE)
 }
 
 
@@ -180,9 +140,9 @@ funs_and_apis <- function() {
     `lists/subscribers` = "lists_subscribers",
     `lists/subscriptions` = "lists_subscriptions",
 
+    `search/tweets` = "search_tweets",
     `search/tweets` = "search_twitter",
     `search/tweets` = "search_tweet",
-    `search/tweets` = "search_tweets",
     `search/tweets` = "search_statuses",
     `search/tweets` = "search_status",
 
@@ -203,18 +163,49 @@ funs_and_apis <- function() {
     `statuses/lookup` = "get_tweets",
 
     `trends/place` = "get_trends",
+    `trends/closest` = "trends_closest",
+    `trends/closest` = "closest_trends",
+    `trends/available` = "trends_available",
+    `trends/closest` = "available_trends",
 
+    `users/lookup` = "lookup_users",
     `users/lookup` = "get_users",
     `users/lookup` = "users_lookup",
     `users/lookup` = "user_lookup",
     `users/lookup` = "lookup_user",
-    `users/lookup` = "lookup_users",
     `users/search` = "search_users",
     `users/search` = "search_user",
-    `users/search` = "get_user"
+    `users/search` = "get_user",
+
+    `direct_messages` = "direct_messages",
+
+    `collections/entries` = "collections_entries",
+    `collections/list` = "collections_list",
+
+    `friendships/lookup` = "lookup_friendships",
+    `users/suggestions` = "suggested_users",
+    `users/suggestions/:slug` = "suggested_slugs"
   )
 }
 
+stream_api_funs <- function() {
+  list(
+    `statuses/sample` = "stream_tweets",
+    `statuses/filter` = "stream_tweets"
+  )
+}
+
+post_api_funs <- function() {
+  list(
+    `statuses/update` = "post_status",
+    `media/upload` = "post_status",
+    `direct_messages/new` = "post_direct_message",
+    `friendships/update` = "post_follow",
+    `mutes/users/create` = "post_mute",
+    `friendships/destroy` = "post_unfollow",
+    `friendships/create` = "post_follow"
+  )
+}
 
 fun2api <- function(x) {
   funs <- funs_and_apis()

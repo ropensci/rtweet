@@ -152,7 +152,8 @@ get_friends_ <- function(users,
       } else if (parse) {
         nextcursor <- f[["next_cursor"]]
         f[[i]] <- tibble::as_tibble(
-          list(user = users[[i]], user_id = f[[i]][["ids"]])
+          list(user = users[[i]], user_id = f[[i]][["ids"]]),
+          validate = FALSE
         )
         attr(f[[i]], "next_cursor") <- nextcursor
       }
@@ -193,7 +194,8 @@ get_friends_ <- function(users,
       } else if (parse) {
         nextcursor <- f[["next_cursor"]]
         f <- tibble::as_tibble(
-          list(user = users, user_id = f[["ids"]])
+          list(user = users, user_id = f[["ids"]]),
+          validate = FALSE
         )
         attr(f, "next_cursor") <- nextcursor
       }
@@ -240,10 +242,8 @@ fnd_internal <- function(r) {
 }
 
 
-#' lookup_friendships
-#'
-#' Look up informaiton on friendship between authenticated
-#'   user and up to 100 users.
+#' Gets informaiton on friendship between authenticated user and up
+#' to 100 other users.
 #'
 #' @param user Screen name or user id of target user.
 #' @param parse Logical indicating whether to return parsed data frame.

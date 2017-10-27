@@ -46,13 +46,22 @@ as.data.frame.lists_users <- function(x) {
   if (has_name_(x, "lists")) {
     x <- x[["lists"]]
   }
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "list"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "list"),
+    validate = FALSE
+  )
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(wrangle_into_clean_data(x$user, "user"))
+    users <- tibble::as_tibble(
+      wrangle_into_clean_data(x$user, "user"),
+      validate = FALSE
+    )
     attr(out, "users") <- users
   }
   if (has_name_(x, "status")) {
-    tweets <- tibble::as_tibble(wrangle_into_clean_data(x$status, "status"))
+    tweets <- tibble::as_tibble(
+      wrangle_into_clean_data(x$status, "status"),
+      validate = FALSE
+    )
     attr(out, "tweets") <- tweets
   }
   out
@@ -70,13 +79,22 @@ as.data.frame.lists_memberships <- function(x) {
   if (has_name_(x, "lists")) {
     x <- x[["lists"]]
   }
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "list"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "list"),
+    validate = FALSE
+  )
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(wrangle_into_clean_data(x$user, "user"))
+    users <- tibble::as_tibble(
+      wrangle_into_clean_data(x$user, "user"),
+      validate = FALSE
+    )
     attr(out, "users") <- users
   }
   if (has_name_(x, "status")) {
-    tweets <- tibble::as_tibble(wrangle_into_clean_data(x$status, "status"))
+    tweets <- tibble::as_tibble(
+      wrangle_into_clean_data(x$status, "status"),
+      validate = FALSE
+    )
     attr(out, "tweets") <- tweets
   }
   out
@@ -94,9 +112,15 @@ as.data.frame.lists_members <- function(x) {
   if (has_name_(x, "users")) {
     x <- x[["users"]]
   }
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "user"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "user"),
+    validate = FALSE
+  )
   if (has_name_(x, "status")) {
-    tweets <- tibble::as_tibble(wrangle_into_clean_data(x$status, "status"))
+    tweets <- tibble::as_tibble(
+      wrangle_into_clean_data(x$status, "status"),
+      validate = FALSE
+    )
     attr(out, "tweets") <- tweets
   }
   out
@@ -112,9 +136,15 @@ as_lists_statuses <- function(x) {
 }
 
 as.data.frame.lists_statuses <- function(x) {
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "status"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "status"),
+    validate = FALSE
+  )
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(wrangle_into_clean_data(x$user, "user"))
+    users <- tibble::as_tibble(
+      wrangle_into_clean_data(x$user, "user"),
+      validate = FALSE
+    )
     attr(out, "users") <- users
   }
   out
@@ -130,9 +160,15 @@ as_lists_users <- function(x) {
 }
 
 as.data.frame.lists_users <- function(x) {
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "list"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "list"),
+    validate = FALSE
+  )
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(wrangle_into_clean_data(x$user, "user"))
+    users <- tibble::as_tibble(
+      wrangle_into_clean_data(x$user, "user"),
+      validate = FALSE
+    )
     attr(out, "users") <- users
   }
   out
@@ -151,9 +187,15 @@ as.data.frame.lists_subscribers <- function(x) {
   if (has_name_(x, "users")) {
     x <- x$users
   }
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "user"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "user"),
+    validate = FALSE
+  )
   if (has_name_(x, "status")) {
-    tweets <- tibble::as_tibble(wrangle_into_clean_data(x$status, "status"))
+    tweets <- tibble::as_tibble(
+      wrangle_into_clean_data(x$status, "status"),
+      validate = FALSE
+    )
     attr(out, "tweets") <- tweets
   }
   out
@@ -169,9 +211,15 @@ as_lists_subscriptions <- function(x) {
 }
 
 as.data.frame.lists_subscriptions <- function(x) {
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "list"))
+  out <- tibble::as_tibble(
+    wrangle_into_clean_data(x, "list"),
+    validate = FALSE
+  )
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(wrangle_into_clean_data(x$user, "user"))
+    users <- tibble::as_tibble(
+      wrangle_into_clean_data(x$user, "user"),
+      validate = FALSE
+    )
     attr(out, "users") <- users
   }
   out
