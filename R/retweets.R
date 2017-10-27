@@ -58,11 +58,6 @@ as.data.frame.retweets <- function(x) {
 #' @param status_id required The status ID of the desired status.
 #' @param n Specifies the number of records to retrieve.
 #'   Best if intervals of 100.
-#' @param cursor semi-optional Causes the list of IDs to be broken into pages
-#'   of no more than 100 IDs at a time. The number of IDs returned is not
-#'   guaranteed to be 100 as suspended users are filtered out after
-#'   connections are queried. If no cursor is provided, a
-#'   value of -1 will be assumed, which is the first "page."
 #' @param parse Logical indicating whether to convert the response object into
 #'   an R list. Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a

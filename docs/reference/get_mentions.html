@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET statuses/mentions_timeline — get_mentions • rtweet</title>
+<title>Get the 20 most recent mentions (Tweets containing a users's
+screen_name) for the authenticating user. — get_mentions • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,25 +97,17 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET statuses/mentions_timeline</h1>
+    <h1>Get the 20 most recent mentions (Tweets containing a users's
+screen_name) for the authenticating user.</h1>
     </div>
 
     
-    <p>Returns the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user. The timeline returned is
-the equivalent of the one seen when you view your mentions on
-twitter.com. This method can only return up to 800 tweets.</p>
-<p>Returns the 20 most recent mentions (Tweets containing a users's
-  screen_name) for the authenticating user. The timeline returned is
-  the equivalent of the one seen when you view your mentions on
-  twitter.com. This method can only return up to 800 tweets.</p>
+    <p>Get the 20 most recent mentions (Tweets containing a users's
+screen_name) for the authenticating user.</p>
     
 
-    <pre class="usage"><span class='fu'>get_mentions</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>get_mentions_call</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
-  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_mentions</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -126,8 +119,7 @@ a maximum of 200. The value of count is best thought of as a
 limit to the number of tweets to return because suspended or
 deleted content is removed after the count has been applied. We
 include retweets in the count, even if include_rts is not
-supplied. It is recommended you always send include_rts=1 when
-using this API method.</p></td>
+supplied.</p></td>
     </tr>
     <tr>
       <th>since_id</th>
@@ -143,13 +135,9 @@ be forced to the oldest ID available.</p></td>
 than) or equal to the specified ID.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Other args passed as parameters in composed API query.</p></td>
-    </tr>
-    <tr>
       <th>parse</th>
-      <td><p>Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.</p></td>
+      <td><p>Logical indicating whether to convert the response
+object into an R list. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -159,12 +147,30 @@ instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send <code>?tokens</code> to
 console).</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other args passed as parameters in composed API query.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Tibble of mentions data.</p>
-<p>A tibble of mentions data.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The timeline returned is the equivalent of the one seen
+  when you view your mentions on twitter.com. This method can only
+  return up to 800 tweets.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><a href='https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline'>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline</a></p>
+<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
+  <code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='lists_statuses.html'>lists_statuses</a></code>,
+  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
+  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
+  <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
     
 
   </div>
@@ -174,6 +180,10 @@ console).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

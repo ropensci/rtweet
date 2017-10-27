@@ -103,7 +103,7 @@
     <p>Get tweets data for given statuses (status IDs).</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -113,41 +113,47 @@
       <td><p>User id or screen name of target user.</p></td>
     </tr>
     <tr>
+      <th>parse</th>
+      <td><p>Logical, indicating whether or not to parse
+return object into data frame(s).</p></td>
+    </tr>
+    <tr>
       <th>token</th>
       <td><p>OAuth token (1.0 or 2.0). By default
 <code>token = NULL</code> fetches a non-exhausted token from
 an environment variable @describeIn tokens.</p></td>
     </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse
-return object into data frame(s).</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>json response object (max is 18000 per token)</p>
+    <p>A tibble of tweets data.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><a href='https://dev.twitter.com/overview/documentation'>https://dev.twitter.com/overview/documentation</a></p>
+    <p><a href='https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup'>https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</a></p>
 <p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='lists_statuses.html'>lists_statuses</a></code>,
+  <code><a href='get_mentions.html'>get_mentions</a></code>, <code><a href='get_timeline.html'>get_timeline</a></code>,
+  <code><a href='lists_statuses.html'>lists_statuses</a></code>,
   <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
-  <code><a href='parsing.html'>tweets_with_users</a></code></p>
+  <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># lookup tweets data via status_id vector</span>
-<span class='no'>statuses</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"567053242429734913"</span>, <span class='st'>"266031293945503744"</span>,
-  <span class='st'>"440322224407314432"</span>)
-<span class='no'>statuses</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>)
-<span class='no'>statuses</span>
+<span class='co'>## create object containing status IDs</span>
+<span class='no'>statuses</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(
+  <span class='st'>"567053242429734913"</span>,
+  <span class='st'>"266031293945503744"</span>,
+  <span class='st'>"440322224407314432"</span>
+)
 
-<span class='co'># view users data for these statuses via tweets_data()</span>
-<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>statuses</span>)
+<span class='co'>## lookup tweets data for given statuses</span>
+<span class='no'>tw</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>)
+<span class='no'>tw</span>
+
+<span class='co'>## view users data for these statuses via users_data()</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>tw</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

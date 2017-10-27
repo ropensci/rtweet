@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET statuses/retweeters/ids — get_retweeters • rtweet</title>
+<title>Getuser IDs of users who retweeted a given status. — get_retweeters • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,16 +96,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET statuses/retweeters/ids</h1>
+    <h1>Getuser IDs of users who retweeted a given status.</h1>
     </div>
 
     
-    <p>Returns a collection of up to 100 user IDs belonging to users who
-have retweeted the Tweet specified by the id parameter.</p>
+    <p>Getuser IDs of users who retweeted a given status.</p>
     
 
-    <pre class="usage"><span class='fu'>get_retweeters</span>(<span class='no'>status_id</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_retweeters</span>(<span class='no'>status_id</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -118,21 +116,6 @@ have retweeted the Tweet specified by the id parameter.</p>
       <th>n</th>
       <td><p>Specifies the number of records to retrieve.
 Best if intervals of 100.</p></td>
-    </tr>
-    <tr>
-      <th>cursor</th>
-      <td><p>semi-optional Causes the list of IDs to be broken into pages
-of no more than 100 IDs at a time. The number of IDs returned is not
-guaranteed to be 100 as suspended users are filtered out after
-connections are queried. If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."
-The response from the API will include a previous_cursor and next_cursor
-to allow paging back and forth. See our cursor
-docs for more information.
-While this method supports the cursor parameter, the entire result set
-can be returned in a single cursored collection. Using the count
-parameter with this method will not provide segmented cursors for
-use with this parameter.</p></td>
     </tr>
     <tr>
       <th>parse</th>
@@ -153,6 +136,15 @@ console).</p></td>
 
     <p>data</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>At time of writing, paginaton offers no additional data. See the
+  post from Pipes here: <a href='https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8'>https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8</a></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other retweets: <code><a href='get_retweets.html'>get_retweets</a></code></p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -161,6 +153,10 @@ console).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

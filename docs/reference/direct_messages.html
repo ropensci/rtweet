@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get a timeline of tweets authored by members of a specified list. — lists_statuses • rtweet</title>
+<title>Get the 20 most recent direct messages sent to the authenticating user. — direct_messages • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,65 +96,44 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get a timeline of tweets authored by members of a specified list.</h1>
+    <h1>Get the 20 most recent direct messages sent to the authenticating user.</h1>
     </div>
 
     
-    <p>Get a timeline of tweets authored by members of a specified list.</p>
+    <p>Get the 20 most recent direct messages sent to the authenticating user.</p>
     
 
-    <pre class="usage"><span class='fu'>lists_statuses</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>direct_messages</span>(<span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='fl'>200</span>,
   <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>list_id</th>
-      <td><p>required The numerical id of the list.</p></td>
-    </tr>
-    <tr>
-      <th>slug</th>
-      <td><p>required You can identify a list by its slug instead of
-its numerical id. If you decide to do so, note that you'll also have
-to specify the list owner using the owner_id or owner_screen_name
-parameters.</p></td>
-    </tr>
-    <tr>
-      <th>owner_user</th>
-      <td><p>optional The screen name or user ID of the user
-who owns the list being requested by a slug.</p></td>
-    </tr>
-    <tr>
       <th>since_id</th>
       <td><p>optional Returns results with an ID greater than
-(that is, more recent than) the specified ID. There are limits to the
-number of Tweets which can be accessed through the API. If the limit
-of Tweets has occured since the since_id, the since_id will be forced
-to the oldest ID available.</p></td>
+(that is, more recent than) the specified ID. There are limits to
+the number of Tweets which can be accessed through the API. If
+the limit of Tweets has occured since the since_id, the since_id
+will be forced to the oldest ID available.</p></td>
     </tr>
     <tr>
       <th>max_id</th>
-      <td><p>optional Returns results with an ID less than (that is,
-older than) or equal to the specified ID.</p></td>
+      <td><p>optional Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</p></td>
     </tr>
     <tr>
-      <th>n</th>
-      <td><p>optional Specifies the number of results to retrieve per "page."</p></td>
-    </tr>
-    <tr>
-      <th>include_rts</th>
-      <td><p>optional When set to either true, t or 1,
-the list timeline will contain native retweets (if they exist) in
-addition to the standard stream of tweets. The output format of
-retweeted tweets is identical to the representation you see in
-home_timeline.</p></td>
+      <th>count</th>
+      <td><p>optional Specifies the number of direct messages to
+try and retrieve, up to a maximum of 200. The value of count is
+best thought of as a limit to the number of Tweets to return
+because suspended or deleted content is removed after the count
+has been applied.</p></td>
     </tr>
     <tr>
       <th>parse</th>
-      <td><p>Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.</p></td>
+      <td><p>Logical indicating whether to convert response object
+into nested list. Defaults to true.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -168,18 +147,17 @@ console).</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data</p>
+    <p>Return object converted to nested list. If status code of
+  response object is not 200, the response object is returned
+  directly.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Other lists: <code><a href='lists_members.html'>lists_members</a></code>,
-  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
-  <code><a href='lists_users.html'>lists_users</a></code></p>
-<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_mentions.html'>get_mentions</a></code>, <code><a href='get_timeline.html'>get_timeline</a></code>,
-  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
-  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
-  <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
+    <p>Includes detailed information about the sender and
+  recipient user. You can request up to 200 direct messages per
+  call, and only the most recent 200 DMs will be available using
+  this endpoint. Important: This method requires an access token
+  with RWD (read, write &amp; direct message) permissions.</p>
     
 
   </div>
@@ -190,7 +168,7 @@ console).</p></td>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

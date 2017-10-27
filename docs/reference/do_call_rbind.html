@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get a timeline of tweets authored by members of a specified list. — lists_statuses • rtweet</title>
+<title>Row bind lists of tweets/users data whilst also preserving and binding
+  users/tweets attribute data. — do_call_rbind • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,92 +97,61 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get a timeline of tweets authored by members of a specified list.</h1>
+    <h1>Row bind lists of tweets/users data whilst also preserving and binding
+  users/tweets attribute data.</h1>
     </div>
 
     
-    <p>Get a timeline of tweets authored by members of a specified list.</p>
+    <p>Row bind lists of tweets/users data whilst also preserving and binding
+  users/tweets attribute data.</p>
     
 
-    <pre class="usage"><span class='fu'>lists_statuses</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>do_call_rbind</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>list_id</th>
-      <td><p>required The numerical id of the list.</p></td>
-    </tr>
-    <tr>
-      <th>slug</th>
-      <td><p>required You can identify a list by its slug instead of
-its numerical id. If you decide to do so, note that you'll also have
-to specify the list owner using the owner_id or owner_screen_name
-parameters.</p></td>
-    </tr>
-    <tr>
-      <th>owner_user</th>
-      <td><p>optional The screen name or user ID of the user
-who owns the list being requested by a slug.</p></td>
-    </tr>
-    <tr>
-      <th>since_id</th>
-      <td><p>optional Returns results with an ID greater than
-(that is, more recent than) the specified ID. There are limits to the
-number of Tweets which can be accessed through the API. If the limit
-of Tweets has occured since the since_id, the since_id will be forced
-to the oldest ID available.</p></td>
-    </tr>
-    <tr>
-      <th>max_id</th>
-      <td><p>optional Returns results with an ID less than (that is,
-older than) or equal to the specified ID.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>optional Specifies the number of results to retrieve per "page."</p></td>
-    </tr>
-    <tr>
-      <th>include_rts</th>
-      <td><p>optional When set to either true, t or 1,
-the list timeline will contain native retweets (if they exist) in
-addition to the standard stream of tweets. The output format of
-retweeted tweets is identical to the representation you see in
-home_timeline.</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code>?tokens</code> to
-console).</p></td>
+      <th>x</th>
+      <td><p>List of parsed tweets data or users data, each of which
+presumably contains an attribute of the other (i.e., users data
+contains tweets attribute; tweets data contains users attribute).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data</p>
+    <p>A single merged (by row) data frame (tbl) of tweets or
+  users data that also contains as an attribtue a merged (by row)
+  data frame (tbl) of its counterpart, making it accessible via the
+  <code><a href='users_data.html'>users_data</a></code> or <code><a href='tweets_data.html'>tweets_data</a></code> extractor
+  functions.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other lists: <code><a href='lists_members.html'>lists_members</a></code>,
-  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
-  <code><a href='lists_users.html'>lists_users</a></code></p>
-<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_mentions.html'>get_mentions</a></code>, <code><a href='get_timeline.html'>get_timeline</a></code>,
-  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
-  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
-  <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
+    <p>Other parsing: <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"># NOT RUN {
+## lapply through three different search queries
+lrt <- lapply(
+  c("rstats OR tidyverse", "data science", "python"),
+  search_tweets,
+  n = 5000
+)
+
+## convert list object into single parsed data rame
+rt <- do_call_rbind(lrt)
+
+## preview tweets data
+rt
+
+## preview users data
+users_data(rt)
+)
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -191,7 +161,9 @@ console).</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

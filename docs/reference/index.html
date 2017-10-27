@@ -98,7 +98,7 @@
     <div class="page-header">
       <h1>
         Reference
-        <small>version&nbsp;0.5.22</small>
+        <small>version&nbsp;0.5.25</small>
       </h1>
     </div>
 
@@ -132,9 +132,22 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="direct_messages.html">direct_messages</a></code> </p>
+          </td>
+          <td><p>Get the 20 most recent direct messages sent to the authenticating user.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="do_call_rbind.html">do_call_rbind</a></code> </p>
+          </td>
+          <td><p>Row bind lists of tweets/users data whilst also preserving and binding
+  users/tweets attribute data.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="emojis.html">emojis</a></code> </p>
           </td>
-          <td><p>emojis data</p></td>
+          <td><p>Emojis codes and descriptions data.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -156,21 +169,23 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="get_mentions.html">get_mentions</a></code> <code><a href="get_mentions.html">get_mentions_call</a></code> </p>
+            <p><code><a href="get_mentions.html">get_mentions</a></code> </p>
           </td>
-          <td><p>GET statuses/mentions_timeline</p></td>
+          <td><p>Get the 20 most recent mentions (Tweets containing a users's
+screen_name) for the authenticating user.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="get_retweeters.html">get_retweeters</a></code> </p>
           </td>
-          <td><p>GET statuses/retweeters/ids</p></td>
+          <td><p>Getuser IDs of users who retweeted a given status.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="get_retweets.html">get_retweets</a></code> </p>
           </td>
-          <td><p>GET statuses/retweets/:id</p></td>
+          <td><p>Get a collection of the 100 most recent retweets of a given status.
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -194,13 +209,13 @@
           <td>
             <p><code><a href="langs.html">langs</a></code> </p>
           </td>
-          <td><p>langs data</p></td>
+          <td><p>Language codes recognized by Twitter data.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="lat_lng.html">lat_lng</a></code> </p>
           </td>
-          <td><p>lat_lng</p></td>
+          <td><p>Adds lat and lng variables using all available geolocation information.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -218,7 +233,7 @@
           <td>
             <p><code><a href="lists_subscribers.html">lists_subscribers</a></code> </p>
           </td>
-          <td><p>GET lists/subscribers</p></td>
+          <td><p>Get subscribers of a specified list.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -230,13 +245,14 @@
           <td>
             <p><code><a href="lookup_coords.html">lookup_coords</a></code> </p>
           </td>
-          <td><p>lookup_coords</p></td>
+          <td><p>Get coordinates of given location using Google's geocode API</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="lookup_friendships.html">lookup_friendships</a></code> </p>
           </td>
-          <td><p>lookup_friendships</p></td>
+          <td><p>Gets informaiton on friendship between authenticated user and up
+to 100 other users.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -252,12 +268,6 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="my_direct_messages.html">my_direct_messages</a></code> </p>
-          </td>
-          <td><p>GET direct_messages</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="next_cursor.html">max_id</a></code> <code><a href="next_cursor.html">next_cursor</a></code> </p>
           </td>
           <td><p>next_cursor/max_id</p></td>
@@ -270,15 +280,9 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="parsing.html">tweets_with_users</a></code> <code><a href="parsing.html">users_with_tweets</a></code> </p>
-          </td>
-          <td><p>parsing</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="plain_tweets.html">plain_tweets</a></code> </p>
           </td>
-          <td><p>plain_tweets</p></td>
+          <td><p>Clean up character vector (tweets) to more of a plain text.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -326,7 +330,7 @@
           <td>
             <p><code><a href="save_as_csv.html">save_as_csv</a></code> </p>
           </td>
-          <td><p>save_as_csv</p></td>
+          <td><p>Save tweets and users data as CSV.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -350,7 +354,7 @@
           <td>
             <p><code><a href="stopwordslangs.html">stopwordslangs</a></code> </p>
           </td>
-          <td><p>stopwordslangs data</p></td>
+          <td><p>Twitter stop words in multiple languages data.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -368,7 +372,7 @@
           <td>
             <p><code><a href="trends_available.html">trends_available</a></code> </p>
           </td>
-          <td><p>trends_available</p></td>
+          <td><p>Available Twitter trends along with associated WOEIDs.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -390,6 +394,12 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="tweets_with_users.html">tweets_with_users</a></code> <code><a href="tweets_with_users.html">users_with_tweets</a></code> </p>
+          </td>
+          <td><p>Parsing data into tweets/users data tibbles</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="users_data.html">users_data</a></code> </p>
           </td>
           <td><p>Extracts users data from tweets data object.</p></td>
@@ -398,7 +408,7 @@
           <td>
             <p><code><a href="write_as_csv.html">write_as_csv</a></code> </p>
           </td>
-          <td><p>write_as_csv</p></td>
+          <td><p>Saves as flattened CSV file of Twitter data.</p></td>
         </tr>
       </tbody>
       </table>

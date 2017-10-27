@@ -20,12 +20,6 @@ non-exhausted token from an environment variable. Find
 instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
-
-\item{cursor}{semi-optional Causes the list of IDs to be broken into pages
-of no more than 100 IDs at a time. The number of IDs returned is not
-guaranteed to be 100 as suspended users are filtered out after
-connections are queried. If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."}
 }
 \value{
 data

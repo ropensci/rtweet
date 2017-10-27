@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GET statuses/retweets/:id — get_retweets • rtweet</title>
+<title>Get a collection of the 100 most recent retweets of a given status.
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters. — get_retweets • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,16 +97,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GET statuses/retweets/:id</h1>
+    <h1>Get a collection of the 100 most recent retweets of a given status.
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</h1>
     </div>
 
     
-    <p>Returns a collection of the 100 most recent retweets of the Tweet
-specified by the id parameter. Twitter's API is currently limited to 100
-or fewer retweeters.</p>
+    <p>Get a collection of the 100 most recent retweets of a given status.
+NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p>
     
 
-    <pre class="usage"><span class='fu'>get_retweets</span>(<span class='no'>status_id</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_retweets</span>(<span class='no'>status_id</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -125,11 +126,6 @@ Must be less than or equal to 100.</p></td>
 an R list. Defaults to TRUE.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Other arguments used as parameters in the query sent to
-Twitter's rest API, for example, <code>trim_user = TRUE</code>.</p></td>
-    </tr>
-    <tr>
       <th>token</th>
       <td><p>OAuth token. By default <code>token = NULL</code> fetches a
 non-exhausted token from an environment variable. Find
@@ -137,11 +133,24 @@ instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send <code>?tokens</code> to
 console).</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments used as parameters in the query sent to
+Twitter's rest API, for example, <code>trim_user = TRUE</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data</p>
+    <p>Tweets data of the most recent retweets of a given status</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other retweets: <code><a href='get_retweeters.html'>get_retweeters</a></code></p>
     
 
   </div>
@@ -151,6 +160,10 @@ console).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>
