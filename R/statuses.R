@@ -3,7 +3,7 @@
 #' @description Returns Twitter user data_frame object for
 #'   specified user_ids or screen_names.
 #'
-#' @param statuses User id or screen name of target user.
+#' @param statuses Ids of the target statuses.
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
 #'   an environment variable @describeIn tokens.
