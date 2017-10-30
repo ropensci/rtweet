@@ -279,23 +279,25 @@ stream_data <- function(file_name, ...) {
 
   if (is.null(s)) {
     rl <- readr::read_lines(file_name)
+    rl <- grep("^\\{\"created\\_at.*\"\\}$", rl, value = TRUE)
     if (length(rl) < 2L) return(tweets_with_users(NULL))
-    cat(paste0(rl[seq_len(length(rl) - 1L)],
-      collapse = "\n"),
-      file = file_name
-    )
-
+    readr::write_lines(rl, file_name)
     s <- tryCatch(suppressWarnings(
       jsonlite::stream_in(file(file_name),
         verbose = TRUE)),
-      error = function(e) return(tweets_with_users(NULL)))
+      error = function(e) return(NULL))
   }
   if (is.null(s)) {
     rl <- readr::read_lines(file_name)
     if (length(rl) < 2L) return(tweets_with_users(NULL))
-    cat(paste0(rl[seq_len(length(rl) - 1L)],
-      collapse = "\n"),
-      file = file_name)
+    readr::write_lines(
+      rl[-length(rl)],
+      file_name
+    )
+    s <- tryCatch(suppressWarnings(
+      jsonlite::stream_in(file(file_name),
+                          verbose = TRUE)),
+      error = function(e) return(NULL))
   }
   if (is.null(s)) stop(paste0(
     "wasn't able to parse-in json file. ",
@@ -304,8 +306,6 @@ stream_data <- function(file_name, ...) {
     call. = FALSE))
   tweets_with_users(s)
 }
-
-
 
 
 
@@ -324,9 +324,9 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
     n_max2 <- n_max
   }
   while (length(d) > 0L && skip < n_max2) {
-    if (n_max > 0L && (skip + n) > n_max2) {
-      n <- n_max - skip
-    }
+    #if (n_max > 0L && (skip + n) > n_max2) {
+    #  n <- n_max - skip
+    #}
     d <- readr::read_lines(x, skip = skip, n_max = n)
     skip <- length(d) + skip
     tmp <- tempfile()
@@ -334,10 +334,11 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
     data[[length(data) + 1L]] <- stream_data(tmp)
     if (NROW(data[[length(data)]]) == 0L) break
   }
-  twt <- do.call("rbind", data)
-  usr <- do.call("rbind", lapply(data, attr, "users"))
-  attr(twt, "users") <- usr
-  twt
+  #twt <- do.call("rbind", data)
+  #usr <- do.call("rbind", lapply(data, attr, "users"))
+  #attr(twt, "users") <- usr
+  do_call_rbind(data)
+  #twt
 }
 
 
@@ -369,4 +370,58 @@ parse_stream <- function(path, ...) {
   } else {
     eval(call("data_from_stream", path))
   }
+}
+
+
+#' Stream with hardwired reconnection method to ensure timeout integrity.
+#'
+#' @param ... Args passed to \code{\link{stream_tweets}} function.
+#' @return Returns data as expected using original search_tweets function.
+#' @export
+#' @importFrom readr read_lines write_lines
+stream_tweets2 <- function(...) {
+  ## capture dots
+  dots <- list(...)
+
+  ## start time
+  start <- Sys.time()
+  ## finish time (given requested timeout)
+  reqtime <- start + dots[["timeout"]]
+
+  ## initialize output vector
+  rt <- list()
+
+  ## start counter
+  i <- 1L
+
+  ## save file name for final file
+  file_name <- dots[["file_name"]]
+
+  ## create temp dir for while streams
+  tmp <- tempdir()
+  dots[["file_name"]] <- file.path(tmp, paste0(i, ".json"))
+
+  ## store parse value, then override to FALSE
+  parse <- dots[["parse"]]
+  dots[["parse"]] <- FALSE
+
+  ## restart and continue stream until reqtime
+  while (Sys.time() <= reqtime) {
+    do.call("stream_tweets", dots)
+    i <- i + 1L
+    dots[["timeout"]] <- ceiling(as.numeric(reqtime - Sys.time(), "secs"))
+    dots[["file_name"]] <- file.path(tmp, paste0(i, ".json"))
+  }
+
+  ## merge json files into single file (named file_name)
+  jsons <- list.files(tmp, pattern = "\\.json$", full.names = TRUE)
+  for (i in jsons) {
+    x <- readr::read_lines(i, progress = FALSE)
+    readr::write_lines(x, file_name, append = TRUE)
+  }
+  if (!parse) {
+    return(invisible())
+  }
+  ## return parsed data
+  parse_stream(file_name)
 }
