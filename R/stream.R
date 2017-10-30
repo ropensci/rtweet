@@ -159,20 +159,16 @@ stream_tweets <- function(q = "",
     options(encoding = "UTF-8")
     on.exit(options(encoding = op))
   }
-
   token <- check_token(token)
-
   if (!timeout) {
     timeout <- Inf
   }
-
   stopifnot(
     is.numeric(timeout), timeout > 0,
     any(is.atomic(q), inherits(q, "coords")),
-    is.atomic(file_name))
-
+    is.atomic(file_name)
+  )
   if (missing(q)) q <- ""
-
   if (identical(q, "")) {
     query <- "statuses/sample"
     params <- NULL
@@ -180,35 +176,26 @@ stream_tweets <- function(q = "",
     query <- "statuses/filter"
     params <- stream_params(q, ...)
   }
-
   url <- make_url(
     restapi = FALSE,
     query,
     param = params
   )
-
   tmp <- FALSE
-
   if (is.null(file_name)) {
     tmp <- TRUE
     file_name <- tempfile(fileext = ".json")
   }
-
   if (is.infinite(timeout)) tmp <- FALSE
-
   if (!grepl("\\.json$", file_name)) {
     file_name <- paste0(file_name, ".json")
   }
-
   if (!file.exists(file_name)) file.create(file_name)
-
   if (verbose) {
     message(paste0("Streaming tweets for ",
       timeout, " seconds..."))
   }
-
   r <- NULL
-
   if (gzip) {
     r <- tryCatch(httr::POST(
       url = url,
@@ -232,7 +219,6 @@ stream_tweets <- function(q = "",
   if (verbose) {
     message("Finished streaming tweets!")
   }
-
   if (parse) {
     out <- stream_data(file_name)
     if (tmp) {
@@ -269,14 +255,17 @@ stream_params <- function(stream, ...) {
 stream_data <- function(file_name, ...) {
   tw <- .parse_stream(file_name, ...)
   usr <- users_data(tw)
-  tw <- tw[!is.na(tw$status_id), ]
-  usr <- usr[!is.na(usr$user_id), ]
+  if (nrow(tw) > 1L) {
+    tw <- tw[!is.na(tw$status_id), ]
+  }
+  if (nrow(usr) > 1L) {
+    usr <- usr[!is.na(usr$user_id), ]
+  }
   attr(tw, "users") <- usr
   tw
 }
 
 .parse_stream <- function(file_name) {
-
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")
     options(encoding = "UTF-8")
@@ -285,22 +274,26 @@ stream_data <- function(file_name, ...) {
 
   s <- tryCatch(suppressWarnings(
     jsonlite::stream_in(file_name, verbose = TRUE)),
-    error = function(e) return(NULL))
+    error = function(e) return(NULL)
+  )
 
   if (is.null(s)) {
     rl <- readr::read_lines(file_name)
-    cat(paste0(rl[seq_len(length(rl) - 1)],
+    if (length(rl) < 2L) return(tweets_with_users(NULL))
+    cat(paste0(rl[seq_len(length(rl) - 1L)],
       collapse = "\n"),
-      file = file_name)
+      file = file_name
+    )
 
     s <- tryCatch(suppressWarnings(
       jsonlite::stream_in(file(file_name),
         verbose = TRUE)),
-      error = function(e) return(NULL))
+      error = function(e) return(tweets_with_users(NULL)))
   }
   if (is.null(s)) {
     rl <- readr::read_lines(file_name)
-    cat(paste0(rl[seq_len(length(rl) - 1)],
+    if (length(rl) < 2L) return(tweets_with_users(NULL))
+    cat(paste0(rl[seq_len(length(rl) - 1L)],
       collapse = "\n"),
       file = file_name)
   }
@@ -339,6 +332,7 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
     tmp <- tempfile()
     readr::write_lines(d, tmp)
     data[[length(data) + 1L]] <- stream_data(tmp)
+    if (NROW(data[[length(data)]]) == 0L) break
   }
   twt <- do.call("rbind", data)
   usr <- do.call("rbind", lapply(data, attr, "users"))
