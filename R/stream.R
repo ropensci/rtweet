@@ -412,6 +412,7 @@ parse_stream <- function(path, ...) {
 #'   function.
 #' @export
 #' @importFrom readr read_lines write_lines
+#' @rdname stream_tweets
 stream_tweets2 <- function(..., append = FALSE) {
   ## capture dots
   ##dots <- list(...)

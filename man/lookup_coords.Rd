@@ -2,7 +2,7 @@
 % Please edit documentation in R/coords.R
 \name{lookup_coords}
 \alias{lookup_coords}
-\title{Get coordinates of given location using Google's geocode API}
+\title{Get coordinates of specified location.}
 \usage{
 lookup_coords(address, components = NULL, ...)
 }
@@ -18,16 +18,21 @@ sufficient.}
 \code{components = "country:US"}. Potential components include
 postal_code, country, administrative_area, locality, route.}
 
-\item{\dots}{Additional args passed as parameters in the http reqeust}
+\item{...}{Additional args passed as parameters in the http reqeust}
 }
 \value{
 Object of class coords.
 }
 \description{
-Get coordinates of given location using Google's geocode API
+Convenience function for looking up latitude/longitude coordinate
+information for a given location. Returns data as a special
+"coords" object, which is specifically designed to interact
+smoothly with other relavant package functions.
 }
 \examples{
+
 \dontrun{
+
 ## get coordinates associated with the following addresses/components
 sf <- lookup_coords("san francisco, CA", "country:US")
 usa <- lookup_coords("usa")
@@ -41,6 +46,7 @@ bztw <- search_tweets(geocode = bz)
 ustw <- stream_tweets(usa, timeout = 10)
 
 }
+
 }
 \seealso{
 Other geo: \code{\link{lat_lng}}

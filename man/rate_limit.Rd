@@ -36,12 +36,31 @@ Tibble data frame with rate limit information pertaining to
   query is specified, only relevant rows are returned.
 }
 \description{
-Get rate limit data for given Twitter access tokens.
+Returns rate limit information for one or more Twitter tokens,
+optionally filtered by rtweet function or specific Twitter API
+path(s)
 }
 \details{
 If multiple tokens are provided, this function will return
   the names of the associated [token] apps as new variable (column)
   or as a named element (if parse = FALSE).
+}
+\examples{
+
+\dontrun{
+
+## get all rate_limit information for default token
+rate_limit()
+
+## get rate limit info for API used in lookup_statuses
+rate_limit("lookup_statuses")
+
+## get rate limit info for specific token
+token <- get_tokens()
+rate_limit(token)
+rate_limit(token, "search_tweets")
+
+}
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}

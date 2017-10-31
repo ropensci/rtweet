@@ -2,8 +2,7 @@
 % Please edit documentation in R/retweets.R
 \name{get_retweets}
 \alias{get_retweets}
-\title{Get a collection of the 100 most recent retweets of a given status.
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters.}
+\title{Get the most recent retweets of a specific Twitter status}
 \usage{
 get_retweets(status_id, n = 100, parse = TRUE, token = NULL, ...)
 }
@@ -13,8 +12,8 @@ get_retweets(status_id, n = 100, parse = TRUE, token = NULL, ...)
 \item{n}{optional Specifies the number of records to retrieve.
 Must be less than or equal to 100.}
 
-\item{parse}{Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.}
+\item{parse}{Logical indicating whether to convert the response
+object into an R list. Defaults to TRUE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find
@@ -29,11 +28,13 @@ Twitter's rest API, for example, \code{trim_user = TRUE}.}
 Tweets data of the most recent retweets of a given status
 }
 \description{
-Get a collection of the 100 most recent retweets of a given status.
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+Returns a collection of the 100 most recent retweets of a given
+status.  NOTE: Twitter's API is currently limited to 100 or fewer
+retweeters.
 }
 \details{
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+NOTE: Twitter's API is currently limited to 100 or fewer
+  retweeters.
 }
 \seealso{
 Other retweets: \code{\link{get_retweeters}}

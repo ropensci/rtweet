@@ -58,7 +58,10 @@ A tibble data frame with two columns, "user" for name or ID of target
   user and "user_id" for follower IDs.
 }
 \description{
-Get user IDs of accounts followed by target user(s).
+Returns a list of user IDs for the accounts following BY one or
+more specified users. To return the friends of more than 15 users
+in a single call (the rate limit maximum), set "retryonratelimit"
+to TRUE.
 }
 \details{
 When \code{retryonratelimit = TRUE} this function internally
@@ -73,7 +76,9 @@ When \code{retryonratelimit = TRUE} this function internally
   could create sizable inefficiencies.
 }
 \examples{
+
 \dontrun{
+
 ## get user ids of accounts followed by Donald Trump
 (djt <- get_friends("realDonaldTrump"))
 
@@ -81,6 +86,7 @@ When \code{retryonratelimit = TRUE} this function internally
 (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
 
 }
+
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}

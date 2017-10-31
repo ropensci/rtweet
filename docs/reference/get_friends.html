@@ -100,7 +100,10 @@
     </div>
 
     
-    <p>Get user IDs of accounts followed by target user(s).</p>
+    <p>Returns a list of user IDs for the accounts following BY one or
+more specified users. To return the friends of more than 15 users
+in a single call (the rate limit maximum), set "retryonratelimit"
+to TRUE.</p>
     
 
     <pre class="usage"><span class='fu'>get_friends</span>(<span class='no'>users</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
@@ -196,14 +199,16 @@ console).</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## get user ids of accounts followed by Donald Trump</span>
 (<span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>get_friends</span>(<span class='st'>"realDonaldTrump"</span>))
 
 <span class='co'>## get user ids of accounts followed by (friends) KFC, Trump, and Nate Silver.</span>
 (<span class='no'>fds</span> <span class='kw'>&lt;-</span> <span class='fu'>get_friends</span>(<span class='fu'>c</span>(<span class='st'>"kfc"</span>, <span class='st'>"jack"</span>, <span class='st'>"NateSilver538"</span>)))
 
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

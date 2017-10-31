@@ -20,10 +20,14 @@ an environment variable @describeIn tokens.}
 A tibble of tweets data.
 }
 \description{
-Get tweets data for given statuses (status IDs).
+Returns data on up to 90,000 Twitter statuses. To return data on
+more than 90,000 statuses, users must iterate through status IDs
+whilst avoiding rate limits, which reset every 15 minutes.
 }
 \examples{
+
 \dontrun{
+
 ## create object containing status IDs
 statuses <- c(
   "567053242429734913",
@@ -37,6 +41,7 @@ tw
 
 ## view users data for these statuses via users_data()
 users_data(tw)
+
 }
 
 }

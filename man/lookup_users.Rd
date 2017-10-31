@@ -20,10 +20,14 @@ an environment variable @describeIn tokens.}
 A tibble of users data.
 }
 \description{
-Get Twitter users data for given users (user IDs or screen names).
+Returns data on up to 90,000 Twitter users. To return data on more
+than 90,000 users, code must be written to iterate through user IDs
+whilst avoiding rate limits, which reset every 15 minutes.
 }
 \examples{
+
 \dontrun{
+
 ## select one or more twitter users to lookup
 users <- c(
   "potus", "hillaryclinton", "realdonaldtrump",
@@ -38,6 +42,7 @@ usr_df
 
 ## view tweet data for these users via tweets_data()
 tweets_data(usr_df)
+
 }
 
 }

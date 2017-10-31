@@ -132,22 +132,27 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="direct_messages.html">direct_messages</a></code> </p>
+            <p><code><a href="direct_messages.html">direct_messages</a></code> <code><a href="direct_messages.html">direct_messages_sent</a></code> </p>
           </td>
-          <td><p>Get the 20 most recent direct messages sent to the authenticating user.</p></td>
+          <td><p>Get the most recent direct messages sent to the authenticating user.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="do_call_rbind.html">do_call_rbind</a></code> </p>
           </td>
-          <td><p>Row bind lists of tweets/users data whilst also preserving and binding
-  users/tweets attribute data.</p></td>
+          <td><p>Binds list of data frames while preserving attribute (tweets or users) data.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="emojis.html">emojis</a></code> </p>
           </td>
           <td><p>Emojis codes and descriptions data.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="get_collections.html">get_collections</a></code> </p>
+          </td>
+          <td><p>Get collections by user or status id.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -159,7 +164,7 @@
           <td>
             <p><code><a href="get_followers.html">get_followers</a></code> </p>
           </td>
-          <td><p>Get user IDs for accounts following target user(s).</p></td>
+          <td><p>Get user IDs for accounts following target user.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -178,14 +183,13 @@ screen_name) for the authenticating user.</p></td>
           <td>
             <p><code><a href="get_retweeters.html">get_retweeters</a></code> </p>
           </td>
-          <td><p>Getuser IDs of users who retweeted a given status.</p></td>
+          <td><p>Get user IDs of users who retweeted a given status.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="get_retweets.html">get_retweets</a></code> </p>
           </td>
-          <td><p>Get a collection of the 100 most recent retweets of a given status.
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p></td>
+          <td><p>Get the most recent retweets of a specific Twitter status</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -215,7 +219,7 @@ NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p></td>
           <td>
             <p><code><a href="lat_lng.html">lat_lng</a></code> </p>
           </td>
-          <td><p>Adds lat and lng variables using all available geolocation information.</p></td>
+          <td><p>Adds single-point lat and lng variables to tweets data.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -243,9 +247,15 @@ NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p></td>
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="lookup_collections.html">lookup_collections</a></code> </p>
+          </td>
+          <td><p>Get collections by user or status id.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="lookup_coords.html">lookup_coords</a></code> </p>
           </td>
-          <td><p>Get coordinates of given location using Google's geocode API</p></td>
+          <td><p>Get coordinates of specified location.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -322,7 +332,7 @@ to 100 other users.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p></p>
+            <p><code><a href="rtweet-package.html">rtweet-package</a></code> </p>
           </td>
           <td><p>rtweet: Collecting Twitter data</p></td>
         </tr><tr>
@@ -340,7 +350,7 @@ to 100 other users.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="search_tweets.html">search_tweets</a></code> </p>
+            <p><code><a href="search_tweets.html">search_tweets</a></code> <code><a href="search_tweets.html">search_tweets2</a></code> </p>
           </td>
           <td><p>Get tweets data on statuses identified via search query.</p></td>
         </tr><tr>
@@ -358,15 +368,9 @@ to 100 other users.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="stream_tweets.html">stream_tweets</a></code> </p>
+            <p><code><a href="stream_tweets.html">stream_tweets</a></code> <code><a href="stream_tweets.html">stream_tweets2</a></code> </p>
           </td>
           <td><p>Collect a live stream of Twitter data.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="stream_tweets2.html">stream_tweets2</a></code> </p>
-          </td>
-          <td><p>Stream with hardwired reconnection method to ensure timeout integrity.</p></td>
         </tr><tr>
           <!--  -->
           <td>

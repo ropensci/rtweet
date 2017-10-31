@@ -1,5 +1,10 @@
 #' Get tweets data on statuses identified via search query.
 #'
+#' Returns Twitter statuses matching a user provided search
+#' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
+#' than 18,000 statuses in a single call, set "retryonratelimit" to
+#' TRUE.
+#'
 #' @param q Query tobe searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
 #'   exceed maximum of 500 characters. Spaces behave like boolean
@@ -120,9 +125,10 @@
 #'   status_id of the oldest tweet as the \code{max_id} to resume
 #'   searching where the previous efforts left off.
 #'
-#'
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## search for 1000 tweets mentioning Hillary Clinton
 #' hrc <- search_tweets(q = "hillaryclinton", n = 1000)
 #'
@@ -134,19 +140,40 @@
 #'
 #' ## search for 1000 tweets in English
 #' djt <- search_tweets(q = "realdonaldtrump", n = 1000, lang = "en")
+#'
+#' ## preview tweets data
 #' djt
+#'
+#' ## preview users data
 #' users_data(djt)
 #'
 #' ## exclude retweets
 #' rt <- search_tweets("rstats", n = 500, include_rts = FALSE)
 #'
 #' ## perform search for lots of tweets
-#' rt <- search_tweets("trump OR president OR potus", n = 100000,
-#'                     retryonratelimit = TRUE)
+#' rt <- search_tweets(
+#'   "trump OR president OR potus", n = 100000,
+#'   retryonratelimit = TRUE
+#' )
 #'
 #' ## plot time series of tweets frequency
-#' ts_plot(rt, by = "mins", theme = "spacegray",
-#'         main = "Tweets about Trump")
+#' ts_plot(rt, by = "mins")
+#'
+#' ## make multiple independent search queries
+#' ds <- Map(
+#'   "search_tweets",
+#'   c("\"data science\"", "rstats OR python"),
+#'   n = 1000
+#' )
+#'
+#' ## bind by row whilst preserving users data
+#' ds <- do_call_rbind(ds)
+#'
+#' ## preview tweets data
+#' ds
+#'
+#' ## preview users data
+#' users_data(ds)
 #'
 #' }
 #' @return List object with tweets and users each returned as a
@@ -179,20 +206,20 @@ search_tweets <- function(q, n = 100,
     verbose = verbose,
     ...
   )
-  do.call("search_tweets.default", args)
+  do.call("search_tweets_", args)
 }
 
-search_tweets.default <- function(q = "",
-                                  n = 100,
-                                  type = "recent",
-                                  max_id = NULL,
-                                  geocode = NULL,
-                                  include_rts = TRUE,
-                                  parse = TRUE,
-                                  token = NULL,
-                                  retryonratelimit = FALSE,
-                                  verbose = TRUE,
-                                  ...) {
+search_tweets_ <- function(q = "",
+                           n = 100,
+                           type = "recent",
+                           max_id = NULL,
+                           geocode = NULL,
+                           include_rts = TRUE,
+                           parse = TRUE,
+                           token = NULL,
+                           retryonratelimit = FALSE,
+                           verbose = TRUE,
+                           ...) {
 
   ## check token and get rate limit data
   token <- check_token(token, "search/tweets")
@@ -349,45 +376,51 @@ search_tweets.default <- function(q = "",
 
 #' Get users data on accounts identified via search query.
 #'
-#' @param q Query to be searched, used in filtering relevant tweets
-#'   to return from Twitter's REST API. Should be a character
-#'   string not to exceed 500 characters maximum. Spaces are assumed
-#'   to function like boolean "AND" operators. To search for tweets
-#'   including one of multiple possible terms, separate search terms
-#'   with spaces and the word "OR". For example, the search
-#'   \code{query = "data science"} searches for tweets using both
-#'   "data" and "science" though the words can appear anywhere and
-#'   in any order in the tweet. However, when OR is added between
-#'   search terms, \code{query = "data OR science"}, Twitter's REST
-#'   API should return any tweet that includes either "data" or
-#'   "science" appearing in the tweets. At this time, Twitter's users/search
-#'   API does not allow complex searches or queries targetting exact phrases
-#'   as is allowed by \code{search_tweets}.
+#' Returns data for up to 1,000 users matched by user provided search
+#' query.
+#'
+#' @param q Query to be searched, used in filtering relevant tweets to
+#'   return from Twitter's REST API. Should be a character string not
+#'   to exceed 500 characters maximum. Spaces are assumed to function
+#'   like boolean "AND" operators. To search for tweets including one
+#'   of multiple possible terms, separate search terms with spaces and
+#'   the word "OR". For example, the search \code{query =
+#'   "data science"} searches for tweets using both "data" and
+#'   "science" though the words can appear anywhere and in any order
+#'   in the tweet. However, when OR is added between search terms,
+#'   \code{query = "data OR science"}, Twitter's REST API should
+#'   return any tweet that includes either "data" or "science"
+#'   appearing in the tweets. At this time, Twitter's users/search API
+#'   does not allow complex searches or queries targetting exact
+#'   phrases as is allowed by \code{search_tweets}.
 #' @param n Numeric, specifying the total number of desired users to
-#'   return. Defaults to 100. Maximum number of users returned from
-#'   a single search is 1,000.
+#'   return. Defaults to 100. Maximum number of users returned from a
+#'   single search is 1,000.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list (fromJSON) object. By default,
-#'   \code{parse = TRUE} saves users from the time
-#'   [and frustrations] associated with disentangling the Twitter
-#'   API return objects.
+#'   \code{parse = TRUE} saves users from the time [and frustrations]
+#'   associated with disentangling the Twitter API return objects.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}
 #' @examples
+#'
 #' \dontrun{
-#' # search for 1000 tweets mentioning Hillary Clinton
+#'
+#' ## search for 1000 tweets mentioning Hillary Clinton
 #' pc <- search_users(q = "political communication", n = 1000)
 #'
-#' # data frame where each observation (row) is a different user
+#' ## data frame where each observation (row) is a different user
 #' pc
 #'
-#' # tweets data also retrieved. can access it via tweets_data()
+#' ## tweets data also retrieved. can access it via tweets_data()
 #' users_data(hrc)
+#'
 #' }
 #' @return Data frame of users returned by query.
 #' @family users

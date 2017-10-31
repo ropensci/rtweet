@@ -110,10 +110,14 @@
 <li><p>4. Location via geo coordinates (1-360 degree
              location boxes)</p></li>
 </ul>
+
+    <p>Stream with hardwired reconnection method to ensure timeout integrity.</p>
     
 
     <pre class="usage"><span class='fu'>stream_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>stream_tweets2</span>(<span class='no'>...</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -175,11 +179,31 @@ processing/retrieval messages.</p></td>
       <td><p>Insert magical paramaters, spell, or potion here. Or
 filter for tweets by language, e.g., <code>language = "en"</code>.</p></td>
     </tr>
+    <tr>
+      <th>append</th>
+      <td><p>Logical indicating whether to append or overwrite
+file_name if the file already exists. Defaults to FALSE, meaning
+this function will overwrite the pre-existing file_name (in other
+words, it will delete any old file with the same name as
+file_name) meaning the data will be added as new lines to file if
+pre-existing.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Args passed to <code>stream_tweets</code>
+function. These args would likely include q (stream query),
+timeout (length of time, in seconds, to maintain the connection
+to the stream API), and/or file_name (name of file to save json
+data as), even though function defaults technically make all
+parameters optional.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Tweets data returned as data frame with users data as attribute.</p>
+<p>Returns data as expected using original search_tweets
+  function.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get coordinates of given location using Google's geocode API — lookup_coords • rtweet</title>
+<title>Get coordinates of specified location. — lookup_coords • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,11 +96,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get coordinates of given location using Google's geocode API</h1>
+    <h1>Get coordinates of specified location.</h1>
     </div>
 
     
-    <p>Get coordinates of given location using Google's geocode API</p>
+    <p>Convenience function for looking up latitude/longitude coordinate
+information for a given location. Returns data as a special
+"coords" object, which is specifically designed to interact
+smoothly with other relavant package functions.</p>
     
 
     <pre class="usage"><span class='fu'>lookup_coords</span>(<span class='no'>address</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -124,7 +127,7 @@ sufficient.</p></td>
 postal_code, country, administrative_area, locality, route.</p></td>
     </tr>
     <tr>
-      <th>&#8230;</th>
+      <th>...</th>
       <td><p>Additional args passed as parameters in the http reqeust</p></td>
     </tr>
     </table>
@@ -139,7 +142,8 @@ postal_code, country, administrative_area, locality, route.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## get coordinates associated with the following addresses/components</span>
 <span class='no'>sf</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"san francisco, CA"</span>, <span class='st'>"country:US"</span>)
 <span class='no'>usa</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"usa"</span>)
@@ -152,7 +156,8 @@ postal_code, country, administrative_area, locality, route.</p></td>
 <span class='co'>## or stream tweets</span>
 <span class='no'>ustw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stream_tweets.html'>stream_tweets</a></span>(<span class='no'>usa</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

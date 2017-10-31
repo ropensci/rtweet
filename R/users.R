@@ -1,5 +1,9 @@
 #' Get Twitter users data for given users (user IDs or screen names).
 #'
+#' Returns data on up to 90,000 Twitter users. To return data on more
+#' than 90,000 users, code must be written to iterate through user IDs
+#' whilst avoiding rate limits, which reset every 15 minutes.
+#'
 #' @param users User id or screen name of target user.
 #' @param token OAuth token (1.0 or 2.0). By default
 #'   \code{token = NULL} fetches a non-exhausted token from
@@ -9,7 +13,9 @@
 #'
 #' @seealso \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## select one or more twitter users to lookup
 #' users <- c(
 #'   "potus", "hillaryclinton", "realdonaldtrump",
@@ -24,6 +30,7 @@
 #'
 #' ## view tweet data for these users via tweets_data()
 #' tweets_data(usr_df)
+#'
 #' }
 #'
 #' @return A tibble of users data.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adds lat and lng variables using all available geolocation information. — lat_lng • rtweet</title>
+<title>Adds single-point lat and lng variables to tweets data. — lat_lng • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,11 +96,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adds lat and lng variables using all available geolocation information.</h1>
+    <h1>Adds single-point lat and lng variables to tweets data.</h1>
     </div>
 
     
-    <p>Adds lat and lng variables using all available geolocation information.</p>
+    <p>Appends parsed tweets data with lat and lng variables using all
+available geolocation information.</p>
     
 
     <pre class="usage"><span class='fu'>lat_lng</span>(<span class='no'>x</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"bbox_coords"</span>, <span class='st'>"coords_coords"</span>, <span class='st'>"geo_coords"</span>))</pre>
@@ -143,7 +144,8 @@ column names of data returned by most status-oriented rtweet functions).</p></td
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## stream tweets sent from the US</span>
 <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stream_tweets.html'>stream_tweets</a></span>(<span class='fu'><a href='lookup_coords.html'>lookup_coords</a></span>(<span class='st'>"usa"</span>), <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
@@ -153,7 +155,8 @@ column names of data returned by most status-oriented rtweet functions).</p></td
 <span class='co'>## plot points</span>
 <span class='fu'>with</span>(<span class='no'>rtll</span>, <span class='fu'>plot</span>(<span class='no'>lng</span>, <span class='no'>lat</span>))
 
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

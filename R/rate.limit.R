@@ -1,5 +1,9 @@
 #' Get rate limit data for given Twitter access tokens.
 #'
+#' Returns rate limit information for one or more Twitter tokens,
+#' optionally filtered by rtweet function or specific Twitter API
+#' path(s)
+#'
 #' @param token One or more OAuth tokens. By default \code{token =
 #'   NULL} fetches a non-exhausted token from an environment
 #'   variable. Find instructions on how to create tokens and setup an
@@ -25,6 +29,22 @@
 #'   the limit (max allowed), remaining (specific to token), reset
 #'   (mins until reset), and reset_at (time of rate limit reset). If
 #'   query is specified, only relevant rows are returned.
+#' @examples
+#'
+#' \dontrun{
+#'
+#' ## get all rate_limit information for default token
+#' rate_limit()
+#'
+#' ## get rate limit info for API used in lookup_statuses
+#' rate_limit("lookup_statuses")
+#'
+#' ## get rate limit info for specific token
+#' token <- get_tokens()
+#' rate_limit(token)
+#' rate_limit(token, "search_tweets")
+#'
+#' }
 #' @family tokens
 #' @export
 rate_limit <- function(token = NULL,

@@ -16,33 +16,37 @@ to suspended or deleted content, this function may return fewer
 tweets than the desired (n) number. Must be of length 1 or of
 length equal to the provided number of users.}
 
-\item{since_id}{Returns results with an status_id greater
-than (that is, more recent than) the specified status_id.
-There are limits to the number of tweets returned by the REST
-API. If the limit is hit, since_id is adjusted (by Twitter) to
-the oldest ID available.}
+\item{since_id}{Returns results with an status_id greater than
+(that is, more recent than) the specified status_id.  There are
+limits to the number of tweets returned by the REST API. If the
+limit is hit, since_id is adjusted (by Twitter) to the oldest ID
+available.}
 
 \item{max_id}{Returns results with status_id less (older) than or
 equal to (if hit limit) the specified status_id.}
 
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
+\item{parse}{Logical, indicating whether to return parsed vector or
+nested list (fromJSON) object. By default, \code{parse = TRUE}
+saves you the time [and frustrations] associated with
+disentangling the Twitter API return objects.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.
 }
 \description{
-Get tweets data for statuses favorited by one or more target users.
+Returns up to 3,000 statuses favorited by each of one or more
+specific Twitter users.
 }
 \examples{
+
 \dontrun{
+
 ## get max number of statuses favorited by KFC
 kfc <- get_favorites("KFC", n = 3000)
 kfc
@@ -50,7 +54,9 @@ kfc
 ## get 400 statuses favorited by each of three users
 favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
 favs
+
 }
+
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}

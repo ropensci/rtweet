@@ -1,5 +1,10 @@
 #' Get user IDs of accounts followed by target user(s).
 #'
+#' Returns a list of user IDs for the accounts following BY one or
+#' more specified users. To return the friends of more than 15 users
+#' in a single call (the rate limit maximum), set "retryonratelimit"
+#' to TRUE.
+#'
 #' @param users Screen name or user ID of target user from which the
 #'   user IDs of friends (accounts followed BY target user) will be
 #'   retrieved.
@@ -40,7 +45,9 @@
 #'   console).
 #' @seealso \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## get user ids of accounts followed by Donald Trump
 #' (djt <- get_friends("realDonaldTrump"))
 #'
@@ -48,6 +55,7 @@
 #' (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
 #'
 #' }
+#'
 #' @details When \code{retryonratelimit = TRUE} this function internally
 #'   makes a rate limit API call to get information on (a) the number of requests
 #'   remaining and (b) the amount of time until the rate limit resets. So, in

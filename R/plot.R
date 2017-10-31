@@ -1,5 +1,8 @@
 #' Plots tweets data as a time series-like data object.
 #'
+#' Creates a ggplot2 plot of the frequency of tweets over a specified
+#' interval of time.
+#'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus secs,
 #'   mins, hours, days, weeks, months, years. If a numeric is

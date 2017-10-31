@@ -7,35 +7,35 @@
 search_users(q, n = 100, parse = TRUE, token = NULL, verbose = TRUE)
 }
 \arguments{
-\item{q}{Query to be searched, used in filtering relevant tweets
-to return from Twitter's REST API. Should be a character
-string not to exceed 500 characters maximum. Spaces are assumed
-to function like boolean "AND" operators. To search for tweets
-including one of multiple possible terms, separate search terms
-with spaces and the word "OR". For example, the search
-\code{query = "data science"} searches for tweets using both
-"data" and "science" though the words can appear anywhere and
-in any order in the tweet. However, when OR is added between
-search terms, \code{query = "data OR science"}, Twitter's REST
-API should return any tweet that includes either "data" or
-"science" appearing in the tweets. At this time, Twitter's users/search
-API does not allow complex searches or queries targetting exact phrases
-as is allowed by \code{search_tweets}.}
+\item{q}{Query to be searched, used in filtering relevant tweets to
+return from Twitter's REST API. Should be a character string not
+to exceed 500 characters maximum. Spaces are assumed to function
+like boolean "AND" operators. To search for tweets including one
+of multiple possible terms, separate search terms with spaces and
+the word "OR". For example, the search \code{query =
+"data science"} searches for tweets using both "data" and
+"science" though the words can appear anywhere and in any order
+in the tweet. However, when OR is added between search terms,
+\code{query = "data OR science"}, Twitter's REST API should
+return any tweet that includes either "data" or "science"
+appearing in the tweets. At this time, Twitter's users/search API
+does not allow complex searches or queries targetting exact
+phrases as is allowed by \code{search_tweets}.}
 
 \item{n}{Numeric, specifying the total number of desired users to
-return. Defaults to 100. Maximum number of users returned from
-a single search is 1,000.}
+return. Defaults to 100. Maximum number of users returned from a
+single search is 1,000.}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves users from the time
-[and frustrations] associated with disentangling the Twitter
-API return objects.}
+\code{parse = TRUE} saves users from the time [and frustrations]
+associated with disentangling the Twitter API return objects.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 
 \item{verbose}{Logical, indicating whether or not to output
 processing/retrieval messages.}
@@ -44,18 +44,22 @@ processing/retrieval messages.}
 Data frame of users returned by query.
 }
 \description{
-Get users data on accounts identified via search query.
+Returns data for up to 1,000 users matched by user provided search
+query.
 }
 \examples{
+
 \dontrun{
-# search for 1000 tweets mentioning Hillary Clinton
+
+## search for 1000 tweets mentioning Hillary Clinton
 pc <- search_users(q = "political communication", n = 1000)
 
-# data frame where each observation (row) is a different user
+## data frame where each observation (row) is a different user
 pc
 
-# tweets data also retrieved. can access it via tweets_data()
+## tweets data also retrieved. can access it via tweets_data()
 users_data(hrc)
+
 }
 }
 \seealso{

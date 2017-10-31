@@ -100,12 +100,18 @@
     </div>
 
     
-    <p>Get tweets data on statuses identified via search query.</p>
+    <p>Returns Twitter statuses matching a user provided search
+query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
+than 18,000 statuses in a single call, set "retryonratelimit" to
+TRUE.</p>
+<p>search_tweets2 Returns data from one or more search queries.</p>
     
 
     <pre class="usage"><span class='fu'>search_tweets</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>geocode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>search_tweets2</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -234,12 +240,17 @@ sent to Twitter's REST API. To return only English language
 tweets, for example, use <code>lang = "en"</code>. For more options see
 Twitter's API documentation.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>search_tweets2 passes all arguments to <code>search_tweets</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>List object with tweets and users each returned as a
   data frame.</p>
+<p>A tbl data frame with additional "query" column.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -279,7 +290,8 @@ Twitter's API documentation.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## search for 1000 tweets mentioning Hillary Clinton</span>
 <span class='no'>hrc</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"hillaryclinton"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
@@ -291,21 +303,60 @@ Twitter's API documentation.</p></td>
 
 <span class='co'>## search for 1000 tweets in English</span>
 <span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"realdonaldtrump"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>)
+
+<span class='co'>## preview tweets data</span>
 <span class='no'>djt</span>
+
+<span class='co'>## preview users data</span>
 <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
 
 <span class='co'>## exclude retweets</span>
 <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'>## perform search for lots of tweets</span>
-<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"trump OR president OR potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100000</span>,
-                    <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(
+  <span class='st'>"trump OR president OR potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100000</span>,
+  <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
 
 <span class='co'>## plot time series of tweets frequency</span>
-<span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"spacegray"</span>,
-        <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Tweets about Trump"</span>)
+<span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>)
 
-<span class='co'># }</span></pre>
+<span class='co'>## make multiple independent search queries</span>
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'>Map</span>(
+  <span class='st'>"search_tweets"</span>,
+  <span class='fu'>c</span>(<span class='st'>"\"data science\""</span>, <span class='st'>"rstats OR python"</span>),
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+)
+
+<span class='co'>## bind by row whilst preserving users data</span>
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do_call_rbind.html'>do_call_rbind</a></span>(<span class='no'>ds</span>)
+
+<span class='co'>## preview tweets data</span>
+<span class='no'>ds</span>
+
+<span class='co'>## preview users data</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>ds</span>)
+
+<span class='co'># }</span><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'>## search using multilple queries</span>
+<span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets2</span>(
+  <span class='fu'>c</span>(<span class='st'>"\"data science\""</span>, <span class='st'>"rstats OR python"</span>),
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>
+)
+
+<span class='co'>## preview tweets data</span>
+<span class='no'>st2</span>
+
+<span class='co'>## preview users data</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>st2</span>)
+
+<span class='co'>## check breakdown of results by search query</span>
+<span class='fu'>table</span>(<span class='no'>st2</span>$<span class='no'>query</span>)
+
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

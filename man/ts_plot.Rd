@@ -23,7 +23,8 @@ not installed, then to lines plotting function.}
 If ggplot2 is installed then a ggplot2 plot
 }
 \description{
-Plots tweets data as a time series-like data object.
+Creates a ggplot2 plot of the frequency of tweets over a specified
+interval of time.
 }
 \examples{
 \dontrun{

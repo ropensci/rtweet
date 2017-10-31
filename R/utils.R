@@ -131,7 +131,7 @@ from_js <- function(rsp) {
   if (!is_json(rsp)) {
     stop("API did not return json", call. = FALSE)
   }
-  rsp <- httr::content(rsp, "text", encoding = "UTF-8")
+  rsp <- httr::content(rsp, as = "text", encoding = "UTF-8")
   rsp <- jsonlite::fromJSON(rsp)
   if ("statuses" %in% names(rsp) && "full_text" %in% names(rsp$statuses)) {
     names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "text"] <- "texttrunc"

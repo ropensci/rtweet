@@ -2,10 +2,13 @@
 % Please edit documentation in R/stream.R
 \name{stream_tweets}
 \alias{stream_tweets}
+\alias{stream_tweets2}
 \title{Collect a live stream of Twitter data.}
 \usage{
 stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
   file_name = NULL, verbose = TRUE, ...)
+
+stream_tweets2(..., append = FALSE)
 }
 \arguments{
 \item{q}{Query used to select and customize streaming collection
@@ -50,9 +53,26 @@ processing/retrieval messages.}
 
 \item{\dots}{Insert magical paramaters, spell, or potion here. Or
 filter for tweets by language, e.g., \code{language = "en"}.}
+
+\item{append}{Logical indicating whether to append or overwrite
+file_name if the file already exists. Defaults to FALSE, meaning
+this function will overwrite the pre-existing file_name (in other
+words, it will delete any old file with the same name as
+file_name) meaning the data will be added as new lines to file if
+pre-existing.}
+
+\item{...}{Args passed to \code{\link{stream_tweets}}
+function. These args would likely include q (stream query),
+timeout (length of time, in seconds, to maintain the connection
+to the stream API), and/or file_name (name of file to save json
+data as), even though function defaults technically make all
+parameters optional.}
 }
 \value{
 Tweets data returned as data frame with users data as attribute.
+
+Returns data as expected using original search_tweets
+  function.
 }
 \description{
 Returns public statuses via one of the following four methods:
@@ -66,6 +86,8 @@ Returns public statuses via one of the following four methods:
     \item 4. Location via geo coordinates (1-360 degree
              location boxes)
   }
+
+Stream with hardwired reconnection method to ensure timeout integrity.
 }
 \examples{
 \dontrun{

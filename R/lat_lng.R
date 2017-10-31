@@ -2,7 +2,10 @@
 ##                          COMPUTE LAT/LNG VARIABLES                         ##
 ##----------------------------------------------------------------------------##
 
-#' Adds lat and lng variables using all available geolocation information.
+#' Adds single-point lat and lng variables to tweets data.
+#'
+#' Appends parsed tweets data with lat and lng variables using all
+#' available geolocation information.
 #'
 #' @param x Parsed tweets data as returned by various rtweet functions. This should
 #'   be a data frame with variables such as "bbox_coords", "coords_coords", and
@@ -21,7 +24,9 @@
 #' @return Returns updated data object with full information lng and lat vars.
 #' @family geo
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## stream tweets sent from the US
 #' rt <- stream_tweets(lookup_coords("usa"), timeout = 10)
 #'
@@ -32,6 +37,7 @@
 #' with(rtll, plot(lng, lat))
 #'
 #' }
+#'
 #' @export
 lat_lng <- function(x, coords = c("bbox_coords", "coords_coords", "geo_coords")) {
   stopifnot(is.data.frame(x))

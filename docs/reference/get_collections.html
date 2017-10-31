@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Twitter users data for given users (user IDs or screen names). — lookup_users • rtweet</title>
+<title>Get collections by user or status id. — get_collections • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,67 +96,76 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Twitter users data for given users (user IDs or screen names).</h1>
+    <h1>Get collections by user or status id.</h1>
     </div>
 
     
-    <p>Returns data on up to 90,000 Twitter users. To return data on more
-than 90,000 users, code must be written to iterate through user IDs
-whilst avoiding rate limits, which reset every 15 minutes.</p>
+    <p>Find collections (themed grouping of statuses) created by specific user
+or status id. Results include user, status, and collection features.</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_users</span>(<span class='no'>users</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_collections</span>(<span class='no'>user</span>, <span class='kw'>status_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>users</th>
-      <td><p>User id or screen name of target user.</p></td>
+      <th>user</th>
+      <td><p>Screen name or user id of target user. Requests must
+provide a value for one of user or status_id.</p></td>
+    </tr>
+    <tr>
+      <th>status_id</th>
+      <td><p>Optional, the identifer of the tweet for which to
+return results. Requests must provide a value for one of user or
+status_id.</p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>Maximum number of results to return. Defaults to 200.</p></td>
+    </tr>
+    <tr>
+      <th>cursor</th>
+      <td><p>Page identifier of results to retrieve. If parse = TRUE,
+the next cursor value for any given request--if available--is stored
+as an attribute, accessible via <code><a href='next_cursor.html'>next_cursor</a></code></p></td>
     </tr>
     <tr>
       <th>parse</th>
-      <td><p>Logical, indicating whether or not to parse
-return object into data frame(s).</p></td>
+      <td><p>Logical indicating whether to convert response object
+into nested list. Defaults to true.</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>OAuth token (1.0 or 2.0). By default
-<code>token = NULL</code> fetches a non-exhausted token from
-an environment variable @describeIn tokens.</p></td>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble of users data.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p><a href='https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup'>https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup</a></p>
-<p>Other users: <code><a href='as_screenname.html'>as_screenname</a></code>,
-  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
-  <code><a href='search_users.html'>search_users</a></code>,
-  <code><a href='tweets_with_users.html'>tweets_with_users</a></code>, <code><a href='users_data.html'>users_data</a></code></p>
+    <p>Return object converted to nested list if parsed otherwise
+  an http response object is returned.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='co'>## select one or more twitter users to lookup</span>
-<span class='no'>users</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(
-  <span class='st'>"potus"</span>, <span class='st'>"hillaryclinton"</span>, <span class='st'>"realdonaldtrump"</span>,
-  <span class='st'>"fivethirtyeight"</span>, <span class='st'>"cnn"</span>, <span class='st'>"espn"</span>, <span class='st'>"twitter"</span>
-)
+<span class='co'>## lookup a specific collection</span>
+<span class='no'>cnnc</span> <span class='kw'>&lt;-</span> <span class='fu'>get_collections</span>(<span class='st'>"cnn"</span>)
 
-<span class='co'>## get users data</span>
-<span class='no'>usr_df</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_users</span>(<span class='no'>users</span>)
+<span class='co'>## inspect data</span>
+<span class='fu'>str</span>(<span class='no'>cnnc</span>)
 
-<span class='co'>## view users data</span>
-<span class='no'>usr_df</span>
+<span class='co'>## by status id</span>
+<span class='no'>wwe</span> <span class='kw'>&lt;-</span> <span class='fu'>get_collections</span>(<span class='kw'>status_id</span> <span class='kw'>=</span> <span class='st'>"925172982313570306"</span>)
 
-<span class='co'>## view tweet data for these users via tweets_data()</span>
-<span class='fu'><a href='tweets_data.html'>tweets_data</a></span>(<span class='no'>usr_df</span>)
+<span class='co'>## inspect data</span>
+<span class='fu'>str</span>(<span class='no'>wwe</span>)
 
 <span class='co'># }</span><div class='input'>
 </div></pre>
@@ -167,8 +176,6 @@ an environment variable @describeIn tokens.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

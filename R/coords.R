@@ -1,5 +1,10 @@
 
-#' Get coordinates of given location using Google's geocode API
+#' Get coordinates of specified location.
+#'
+#' Convenience function for looking up latitude/longitude coordinate
+#' information for a given location. Returns data as a special
+#' "coords" object, which is specifically designed to interact
+#' smoothly with other relavant package functions.
 #'
 #' @param address Desired location typically in the form of placename,
 #'   subregion, e.g., \code{address = "lawrence, KS"}. Also accepts the name of
@@ -10,10 +15,12 @@
 #' @param components Unit of analysis for address e.g.,
 #'   \code{components = "country:US"}. Potential components include
 #'   postal_code, country, administrative_area, locality, route.
-#' @param \dots Additional args passed as parameters in the http reqeust
+#' @param ... Additional args passed as parameters in the http reqeust
 #' @return Object of class coords.
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## get coordinates associated with the following addresses/components
 #' sf <- lookup_coords("san francisco, CA", "country:US")
 #' usa <- lookup_coords("usa")
@@ -27,6 +34,7 @@
 #' ustw <- stream_tweets(usa, timeout = 10)
 #'
 #' }
+#'
 #' @importFrom jsonlite fromJSON
 #' @family geo
 #' @export

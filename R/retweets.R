@@ -1,11 +1,14 @@
-#' Get a collection of the 100 most recent retweets of a given status.
-#' NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+#' Get the most recent retweets of a specific Twitter status
+#'
+#' Returns a collection of the 100 most recent retweets of a given
+#' status.  NOTE: Twitter's API is currently limited to 100 or fewer
+#' retweeters.
 #'
 #' @param status_id required The numerical ID of the desired status.
 #' @param n optional Specifies the number of records to retrieve.
 #'   Must be less than or equal to 100.
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
+#' @param parse Logical indicating whether to convert the response
+#'   object into an R list. Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
@@ -14,7 +17,8 @@
 #' @param ... Other arguments used as parameters in the query sent to
 #'   Twitter's rest API, for example, \code{trim_user = TRUE}.
 #' @return Tweets data of the most recent retweets of a given status
-#' @details NOTE: Twitter's API is currently limited to 100 or fewer retweeters.
+#' @details NOTE: Twitter's API is currently limited to 100 or fewer
+#'   retweeters.
 #' @export
 #' @family retweets
 get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
@@ -53,21 +57,26 @@ as.data.frame.retweets <- function(x) {
 
 
 
-#' Getuser IDs of users who retweeted a given status.
+#' Get user IDs of users who retweeted a given status.
+#'
+#' Returns user IDs of users who retweeted a given status. At the
+#' current time, this function is limited in returning a maximium of
+#' 100 users for a given status.
 #'
 #' @param status_id required The status ID of the desired status.
-#' @param n Specifies the number of records to retrieve.
-#'   Best if intervals of 100.
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
+#' @param n Specifies the number of records to retrieve.  Best if
+#'   intervals of 100.
+#' @param parse Logical indicating whether to convert the response
+#'   object into an R list. Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return data
-#' @details At time of writing, paginaton offers no additional data. See the
-#'   post from Pipes here: \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
+#' @details At time of writing, paginaton offers no additional
+#'   data. See the post from Pipes here:
+#'   \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
 #' @family retweets
 #' @export
 get_retweeters <- function(status_id,

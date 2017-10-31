@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Row bind lists of tweets/users data whilst also preserving and binding
-  users/tweets attribute data. — do_call_rbind • rtweet</title>
+<title>Binds list of data frames while preserving attribute (tweets or users) data. — do_call_rbind • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -97,13 +96,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Row bind lists of tweets/users data whilst also preserving and binding
-  users/tweets attribute data.</h1>
+    <h1>Binds list of data frames while preserving attribute (tweets or users) data.</h1>
     </div>
 
     
     <p>Row bind lists of tweets/users data whilst also preserving and binding
-  users/tweets attribute data.</p>
+users/tweets attribute data.</p>
     
 
     <pre class="usage"><span class='fu'>do_call_rbind</span>(<span class='no'>x</span>)</pre>
@@ -133,25 +131,26 @@ contains tweets attribute; tweets data contains users attribute).</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-## lapply through three different search queries
-lrt <- lapply(
-  c("rstats OR tidyverse", "data science", "python"),
-  search_tweets,
-  n = 5000
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'>## lapply through three different search queries</span>
+<span class='no'>lrt</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(
+  <span class='fu'>c</span>(<span class='st'>"rstats OR tidyverse"</span>, <span class='st'>"data science"</span>, <span class='st'>"python"</span>),
+  <span class='no'>search_tweets</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>
 )
 
-## convert list object into single parsed data rame
-rt <- do_call_rbind(lrt)
+<span class='co'>## convert list object into single parsed data rame</span>
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>do_call_rbind</span>(<span class='no'>lrt</span>)
 
-## preview tweets data
-rt
+<span class='co'>## preview tweets data</span>
+<span class='no'>rt</span>
 
-## preview users data
-users_data(rt)
-)
-# }
-</pre>
+<span class='co'>## preview users data</span>
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>rt</span>)
+
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

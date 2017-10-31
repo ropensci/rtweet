@@ -6,7 +6,9 @@
 #'   \code{\link{stream_tweets}}, etc..
 #'
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## search for 100 tweets containing the letter r
 #' r <- search_tweets("r")
 #'
@@ -15,6 +17,7 @@
 #'
 #' ## extract users data
 #' head(users_data(r))
+#'
 #' }
 #'
 #' @return Users data frame from tweets returned in a tweets data object.

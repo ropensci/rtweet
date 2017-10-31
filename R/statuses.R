@@ -1,5 +1,9 @@
 #' Get tweets data for given statuses (status IDs).
 #'
+#' Returns data on up to 90,000 Twitter statuses. To return data on
+#' more than 90,000 statuses, users must iterate through status IDs
+#' whilst avoiding rate limits, which reset every 15 minutes.
+#'
 #' @param statuses User id or screen name of target user.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
@@ -8,7 +12,9 @@
 #'   an environment variable @describeIn tokens.
 #' @seealso \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## create object containing status IDs
 #' statuses <- c(
 #'   "567053242429734913",
@@ -22,6 +28,7 @@
 #'
 #' ## view users data for these statuses via users_data()
 #' users_data(tw)
+#'
 #' }
 #'
 #' @return A tibble of tweets data.

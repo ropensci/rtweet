@@ -1,12 +1,13 @@
 #' next_cursor/max_id
 #'
 #' Method for returning next value (used to request next page or results)
-#'   object returned from Twitter APIs.
+#' object returned from Twitter APIs.
 #'
 #' @param x Data object returned by Twitter API.
 #'
 #' @examples
 #' \dontrun{
+#'
 #' ## Retrieve user ids of accounts following POTUS
 #' f1 <- get_followers("potus", n = 75000)
 #'
@@ -27,6 +28,7 @@
 #'
 #' ## count rows
 #' nrow(f)
+#'
 #' }
 #'
 #' @return Character string of next cursor value used to retrieved
@@ -74,6 +76,7 @@ next_cursor.character <- function(x) {
 #' @export
 next_cursor.data.frame <- function(x) {
   if (has_name_(x, "next_cursor_str")) return(x[["next_cursor_str"]])
+  if (has_name_(x, "next_cursor")) return(x[["next_cursor"]])
   if (has_name_(attributes(x), "next_cursor")) return(attr(x, "next_cursor"))
   x <- x[[grep("id$", names(x))[1]]]
   NextMethod()
@@ -83,6 +86,7 @@ next_cursor.data.frame <- function(x) {
 next_cursor.list <- function(x) {
   if (has_name_(x, "next_cursor_str")) return(x[["next_cursor_str"]])
   if (has_name_(x, "next_cursor")) return(x[["next_cursor"]])
+  if (has_name_(attributes(x), "next_cursor")) return(attr(x, "next_cursor"))
   if (!is.null(names(x))) {
     x <- list(x)
   }

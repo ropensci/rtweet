@@ -1,5 +1,7 @@
-
 #' Converts tweets data into time series-like data object.
+#'
+#' Returns data containing the frequency of tweets over a specified
+#' interval of time.
 #'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus secs, mins,

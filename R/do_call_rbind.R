@@ -1,6 +1,8 @@
 
+#' Binds list of data frames while preserving attribute (tweets or users) data.
+#'
 #' Row bind lists of tweets/users data whilst also preserving and binding
-#'   users/tweets attribute data.
+#' users/tweets attribute data.
 #'
 #' @param x List of parsed tweets data or users data, each of which
 #'   presumably contains an attribute of the other (i.e., users data
@@ -12,7 +14,9 @@
 #'   functions.
 #' @family parsing
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## lapply through three different search queries
 #' lrt <- lapply(
 #'   c("rstats OR tidyverse", "data science", "python"),
@@ -28,8 +32,9 @@
 #'
 #' ## preview users data
 #' users_data(rt)
-#' )
+#'
 #' }
+#'
 #' @export
 do_call_rbind <- function(x) {
   att_df <- lapply(x, extract_att_data)

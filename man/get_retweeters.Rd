@@ -2,18 +2,18 @@
 % Please edit documentation in R/retweets.R
 \name{get_retweeters}
 \alias{get_retweeters}
-\title{Getuser IDs of users who retweeted a given status.}
+\title{Get user IDs of users who retweeted a given status.}
 \usage{
 get_retweeters(status_id, n = 100, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{status_id}{required The status ID of the desired status.}
 
-\item{n}{Specifies the number of records to retrieve.
-Best if intervals of 100.}
+\item{n}{Specifies the number of records to retrieve.  Best if
+intervals of 100.}
 
-\item{parse}{Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.}
+\item{parse}{Logical indicating whether to convert the response
+object into an R list. Defaults to TRUE.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable. Find
@@ -25,11 +25,14 @@ console).}
 data
 }
 \description{
-Getuser IDs of users who retweeted a given status.
+Returns user IDs of users who retweeted a given status. At the
+current time, this function is limited in returning a maximium of
+100 users for a given status.
 }
 \details{
-At time of writing, paginaton offers no additional data. See the
-  post from Pipes here: \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
+At time of writing, paginaton offers no additional
+  data. See the post from Pipes here:
+  \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
 }
 \seealso{
 Other retweets: \code{\link{get_retweets}}

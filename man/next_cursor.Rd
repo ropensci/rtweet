@@ -21,10 +21,11 @@ Character string of next cursor value used to retrieved
 }
 \description{
 Method for returning next value (used to request next page or results)
-  object returned from Twitter APIs.
+object returned from Twitter APIs.
 }
 \examples{
 \dontrun{
+
 ## Retrieve user ids of accounts following POTUS
 f1 <- get_followers("potus", n = 75000)
 
@@ -45,6 +46,7 @@ f <- do.call("rbind", list(f1, f2))
 
 ## count rows
 nrow(f)
+
 }
 
 }

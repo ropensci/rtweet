@@ -2,9 +2,13 @@
 % Please edit documentation in R/direct-messages.R
 \name{direct_messages}
 \alias{direct_messages}
-\title{Get the 20 most recent direct messages sent to the authenticating user.}
+\alias{direct_messages_sent}
+\title{Get the most recent direct messages sent to the authenticating user.}
 \usage{
-direct_messages(since_id = NULL, max_id = NULL, count = 200,
+direct_messages(since_id = NULL, max_id = NULL, n = 200, parse = TRUE,
+  token = NULL)
+
+direct_messages_sent(since_id = NULL, max_id = NULL, n = 200,
   parse = TRUE, token = NULL)
 }
 \arguments{
@@ -17,11 +21,11 @@ will be forced to the oldest ID available.}
 \item{max_id}{optional Returns results with an ID less than (that
 is, older than) or equal to the specified ID.}
 
-\item{count}{optional Specifies the number of direct messages to
-try and retrieve, up to a maximum of 200. The value of count is
-best thought of as a limit to the number of Tweets to return
-because suspended or deleted content is removed after the count
-has been applied.}
+\item{n}{optional Specifies the number of direct messages to try
+and retrieve, up to a maximum of 200. The value of count is best
+thought of as a limit to the number of Tweets to return because
+suspended or deleted content is removed after the count has been
+applied.}
 
 \item{parse}{Logical indicating whether to convert response object
 into nested list. Defaults to true.}
@@ -38,12 +42,39 @@ Return object converted to nested list. If status code of
   directly.
 }
 \description{
-Get the 20 most recent direct messages sent to the authenticating user.
+Retrieves up to 200 of the most recently received direct messages
+by the authenticating (home) user. This function requires access
+token with read, write, and direct messages access.
 }
 \details{
 Includes detailed information about the sender and
   recipient user. You can request up to 200 direct messages per
   call, and only the most recent 200 DMs will be available using
-  this endpoint. Important: This method requires an access token
-  with RWD (read, write & direct message) permissions.
+  this endpoint.
+
+  Important: This method requires an access token with RWD (read,
+  write & direct message) permissions. To change your app's
+  permissions, navigate to \url{apps.twitter.com}, select the
+  appropriate app, click the "permissions" tab. Once youv'e made
+  changes to the application permission settings, you will need to
+  regenerate your token before those effect of those changes can
+  take effect.
+}
+\examples{
+\dontrrun{
+
+## get my direct messages
+dms <- direct_messages()
+
+## inspect data structure
+str(dms)
+
+## get DMs I've sent
+sdms <- direct_messages_sent()
+
+## inspect data structure
+str(dms)
+
+}
+
 }

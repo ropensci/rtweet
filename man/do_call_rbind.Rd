@@ -2,8 +2,7 @@
 % Please edit documentation in R/do_call_rbind.R
 \name{do_call_rbind}
 \alias{do_call_rbind}
-\title{Row bind lists of tweets/users data whilst also preserving and binding
-  users/tweets attribute data.}
+\title{Binds list of data frames while preserving attribute (tweets or users) data.}
 \usage{
 do_call_rbind(x)
 }
@@ -21,10 +20,12 @@ A single merged (by row) data frame (tbl) of tweets or
 }
 \description{
 Row bind lists of tweets/users data whilst also preserving and binding
-  users/tweets attribute data.
+users/tweets attribute data.
 }
 \examples{
+
 \dontrun{
+
 ## lapply through three different search queries
 lrt <- lapply(
   c("rstats OR tidyverse", "data science", "python"),
@@ -40,8 +41,9 @@ rt
 
 ## preview users data
 users_data(rt)
-)
+
 }
+
 }
 \seealso{
 Other parsing: \code{\link{tweets_with_users}}

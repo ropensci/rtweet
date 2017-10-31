@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get a collection of the 100 most recent retweets of a given status.
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters. — get_retweets • rtweet</title>
+<title>Get the most recent retweets of a specific Twitter status — get_retweets • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -97,13 +96,13 @@ NOTE: Twitter's API is currently limited to 100 or fewer retweeters. — get_ret
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get a collection of the 100 most recent retweets of a given status.
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</h1>
+    <h1>Get the most recent retweets of a specific Twitter status</h1>
     </div>
 
     
-    <p>Get a collection of the 100 most recent retweets of a given status.
-NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p>
+    <p>Returns a collection of the 100 most recent retweets of a given
+status.  NOTE: Twitter's API is currently limited to 100 or fewer
+retweeters.</p>
     
 
     <pre class="usage"><span class='fu'>get_retweets</span>(<span class='no'>status_id</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -122,8 +121,8 @@ Must be less than or equal to 100.</p></td>
     </tr>
     <tr>
       <th>parse</th>
-      <td><p>Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.</p></td>
+      <td><p>Logical indicating whether to convert the response
+object into an R list. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>token</th>
@@ -146,7 +145,8 @@ Twitter's rest API, for example, <code>trim_user = TRUE</code>.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>NOTE: Twitter's API is currently limited to 100 or fewer retweeters.</p>
+    <p>NOTE: Twitter's API is currently limited to 100 or fewer
+  retweeters.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

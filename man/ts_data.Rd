@@ -20,7 +20,8 @@ time series}
 Data frame with time, n, and grouping column if applicable.
 }
 \description{
-Converts tweets data into time series-like data object.
+Returns data containing the frequency of tweets over a specified
+interval of time.
 }
 \examples{
 \dontrun{

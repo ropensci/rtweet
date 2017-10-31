@@ -2,7 +2,7 @@
 % Please edit documentation in R/lat_lng.R
 \name{lat_lng}
 \alias{lat_lng}
-\title{Adds lat and lng variables using all available geolocation information.}
+\title{Adds single-point lat and lng variables to tweets data.}
 \usage{
 lat_lng(x, coords = c("bbox_coords", "coords_coords", "geo_coords"))
 }
@@ -21,7 +21,8 @@ column names of data returned by most status-oriented rtweet functions).}
 Returns updated data object with full information lng and lat vars.
 }
 \description{
-Adds lat and lng variables using all available geolocation information.
+Appends parsed tweets data with lat and lng variables using all
+available geolocation information.
 }
 \details{
 On occassion values may appear to be outliers given a previously used
@@ -32,7 +33,9 @@ On occassion values may appear to be outliers given a previously used
   but sometimes includes an otherwise puzzling result.
 }
 \examples{
+
 \dontrun{
+
 ## stream tweets sent from the US
 rt <- stream_tweets(lookup_coords("usa"), timeout = 10)
 
@@ -43,6 +46,7 @@ rtll <- lat_lng(rt)
 with(rtll, plot(lng, lat))
 
 }
+
 }
 \seealso{
 Other geo: \code{\link{lookup_coords}}

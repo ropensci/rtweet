@@ -2,70 +2,79 @@
 % Please edit documentation in R/followers.R
 \name{get_followers}
 \alias{get_followers}
-\title{Get user IDs for accounts following target user(s).}
+\title{Get user IDs for accounts following target user.}
 \usage{
 get_followers(user, n = 5000, page = "-1", retryonratelimit = FALSE,
   parse = TRUE, verbose = TRUE, token = NULL)
 }
 \arguments{
-\item{user}{Screen name or user ID of target user from which the user IDs
-of followers will be retrieved.}
+\item{user}{Screen name or user ID of target user from which the
+user IDs of followers will be retrieved.}
 
-\item{n}{Number of followers to return. Defaults to 5000, which is the max
-number of followers returned by a single API request. Twitter allows up
-to 15 of these requests every 15 minutes, which means 75,000 is the max
-number of followers to return without waiting for the rate limit to reset.
-If this number exceeds either 75,000 or the remaining number of possible
-requests for a given token, then the returned object will only return what
-it can (less than n) unless retryonratelimit is set to true.}
+\item{n}{Number of followers to return. Defaults to 5000, which is
+the max number of followers returned by a single API
+request. Twitter allows up to 15 of these requests every 15
+minutes, which means 75,000 is the max number of followers to
+return without waiting for the rate limit to reset.  If this
+number exceeds either 75,000 or the remaining number of possible
+requests for a given token, then the returned object will only
+return what it can (less than n) unless retryonratelimit is set
+to true.}
 
 \item{page}{Default \code{page = -1} specifies first page of json
 results. Other pages specified via cursor values supplied by
-Twitter API response object. If \code{parse = TRUE} then the cursor
-value can be extracted from the return object by using the
+Twitter API response object. If \code{parse = TRUE} then the
+cursor value can be extracted from the return object by using the
 \code{next_cursor} function.}
 
-\item{retryonratelimit}{If you'd like to retrieve more than 75,000 followers
-in a single call, then set \code{retryonratelimit = TRUE} and this function
-will use base \code{Sys.sleep} until rate limits reset and the desired n
-is achieved or the number of total followers is exhausted. This defaults
-to FALSE. See details for more info regarding possible issues with timing
-misfires.}
+\item{retryonratelimit}{If you'd like to retrieve more than 75,000
+followers in a single call, then set \code{retryonratelimit =
+TRUE} and this function will use base \code{Sys.sleep} until rate
+limits reset and the desired n is achieved or the number of total
+followers is exhausted. This defaults to FALSE. See details for
+more info regarding possible issues with timing misfires.}
 
-\item{parse}{Logical, indicating whether to return parsed
-vector or nested list (fromJSON) object. By default,
-\code{parse = TRUE} saves you the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
+\item{parse}{Logical, indicating whether to return parsed vector or
+nested list (fromJSON) object. By default, \code{parse = TRUE}
+saves you the time [and frustrations] associated with
+disentangling the Twitter API return objects.}
 
 \item{verbose}{Logical indicating whether or not to print messages.
-Only relevant if retryonratelimit = TRUE. Defaults to TRUE, prints
-sleep times and followers gathered counts.}
+Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
+prints sleep times and followers gathered counts.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 }
 \value{
 A tibble data frame of follower IDs (one column named "user_id").
 }
 \description{
-Get user IDs for accounts following target user(s).
+Returns a list of user IDs for the accounts following specified
+user. To return more than 75,000 user IDs in a single call (the
+rate limit maximum), set "retryonratelimit" to TRUE.
 }
 \details{
-When \code{retryonratelimit = TRUE} this function internally
-  makes a rate limit API call to get information on (a) the number of requests
-  remaining and (b) the amount of time until the rate limit resets. So, in
-  theory, the sleep call should only be called once between waves of data
-  collection. However, as a fail safe, if a system's time is calibrated such
-  that it expires before the rate limit reset, or if, in another session, the
-  user dips into the rate limit, then this function will wait (use Sys.sleep
-  for a second time) until the next rate limit reset. Users should monitor
-  and test this before making especially large calls as any systematic issues
-  could create sizable inefficiencies.
+When \code{retryonratelimit = TRUE} this function
+  internally makes a rate limit API call to get information on (a)
+  the number of requests remaining and (b) the amount of time until
+  the rate limit resets. So, in theory, the sleep call should only
+  be called once between waves of data collection. However, as a
+  fail safe, if a system's time is calibrated such that it expires
+  before the rate limit reset, or if, in another session, the user
+  dips into the rate limit, then this function will wait (use
+  Sys.sleep for a second time) until the next rate limit
+  reset. Users should monitor and test this before making
+  especially large calls as any systematic issues could create
+  sizable inefficiencies.
 }
 \examples{
+
 \dontrun{
+
 ## get 5000 ids of users following the KFC account
 (kfc <- get_followers("KFC"))
 

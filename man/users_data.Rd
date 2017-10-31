@@ -21,7 +21,9 @@ Users data frame from tweets returned in a tweets data object.
 Extracts users data from tweets data object.
 }
 \examples{
+
 \dontrun{
+
 ## search for 100 tweets containing the letter r
 r <- search_tweets("r")
 
@@ -30,6 +32,7 @@ head(r, 10)
 
 ## extract users data
 head(users_data(r))
+
 }
 
 }
