@@ -197,7 +197,7 @@ stream_tweets <- function(q = "",
     message("Finished streaming tweets!")
   }
   if (parse) {
-    out <- stream_data(file_name)
+    out <- parse_stream(file_name)
     if (tmp) {
       file.remove(file_name)
     } else {
