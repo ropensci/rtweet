@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • rtweet</title>
+<title>Saves Twitter token as an R environment variable — save_token2renv • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -93,22 +93,63 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Articles <small>version&nbsp;0.5.31</small></h1>
-</div>
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="auth.html">Obtaining and using access tokens</a></li>
-        <li><a href="intro.html">Intro to rtweet: Collecting Twitter Data</a></li>
-        <li><a href="stream.html">Live streaming tweets</a></li>
-      </ul>
+      <div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+    <h1>Saves Twitter token as an R environment variable</h1>
     </div>
+
+    
+    <p>Saves Twitter token as an R environment variable</p>
+    
+
+    <pre class="usage"><span class='fu'>save_token2renv</span>(<span class='no'>token</span>, <span class='kw'>home_dir</span> <span class='kw'>=</span> <span class='st'>"~/"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>token</th>
+      <td><p>Token object created via <code><a href='create_token.html'>create_token</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>home_dir</th>
+      <td><p>Path to user's home directory.</p></td>
+    </tr>
+    </table>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## name of app you created (replace rtweet_token with name of your app)</span>
+<span class='no'>appname</span> <span class='kw'>&lt;-</span> <span class='st'>"rtweet_token"</span>
+
+<span class='co'>## api key (example below is not a real key)</span>
+<span class='no'>key</span> <span class='kw'>&lt;-</span> <span class='st'>"XYznzPFOFZR2a39FwWKN1Jp41"</span>
+
+<span class='co'>## api secret (example below is not a real key)</span>
+<span class='no'>secret</span> <span class='kw'>&lt;-</span> <span class='st'>"CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>
+
+<span class='co'>## create a token, storing it as object 'twitter_token'</span>
+<span class='no'>twitter_token</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_token.html'>create_token</a></span>(
+  <span class='kw'>app</span> <span class='kw'>=</span> <span class='no'>appname</span>,
+  <span class='kw'>consumer_key</span> <span class='kw'>=</span> <span class='no'>key</span>,
+  <span class='kw'>consumer_secret</span> <span class='kw'>=</span> <span class='no'>secret</span>
+)
+
+<span class='co'>## save as R environment variable</span>
+<span class='fu'>save_token2renv</span>(<span class='no'>twitter_token</span>)
+
+<span class='co'># }</span></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
   </div>
 </div>
 

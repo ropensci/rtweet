@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • rtweet</title>
+<title>Favorites target status id. — post_favorite • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -93,22 +93,66 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Articles <small>version&nbsp;0.5.31</small></h1>
-</div>
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="auth.html">Obtaining and using access tokens</a></li>
-        <li><a href="intro.html">Intro to rtweet: Collecting Twitter Data</a></li>
-        <li><a href="stream.html">Live streaming tweets</a></li>
-      </ul>
+      <div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+    <h1>Favorites target status id.</h1>
     </div>
+
+    
+    <p>Favorites target status id.</p>
+    
+
+    <pre class="usage"><span class='fu'>post_favorite</span>(<span class='no'>status_id</span>, <span class='kw'>destroy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_entities</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>status_id</th>
+      <td><p>Status id of target tweet.</p></td>
+    </tr>
+    <tr>
+      <th>destroy</th>
+      <td><p>Logical indicating whether to post (add) or
+remove (delete) target tweet as favorite.</p></td>
+    </tr>
+    <tr>
+      <th>include_entities</th>
+      <td><p>Logical indicating whether to
+include entities object in return.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code>
+fetches a non-exhausted token from an environment
+variable tokens.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other post: <code><a href='post_follow.html'>post_follow</a></code>,
+  <code><a href='post_friendship.html'>post_friendship</a></code>, <code><a href='post_tweet.html'>post_tweet</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"rstats"</span>)
+<span class='no'>r</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>rt</span>$<span class='no'>user_id</span>, <span class='no'>post_favorite</span>)
+<span class='co'># }</span></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
   </div>
 </div>
 

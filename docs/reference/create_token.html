@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • rtweet</title>
+<title>Creating Twitter authorization token(s). — create_token • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -93,22 +93,78 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Articles <small>version&nbsp;0.5.31</small></h1>
-</div>
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="auth.html">Obtaining and using access tokens</a></li>
-        <li><a href="intro.html">Intro to rtweet: Collecting Twitter Data</a></li>
-        <li><a href="stream.html">Live streaming tweets</a></li>
-      </ul>
+      <div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+    <h1>Creating Twitter authorization token(s).</h1>
     </div>
+
+    
+    <p>Sends request to generate oauth 1.0 tokens. Twitter
+  also allows users to create user-only (oauth 2.0) access token.
+  Unlike the 1.0 tokens, oauth 2.0 tokens are not at all centered
+  on a host user. Which means these tokens cannot be used to
+  send information (follow requests, Twitter statuses, etc.).
+  If you have no interest in those capabilities, then 2.0 oauth
+  tokens do offer some higher rate limits. At the current time,
+  the difference given the functions in this package is trivial,
+  so I have yet to  verified oauth 2.0 token method.
+  Consequently, I encourage you to use 1.0 tokens.</p>
+    
+
+    <pre class="usage"><span class='fu'>create_token</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"mytwitterapp"</span>, <span class='no'>consumer_key</span>, <span class='no'>consumer_secret</span>,
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>app</th>
+      <td><p>Name of user created Twitter application</p></td>
+    </tr>
+    <tr>
+      <th>consumer_key</th>
+      <td><p>Application API key</p></td>
+    </tr>
+    <tr>
+      <th>consumer_secret</th>
+      <td><p>Application API secret User-owned
+app must have <code>Read and write</code> access level
+and <code>Callback URL</code> of <code>http://127.0.0.1:1410</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Logical indicating whether to cache the token as a
+.httr-oauth file. The default is TRUE, which means the cached
+token file will be added to the user's working directory.
+Ideally, users will store their token as an environment variable
+(see the tokens vignette for instructions), but the cache file
+works as long as always return to the same working directory.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Twitter oauth token(s) (Token1.0).</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><a href='https://developer.twitter.com/en/docs/basics/authentication/overview/oauth'>https://developer.twitter.com/en/docs/basics/authentication/overview/oauth</a></p>
+<p>Other tokens: <code><a href='get_tokens.html'>get_tokens</a></code>,
+  <code><a href='rate_limit.html'>rate_limit</a></code></p>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
+
   </div>
 </div>
 

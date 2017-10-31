@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Citation and Authors • rtweet</title>
+<title>Stream with hardwired reconnection method to ensure timeout integrity. — stream_tweets2 • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -20,9 +20,9 @@
 
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
+<script src="../pkgdown.js"></script>
   
   
 <!-- mathjax -->
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-citation-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,18 +47,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">rtweet</a>
+      <a class="navbar-brand" href="../index.html">rtweet</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="/index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -68,18 +68,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/auth.html">Obtaining and using access tokens</a>
+      <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
-      <a href="articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+      <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="articles/stream.html">Live streaming tweets</a>
+      <a href="../articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
@@ -94,38 +94,57 @@
       </header>
 
       <div class="row">
-  <div class="contents col-md-9">
-
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Citation</h1>
+    <h1>Stream with hardwired reconnection method to ensure timeout integrity.</h1>
     </div>
 
-    <p>Kearney MW (2017).
-<em>rtweet: Collecting Twitter Data</em>.
-R package version 0.5.31, <a href="https://cran.r-project.org/package=rtweet">https://cran.r-project.org/package=rtweet</a>. 
-</p>
-    <pre>@Manual{rtweet-package,
-  title = {rtweet: Collecting Twitter Data},
-  author = {Michael W. Kearney},
-  year = {2017},
-  note = {R package version 0.5.31},
-  url = {https://cran.r-project.org/package=rtweet},
-}</pre>
-    <div class="page-header">
-      <h1>Authors</h1>
-    </div>
+    
+    <p>Stream with hardwired reconnection method to ensure timeout integrity.</p>
+    
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Michael W. Kearney</strong>. Author, maintainer.
-        </p>
-      </li>
-    </ul>
+    <pre class="usage"><span class='fu'>stream_tweets2</span>(<span class='no'>...</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>Args passed to <code><a href='stream_tweets.html'>stream_tweets</a></code>
+function. These args would likely include q (stream query),
+timeout (length of time, in seconds, to maintain the connection
+to the stream API), and/or file_name (name of file to save json
+data as), even though function defaults technically make all
+parameters optional.</p></td>
+    </tr>
+    <tr>
+      <th>append</th>
+      <td><p>Logical indicating whether to append or overwrite
+file_name if the file already exists. Defaults to FALSE, meaning
+this function will overwrite the pre-existing file_name (in other
+words, it will delete any old file with the same name as
+file_name) meaning the data will be added as new lines to file if
+pre-existing.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns data as expected using original search_tweets
+  function.</p>
+    
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
+  </div>
 </div>
-
 
       <footer>
       <div class="copyright">

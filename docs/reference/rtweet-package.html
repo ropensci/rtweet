@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Citation and Authors • rtweet</title>
+<title>rtweet: Collecting Twitter data — rtweet-package • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -20,9 +20,9 @@
 
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
+<script src="../pkgdown.js"></script>
   
   
 <!-- mathjax -->
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-citation-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,18 +47,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">rtweet</a>
+      <a class="navbar-brand" href="../index.html">rtweet</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="/index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -68,18 +68,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/auth.html">Obtaining and using access tokens</a>
+      <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
-      <a href="articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+      <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="articles/stream.html">Live streaming tweets</a>
+      <a href="../articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
@@ -94,38 +94,60 @@
       </header>
 
       <div class="row">
-  <div class="contents col-md-9">
-
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Citation</h1>
+    <h1>rtweet: Collecting Twitter data</h1>
     </div>
 
-    <p>Kearney MW (2017).
-<em>rtweet: Collecting Twitter Data</em>.
-R package version 0.5.31, <a href="https://cran.r-project.org/package=rtweet">https://cran.r-project.org/package=rtweet</a>. 
-</p>
-    <pre>@Manual{rtweet-package,
-  title = {rtweet: Collecting Twitter Data},
-  author = {Michael W. Kearney},
-  year = {2017},
-  note = {R package version 0.5.31},
-  url = {https://cran.r-project.org/package=rtweet},
-}</pre>
-    <div class="page-header">
-      <h1>Authors</h1>
-    </div>
+    
+    <p>rtweet provides users a range of functions designed to extract data
+from Twitter's REST and streaming APIs.</p>
+    
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Michael W. Kearney</strong>. Author, maintainer.
-        </p>
-      </li>
+        
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It has three main goals:</p><ul>
+<li><p>Formulate and send requests to Twitter's REST and stream APIs.</p></li>
+<li><p>Retrieve and iterate over returned data.</p></li>
+<li><p>Wrangling data into tidy structures.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Useful links:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=rtweet'>https://CRAN.R-project.org/package=rtweet</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/mkearney/rtweet/issues'>https://github.com/mkearney/rtweet/issues</a></p></li>
+</ul>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## for instructions on access tokens, see the tokens vignette</span>
+<span class='fu'>vignette</span>(<span class='st'>"auth"</span>)
+
+<span class='co'>## for a quick demo check the rtweet vignette</span>
+<span class='fu'>vignette</span>(<span class='st'>"rtweet"</span>)
+<span class='co'># }</span></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    
+<strong>Maintainer</strong>: Michael W. Kearney <a href='mailto:kearneymw@missouri.edu'>kearneymw@missouri.edu</a>
+
+
   </div>
-
 </div>
-
 
       <footer>
       <div class="copyright">
