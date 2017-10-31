@@ -5,8 +5,7 @@
 \title{Collect a live stream of Twitter data.}
 \usage{
 stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
-  file_name = NULL, gzip = FALSE, verbose = TRUE, fix.encoding = TRUE,
-  ...)
+  file_name = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{q}{Query used to select and customize streaming collection
@@ -46,20 +45,8 @@ console).}
 temporary file is created, tweets are parsed and returned to
 parent environment, and the temporary file is deleted.}
 
-\item{gzip}{Logical indicating whether to request gzip compressed
-stream data. By default this is set to FALSE. After performing
-some tests, it appears gzip requires less bandwidth, but also
-returns slightly fewer tweets. Use of gzip option should, in
-theory, make connection more reliable (by hogging less bandwidth,
-there's less of a chance Twitter cuts you off for getting
-behind).}
-
 \item{verbose}{Logical, indicating whether or not to include output
 processing/retrieval messages.}
-
-\item{fix.encoding}{Logical indicating whether to internally
-specify encoding to prevent possible errors caused by things such
-as non-ascii characters.}
 
 \item{\dots}{Insert magical paramaters, spell, or potion here. Or
 filter for tweets by language, e.g., \code{language = "en"}.}
