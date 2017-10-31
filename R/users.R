@@ -50,10 +50,10 @@ lookup_users_ <- function(users,
   stopifnot(is.atomic(users))
   users <- unique(as.character(users))
   users <- users[!is.na(users)]
-  if (length(users) < 101) {
+  if (length(users) < 101L) {
     usr <- .user_lookup(users, token)
   } else {
-    if (length(users) > 90000) {
+    if (length(users) > 90000L) {
       message("max number of users exceeded; looking up first 90,000")
       users <- users[1:90000]
     }
