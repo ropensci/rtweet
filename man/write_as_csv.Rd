@@ -10,18 +10,21 @@ write_as_csv(x, file_name, prepend_ids = TRUE, na = "",
 \arguments{
 \item{x}{Data frame with tweets and users data.}
 
-\item{file_name}{Desired name(stem) to save files as (one save for tweets,
-one save for users).}
+\item{file_name}{Desired name(stem) to save files as (one save for
+tweets, one save for users).}
 
-\item{prepend_ids}{Logical indicating whether to prepend an "x" before all
-Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
-CSV as these values otherwise get treated as numeric and as a result the values
-are often less precise due to rounding or other class-related quirks. Defaults
+\item{prepend_ids}{Logical indicating whether to prepend an "x"
+before all Twitter IDs (for users, statuses, lists, etc.). It's
+recommended when saving to CSV as these values otherwise get
+treated as numeric and as a result the values are often less
+precise due to rounding or other class-related quirks. Defaults
 to true.}
 
-\item{na}{Value to be used for missing (NA)s. Defaults to empty character, "".}
+\item{na}{Value to be used for missing (NA)s. Defaults to empty
+character, "".}
 
-\item{fileEncoding}{Encoding to be used when saving to CSV. defaults to utf-8.}
+\item{fileEncoding}{Encoding to be used when saving to
+CSV. defaults to utf-8.}
 }
 \value{
 Saved csv files in current working directory.

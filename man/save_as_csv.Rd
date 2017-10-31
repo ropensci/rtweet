@@ -2,40 +2,42 @@
 % Please edit documentation in R/save.csv.R
 \name{save_as_csv}
 \alias{save_as_csv}
-\title{Save tweets and users data as CSV.}
+\title{Save Twitter data as a comma separated value file.}
 \usage{
 save_as_csv(x, file_name, prepend_ids = TRUE, na = "",
   fileEncoding = "UTF-8")
 }
 \arguments{
-\item{x}{Data table to be saved (tweets or user object)
-generated via rtweet function like \code{search_tweets}. If x
-is a list object containing both tweets and users data (which
-is currently the output for many of the rtweet functions),
-then a CSV file is created and saved for each object using the
-file_name provided as a base--e.g, if x is a list object from
-search_tweets with \code{file_name = "election"}, this
-function will save both the tweets data ("election.tweets.csv")
-and the user data ("election.users.csv"). If not included in
-file_name, the ".csv" extension will be added when writing file
-to disk.}
+\item{x}{Data table to be saved (tweets or user object) generated
+via rtweet function like \code{search_tweets}. If x is a list
+object containing both tweets and users data (which is currently
+the output for many of the rtweet functions), then a CSV file is
+created and saved for each object using the file_name provided as
+a base--e.g, if x is a list object from search_tweets with
+\code{file_name = "election"}, this function will save both the
+tweets data ("election.tweets.csv") and the user data
+("election.users.csv"). If not included in file_name, the ".csv"
+extension will be added when writing file to disk.}
 
-\item{file_name}{Path/file name where object(s) is to be saved.
-If object includes both tweets and users data then provided
-file_name will be used as base for the two saved files.
-For example, \code{file_name = "election"} would save files
-as "election.tweets.csv" and "election.users.csv".}
+\item{file_name}{Path/file name where object(s) is to be saved.  If
+object includes both tweets and users data then provided
+file_name will be used as base for the two saved files.  For
+example, \code{file_name = "election"} would save files as
+"election.tweets.csv" and "election.users.csv".}
 
-\item{prepend_ids}{Logical indicating whether to prepend an "x" before all
-Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
-CSV as these values otherwise get treated as numeric and as a result the values
-are often less precise due to rounding or other class-related quirks. Defaults
+\item{prepend_ids}{Logical indicating whether to prepend an "x"
+before all Twitter IDs (for users, statuses, lists, etc.). It's
+recommended when saving to CSV as these values otherwise get
+treated as numeric and as a result the values are often less
+precise due to rounding or other class-related quirks. Defaults
 to true.}
 
-\item{na}{Value to be used for missing (NA)s. Defaults to empty character, "".}
+\item{na}{Value to be used for missing (NA)s. Defaults to empty
+character, "".}
 
-\item{fileEncoding}{Encoding to be used when saving to CSV. defaults to utf-8.}
+\item{fileEncoding}{Encoding to be used when saving to
+CSV. defaults to utf-8.}
 }
 \description{
-Save tweets and users data as CSV.
+Saves tweets and users data as CSV files.
 }

@@ -1,30 +1,37 @@
-#' Save tweets and users data as CSV.
+#' Save Twitter data as a comma separated value file.
 #'
-#' @param x Data table to be saved (tweets or user object)
-#'   generated via rtweet function like \code{search_tweets}. If x
-#'   is a list object containing both tweets and users data (which
-#'   is currently the output for many of the rtweet functions),
-#'   then a CSV file is created and saved for each object using the
-#'   file_name provided as a base--e.g, if x is a list object from
-#'   search_tweets with \code{file_name = "election"}, this
-#'   function will save both the tweets data ("election.tweets.csv")
-#'   and the user data ("election.users.csv"). If not included in
-#'   file_name, the ".csv" extension will be added when writing file
-#'   to disk.
-#' @param file_name Path/file name where object(s) is to be saved.
-#'   If object includes both tweets and users data then provided
-#'   file_name will be used as base for the two saved files.
-#'   For example, \code{file_name = "election"} would save files
-#'   as "election.tweets.csv" and "election.users.csv".
-#' @param prepend_ids Logical indicating whether to prepend an "x" before all
-#'   Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
-#'   CSV as these values otherwise get treated as numeric and as a result the values
-#'   are often less precise due to rounding or other class-related quirks. Defaults
+#' Saves tweets and users data as CSV files.
+#'
+#' @param x Data table to be saved (tweets or user object) generated
+#'   via rtweet function like \code{search_tweets}. If x is a list
+#'   object containing both tweets and users data (which is currently
+#'   the output for many of the rtweet functions), then a CSV file is
+#'   created and saved for each object using the file_name provided as
+#'   a base--e.g, if x is a list object from search_tweets with
+#'   \code{file_name = "election"}, this function will save both the
+#'   tweets data ("election.tweets.csv") and the user data
+#'   ("election.users.csv"). If not included in file_name, the ".csv"
+#'   extension will be added when writing file to disk.
+#' @param file_name Path/file name where object(s) is to be saved.  If
+#'   object includes both tweets and users data then provided
+#'   file_name will be used as base for the two saved files.  For
+#'   example, \code{file_name = "election"} would save files as
+#'   "election.tweets.csv" and "election.users.csv".
+#' @param prepend_ids Logical indicating whether to prepend an "x"
+#'   before all Twitter IDs (for users, statuses, lists, etc.). It's
+#'   recommended when saving to CSV as these values otherwise get
+#'   treated as numeric and as a result the values are often less
+#'   precise due to rounding or other class-related quirks. Defaults
 #'   to true.
-#' @param na Value to be used for missing (NA)s. Defaults to empty character, "".
-#' @param fileEncoding Encoding to be used when saving to CSV. defaults to utf-8.
+#' @param na Value to be used for missing (NA)s. Defaults to empty
+#'   character, "".
+#' @param fileEncoding Encoding to be used when saving to
+#'   CSV. defaults to utf-8.
 #' @export
-save_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8") {
+save_as_csv <- function(x, file_name,
+                        prepend_ids = TRUE,
+                        na = "",
+                        fileEncoding = "UTF-8") {
   if (missing(file_name)) {
     stop("must provide file_name.", call. = FALSE)
   }
@@ -47,7 +54,6 @@ save_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding 
       na = na,
       fileEncoding = fileEncoding
     )
-
     if ("users" %in% names(attributes(x))) {
       write_as_csv(
         users_data(x),
@@ -64,7 +70,6 @@ save_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding 
       na = na,
       fileEncoding = fileEncoding
     )
-
     if ("tweets" %in% names(attributes(x))) {
       write_as_csv(
         tweets_data(x),
@@ -74,7 +79,6 @@ save_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding 
         fileEncoding = fileEncoding
       )
     }
-
   } else {
     write_as_csv(
       x, modify_file_name(file_name),
@@ -100,19 +104,25 @@ modify_file_name <- function(file_name, ext = NULL) {
 #' Saves as flattened CSV file of Twitter data.
 #'
 #' @param x Data frame with tweets and users data.
-#' @param file_name Desired name(stem) to save files as (one save for tweets,
-#'   one save for users).
-#' @param prepend_ids Logical indicating whether to prepend an "x" before all
-#'   Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
-#'   CSV as these values otherwise get treated as numeric and as a result the values
-#'   are often less precise due to rounding or other class-related quirks. Defaults
+#' @param file_name Desired name(stem) to save files as (one save for
+#'   tweets, one save for users).
+#' @param prepend_ids Logical indicating whether to prepend an "x"
+#'   before all Twitter IDs (for users, statuses, lists, etc.). It's
+#'   recommended when saving to CSV as these values otherwise get
+#'   treated as numeric and as a result the values are often less
+#'   precise due to rounding or other class-related quirks. Defaults
 #'   to true.
-#' @param na Value to be used for missing (NA)s. Defaults to empty character, "".
-#' @param fileEncoding Encoding to be used when saving to CSV. defaults to utf-8.
+#' @param na Value to be used for missing (NA)s. Defaults to empty
+#'   character, "".
+#' @param fileEncoding Encoding to be used when saving to
+#'   CSV. defaults to utf-8.
 #' @return Saved csv files in current working directory.
 #' @importFrom utils write.csv
 #' @export
-write_as_csv <- function(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8") {
+write_as_csv <- function(x, file_name,
+                         prepend_ids = TRUE,
+                         na = "",
+                         fileEncoding = "UTF-8") {
   stopifnot(is.data.frame(x))
   x <- flatten_rtweet(x)
   if (prepend_ids) {
@@ -139,5 +149,32 @@ unprepend_ids <- function(x) {
 }
 
 unx_ids <- function(x) {
-  gsub("^x", x)
+  gsub("^x", "", x)
+}
+
+#' Read comma separated value Twitter data.
+#'
+#' Reads Twitter data that was previously saved as a CSV file.
+#'
+#' @param file Name of CSV file.
+#' @return A tbl data frame of Twitter data
+#' @examples
+#'
+#' \dontrun{
+#'
+#' ## read in data.csv
+#' rt <- read_twitter_csv("data.csv")
+#'
+#' }
+#' @export
+read_twitter_csv <- function(file) {
+  x <- read.csv(
+    file = file,
+    na.strings = "",
+    stringsAsFactors = FALSE,
+    strip.white = TRUE,
+    encoding = "UTF-8"
+  )
+  x <- unprepend_ids(x)
+  tibble::as_tibble(x, validate = FALSE)
 }

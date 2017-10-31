@@ -97,6 +97,7 @@ rate_limit_ <- function(token,
     restapi = TRUE,
     query = "application/rate_limit_status")
   r <- TWIT(get = TRUE, url, config = token)
+  warn_for_twitter_status(r)
   if (parse) {
     rl_df <- .rl_df(r)
     if (!is.null(query)) {

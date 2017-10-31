@@ -2,9 +2,13 @@
 % Please edit documentation in R/timeline.R
 \name{get_timeline}
 \alias{get_timeline}
+\alias{get_timelines}
 \title{Get one or more user timelines (tweets posted by target user(s)).}
 \usage{
 get_timeline(user, n = 100, max_id = NULL, home = FALSE, parse = TRUE,
+  check = TRUE, token = NULL, ...)
+
+get_timelines(user, n = 100, max_id = NULL, home = FALSE, parse = TRUE,
   check = TRUE, token = NULL, ...)
 }
 \arguments{

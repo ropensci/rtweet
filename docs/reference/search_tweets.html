@@ -104,7 +104,8 @@
 query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
 than 18,000 statuses in a single call, set "retryonratelimit" to
 TRUE.</p>
-<p>search_tweets2 Returns data from one or more search queries.</p>
+<p>search_tweets2 Passes all args to search_tweets. Returns data from
+one OR MORE search queries.</p>
     
 
     <pre class="usage"><span class='fu'>search_tweets</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -239,10 +240,6 @@ time, in minutes).</p></td>
 sent to Twitter's REST API. To return only English language
 tweets, for example, use <code>lang = "en"</code>. For more options see
 Twitter's API documentation.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>search_tweets2 passes all arguments to <code>search_tweets</code>.</p></td>
     </tr>
     </table>
     

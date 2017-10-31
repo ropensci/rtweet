@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save tweets and users data as CSV. — save_as_csv • rtweet</title>
+<title>Save Twitter data as a comma separated value file. — save_as_csv • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,11 +96,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save tweets and users data as CSV.</h1>
+    <h1>Save Twitter data as a comma separated value file.</h1>
     </div>
 
     
-    <p>Save tweets and users data as CSV.</p>
+    <p>Saves tweets and users data as CSV files.</p>
     
 
     <pre class="usage"><span class='fu'>save_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
@@ -111,41 +111,43 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Data table to be saved (tweets or user object)
-generated via rtweet function like <code>search_tweets</code>. If x
-is a list object containing both tweets and users data (which
-is currently the output for many of the rtweet functions),
-then a CSV file is created and saved for each object using the
-file_name provided as a base--e.g, if x is a list object from
-search_tweets with <code>file_name = "election"</code>, this
-function will save both the tweets data ("election.tweets.csv")
-and the user data ("election.users.csv"). If not included in
-file_name, the ".csv" extension will be added when writing file
-to disk.</p></td>
+      <td><p>Data table to be saved (tweets or user object) generated
+via rtweet function like <code>search_tweets</code>. If x is a list
+object containing both tweets and users data (which is currently
+the output for many of the rtweet functions), then a CSV file is
+created and saved for each object using the file_name provided as
+a base--e.g, if x is a list object from search_tweets with
+<code>file_name = "election"</code>, this function will save both the
+tweets data ("election.tweets.csv") and the user data
+("election.users.csv"). If not included in file_name, the ".csv"
+extension will be added when writing file to disk.</p></td>
     </tr>
     <tr>
       <th>file_name</th>
-      <td><p>Path/file name where object(s) is to be saved.
-If object includes both tweets and users data then provided
-file_name will be used as base for the two saved files.
-For example, <code>file_name = "election"</code> would save files
-as "election.tweets.csv" and "election.users.csv".</p></td>
+      <td><p>Path/file name where object(s) is to be saved.  If
+object includes both tweets and users data then provided
+file_name will be used as base for the two saved files.  For
+example, <code>file_name = "election"</code> would save files as
+"election.tweets.csv" and "election.users.csv".</p></td>
     </tr>
     <tr>
       <th>prepend_ids</th>
-      <td><p>Logical indicating whether to prepend an "x" before all
-Twitter IDs (for users, statuses, lists, etc.). It's recommended when saving to
-CSV as these values otherwise get treated as numeric and as a result the values
-are often less precise due to rounding or other class-related quirks. Defaults
+      <td><p>Logical indicating whether to prepend an "x"
+before all Twitter IDs (for users, statuses, lists, etc.). It's
+recommended when saving to CSV as these values otherwise get
+treated as numeric and as a result the values are often less
+precise due to rounding or other class-related quirks. Defaults
 to true.</p></td>
     </tr>
     <tr>
       <th>na</th>
-      <td><p>Value to be used for missing (NA)s. Defaults to empty character, "".</p></td>
+      <td><p>Value to be used for missing (NA)s. Defaults to empty
+character, "".</p></td>
     </tr>
     <tr>
       <th>fileEncoding</th>
-      <td><p>Encoding to be used when saving to CSV. defaults to utf-8.</p></td>
+      <td><p>Encoding to be used when saving to
+CSV. defaults to utf-8.</p></td>
     </tr>
     </table>
     

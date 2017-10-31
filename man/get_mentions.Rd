@@ -2,19 +2,18 @@
 % Please edit documentation in R/mentions.R
 \name{get_mentions}
 \alias{get_mentions}
-\title{Get the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user.}
+\title{Get mentions for the authenticating user.}
 \usage{
-get_mentions(n = 100, since_id = NULL, max_id = NULL, parse = TRUE,
+get_mentions(n = 200, since_id = NULL, max_id = NULL, parse = TRUE,
   token = NULL, ...)
 }
 \arguments{
 \item{n}{Specifies the number of Tweets to try and retrieve, up to
-a maximum of 200. The value of count is best thought of as a
-limit to the number of tweets to return because suspended or
-deleted content is removed after the count has been applied. We
-include retweets in the count, even if include_rts is not
-supplied.}
+a maximum of 200 (the default). The value of count is best
+thought of as a limit to the number of tweets to return because
+suspended or deleted content is removed after the count has been
+applied. We include retweets in the count, even if include_rts is
+not supplied.}
 
 \item{since_id}{Returns results with an ID greater than (that is,
 more recent than) the specified ID. There are limits to the
@@ -40,13 +39,25 @@ console).}
 Tibble of mentions data.
 }
 \description{
-Get the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user.
+Returns data on up to 200 of the most recent mentions (Tweets
+containing a users's screen_name) of the authenticating user.
 }
 \details{
 The timeline returned is the equivalent of the one seen
   when you view your mentions on twitter.com. This method can only
   return up to 800 tweets.
+}
+\examples{
+
+\dontrun{
+
+## get most recent 200 mentions of authenticating user
+mymentions <- get_mentions()
+
+## view data
+mymentions
+
+}
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}

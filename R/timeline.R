@@ -71,11 +71,26 @@ get_timeline <- function(user,
     check = check,
     token = token
   )
-  do.call("get_timeline_call", args)
+  do.call("get_timeline_", args)
 }
 
 
-get_timeline_call <- function(user, n = 100, ...) {
+#' @inheritParams get_timeline
+#' @export
+#' @rdname get_timeline
+get_timelines <- function(user,
+                          n = 100,
+                          max_id = NULL,
+                          home = FALSE,
+                          parse = TRUE,
+                          check = TRUE,
+                          token = NULL,
+                          ...) {
+  get_timeline(user, n, max_id, home, parse, check, token, ...)
+}
+
+
+get_timeline_ <- function(user, n = 100, ...) {
   ## check inputs
   stopifnot(is.atomic(user), is.numeric(n))
   if (length(user) == 0L) {
@@ -84,9 +99,9 @@ get_timeline_call <- function(user, n = 100, ...) {
   ## search for each string in column of queries
   dots <- list(...)
   if (length(dots) > 0L) {
-    rt <- Map(get_timeline_, user = user, n = n, MoreArgs = dots)
+    rt <- Map(get_timeline_call, user = user, n = n, MoreArgs = dots)
   } else {
-    rt <- Map(get_timeline_, user = user, n = n)
+    rt <- Map(get_timeline_call, user = user, n = n)
   }
   ## merge users data into one data frame
   rt_users <- do.call("rbind", lapply(rt, users_data))
@@ -99,14 +114,14 @@ get_timeline_call <- function(user, n = 100, ...) {
 }
 
 
-get_timeline_ <- function(user,
-                          n = 200,
-                          max_id = NULL,
-                          home = FALSE,
-                          parse = TRUE,
-                          check = TRUE,
-                          token = NULL,
-                          ...) {
+get_timeline_call <- function(user,
+                              n = 200,
+                              max_id = NULL,
+                              home = FALSE,
+                              parse = TRUE,
+                              check = TRUE,
+                              token = NULL,
+                              ...) {
   stopifnot(
     is_n(n),
     is.atomic(user),

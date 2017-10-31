@@ -3,29 +3,27 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
   stopifnot(is_n(n), is_url(url))
 
   ## if missing set to 1
-  if (missing(n.times)) n.times <- 1
+  if (missing(n.times)) n.times <- 1L
 
   ## initialize vector and counter
   x <- vector("list", n.times)
-  counter <- 0
+  counter <- 0L
 
   for (i in seq_along(x)) {
     ## send GET request
     x[[i]] <- httr::GET(url, ...)
-
+    warn_for_twitter_status(x[[i]])
     ## if NULL (error) break
     if (is.null(x[[i]])) break
-
     ## convert from json to R list
     x[[i]] <- from_js(x[[i]])
-
     ## if length of x or len of statuses == 0, break
     if (any(length(x[[i]]) == 0L,
             all("statuses" %in% names(x[[i]]),
                 length(x[[i]][['statuses']]) == 0L))) {
       break
     }
-    if (has_name(x[[i]], "errors")) {
+    if (has_name_(x[[i]], "errors")) {
       warning(x[[i]]$errors[["message"]], call. = FALSE)
       x[[i]] <- list(data.frame())
       break
@@ -60,6 +58,7 @@ scroller_ <- function(url, n, n.times, type = NULL, ...) {
   x <- vector("list", n.times)
   counter <- 0
   x <- httr::GET(url, ...)
+  warn_for_twitter_status(x)
   for (i in seq_along(x)) {
     ## send GET request
     x[[i]] <- httr::GET(url, ...)
@@ -76,16 +75,18 @@ unique_id_count <- function(x, type = NULL) {
   }
   if (isTRUE(length(x) > 1L)) {
     if (!is.null(names(x[[2]]))) {
-      x <- unlist(lapply(x, unique_id),
-                  use.names = FALSE)
+      x <- unlist(
+        lapply(x, unique_id), use.names = FALSE
+      )
     } else {
       x <- unique_id(x)
     }
   } else {
     x <- unique_id(x)
   }
-  if (any(is.null(x), identical(length(x), 0L)))
+  if (any(is.null(x), identical(length(x), 0L))) {
     return(0)
+  }
   length(unique(x))
 }
 
@@ -110,18 +111,16 @@ break_check <- function(r, url, count = NULL) {
   if (!is.null(count)) {
     if (as.numeric(count) <= 0) return(TRUE)
   }
-
   if (is.null(r)) return(TRUE)
-
   x <- get_max_id(r)
-
   if (is.null(x)) return(TRUE)
   if (any(identical(x, 0), identical(x, "0"))) return(TRUE)
-
   if ("max_id" %in% names(url$query)) {
     if (is.null(url$query$max_id)) return(FALSE)
     if (identical(as.character(x),
-                  as.character(url$query$max_id))) return(TRUE)
+                  as.character(url$query$max_id))) {
+      return(TRUE)
+    }
   }
   FALSE
 }

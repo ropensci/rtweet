@@ -1,4 +1,6 @@
-#' Returns the list of suggested user categories.
+#' Get user [account] suggestions for authenticating user
+#'
+#' Returns Twitter's list of suggested user categories.
 #'
 #' @inheritParams suggested_users
 #' @return List of recommended categories which can be passed along as
@@ -11,11 +13,12 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
   params <- list(lang = lang)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
+  warn_for_twitter_status(r)
   from_js(r)
 }
 
 
-#' Returns users in a given category of the Twitter suggested user list
+#' Returns users from a specific, suggested category
 #'
 #' @param slug required The short name of list or a category
 #' @param lang optional Restricts the suggested categories to the
@@ -29,7 +32,9 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 #' @return Recommended users
 #' @export
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## get slugs
 #' slugs <- suggested_slugs()
 #'
@@ -37,6 +42,7 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 #' suggested_users(slugs$slug[1])
 #'
 #' }
+#'
 #' @rdname suggested
 suggested_users <- function(slug, lang = NULL, token = NULL) {
   if (missing(slug)) {
@@ -48,5 +54,6 @@ suggested_users <- function(slug, lang = NULL, token = NULL) {
   params <- list(slug = slug, lang = lang)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
+  warn_for_twitter_status(r)
   from_js(r)
 }

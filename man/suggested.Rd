@@ -3,7 +3,7 @@
 \name{suggested_slugs}
 \alias{suggested_slugs}
 \alias{suggested_users}
-\title{Returns the list of suggested user categories.}
+\title{Get user [account] suggestions for authenticating user}
 \usage{
 suggested_slugs(lang = NULL, token = NULL)
 
@@ -29,12 +29,14 @@ List of recommended categories which can be passed along as
 Recommended users
 }
 \description{
-Returns the list of suggested user categories.
+Returns Twitter's list of suggested user categories.
 
-Returns users in a given category of the Twitter suggested user list
+Returns users from a specific, suggested category
 }
 \examples{
+
 \dontrun{
+
 ## get slugs
 slugs <- suggested_slugs()
 
@@ -42,4 +44,5 @@ slugs <- suggested_slugs()
 suggested_users(slugs$slug[1])
 
 }
+
 }

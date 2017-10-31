@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user. — get_mentions • rtweet</title>
+<title>Get mentions for the authenticating user. — get_mentions • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -97,16 +96,15 @@ screen_name) for the authenticating user. — get_mentions • rtweet</title>
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user.</h1>
+    <h1>Get mentions for the authenticating user.</h1>
     </div>
 
     
-    <p>Get the 20 most recent mentions (Tweets containing a users's
-screen_name) for the authenticating user.</p>
+    <p>Returns data on up to 200 of the most recent mentions (Tweets
+containing a users's screen_name) of the authenticating user.</p>
     
 
-    <pre class="usage"><span class='fu'>get_mentions</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>get_mentions</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>since_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -115,11 +113,11 @@ screen_name) for the authenticating user.</p>
     <tr>
       <th>n</th>
       <td><p>Specifies the number of Tweets to try and retrieve, up to
-a maximum of 200. The value of count is best thought of as a
-limit to the number of tweets to return because suspended or
-deleted content is removed after the count has been applied. We
-include retweets in the count, even if include_rts is not
-supplied.</p></td>
+a maximum of 200 (the default). The value of count is best
+thought of as a limit to the number of tweets to return because
+suspended or deleted content is removed after the count has been
+applied. We include retweets in the count, even if include_rts is
+not supplied.</p></td>
     </tr>
     <tr>
       <th>since_id</th>
@@ -173,6 +171,16 @@ console).</p></td>
   <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'>## get most recent 200 mentions of authenticating user</span>
+<span class='no'>mymentions</span> <span class='kw'>&lt;-</span> <span class='fu'>get_mentions</span>()
+
+<span class='co'>## view data</span>
+<span class='no'>mymentions</span>
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -184,7 +192,9 @@ console).</p></td>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

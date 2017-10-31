@@ -1,12 +1,14 @@
-#' Get the 20 most recent mentions (Tweets containing a users's
-#' screen_name) for the authenticating user.
+#' Get mentions for the authenticating user.
+#'
+#' Returns data on up to 200 of the most recent mentions (Tweets
+#' containing a users's screen_name) of the authenticating user.
 #'
 #' @param n Specifies the number of Tweets to try and retrieve, up to
-#'   a maximum of 200. The value of count is best thought of as a
-#'   limit to the number of tweets to return because suspended or
-#'   deleted content is removed after the count has been applied. We
-#'   include retweets in the count, even if include_rts is not
-#'   supplied.
+#'   a maximum of 200 (the default). The value of count is best
+#'   thought of as a limit to the number of tweets to return because
+#'   suspended or deleted content is removed after the count has been
+#'   applied. We include retweets in the count, even if include_rts is
+#'   not supplied.
 #' @param since_id Returns results with an ID greater than (that is,
 #'   more recent than) the specified ID. There are limits to the
 #'   number of Tweets which can be accessed through the API. If the
@@ -27,10 +29,21 @@
 #'   when you view your mentions on twitter.com. This method can only
 #'   return up to 800 tweets.
 #' @family tweets
+#' @examples
+#'
+#' \dontrun{
+#'
+#' ## get most recent 200 mentions of authenticating user
+#' mymentions <- get_mentions()
+#'
+#' ## view data
+#' mymentions
+#'
+#' }
 #' @seealso
-#' \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
+#'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
 #' @export
-get_mentions <- function(n = 100,
+get_mentions <- function(n = 200,
                          since_id = NULL,
                          max_id = NULL,
                          parse = TRUE,
@@ -64,6 +77,7 @@ get_mentions_ <- function(n = 100,
   message("Getting mentions for ", token_home_user(token))
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
+  warn_for_twitter_status(r)
   if (parse) {
     r <- from_js(r)
     r <- as_mentions(r)
