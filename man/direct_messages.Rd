@@ -61,7 +61,8 @@ Includes detailed information about the sender and
   take effect.
 }
 \examples{
-\dontrrun{
+
+\dontrun{
 
 ## get my direct messages
 dms <- direct_messages()

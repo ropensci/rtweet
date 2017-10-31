@@ -27,7 +27,8 @@
 #'   response object is not 200, the response object is returned
 #'   directly.
 #' @examples
-#' \dontrrun{
+#'
+#' \dontrun{
 #'
 #' ## get my direct messages
 #' dms <- direct_messages()
