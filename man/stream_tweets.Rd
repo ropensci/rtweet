@@ -60,13 +60,6 @@ this function will overwrite the pre-existing file_name (in other
 words, it will delete any old file with the same name as
 file_name) meaning the data will be added as new lines to file if
 pre-existing.}
-
-\item{...}{Args passed to \code{\link{stream_tweets}}
-function. These args would likely include q (stream query),
-timeout (length of time, in seconds, to maintain the connection
-to the stream API), and/or file_name (name of file to save json
-data as), even though function defaults technically make all
-parameters optional.}
 }
 \value{
 Tweets data returned as data frame with users data as attribute.

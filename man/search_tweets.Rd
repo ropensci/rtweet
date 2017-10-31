@@ -113,8 +113,6 @@ time, in minutes).}
 sent to Twitter's REST API. To return only English language
 tweets, for example, use \code{lang = "en"}. For more options see
 Twitter's API documentation.}
-
-\item{...}{search_tweets2 passes all arguments to \code{search_tweets}.}
 }
 \value{
 List object with tweets and users each returned as a
@@ -128,7 +126,8 @@ query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
 than 18,000 statuses in a single call, set "retryonratelimit" to
 TRUE.
 
-search_tweets2 Returns data from one or more search queries.
+search_tweets2 Passes all args to search_tweets. Returns data from
+one OR MORE search queries.
 }
 \details{
 Twitter API documentation recommends limiting searches to

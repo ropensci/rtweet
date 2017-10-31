@@ -285,7 +285,7 @@ stream_data <- function(file_name, ...) {
     options(encoding = "UTF-8")
     on.exit(options(encoding = op))
   }
-  s <- jsonlite:::stream_in(file(file_name))
+  s <- jsonlite::stream_in(file(file_name))
   if (length(s) == 0L) s <- NULL
   tweets_with_users(s)
 }
@@ -394,14 +394,11 @@ parse_stream <- function(path, ...) {
 }
 
 
+#' A more robust version of stream_tweets
+#'
 #' Stream with hardwired reconnection method to ensure timeout integrity.
 #'
-#' @param ... Args passed to \code{\link{stream_tweets}}
-#'   function. These args would likely include q (stream query),
-#'   timeout (length of time, in seconds, to maintain the connection
-#'   to the stream API), and/or file_name (name of file to save json
-#'   data as), even though function defaults technically make all
-#'   parameters optional.
+#' @inheritParams stream_tweets
 #' @param append Logical indicating whether to append or overwrite
 #'   file_name if the file already exists. Defaults to FALSE, meaning
 #'   this function will overwrite the pre-existing file_name (in other

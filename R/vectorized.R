@@ -1,8 +1,9 @@
 #' Search tweets (vectorized)
 #'
-#' search_tweets2 Returns data from one or more search queries.
+#' search_tweets2 Passes all args to search_tweets. Returns data from
+#' one OR MORE search queries.
 #'
-#' @param ... search_tweets2 passes all arguments to \code{search_tweets}.
+#' @inheritParams search_tweets.
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
 #' @examples
