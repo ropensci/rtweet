@@ -248,8 +248,12 @@ search_tweets.default <- function(q = "",
       if (is.null(rt[[i]])) break
       ## break if final i
       if (i == ntimes) break
-      ## get next maxid
-      maxid.new <- rt[[i]][["status_id"]][[NROW(rt[[i]])]]
+      if (parse) {
+        ## get next maxid
+        maxid.new <- rt[[i]][["status_id"]][[NROW(rt[[i]])]]
+      } else {
+        maxid.new <- return_last(unlist(go_get_var(rt[[1]], "statuses", "id")))
+      }
       ## break if new maxid is null, empty, or unchanged
       if (any(is.null(maxid.new),
         identical(length(maxid.new), 0L),
