@@ -5,9 +5,11 @@
 #' whilst avoiding rate limits, which reset every 15 minutes.
 #'
 #' @param users User id or screen name of target user.
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable @describeIn tokens.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
 #'

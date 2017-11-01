@@ -12,14 +12,13 @@ get_mentions(n = 200, since_id = NULL, max_id = NULL, parse = TRUE,
 a maximum of 200 (the default). The value of count is best
 thought of as a limit to the number of tweets to return because
 suspended or deleted content is removed after the count has been
-applied. We include retweets in the count, even if include_rts is
-not supplied.}
+applied.}
 
 \item{since_id}{Returns results with an ID greater than (that is,
 more recent than) the specified ID. There are limits to the
 number of Tweets which can be accessed through the API. If the
-limit of Tweets has occured since the since_id, the since_id will
-be forced to the oldest ID available.}
+limit of Tweets has occurred since the since_id, the since_id
+will be forced to the oldest ID available.}
 
 \item{max_id}{Returns results with an ID less than (that is, older
 than) or equal to the specified ID.}
@@ -33,7 +32,8 @@ instructions on how to create tokens and setup an environment
 variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
 
-\item{...}{Other args passed as parameters in composed API query.}
+\item{...}{Other arguments passed as parameters in composed API
+query.}
 }
 \value{
 Tibble of mentions data.
@@ -58,6 +58,7 @@ mymentions <- get_mentions()
 mymentions
 
 }
+
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}

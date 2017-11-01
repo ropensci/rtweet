@@ -3,7 +3,7 @@
 #' @param x The desired character vector or data frame/list with named column/element
 #'   "text" to be cleaned and processed.
 #' @return Data reformatted with ascii encoding and normal ampersands and
-#'   without URL links, linebreaks, fancy spaces/tabs, fancy apostrophes,
+#'   without URL links, line breaks, fancy spaces/tabs, fancy apostrophes,
 #' @export
 plain_tweets <- function(x) UseMethod("plain_tweets")
 

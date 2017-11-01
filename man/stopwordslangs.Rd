@@ -9,13 +9,16 @@
 stopwordslangs
 }
 \description{
-This data comes form a group of Twitter searches conducted on 2017-09-27.
-The data are commonly observed words associated with 10 different languages,
-including "ar", "en", "es", "fr", "in", "ja", "pt", ru", "tr", and "und".
-Variables include word (potential stop words), lang (two or three word code),
-and p (p value associated with frequency position along a normal distribution
-with higher values meaning the word occurs more frequently and lower values
-meaning the words occur less frequently).
+This data comes form a group of Twitter searches conducted at
+several times during the calendar year of 2017. The data are
+commonly observed words associated with 10 different languages,
+including \code{c("ar", "en", "es", "fr", "in", "ja", "pt", "ru",
+"tr", "und")}. Variables include \code{"word"} (potential stop
+words), \code{"lang"} (two or three word code), and \code{"p"}
+(probability value associated with frequency position along a
+normal distribution with higher values meaning the word occurs more
+frequently and lower values meaning the words occur less
+frequently).
 }
 \examples{
 stopwordslangs

@@ -2,35 +2,39 @@
 % Please edit documentation in R/lat_lng.R
 \name{lat_lng}
 \alias{lat_lng}
-\title{Adds single-point lat and lng variables to tweets data.}
+\title{Adds single-point latitude and longitude variables to tweets data.}
 \usage{
 lat_lng(x, coords = c("bbox_coords", "coords_coords", "geo_coords"))
 }
 \arguments{
-\item{x}{Parsed tweets data as returned by various rtweet functions. This should
-be a data frame with variables such as "bbox_coords", "coords_coords", and
-"geo_coords" (among other non-geolocation Twitter variables).}
+\item{x}{Parsed tweets data as returned by various rtweet
+functions. This should be a data frame with variables such as
+\code{"bbox_coords", "coords_coords", and "geo_coords"} (among
+other non-geolocation Twitter variables).}
 
-\item{coords}{Names of variables containing latitude and longitude coordinates.
-Priority is given to bounding box coordinates (each obs consists of eight
-entries) followed by the supplied order of variable names. Defaults to
-c("bbox_coords", "coords_coords", "geo_coords") (which are the default
-column names of data returned by most status-oriented rtweet functions).}
+\item{coords}{Names of variables containing latitude and longitude
+coordinates.  Priority is given to bounding box coordinates (each
+obs consists of eight entries) followed by the supplied order of
+variable names. Defaults to \code{c("bbox_coords",
+"coords_coords", "geo_coords")} (which are the default column
+names of data returned by most status-oriented rtweet functions).}
 }
 \value{
-Returns updated data object with full information lng and lat vars.
+Returns updated data object with full information latitude
+  and longitude vars.
 }
 \description{
-Appends parsed tweets data with lat and lng variables using all
-available geolocation information.
+Appends parsed tweets data with latitude and longitude variables
+using all available geolocation information.
 }
 \details{
-On occassion values may appear to be outliers given a previously used
-  query filter (e.g., when searching for tweets sent from the continental US).
-  This is typically because those tweets returned a large bounding box that
-  overlapped with the area of interest. This function converts boxes into
-  their geographical midpoints, which works well in the vast majority of cases,
-  but sometimes includes an otherwise puzzling result.
+On occasion values may appear to be outliers given a
+  previously used query filter (e.g., when searching for tweets
+  sent from the continental US).  This is typically because those
+  tweets returned a large bounding box that overlapped with the
+  area of interest. This function converts boxes into their
+  geographical midpoints, which works well in the vast majority of
+  cases, but sometimes includes an otherwise puzzling result.
 }
 \examples{
 

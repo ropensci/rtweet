@@ -24,7 +24,7 @@ provided via a vector of length 4, e.g., c(-125, 26, -65, 49).}
 \item{timeout}{Numeric scalar specifying amount of time, in
 seconds, to leave connection open while streaming/capturing
 tweets.  By default, this is set to 30 seconds. To stream
-indefinitely, use \code{timeout = FALSE} to ensure json file is
+indefinitely, use \code{timeout = FALSE} to ensure JSON file is
 not deleted upon completion or \code{timeout = Inf}.}
 
 \item{parse}{Logical, indicating whether to return parsed data.  By
@@ -35,7 +35,7 @@ false as the parsing process can eat up processing resources and
 time. For other uses, setting parse to TRUE saves you from having
 to sort and parse the messy list structure returned by
 Twitter. (Note: if you set parse to false, you can use the
-\code{\link{parse_stream}} function to parse the json file at a
+\code{\link{parse_stream}} function to parse the JSON file at a
 later point in time.)}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
@@ -51,12 +51,12 @@ parent environment, and the temporary file is deleted.}
 \item{verbose}{Logical, indicating whether or not to include output
 processing/retrieval messages.}
 
-\item{\dots}{Insert magical paramaters, spell, or potion here. Or
+\item{\dots}{Insert magical parameters, spell, or potion here. Or
 filter for tweets by language, e.g., \code{language = "en"}.}
 
 \item{append}{Logical indicating whether to append or overwrite
 file_name if the file already exists. Defaults to FALSE, meaning
-this function will overwrite the pre-existing file_name (in other
+this function will overwrite the preexisting file_name (in other
 words, it will delete any old file with the same name as
 file_name) meaning the data will be added as new lines to file if
 pre-existing.}
@@ -146,7 +146,7 @@ usa <- stream_tweets(
   timeout = 300
 )
 
-## stream world tweets for 5 mins, save to json file
+## stream world tweets for 5 mins, save to JSON file
 ## shortcut coords note: lookup_coords("world")
 world.old <- stream_tweets(
   c(-180, -90, 180, 90),
@@ -155,7 +155,7 @@ world.old <- stream_tweets(
   file_name = "world-tweets.json"
 )
 
-## read in json file
+## read in JSON file
 rtworld <- parse_stream("word-tweets.json")
 
 ## world data set with with lat lng coords variables

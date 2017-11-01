@@ -5,6 +5,7 @@
 #' @param home_dir Path to user's home directory.
 #' @examples
 #' \dontrun{
+#'
 #' ## name of app you created (replace rtweet_token with name of your app)
 #' appname <- "rtweet_token"
 #'
@@ -25,6 +26,7 @@
 #' save_token2renv(twitter_token)
 #'
 #' }
+#'
 #' @export
 save_token2renv <- function(token, home_dir = "~/") {
   ## check token

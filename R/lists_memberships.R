@@ -11,11 +11,15 @@
 #'   not a unique quirk of rtweet.
 #' @examples
 #' \dontrun{
+#'
 #' ## get up to 200 list memberships of Nate Silver
 #' ns538 <- lists_memberships("NateSilver538", n = 200)
+#'
+#' ## view data
 #' ns538
 #'
 #' }
+#'
 #' @rdname lists_members
 #' @export
 lists_memberships <- function(user,

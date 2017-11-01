@@ -23,7 +23,7 @@
 #' @param timeout Numeric scalar specifying amount of time, in
 #'   seconds, to leave connection open while streaming/capturing
 #'   tweets.  By default, this is set to 30 seconds. To stream
-#'   indefinitely, use \code{timeout = FALSE} to ensure json file is
+#'   indefinitely, use \code{timeout = FALSE} to ensure JSON file is
 #'   not deleted upon completion or \code{timeout = Inf}.
 #' @param parse Logical, indicating whether to return parsed data.  By
 #'   default, \code{parse = TRUE}, this function does the parsing for
@@ -33,7 +33,7 @@
 #'   time. For other uses, setting parse to TRUE saves you from having
 #'   to sort and parse the messy list structure returned by
 #'   Twitter. (Note: if you set parse to false, you can use the
-#'   \code{\link{parse_stream}} function to parse the json file at a
+#'   \code{\link{parse_stream}} function to parse the JSON file at a
 #'   later point in time.)
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
@@ -45,7 +45,7 @@
 #'   parent environment, and the temporary file is deleted.
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
-#' @param \dots Insert magical paramaters, spell, or potion here. Or
+#' @param \dots Insert magical parameters, spell, or potion here. Or
 #'   filter for tweets by language, e.g., \code{language = "en"}.
 #' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
 #' @examples
@@ -112,7 +112,7 @@
 #'   timeout = 300
 #' )
 #'
-#' ## stream world tweets for 5 mins, save to json file
+#' ## stream world tweets for 5 mins, save to JSON file
 #' ## shortcut coords note: lookup_coords("world")
 #' world.old <- stream_tweets(
 #'   c(-180, -90, 180, 90),
@@ -121,7 +121,7 @@
 #'   file_name = "world-tweets.json"
 #' )
 #'
-#' ## read in json file
+#' ## read in JSON file
 #' rtworld <- parse_stream("word-tweets.json")
 #'
 #' ## world data set with with lat lng coords variables
@@ -256,7 +256,6 @@ good_lines <- function(x) {
 
 
 
-#' @export
 limits_data <- function(x) {
   if (has_name_(attributes(x), "limit")) {
     attr(x, "limit")
@@ -363,16 +362,16 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
 }
 
 
-#' Converts Twitter stream data (json file) into parsed data frame.
+#' Converts Twitter stream data (JSON file) into parsed data frame.
 #'
-#' @param path Character, name of json file with data collected by
+#' @param path Character, name of JSON file with data collected by
 #'   \code{\link{stream_tweets}}.
-#' @param ... Other arguments passed on to interal data_from_stream
+#' @param ... Other arguments passed on to internal data_from_stream
 #'   function.
 #' @return A tbl of tweets data with attribute of users data
 #' @examples
 #' \dontrun{
-#' ## run and save stream to json file
+#' ## run and save stream to JSON file
 #' stream_tweets(
 #'   "the,a,an,and", timeout = 60,
 #'   file_name = "theaanand.json",
@@ -401,7 +400,7 @@ parse_stream <- function(path, ...) {
 #' @inheritParams stream_tweets
 #' @param append Logical indicating whether to append or overwrite
 #'   file_name if the file already exists. Defaults to FALSE, meaning
-#'   this function will overwrite the pre-existing file_name (in other
+#'   this function will overwrite the preexisting file_name (in other
 #'   words, it will delete any old file with the same name as
 #'   file_name) meaning the data will be added as new lines to file if
 #'   pre-existing.
@@ -449,7 +448,7 @@ stream_tweets2 <- function(..., append = FALSE) {
   if (verbose) {
     message("Finished streaming tweets!")
   }
-  ## merge json files into single file (named file_name)
+  ## merge JSON files into single file (named file_name)
   jsons <- list.files(tmp, pattern = "\\.json$", full.names = TRUE)
   for (i in jsons) {
     x <- readr::read_lines(i, progress = FALSE)

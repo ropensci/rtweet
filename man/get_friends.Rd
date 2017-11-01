@@ -33,13 +33,13 @@ number of friend networks is retrieved. This defaults to
 FALSE. See details for more info regarding possible issues with
 timing misfires.}
 
-\item{page}{Default \code{page = -1} specifies first page of json
+\item{page}{Default \code{page = -1} specifies first page of JSON
 results. Other pages specified via cursor values supplied by
 Twitter API response object. This is only relevant if a user has
 over 5000 friends (follows more than 5000 accounts).}
 
 \item{parse}{Logical, indicating whether to return parsed vector or
-nested list (fromJSON) object. By default, \code{parse = TRUE}
+nested list object. By default, \code{parse = TRUE}
 saves you the time [and frustrations] associated with
 disentangling the Twitter API return objects.}
 
@@ -92,5 +92,5 @@ When \code{retryonratelimit = TRUE} this function internally
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 
 Other ids: \code{\link{get_followers}},
-  \code{\link{max_id}}
+  \code{\link{next_cursor}}
 }

@@ -26,7 +26,7 @@ available.}
 equal to (if hit limit) the specified status_id.}
 
 \item{parse}{Logical, indicating whether to return parsed vector or
-nested list (fromJSON) object. By default, \code{parse = TRUE}
+nested list object. By default, \code{parse = TRUE}
 saves you the time [and frustrations] associated with
 disentangling the Twitter API return objects.}
 

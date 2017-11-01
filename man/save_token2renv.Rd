@@ -16,6 +16,7 @@ Saves Twitter token as an R environment variable
 }
 \examples{
 \dontrun{
+
 ## name of app you created (replace rtweet_token with name of your app)
 appname <- "rtweet_token"
 
@@ -36,4 +37,5 @@ twitter_token <- create_token(
 save_token2renv(twitter_token)
 
 }
+
 }

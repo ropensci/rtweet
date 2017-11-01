@@ -8,7 +8,7 @@
 #'   presumably contains an attribute of the other (i.e., users data
 #'   contains tweets attribute; tweets data contains users attribute).
 #' @return A single merged (by row) data frame (tbl) of tweets or
-#'   users data that also contains as an attribtue a merged (by row)
+#'   users data that also contains as an attribute a merged (by row)
 #'   data frame (tbl) of its counterpart, making it accessible via the
 #'   \code{\link{users_data}} or \code{\link{tweets_data}} extractor
 #'   functions.

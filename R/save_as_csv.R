@@ -9,14 +9,14 @@
 #'   created and saved for each object using the file_name provided as
 #'   a base--e.g, if x is a list object from search_tweets with
 #'   \code{file_name = "election"}, this function will save both the
-#'   tweets data ("election.tweets.csv") and the user data
-#'   ("election.users.csv"). If not included in file_name, the ".csv"
+#'   tweets data (\code{"election.tweets.csv"}) and the user data
+#'   (\code{"election.users.csv"}). If not included in file_name, the CSV
 #'   extension will be added when writing file to disk.
 #' @param file_name Path/file name where object(s) is to be saved.  If
 #'   object includes both tweets and users data then provided
 #'   file_name will be used as base for the two saved files.  For
 #'   example, \code{file_name = "election"} would save files as
-#'   "election.tweets.csv" and "election.users.csv".
+#'   \code{"election.tweets.csv"} and \code{"election.users.csv"}.
 #' @param prepend_ids Logical indicating whether to prepend an "x"
 #'   before all Twitter IDs (for users, statuses, lists, etc.). It's
 #'   recommended when saving to CSV as these values otherwise get
@@ -26,7 +26,7 @@
 #' @param na Value to be used for missing (NA)s. Defaults to empty
 #'   character, "".
 #' @param fileEncoding Encoding to be used when saving to
-#'   CSV. defaults to utf-8.
+#'   CSV. defaults to "UTF-8".
 #' @export
 save_as_csv <- function(x, file_name,
                         prepend_ids = TRUE,
@@ -115,8 +115,8 @@ modify_file_name <- function(file_name, ext = NULL) {
 #' @param na Value to be used for missing (NA)s. Defaults to empty
 #'   character, "".
 #' @param fileEncoding Encoding to be used when saving to
-#'   CSV. defaults to utf-8.
-#' @return Saved csv files in current working directory.
+#'   CSV. defaults to "UTF-8".
+#' @return Saved CSV files in current working directory.
 #' @importFrom utils write.csv
 #' @export
 write_as_csv <- function(x, file_name,
@@ -158,6 +158,7 @@ unx_ids <- function(x) {
 #'
 #' @param file Name of CSV file.
 #' @return A tbl data frame of Twitter data
+#' @importFrom utils read.csv
 #' @examples
 #'
 #' \dontrun{
@@ -168,7 +169,7 @@ unx_ids <- function(x) {
 #' }
 #' @export
 read_twitter_csv <- function(file) {
-  x <- read.csv(
+  x <- utils::read.csv(
     file = file,
     na.strings = "",
     stringsAsFactors = FALSE,

@@ -7,7 +7,7 @@
 #' @param since_id optional Returns results with an ID greater than
 #'   (that is, more recent than) the specified ID. There are limits to
 #'   the number of Tweets which can be accessed through the API. If
-#'   the limit of Tweets has occured since the since_id, the since_id
+#'   the limit of Tweets has occurred since the since_id, the since_id
 #'   will be forced to the oldest ID available.
 #' @param max_id optional Returns results with an ID less than (that
 #'   is, older than) or equal to the specified ID.
@@ -36,7 +36,7 @@
 #' ## inspect data structure
 #' str(dms)
 #'
-#' ## get DMs I've sent
+#' ## get direct messages I've sent
 #' sdms <- direct_messages_sent()
 #'
 #' ## inspect data structure
@@ -46,13 +46,13 @@
 #'
 #' @details Includes detailed information about the sender and
 #'   recipient user. You can request up to 200 direct messages per
-#'   call, and only the most recent 200 DMs will be available using
+#'   call, and only the most recent 200 direct messages will be available using
 #'   this endpoint.
 #'
-#'   Important: This method requires an access token with RWD (read,
-#'   write & direct message) permissions. To change your app's
+#'   Important: This method requires an access token with read,
+#'   write, and direct message permissions. To change your application's
 #'   permissions, navigate to \url{apps.twitter.com}, select the
-#'   appropriate app, click the "permissions" tab. Once youv'e made
+#'   appropriate application, click the "permissions" tab. Once you' have made
 #'   changes to the application permission settings, you will need to
 #'   regenerate your token before those effect of those changes can
 #'   take effect.

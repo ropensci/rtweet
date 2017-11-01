@@ -7,7 +7,7 @@
 lookup_coords(address, components = NULL, ...)
 }
 \arguments{
-\item{address}{Desired location typically in the form of placename,
+\item{address}{Desired location typically in the form of place name,
 subregion, e.g., \code{address = "lawrence, KS"}. Also accepts the name of
 countries, e.g., \code{address = "usa"}, \code{address = "brazil"} or
 states, e.g., \code{address = "missouri"} or cities, e.g.,
@@ -18,7 +18,7 @@ sufficient.}
 \code{components = "country:US"}. Potential components include
 postal_code, country, administrative_area, locality, route.}
 
-\item{...}{Additional args passed as parameters in the http reqeust}
+\item{...}{Additional arguments passed as parameters in the HTTP request}
 }
 \value{
 Object of class coords.
@@ -27,7 +27,7 @@ Object of class coords.
 Convenience function for looking up latitude/longitude coordinate
 information for a given location. Returns data as a special
 "coords" object, which is specifically designed to interact
-smoothly with other relavant package functions.
+smoothly with other relevant package functions.
 }
 \examples{
 

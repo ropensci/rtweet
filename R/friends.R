@@ -27,12 +27,12 @@
 #'   number of friend networks is retrieved. This defaults to
 #'   FALSE. See details for more info regarding possible issues with
 #'   timing misfires.
-#' @param page Default \code{page = -1} specifies first page of json
+#' @param page Default \code{page = -1} specifies first page of JSON
 #'   results. Other pages specified via cursor values supplied by
 #'   Twitter API response object. This is only relevant if a user has
 #'   over 5000 friends (follows more than 5000 accounts).
 #' @param parse Logical, indicating whether to return parsed vector or
-#'   nested list (fromJSON) object. By default, \code{parse = TRUE}
+#'   nested list object. By default, \code{parse = TRUE}
 #'   saves you the time [and frustrations] associated with
 #'   disentangling the Twitter API return objects.
 #' @param verbose Logical indicating whether or not to include output
@@ -214,7 +214,6 @@ get_friends_ <- function(users,
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET
 get_friend <- function(url, token = NULL) {
-  ##jsonlite::fromJSON(httr::content(httr::GET(url, token), "text"))
   from_js(httr::GET(url, token))
 }
 
@@ -250,7 +249,9 @@ fnd_internal <- function(r) {
 }
 
 
-#' Gets informaiton on friendship between authenticated user and up
+#' Lookup friendship information between users.
+#'
+#' Gets information on friendship between authenticated user and up
 #' to 100 other users.
 #'
 #' @param user Screen name or user id of target user.
@@ -260,8 +261,8 @@ fnd_internal <- function(r) {
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
 #'   tokens vignette (in r, send \code{?tokens} to console).
-#' @return Data frame converted form returned json object. If parse is
-#'   not true, the httr response object is returned instead.
+#' @return Data frame converted form returned JSON object. If parse is
+#'   not true, the HTTP response object is returned instead.
 #' @export
 lookup_friendships <- function(user,
                                parse = TRUE,

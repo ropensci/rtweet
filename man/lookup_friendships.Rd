@@ -2,8 +2,7 @@
 % Please edit documentation in R/friends.R
 \name{lookup_friendships}
 \alias{lookup_friendships}
-\title{Gets informaiton on friendship between authenticated user and up
-to 100 other users.}
+\title{Lookup friendship information between users.}
 \usage{
 lookup_friendships(user, parse = TRUE, token = NULL)
 }
@@ -19,10 +18,10 @@ on how to create tokens and setup an environment variable in the
 tokens vignette (in r, send \code{?tokens} to console).}
 }
 \value{
-Data frame converted form returned json object. If parse is
-  not true, the httr response object is returned instead.
+Data frame converted form returned JSON object. If parse is
+  not true, the HTTP response object is returned instead.
 }
 \description{
-Gets informaiton on friendship between authenticated user and up
+Gets information on friendship between authenticated user and up
 to 100 other users.
 }

@@ -21,7 +21,7 @@
 #'   limits reset and the desired n is achieved or the number of total
 #'   followers is exhausted. This defaults to FALSE. See details for
 #'   more info regarding possible issues with timing misfires.
-#' @param page Default \code{page = -1} specifies first page of json
+#' @param page Default \code{page = -1} specifies first page of JSON
 #'   results. Other pages specified via cursor values supplied by
 #'   Twitter API response object. If \code{parse = TRUE} then the
 #'   cursor value can be extracted from the return object by using the
@@ -30,7 +30,7 @@
 #'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
 #'   prints sleep times and followers gathered counts.
 #' @param parse Logical, indicating whether to return parsed vector or
-#'   nested list (fromJSON) object. By default, \code{parse = TRUE}
+#'   nested list object. By default, \code{parse = TRUE}
 #'   saves you the time [and frustrations] associated with
 #'   disentangling the Twitter API return objects.
 #' @param token OAuth token. By default \code{token = NULL} fetches a

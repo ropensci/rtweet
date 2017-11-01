@@ -2,9 +2,12 @@
 % Please edit documentation in R/statuses.R
 \name{lookup_statuses}
 \alias{lookup_statuses}
+\alias{lookup_tweets}
 \title{Get tweets data for given statuses (status IDs).}
 \usage{
 lookup_statuses(statuses, parse = TRUE, token = NULL)
+
+lookup_tweets(statuses, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{statuses}{User id or screen name of target user.}
@@ -12,9 +15,11 @@ lookup_statuses(statuses, parse = TRUE, token = NULL)
 \item{parse}{Logical, indicating whether or not to parse
 return object into data frame(s).}
 
-\item{token}{OAuth token (1.0 or 2.0). By default
-\code{token = NULL} fetches a non-exhausted token from
-an environment variable @describeIn tokens.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 }
 \value{
 A tibble of tweets data.

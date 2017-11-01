@@ -14,9 +14,9 @@
 #'   non-exhausted token from an environment variable. Find instructions on how
 #'   to create tokens and setup an environment variable in the tokens vignette
 #'   (in r, send \code{?tokens} to console).
-#' @param ... Other args passed along to composed request query.
+#' @param ... Other arguments passed along to composed request query.
 #' @return Return object converted to nested list if parsed otherwise
-#'   an http response object is returned.
+#'   an HTTP response object is returned.
 #' @examples
 #'
 #' \dontrun{
@@ -59,7 +59,7 @@ lookup_collections <- function(id, n = 200,
 #'
 #' @param user Screen name or user id of target user. Requests must
 #'   provide a value for one of user or status_id.
-#' @param status_id Optional, the identifer of the tweet for which to
+#' @param status_id Optional, the identifier of the tweet for which to
 #'   return results. Requests must provide a value for one of user or
 #'   status_id.
 #' @param n Maximum number of results to return. Defaults to 200.
@@ -74,7 +74,7 @@ lookup_collections <- function(id, n = 200,
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return Return object converted to nested list if parsed otherwise
-#'   an http response object is returned.
+#'   an HTTP response object is returned.
 #' @examples
 #'
 #' \dontrun{

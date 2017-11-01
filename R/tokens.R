@@ -1,15 +1,16 @@
 #' Fetching Twitter authorization token(s).
 #'
-#' Call function used to fetch and load Twitter oauth tokens.
-#' Since Twitter app key should be stored privately, users should save
+#' Call function used to fetch and load Twitter OAuth tokens.
+#' Since Twitter application key should be stored privately, users should save
 #' the path to token(s) as an environment variable. This allows Tokens
 #' to be instantly [re]loaded in future sessions. See the "tokens"
 #' vignette for instructions on obtaining and using access tokens.
 #'
-#' @return Twitter oauth token(s) (Token1.0).
+#' @return Twitter OAuth token(s) (Token1.0).
 #' @details This function will search for tokens using R, internal,
 #'   and global environment variables (in that order).
 #' @examples
+#'
 #' \dontrun{
 #' ## fetch default token(s)
 #' token <- get_tokens()
@@ -18,6 +19,7 @@
 #' token
 #'
 #' }
+#'
 #' @family tokens
 #' @export
 get_tokens <- function() {
@@ -37,30 +39,30 @@ get_token <- function() get_tokens()
 
 #' Creating Twitter authorization token(s).
 #'
-#' @description Sends request to generate oauth 1.0 tokens. Twitter
-#'   also allows users to create user-only (oauth 2.0) access token.
-#'   Unlike the 1.0 tokens, oauth 2.0 tokens are not at all centered
+#' @description Sends request to generate OAuth 1.0 tokens. Twitter
+#'   also allows users to create user-only (OAuth 2.0) access token.
+#'   Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
 #'   on a host user. Which means these tokens cannot be used to
 #'   send information (follow requests, Twitter statuses, etc.).
-#'   If you have no interest in those capabilities, then 2.0 oauth
+#'   If you have no interest in those capabilities, then 2.0 OAuth
 #'   tokens do offer some higher rate limits. At the current time,
 #'   the difference given the functions in this package is trivial,
-#'   so I have yet to  verified oauth 2.0 token method.
+#'   so I have yet to  verified OAuth 2.0 token method.
 #'   Consequently, I encourage you to use 1.0 tokens.
 #' @param app Name of user created Twitter application
 #' @param consumer_key Application API key
 #' @param consumer_secret Application API secret User-owned
-#'   app must have \code{Read and write} access level
+#'   application must have \code{Read and write} access level
 #'   and \code{Callback URL} of \code{http://127.0.0.1:1410}.
 #' @param cache Logical indicating whether to cache the token as a
-#'   .httr-oauth file. The default is TRUE, which means the cached
+#'   \code{".httr-oauth"} file. The default is TRUE, which means the cached
 #'   token file will be added to the user's working directory.
 #'   Ideally, users will store their token as an environment variable
 #'   (see the tokens vignette for instructions), but the cache file
 #'   works as long as always return to the same working directory.
 #' @seealso \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 #'
-#' @return Twitter oauth token(s) (Token1.0).
+#' @return Twitter OAuth token(s) (Token1.0).
 #' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
 #' @family tokens
 #' @export
@@ -272,4 +274,61 @@ load_tokens <- function(pat, env = globalenv()) {
     .state$twitter_tokens <- global_token_finder()
   }
   .state$twitter_tokens
+}
+
+## home user
+home_user <- function() {
+  eval(call("home_user_"))
+}
+
+home_user_ <- function() {
+  if (!exists(".state")) {
+    .state <<- new.env()
+  }
+  if (exists(".user", envir = .state)) {
+    return(get(".user", envir = .state))
+  }
+  user <- Sys.getenv("TWITTER_SCREEN_NAME")
+  if (!identical(user, "")) {
+    assign(".user", user, envir = .state)
+    return(user)
+  }
+  ## ask user for screen name
+  user <- readline("What is your screen name on Twitter?")
+  ## remove at sign
+  user <- gsub("@", "", user)
+  ## save as environment variable
+  message("Saving your Twitter screen name as environment variable")
+  cat(
+    paste0("TWITTER_SCREEN_NAME=", user),
+    fill = TRUE,
+    file = file.path(normalizePath("~"), ".Renviron"),
+    append = TRUE
+  )
+  ## store in pkg environment
+  assign(".user", user, envir = .state)
+  ## return screen name
+  invisible(user)
+}
+
+
+## validate user token
+validate_token <- function() {
+  token <- tryCatch(get_tokens(), error = function(e) NULL)
+  if (is.null(token) || !inherits(token, "Token")) {
+    stop(paste0(
+      "Could not find token. Please save path to token associated with @",
+      home_user(), "'s account as the \"TWITTER_PAT\" environment variable."),
+      call. = FALSE)
+  }
+  token_user <- token[["credentials"]][["screen_name"]]
+  if (!identical(home_user(), token_user)) {
+    stop(paste0(
+      "Invalid token. This token belongs to @",
+      token_user, " and not @", home_user(), ".\n",
+      "Please save path to token associated with @", home_user(),
+      "'s account as the \"TWITTER_PAT\" environment variable."),
+      call. = FALSE)
+  }
+  TRUE
 }

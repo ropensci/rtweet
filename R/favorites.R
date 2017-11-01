@@ -17,7 +17,7 @@
 #' @param max_id Returns results with status_id less (older) than or
 #'   equal to (if hit limit) the specified status_id.
 #' @param parse Logical, indicating whether to return parsed vector or
-#'   nested list (fromJSON) object. By default, \code{parse = TRUE}
+#'   nested list object. By default, \code{parse = TRUE}
 #'   saves you the time [and frustrations] associated with
 #'   disentangling the Twitter API return objects.
 #' @param token OAuth token. By default \code{token = NULL} fetches a

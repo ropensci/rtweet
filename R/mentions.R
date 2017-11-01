@@ -7,13 +7,12 @@
 #'   a maximum of 200 (the default). The value of count is best
 #'   thought of as a limit to the number of tweets to return because
 #'   suspended or deleted content is removed after the count has been
-#'   applied. We include retweets in the count, even if include_rts is
-#'   not supplied.
+#'   applied.
 #' @param since_id Returns results with an ID greater than (that is,
 #'   more recent than) the specified ID. There are limits to the
 #'   number of Tweets which can be accessed through the API. If the
-#'   limit of Tweets has occured since the since_id, the since_id will
-#'   be forced to the oldest ID available.
+#'   limit of Tweets has occurred since the since_id, the since_id
+#'   will be forced to the oldest ID available.
 #' @param max_id Returns results with an ID less than (that is, older
 #'   than) or equal to the specified ID.
 #' @param parse Logical indicating whether to convert the response
@@ -23,7 +22,8 @@
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
-#' @param ... Other args passed as parameters in composed API query.
+#' @param ... Other arguments passed as parameters in composed API
+#'   query.
 #' @return Tibble of mentions data.
 #' @details The timeline returned is the equivalent of the one seen
 #'   when you view your mentions on twitter.com. This method can only
@@ -40,6 +40,7 @@
 #' mymentions
 #'
 #' }
+#'
 #' @seealso
 #'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
 #' @export

@@ -3,16 +3,16 @@
 #' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
 #'   character string of desired town or country. Users may also supply
 #'   latitude and longitude coordinates to fetch the closest available trends
-#'   data given the provided location. Latitutde/longitude coordinates should
-#'   be provided as woeid value consisting of 2 numeric values or via one
-#'   lat value and one lng value (to the appropriately named parameters).
+#'   data given the provided location. Latitude/longitude coordinates should
+#'   be provided as WOEID value consisting of 2 numeric values or via one
+#'   latitude value and one longitude value (to the appropriately named parameters).
 #'   To browse all available trend places, see \code{\link{trends_available}}
-#' @param lat Optional alternative to woeid. Numeric, latitude in degrees.
-#'   If two coordinates are providded for woeid, this function will coerce the
-#'   first value to lat.
-#' @param lng Optional alternative to woeid. Numeric, longitude in degrees.
-#'   If two coordinates are providded for woeid, this function will coerce the
-#'   second value to lng.
+#' @param lat Optional alternative to WOEID. Numeric, latitude in degrees.
+#'   If two coordinates are provided for WOEID, this function will coerce the
+#'   first value to latitude.
+#' @param lng Optional alternative to WOEID. Numeric, longitude in degrees.
+#'   If two coordinates are provided for WOEID, this function will coerce the
+#'   second value to longitude.
 #' @param exclude Logical, indicating whether or not to exclude
 #'   hashtags
 #' @param token OAuth token. By default \code{token = NULL} fetches a
@@ -22,7 +22,9 @@
 #' @param parse Logical, indicating whether or not to parse return
 #'   trends data. Defaults to true.
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## Retrieve available trends
 #' trends <- trends_available()
 #' trends
@@ -46,8 +48,9 @@
 #' nyc_trends
 #'
 #' ## Provide a city or location name using a regular expression string to
-#' ## have the function internals do the woeid lookup/matching for you
+#' ## have the function internals do the WOEID lookup/matching for you
 #' (luk <- get_trends("london"))
+#'
 #' }
 #'
 #' @return Tibble data frame of trends data for a given geographical area.
@@ -159,14 +162,14 @@ format_trend_date <- function(x) {
   x
 }
 
-#' Available Twitter trends along with associated WOEIDs.
+#' Available Twitter trends along with associated WOEID.
 #'
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find instructions
 #'   on how to create tokens and setup an environment variable in the
 #'   tokens vignette (in r, send \code{?tokens} to console).
 #' @param parse Logical, indicating whether to return parsed
-#'   (data.frames) or nested list (fromJSON) object. By default,
+#'   (data.frames) or nested list object. By default,
 #'   \code{parse = TRUE} saves users from the time
 #'   [and frustrations] associated with disentangling the Twitter
 #'   API return objects.
@@ -179,7 +182,7 @@ format_trend_date <- function(x) {
 #'
 #' }
 #'
-#' @return Data frame with WOEIDs. WOEID is a Yahoo! Where On
+#' @return Data frame with WOEID column. WOEID is a Yahoo! Where On
 #'   Earth ID.
 #' @family trends
 #' @export
@@ -202,4 +205,52 @@ parse_trends_available <- function(x) {
              stringsAsFactors = FALSE)
   names(p)[ncol(p)] <- "place_type"
   tibble::as_tibble(p, validate = FALSE)
+}
+
+
+find_woeid <- function(x) {
+  if (length(x) == 0L) {
+    warning(paste0(
+      "unable to find matching location.",
+      "Using WOEID for Worldwide trends instead."))
+    x <- "1"
+  } else if (length(match_woeid(x)) > 0L) {
+    x <- match_woeid(x)
+  } else {
+    warning(paste0(
+      "unable to find matching location.",
+      "Using WOEID for Worldwide trends instead."))
+    x <- "1"
+  }
+  if (length(x) == 0L) {
+    warning(paste0(
+      "unable to find matching location.",
+      "Using WOEID for Worldwide trends instead."))
+    x <- "1"
+  }
+  if (length(x) > 1L) {
+    x <- x[1L]
+  }
+  x
+}
+
+check_woeid <- function(x) {
+  if (is_n(x)) return(as.character(x))
+  x <- find_woeid(x)
+  as.character(x)
+}
+
+is_zero <- function(x) isTRUE(identical(length(x), 0L))
+
+match_woeid <- function(x) {
+  if (tolower(x) %in% c("world", "worldwide",
+                        "world wide", "all")) {
+    return("1")
+  } else if (tolower(x) %in% c("us", "u.s.", "u s", "usa", "unitedstates")) {
+    return("23424977")
+  } else {
+    places <- sysdat$woeid[["name"]]
+    woeids <- as.character(sysdat$woeid[["woeid"]])
+    woeids[tolower(places) == tolower(x)]
+  }
 }

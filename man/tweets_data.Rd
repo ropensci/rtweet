@@ -46,6 +46,6 @@ Other tweets: \code{\link{get_favorites}},
   \code{\link{search_tweets}},
   \code{\link{tweets_with_users}}
 
-Other extractors: \code{\link{max_id}},
+Other extractors: \code{\link{next_cursor}},
   \code{\link{users_data}}
 }

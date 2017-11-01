@@ -7,9 +7,11 @@
 #' @param statuses User id or screen name of target user.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
-#' @param token OAuth token (1.0 or 2.0). By default
-#'   \code{token = NULL} fetches a non-exhausted token from
-#'   an environment variable @describeIn tokens.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @seealso \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
 #' @examples
 #'
@@ -37,6 +39,13 @@
 lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
   args <- list(statuses = statuses, parse = parse, token = token)
   do.call("lookup_statuses_", args)
+}
+
+#' @inheritParams lookup_statuses
+#' @rdname lookup_statuses
+#' @export
+lookup_tweets <- function(statuses, parse = TRUE, token = NULL) {
+  lookup_statuses(statuses, parse = parse, token = token)
 }
 
 lookup_statuses_ <- function(statuses,

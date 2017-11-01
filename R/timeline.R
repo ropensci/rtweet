@@ -9,23 +9,23 @@
 #' @param max_id Character, status_id from which returned tweets
 #'   should be older than.
 #' @param home Logical, indicating whether to return a user-timeline
-#'   or home-timeline. By default, home is set to FALSe, which means
+#'   or home-timeline. By default, home is set to FALSE, which means
 #'   \code{get_timeline} returns tweets posted by the given user. To
 #'   return a user's home timeline feed, that is, the tweets posted by
 #'   accounts followed by a user, set the home to false.
 #' @param parse Logical, indicating whether to return parsed
-#'   (data.frames) or nested list (fromJSON) object. By default,
-#'   \code{parse = TRUE} saves users from the time [and frustrations]
-#'   associated with disentangling the Twitter API return objects.
+#'   (data.frames) or nested list object. By default, \code{parse =
+#'   TRUE} saves users from the time [and frustrations] associated
+#'   with disentangling the Twitter API return objects.
 #' @param check Logical indicating whether to remove check available
-#'   rate limit.  Ensures the request does not exceed the maximum
+#'   rate limit. Ensures the request does not exceed the maximum
 #'   remaining number of calls.  Defaults to TRUE.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable. Find
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
-#' @param ... Futher arguments passed on as parameters in API query.
+#' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso
 #'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}

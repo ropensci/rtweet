@@ -60,7 +60,7 @@ as.data.frame.retweets <- function(x) {
 #' Get user IDs of users who retweeted a given status.
 #'
 #' Returns user IDs of users who retweeted a given status. At the
-#' current time, this function is limited in returning a maximium of
+#' current time, this function is limited in returning a maximum of
 #' 100 users for a given status.
 #'
 #' @param status_id required The status ID of the desired status.
@@ -74,7 +74,7 @@ as.data.frame.retweets <- function(x) {
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @return data
-#' @details At time of writing, paginaton offers no additional
+#' @details At time of writing, pagination offers no additional
 #'   data. See the post from Pipes here:
 #'   \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
 #' @family retweets

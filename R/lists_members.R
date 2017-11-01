@@ -21,10 +21,11 @@
 #'   instructions on how to create tokens and setup an environment
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
-#' @param ... Other args used as parameters in query composition.
-#' @return Either a nested list (if parsed) or an http response object.
+#' @param ... Other arguments used as parameters in query composition.
+#' @return Either a nested list (if parsed) or an HTTP response object.
 #' @examples
 #' \dontrun{
+#'
 #' ## get list memebers for a list of polling experts using list_id
 #' (pollsters <- lists_members("105140588"))
 #'
@@ -34,6 +35,7 @@
 #' rstats
 #'
 #' }
+#'
 #' @family lists
 #' @rdname lists_members
 #' @export

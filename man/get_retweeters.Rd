@@ -26,11 +26,11 @@ data
 }
 \description{
 Returns user IDs of users who retweeted a given status. At the
-current time, this function is limited in returning a maximium of
+current time, this function is limited in returning a maximum of
 100 users for a given status.
 }
 \details{
-At time of writing, paginaton offers no additional
+At time of writing, pagination offers no additional
   data. See the post from Pipes here:
   \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
 }

@@ -11,18 +11,18 @@ get_trends(woeid = 1, lat = NULL, lng = NULL, exclude = FALSE,
 \item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or
 character string of desired town or country. Users may also supply
 latitude and longitude coordinates to fetch the closest available trends
-data given the provided location. Latitutde/longitude coordinates should
-be provided as woeid value consisting of 2 numeric values or via one
-lat value and one lng value (to the appropriately named parameters).
+data given the provided location. Latitude/longitude coordinates should
+be provided as WOEID value consisting of 2 numeric values or via one
+latitude value and one longitude value (to the appropriately named parameters).
 To browse all available trend places, see \code{\link{trends_available}}}
 
-\item{lat}{Optional alternative to woeid. Numeric, latitude in degrees.
-If two coordinates are providded for woeid, this function will coerce the
-first value to lat.}
+\item{lat}{Optional alternative to WOEID. Numeric, latitude in degrees.
+If two coordinates are provided for WOEID, this function will coerce the
+first value to latitude.}
 
-\item{lng}{Optional alternative to woeid. Numeric, longitude in degrees.
-If two coordinates are providded for woeid, this function will coerce the
-second value to lng.}
+\item{lng}{Optional alternative to WOEID. Numeric, longitude in degrees.
+If two coordinates are provided for WOEID, this function will coerce the
+second value to longitude.}
 
 \item{exclude}{Logical, indicating whether or not to exclude
 hashtags}
@@ -42,7 +42,9 @@ Tibble data frame of trends data for a given geographical area.
 Get Twitter trends data.
 }
 \examples{
+
 \dontrun{
+
 ## Retrieve available trends
 trends <- trends_available()
 trends
@@ -66,8 +68,9 @@ nyc_trends <- get_trends_closest(c(40.7, -74.0))
 nyc_trends
 
 ## Provide a city or location name using a regular expression string to
-## have the function internals do the woeid lookup/matching for you
+## have the function internals do the WOEID lookup/matching for you
 (luk <- get_trends("london"))
+
 }
 
 }

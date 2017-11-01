@@ -42,6 +42,6 @@ Other users: \code{\link{as_screenname}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{tweets_with_users}}
 
-Other extractors: \code{\link{max_id}},
+Other extractors: \code{\link{next_cursor}},
   \code{\link{tweets_data}}
 }
