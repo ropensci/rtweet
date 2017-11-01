@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adds single-point lat and lng variables to tweets data. — lat_lng • rtweet</title>
+<title>Adds single-point latitude and longitude variables to tweets data. — lat_lng • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,12 +96,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adds single-point lat and lng variables to tweets data.</h1>
+    <h1>Adds single-point latitude and longitude variables to tweets data.</h1>
     </div>
 
     
-    <p>Appends parsed tweets data with lat and lng variables using all
-available geolocation information.</p>
+    <p>Appends parsed tweets data with latitude and longitude variables
+using all available geolocation information.</p>
     
 
     <pre class="usage"><span class='fu'>lat_lng</span>(<span class='no'>x</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"bbox_coords"</span>, <span class='st'>"coords_coords"</span>, <span class='st'>"geo_coords"</span>))</pre>
@@ -111,32 +111,36 @@ available geolocation information.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Parsed tweets data as returned by various rtweet functions. This should
-be a data frame with variables such as "bbox_coords", "coords_coords", and
-"geo_coords" (among other non-geolocation Twitter variables).</p></td>
+      <td><p>Parsed tweets data as returned by various rtweet
+functions. This should be a data frame with variables such as
+"bbox_coords", "coords_coords", and "geo_coords" (among
+other non-geolocation Twitter variables).</p></td>
     </tr>
     <tr>
       <th>coords</th>
-      <td><p>Names of variables containing latitude and longitude coordinates.
-Priority is given to bounding box coordinates (each obs consists of eight
-entries) followed by the supplied order of variable names. Defaults to
-c("bbox_coords", "coords_coords", "geo_coords") (which are the default
-column names of data returned by most status-oriented rtweet functions).</p></td>
+      <td><p>Names of variables containing latitude and longitude
+coordinates.  Priority is given to bounding box coordinates (each
+obs consists of eight entries) followed by the supplied order of
+variable names. Defaults to "bbox_coords",
+"coords_coords", and "geo_coords") (which are the default column
+names of data returned by most status-oriented rtweet functions).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns updated data object with full information lng and lat vars.</p>
+    <p>Returns updated data object with full information latitude
+  and longitude vars.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>On occassion values may appear to be outliers given a previously used
-  query filter (e.g., when searching for tweets sent from the continental US).
-  This is typically because those tweets returned a large bounding box that
-  overlapped with the area of interest. This function converts boxes into
-  their geographical midpoints, which works well in the vast majority of cases,
-  but sometimes includes an otherwise puzzling result.</p>
+    <p>On occasion values may appear to be outliers given a
+  previously used query filter (e.g., when searching for tweets
+  sent from the continental US).  This is typically because those
+  tweets returned a large bounding box that overlapped with the
+  area of interest. This function converts boxes into their
+  geographical midpoints, which works well in the vast majority of
+  cases, but sometimes includes an otherwise puzzling result.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

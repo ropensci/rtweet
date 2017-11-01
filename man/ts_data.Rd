@@ -10,8 +10,9 @@ ts_data(data, by = "days", trim = 0L)
 \item{data}{Data frame or grouped data frame.}
 
 \item{by}{Desired interval of time expressed as numeral plus one of
-\code{"secs", "mins", "hours", "days", "weeks", "months",
-"years"}. If a numeric is is assumed to be in seconds.}
+"secs", "mins", "hours", "days", "weeks", "months", or
+"years". If a numeric is provided, the value is assumed to be in
+seconds.}
 
 \item{trim}{Number of observations to trim off the front and end of
 each time series}

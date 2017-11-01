@@ -130,7 +130,7 @@ should be older than.</p></td>
     <tr>
       <th>home</th>
       <td><p>Logical, indicating whether to return a user-timeline
-or home-timeline. By default, home is set to FALSe, which means
+or home-timeline. By default, home is set to FALSE, which means
 <code>get_timeline</code> returns tweets posted by the given user. To
 return a user's home timeline feed, that is, the tweets posted by
 accounts followed by a user, set the home to false.</p></td>
@@ -138,14 +138,14 @@ accounts followed by a user, set the home to false.</p></td>
     <tr>
       <th>parse</th>
       <td><p>Logical, indicating whether to return parsed
-(data.frames) or nested list (fromJSON) object. By default,
-<code>parse = TRUE</code> saves users from the time [and frustrations]
-associated with disentangling the Twitter API return objects.</p></td>
+(data.frames) or nested list object. By default, <code>parse =
+TRUE</code> saves users from the time [and frustrations] associated
+with disentangling the Twitter API return objects.</p></td>
     </tr>
     <tr>
       <th>check</th>
       <td><p>Logical indicating whether to remove check available
-rate limit.  Ensures the request does not exceed the maximum
+rate limit. Ensures the request does not exceed the maximum
 remaining number of calls.  Defaults to TRUE.</p></td>
     </tr>
     <tr>
@@ -158,7 +158,7 @@ console).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Futher arguments passed on as parameters in API query.</p></td>
+      <td><p>Further arguments passed on as parameters in API query.</p></td>
     </tr>
     </table>
     

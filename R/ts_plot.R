@@ -4,13 +4,17 @@
 #' interval of time.
 #'
 #' @param data Data frame or grouped data frame.
-#' @param by Desired interval of time expressed as numeral plus one of \code{"secs",
-#'   "mins", "hours", "days", "weeks", "months", "years"}. If a numeric is
-#'   provided, the value is assumed to be in seconds.
-#' @param trim The number of observations to drop off the beginning and
-#'   end of the time series.
-#' @param ... Other arguments passed to \code{\link[ggplot2]{geom_line}}.
-#' @return If \href{ggplot2}{https://cran.r-project.org/package=ggplot2} is installed then a  \code{\link[ggplot2]{ggplot}} plot object.
+#' @param by Desired interval of time expressed as numeral plus one of
+#'   "secs", "mins", "hours", "days", "weeks", "months", or
+#'   "years". If a numeric is provided, the value is assumed to be in
+#'   seconds.
+#' @param trim The number of observations to drop off the beginning
+#'   and end of the time series.
+#' @param ... Other arguments passed to
+#'   \code{\link[ggplot2]{geom_line}}.
+#' @return If
+#'   \href{https://cran.r-project.org/package=ggplot2}{ggplot2} is
+#'   installed then a \code{\link[ggplot2]{ggplot}} plot object.
 #' @examples
 #'
 #' \dontrun{
@@ -91,8 +95,9 @@ ggcols <- function(n) {
 #'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus one of
-#'   \code{"secs", "mins", "hours", "days", "weeks", "months",
-#'   "years"}. If a numeric is is assumed to be in seconds.
+#'   "secs", "mins", "hours", "days", "weeks", "months", or
+#'   "years". If a numeric is provided, the value is assumed to be in
+#'   seconds.
 #' @param trim Number of observations to trim off the front and end of
 #'   each time series
 #' @return Data frame with time, n, and grouping column if applicable.

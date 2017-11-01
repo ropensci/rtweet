@@ -119,7 +119,7 @@ token with read, write, and direct messages access.</p>
       <td><p>optional Returns results with an ID greater than
 (that is, more recent than) the specified ID. There are limits to
 the number of Tweets which can be accessed through the API. If
-the limit of Tweets has occured since the since_id, the since_id
+the limit of Tweets has occurred since the since_id, the since_id
 will be forced to the oldest ID available.</p></td>
     </tr>
     <tr>
@@ -160,12 +160,12 @@ console).</p></td>
 
     <p>Includes detailed information about the sender and
   recipient user. You can request up to 200 direct messages per
-  call, and only the most recent 200 DMs will be available using
+  call, and only the most recent 200 direct messages will be available using
   this endpoint.</p>
-<p>Important: This method requires an access token with RWD (read,
-  write &amp; direct message) permissions. To change your app's
+<p>Important: This method requires an access token with read,
+  write, and direct message permissions. To change your application's
   permissions, navigate to <a href='apps.twitter.com'>apps.twitter.com</a>, select the
-  appropriate app, click the "permissions" tab. Once youv'e made
+  appropriate application, click the "permissions" tab. Once you' have made
   changes to the application permission settings, you will need to
   regenerate your token before those effect of those changes can
   take effect.</p>
@@ -180,7 +180,7 @@ console).</p></td>
 <span class='co'>## inspect data structure</span>
 <span class='fu'>str</span>(<span class='no'>dms</span>)
 
-<span class='co'>## get DMs I've sent</span>
+<span class='co'>## get direct messages I've sent</span>
 <span class='no'>sdms</span> <span class='kw'>&lt;-</span> <span class='fu'>direct_messages_sent</span>()
 
 <span class='co'>## inspect data structure</span>

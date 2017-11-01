@@ -104,7 +104,7 @@
 query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
 than 18,000 statuses in a single call, set "retryonratelimit" to
 TRUE.</p>
-<p>search_tweets2 Passes all args to search_tweets. Returns data from
+<p>search_tweets2 Passes all arguments to search_tweets. Returns data from
 one OR MORE search queries.</p>
     
 
@@ -119,7 +119,7 @@ one OR MORE search queries.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>q</th>
-      <td><p>Query tobe searched, used to filter and select tweets to
+      <td><p>Query to be searched, used to filter and select tweets to
 return from Twitter's REST API. Must be a character string not to
 exceed maximum of 500 characters. Spaces behave like boolean
 "AND" operator. To search for tweets containing at least one of
@@ -176,7 +176,7 @@ interrupted by user time constraints. For searches exceeding
 internal automation procedures for waiting on rate limits by
 setting <code>retryonratelimit</code> argument to TRUE.  It some cases,
 it is possible that due to processing time and rate limits,
-retreiving several million tweets can take several hours or even
+retrieving several million tweets can take several hours or even
 multiple days. In these cases, it would likely be useful to
 leverage <code>retryonratelimit</code> for sets of tweets and
 <code>max_id</code> to allow results to continue where previous efforts
@@ -185,17 +185,16 @@ left off.</p></td>
     <tr>
       <th>parse</th>
       <td><p>Logical, indicating whether to return parsed
-data.frame, if true, or nested list (fromJSON), if false. By
-default, <code>parse = TRUE</code> saves users from the wreck of time
-and frustration associated with disentangling the nasty nested
-list returned from Twitter's API (for proof, check rtweet's
-Github commit history).  As Twitter's APIs are subject to change,
-this argument would be especially useful when changes to
+data.frame, if true, or nested list, if false. By default,
+<code>parse = TRUE</code> saves users from the wreck of time and
+frustration associated with disentangling the nasty nested list
+returned from Twitter's API. As Twitter's APIs are subject to
+change, this argument would be especially useful when changes to
 Twitter's APIs affect performance of internal parsers. Setting
 <code>parse = FALSE</code> also ensures the maximum amount of possible
 information is returned. By default, the rtweet parse process
 returns nearly all bits of information returned from
-Twitter. However, users may occassionally encounter new or
+Twitter. However, users may occasionally encounter new or
 omitted variables. In these rare cases, the nested list object
 will be the only way to access these variables.</p></td>
     </tr>
@@ -229,14 +228,14 @@ searches, messages include rough estimates for time remaining
 between searches. It should be noted, however, that these time
 estimates only describe the amount of time between searches and
 not the total time remaining. For large searches conducted with
-<code>retryonratelimit</code> set to TRUE, the estimated retreival time
+<code>retryonratelimit</code> set to TRUE, the estimated retrieval time
 can be estimated by dividing the number of requested tweets by
-18,000 and then multiplying the quotient by 15 (token cooldown
+18,000 and then multiplying the quotient by 15 (token reset
 time, in minutes).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Futher arguments passed as query parameters in request
+      <td><p>Further arguments passed as query parameters in request
 sent to Twitter's REST API. To return only English language
 tweets, for example, use <code>lang = "en"</code>. For more options see
 Twitter's API documentation.</p></td>
@@ -336,6 +335,7 @@ Twitter's API documentation.</p></td>
 <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>ds</span>)
 
 <span class='co'># }</span><div class='input'>
+
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>## search using multilple queries</span>
 <span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets2</span>(

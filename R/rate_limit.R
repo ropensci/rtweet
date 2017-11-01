@@ -4,20 +4,20 @@
 #' optionally filtered by rtweet function or specific Twitter API
 #' path(s)
 #'
-#' @param token One or more OAuth tokens. By default \code{token =
-#'   NULL} fetches a non-exhausted token from an environment
-#'   variable. Find instructions on how to create tokens and setup an
-#'   environment variable in the tokens vignette (in r, send
-#'   \code{?tokens} to console).
+#' @param token One or more OAuth tokens. By default token = NULL
+#'   fetches a non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @param query Specific API (path) or a character function name,
-#'   e.g., \code{query = "get_timelines"}, used to subset the returned
-#'   data.  If null, this function returns entire rate limit request
-#'   object as a tibble data frame. Otherwise, query returns specific
-#'   values matching the query of interest; e.g., \code{query =
-#'   "lookup/users"} returns remaining limit for user lookup requests;
-#'   \code{type = "followers/ids"} returns remaining limit for
-#'   follower id requests; \code{type = "friends/ids"} returns
-#'   remaining limit for friend id requests.
+#'   e.g., query = "get_timelines", used to subset the returned data.
+#'   If null, this function returns entire rate limit request object
+#'   as a tibble data frame. Otherwise, query returns specific values
+#'   matching the query of interest; e.g., query = "lookup/users"
+#'   returns remaining limit for user lookup requests; type =
+#'   "followers/ids" returns remaining limit for follower id requests;
+#'   type = "friends/ids" returns remaining limit for friend id
+#'   requests.
 #' @param parse Logical indicating whether to parse response object
 #'   into a data frame.
 #' @seealso
@@ -27,8 +27,8 @@
 #'   (column) or as a named element (if parse = FALSE).
 #' @return Tibble data frame with rate limit information pertaining to
 #'   the limit (max allowed), remaining (specific to token), reset
-#'   (minutes until reset), and reset_at (time of rate limit reset). If
-#'   query is specified, only relevant rows are returned.
+#'   (minutes until reset), and reset_at (time of rate limit
+#'   reset). If query is specified, only relevant rows are returned.
 #' @examples
 #'
 #' \dontrun{
@@ -45,6 +45,7 @@
 #' rate_limit(token, "search_tweets")
 #'
 #' }
+#'
 #' @family tokens
 #' @export
 rate_limit <- function(token = NULL,

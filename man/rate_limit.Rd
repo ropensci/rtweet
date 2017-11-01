@@ -10,21 +10,21 @@ rate_limit(token = NULL, query = NULL, parse = TRUE)
 rate_limits(token = NULL, query = NULL, parse = TRUE)
 }
 \arguments{
-\item{token}{One or more OAuth tokens. By default \code{token =
-NULL} fetches a non-exhausted token from an environment
-variable. Find instructions on how to create tokens and setup an
-environment variable in the tokens vignette (in r, send
-\code{?tokens} to console).}
+\item{token}{One or more OAuth tokens. By default token = NULL
+fetches a non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 
 \item{query}{Specific API (path) or a character function name,
-e.g., \code{query = "get_timelines"}, used to subset the returned
-data.  If null, this function returns entire rate limit request
-object as a tibble data frame. Otherwise, query returns specific
-values matching the query of interest; e.g., \code{query =
-"lookup/users"} returns remaining limit for user lookup requests;
-\code{type = "followers/ids"} returns remaining limit for
-follower id requests; \code{type = "friends/ids"} returns
-remaining limit for friend id requests.}
+e.g., query = "get_timelines", used to subset the returned data.
+If null, this function returns entire rate limit request object
+as a tibble data frame. Otherwise, query returns specific values
+matching the query of interest; e.g., query = "lookup/users"
+returns remaining limit for user lookup requests; type =
+"followers/ids" returns remaining limit for follower id requests;
+type = "friends/ids" returns remaining limit for friend id
+requests.}
 
 \item{parse}{Logical indicating whether to parse response object
 into a data frame.}
@@ -32,8 +32,8 @@ into a data frame.}
 \value{
 Tibble data frame with rate limit information pertaining to
   the limit (max allowed), remaining (specific to token), reset
-  (minutes until reset), and reset_at (time of rate limit reset). If
-  query is specified, only relevant rows are returned.
+  (minutes until reset), and reset_at (time of rate limit
+  reset). If query is specified, only relevant rows are returned.
 }
 \description{
 Returns rate limit information for one or more Twitter tokens,
@@ -61,6 +61,7 @@ rate_limit(token)
 rate_limit(token, "search_tweets")
 
 }
+
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}

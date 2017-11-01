@@ -7,18 +7,18 @@
 lookup_coords(address, components = NULL, ...)
 }
 \arguments{
-\item{address}{Desired location typically in the form of place name,
-subregion, e.g., \code{address = "lawrence, KS"}. Also accepts the name of
-countries, e.g., \code{address = "usa"}, \code{address = "brazil"} or
-states, e.g., \code{address = "missouri"} or cities, e.g.,
-\code{address = "chicago"}. In most cases using only address should be
-sufficient.}
+\item{address}{Desired location typically in the form of place
+name, subregion, e.g., address = "lawrence, KS". Also accepts the
+name of countries, e.g., address = "usa", address = "brazil" or
+states, e.g., address = "missouri" or cities, e.g., address =
+"chicago". In most cases using only address should be sufficient.}
 
-\item{components}{Unit of analysis for address e.g.,
-\code{components = "country:US"}. Potential components include
-postal_code, country, administrative_area, locality, route.}
+\item{components}{Unit of analysis for address e.g., components =
+"country:US". Potential components include postal_code, country,
+administrative_area, locality, route.}
 
-\item{...}{Additional arguments passed as parameters in the HTTP request}
+\item{...}{Additional arguments passed as parameters in the HTTP
+request}
 }
 \value{
 Object of class coords.

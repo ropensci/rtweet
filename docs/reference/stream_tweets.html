@@ -139,7 +139,7 @@ provided via a vector of length 4, e.g., c(-125, 26, -65, 49).</p></td>
       <td><p>Numeric scalar specifying amount of time, in
 seconds, to leave connection open while streaming/capturing
 tweets.  By default, this is set to 30 seconds. To stream
-indefinitely, use <code>timeout = FALSE</code> to ensure json file is
+indefinitely, use <code>timeout = FALSE</code> to ensure JSON file is
 not deleted upon completion or <code>timeout = Inf</code>.</p></td>
     </tr>
     <tr>
@@ -152,7 +152,7 @@ false as the parsing process can eat up processing resources and
 time. For other uses, setting parse to TRUE saves you from having
 to sort and parse the messy list structure returned by
 Twitter. (Note: if you set parse to false, you can use the
-<code><a href='parse_stream.html'>parse_stream</a></code> function to parse the json file at a
+<code><a href='parse_stream.html'>parse_stream</a></code> function to parse the JSON file at a
 later point in time.)</p></td>
     </tr>
     <tr>
@@ -176,14 +176,14 @@ processing/retrieval messages.</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
-      <td><p>Insert magical paramaters, spell, or potion here. Or
+      <td><p>Insert magical parameters, spell, or potion here. Or
 filter for tweets by language, e.g., <code>language = "en"</code>.</p></td>
     </tr>
     <tr>
       <th>append</th>
       <td><p>Logical indicating whether to append or overwrite
 file_name if the file already exists. Defaults to FALSE, meaning
-this function will overwrite the pre-existing file_name (in other
+this function will overwrite the preexisting file_name (in other
 words, it will delete any old file with the same name as
 file_name) meaning the data will be added as new lines to file if
 pre-existing.</p></td>
@@ -266,7 +266,7 @@ pre-existing.</p></td>
   <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>300</span>
 )
 
-<span class='co'>## stream world tweets for 5 mins, save to json file</span>
+<span class='co'>## stream world tweets for 5 mins, save to JSON file</span>
 <span class='co'>## shortcut coords note: lookup_coords("world")</span>
 <span class='no'>world.old</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(
   <span class='fu'>c</span>(-<span class='fl'>180</span>, -<span class='fl'>90</span>, <span class='fl'>180</span>, <span class='fl'>90</span>),
@@ -275,7 +275,7 @@ pre-existing.</p></td>
   <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"world-tweets.json"</span>
 )
 
-<span class='co'>## read in json file</span>
+<span class='co'>## read in JSON file</span>
 <span class='no'>rtworld</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"word-tweets.json"</span>)
 
 <span class='co'>## world data set with with lat lng coords variables</span>

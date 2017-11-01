@@ -9,13 +9,13 @@
 #'
 #' @param x Parsed tweets data as returned by various rtweet
 #'   functions. This should be a data frame with variables such as
-#'   \code{"bbox_coords", "coords_coords", and "geo_coords"} (among
+#'   "bbox_coords", "coords_coords", and "geo_coords" (among
 #'   other non-geolocation Twitter variables).
 #' @param coords Names of variables containing latitude and longitude
 #'   coordinates.  Priority is given to bounding box coordinates (each
 #'   obs consists of eight entries) followed by the supplied order of
-#'   variable names. Defaults to \code{c("bbox_coords",
-#'   "coords_coords", "geo_coords")} (which are the default column
+#'   variable names. Defaults to "bbox_coords",
+#'   "coords_coords", and "geo_coords") (which are the default column
 #'   names of data returned by most status-oriented rtweet functions).
 #' @details On occasion values may appear to be outliers given a
 #'   previously used query filter (e.g., when searching for tweets

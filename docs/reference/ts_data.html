@@ -115,14 +115,15 @@ interval of time.</p>
     </tr>
     <tr>
       <th>by</th>
-      <td><p>Desired interval of time expressed as numeral plus secs, mins,
-hours, days, weeks, months, years. If a numeric is provided, the value
-is assumed to be in seconds.</p></td>
+      <td><p>Desired interval of time expressed as numeral plus one of
+"secs", "mins", "hours", "days", "weeks", "months", or
+"years". If a numeric is provided, the value is assumed to be in
+seconds.</p></td>
     </tr>
     <tr>
       <th>trim</th>
-      <td><p>Number of observations to trim off the front and end of each
-time series</p></td>
+      <td><p>Number of observations to trim off the front and end of
+each time series</p></td>
     </tr>
     </table>
     
@@ -132,7 +133,8 @@ time series</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## handles of women senators</span>
 <span class='no'>sens</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"SenatorBaldwin"</span>, <span class='st'>"SenGillibrand"</span>, <span class='st'>"PattyMurray"</span>, <span class='st'>"SenatorHeitkamp"</span>)
 
@@ -150,7 +152,8 @@ time series</p></td>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>screen_name</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='st'>"weeks"</span>)
 
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

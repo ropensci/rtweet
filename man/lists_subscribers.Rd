@@ -43,11 +43,18 @@ console).}
 Get subscribers of a specified list.
 }
 \examples{
+
 \dontrun{
+
 ## get subscribers of new york times politics list
-rstats <- lists_subscribers(slug = "new-york-times-politics", owner_user = "nytpolitics", n = 1000)
+rstats <- lists_subscribers(
+  slug = "new-york-times-politics",
+  owner_user = "nytpolitics",
+  n = 1000
+)
 
 }
+
 }
 \seealso{
 Other lists: \code{\link{lists_members}},

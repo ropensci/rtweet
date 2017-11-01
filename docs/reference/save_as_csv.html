@@ -112,14 +112,14 @@
     <tr>
       <th>x</th>
       <td><p>Data table to be saved (tweets or user object) generated
-via rtweet function like <code>search_tweets</code>. If x is a list
+via rtweet function like <code><a href='search_tweets.html'>search_tweets</a></code>. If x is a list
 object containing both tweets and users data (which is currently
 the output for many of the rtweet functions), then a CSV file is
 created and saved for each object using the file_name provided as
 a base--e.g, if x is a list object from search_tweets with
-<code>file_name = "election"</code>, this function will save both the
+file_name = "election", this function will save both the
 tweets data ("election.tweets.csv") and the user data
-("election.users.csv"). If not included in file_name, the ".csv"
+("election.users.csv"). If not included in file_name, the CSV
 extension will be added when writing file to disk.</p></td>
     </tr>
     <tr>
@@ -127,7 +127,7 @@ extension will be added when writing file to disk.</p></td>
       <td><p>Path/file name where object(s) is to be saved.  If
 object includes both tweets and users data then provided
 file_name will be used as base for the two saved files.  For
-example, <code>file_name = "election"</code> would save files as
+example, file_name = "election", would save files as
 "election.tweets.csv" and "election.users.csv".</p></td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@ character, "".</p></td>
     <tr>
       <th>fileEncoding</th>
       <td><p>Encoding to be used when saving to
-CSV. defaults to utf-8.</p></td>
+CSV. defaults to "UTF-8".</p></td>
     </tr>
     </table>
     

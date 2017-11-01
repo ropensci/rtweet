@@ -105,7 +105,9 @@ more than 90,000 statuses, users must iterate through status IDs
 whilst avoiding rate limits, which reset every 15 minutes.</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>lookup_statuses</span>(<span class='no'>statuses</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>lookup_tweets</span>(<span class='no'>statuses</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -121,9 +123,11 @@ return object into data frame(s).</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>OAuth token (1.0 or 2.0). By default
-<code>token = NULL</code> fetches a non-exhausted token from
-an environment variable @describeIn tokens.</p></td>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
     </tr>
     </table>
     

@@ -6,16 +6,16 @@
 #' "coords" object, which is specifically designed to interact
 #' smoothly with other relevant package functions.
 #'
-#' @param address Desired location typically in the form of place name,
-#'   subregion, e.g., \code{address = "lawrence, KS"}. Also accepts the name of
-#'   countries, e.g., \code{address = "usa"}, \code{address = "brazil"} or
-#'   states, e.g., \code{address = "missouri"} or cities, e.g.,
-#'   \code{address = "chicago"}. In most cases using only address should be
-#'   sufficient.
-#' @param components Unit of analysis for address e.g.,
-#'   \code{components = "country:US"}. Potential components include
-#'   postal_code, country, administrative_area, locality, route.
-#' @param ... Additional arguments passed as parameters in the HTTP request
+#' @param address Desired location typically in the form of place
+#'   name, subregion, e.g., address = "lawrence, KS". Also accepts the
+#'   name of countries, e.g., address = "usa", address = "brazil" or
+#'   states, e.g., address = "missouri" or cities, e.g., address =
+#'   "chicago". In most cases using only address should be sufficient.
+#' @param components Unit of analysis for address e.g., components =
+#'   "country:US". Potential components include postal_code, country,
+#'   administrative_area, locality, route.
+#' @param ... Additional arguments passed as parameters in the HTTP
+#'   request
 #' @return Object of class coords.
 #' @examples
 #'

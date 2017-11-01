@@ -157,7 +157,7 @@ an R list. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other args used as parameters in query composition.</p></td>
+      <td><p>Other arguments used as parameters in query composition.</p></td>
     </tr>
     <tr>
       <th>user</th>
@@ -174,7 +174,7 @@ represented by user_id or screen_name is a member of.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Either a nested list (if parsed) or an http response object.</p>
+    <p>Either a nested list (if parsed) or an HTTP response object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -199,12 +199,16 @@ represented by user_id or screen_name is a member of.</p></td>
 <span class='no'>rstats</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_members</span>(<span class='kw'>slug</span> <span class='kw'>=</span> <span class='st'>"rstats"</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='st'>"scultrera"</span>)
 <span class='no'>rstats</span>
 
-<span class='co'># }</span><span class='co'># NOT RUN {</span>
+<span class='co'># }</span><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## get up to 200 list memberships of Nate Silver</span>
 <span class='no'>ns538</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_memberships</span>(<span class='st'>"NateSilver538"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)
+
+<span class='co'>## view data</span>
 <span class='no'>ns538</span>
 
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

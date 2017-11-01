@@ -9,17 +9,21 @@ ts_plot(data, by = "days", trim = 0L, ...)
 \arguments{
 \item{data}{Data frame or grouped data frame.}
 
-\item{by}{Desired interval of time expressed as numeral plus one of \code{"secs",
-"mins", "hours", "days", "weeks", "months", "years"}. If a numeric is
-provided, the value is assumed to be in seconds.}
+\item{by}{Desired interval of time expressed as numeral plus one of
+"secs", "mins", "hours", "days", "weeks", "months", or
+"years". If a numeric is provided, the value is assumed to be in
+seconds.}
 
-\item{trim}{The number of observations to drop off the beginning and
-end of the time series.}
+\item{trim}{The number of observations to drop off the beginning
+and end of the time series.}
 
-\item{...}{Other arguments passed to \code{\link[ggplot2]{geom_line}}.}
+\item{...}{Other arguments passed to
+\code{\link[ggplot2]{geom_line}}.}
 }
 \value{
-If \href{ggplot2}{https://cran.r-project.org/package=ggplot2} is installed then a  \code{\link[ggplot2]{ggplot}} plot object.
+If
+  \href{https://cran.r-project.org/package=ggplot2}{ggplot2} is
+  installed then a \code{\link[ggplot2]{ggplot}} plot object.
 }
 \description{
 Creates a ggplot2 plot of the frequency of tweets over a specified

@@ -25,11 +25,18 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @examples
+#'
 #' \dontrun{
+#'
 #' ## get subscribers of new york times politics list
-#' rstats <- lists_subscribers(slug = "new-york-times-politics", owner_user = "nytpolitics", n = 1000)
+#' rstats <- lists_subscribers(
+#'   slug = "new-york-times-politics",
+#'   owner_user = "nytpolitics",
+#'   n = 1000
+#' )
 #'
 #' }
+#'
 #' @family lists
 #' @family users
 #' @export

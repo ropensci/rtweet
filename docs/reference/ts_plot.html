@@ -115,29 +115,33 @@ interval of time.</p>
     </tr>
     <tr>
       <th>by</th>
-      <td><p>Desired interval of time expressed as numeral plus secs,
-mins, hours, days, weeks, months, years. If a numeric is
-provided, the value is assumed to be in seconds.</p></td>
+      <td><p>Desired interval of time expressed as numeral plus one of
+"secs", "mins", "hours", "days", "weeks", "months", or
+"years". If a numeric is provided, the value is assumed to be in
+seconds.</p></td>
     </tr>
     <tr>
       <th>trim</th>
-      <td><p>The number of observatons to drop off the beginning and
-end of the time series.</p></td>
+      <td><p>The number of observations to drop off the beginning
+and end of the time series.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other args passed to ggplot geom_line or, if ggplot2 is
-not installed, then to lines plotting function.</p></td>
+      <td><p>Other arguments passed to
+<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_path'>geom_line</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If ggplot2 is installed then a ggplot2 plot</p>
+    <p>If
+  <a href='https://cran.r-project.org/package=ggplot2'>ggplot2</a> is
+  installed then a <code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></code> plot object.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## search for tweets containing "rstats"</span>
 <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>)
 
@@ -162,7 +166,10 @@ not installed, then to lines plotting function.</p></td>
 <span class='fu'>ts_plot</span>(<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>tmls</span>, <span class='no'>screen_name</span>), <span class='st'>"weeks"</span>)
 
 <span class='co'>## group by screen name and is_retweet</span>
-<span class='fu'>ts_plot</span>(<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>tmls</span>, <span class='no'>screen_name</span>, <span class='no'>is_retweet</span>), <span class='st'>"months"</span>)
+<span class='no'>tmls</span> <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>tmls</span>, <span class='no'>screen_name</span>, <span class='no'>is_retweet</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>ts_plot</span>(<span class='st'>"months"</span>)
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

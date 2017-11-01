@@ -114,22 +114,22 @@
       <td><p>Numeric, WOEID (Yahoo! Where On Earth ID) or
 character string of desired town or country. Users may also supply
 latitude and longitude coordinates to fetch the closest available trends
-data given the provided location. Latitutde/longitude coordinates should
-be provided as woeid value consisting of 2 numeric values or via one
-lat value and one lng value (to the appropriately named parameters).
+data given the provided location. Latitude/longitude coordinates should
+be provided as WOEID value consisting of 2 numeric values or via one
+latitude value and one longitude value (to the appropriately named parameters).
 To browse all available trend places, see <code><a href='trends_available.html'>trends_available</a></code></p></td>
     </tr>
     <tr>
       <th>lat</th>
-      <td><p>Optional alternative to woeid. Numeric, latitude in degrees.
-If two coordinates are providded for woeid, this function will coerce the
-first value to lat.</p></td>
+      <td><p>Optional alternative to WOEID. Numeric, latitude in degrees.
+If two coordinates are provided for WOEID, this function will coerce the
+first value to latitude.</p></td>
     </tr>
     <tr>
       <th>lng</th>
-      <td><p>Optional alternative to woeid. Numeric, longitude in degrees.
-If two coordinates are providded for woeid, this function will coerce the
-second value to lng.</p></td>
+      <td><p>Optional alternative to WOEID. Numeric, longitude in degrees.
+If two coordinates are provided for WOEID, this function will coerce the
+second value to longitude.</p></td>
     </tr>
     <tr>
       <th>exclude</th>
@@ -160,7 +160,8 @@ trends data. Defaults to true.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>## Retrieve available trends</span>
 <span class='no'>trends</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trends_available.html'>trends_available</a></span>()
 <span class='no'>trends</span>
@@ -184,8 +185,9 @@ trends data. Defaults to true.</p></td>
 <span class='no'>nyc_trends</span>
 
 <span class='co'>## Provide a city or location name using a regular expression string to</span>
-<span class='co'>## have the function internals do the woeid lookup/matching for you</span>
+<span class='co'>## have the function internals do the WOEID lookup/matching for you</span>
 (<span class='no'>luk</span> <span class='kw'>&lt;-</span> <span class='fu'>get_trends</span>(<span class='st'>"london"</span>))
+
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
