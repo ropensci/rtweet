@@ -86,7 +86,9 @@ lookup_statuses_ <- function(statuses,
   if (length(statuses) > 100) {
     statuses <- statuses[1:100]
   }
-  params <- list(id = paste(statuses, collapse = ","))
+  params <- list(
+    id = paste(statuses, collapse = ","),
+    tweet_mode = "extended")
   url <- make_url(
     query = query,
     param = params)
