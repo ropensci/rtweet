@@ -1,8 +1,8 @@
 Package: rtweet
 Type: Package
+Version: 0.5.33
 Title: Collecting Twitter Data
-Version: 0.5.31
-Date: 2017-10-30
+Date: 2017-11-07
 Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))
 Description: An implementation of calls designed to extract and organize Twitter data via
     Twitter's REST and stream APIs. Functions formulate and send API requests, convert
@@ -15,15 +15,14 @@ Imports:
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
-    methods,
     openssl,
     readr,
-    tibble
+    tibble,
+    utils
 License: MIT + file LICENSE
-LazyData: TRUE
 URL: https://CRAN.R-project.org/package=rtweet
 BugReports: https://github.com/mkearney/rtweet/issues
-RoxygenNote: 6.0.1
+Encoding: UTF-8
 Suggests:
     ggplot2,
     knitr,
@@ -31,3 +30,5 @@ Suggests:
     rmarkdown,
     testthat
 VignetteBuilder: knitr
+LazyData: yes
+RoxygenNote: 6.0.1

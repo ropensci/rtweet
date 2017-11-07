@@ -6,7 +6,7 @@
 #' @return List of recommended categories which can be passed along as
 #'   the "slug" parameter in \code{\link{suggested_users}}
 #' @export
-#' @rdname suggested
+#' @rdname suggested_users
 suggested_slugs <- function(lang = NULL, token = NULL) {
   query <- "users/suggestions"
   token <- check_token(token, query)
@@ -31,6 +31,7 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 #'   console).
 #' @return Recommended users
 #' @export
+#' @rdname suggested_users
 #' @examples
 #'
 #' \dontrun{
