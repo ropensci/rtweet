@@ -29,6 +29,8 @@ get_tokens <- function() {
   }
   if (is.null(.state$twitter_tokens)) {
     .state$twitter_tokens <- load_tokens(twitter_pat())
+  } else {
+    .state$twitter_tokens <- rtweet_token()
   }
   .state$twitter_tokens
 }
@@ -135,9 +137,7 @@ rate_limit_used <- function(x) {
 
 
 check_token <- function(token, query = NULL) {
-  if (is.null(token) && is_devtoken()) {
-    token <- rtweet_token()
-  } else if (is.null(token)) {
+  if (is.null(token)) {
     token <- get_tokens()
   }
   if (is.token(token)) {
