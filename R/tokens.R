@@ -125,10 +125,6 @@ is.token <- function(x) {
   lgl
 }
 
-is_devtoken <- function() {
-  isTRUE(getOption("rtweet_devtoken"))
-}
-
 rate_limit_used <- function(x) {
   x$used <- x$limit - x$remaining
   x <- x[, c("query", "limit", "remaining", "used", "reset", "reset_at")]

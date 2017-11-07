@@ -131,19 +131,23 @@ rate_limit_ <- function(token,
     row.names = NULL
   )
   rl_df$reset_at <- format_rate_limit_reset(rl_df$reset)
-  rl_df$reset <- difftime(
-    rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
-  )
+  if (inherits(rl_df$reset_at, "POSIXt")) {
+    rl_df$reset <- difftime(
+      rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
+    )
+  }
   tibble::as_tibble(rl_df, validate = FALSE)
 }
 
 
 format_rate_limit_reset <- function(x) {
-  as.POSIXct(
+  xx <- x
+  x <- tryCatch(as.POSIXct(
     x,
     origin = "1970-01-01",
     tz = "UTC"
-  )
+  ), error = function(e) return(NULL))
+  if (is.null(x)) return(xx)
 }
 
 
