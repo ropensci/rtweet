@@ -51,18 +51,32 @@
 rate_limit <- function(token = NULL,
                        query = NULL,
                        parse = TRUE) {
+  if (is.null(token)) {
+    token <- get_tokens()
+  }
   UseMethod("rate_limit")
 }
 
 #' @export
 rate_limit.default <- function(token = NULL, query = NULL, parse = TRUE) {
+  if (is.null(token)) {
+    token <- get_tokens()
+  }
   rate_limit_(token, query, parse)
+}
+
+#' @export
+rate_limit.NULL <- function(token = NULL, query = NULL, parse = TRUE) {
+  if (is.null(token)) {
+    token <- get_tokens()
+  }
+  rate_limit(token = token, query = query, parse = parse)
 }
 
 #' @export
 rate_limit.character <- function(token = NULL, query = NULL, parse = TRUE) {
   if (is.character(token) && length(token) == 1L &&
-        (is.null(query) || inherits(query, "Token"))) {
+        (is.null(query) || inherits(query, "Token") || is.list(query))) {
     fix_query <- token
     token <- query
     query <- fix_query
@@ -74,12 +88,22 @@ rate_limit.character <- function(token = NULL, query = NULL, parse = TRUE) {
 rate_limit.list <- function(token = NULL,
                             query = NULL,
                             parse = TRUE) {
+  if (is.character(token) && length(token) == 1L &&
+        (is.null(query) || inherits(query, c("Token", "list")))) {
+    fix_query <- token
+    token <- query
+    query <- fix_query
+  }
+  if (is.null(token)) {
+    token <- get_tokens()
+  }
   rl <- Map(
-    "rate_limit",
-    token,
+    "rate_limit_",
+    token = token,
     MoreArgs = list(query = query, parse = parse)
   )
-  token_names <- go_get_var(token, "app", "appname", expect_n = length(rl))
+  token_names <- go_get_var(
+    token, "app", "appname", expect_n = length(rl))
   if (!parse) {
     names(rl) <- token_names
     return(rl)
@@ -135,6 +159,8 @@ rate_limit_ <- function(token,
     rl_df$reset <- difftime(
       rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
     )
+  } else {
+    rl_df$reset <- as.POSIXct(NA_character_)
   }
   tibble::as_tibble(rl_df, validate = FALSE)
 }
@@ -146,8 +172,8 @@ format_rate_limit_reset <- function(x) {
     x,
     origin = "1970-01-01",
     tz = "UTC"
-  ), error = function(e) return(NULL))
-  if (is.null(x)) return(xx)
+  ), error = function(e) return(xx))
+  x
 }
 
 

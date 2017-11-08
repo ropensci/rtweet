@@ -45,25 +45,27 @@ get_token <- function() get_tokens()
 #' @description Sends request to generate OAuth 1.0 tokens. Twitter
 #'   also allows users to create user-only (OAuth 2.0) access token.
 #'   Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
-#'   on a host user. Which means these tokens cannot be used to
-#'   send information (follow requests, Twitter statuses, etc.).
-#'   If you have no interest in those capabilities, then 2.0 OAuth
-#'   tokens do offer some higher rate limits. At the current time,
-#'   the difference given the functions in this package is trivial,
-#'   so I have yet to  verified OAuth 2.0 token method.
-#'   Consequently, I encourage you to use 1.0 tokens.
+#'   on a host user. Which means these tokens cannot be used to send
+#'   information (follow requests, Twitter statuses, etc.).  If you
+#'   have no interest in those capabilities, then 2.0 OAuth tokens do
+#'   offer some higher rate limits. At the current time, the
+#'   difference given the functions in this package is trivial, so I
+#'   have yet to verified OAuth 2.0 token method.  Consequently, I
+#'   encourage you to use 1.0 tokens.
 #' @param app Name of user created Twitter application
 #' @param consumer_key Application API key
 #' @param consumer_secret Application API secret User-owned
-#'   application must have \code{Read and write} access level
-#'   and \code{Callback URL} of \code{http://127.0.0.1:1410}.
+#'   application must have \code{Read and write} access level and
+#'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
 #' @param cache Logical indicating whether to cache the token as a
-#'   \code{".httr-oauth"} file. The default is TRUE, which means the cached
-#'   token file will be added to the user's working directory.
-#'   Ideally, users will store their token as an environment variable
-#'   (see the tokens vignette for instructions), but the cache file
-#'   works as long as always return to the same working directory.
-#' @seealso \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
+#'   \code{".httr-oauth"} file. The default is FALSE. If set to TRUE
+#'   the cached token file will be added to the user's working
+#'   directory.  Ideally, users will store their token as an
+#'   environment variable (see the tokens vignette for instructions),
+#'   but the cache file works as long as always return to the same
+#'   working directory.
+#' @seealso
+#'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 #'
 #' @return Twitter OAuth token(s) (Token1.0).
 #' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
@@ -72,7 +74,7 @@ get_token <- function() get_tokens()
 create_token <- function(app = "mytwitterapp",
                          consumer_key,
                          consumer_secret,
-                         cache = TRUE) {
+                         cache = FALSE) {
   token <- oauth_app(
     appname = app,
     key = gsub(" ", "", consumer_key),
@@ -81,7 +83,7 @@ create_token <- function(app = "mytwitterapp",
   oauth1.0_token(
     oauth_endpoints("twitter"),
     token,
-    cache = TRUE
+    cache = cache
   )
 }
 
@@ -176,10 +178,6 @@ twitter_pat <- function() {
       pat <- "token"
     } else {
       pat <- "system"
-      #warning(
-      #  paste0("Please set env var TWITTER_PAT to your ",
-      #    "Twitter personal access token(s)"),
-      #  call. = FALSE)
     }
   }
   pat
@@ -269,20 +267,31 @@ get_tokens_global <- function(x, env = globalenv()) {
 }
 
 load_tokens <- function(pat, env = globalenv()) {
+  pat <- strsplit(pat, "\\,|\\;")[[1]]
+  x <- Map("load_tokens_", pat = pat, MoreArgs = list(env = env))
+  if (is.list(x) && length(x) == 1L) {
+    x <- x[[1]]
+  }
+  .state$twitter_tokens <- x
+  .state$twitter_tokens
+}
+
+load_tokens_ <- function(pat, env = globalenv()) {
   if (identical(pat, ".httr-oauth")) {
-    .state$twitter_tokens <- readRDS(pat)
+    readRDS(pat)
   } else if (identical(pat, "system")) {
-    .state$twitter_tokens <- rtweet_token()
+    rtweet_token()
   } else if (if_load(pat)) {
     x <- load(pat)
-    .state$twitter_tokens <- get(x)
+    get(x)
   } else if (if_rds(pat)) {
-    .state$twitter_tokens <- readRDS(pat)
+    readRDS(pat)
   } else if (any(grepl("token",
     ls(envir = env), ignore.case = TRUE))) {
-    .state$twitter_tokens <- global_token_finder()
+    global_token_finder()
+  } else {
+    rtweet_token()
   }
-  .state$twitter_tokens
 }
 
 ## home user
@@ -292,7 +301,7 @@ home_user <- function() {
 
 home_user_ <- function() {
   if (!exists(".state")) {
-    .state <<- new.env()
+    .state <- new.env()
   }
   if (exists(".user", envir = .state)) {
     return(get(".user", envir = .state))
@@ -340,4 +349,59 @@ validate_token <- function() {
       call. = FALSE)
   }
   TRUE
+}
+
+
+rtweet_app_ <- function() {
+  tkn <- system_tokens()[[3]]
+  httr::oauth_app(
+    tkn$app$appname, tkn$app$key, tkn$app$secret
+  )
+}
+
+
+rtweet_app <- function() {
+  if (exists(".rtweet_token") &&
+        exists("app", envir = get(".rtweet_token"))) {
+    app <- get("app", envir = get(".rtweet_token"))
+  } else {
+    .rtweet_token  <- new.env()
+    app <- rtweet_app_()
+    assign("app", app, envir = get(".rtweet_token"))
+  }
+  app
+}
+
+rtweet_token_ <- function() {
+  if (interactive()) {
+    app <- rtweet_app()
+    httr::oauth1.0_token(
+      httr::oauth_endpoints("twitter"),
+      app, cache = FALSE
+    )
+  } else {
+    system_tokens()[[1]]
+  }
+}
+
+rtweet_token <- function() {
+  if (exists(".rtweet_token") &&
+        exists("token", envir = get(".rtweet_token"))) {
+    token <- get("token", envir = get(".rtweet_token"))
+  } else {
+    token <- rtweet_token_()
+    assign("token", token, envir = get(".rtweet_token"))
+  }
+  if (identical(Sys.getenv("TWITTER_PAT"), "")) {
+    saveRDS(token, file.path(normalizePath("~/"), ".rtweet_token"))
+    check_renv(file.path(normalizePath("~/"), ".Renviron"))
+    cat(
+      paste0("TWITTER_PAT=", file.path(normalizePath("~/"), ".rtweet_token")),
+      file = file.path(normalizePath("~/"), ".Renviron"),
+      append = TRUE,
+      fill = TRUE
+    )
+    readRenviron(file.path(normalizePath("~/"), ".Renviron"))
+  }
+  token
 }
