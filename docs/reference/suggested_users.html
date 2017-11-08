@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creating Twitter authorization token(s). — create_token • rtweet</title>
+<title>Get user [account] suggestions for authenticating user — suggested_slugs • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,65 +96,59 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creating Twitter authorization token(s).</h1>
+    <h1>Get user [account] suggestions for authenticating user</h1>
     </div>
 
     
-    <p>Sends request to generate OAuth 1.0 tokens. Twitter
-  also allows users to create user-only (OAuth 2.0) access token.
-  Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
-  on a host user. Which means these tokens cannot be used to send
-  information (follow requests, Twitter statuses, etc.).  If you
-  have no interest in those capabilities, then 2.0 OAuth tokens do
-  offer some higher rate limits. At the current time, the
-  difference given the functions in this package is trivial, so I
-  have yet to verified OAuth 2.0 token method.  Consequently, I
-  encourage you to use 1.0 tokens.</p>
+    <p>Returns Twitter's list of suggested user categories.</p>
+<p>Returns users from a specific, suggested category</p>
     
 
-    <pre class="usage"><span class='fu'>create_token</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"mytwitterapp"</span>, <span class='no'>consumer_key</span>, <span class='no'>consumer_secret</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>suggested_slugs</span>(<span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>suggested_users</span>(<span class='no'>slug</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>app</th>
-      <td><p>Name of user created Twitter application</p></td>
+      <th>lang</th>
+      <td><p>optional Restricts the suggested categories to the
+requested language. The language must be specified by the
+appropriate two letter ISO 639-1 representation.</p></td>
     </tr>
     <tr>
-      <th>consumer_key</th>
-      <td><p>Application API key</p></td>
+      <th>token</th>
+      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
     </tr>
     <tr>
-      <th>consumer_secret</th>
-      <td><p>Application API secret User-owned
-application must have <code>Read and write</code> access level and
-<code>Callback URL</code> of <code>http://127.0.0.1:1410</code>.</p></td>
-    </tr>
-    <tr>
-      <th>cache</th>
-      <td><p>Logical indicating whether to cache the token as a
-<code>".httr-oauth"</code> file. The default is FALSE. If set to TRUE
-the cached token file will be added to the user's working
-directory.  Ideally, users will store their token as an
-environment variable (see the tokens vignette for instructions),
-but the cache file works as long as always return to the same
-working directory.</p></td>
+      <th>slug</th>
+      <td><p>required The short name of list or a category</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Twitter OAuth token(s) (Token1.0).</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p><a href='https://developer.twitter.com/en/docs/basics/authentication/overview/oauth'>https://developer.twitter.com/en/docs/basics/authentication/overview/oauth</a></p>
-<p>Other tokens: <code><a href='get_tokens.html'>get_tokens</a></code>,
-  <code><a href='rate_limit.html'>rate_limit</a></code></p>
+    <p>List of recommended categories which can be passed along as
+  the "slug" parameter in <code>suggested_users</code></p>
+<p>Recommended users</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'>## get slugs</span>
+<span class='no'>slugs</span> <span class='kw'>&lt;-</span> <span class='fu'>suggested_slugs</span>()
+
+<span class='co'>## use slugs to get suggested users</span>
+<span class='fu'>suggested_users</span>(<span class='no'>slugs</span>$<span class='no'>slug</span>[<span class='fl'>1</span>])
+
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -162,9 +156,9 @@ working directory.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

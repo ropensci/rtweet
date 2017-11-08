@@ -81,7 +81,7 @@
 <a href="#rtweet" class="anchor"></a>rtweet <img src="reference/figures/logo.png" align="right">
 </h1></div>
 <p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --><!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --><a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
-<p>R client for interacting with Twitter’s REST and stream API’s.</p>
+<p>R client for accessing Twitter’s REST and stream APIs.</p>
 <p>Check out the <a href="http://rtweet.info">rtweet package documentation website</a>.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
@@ -108,34 +108,125 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
 <ul>
-<li><p><strong>Quick authorization method</strong>: To make your life easier, follow the recommended steps in <a href="http://rtweet.info/index.html">obtaining and using access tokens</a>. However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the <a href="http://rtweet.info/index.html">rtweet documentation website</a>.</p></li>
-<li><p>First, you’ll need to <a href="https://apps.twitter.com/">create a Twitter app</a>. For the callback field, <strong>make sure to enter the following</strong>: <code>http://127.0.0.1:1410</code>.</p></li>
-<li><p>Once you’ve created an app, record your consumer (api) and secret keys. Screeshots can be found <a href="http://rtweet.info/articles/auth.html">here</a>.</p></li>
-<li><p>Generate a token by using the <code><a href="reference/create_token.html">create_token()</a></code> function.</p></li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## name of app you created (replace rtweet_token with name of your app)
-appname &lt;-<span class="st"> "rtweet_token"</span>
-
-## api key (example below is not a real key)
-key &lt;-<span class="st"> "XYznzPFOFZR2a39FwWKN1Jp41"</span>
-
-## api secret (example below is not a real key)
-secret &lt;-<span class="st"> "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>
-
-## create a token, storing it as object 'twitter_token'
-twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_token.html">create_token</a></span>(
-  <span class="dt">app =</span> appname,
-  <span class="dt">consumer_key =</span> key,
-  <span class="dt">consumer_secret =</span> secret
-)</code></pre></div>
-<ul>
-<li><p>Once <code>twitter_token</code> is part of your global environment, rtweet functions should find it. However, using this method, the token will not automatically load in future sessions (you’ll need to create a token every time you start a new session).</p></li>
-<li><p>Although not necessary, functions also accept tokens via the <code>token</code> argument. For example:</p></li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(<span class="st">"data science"</span>, <span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">token =</span> twitter_token)</code></pre></div>
-<ul>
 <li>
-<strong>Recommended authorization method</strong>: <a href="http://rtweet.info/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</li>
+<strong>NEW</strong> Getting started with rtweet has gotten even easier.</li>
+<li><strong>NO MORE CREATING TWITTER APPS</strong></li>
+<li><strong>NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS</strong></li>
+<li><strong>NO MORE COMPLICATED INSTRUCTIONS</strong></li>
+<li>All you need is a <strong>Twitter account</strong> + <strong>rtweet</strong> and you’re up and running!</li>
+<li>The first time you send a request to one of Twitter’s APIs—e.g., <code><a href="reference/search_tweets.html">search_tweets()</a></code>, <code><a href="reference/stream_tweets.html">stream_tweets()</a></code>, <code><a href="reference/get_followers.html">get_followers()</a></code>, etc.—you’ll be asked to authorize the rtweet application. And that’s it! You’re ready to start collecting and analyzing Twitter data!</li>
+</ul>
+<div id="search-for-tweets" class="section level3">
+<h3 class="hasAnchor">
+<a href="#search-for-tweets" class="anchor"></a>Search for tweets</h3>
+<p>Search for 1000 (non-retweeted) tweets containing the words “data” and “science”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 5000 tweets using the rstats hashtag
+rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
+  <span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">5000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span>
+)</code></pre></div>
+<p>Quickly visualize frequency of tweets over time using <code><a href="reference/ts_plot.html">ts_plot()</a></code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot time series of tweets
+<span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(rt, <span class="st">"hours"</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_minimal</a></span>() <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">plot.title =</span> ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_text</a></span>(<span class="dt">face =</span> <span class="st">"bold"</span>)) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(
+    <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>,
+    <span class="dt">title =</span> <span class="st">"Twitter statuses containing </span><span class="ch">\"</span><span class="st">rstats</span><span class="ch">\"</span><span class="st"> hashtag over time"</span>,
+    <span class="dt">subtitle =</span> <span class="st">"Tweets aggregated and counted in 1-hour intervals"</span>,
+    <span class="dt">caption =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">Source: Data collected from Twitter's REST API via rtweet"</span>
+  )</code></pre></div>
+<div class="figure">
+<img src="example-rstatsts.png">
+</div>
+<p>Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set <code>retryonratelimit = TRUE</code> and rtweet will wait for rate limit resets for you.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for a quarter million tweets containing the word "data"
+rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
+  <span class="st">"data"</span>, <span class="dt">n =</span> <span class="dv">250000</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>
+)</code></pre></div>
+<p>Search by geo-location—for example, find tweets in the English language sent from the United States.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 10,000 tweets sent from the US
+rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
+  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span>
+)
+
+## create lat/lng variables using all available tweet and profile geo-location data
+rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/lat_lng.html">lat_lng</a></span>(rt)
+
+## plot state boundaries
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))
+maps<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/maps/topics/map">map</a></span>(<span class="st">"state"</span>, <span class="dt">lwd =</span> .<span class="dv">25</span>)
+
+## plot lat and lng points onto state map
+<span class="kw">with</span>(rt, <span class="kw">points</span>(lng, lat, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> .<span class="dv">75</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, .<span class="dv">3</span>, .<span class="dv">7</span>, .<span class="dv">75</span>)))</code></pre></div>
+<div class="figure">
+<img src="example-statemap.png">
+</div>
+</div>
+<div id="stream-tweets" class="section level3">
+<h3 class="hasAnchor">
+<a href="#stream-tweets" class="anchor"></a>Stream tweets</h3>
+<p>Randomly sample (approximately 1%) tweets as they occur.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## random sample for 30 seconds
+rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</code></pre></div>
+<p>Stream all geo enabled tweets from London for 60 seconds</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## stream tweets from london for 60 seconds
+rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</code></pre></div>
+<p>Stream all tweets mentioning <span class="citation">@realDonaldTrump</span> or Trump for a week.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## stream tweets from london for 60 seconds
+<span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(
+  <span class="st">"realdonaldtrump,trump"</span>, <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,
+  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>
+)
+
+## read in the data as a tidy tbl data frame
+djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</code></pre></div>
+</div>
+<div id="get-accounts-followed-by-a-user" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-accounts-followed-by-a-user" class="anchor"></a>Get accounts followed by a user</h3>
+<p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
+cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)
+
+## lookup data on those accounts
+cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</code></pre></div>
+</div>
+<div id="get-accounts-following-a-user" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-accounts-following-a-user" class="anchor"></a>Get accounts following a user</h3>
+<p>Retrieve a list of all the <strong>accounts following</strong> a user.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts following CNN
+cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)
+
+## lookup data on those accounts
+cnn_flw_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_flw<span class="op">$</span>user_id)</code></pre></div>
+</div>
+<div id="user-timelines" class="section level3">
+<h3 class="hasAnchor">
+<a href="#user-timelines" class="anchor"></a>User timelines</h3>
+<p>Get the most recent 3,200 tweets from different users</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
+tmls &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_timeline.html">get_timelines</a></span>(<span class="kw">c</span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)
+
+## plot the frequency of tweets for each user over time
+tmls <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(created_at <span class="op">&gt;</span><span class="st"> "2017-10-23"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(screen_name) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(<span class="st">"days"</span>, <span class="dt">trim =</span> 1L) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_minimal</a></span>() <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggsave">ggsave</a></span>(<span class="st">"example-tmls.png"</span>, <span class="dt">width =</span> <span class="dv">8</span>, <span class="dt">height =</span> <span class="dv">6</span>, <span class="dt">units =</span> <span class="st">"in"</span>)</code></pre></div>
+<div class="figure">
+<img src="example-tmls.png">
+</div>
+</div>
+</div>
+<div id="for-postdm-permissions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#for-postdm-permissions" class="anchor"></a>For post/DM permissions</h2>
+<ul>
+<li>If you’d like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you’ll need to create your own Twitter app.</li>
+<li><p>To create your own Twitter app, follow the instructions in the authorization vignette on <a href="http://rtweet.info/index.html">obtaining and using access tokens</a>.</p></li>
+<li><p><strong>Recommended authorization method</strong>: <a href="http://rtweet.info/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</p></li>
 </ul>
 </div>
 <div id="vignettes" class="section level2">

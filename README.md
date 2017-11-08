@@ -5,7 +5,7 @@ rtweet <img src="man/figures/logo.png" align="right" />
 
 [![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) <!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --> <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --> [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
 
-R client for interacting with Twitter's REST and stream API's.
+R client for accessing Twitter's REST and stream APIs.
 
 Check out the [rtweet package documentation website](http://rtweet.info).
 
@@ -40,39 +40,148 @@ library(rtweet)
 Getting started
 ---------------
 
--   **Quick authorization method**: To make your life easier, follow the recommended steps in [obtaining and using access tokens](http://rtweet.info/index.html). However, for a quick start (note: much slower in long term), you can also follow the instructions below or via the [rtweet documentation website](http://rtweet.info/index.html).
+-   **NEW** Getting started with rtweet has gotten even easier.
+-   **NO MORE CREATING TWITTER APPS**
+-   **NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS**
+-   **NO MORE COMPLICATED INSTRUCTIONS**
+-   All you need is a **Twitter account** + **rtweet** and you're up and running!
+-   The first time you send a request to one of Twitter's APIs---e.g., `search_tweets()`, `stream_tweets()`, `get_followers()`, etc.---you'll be asked to authorize the rtweet application. And that's it! You're ready to start collecting and analyzing Twitter data!
 
--   First, you'll need to [create a Twitter app](https://apps.twitter.com/). For the callback field, **make sure to enter the following**: `http://127.0.0.1:1410`.
+### Search for tweets
 
--   Once you've created an app, record your consumer (api) and secret keys. Screeshots can be found [here](http://rtweet.info/articles/auth.html).
-
--   Generate a token by using the `create_token()` function.
+Search for 1000 (non-retweeted) tweets containing the words "data" and "science".
 
 ``` r
-## name of app you created (replace rtweet_token with name of your app)
-appname <- "rtweet_token"
-
-## api key (example below is not a real key)
-key <- "XYznzPFOFZR2a39FwWKN1Jp41"
-
-## api secret (example below is not a real key)
-secret <- "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"
-
-## create a token, storing it as object 'twitter_token'
-twitter_token <- create_token(
-  app = appname,
-  consumer_key = key,
-  consumer_secret = secret
+## search for 5000 tweets using the rstats hashtag
+rt <- search_tweets(
+  "#rstats", n = 5000, include_rts = FALSE
 )
 ```
 
--   Once `twitter_token` is part of your global environment, rtweet functions should find it. However, using this method, the token will not automatically load in future sessions (you'll need to create a token every time you start a new session).
-
--   Although not necessary, functions also accept tokens via the `token` argument. For example:
+Quickly visualize frequency of tweets over time using `ts_plot()`.
 
 ``` r
-rt <- search_tweets("data science", n = 1000, token = twitter_token)
+## plot time series of tweets
+ts_plot(rt, "hours") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Twitter statuses containing \"rstats\" hashtag over time",
+    subtitle = "Tweets aggregated and counted in 1-hour intervals",
+    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
+  )
 ```
+
+![](example-rstatsts.png)
+
+Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set `retryonratelimit = TRUE` and rtweet will wait for rate limit resets for you.
+
+``` r
+## search for a quarter million tweets containing the word "data"
+rt <- search_tweets(
+  "data", n = 250000, retryonratelimit = TRUE
+)
+```
+
+Search by geo-location---for example, find tweets in the English language sent from the United States.
+
+``` r
+## search for 10,000 tweets sent from the US
+rt <- search_tweets(
+  "lang:en", geocode = lookup_coords("usa"), n = 10000
+)
+
+## create lat/lng variables using all available tweet and profile geo-location data
+rt <- lat_lng(rt)
+
+## plot state boundaries
+par(mar = c(0, 0, 0, 0))
+maps::map("state", lwd = .25)
+
+## plot lat and lng points onto state map
+with(rt, points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75)))
+```
+
+![](example-statemap.png)
+
+### Stream tweets
+
+Randomly sample (approximately 1%) tweets as they occur.
+
+``` r
+## random sample for 30 seconds
+rt <- stream_tweets("")
+```
+
+Stream all geo enabled tweets from London for 60 seconds
+
+``` r
+## stream tweets from london for 60 seconds
+rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
+```
+
+Stream all tweets mentioning @realDonaldTrump or Trump for a week.
+
+``` r
+## stream tweets from london for 60 seconds
+stream_tweets(
+  "realdonaldtrump,trump", timeout = 60 * 60 * 24 * 7,
+  file_name = "tweetsabouttrump.json"
+)
+
+## read in the data as a tidy tbl data frame
+djt <- parse_stream("tweetsabouttrump.json")
+```
+
+### Get accounts followed by a user
+
+Retrieve a list of all the accounts a **user follows**.
+
+``` r
+## get user IDs of accounts followed by CNN
+cnn_fds <- get_friends("cnn")
+
+## lookup data on those accounts
+cnn_fds_data <- lookup_users(cnn_fds$user_id)
+```
+
+### Get accounts following a user
+
+Retrieve a list of all the **accounts following** a user.
+
+``` r
+## get user IDs of accounts following CNN
+cnn_flw <- get_followers("cnn", n = 75000)
+
+## lookup data on those accounts
+cnn_flw_data <- lookup_users(cnn_flw$user_id)
+```
+
+### User timelines
+
+Get the most recent 3,200 tweets from different users
+
+``` r
+## get user IDs of accounts followed by CNN
+tmls <- get_timelines(c("cnn", "BBCWorld", "foxnews"), n = 3200)
+
+## plot the frequency of tweets for each user over time
+tmls %>%
+  dplyr::filter(created_at > "2017-10-23") %>%
+  dplyr::group_by(screen_name) %>%
+  ts_plot("days", trim = 1L) +
+  ggplot2::theme_minimal() +
+  ggplot2::ggsave("example-tmls.png", width = 8, height = 6, units = "in")
+```
+
+![](example-tmls.png)
+
+For post/DM permissions
+-----------------------
+
+-   If you'd like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you'll need to create your own Twitter app.
+-   To create your own Twitter app, follow the instructions in the authorization vignette on [obtaining and using access tokens](http://rtweet.info/index.html).
 
 -   **Recommended authorization method**: [Obtaining and using access tokens](http://rtweet.info/articles/auth.html) (vignette showing how to *sustainably* setup authorization to use Twitter's APIs).
 
