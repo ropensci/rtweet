@@ -29,7 +29,8 @@ get_tokens <- function() {
   }
   if (is.null(.state$twitter_tokens)) {
     .state$twitter_tokens <- load_tokens(twitter_pat())
-  } else {
+  }
+  if (is.null(.state$twitter_tokens)) {
     .state$twitter_tokens <- rtweet_token()
   }
   .state$twitter_tokens
@@ -175,10 +176,10 @@ twitter_pat <- function() {
       pat <- "token"
     } else {
       pat <- "system"
-      warning(
-        paste0("Please set env var TWITTER_PAT to your ",
-          "Twitter personal access token(s)"),
-        call. = FALSE)
+      #warning(
+      #  paste0("Please set env var TWITTER_PAT to your ",
+      #    "Twitter personal access token(s)"),
+      #  call. = FALSE)
     }
   }
   pat
@@ -271,7 +272,7 @@ load_tokens <- function(pat, env = globalenv()) {
   if (identical(pat, ".httr-oauth")) {
     .state$twitter_tokens <- readRDS(pat)
   } else if (identical(pat, "system")) {
-    .state$twitter_tokens <- system_tokens()
+    .state$twitter_tokens <- rtweet_token()
   } else if (if_load(pat)) {
     x <- load(pat)
     .state$twitter_tokens <- get(x)

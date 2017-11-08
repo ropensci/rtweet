@@ -49,8 +49,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
   stopifnot(is.character(status))
   stopifnot(length(status) == 1)
   query <- "statuses/update"
-  if (all(nchar(status) > 140, !grepl("http", status))) {
-    stop("cannot exceed 140 characters.", call. = FALSE)
+  if (all(nchar(status) > 280, !grepl("http", status))) {
+    stop("cannot exceed 280 characters.", call. = FALSE)
   }
   if (length(status) > 1) {
     stop("can only post one status at a time",
@@ -76,7 +76,9 @@ post_tweet <- function(status = "my first rtweet #rstats",
       media_ids = media_id_string
     )
   } else {
-    params <- list(status = status)
+    params <- list(
+      status = status
+    )
   }
   query <- "statuses/update"
   if (!is.null(in_reply_to_status_id)) {

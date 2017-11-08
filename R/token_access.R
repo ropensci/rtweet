@@ -32,5 +32,16 @@ rtweet_token <- function() {
     token <- rtweet_token_()
     assign("token", token, envir = get(".rtweet_token"))
   }
+  if (identical(Sys.getenv("TWITTER_PAT"), "")) {
+    saveRDS(token, file.path(normalizePath("~/"), ".rtweet_token"))
+    check_renv(file.path(normalizePath("~/"), ".Renviron"))
+    cat(
+      paste0("TWITTER_PAT=", file.path(normalizePath("~/"), ".rtweet_token")),
+      file = file.path(normalizePath("~/"), ".Renviron"),
+      append = TRUE,
+      fill = TRUE
+    )
+    readRenviron(file.path(normalizePath("~/"), ".Renviron"))
+  }
   token
 }
