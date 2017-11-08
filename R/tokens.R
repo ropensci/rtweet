@@ -367,7 +367,7 @@ rtweet_app <- function() {
   } else {
     .rtweet_token  <- new.env()
     app <- rtweet_app_()
-    assign("app", app, envir = get(".rtweet_token"))
+    assign("app", app, envir = .rtweet_token)
   }
   app
 }
@@ -390,9 +390,11 @@ rtweet_token <- function() {
     token <- get("token", envir = get(".rtweet_token"))
   } else {
     token <- rtweet_token_()
-    assign("token", token, envir = get(".rtweet_token"))
+    .rtweet_token  <- new.env()
+    assign("token", token, envir = .rtweet_token)
   }
   if (identical(Sys.getenv("TWITTER_PAT"), "")) {
+    ##Sys.getenv("HOME")
     saveRDS(token, file.path(normalizePath("~/"), ".rtweet_token"))
     check_renv(file.path(normalizePath("~/"), ".Renviron"))
     cat(

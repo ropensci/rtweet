@@ -65,6 +65,10 @@ rate_limit.default <- function(token = NULL, query = NULL, parse = TRUE) {
   rate_limit_(token, query, parse)
 }
 
+token_name <- function(x) {
+  x$app$appname
+}
+
 #' @export
 rate_limit.NULL <- function(token = NULL, query = NULL, parse = TRUE) {
   if (is.null(token)) {
@@ -102,14 +106,13 @@ rate_limit.list <- function(token = NULL,
     token = token,
     MoreArgs = list(query = query, parse = parse)
   )
-  token_names <- go_get_var(
-    token, "app", "appname", expect_n = length(rl))
+  #token_names <- go_get_var(
+  #  token, "app", "appname", expect_n = length(rl))
   if (!parse) {
+    token_names <- go_get_var(
+      token, "app", "appname", expect_n = length(rl))
     names(rl) <- token_names
     return(rl)
-  }
-  for (i in seq_along(rl)) {
-    rl[[i]]$token <- token_names[i]
   }
   do.call("rbind", rl)
 }
@@ -125,6 +128,7 @@ rate_limit_ <- function(token,
   warn_for_twitter_status(r)
   if (parse) {
     rl_df <- .rl_df(r)
+    rl_df$app <- token_name(token)
     if (!is.null(query)) {
       query <- fun2api(query)
       rl_df <- rl_df[grep(query, rl_df$query), ]
@@ -136,9 +140,10 @@ rate_limit_ <- function(token,
   }
 }
 
-
 .rl_df <- function(r) {
   r <- from_js(r)
+  if (has_name_(r, "errors")) return(data.frame())
+  if (!has_name_(r, "resources")) return(data.frame())
   data <- r$resources
   rl_df <- data.frame(
     query = gsub(".limit|.remaining|.reset", "",
