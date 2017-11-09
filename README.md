@@ -26,7 +26,7 @@ To get the current development version from Github:
 
 ``` r
 ## install devtools package if it's not already
-if (!"devtools" %in% installed.packages()) {
+if (!requireNamespace("devtools", quietly = TRUE)) {
   install.packages("devtools")
 }
 
@@ -40,12 +40,11 @@ library(rtweet)
 Getting started
 ---------------
 
--   **NEW** Getting started with rtweet has gotten even easier.
--   **NO MORE CREATING TWITTER APPS**
--   **NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS**
--   **NO MORE COMPLICATED INSTRUCTIONS**
--   All you need is a **Twitter account** + **rtweet** and you're up and running!
--   The first time you send a request to one of Twitter's APIs---e.g., `search_tweets()`, `stream_tweets()`, `get_followers()`, etc.---you'll be asked to authorize the rtweet application. And that's it! You're ready to start collecting and analyzing Twitter data!
+**NEW** Getting started with rtweet has gotten even easier. - **NO MORE CREATING TWITTER APPS** - **NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS** - **NO MORE COMPLICATED INSTRUCTIONS**
+
+All you need is a **Twitter account** + **rtweet** and you're up and running! - The first time you use an API request function---e.g., `search_tweets()`, `stream_tweets()`, `get_followers()`---a browser window will open. - Log onto your Twitter account. - Agree to authorize the rtweet application.
+
+And that's it! You're ready to start collecting and analyzing Twitter data!
 
 ### Search for tweets
 
@@ -78,13 +77,13 @@ ts_plot(rt, "hours") +
 Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set `retryonratelimit = TRUE` and rtweet will wait for rate limit resets for you.
 
 ``` r
-## search for a quarter million tweets containing the word "data"
+## search for 250,000 tweets containing the word "data"
 rt <- search_tweets(
   "data", n = 250000, retryonratelimit = TRUE
 )
 ```
 
-Search by geo-location---for example, find tweets in the English language sent from the United States.
+Search by geo-location---for example, find 10,000 tweets in the English language sent from the United States.
 
 ``` r
 ## search for 10,000 tweets sent from the US
@@ -110,7 +109,7 @@ with(rt, points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75)))
 Randomly sample (approximately 1%) tweets as they occur.
 
 ``` r
-## random sample for 30 seconds
+## random sample for 30 seconds (default)
 rt <- stream_tweets("")
 ```
 
@@ -124,7 +123,7 @@ rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 Stream all tweets mentioning @realDonaldTrump or Trump for a week.
 
 ``` r
-## stream tweets from london for 60 seconds
+## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
 stream_tweets(
   "realdonaldtrump,trump", timeout = 60 * 60 * 24 * 7,
   file_name = "tweetsabouttrump.json"
@@ -148,7 +147,7 @@ cnn_fds_data <- lookup_users(cnn_fds$user_id)
 
 ### Get accounts following a user
 
-Retrieve a list of all the **accounts following** a user.
+Retrieve a list of the **accounts following** a user.
 
 ``` r
 ## get user IDs of accounts following CNN
@@ -158,9 +157,21 @@ cnn_flw <- get_followers("cnn", n = 75000)
 cnn_flw_data <- lookup_users(cnn_flw$user_id)
 ```
 
+Or if you really want ALL of their followers:
+
+``` r
+## how many total follows does cnn have?
+cnn <- lookup_users("cnn")
+cnn$followers_count
+> [1] 38349142
+
+## get them all (this would take a little over 5 days)
+cnn_flw <- get_followers("cnn", n = 38349142, retryonratelimit = TRUE)
+```
+
 ### User timelines
 
-Get the most recent 3,200 tweets from different users
+Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews
 
 ``` r
 ## get user IDs of accounts followed by CNN
@@ -188,21 +199,21 @@ For post/DM permissions
 Vignettes
 ---------
 
-### [Obtaining and using user access tokens](http://rtweet.info/articles/auth.html)
+[Obtaining and using user access tokens](http://rtweet.info/articles/auth.html)
 
 ``` r
 ## authorizing API access
 vignette("auth", package = "rtweet")
 ```
 
-### [Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
+[Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
 
 ``` r
 ## quick overview of rtweet functions
 vignette("intro", package = "rtweet")
 ```
 
-### [Live streaming tweets data](http://rtweet.info/articles/stream.html)
+[Live streaming tweets data](http://rtweet.info/articles/stream.html)
 
 ``` r
 ## working with the stream
