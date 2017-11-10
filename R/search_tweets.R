@@ -320,6 +320,11 @@ search_tweets_ <- function(q = "",
   stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
   ## number of loops
   n.times <- ceiling(n / 100)
+  if (n < 100) {
+    count <- n
+  } else {
+    count <- 100
+  }
   ## validate query length
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -340,7 +345,8 @@ search_tweets_ <- function(q = "",
 
     if (inherits(geocode, "coords")) {
       mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
-      mls2 <- abs(geocode$box[1] - geocode$box[3]) * (69 - abs(.093 * geocode$point[1])^2)
+      mls2 <- abs(
+        geocode$box[1] - geocode$box[3]) * (69 - abs(.093 * geocode$point[1])^2)
 
       mls <- (mls1/1.8 + mls2/1.8) / 1.8
       mls <- round(mls, 3)
@@ -348,13 +354,14 @@ search_tweets_ <- function(q = "",
     }
   }
   ## make params list
-  params <- list(q = q,
-                 result_type = type,
-                 count = 100,
-                 max_id = max_id,
-                 tweet_mode = "extended",
-                 geocode = geocode,
-                 ...)
+  params <- list(
+    q = q,
+    result_type = type,
+    count = count,
+    max_id = max_id,
+    tweet_mode = "extended",
+    geocode = geocode,
+    ...)
   ## make url
   url <- make_url(
     query = query,

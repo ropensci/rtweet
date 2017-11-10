@@ -107,17 +107,66 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p><strong>NEW</strong> Getting started with rtweet has gotten even easier. - <strong>NO MORE CREATING TWITTER APPS</strong> - <strong>NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS</strong> - <strong>NO MORE COMPLICATED INSTRUCTIONS</strong></p>
-<p>All you need is a <strong>Twitter account</strong> + <strong>rtweet</strong> and you’re up and running! - The first time you use an API request function—e.g., <code><a href="reference/search_tweets.html">search_tweets()</a></code>, <code><a href="reference/stream_tweets.html">stream_tweets()</a></code>, <code><a href="reference/get_followers.html">get_followers()</a></code>—a browser window will open. - Log onto your Twitter account. - Agree to authorize the rtweet application.</p>
+<div id="new-get-up-and-running-with-rtweet-in-no-time" class="section level4">
+<h4 class="hasAnchor">
+<a href="#new-get-up-and-running-with-rtweet-in-no-time" class="anchor"></a>(NEW) <strong>Get up and running with rtweet in no time</strong>
+</h4>
+<ul>
+<li>NO MORE CREATING TWITTER APPS</li>
+<li>NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS</li>
+<li>NO MORE COMPLICATED INSTRUCTIONS</li>
+</ul>
+<p>All you need is a <strong>Twitter account</strong> + <strong>rtweet</strong> and you’re up and running!</p>
+</div>
+<div id="easy-api-authorization" class="section level4">
+<h4 class="hasAnchor">
+<a href="#easy-api-authorization" class="anchor"></a>Easy API authorization</h4>
+<ul>
+<li>The first time you make an API request function—e.g., <code><a href="reference/search_tweets.html">search_tweets()</a></code>, <code><a href="reference/stream_tweets.html">stream_tweets()</a></code>, <code><a href="reference/get_followers.html">get_followers()</a></code>—a browser window will open.</li>
+<li>Log in to your Twitter account.</li>
+<li>Agree/authorize the rtweet application.</li>
+</ul>
 <p>And that’s it! You’re ready to start collecting and analyzing Twitter data!</p>
-<div id="search-for-tweets" class="section level3">
+</div>
+</div>
+<div id="package-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#package-features" class="anchor"></a>Package features</h2>
+<div id="search-tweets" class="section level3">
 <h3 class="hasAnchor">
-<a href="#search-for-tweets" class="anchor"></a>Search for tweets</h3>
-<p>Search for 1000 (non-retweeted) tweets containing the words “data” and “science”.</p>
+<a href="#search-tweets" class="anchor"></a>Search tweets</h3>
+<p>Search for 5,000 (non-retweeted) tweets containing the rstats hashtag.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 5000 tweets using the rstats hashtag
 rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
   <span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">5000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span>
-)</code></pre></div>
+)
+<span class="op">&gt;</span><span class="st"> </span>rt
+<span class="co"># A tibble: 2,478 x 42</span>
+            status_id          created_at            user_id screen_name
+                <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">              </span><span class="er">&lt;</span>dttm<span class="op">&gt;</span><span class="st">              </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
+<span class="st"> </span><span class="dv">1</span> <span class="dv">928811894000861185</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">29</span><span class="op">:</span><span class="dv">46</span>           <span class="dv">29916355</span>    rensa_co
+ <span class="dv">2</span> <span class="dv">928808649836912641</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">16</span><span class="op">:</span><span class="dv">53</span>         <span class="dv">4246465853</span>     bfgray3
+ <span class="dv">3</span> <span class="dv">928808308647096320</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">15</span><span class="op">:</span><span class="dv">31</span>           <span class="dv">10162032</span> lenteaberta
+ <span class="dv">4</span> <span class="dv">928805640016990209</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">04</span><span class="op">:</span><span class="dv">55</span>          <span class="dv">144592995</span>   Rbloggers
+ <span class="dv">5</span> <span class="dv">928805625009721344</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">04</span><span class="op">:</span><span class="dv">52</span> <span class="dv">924760121913339904</span>     ezmanip
+ <span class="dv">6</span> <span class="dv">928804415896805376</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">00</span><span class="op">:</span><span class="dv">03</span>           <span class="dv">21930409</span>   gdbassett
+ <span class="dv">7</span> <span class="dv">928801913612759040</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">01</span><span class="op">:</span><span class="dv">50</span><span class="op">:</span><span class="dv">07</span>          <span class="dv">144592995</span>   Rbloggers
+ <span class="dv">8</span> <span class="dv">928791611693195264</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">01</span><span class="op">:</span><span class="dv">09</span><span class="op">:</span><span class="dv">10</span>          <span class="dv">517921400</span> LeahAWasser
+ <span class="dv">9</span> <span class="dv">928790088238034944</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">01</span><span class="op">:</span><span class="dv">03</span><span class="op">:</span><span class="dv">07</span>         <span class="dv">3288057307</span>   lucyleeow
+<span class="dv">10</span> <span class="dv">928789068623765504</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">00</span><span class="op">:</span><span class="dv">59</span><span class="op">:</span><span class="dv">04</span>         <span class="dv">3288057307</span>   lucyleeow
+<span class="co"># ... with 2,468 more rows, and 38 more variables: text &lt;chr&gt;, source &lt;chr&gt;,</span>
+<span class="co">#   reply_to_status_id &lt;chr&gt;, reply_to_user_id &lt;chr&gt;,</span>
+<span class="co">#   reply_to_screen_name &lt;chr&gt;, is_quote &lt;lgl&gt;, is_retweet &lt;lgl&gt;,</span>
+<span class="co">#   favorite_count &lt;int&gt;, retweet_count &lt;int&gt;, hashtags &lt;list&gt;, symbols &lt;list&gt;,</span>
+<span class="co">#   urls_url &lt;list&gt;, urls_t.co &lt;list&gt;, urls_expanded_url &lt;list&gt;,</span>
+<span class="co">#   media_url &lt;list&gt;, media_t.co &lt;list&gt;, media_expanded_url &lt;list&gt;,</span>
+<span class="co">#   media_type &lt;list&gt;, ext_media_url &lt;list&gt;, ext_media_t.co &lt;list&gt;,</span>
+<span class="co">#   ext_media_expanded_url &lt;list&gt;, ext_media_type &lt;lgl&gt;,</span>
+<span class="co">#   mentions_user_id &lt;list&gt;, mentions_screen_name &lt;list&gt;, lang &lt;chr&gt;,</span>
+<span class="co">#   quoted_status_id &lt;chr&gt;, quoted_text &lt;chr&gt;, retweet_status_id &lt;chr&gt;,</span>
+<span class="co">#   retweet_text &lt;chr&gt;, place_url &lt;chr&gt;, place_name &lt;chr&gt;,</span>
+<span class="co">#   place_full_name &lt;chr&gt;, place_type &lt;chr&gt;, country &lt;chr&gt;, country_code &lt;chr&gt;,</span>
+<span class="co">#   geo_coords &lt;list&gt;, coords_coords &lt;list&gt;, bbox_coords &lt;list&gt;</span></code></pre></div>
 <p>Quickly visualize frequency of tweets over time using <code><a href="reference/ts_plot.html">ts_plot()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot time series of tweets
 <span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(rt, <span class="st">"hours"</span>) <span class="op">+</span>
@@ -159,25 +208,27 @@ maps<span class="op">::</span><span class="kw"><a href="http://www.rdocumentatio
 <div id="stream-tweets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#stream-tweets" class="anchor"></a>Stream tweets</h3>
-<p>Randomly sample (approximately 1%) tweets as they occur.</p>
+<p>Randomly sample (approximately 1%) from the live stream of all tweets.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## random sample for 30 seconds (default)
 rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</code></pre></div>
-<p>Stream all geo enabled tweets from London for 60 seconds</p>
+<p>Stream all geo enabled tweets from London for 60 seconds.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## stream tweets from london for 60 seconds
 rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</code></pre></div>
 <p>Stream all tweets mentioning <span class="citation">@realDonaldTrump</span> or Trump for a week.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
 <span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(
-  <span class="st">"realdonaldtrump,trump"</span>, <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,
-  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>
+  <span class="st">"realdonaldtrump,trump"</span>,
+  <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,
+  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>,
+  <span class="dt">parse =</span> <span class="ot">FALSE</span>
 )
 
 ## read in the data as a tidy tbl data frame
 djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</code></pre></div>
 </div>
-<div id="get-accounts-followed-by-a-user" class="section level3">
+<div id="get-friends" class="section level3">
 <h3 class="hasAnchor">
-<a href="#get-accounts-followed-by-a-user" class="anchor"></a>Get accounts followed by a user</h3>
+<a href="#get-friends" class="anchor"></a>Get friends</h3>
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
 cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)
@@ -185,9 +236,9 @@ cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_fr
 ## lookup data on those accounts
 cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</code></pre></div>
 </div>
-<div id="get-accounts-following-a-user" class="section level3">
+<div id="get-followers" class="section level3">
 <h3 class="hasAnchor">
-<a href="#get-accounts-following-a-user" class="anchor"></a>Get accounts following a user</h3>
+<a href="#get-followers" class="anchor"></a>Get followers</h3>
 <p>Retrieve a list of the <strong>accounts following</strong> a user.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts following CNN
 cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)
@@ -203,9 +254,9 @@ cnn<span class="op">$</span>followers_count
 ## get them all (this would take a little over 5 days)
 cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">38349142</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
-<div id="user-timelines" class="section level3">
+<div id="get-timelines" class="section level3">
 <h3 class="hasAnchor">
-<a href="#user-timelines" class="anchor"></a>User timelines</h3>
+<a href="#get-timelines" class="anchor"></a>Get timelines</h3>
 <p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
 tmls &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_timeline.html">get_timelines</a></span>(<span class="kw">c</span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)
@@ -221,22 +272,77 @@ tmls <span class="op">%&gt;%</span>
 <img src="example-tmls.png">
 </div>
 </div>
+<div id="get-favorites" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-favorites" class="anchor"></a>Get favorites</h3>
+<p>Get the 3,000 most recently favorited statuses by JK Rowling.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">jkr &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</code></pre></div>
 </div>
-<div id="for-postdm-permissions" class="section level2">
+<div id="search-users" class="section level3">
+<h3 class="hasAnchor">
+<a href="#search-users" class="anchor"></a>Search users</h3>
+<p>Search for 1,000 users with the rstats hashtag in their profile bios.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for users with #rstats in their profiles
+usrs &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)
+<span class="op">&gt;</span><span class="st"> </span>usrs
+<span class="co"># A tibble: 655 x 20</span>
+              user_id              name    screen_name
+                <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">             </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">          </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
+<span class="st"> </span><span class="dv">1</span>          <span class="dv">342250615</span>          rOpenSci       rOpenSci
+ <span class="dv">2</span>           <span class="dv">12640312</span>       Daniel Pett        DEJPett
+ <span class="dv">3</span>         <span class="dv">2170413740</span>   Baseball with R BaseballRstats
+ <span class="dv">4</span>          <span class="dv">295344317</span>   One R Tip a Day       RLangTip
+ <span class="dv">5</span>         <span class="dv">3075907260</span> Positive Residual      presidual
+ <span class="dv">6</span>           <span class="dv">46245868</span>    David Robinson           drob
+ <span class="dv">7</span>            <span class="dv">5685812</span>         boB Rudis       hrbrmstr
+ <span class="dv">8</span> <span class="dv">824037040996098049</span>   LIRR Statistics      LIRRstats
+ <span class="dv">9</span>         <span class="dv">3230388598</span>      Mara Averick      dataandme
+<span class="dv">10</span>            <span class="dv">4515151</span>     Pablo Barberá      p_barbera
+<span class="co"># ... with 645 more rows, and 17 more variables: location &lt;chr&gt;,</span>
+<span class="co">#   description &lt;chr&gt;, url &lt;chr&gt;, protected &lt;lgl&gt;, followers_count &lt;int&gt;,</span>
+<span class="co">#   friends_count &lt;int&gt;, listed_count &lt;int&gt;, statuses_count &lt;int&gt;,</span>
+<span class="co">#   favourites_count &lt;int&gt;, account_created_at &lt;dttm&gt;, verified &lt;lgl&gt;,</span>
+<span class="co">#   profile_url &lt;chr&gt;, profile_expanded_url &lt;chr&gt;, account_lang &lt;chr&gt;,</span>
+<span class="co">#   profile_banner_url &lt;chr&gt;, profile_background_url &lt;chr&gt;,</span>
+<span class="co">#   profile_image_url &lt;chr&gt;</span></code></pre></div>
+</div>
+<div id="get-trends" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-trends" class="anchor"></a>Get trends</h3>
+<p>Discover what’s currently trending in San Francisco.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sf &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)
+<span class="op">&gt;</span><span class="st"> </span>sf
+<span class="co"># A tibble: 50 x 9</span>
+                  trend                                                url
+ <span class="op">*</span><span class="st">                </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">                                              </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
+<span class="st"> </span><span class="dv">1</span>             <span class="co">#SEAvsAZ             http://twitter.com/search?q=%23SEAvsAZ</span>
+ <span class="dv">2</span>            Roy Moore        http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Roy+Moore%</span><span class="dv">22</span>
+ <span class="dv">3</span>            Star Wars        http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Star+Wars%</span><span class="dv">22</span>
+ <span class="dv">4</span>             Louis CK         http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Louis+CK%</span><span class="dv">22</span>
+ <span class="dv">5</span> <span class="co">#BandTogetherBayArea http://twitter.com/search?q=%23BandTogetherBayArea</span>
+ <span class="dv">6</span>         <span class="co">#DreamActNow         http://twitter.com/search?q=%23DreamActNow</span>
+ <span class="dv">7</span>                <span class="co">#DF17                http://twitter.com/search?q=%23DF17</span>
+ <span class="dv">8</span>            <span class="co">#DealBook            http://twitter.com/search?q=%23DealBook</span>
+ <span class="dv">9</span>           Jeff Green       http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Jeff+Green%</span><span class="dv">22</span>
+<span class="dv">10</span>       John Hillerman   http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22John+Hillerman%</span><span class="dv">22</span>
+<span class="co"># ... with 40 more rows, and 7 more variables: promoted_content &lt;lgl&gt;,</span>
+<span class="co">#   query &lt;chr&gt;, tweet_volume &lt;int&gt;, place &lt;chr&gt;, woeid &lt;int&gt;, as_of &lt;dttm&gt;,</span>
+<span class="co">#   created_at &lt;dttm&gt;</span></code></pre></div>
+</div>
+</div>
+<div id="for-posting-tweeting-from-r-console-or-read-dm-permissions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#for-postdm-permissions" class="anchor"></a>For post/DM permissions</h2>
+<a href="#for-posting-tweeting-from-r-console-or-read-dm-permissions" class="anchor"></a>For posting (tweeting from R console) or read DM permissions</h2>
 <ul>
 <li>If you’d like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you’ll need to create your own Twitter app.</li>
-<li><p>To create your own Twitter app, follow the instructions in the authorization vignette on <a href="http://rtweet.info/index.html">obtaining and using access tokens</a>.</p></li>
-<li><p><strong>Recommended authorization method</strong>: <a href="http://rtweet.info/articles/auth.html">Obtaining and using access tokens</a> (vignette showing how to <em>sustainably</em> setup authorization to use Twitter’s APIs).</p></li>
+<li>To create your own Twitter app, follow the instructions in the authorization vignette on <a href="http://rtweet.info/articles/auth.html">obtaining and using access tokens</a>.</li>
 </ul>
-</div>
-<div id="vignettes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vignettes" class="anchor"></a>Vignettes</h2>
-<p><a href="http://rtweet.info/articles/auth.html">Obtaining and using user access tokens</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## authorizing API access
 <span class="kw">vignette</span>(<span class="st">"auth"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
+</div>
+<div id="other-vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-vignettes" class="anchor"></a>Other vignettes</h2>
 <p><a href="http://rtweet.info/articles/intro.html">Quick overview of rtweet package</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## quick overview of rtweet functions
 <span class="kw">vignette</span>(<span class="st">"intro"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>

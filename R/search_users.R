@@ -80,6 +80,11 @@ search_users_call <- function(q, n = 20,
   }
   n.times <- ceiling(n / 20)
   if (n.times > 50) n.times <- 50
+  if (n < 20) {
+    count <- n
+  } else {
+    count <- 20
+  }
 
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
@@ -93,7 +98,7 @@ search_users_call <- function(q, n = 20,
   for (i in seq_len(n.times)) {
     params <- list(
       q = q,
-      count = 20,
+      count = count,
       page = i,
       tweet_mode = "extended"
     )
@@ -128,9 +133,11 @@ search_users_call <- function(q, n = 20,
   }
   if (parse) {
     usr2 <- users_with_tweets(usr)
-    uq <- !duplicated(usr2$user_id)
-    usr <- usr2[uq, ]
-    attr(usr, "tweets") <- tweets_data(usr2)[uq, ]
+    if (nrow(usr2) > 0L) {
+      uq <- !duplicated(usr2$user_id)
+      usr <- usr2[uq, ]
+      attr(usr, "tweets") <- tweets_data(usr2)[uq, ]
+    }
   }
   if (verbose) {
     message("Finished collecting users!")

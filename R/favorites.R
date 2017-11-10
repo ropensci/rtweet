@@ -152,12 +152,16 @@ get_favorites_ <- function(user,
       "token. Setting n to 3000..."),
       call. = FALSE)
     n <- 3000
+    count <- 200
+  } else if (n < 200) {
+    count <- n
   }
   n.times <- rate_limit(token, query)[["remaining"]]
   if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
   params <- list(
     user_type = user,
-    count = 200
+    count = count,
+    tweet_mode = "extended"
   )
   names(params)[1] <- .id_type(user)
   url <- make_url(
