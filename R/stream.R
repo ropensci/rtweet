@@ -404,8 +404,9 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
     dir <- stream_dir()
   }
   if (!dir.exists(dir)) {
-    dir.create(dir)
+    new_dir(dir)
   }
+
   ## capture and match dots
   dots <- match_fun(list(...), "stream_tweets")
   ## start time
@@ -465,6 +466,17 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   parse_stream(file_name)
 }
 
+new_dir <- function(dir, force = TRUE) {
+  stopifnot(is.character(dir) && length(dir) == 1L)
+  if (force && dir.exists(dir)) {
+    dirs <- list.dirs(recursive = FALSE)
+    old_dir <- dir
+    dir <- paste0(dir, "-", 1:1000)
+    dir <- dir[!dir %in% dirs][1]
+    message(old_dir, " already exists. creating ", dir, "...")
+  }
+  dir.create(dir)
+}
 
 match_fun <- function(dots, fun) {
   rfuns <- names(formals(fun))
