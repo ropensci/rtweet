@@ -140,6 +140,7 @@ stream_tweets <- function(q = "",
                           file_name = NULL,
                           verbose = TRUE,
                           ...) {
+  ## set encoding
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")
     options(encoding = "UTF-8")
@@ -149,13 +150,15 @@ stream_tweets <- function(q = "",
   if (!timeout) {
     timeout <- Inf
   }
-  if (missing(q)) q <- ""
+  ## setp q to blank for sample stream
+  if (missing(q) || is.null(q)) q <- ""
   stopifnot(
     is.numeric(timeout),
     timeout > 0,
     any(is.atomic(q), inherits(q, "coords")),
     is.atomic(file_name)
   )
+  ## select stream API
   if (identical(q, "")) {
     query <- "statuses/sample"
     params <- NULL
@@ -168,9 +171,10 @@ stream_tweets <- function(q = "",
     query,
     param = params
   )
+  ## temp file if none provided
   if (is.null(file_name)) {
     tmp <- TRUE
-    file_name <- tempfile(fileext = ".json")
+    file_name <- tmp_json()
   } else {
     tmp <- FALSE
   }
@@ -185,14 +189,24 @@ stream_tweets <- function(q = "",
     )
   }
   r <- NULL
-  r <- tryCatch(httr::POST(
-    url = url,
-    httr::config(token = token, timeout = timeout),
-    httr::write_disk(file_name, overwrite = TRUE),
-    httr::add_headers(`Accept-Encoding` = "deflate, gzip"),
-    httr::progress()),
-    error = function(e) return(e)
-  )
+  if (verbose) {
+    r <- tryCatch(httr::POST(
+      url = url,
+      httr::config(token = token, timeout = timeout),
+      httr::write_disk(file_name, overwrite = TRUE),
+      httr::add_headers(`Accept-Encoding` = "deflate, gzip"),
+      httr::progress()),
+      error = function(e) return(e)
+      )
+  } else {
+    r <- tryCatch(httr::POST(
+      url = url,
+      httr::config(token = token, timeout = timeout),
+      httr::write_disk(file_name, overwrite = TRUE),
+      httr::add_headers(`Accept-Encoding` = "deflate, gzip")),
+      error = function(e) return(e)
+      )
+  }
   if (verbose) {
     message("Finished streaming tweets!")
   }
@@ -209,6 +223,12 @@ stream_tweets <- function(q = "",
   }
   invisible(r)
 }
+
+tmp_json <- function() {
+  timestamp <- gsub("\\s|\\:|\\-", "", substr(Sys.time(), 1, 19))
+  paste0("stream-", timestamp, ".json")
+}
+
 
 #if (all(fix.encoding,
 #  !identical(getOption("encoding"), "UTF-8"))) {
@@ -237,6 +257,9 @@ stream_params <- function(stream, ...) {
   if (inherits(stream, "coords")) {
     stream <- stream$box
   }
+  ## if [coordinates] vector is > 1 then locations
+  ## if comma separated stream of IDs then follow
+  ## otherwise use query string to track
   if (length(stream) > 1) {
     params <- list(locations = paste(stream, collapse = ","))
   } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
@@ -244,7 +267,11 @@ stream_params <- function(stream, ...) {
   } else {
     params <- list(track = stream, ...)
   }
-  params[["filter_level"]] <- "low"
+  ## if filter level not provided, set to low
+  if (!has_name_(params, "filter_level")) {
+    ## filter level
+    params[["filter_level"]] <- "low"
+  }
   params
 }
 
@@ -289,43 +316,6 @@ stream_data <- function(file_name, ...) {
   tweets_with_users(s)
 }
 
-foooo <- function(file_name) {
-  s <- tryCatch(suppressWarnings(
-    jsonlite::stream_in(file_name, verbose = TRUE)),
-    error = function(e) return(NULL)
-  )
-  if (is.null(s)) {
-    rl <- readr::read_lines(file_name)
-    rl <- grep("^\\{\"created\\_at.*\\}$", rl, value = TRUE)
-    if (length(rl) < 1L) return(tweets_with_users(NULL))
-    readr::write_lines(rl, file_name)
-    s <- tryCatch(suppressWarnings(
-      jsonlite::stream_in(file(file_name),
-        verbose = TRUE)),
-      error = function(e) return(NULL))
-  }
-  if (is.null(s)) {
-    rl <- readr::read_lines(file_name)
-    if (length(rl) < 2L) return(tweets_with_users(NULL))
-    readr::write_lines(
-      rl[-length(rl)],
-      file_name
-    )
-    s <- tryCatch(suppressWarnings(
-      jsonlite::stream_in(file(file_name),
-                          verbose = TRUE)),
-      error = function(e) return(NULL))
-  }
-  if (is.null(s)) stop(paste0(
-    "wasn't able to parse-in json file. ",
-    "normal fixes didn't work. perhaps you should try ",
-    "starting a new R session.",
-    call. = FALSE))
-  tweets_with_users(s)
-}
-
-
-
 data_from_stream <- function(x, n = 10000L, n_max = -1L) {
   if (!file.exists(x)) {
     stop("No such file exists", call. = FALSE)
@@ -354,11 +344,7 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
     data[[length(data) + 1L]] <- stream_data(tmp)
     if (NROW(data[[length(data)]]) == 0L) break
   }
-  #twt <- do.call("rbind", data)
-  #usr <- do.call("rbind", lapply(data, attr, "users"))
-  #attr(twt, "users") <- usr
   do_call_rbind(data)
-  #twt
 }
 
 
@@ -398,6 +384,10 @@ parse_stream <- function(path, ...) {
 #' Stream with hardwired reconnection method to ensure timeout integrity.
 #'
 #' @inheritParams stream_tweets
+#' @param dir Name of directory in which json files should be written.
+#'   The default, NULL, will create a timestamped "stream" folder in the
+#'   current working directory. If a dir name is provided that doesn't
+#'   already exist, one will be created.
 #' @param append Logical indicating whether to append or overwrite
 #'   file_name if the file already exists. Defaults to FALSE, meaning
 #'   this function will overwrite the preexisting file_name (in other
@@ -409,23 +399,27 @@ parse_stream <- function(path, ...) {
 #' @export
 #' @importFrom readr read_lines write_lines
 #' @rdname stream_tweets
-stream_tweets2 <- function(..., append = FALSE) {
-  ## capture dots
-  ##dots <- list(...)
+stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
+  if (is.null(dir)) {
+    dir <- stream_dir()
+  }
+  if (!dir.exists(dir)) {
+    dir.create(dir)
+  }
+  ## capture and match dots
   dots <- match_fun(list(...), "stream_tweets")
   ## start time
   start <- Sys.time()
   ## finish time (given requested timeout)
   reqtime <- start + dots[["timeout"]]
 
-  ## initialize output vector
-  rt <- list()
-  ## start counter
-  i <- 1L
   ## save file name for final file
   file_name <- dots[["file_name"]]
-  ## create temp dir for while streams
-  tmp <- tempdir()
+  if (is.null(file_name)) {
+    file_name <- stream_dir()
+  } else if (grepl("\\.json$", file_name)) {
+    file_name <- gsub("\\.json$", "", file_name)
+  }
   ## store parse value, then override to FALSE
   parse <- dots[["parse"]]
   dots[["parse"]] <- FALSE
@@ -438,9 +432,14 @@ stream_tweets2 <- function(..., append = FALSE) {
     message(paste0("Streaming tweets for ", dots[["timeout"]], " seconds..."))
   }
 
+  ## initialize output vector
+  rt <- list()
+  ## start counter
+  i <- 1L
+
   ## restart and continue stream until reqtime
   while (Sys.time() <= reqtime) {
-    dots[["file_name"]] <- file.path(tmp, paste0(i, ".json"))
+    dots[["file_name"]] <- file.path(dir, paste0(file_name, "-", i, ".json"))
     do.call("stream_tweets", dots)
     i <- i + 1L
     dots[["timeout"]] <- ceiling(as.numeric(reqtime - Sys.time(), "secs"))
@@ -449,13 +448,16 @@ stream_tweets2 <- function(..., append = FALSE) {
     message("Finished streaming tweets!")
   }
   ## merge JSON files into single file (named file_name)
-  jsons <- list.files(tmp, pattern = "\\.json$", full.names = TRUE)
+  pat <- paste0("^", file_name, "\\-[[:digit:]]{1,}\\.json$")
+  jsons <- list.files(dir, pattern = pat, full.names = TRUE)
+  file_name <- paste0(file_name, ".json")
   for (i in jsons) {
     x <- readr::read_lines(i, progress = FALSE)
     readr::write_lines(x, file_name, append = append)
     ## set append to TRUE after first iteration
     append <- TRUE
   }
+  unlink(dir, recursive = TRUE)
   if (!parse) {
     return(invisible())
   }
@@ -491,4 +493,10 @@ parse_streamlimit <- function(x) {
     timestamp = as.POSIXct(
       as.numeric(unlist(lapply(x, "[[", 12L))) / 1000, origin = "1970-01-01")
   )
+}
+
+
+stream_dir <- function() {
+  timestamp <- gsub("\\s|\\:|\\-", "", substr(Sys.time(), 1, 19))
+  paste0("stream-", timestamp)
 }

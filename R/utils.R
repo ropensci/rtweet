@@ -110,7 +110,7 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
     ## if reach counter, break
     counter <- counter +
       as.numeric(unique_id_count(x[[i]], type = type))
-    if (counter >= n) break
+    if (counter > n) break
     ## check other possible fails
     if (break_check(x[[i]], url)) break
     ## if cursor in URL then update otherwise use max id

@@ -8,7 +8,7 @@
 stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
   file_name = NULL, verbose = TRUE, ...)
 
-stream_tweets2(..., append = FALSE)
+stream_tweets2(..., dir = NULL, append = FALSE)
 }
 \arguments{
 \item{q}{Query used to select and customize streaming collection
@@ -53,6 +53,11 @@ processing/retrieval messages.}
 
 \item{\dots}{Insert magical parameters, spell, or potion here. Or
 filter for tweets by language, e.g., \code{language = "en"}.}
+
+\item{dir}{Name of directory in which json files should be written.
+The default, NULL, will create a timestamped "stream" folder in the
+current working directory. If a dir name is provided that doesn't
+already exist, one will be created.}
 
 \item{append}{Logical indicating whether to append or overwrite
 file_name if the file already exists. Defaults to FALSE, meaning
