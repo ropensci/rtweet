@@ -117,7 +117,7 @@
     <pre class="usage"><span class='fu'>stream_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>stream_tweets2</span>(<span class='no'>...</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>stream_tweets2</span>(<span class='no'>...</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -178,6 +178,13 @@ processing/retrieval messages.</p></td>
       <th>&#8230;</th>
       <td><p>Insert magical parameters, spell, or potion here. Or
 filter for tweets by language, e.g., <code>language = "en"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dir</th>
+      <td><p>Name of directory in which json files should be written.
+The default, NULL, will create a timestamped "stream" folder in the
+current working directory. If a dir name is provided that doesn't
+already exist, one will be created.</p></td>
     </tr>
     <tr>
       <th>append</th>

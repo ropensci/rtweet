@@ -232,6 +232,21 @@ djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stre
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
 cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)
+<span class="op">&gt;</span><span class="st"> </span>cnn_fds
+<span class="co"># A tibble: 1,115 x 2</span>
+    user    user_id
+   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
+<span class="st"> </span><span class="dv">1</span>   cnn   <span class="dv">14085040</span>
+ <span class="dv">2</span>   cnn   <span class="dv">58524428</span>
+ <span class="dv">3</span>   cnn <span class="dv">1630896181</span>
+ <span class="dv">4</span>   cnn   <span class="dv">52920970</span>
+ <span class="dv">5</span>   cnn   <span class="dv">43197255</span>
+ <span class="dv">6</span>   cnn  <span class="dv">466788677</span>
+ <span class="dv">7</span>   cnn <span class="dv">3282859598</span>
+ <span class="dv">8</span>   cnn  <span class="dv">247832362</span>
+ <span class="dv">9</span>   cnn  <span class="dv">326255267</span>
+<span class="dv">10</span>   cnn  <span class="dv">274714964</span>
+<span class="co"># ... with 1,105 more rows</span>
 
 ## lookup data on those accounts
 cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</code></pre></div>

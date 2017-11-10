@@ -131,7 +131,12 @@ rate_limit_ <- function(token,
     rl_df$app <- token_name(token)
     if (!is.null(query)) {
       query <- fun2api(query)
-      rl_df <- rl_df[grep(query, rl_df$query), ]
+      query2 <- paste0("^", query, "$")
+      if (any(grepl(query2, rl_df$query))) {
+        rl_df <- rl_df[grep(query2, rl_df$query), ]
+      } else {
+        rl_df <- rl_df[grep(query, rl_df$query), ]
+      }
       row.names(rl_df) <- NULL
     }
     rl_df

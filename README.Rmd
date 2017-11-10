@@ -190,6 +190,21 @@ Retrieve a list of all the accounts a **user follows**.
 ```{r, eval=FALSE}
 ## get user IDs of accounts followed by CNN
 cnn_fds <- get_friends("cnn")
+> cnn_fds
+# A tibble: 1,115 x 2
+    user    user_id
+   <chr>      <chr>
+ 1   cnn   14085040
+ 2   cnn   58524428
+ 3   cnn 1630896181
+ 4   cnn   52920970
+ 5   cnn   43197255
+ 6   cnn  466788677
+ 7   cnn 3282859598
+ 8   cnn  247832362
+ 9   cnn  326255267
+10   cnn  274714964
+# ... with 1,105 more rows
 
 ## lookup data on those accounts
 cnn_fds_data <- lookup_users(cnn_fds$user_id)
