@@ -230,29 +230,6 @@ tmp_json <- function() {
 }
 
 
-#if (all(fix.encoding,
-#  !identical(getOption("encoding"), "UTF-8"))) {
-#if (gzip) {
-  #  r <- tryCatch(httr::POST(
-  #    url = url,
-  #    httr::config(token = token, timeout = timeout),
-  #    httr::write_disk(file_name, overwrite = TRUE),
-  #    httr::add_headers(`Accept-Encoding` = "deflate, gzip"),
-  #    httr::progress()),
-  #    error = function(e) return(NULL)
-  #  )
-  #} else {
-## @param gzip Logical indicating whether to request gzip compressed
-##  stream data. By default this is set to FALSE. After performing
-##   some tests, it appears gzip requires less bandwidth, but also
-##   returns slightly fewer tweets. Use of gzip option should, in
-##   theory, make connection more reliable (by hogging less bandwidth,
-##   there's less of a chance Twitter cuts you off for getting
-##   behind).
-## @param fix.encoding Logical indicating whether to internally
-##   specify encoding to prevent possible errors caused by things such
-##   as non-ascii characters.
-
 stream_params <- function(stream, ...) {
   if (inherits(stream, "coords")) {
     stream <- stream$box
@@ -270,7 +247,7 @@ stream_params <- function(stream, ...) {
   ## if filter level not provided, set to low
   if (!has_name_(params, "filter_level")) {
     ## filter level
-    params[["filter_level"]] <- "low"
+    params[["filter_level"]] <- "none"
   }
   params
 }

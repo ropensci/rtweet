@@ -260,13 +260,10 @@ tweets_to_tbl_ <- function(dat) {
   }
   dat <- dat[, statuscols[statuscols %in% names(dat)]]
   names(dat) <- names(statuscols)[statuscols %in% names(dat)]
-
   dat$created_at <- format_date(dat$created_at)
   dat$source <- clean_source_(dat$source)
   tibble::as_tibble(dat, validate = FALSE)
 }
-
-
 
 
 ##-----------------------------------------------------
@@ -341,74 +338,74 @@ users_to_tbl_ <- function(dat) {
 ##-----------------------------------------------------
 usercols_ <- function() {
   c(
-  user_id = "id_str",
-  name = "name",
-  screen_name = "screen_name",
-  location = "location",
-  description = "description",
-  url = "url",
-  protected = "protected",
-  followers_count = "followers_count",
-  friends_count = "friends_count",
-  listed_count = "listed_count",
-  statuses_count = "statuses_count",
-  favourites_count = "favourites_count",
-  account_created_at = "created_at",
-  verified = "verified",
-  profile_url = "profile_url",
-  profile_expanded_url = "profile_expanded_url",
-  account_lang = "lang",
-  profile_banner_url = "profile_banner_url",
-  profile_background_url = "profile_background_image_url",
-  profile_image_url = "profile_image_url"
-)
+    user_id = "id_str",
+    name = "name",
+    screen_name = "screen_name",
+    location = "location",
+    description = "description",
+    url = "url",
+    protected = "protected",
+    followers_count = "followers_count",
+    friends_count = "friends_count",
+    listed_count = "listed_count",
+    statuses_count = "statuses_count",
+    favourites_count = "favourites_count",
+    account_created_at = "created_at",
+    verified = "verified",
+    profile_url = "profile_url",
+    profile_expanded_url = "profile_expanded_url",
+    account_lang = "lang",
+    profile_banner_url = "profile_banner_url",
+    profile_background_url = "profile_background_image_url",
+    profile_image_url = "profile_image_url"
+  )
 }
 
 statuscols_ <- function() {
   c(
-  status_id = "id_str",
-  created_at = "created_at",
-  user_id = "user_id",
-  screen_name = "screen_name",
-  text = "text",
-  source = "source",
-  reply_to_status_id = "in_reply_to_status_id_str",
-  reply_to_user_id = "in_reply_to_user_id_str",
-  reply_to_screen_name = "in_reply_to_screen_name",
-  is_quote = "is_quote",
-  is_retweet = "is_retweet",
-  favorite_count = "favorite_count",
-  retweet_count = "retweet_count",
-  hashtags = "hashtags",
-  symbols = "symbols",
-  urls_url = "urls_url",
-  urls_t.co = "urls_t.co",
-  urls_expanded_url = "urls_expanded_url",
-  media_url = "media_url",
-  media_t.co = "media_t.co",
-  media_expanded_url = "media_expanded_url",
-  media_type = "media_type",
-  ext_media_url = "ext_media_url",
-  ext_media_t.co = "ext_media_t.co",
-  ext_media_expanded_url = "ext_media_expanded_url",
-  ext_media_type = "ext_media_expanded_type",
-  mentions_user_id = "mentions_user_id",
-  mentions_screen_name = "mentions_screen_name",
-  lang = "lang",
-  quoted_status_id = "quoted_status_id",
-  quoted_text = "quoted_text",
-  retweet_status_id = "retweet_status_id",
-  retweet_text = "retweet_text",
-  place_url = "place_url",
-  place_name = "place_name",
-  place_full_name = "place_full_name",
-  place_type = "place_type",
-  country = "country",
-  country_code = "country_code",
-  geo_coords = "geo_coords",
-  coords_coords = "coordinates_coords",
-  bbox_coords = "bbox_coords"
-)
+    status_id = "id_str",
+    created_at = "created_at",
+    user_id = "user_id",
+    screen_name = "screen_name",
+    text = "text",
+    source = "source",
+    reply_to_status_id = "in_reply_to_status_id_str",
+    reply_to_user_id = "in_reply_to_user_id_str",
+    reply_to_screen_name = "in_reply_to_screen_name",
+    is_quote = "is_quote",
+    is_retweet = "is_retweet",
+    favorite_count = "favorite_count",
+    retweet_count = "retweet_count",
+    hashtags = "hashtags",
+    symbols = "symbols",
+    urls_url = "urls_url",
+    urls_t.co = "urls_t.co",
+    urls_expanded_url = "urls_expanded_url",
+    media_url = "media_url",
+    media_t.co = "media_t.co",
+    media_expanded_url = "media_expanded_url",
+    media_type = "media_type",
+    ext_media_url = "ext_media_url",
+    ext_media_t.co = "ext_media_t.co",
+    ext_media_expanded_url = "ext_media_expanded_url",
+    ext_media_type = "ext_media_expanded_type",
+    mentions_user_id = "mentions_user_id",
+    mentions_screen_name = "mentions_screen_name",
+    lang = "lang",
+    quoted_status_id = "quoted_status_id",
+    quoted_text = "quoted_text",
+    retweet_status_id = "retweet_status_id",
+    retweet_text = "retweet_text",
+    place_url = "place_url",
+    place_name = "place_name",
+    place_full_name = "place_full_name",
+    place_type = "place_type",
+    country = "country",
+    country_code = "country_code",
+    geo_coords = "geo_coords",
+    coords_coords = "coordinates_coords",
+    bbox_coords = "bbox_coords"
+  )
 }
 
 ##-----------------------------------------------------

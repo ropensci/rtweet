@@ -347,7 +347,6 @@ search_tweets_ <- function(q = "",
       mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
       mls2 <- abs(
         geocode$box[1] - geocode$box[3]) * (69 - abs(.093 * geocode$point[1])^2)
-
       mls <- (mls1/1.8 + mls2/1.8) / 1.8
       mls <- round(mls, 3)
       geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
@@ -372,7 +371,6 @@ search_tweets_ <- function(q = "",
     if (n > 10000) message("This may take a few seconds...")
   }
   tw <- scroller(url, n, n.times, type = "search", token)
-
   if (parse) {
     tw <- tweets_with_users(tw)
   }

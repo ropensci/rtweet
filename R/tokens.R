@@ -57,13 +57,13 @@ get_token <- function() get_tokens()
 #' @param consumer_secret Application API secret User-owned
 #'   application must have \code{Read and write} access level and
 #'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
-#' @param cache Logical indicating whether to cache the token as a
-#'   \code{".httr-oauth"} file. The default is FALSE. If set to TRUE
-#'   the cached token file will be added to the user's working
-#'   directory.  Ideally, users will store their token as an
-#'   environment variable (see the tokens vignette for instructions),
-#'   but the cache file works as long as always return to the same
-#'   working directory.
+#' @param set_renv Logical indicating whether to save the created token
+#'   as the default environment twitter token variable. Defaults to FALSE.
+#'   If TRUE, the token is saved to user's home directory as
+#'   ".rtweet_token.rds" (or, if that already exists, then
+#'   .rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
+#'   token to said token is then set in the user's .Renviron file and re-
+#'   read to start being used in current active session.
 #' @seealso
 #'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 #'
@@ -74,17 +74,61 @@ get_token <- function() get_tokens()
 create_token <- function(app = "mytwitterapp",
                          consumer_key,
                          consumer_secret,
-                         cache = FALSE) {
+                         set_renv = TRUE) {
   token <- oauth_app(
     appname = app,
     key = gsub(" ", "", consumer_key),
     secret = gsub(" ", "", consumer_secret)
   )
-  oauth1.0_token(
+  token <- oauth1.0_token(
     oauth_endpoints("twitter"),
     token,
-    cache = cache
+    cache = FALSE
   )
+  if (set_renv) {
+    pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
+    saveRDS(token, file = pathtotoken)
+    set_renv("TWITTER_PAT" = pathtotoken)
+  }
+  token
+}
+
+
+has_ext <- function(x) {
+  stopifnot(length(x) == 1L)
+  x <- basename(x)
+  grepl("[[:alnum:]]{1,}\\.[[:alpha:]]{1,}$", x)
+}
+
+only_ext <- function(x) {
+  if (has_ext(x)) {
+    gsub(".*(?=\\.)", "", x, perl = TRUE)
+  } else {
+    ""
+  }
+}
+
+no_ext <- function(x) {
+  if (has_ext(x)) {
+    gsub("(?<=[[:alnum:]]{1})\\..*(?!=\\.)", "", x, perl = TRUE)
+  } else {
+    x
+  }
+}
+
+paste_before_ext <- function(x, p) {
+  paste0(no_ext(x), p, only_ext(x))
+}
+
+
+uq_filename <- function(file_name) {
+  stopifnot(is.character(file_name) && length(file_name) == 1L)
+  if (file.exists(file_name)) {
+    files <- list.files(dirname(file_name), all.files = TRUE, full.names = TRUE)
+    file_name <- paste_before_ext(file_name, 1:1000)
+    file_name <- file_name[!file_name %in% files][1]
+  }
+  file_name
 }
 
 
@@ -94,7 +138,6 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
     stop("Must specify Twitter API query of interest",
       call. = FALSE)
   }
-
   if (is.list(tokens)) {
     for (i in seq_along(tokens)) {
       remaining <- rate_limit(token = tokens[[i]],
@@ -157,7 +200,6 @@ check_token <- function(token, query = NULL) {
   if (!is.token(token)) {
     stop("Not a valid access token.", call. = FALSE)
   }
-
   token
 }
 
@@ -394,16 +436,9 @@ rtweet_token <- function() {
     assign("token", token, envir = .rtweet_token)
   }
   if (identical(Sys.getenv("TWITTER_PAT"), "")) {
-    ##Sys.getenv("HOME")
-    saveRDS(token, file.path(normalizePath("~/"), ".rtweet_token"))
-    check_renv(file.path(normalizePath("~/"), ".Renviron"))
-    cat(
-      paste0("TWITTER_PAT=", file.path(normalizePath("~/"), ".rtweet_token")),
-      file = file.path(normalizePath("~/"), ".Renviron"),
-      append = TRUE,
-      fill = TRUE
-    )
-    readRenviron(file.path(normalizePath("~/"), ".Renviron"))
+    pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
+    saveRDS(token, file = pathtotoken)
+    set_renv("TWITTER_PAT" = pathtotoken)
   }
   token
 }

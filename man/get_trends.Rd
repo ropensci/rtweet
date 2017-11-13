@@ -4,33 +4,36 @@
 \alias{get_trends}
 \title{Get Twitter trends data.}
 \usage{
-get_trends(woeid = 1, lat = NULL, lng = NULL, exclude = FALSE,
+get_trends(woeid = 1, lat = NULL, lng = NULL, exclude_hashtags = FALSE,
   token = NULL, parse = TRUE)
 }
 \arguments{
-\item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or
-character string of desired town or country. Users may also supply
-latitude and longitude coordinates to fetch the closest available trends
-data given the provided location. Latitude/longitude coordinates should
-be provided as WOEID value consisting of 2 numeric values or via one
-latitude value and one longitude value (to the appropriately named parameters).
-To browse all available trend places, see \code{\link{trends_available}}}
+\item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or character
+string of desired town or country. Users may also supply latitude
+and longitude coordinates to fetch the closest available trends
+data given the provided location. Latitude/longitude coordinates
+should be provided as WOEID value consisting of 2 numeric values
+or via one latitude value and one longitude value (to the
+appropriately named parameters).  To browse all available trend
+places, see \code{\link{trends_available}}}
 
-\item{lat}{Optional alternative to WOEID. Numeric, latitude in degrees.
-If two coordinates are provided for WOEID, this function will coerce the
-first value to latitude.}
+\item{lat}{Optional alternative to WOEID. Numeric, latitude in
+degrees.  If two coordinates are provided for WOEID, this
+function will coerce the first value to latitude.}
 
-\item{lng}{Optional alternative to WOEID. Numeric, longitude in degrees.
-If two coordinates are provided for WOEID, this function will coerce the
-second value to longitude.}
+\item{lng}{Optional alternative to WOEID. Numeric, longitude in
+degrees.  If two coordinates are provided for WOEID, this
+function will coerce the second value to longitude.}
 
-\item{exclude}{Logical, indicating whether or not to exclude
-hashtags}
+\item{exclude_hashtags}{Logical, indicating whether or not to
+exclude hashtags. Defaults to FALSE--meaning, hashtags are
+included in returned trends.}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 
 \item{parse}{Logical, indicating whether or not to parse return
 trends data. Defaults to true.}

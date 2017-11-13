@@ -135,7 +135,7 @@ ts_data_ <- function(data, by = "days", trim = 0L) {
   if (has_name_(data, "created_at")) {
     dtvar <- "created_at"
   } else {
-    dtvar <- vapply(data, inherits, "POSIXct")
+    dtvar <- vapply(data, inherits, "POSIXct", FUN.VALUE = logical(1))
     if (sum(dtvar) == 0L) stop("no datetime (POSIXct) var found", call. = FALSE)
     dtvar <- names(data)[which(dtvar)[1]]
   }
@@ -160,7 +160,7 @@ ts_data_ <- function(data, by = "days", trim = 0L) {
     }
     group1 <- groups[1]
     lv1 <- unique(data[[group1]])
-    df1 <- as.POSIXct(character())
+    df1 <- as.POSIXct(character(), tz = "UTC")
     df2 <- integer()
     df3 <- list()
     if (!is.null(group2)) {
@@ -284,7 +284,7 @@ round_time <- function(x, interval = 60, center = TRUE) {
     rounded <- rounded + round(interval * .5, 0)
   }
   ## return to date-time
-  as.POSIXct(rounded, origin = "1970-01-01")
+  as.POSIXct(rounded, tz = "UTC", origin = "1970-01-01")
 }
 
 

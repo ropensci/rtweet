@@ -106,8 +106,6 @@ rate_limit.list <- function(token = NULL,
     token = token,
     MoreArgs = list(query = query, parse = parse)
   )
-  #token_names <- go_get_var(
-  #  token, "app", "appname", expect_n = length(rl))
   if (!parse) {
     token_names <- go_get_var(
       token, "app", "appname", expect_n = length(rl))
@@ -126,6 +124,7 @@ rate_limit_ <- function(token,
     query = "application/rate_limit_status")
   r <- TWIT(get = TRUE, url, config = token)
   warn_for_twitter_status(r)
+  r <- from_js(r)
   if (parse) {
     rl_df <- .rl_df(r)
     rl_df$app <- token_name(token)
@@ -146,7 +145,6 @@ rate_limit_ <- function(token,
 }
 
 .rl_df <- function(r) {
-  r <- from_js(r)
   if (has_name_(r, "errors")) return(data.frame())
   if (!has_name_(r, "resources")) return(data.frame())
   data <- r$resources
@@ -167,22 +165,28 @@ rate_limit_ <- function(token,
   rl_df$reset_at <- format_rate_limit_reset(rl_df$reset)
   if (inherits(rl_df$reset_at, "POSIXt")) {
     rl_df$reset <- difftime(
-      rl_df$reset_at, Sys.time() - 1, "UTC", units = "mins"
+      rl_df$reset_at, Sys.time() - 1, units = "mins"
     )
   } else {
-    rl_df$reset <- as.POSIXct(NA_character_)
+    rl_df$reset <- structure(NA_character_, class = "difftime", units = "mins")
   }
   tibble::as_tibble(rl_df, validate = FALSE)
 }
 
-
 format_rate_limit_reset <- function(x) {
-  xx <- x
   x <- tryCatch(as.POSIXct(
-    x,
-    origin = "1970-01-01",
-    tz = "UTC"
-  ), error = function(e) return(xx))
+    x, tz = "",
+    origin = "1970-01-01"),
+    error = function(e) return(x))
+  if (!inherits(x, "POSIXt")) {
+    x <- tryCatch(as.POSIXct(
+      x, tz = "UTC",
+      origin = "1970-01-01"),
+      error = function(e) return(x))
+  }
+  if (!inherits(x, "POSIXt")) {
+    x <- format_date(x)
+  }
   x
 }
 
@@ -281,4 +285,8 @@ fun2api <- function(x) {
 #' @export
 #' @rdname rate_limit
 #' @inheritParams rate_limit
-rate_limits <- rate_limit
+rate_limits <- function(token = NULL,
+                        query = NULL,
+                        parse = TRUE) {
+  rate_limit(token = token, query = query, parse = parse)
+}

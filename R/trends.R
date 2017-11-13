@@ -1,24 +1,27 @@
 #' Get Twitter trends data.
 #'
-#' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or
-#'   character string of desired town or country. Users may also supply
-#'   latitude and longitude coordinates to fetch the closest available trends
-#'   data given the provided location. Latitude/longitude coordinates should
-#'   be provided as WOEID value consisting of 2 numeric values or via one
-#'   latitude value and one longitude value (to the appropriately named parameters).
-#'   To browse all available trend places, see \code{\link{trends_available}}
-#' @param lat Optional alternative to WOEID. Numeric, latitude in degrees.
-#'   If two coordinates are provided for WOEID, this function will coerce the
-#'   first value to latitude.
-#' @param lng Optional alternative to WOEID. Numeric, longitude in degrees.
-#'   If two coordinates are provided for WOEID, this function will coerce the
-#'   second value to longitude.
-#' @param exclude Logical, indicating whether or not to exclude
-#'   hashtags
+#' @param woeid Numeric, WOEID (Yahoo! Where On Earth ID) or character
+#'   string of desired town or country. Users may also supply latitude
+#'   and longitude coordinates to fetch the closest available trends
+#'   data given the provided location. Latitude/longitude coordinates
+#'   should be provided as WOEID value consisting of 2 numeric values
+#'   or via one latitude value and one longitude value (to the
+#'   appropriately named parameters).  To browse all available trend
+#'   places, see \code{\link{trends_available}}
+#' @param lat Optional alternative to WOEID. Numeric, latitude in
+#'   degrees.  If two coordinates are provided for WOEID, this
+#'   function will coerce the first value to latitude.
+#' @param lng Optional alternative to WOEID. Numeric, longitude in
+#'   degrees.  If two coordinates are provided for WOEID, this
+#'   function will coerce the second value to longitude.
+#' @param exclude_hashtags Logical, indicating whether or not to
+#'   exclude hashtags. Defaults to FALSE--meaning, hashtags are
+#'   included in returned trends.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @param parse Logical, indicating whether or not to parse return
 #'   trends data. Defaults to true.
 #' @examples
@@ -59,14 +62,14 @@
 get_trends <- function(woeid = 1,
                        lat = NULL,
                        lng = NULL,
-                       exclude = FALSE,
+                       exclude_hashtags = FALSE,
                        token = NULL,
                        parse = TRUE) {
   args <- list(
     woeid = woeid,
     lat = lat,
     lng = lng,
-    exclude = exclude,
+    exclude = exclude_hashtags,
     token = token,
     parse = parse)
   do.call("get_trends_", args)
@@ -83,7 +86,10 @@ get_trends_ <- function(woeid = 1,
                         exclude = FALSE,
                         token = NULL,
                         parse = TRUE) {
-  if (is_latlng(woeid)) {
+  if (inherits(woeid, "coords")) {
+    lat <- woeid$point[1]
+    lng <- woeid$point[2]
+  } else if (is_latlng(woeid)) {
     lat <- woeid[1]
     lng <- woeid[2]
   }
@@ -99,18 +105,25 @@ get_trends_ <- function(woeid = 1,
     if (!is_n(woeid)) {
       trends <- trends_available(token = token)
       woeid <- trends$woeid[grep(woeid, trends$name, ignore.case = TRUE)[1]]
+      if (length(woeid) == 0L || is.na(woeid)) {
+        stop("Could not find trend data for that location", call. = FALSE)
+      }
     }
     woeid <- check_woeid(woeid)
   }
   query <- "trends/place"
   token <- check_token(token, query)
+  if (exclude) {
+    exclude <- "hashtags"
+  } else {
+    exclude <- NULL
+  }
   params <- list(
     id = woeid,
     exclude = exclude)
   url <- make_url(
     query = query,
     param = params)
-  rate_limit(get_tokens(), "get_trends")
   gt <- TWIT(get = TRUE, url, token)
   gt <- from_js(gt)
   if (parse) {
@@ -154,11 +167,10 @@ var_or_na <- function(x) {
 }
 
 format_trend_date <- function(x) {
-  if (length(x) == 0L) return(as.POSIXct(NA_character_))
-  if (all(is.na(x))) return(as.POSIXct(NA_character_))
-  x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ",
-                  tz = Sys.timezone())
-  if (all(is.na(x))) return(as.POSIXct(NA_character_))
+  if (length(x) == 0L) return(as.POSIXct(NA_character_, tz = ""))
+  if (all(is.na(x))) return(as.POSIXct(NA_character_, tz = ""))
+  x <- as.POSIXct(x, format = "%Y-%m-%dT%H:%M:%SZ", tz = "")
+  if (all(is.na(x))) return(as.POSIXct(NA_character_, tz = ""))
   x
 }
 
