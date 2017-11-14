@@ -1,5 +1,7 @@
 ---
-output: github_document
+output:
+  github_document:
+    html_preview: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -58,7 +60,7 @@ library(rtweet)
 - NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS
 - NO MORE COMPLICATED INSTRUCTIONS
 
-All you need is a **Twitter account** + **rtweet** and you're up and
+All you need is a **Twitter account** and **rtweet** and you're up and
 running!
 
 #### Easy API authorization
@@ -81,33 +83,6 @@ Search for 5,000 (non-retweeted) tweets containing the rstats hashtag.
 rt <- search_tweets(
   "#rstats", n = 5000, include_rts = FALSE
 )
-> rt
-# A tibble: 2,478 x 42
-            status_id          created_at            user_id screen_name
-                <chr>              <dttm>              <chr>       <chr>
- 1 928811894000861185 2017-11-10 02:29:46           29916355    rensa_co
- 2 928808649836912641 2017-11-10 02:16:53         4246465853     bfgray3
- 3 928808308647096320 2017-11-10 02:15:31           10162032 lenteaberta
- 4 928805640016990209 2017-11-10 02:04:55          144592995   Rbloggers
- 5 928805625009721344 2017-11-10 02:04:52 924760121913339904     ezmanip
- 6 928804415896805376 2017-11-10 02:00:03           21930409   gdbassett
- 7 928801913612759040 2017-11-10 01:50:07          144592995   Rbloggers
- 8 928791611693195264 2017-11-10 01:09:10          517921400 LeahAWasser
- 9 928790088238034944 2017-11-10 01:03:07         3288057307   lucyleeow
-10 928789068623765504 2017-11-10 00:59:04         3288057307   lucyleeow
-# ... with 2,468 more rows, and 38 more variables: text <chr>, source <chr>,
-#   reply_to_status_id <chr>, reply_to_user_id <chr>,
-#   reply_to_screen_name <chr>, is_quote <lgl>, is_retweet <lgl>,
-#   favorite_count <int>, retweet_count <int>, hashtags <list>, symbols <list>,
-#   urls_url <list>, urls_t.co <list>, urls_expanded_url <list>,
-#   media_url <list>, media_t.co <list>, media_expanded_url <list>,
-#   media_type <list>, ext_media_url <list>, ext_media_t.co <list>,
-#   ext_media_expanded_url <list>, ext_media_type <lgl>,
-#   mentions_user_id <list>, mentions_screen_name <list>, lang <chr>,
-#   quoted_status_id <chr>, quoted_text <chr>, retweet_status_id <chr>,
-#   retweet_text <chr>, place_url <chr>, place_name <chr>,
-#   place_full_name <chr>, place_type <chr>, country <chr>, country_code <chr>,
-#   geo_coords <list>, coords_coords <list>, bbox_coords <list>
 ```
 
 Quickly visualize frequency of tweets over time using `ts_plot()`.
@@ -130,7 +105,7 @@ Twitter rate limits cap the number of search results returned to
 `retryonratelimit = TRUE` and rtweet will wait for rate limit
 resets for you.
 ```{r, eval=FALSE}
-## search for 250,000 tweets containing the word "data"
+## search for 250,000 tweets containing the word data
 rt <- search_tweets(
   "data", n = 250000, retryonratelimit = TRUE
 )
@@ -170,7 +145,7 @@ Stream all geo enabled tweets from London for 60 seconds.
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 ```
 
-Stream all tweets mentioning @realDonaldTrump or Trump for a week.
+Stream all tweets mentioning realDonaldTrump or Trump for a week.
 ```{r, eval=FALSE}
 ## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
 stream_tweets(
@@ -190,21 +165,6 @@ Retrieve a list of all the accounts a **user follows**.
 ```{r, eval=FALSE}
 ## get user IDs of accounts followed by CNN
 cnn_fds <- get_friends("cnn")
-> cnn_fds
-# A tibble: 1,115 x 2
-    user    user_id
-   <chr>      <chr>
- 1   cnn   14085040
- 2   cnn   58524428
- 3   cnn 1630896181
- 4   cnn   52920970
- 5   cnn   43197255
- 6   cnn  466788677
- 7   cnn 3282859598
- 8   cnn  247832362
- 9   cnn  326255267
-10   cnn  274714964
-# ... with 1,105 more rows
 
 ## lookup data on those accounts
 cnn_fds_data <- lookup_users(cnn_fds$user_id)
@@ -225,16 +185,16 @@ Or if you really want ALL of their followers:
 ```{r, eval=FALSE}
 ## how many total follows does cnn have?
 cnn <- lookup_users("cnn")
-cnn$followers_count
-> [1] 38349142
 
 ## get them all (this would take a little over 5 days)
-cnn_flw <- get_followers("cnn", n = 38349142, retryonratelimit = TRUE)
+cnn_flw <- get_followers(
+  "cnn", n = cnn$followers_count, retryonratelimit = TRUE
+)
 ```
 
 ### Get timelines
 
-Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews
+Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.
 ```{r, eval=FALSE}
 ## get user IDs of accounts followed by CNN
 tmls <- get_timelines(c("cnn", "BBCWorld", "foxnews"), n = 3200)
@@ -263,27 +223,6 @@ Search for 1,000 users with the rstats hashtag in their profile bios.
 ```{r, eval=FALSE}
 ## search for users with #rstats in their profiles
 usrs <- search_users("#rstats", n = 1000)
-> usrs
-# A tibble: 655 x 20
-              user_id              name    screen_name
-                <chr>             <chr>          <chr>
- 1          342250615          rOpenSci       rOpenSci
- 2           12640312       Daniel Pett        DEJPett
- 3         2170413740   Baseball with R BaseballRstats
- 4          295344317   One R Tip a Day       RLangTip
- 5         3075907260 Positive Residual      presidual
- 6           46245868    David Robinson           drob
- 7            5685812         boB Rudis       hrbrmstr
- 8 824037040996098049   LIRR Statistics      LIRRstats
- 9         3230388598      Mara Averick      dataandme
-10            4515151     Pablo Barberá      p_barbera
-# ... with 645 more rows, and 17 more variables: location <chr>,
-#   description <chr>, url <chr>, protected <lgl>, followers_count <int>,
-#   friends_count <int>, listed_count <int>, statuses_count <int>,
-#   favourites_count <int>, account_created_at <dttm>, verified <lgl>,
-#   profile_url <chr>, profile_expanded_url <chr>, account_lang <chr>,
-#   profile_banner_url <chr>, profile_background_url <chr>,
-#   profile_image_url <chr>
 ```
 
 ### Get trends
@@ -291,23 +230,6 @@ usrs <- search_users("#rstats", n = 1000)
 Discover what's currently trending in San Francisco.
 ```{r, eval=FALSE}
 sf <- get_trends("san francisco")
-> sf
-# A tibble: 50 x 9
-                  trend                                                url
- *                <chr>                                              <chr>
- 1             #SEAvsAZ             http://twitter.com/search?q=%23SEAvsAZ
- 2            Roy Moore        http://twitter.com/search?q=%22Roy+Moore%22
- 3            Star Wars        http://twitter.com/search?q=%22Star+Wars%22
- 4             Louis CK         http://twitter.com/search?q=%22Louis+CK%22
- 5 #BandTogetherBayArea http://twitter.com/search?q=%23BandTogetherBayArea
- 6         #DreamActNow         http://twitter.com/search?q=%23DreamActNow
- 7                #DF17                http://twitter.com/search?q=%23DF17
- 8            #DealBook            http://twitter.com/search?q=%23DealBook
- 9           Jeff Green       http://twitter.com/search?q=%22Jeff+Green%22
-10       John Hillerman   http://twitter.com/search?q=%22John+Hillerman%22
-# ... with 40 more rows, and 7 more variables: promoted_content <lgl>,
-#   query <chr>, tweet_volume <int>, place <chr>, woeid <int>, as_of <dttm>,
-#   created_at <dttm>
 ```
 
 ## For posting (tweeting from R console) or read DM permissions
@@ -340,9 +262,8 @@ vignette("stream", package = "rtweet")
 ## Contact
 
 Communicating with Twitter's APIs relies on an internet connection,
-which can sometimes be inconsistent. With
-that said, if you encounter an obvious bug for which there is not
-already an active [issue](https://github.com/mkearney/rtweet/issues),
-please
-[create a new issue](https://github.com/mkearney/rtweet/issues/new)
-with all code used (preferably a reproducible example) on Github.
+which can sometimes be inconsistent. With that said, if you encounter
+an obvious bug for which there is not already an active
+[issue](https://github.com/mkearney/rtweet/issues), please [create a
+new issue](https://github.com/mkearney/rtweet/issues/new) with all
+code used (preferably a reproducible example) on Github.

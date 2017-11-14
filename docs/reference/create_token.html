@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -113,7 +113,7 @@
     
 
     <pre class="usage"><span class='fu'>create_token</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"mytwitterapp"</span>, <span class='no'>consumer_key</span>, <span class='no'>consumer_secret</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>set_renv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -133,14 +133,14 @@ application must have <code>Read and write</code> access level and
 <code>Callback URL</code> of <code>http://127.0.0.1:1410</code>.</p></td>
     </tr>
     <tr>
-      <th>cache</th>
-      <td><p>Logical indicating whether to cache the token as a
-<code>".httr-oauth"</code> file. The default is FALSE. If set to TRUE
-the cached token file will be added to the user's working
-directory.  Ideally, users will store their token as an
-environment variable (see the tokens vignette for instructions),
-but the cache file works as long as always return to the same
-working directory.</p></td>
+      <th>set_renv</th>
+      <td><p>Logical indicating whether to save the created token
+as the default environment twitter token variable. Defaults to FALSE.
+If TRUE, the token is saved to user's home directory as
+".rtweet_token.rds" (or, if that already exists, then
+.rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
+token to said token is then set in the user's .Renviron file and re-
+read to start being used in current active session.</p></td>
     </tr>
     </table>
     

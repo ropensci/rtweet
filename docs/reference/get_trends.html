@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -103,7 +103,7 @@
     <p>Get Twitter trends data.</p>
     
 
-    <pre class="usage"><span class='fu'>get_trends</span>(<span class='kw'>woeid</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lng</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>get_trends</span>(<span class='kw'>woeid</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lng</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclude_hashtags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -111,37 +111,40 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>woeid</th>
-      <td><p>Numeric, WOEID (Yahoo! Where On Earth ID) or
-character string of desired town or country. Users may also supply
-latitude and longitude coordinates to fetch the closest available trends
-data given the provided location. Latitude/longitude coordinates should
-be provided as WOEID value consisting of 2 numeric values or via one
-latitude value and one longitude value (to the appropriately named parameters).
-To browse all available trend places, see <code><a href='trends_available.html'>trends_available</a></code></p></td>
+      <td><p>Numeric, WOEID (Yahoo! Where On Earth ID) or character
+string of desired town or country. Users may also supply latitude
+and longitude coordinates to fetch the closest available trends
+data given the provided location. Latitude/longitude coordinates
+should be provided as WOEID value consisting of 2 numeric values
+or via one latitude value and one longitude value (to the
+appropriately named parameters).  To browse all available trend
+places, see <code><a href='trends_available.html'>trends_available</a></code></p></td>
     </tr>
     <tr>
       <th>lat</th>
-      <td><p>Optional alternative to WOEID. Numeric, latitude in degrees.
-If two coordinates are provided for WOEID, this function will coerce the
-first value to latitude.</p></td>
+      <td><p>Optional alternative to WOEID. Numeric, latitude in
+degrees.  If two coordinates are provided for WOEID, this
+function will coerce the first value to latitude.</p></td>
     </tr>
     <tr>
       <th>lng</th>
-      <td><p>Optional alternative to WOEID. Numeric, longitude in degrees.
-If two coordinates are provided for WOEID, this function will coerce the
-second value to longitude.</p></td>
+      <td><p>Optional alternative to WOEID. Numeric, longitude in
+degrees.  If two coordinates are provided for WOEID, this
+function will coerce the second value to longitude.</p></td>
     </tr>
     <tr>
-      <th>exclude</th>
-      <td><p>Logical, indicating whether or not to exclude
-hashtags</p></td>
+      <th>exclude_hashtags</th>
+      <td><p>Logical, indicating whether or not to
+exclude hashtags. Defaults to FALSE--meaning, hashtags are
+included in returned trends.</p></td>
     </tr>
     <tr>
       <th>token</th>
       <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send <code>?tokens</code> to console).</p></td>
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send <code>?tokens</code> to
+console).</p></td>
     </tr>
     <tr>
       <th>parse</th>

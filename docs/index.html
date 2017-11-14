@@ -29,7 +29,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="/index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -76,301 +76,198 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="rtweet" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#rtweet" class="anchor"></a>rtweet <img src="reference/figures/logo.png" align="right">
+<section id="rtweet" class="level1"><div class="page-header"><h1>rtweet <img src="reference/figures/logo.png" align="right">
 </h1></div>
 <p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --><!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --><a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
 <p>R client for accessing Twitter’s REST and stream APIs.</p>
 <p>Check out the <a href="http://rtweet.info">rtweet package documentation website</a>.</p>
-<div id="install" class="section level2">
-<h2 class="hasAnchor">
-<a href="#install" class="anchor"></a>Install</h2>
+<section id="install" class="level2"><h2>Install</h2>
 <p>To get the current released version from CRAN:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## install rtweet from CRAN
-<span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
-
-## load rtweet package
-<span class="kw">library</span>(rtweet)</code></pre></div>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">## install rtweet from CRAN</div>
+<div class="sourceLine" id="cb1-2" data-line-number="2">
+<span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)</div>
+<div class="sourceLine" id="cb1-3" data-line-number="3"></div>
+<div class="sourceLine" id="cb1-4" data-line-number="4">## load rtweet package</div>
+<div class="sourceLine" id="cb1-5" data-line-number="5">
+<span class="kw">library</span>(rtweet)</div></code></pre>
 <p>To get the current development version from Github:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## install devtools package if it's not already
-<span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"devtools"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {
-  <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-}
-
-## install dev version of rtweet from github
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"mkearney/rtweet"</span>)
-
-## load rtweet package
-<span class="kw">library</span>(rtweet)</code></pre></div>
-</div>
-<div id="getting-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h2>
-<div id="new-get-up-and-running-with-rtweet-in-no-time" class="section level4">
-<h4 class="hasAnchor">
-<a href="#new-get-up-and-running-with-rtweet-in-no-time" class="anchor"></a>(NEW) <strong>Get up and running with rtweet in no time</strong>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">## install devtools package if it's not already</div>
+<div class="sourceLine" id="cb2-2" data-line-number="2">
+<span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"devtools"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</div>
+<div class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</div>
+<div class="sourceLine" id="cb2-4" data-line-number="4">}</div>
+<div class="sourceLine" id="cb2-5" data-line-number="5"></div>
+<div class="sourceLine" id="cb2-6" data-line-number="6">## install dev version of rtweet from github</div>
+<div class="sourceLine" id="cb2-7" data-line-number="7">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"mkearney/rtweet"</span>)</div>
+<div class="sourceLine" id="cb2-8" data-line-number="8"></div>
+<div class="sourceLine" id="cb2-9" data-line-number="9">## load rtweet package</div>
+<div class="sourceLine" id="cb2-10" data-line-number="10">
+<span class="kw">library</span>(rtweet)</div></code></pre>
+</section><section id="getting-started" class="level2"><h2>Getting started</h2>
+<section id="new-get-up-and-running-with-rtweet-in-no-time" class="level4"><h4>(NEW) <strong>Get up and running with rtweet in no time</strong>
 </h4>
 <ul>
 <li>NO MORE CREATING TWITTER APPS</li>
 <li>NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS</li>
 <li>NO MORE COMPLICATED INSTRUCTIONS</li>
 </ul>
-<p>All you need is a <strong>Twitter account</strong> + <strong>rtweet</strong> and you’re up and running!</p>
-</div>
-<div id="easy-api-authorization" class="section level4">
-<h4 class="hasAnchor">
-<a href="#easy-api-authorization" class="anchor"></a>Easy API authorization</h4>
+<p>All you need is a <strong>Twitter account</strong> and <strong>rtweet</strong> and you’re up and running!</p>
+</section><section id="easy-api-authorization" class="level4"><h4>Easy API authorization</h4>
 <ul>
 <li>The first time you make an API request function—e.g., <code><a href="reference/search_tweets.html">search_tweets()</a></code>, <code><a href="reference/stream_tweets.html">stream_tweets()</a></code>, <code><a href="reference/get_followers.html">get_followers()</a></code>—a browser window will open.</li>
 <li>Log in to your Twitter account.</li>
 <li>Agree/authorize the rtweet application.</li>
 </ul>
 <p>And that’s it! You’re ready to start collecting and analyzing Twitter data!</p>
-</div>
-</div>
-<div id="package-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-features" class="anchor"></a>Package features</h2>
-<div id="search-tweets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#search-tweets" class="anchor"></a>Search tweets</h3>
+</section></section><section id="package-features" class="level2"><h2>Package features</h2>
+<section id="search-tweets" class="level3"><h3>Search tweets</h3>
 <p>Search for 5,000 (non-retweeted) tweets containing the rstats hashtag.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 5000 tweets using the rstats hashtag
-rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
-  <span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">5000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span>
-)
-<span class="op">&gt;</span><span class="st"> </span>rt
-<span class="co"># A tibble: 2,478 x 42</span>
-            status_id          created_at            user_id screen_name
-                <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">              </span><span class="er">&lt;</span>dttm<span class="op">&gt;</span><span class="st">              </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
-<span class="st"> </span><span class="dv">1</span> <span class="dv">928811894000861185</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">29</span><span class="op">:</span><span class="dv">46</span>           <span class="dv">29916355</span>    rensa_co
- <span class="dv">2</span> <span class="dv">928808649836912641</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">16</span><span class="op">:</span><span class="dv">53</span>         <span class="dv">4246465853</span>     bfgray3
- <span class="dv">3</span> <span class="dv">928808308647096320</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">15</span><span class="op">:</span><span class="dv">31</span>           <span class="dv">10162032</span> lenteaberta
- <span class="dv">4</span> <span class="dv">928805640016990209</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">04</span><span class="op">:</span><span class="dv">55</span>          <span class="dv">144592995</span>   Rbloggers
- <span class="dv">5</span> <span class="dv">928805625009721344</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">04</span><span class="op">:</span><span class="dv">52</span> <span class="dv">924760121913339904</span>     ezmanip
- <span class="dv">6</span> <span class="dv">928804415896805376</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">02</span><span class="op">:</span><span class="dv">00</span><span class="op">:</span><span class="dv">03</span>           <span class="dv">21930409</span>   gdbassett
- <span class="dv">7</span> <span class="dv">928801913612759040</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">01</span><span class="op">:</span><span class="dv">50</span><span class="op">:</span><span class="dv">07</span>          <span class="dv">144592995</span>   Rbloggers
- <span class="dv">8</span> <span class="dv">928791611693195264</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">01</span><span class="op">:</span><span class="dv">09</span><span class="op">:</span><span class="dv">10</span>          <span class="dv">517921400</span> LeahAWasser
- <span class="dv">9</span> <span class="dv">928790088238034944</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">01</span><span class="op">:</span><span class="dv">03</span><span class="op">:</span><span class="dv">07</span>         <span class="dv">3288057307</span>   lucyleeow
-<span class="dv">10</span> <span class="dv">928789068623765504</span> <span class="dv">2017</span><span class="op">-</span><span class="dv">11</span><span class="op">-</span><span class="dv">10</span> <span class="dv">00</span><span class="op">:</span><span class="dv">59</span><span class="op">:</span><span class="dv">04</span>         <span class="dv">3288057307</span>   lucyleeow
-<span class="co"># ... with 2,468 more rows, and 38 more variables: text &lt;chr&gt;, source &lt;chr&gt;,</span>
-<span class="co">#   reply_to_status_id &lt;chr&gt;, reply_to_user_id &lt;chr&gt;,</span>
-<span class="co">#   reply_to_screen_name &lt;chr&gt;, is_quote &lt;lgl&gt;, is_retweet &lt;lgl&gt;,</span>
-<span class="co">#   favorite_count &lt;int&gt;, retweet_count &lt;int&gt;, hashtags &lt;list&gt;, symbols &lt;list&gt;,</span>
-<span class="co">#   urls_url &lt;list&gt;, urls_t.co &lt;list&gt;, urls_expanded_url &lt;list&gt;,</span>
-<span class="co">#   media_url &lt;list&gt;, media_t.co &lt;list&gt;, media_expanded_url &lt;list&gt;,</span>
-<span class="co">#   media_type &lt;list&gt;, ext_media_url &lt;list&gt;, ext_media_t.co &lt;list&gt;,</span>
-<span class="co">#   ext_media_expanded_url &lt;list&gt;, ext_media_type &lt;lgl&gt;,</span>
-<span class="co">#   mentions_user_id &lt;list&gt;, mentions_screen_name &lt;list&gt;, lang &lt;chr&gt;,</span>
-<span class="co">#   quoted_status_id &lt;chr&gt;, quoted_text &lt;chr&gt;, retweet_status_id &lt;chr&gt;,</span>
-<span class="co">#   retweet_text &lt;chr&gt;, place_url &lt;chr&gt;, place_name &lt;chr&gt;,</span>
-<span class="co">#   place_full_name &lt;chr&gt;, place_type &lt;chr&gt;, country &lt;chr&gt;, country_code &lt;chr&gt;,</span>
-<span class="co">#   geo_coords &lt;list&gt;, coords_coords &lt;list&gt;, bbox_coords &lt;list&gt;</span></code></pre></div>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">## search for 5000 tweets using the rstats hashtag</div>
+<div class="sourceLine" id="cb3-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(</div>
+<div class="sourceLine" id="cb3-3" data-line-number="3">  <span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">5000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span>
+</div>
+<div class="sourceLine" id="cb3-4" data-line-number="4">)</div></code></pre>
 <p>Quickly visualize frequency of tweets over time using <code><a href="reference/ts_plot.html">ts_plot()</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot time series of tweets
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">## plot time series of tweets</div>
+<div class="sourceLine" id="cb4-2" data-line-number="2">
 <span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(rt, <span class="st">"hours"</span>) <span class="op">+</span>
+</div>
+<div class="sourceLine" id="cb4-3" data-line-number="3">
 <span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_minimal</a></span>() <span class="op">+</span>
+</div>
+<div class="sourceLine" id="cb4-4" data-line-number="4">
 <span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">plot.title =</span> ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_text</a></span>(<span class="dt">face =</span> <span class="st">"bold"</span>)) <span class="op">+</span>
-<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(
-    <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>,
-    <span class="dt">title =</span> <span class="st">"Twitter statuses containing </span><span class="ch">\"</span><span class="st">rstats</span><span class="ch">\"</span><span class="st"> hashtag over time"</span>,
-    <span class="dt">subtitle =</span> <span class="st">"Tweets aggregated and counted in 1-hour intervals"</span>,
-    <span class="dt">caption =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">Source: Data collected from Twitter's REST API via rtweet"</span>
-  )</code></pre></div>
-<div class="figure">
-<img src="example-rstatsts.png">
 </div>
+<div class="sourceLine" id="cb4-5" data-line-number="5">
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(</div>
+<div class="sourceLine" id="cb4-6" data-line-number="6">    <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>,</div>
+<div class="sourceLine" id="cb4-7" data-line-number="7">    <span class="dt">title =</span> <span class="st">"Twitter statuses containing </span><span class="ch">\"</span><span class="st">rstats</span><span class="ch">\"</span><span class="st"> hashtag over time"</span>,</div>
+<div class="sourceLine" id="cb4-8" data-line-number="8">    <span class="dt">subtitle =</span> <span class="st">"Tweets aggregated and counted in 1-hour intervals"</span>,</div>
+<div class="sourceLine" id="cb4-9" data-line-number="9">    <span class="dt">caption =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">Source: Data collected from Twitter's REST API via rtweet"</span>
+</div>
+<div class="sourceLine" id="cb4-10" data-line-number="10">  )</div></code></pre>
+<p><img src="example-rstatsts.png"></p>
 <p>Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set <code>retryonratelimit = TRUE</code> and rtweet will wait for rate limit resets for you.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 250,000 tweets containing the word "data"
-rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
-  <span class="st">"data"</span>, <span class="dt">n =</span> <span class="dv">250000</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>
-)</code></pre></div>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">## search for 250,000 tweets containing the word data</div>
+<div class="sourceLine" id="cb5-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(</div>
+<div class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">"data"</span>, <span class="dt">n =</span> <span class="dv">250000</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>
+</div>
+<div class="sourceLine" id="cb5-4" data-line-number="4">)</div></code></pre>
 <p>Search by geo-location—for example, find 10,000 tweets in the English language sent from the United States.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 10,000 tweets sent from the US
-rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
-  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span>
-)
-
-## create lat/lng variables using all available tweet and profile geo-location data
-rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/lat_lng.html">lat_lng</a></span>(rt)
-
-## plot state boundaries
-<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))
-maps<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/maps/topics/map">map</a></span>(<span class="st">"state"</span>, <span class="dt">lwd =</span> .<span class="dv">25</span>)
-
-## plot lat and lng points onto state map
-<span class="kw">with</span>(rt, <span class="kw">points</span>(lng, lat, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> .<span class="dv">75</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, .<span class="dv">3</span>, .<span class="dv">7</span>, .<span class="dv">75</span>)))</code></pre></div>
-<div class="figure">
-<img src="example-statemap.png">
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">## search for 10,000 tweets sent from the US</div>
+<div class="sourceLine" id="cb6-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(</div>
+<div class="sourceLine" id="cb6-3" data-line-number="3">  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span>
 </div>
-</div>
-<div id="stream-tweets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#stream-tweets" class="anchor"></a>Stream tweets</h3>
+<div class="sourceLine" id="cb6-4" data-line-number="4">)</div>
+<div class="sourceLine" id="cb6-5" data-line-number="5"></div>
+<div class="sourceLine" id="cb6-6" data-line-number="6">## create lat/lng variables using all available tweet and profile geo-location data</div>
+<div class="sourceLine" id="cb6-7" data-line-number="7">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/lat_lng.html">lat_lng</a></span>(rt)</div>
+<div class="sourceLine" id="cb6-8" data-line-number="8"></div>
+<div class="sourceLine" id="cb6-9" data-line-number="9">## plot state boundaries</div>
+<div class="sourceLine" id="cb6-10" data-line-number="10">
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</div>
+<div class="sourceLine" id="cb6-11" data-line-number="11">maps<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/maps/topics/map">map</a></span>(<span class="st">"state"</span>, <span class="dt">lwd =</span> <span class="fl">.25</span>)</div>
+<div class="sourceLine" id="cb6-12" data-line-number="12"></div>
+<div class="sourceLine" id="cb6-13" data-line-number="13">## plot lat and lng points onto state map</div>
+<div class="sourceLine" id="cb6-14" data-line-number="14">
+<span class="kw">with</span>(rt, <span class="kw">points</span>(lng, lat, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">.75</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="fl">.75</span>)))</div></code></pre>
+<p><img src="example-statemap.png"></p>
+</section><section id="stream-tweets" class="level3"><h3>Stream tweets</h3>
 <p>Randomly sample (approximately 1%) from the live stream of all tweets.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## random sample for 30 seconds (default)
-rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</code></pre></div>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">## random sample for 30 seconds (default)</div>
+<div class="sourceLine" id="cb7-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</div></code></pre>
 <p>Stream all geo enabled tweets from London for 60 seconds.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## stream tweets from london for 60 seconds
-rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</code></pre></div>
-<p>Stream all tweets mentioning <span class="citation">@realDonaldTrump</span> or Trump for a week.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
-<span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(
-  <span class="st">"realdonaldtrump,trump"</span>,
-  <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,
-  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>,
-  <span class="dt">parse =</span> <span class="ot">FALSE</span>
-)
-
-## read in the data as a tidy tbl data frame
-djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</code></pre></div>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">## stream tweets from london for 60 seconds</div>
+<div class="sourceLine" id="cb8-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</div></code></pre>
+<p>Stream all tweets mentioning realDonaldTrump or Trump for a week.</p>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)</div>
+<div class="sourceLine" id="cb9-2" data-line-number="2">
+<span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(</div>
+<div class="sourceLine" id="cb9-3" data-line-number="3">  <span class="st">"realdonaldtrump,trump"</span>,</div>
+<div class="sourceLine" id="cb9-4" data-line-number="4">  <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,</div>
+<div class="sourceLine" id="cb9-5" data-line-number="5">  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>,</div>
+<div class="sourceLine" id="cb9-6" data-line-number="6">  <span class="dt">parse =</span> <span class="ot">FALSE</span>
 </div>
-<div id="get-friends" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-friends" class="anchor"></a>Get friends</h3>
+<div class="sourceLine" id="cb9-7" data-line-number="7">)</div>
+<div class="sourceLine" id="cb9-8" data-line-number="8"></div>
+<div class="sourceLine" id="cb9-9" data-line-number="9">## read in the data as a tidy tbl data frame</div>
+<div class="sourceLine" id="cb9-10" data-line-number="10">djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</div></code></pre>
+</section><section id="get-friends" class="level3"><h3>Get friends</h3>
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
-cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)
-<span class="op">&gt;</span><span class="st"> </span>cnn_fds
-<span class="co"># A tibble: 1,115 x 2</span>
-    user    user_id
-   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
-<span class="st"> </span><span class="dv">1</span>   cnn   <span class="dv">14085040</span>
- <span class="dv">2</span>   cnn   <span class="dv">58524428</span>
- <span class="dv">3</span>   cnn <span class="dv">1630896181</span>
- <span class="dv">4</span>   cnn   <span class="dv">52920970</span>
- <span class="dv">5</span>   cnn   <span class="dv">43197255</span>
- <span class="dv">6</span>   cnn  <span class="dv">466788677</span>
- <span class="dv">7</span>   cnn <span class="dv">3282859598</span>
- <span class="dv">8</span>   cnn  <span class="dv">247832362</span>
- <span class="dv">9</span>   cnn  <span class="dv">326255267</span>
-<span class="dv">10</span>   cnn  <span class="dv">274714964</span>
-<span class="co"># ... with 1,105 more rows</span>
-
-## lookup data on those accounts
-cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</code></pre></div>
-</div>
-<div id="get-followers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-followers" class="anchor"></a>Get followers</h3>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">## get user IDs of accounts followed by CNN</div>
+<div class="sourceLine" id="cb10-2" data-line-number="2">cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)</div>
+<div class="sourceLine" id="cb10-3" data-line-number="3"></div>
+<div class="sourceLine" id="cb10-4" data-line-number="4">## lookup data on those accounts</div>
+<div class="sourceLine" id="cb10-5" data-line-number="5">cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</div></code></pre>
+</section><section id="get-followers" class="level3"><h3>Get followers</h3>
 <p>Retrieve a list of the <strong>accounts following</strong> a user.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts following CNN
-cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)
-
-## lookup data on those accounts
-cnn_flw_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_flw<span class="op">$</span>user_id)</code></pre></div>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">## get user IDs of accounts following CNN</div>
+<div class="sourceLine" id="cb11-2" data-line-number="2">cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)</div>
+<div class="sourceLine" id="cb11-3" data-line-number="3"></div>
+<div class="sourceLine" id="cb11-4" data-line-number="4">## lookup data on those accounts</div>
+<div class="sourceLine" id="cb11-5" data-line-number="5">cnn_flw_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_flw<span class="op">$</span>user_id)</div></code></pre>
 <p>Or if you really want ALL of their followers:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## how many total follows does cnn have?
-cnn &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(<span class="st">"cnn"</span>)
-cnn<span class="op">$</span>followers_count
-<span class="op">&gt;</span><span class="st"> </span>[<span class="dv">1</span>] <span class="dv">38349142</span>
-
-## get them all (this would take a little over 5 days)
-cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">38349142</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1">## how many total follows does cnn have?</div>
+<div class="sourceLine" id="cb12-2" data-line-number="2">cnn &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(<span class="st">"cnn"</span>)</div>
+<div class="sourceLine" id="cb12-3" data-line-number="3"></div>
+<div class="sourceLine" id="cb12-4" data-line-number="4">## get them all (this would take a little over 5 days)</div>
+<div class="sourceLine" id="cb12-5" data-line-number="5">cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(</div>
+<div class="sourceLine" id="cb12-6" data-line-number="6">  <span class="st">"cnn"</span>, <span class="dt">n =</span> cnn<span class="op">$</span>followers_count, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>
 </div>
-<div id="get-timelines" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-timelines" class="anchor"></a>Get timelines</h3>
-<p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
-tmls &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_timeline.html">get_timelines</a></span>(<span class="kw">c</span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)
-
-## plot the frequency of tweets for each user over time
-tmls <span class="op">%&gt;%</span>
+<div class="sourceLine" id="cb12-7" data-line-number="7">)</div></code></pre>
+</section><section id="get-timelines" class="level3"><h3>Get timelines</h3>
+<p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.</p>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">## get user IDs of accounts followed by CNN</div>
+<div class="sourceLine" id="cb13-2" data-line-number="2">tmls &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_timeline.html">get_timelines</a></span>(<span class="kw">c</span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)</div>
+<div class="sourceLine" id="cb13-3" data-line-number="3"></div>
+<div class="sourceLine" id="cb13-4" data-line-number="4">## plot the frequency of tweets for each user over time</div>
+<div class="sourceLine" id="cb13-5" data-line-number="5">tmls <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb13-6" data-line-number="6">
 <span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(created_at <span class="op">&gt;</span><span class="st"> "2017-10-23"</span>) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb13-7" data-line-number="7">
 <span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(screen_name) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb13-8" data-line-number="8">
 <span class="st">  </span><span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(<span class="st">"days"</span>, <span class="dt">trim =</span> 1L) <span class="op">+</span>
+</div>
+<div class="sourceLine" id="cb13-9" data-line-number="9">
 <span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_minimal</a></span>() <span class="op">+</span>
-<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggsave">ggsave</a></span>(<span class="st">"example-tmls.png"</span>, <span class="dt">width =</span> <span class="dv">8</span>, <span class="dt">height =</span> <span class="dv">6</span>, <span class="dt">units =</span> <span class="st">"in"</span>)</code></pre></div>
-<div class="figure">
-<img src="example-tmls.png">
 </div>
-</div>
-<div id="get-favorites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-favorites" class="anchor"></a>Get favorites</h3>
+<div class="sourceLine" id="cb13-10" data-line-number="10">
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggsave">ggsave</a></span>(<span class="st">"example-tmls.png"</span>, <span class="dt">width =</span> <span class="dv">8</span>, <span class="dt">height =</span> <span class="dv">6</span>, <span class="dt">units =</span> <span class="st">"in"</span>)</div></code></pre>
+<p><img src="example-tmls.png"></p>
+</section><section id="get-favorites" class="level3"><h3>Get favorites</h3>
 <p>Get the 3,000 most recently favorited statuses by JK Rowling.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">jkr &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</code></pre></div>
-</div>
-<div id="search-users" class="section level3">
-<h3 class="hasAnchor">
-<a href="#search-users" class="anchor"></a>Search users</h3>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">jkr &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</div></code></pre>
+</section><section id="search-users" class="level3"><h3>Search users</h3>
 <p>Search for 1,000 users with the rstats hashtag in their profile bios.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for users with #rstats in their profiles
-usrs &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)
-<span class="op">&gt;</span><span class="st"> </span>usrs
-<span class="co"># A tibble: 655 x 20</span>
-              user_id              name    screen_name
-                <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">             </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">          </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
-<span class="st"> </span><span class="dv">1</span>          <span class="dv">342250615</span>          rOpenSci       rOpenSci
- <span class="dv">2</span>           <span class="dv">12640312</span>       Daniel Pett        DEJPett
- <span class="dv">3</span>         <span class="dv">2170413740</span>   Baseball with R BaseballRstats
- <span class="dv">4</span>          <span class="dv">295344317</span>   One R Tip a Day       RLangTip
- <span class="dv">5</span>         <span class="dv">3075907260</span> Positive Residual      presidual
- <span class="dv">6</span>           <span class="dv">46245868</span>    David Robinson           drob
- <span class="dv">7</span>            <span class="dv">5685812</span>         boB Rudis       hrbrmstr
- <span class="dv">8</span> <span class="dv">824037040996098049</span>   LIRR Statistics      LIRRstats
- <span class="dv">9</span>         <span class="dv">3230388598</span>      Mara Averick      dataandme
-<span class="dv">10</span>            <span class="dv">4515151</span>     Pablo Barberá      p_barbera
-<span class="co"># ... with 645 more rows, and 17 more variables: location &lt;chr&gt;,</span>
-<span class="co">#   description &lt;chr&gt;, url &lt;chr&gt;, protected &lt;lgl&gt;, followers_count &lt;int&gt;,</span>
-<span class="co">#   friends_count &lt;int&gt;, listed_count &lt;int&gt;, statuses_count &lt;int&gt;,</span>
-<span class="co">#   favourites_count &lt;int&gt;, account_created_at &lt;dttm&gt;, verified &lt;lgl&gt;,</span>
-<span class="co">#   profile_url &lt;chr&gt;, profile_expanded_url &lt;chr&gt;, account_lang &lt;chr&gt;,</span>
-<span class="co">#   profile_banner_url &lt;chr&gt;, profile_background_url &lt;chr&gt;,</span>
-<span class="co">#   profile_image_url &lt;chr&gt;</span></code></pre></div>
-</div>
-<div id="get-trends" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-trends" class="anchor"></a>Get trends</h3>
+<pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">## search for users with #rstats in their profiles</div>
+<div class="sourceLine" id="cb15-2" data-line-number="2">usrs &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</div></code></pre>
+</section><section id="get-trends" class="level3"><h3>Get trends</h3>
 <p>Discover what’s currently trending in San Francisco.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sf &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)
-<span class="op">&gt;</span><span class="st"> </span>sf
-<span class="co"># A tibble: 50 x 9</span>
-                  trend                                                url
- <span class="op">*</span><span class="st">                </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">                                              </span><span class="er">&lt;</span>chr<span class="op">&gt;</span>
-<span class="st"> </span><span class="dv">1</span>             <span class="co">#SEAvsAZ             http://twitter.com/search?q=%23SEAvsAZ</span>
- <span class="dv">2</span>            Roy Moore        http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Roy+Moore%</span><span class="dv">22</span>
- <span class="dv">3</span>            Star Wars        http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Star+Wars%</span><span class="dv">22</span>
- <span class="dv">4</span>             Louis CK         http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Louis+CK%</span><span class="dv">22</span>
- <span class="dv">5</span> <span class="co">#BandTogetherBayArea http://twitter.com/search?q=%23BandTogetherBayArea</span>
- <span class="dv">6</span>         <span class="co">#DreamActNow         http://twitter.com/search?q=%23DreamActNow</span>
- <span class="dv">7</span>                <span class="co">#DF17                http://twitter.com/search?q=%23DF17</span>
- <span class="dv">8</span>            <span class="co">#DealBook            http://twitter.com/search?q=%23DealBook</span>
- <span class="dv">9</span>           Jeff Green       http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22Jeff+Green%</span><span class="dv">22</span>
-<span class="dv">10</span>       John Hillerman   http<span class="op">:</span><span class="er">//</span>twitter.com<span class="op">/</span>search?q=<span class="op">%22John+Hillerman%</span><span class="dv">22</span>
-<span class="co"># ... with 40 more rows, and 7 more variables: promoted_content &lt;lgl&gt;,</span>
-<span class="co">#   query &lt;chr&gt;, tweet_volume &lt;int&gt;, place &lt;chr&gt;, woeid &lt;int&gt;, as_of &lt;dttm&gt;,</span>
-<span class="co">#   created_at &lt;dttm&gt;</span></code></pre></div>
-</div>
-</div>
-<div id="for-posting-tweeting-from-r-console-or-read-dm-permissions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#for-posting-tweeting-from-r-console-or-read-dm-permissions" class="anchor"></a>For posting (tweeting from R console) or read DM permissions</h2>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">sf &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)</div></code></pre>
+</section></section><section id="for-posting-tweeting-from-r-console-or-read-dm-permissions" class="level2"><h2>For posting (tweeting from R console) or read DM permissions</h2>
 <ul>
 <li>If you’d like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you’ll need to create your own Twitter app.</li>
 <li>To create your own Twitter app, follow the instructions in the authorization vignette on <a href="http://rtweet.info/articles/auth.html">obtaining and using access tokens</a>.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## authorizing API access
-<span class="kw">vignette</span>(<span class="st">"auth"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
-</div>
-<div id="other-vignettes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-vignettes" class="anchor"></a>Other vignettes</h2>
+<pre class="sourceCode r" id="cb17"><code class="sourceCode r"><div class="sourceLine" id="cb17-1" data-line-number="1">## authorizing API access</div>
+<div class="sourceLine" id="cb17-2" data-line-number="2">
+<span class="kw">vignette</span>(<span class="st">"auth"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</div></code></pre>
+</section><section id="other-vignettes" class="level2"><h2>Other vignettes</h2>
 <p><a href="http://rtweet.info/articles/intro.html">Quick overview of rtweet package</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## quick overview of rtweet functions
-<span class="kw">vignette</span>(<span class="st">"intro"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
+<pre class="sourceCode r" id="cb18"><code class="sourceCode r"><div class="sourceLine" id="cb18-1" data-line-number="1">## quick overview of rtweet functions</div>
+<div class="sourceLine" id="cb18-2" data-line-number="2">
+<span class="kw">vignette</span>(<span class="st">"intro"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</div></code></pre>
 <p><a href="http://rtweet.info/articles/stream.html">Live streaming tweets data</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## working with the stream
-<span class="kw">vignette</span>(<span class="st">"stream"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
-</div>
-<div id="contact" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contact" class="anchor"></a>Contact</h2>
+<pre class="sourceCode r" id="cb19"><code class="sourceCode r"><div class="sourceLine" id="cb19-1" data-line-number="1">## working with the stream</div>
+<div class="sourceLine" id="cb19-2" data-line-number="2">
+<span class="kw">vignette</span>(<span class="st">"stream"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</div></code></pre>
+</section><section id="contact" class="level2"><h2>Contact</h2>
 <p>Communicating with Twitter’s APIs relies on an internet connection, which can sometimes be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active <a href="https://github.com/mkearney/rtweet/issues">issue</a>, please <a href="https://github.com/mkearney/rtweet/issues/new">create a new issue</a> with all code used (preferably a reproducible example) on Github.</p>
-</div>
-</div>
+</section></section>
 </div>
   </div>
 
