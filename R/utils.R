@@ -204,75 +204,65 @@ break_check <- function(r, url, count = NULL) {
 
 ##----------------------------------------------------------------------------##
 ##                                 format_date                                ##
-##----------------------------------------------------------------------------##
+##----------------------------------------------------------------------------#
+
 
 
 format_date <- function(x, tz = "UTC") {
-  o <- tryCatch(as.POSIXct(
-      x, tz = tz,
-      origin = "1970-01-01",
-      format = "%a %b %d %H:%M:%S %z %Y"),
-      error = function(e) return(NULL)
-    )
+  o <- tryCatch(
+    as.POSIXct(
+      x,
+      format = "%a %b %d %T %z %Y",
+      tz = tz
+    ),
+    error = function(e) return(NULL)
+  )
   if (any(is.null(o), all(is.na.quiet(o)))) {
     o <- tryCatch(as.POSIXct(
-      x, tz = tz,
-      format = "%a %b %d %T %z %Y"),
-      error = function(e) return(NULL)
-      )
-  } else {
-    return(o)
+      x,
+      format = "%a %b %d %H:%M:%S %z %Y",
+      tz = tz,
+      origin = "1970-01-01"),
+      error = function(e) return(NULL))
   }
   if (any(is.null(o), all(is.na.quiet(o)))) {
     o <- tryCatch(as.POSIXct(
-      x, tz = "",
+      x,
       format = "%a %b %d %H:%M:%S %z %Y"),
-      error = function(e) return(NULL)
-    )
-  } else {
-    return(o)
-  }
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    o <- tryCatch(as.POSIXct(
-      x, tz = tz,
-      format = "%a %b %d %H:%M:%S +0000 %Y"),
-      error = function(e) return(NULL)
-    )
-  } else {
-    return(o)
+      error = function(e) return(NULL))
   }
   if (any(is.null(o), all(is.na.quiet(o)))) {
     curLocale <- Sys.getlocale("LC_TIME")
     on.exit(
       Sys.setlocale("LC_TIME", curLocale)
+      ##add = TRUE
     )
     Sys.setlocale("LC_TIME", "C")
+
     o <- tryCatch(as.POSIXct(
-      x, tz = tz,
+      x,
+      tz = tz,
       format = "%a, %d %b %Y %H:%M:%S +0000"),
       error = function(e) return(NULL)
     )
-  } else {
-    return(o)
   }
   if (any(is.null(o), all(is.na.quiet(o)))) {
     o <- tryCatch(as.POSIXct(
-      x, tz = "",
-      origin = "1970-01-01",
-      format = "%a %b %d %H:%M:%S %z %Y"),
-      error = function(e) return(NULL)
-    )
-  } else {
-    return(o)
+      x, tz = tz,
+      format = "%a %b %d %H:%M:%S +0000 %Y"),
+      error = function(e) return(NULL))
+  }
+  if (any(is.null(o), all(is.na.quiet(o)))) {
+    o <- tryCatch(as.POSIXct(
+      x, format = "%a %b %d %H:%M:%S %z %Y"),
+      error = function(e) return(NULL))
   }
   if (any(is.null(o), all(is.na.quiet(o)))) {
     o <- x
   }
-  if (date) {
-    o <- as.Date(o)
-  }
   o
 }
+
 
 ##----------------------------------------------------------------------------##
 ##                            fetch/return features                           ##

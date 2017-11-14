@@ -3,11 +3,19 @@
 rtweet <img src="man/figures/logo.png" align="right" />
 =======================================================
 
-[![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) <!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --> <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --> [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
+[![Build
+Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet)
+![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
+![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
+<!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) -->
+<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) -->
+[![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
 
-R client for accessing Twitter's REST and stream APIs.
+R client for accessing Twitter’s REST and stream APIs.
 
-Check out the [rtweet package documentation website](http://rtweet.info).
+Check out the [rtweet package documentation
+website](http://rtweet.info).
 
 Install
 -------
@@ -46,15 +54,19 @@ Getting started
 -   NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS
 -   NO MORE COMPLICATED INSTRUCTIONS
 
-All you need is a **Twitter account** + **rtweet** and you're up and running!
+All you need is a **Twitter account** + **rtweet** and you’re up and
+running!
 
 #### Easy API authorization
 
--   The first time you make an API request function---e.g., `search_tweets()`, `stream_tweets()`, `get_followers()`---a browser window will open.
+-   The first time you make an API request function—e.g.,
+    `search_tweets()`, `stream_tweets()`, `get_followers()`—a browser
+    window will open.
 -   Log in to your Twitter account.
 -   Agree/authorize the rtweet application.
 
-And that's it! You're ready to start collecting and analyzing Twitter data!
+And that’s it! You’re ready to start collecting and analyzing Twitter
+data!
 
 Package features
 ----------------
@@ -114,7 +126,10 @@ ts_plot(rt, "hours") +
 
 ![](example-rstatsts.png)
 
-Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set `retryonratelimit = TRUE` and rtweet will wait for rate limit resets for you.
+Twitter rate limits cap the number of search results returned to 18,000
+every 15 minutes. To request more than that, simply set
+`retryonratelimit = TRUE` and rtweet will wait for rate limit resets for
+you.
 
 ``` r
 ## search for 250,000 tweets containing the word "data"
@@ -123,7 +138,8 @@ rt <- search_tweets(
 )
 ```
 
-Search by geo-location---for example, find 10,000 tweets in the English language sent from the United States.
+Search by geo-location—for example, find 10,000 tweets in the English
+language sent from the United States.
 
 ``` r
 ## search for 10,000 tweets sent from the US
@@ -285,7 +301,7 @@ usrs <- search_users("#rstats", n = 1000)
 
 ### Get trends
 
-Discover what's currently trending in San Francisco.
+Discover what’s currently trending in San Francisco.
 
 ``` r
 sf <- get_trends("san francisco")
@@ -311,8 +327,12 @@ sf <- get_trends("san francisco")
 For posting (tweeting from R console) or read DM permissions
 ------------------------------------------------------------
 
--   If you'd like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you'll need to create your own Twitter app.
--   To create your own Twitter app, follow the instructions in the authorization vignette on [obtaining and using access tokens](http://rtweet.info/articles/auth.html).
+-   If you’d like to post Twitter statuses, follow or unfollow accounts,
+    and/or read your direct messages, you’ll need to create your own
+    Twitter app.
+-   To create your own Twitter app, follow the instructions in the
+    authorization vignette on [obtaining and using access
+    tokens](http://rtweet.info/articles/auth.html).
 
 ``` r
 ## authorizing API access
@@ -322,7 +342,8 @@ vignette("auth", package = "rtweet")
 Other vignettes
 ---------------
 
-[Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
+[Quick overview of rtweet
+package](http://rtweet.info/articles/intro.html)
 
 ``` r
 ## quick overview of rtweet functions
@@ -339,4 +360,9 @@ vignette("stream", package = "rtweet")
 Contact
 -------
 
-Communicating with Twitter's APIs relies on an internet connection, which can sometimes be inconsistent. With that said, if you encounter an obvious bug for which there is not already an active [issue](https://github.com/mkearney/rtweet/issues), please [create a new issue](https://github.com/mkearney/rtweet/issues/new) with all code used (preferably a reproducible example) on Github.
+Communicating with Twitter’s APIs relies on an internet connection,
+which can sometimes be inconsistent. With that said, if you encounter an
+obvious bug for which there is not already an active
+[issue](https://github.com/mkearney/rtweet/issues), please [create a new
+issue](https://github.com/mkearney/rtweet/issues/new) with all code used
+(preferably a reproducible example) on Github.
