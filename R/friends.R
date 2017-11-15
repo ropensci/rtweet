@@ -263,10 +263,11 @@ fnd_internal <- function(r) {
 #'   tokens vignette (in r, send \code{?tokens} to console).
 #' @return Data frame converted form returned JSON object. If parse is
 #'   not true, the HTTP response object is returned instead.
+#' @family friends
 #' @export
-lookup_friendships <- function(user,
-                               parse = TRUE,
-                               token = NULL) {
+lookup_myfriendships <- function(user,
+                                 parse = TRUE,
+                                 token = NULL) {
   stopifnot(is.atomic(user))
   token <- check_token(token)
   query <- "friendships/lookup"
@@ -285,4 +286,87 @@ lookup_friendships <- function(user,
   } else {
     f
   }
+}
+
+
+#' Lookup friendship information between two specified users.
+#'
+#' Gets information on friendship between two Twitter users.
+#'
+#' @param source Screen name or user id of source user.
+#' @param target Screen name or user id of target user.
+#' @param parse Logical indicating whether to return parsed data frame.
+#'   Defaults to true.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
+#' @return Data frame converted form returned JSON object. If parse is
+#'   not true, the HTTP response object is returned instead.
+#' @family friends
+#' @export
+lookup_friendship <- function(source,
+                              target,
+                              parse = TRUE,
+                              token = NULL) {
+  stopifnot(is.atomic(source), is.atomic(target))
+  token <- check_token(token)
+  query <- "friendships/show"
+  params <- list(
+    source = source,
+    target = target
+  )
+  names(params)[1] <- paste0("source_", .id_type(source))
+  names(params)[2] <- paste0("target_", .id_type(target))
+  url <- make_url(
+    query = query,
+    param = params)
+  f <- tryCatch(
+    TWIT(get = TRUE, url, token),
+    error = function(e) return(NULL))
+  f <- from_js(f)
+  if (parse) {
+    f <- parse_showfriendships(f)
+  }
+  f
+}
+
+#' @inheritParams lookup_friendship
+#' @export
+#' @rdname lookup_friendship
+lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
+  if (length(source) > 1L && length(target) > 1L) {
+    stopifnot(length(source) == length(target))
+  }
+  fds <- mapply(
+    "lookup_friendship", source, target,
+    MoreArgs = list(parse = parse, token = token)
+  )
+  if (parse) {
+    fds <- do.call("rbind", fds)
+  }
+  fds
+}
+
+
+
+parse_showfriendships <- function(x) {
+  if (has_name_(x, "relationship")) {
+    x <- x$relationship
+  }
+  if (has_name_(x, "source")) {
+    src <- x$source
+  } else {
+    src <- NULL
+  }
+  if (has_name_(x, "target")) {
+    trg <- x$target
+  } else {
+    trg <- NULL
+  }
+  tibble::data_frame(
+    relationship = c(rep("source", length(src)), rep("target", length(trg))),
+    variable = c(names(src), names(trg)),
+    value = c(unlist(src), unlist(trg))
+  )
 }
