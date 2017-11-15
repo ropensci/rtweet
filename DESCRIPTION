@@ -1,6 +1,6 @@
 Package: rtweet
 Type: Package
-Version: 0.5.63
+Version: 0.5.64
 Title: Collecting Twitter Data
 Date: 2017-11-14
 Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))

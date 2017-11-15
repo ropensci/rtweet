@@ -363,7 +363,7 @@ parse_stream <- function(path, ...) {
 #' @inheritParams stream_tweets
 #' @param dir Name of directory in which json files should be written.
 #'   The default, NULL, will create a timestamped "stream" folder in the
-#'   current working directory. If a dir name is provided that doesn't
+#'   current working directory. If a dir name is provided that does not
 #'   already exist, one will be created.
 #' @param append Logical indicating whether to append or overwrite
 #'   file_name if the file already exists. Defaults to FALSE, meaning

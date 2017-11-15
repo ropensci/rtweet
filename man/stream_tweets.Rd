@@ -56,7 +56,7 @@ filter for tweets by language, e.g., \code{language = "en"}.}
 
 \item{dir}{Name of directory in which json files should be written.
 The default, NULL, will create a timestamped "stream" folder in the
-current working directory. If a dir name is provided that doesn't
+current working directory. If a dir name is provided that does not
 already exist, one will be created.}
 
 \item{append}{Logical indicating whether to append or overwrite

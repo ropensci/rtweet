@@ -1,3 +1,14 @@
+# rtweet 0.6.0
+- Introduced new API authorization method, which leverages an embedded
+  rtweet Twitter app that is authorized locally by the user. Creating
+  Twitter apps is non longer necessary. Users need only click "okay"
+  to create and store their API authorization token.
+- Improved parsing and line-reading internals for `stream_tweets()`
+- Added `stream_tweets2()` function for more robust streaming
+  method. Streams JSON files to directory and reconnects following
+  premature disruptions.
+- Various bug fixes nad numerous documentation improvements.
+
 # rtweet 0.5.0
 - Added access to direct messages, mentions, list subscriptions, list
   users, list members, and list memberships
