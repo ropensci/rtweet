@@ -142,7 +142,7 @@ rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_twee
     <span class="dt">caption =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">Source: Data collected from Twitter's REST API via rtweet"</span>
   )</code></pre></div>
 <div class="figure">
-<img src="example-rstatsts.png">
+<img src="tools/readme/example-rstatsts.png">
 </div>
 <p>Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set <code>retryonratelimit = TRUE</code> and rtweet will wait for rate limit resets for you.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 250,000 tweets containing the word data
@@ -165,7 +165,7 @@ maps<span class="op">::</span><span class="kw"><a href="http://www.rdocumentatio
 ## plot lat and lng points onto state map
 <span class="kw">with</span>(rt, <span class="kw">points</span>(lng, lat, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> .<span class="dv">75</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, .<span class="dv">3</span>, .<span class="dv">7</span>, .<span class="dv">75</span>)))</code></pre></div>
 <div class="figure">
-<img src="example-statemap.png">
+<img src="tools/readme/example-statemap.png">
 </div>
 </div>
 <div id="stream-tweets" class="section level3">
@@ -242,7 +242,7 @@ tmls <span class="op">%&gt;%</span>
     <span class="dt">caption =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">Source: Data collected from Twitter's REST API via rtweet"</span>
   )</code></pre></div>
 <div class="figure">
-<img src="example-tmls.png">
+<img src="tools/readme/example-tmls.png">
 </div>
 </div>
 <div id="get-favorites" class="section level3">

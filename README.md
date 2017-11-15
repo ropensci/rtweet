@@ -79,7 +79,7 @@ ts_plot(rt, "3 hours") +
   )
 ```
 
-![](example-rstatsts.png)
+![](tools/readme/example-rstatsts.png)
 
 Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set `retryonratelimit = TRUE` and rtweet will wait for rate limit resets for you.
 
@@ -109,7 +109,7 @@ maps::map("state", lwd = .25)
 with(rt, points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75)))
 ```
 
-![](example-statemap.png)
+![](tools/readme/example-statemap.png)
 
 ### Stream tweets
 
@@ -205,7 +205,7 @@ tmls %>%
   )
 ```
 
-![](example-tmls.png)
+![](tools/readme/example-tmls.png)
 
 ### Get favorites
 
