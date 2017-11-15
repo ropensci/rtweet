@@ -29,7 +29,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -79,124 +79,124 @@
     
     
 <div class="contents">
-<section id="installing-and-loading-package" class="level2"><h2>Installing and loading package</h2>
+<div id="installing-and-loading-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installing-and-loading-package" class="anchor"></a>Installing and loading package</h2>
 <p>Prior to streaming, make sure to install and load rtweet. This vignette assumes users have already setup user access tokens (see: <a href="https://mkearney.github.io/rtweet/articles/auth.html">obtaining and using access tokens</a>).</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">## Install rtweet</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">
-<span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)</div>
-<div class="sourceLine" id="cb1-3" data-line-number="3">## Load rtweet</div>
-<div class="sourceLine" id="cb1-4" data-line-number="4">
-<span class="kw">library</span>(rtweet)</div></code></pre>
-</section><section id="specifying-parameters" class="level2"><h2>Specifying parameters</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Install rtweet
+<span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
+## Load rtweet
+<span class="kw">library</span>(rtweet)</code></pre></div>
+</div>
+<div id="specifying-parameters" class="section level2">
+<h2 class="hasAnchor">
+<a href="#specifying-parameters" class="anchor"></a>Specifying parameters</h2>
 <p>In addition to accessing Twitter’s REST API (e.g., <code>search_tweets</code>, <code>get_timeline</code>), rtweet makes it possible to capture live streams of Twitter data using the <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, <code>stream_tweets</code> will stream for 30 seconds and return a random sample of tweets. To modify the default settings, <code>stream_tweets</code> accepts several parameters, including <code>q</code> (query used to filter tweets), <code>timeout</code> (duration or time of stream), and <code>file_name</code> (path name for saving raw json data).</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">## Stream keywords used to filter tweets</div>
-<div class="sourceLine" id="cb2-2" data-line-number="2">q &lt;-<span class="st"> "hillaryclinton,imwithher,realdonaldtrump,maga,electionday"</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Stream keywords used to filter tweets
+q &lt;-<span class="st"> "hillaryclinton,imwithher,realdonaldtrump,maga,electionday"</span>
+
+## Stream time in seconds so for one minute set timeout = 60
+## For larger chunks of time, I recommend multiplying 60 by the number
+## of desired minutes. This method scales up to hours as well
+## (x * 60 = x mins, x * 60 * 60 = x hours)
+## Stream for 30 minutes
+streamtime &lt;-<span class="st"> </span><span class="dv">30</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span>
+
+## Filename to save json data (backup)
+filename &lt;-<span class="st"> "rtelect.json"</span></code></pre></div>
 </div>
-<div class="sourceLine" id="cb2-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb2-4" data-line-number="4">## Stream time in seconds so for one minute set timeout = 60</div>
-<div class="sourceLine" id="cb2-5" data-line-number="5">## For larger chunks of time, I recommend multiplying 60 by the number</div>
-<div class="sourceLine" id="cb2-6" data-line-number="6">## of desired minutes. This method scales up to hours as well</div>
-<div class="sourceLine" id="cb2-7" data-line-number="7">## (x * 60 = x mins, x * 60 * 60 = x hours)</div>
-<div class="sourceLine" id="cb2-8" data-line-number="8">## Stream for 30 minutes</div>
-<div class="sourceLine" id="cb2-9" data-line-number="9">streamtime &lt;-<span class="st"> </span><span class="dv">30</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span>
-</div>
-<div class="sourceLine" id="cb2-10" data-line-number="10"></div>
-<div class="sourceLine" id="cb2-11" data-line-number="11">## Filename to save json data (backup)</div>
-<div class="sourceLine" id="cb2-12" data-line-number="12">filename &lt;-<span class="st"> "rtelect.json"</span>
-</div></code></pre>
-</section><section id="stream_tweets" class="level2"><h2>stream_tweets()</h2>
+<div id="stream_tweets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#stream_tweets" class="anchor"></a>stream_tweets()</h2>
 <p>Once these parameters are specified, initiate the stream. Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed. It is possible to start a new instance or R—streaming itself usually isn’t very memory intensive—but operations may drag a bit during the parsing process which takes place immediately after streaming ends.</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">## Stream election tweets</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="dt">q =</span> q, <span class="dt">timeout =</span> streamtime, <span class="dt">file_name =</span> filename)</div></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Stream election tweets
+rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="dt">q =</span> q, <span class="dt">timeout =</span> streamtime, <span class="dt">file_name =</span> filename)</code></pre></div>
 <p>Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object. For example, the stream above yielded a little over 140,000 tweets and took my Macbook Air, which has 4gb of RAM, about 10 minutes to process.</p>
-</section><section id="saving-files" class="level2"><h2>Saving files</h2>
+</div>
+<div id="saving-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#saving-files" class="anchor"></a>Saving files</h2>
 <p>Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on. To do this, simply add <code>parse = FALSE</code> and make sure you provide a path (file name) to a location you can find later. The code below creates a dedicated rtweet data folder and demonstrates a time-based file naming system.</p>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">## Name of dedicated rtweet data directory</div>
-<div class="sourceLine" id="cb4-2" data-line-number="2">rtweet.folder &lt;-<span class="st"> "rtweet-data"</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Name of dedicated rtweet data directory
+rtweet.folder &lt;-<span class="st"> "rtweet-data"</span>
+
+## Create dedicated rtweet data directory
+<span class="cf">if</span> (<span class="op">!</span><span class="kw">dir.exists</span>(rtweet.folder)) {
+  <span class="kw">dir.create</span>(rtweet.folder)
+}
+
+## Name streaming file based on time of stream
+## Combine with directory to form path
+filename &lt;-<span class="st"> </span><span class="kw">file.path</span>(
+  rtweet.folder, <span class="kw">paste0</span>(<span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">"%F-%H-%S"</span>), <span class="st">".json"</span>)
+)
+
+## create meta data
+metadata &lt;-<span class="st"> </span><span class="kw">paste0</span>(
+  <span class="st">"q = "</span>, q, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
+  <span class="st">"streamtime = "</span>, streamtime, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,
+  <span class="st">"filename = "</span>, filename
+)
+
+## create file name for stream's meta data
+metafile &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">".json$"</span>, <span class="st">".txt"</span>, filename)
+
+## save meta data
+<span class="kw">cat</span>(metadata, <span class="dt">file =</span> metafile, <span class="dt">fill =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
-<div class="sourceLine" id="cb4-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb4-4" data-line-number="4">## Create dedicated rtweet data directory</div>
-<div class="sourceLine" id="cb4-5" data-line-number="5">
-<span class="cf">if</span> (<span class="op">!</span><span class="kw">dir.exists</span>(rtweet.folder)) {</div>
-<div class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw">dir.create</span>(rtweet.folder)</div>
-<div class="sourceLine" id="cb4-7" data-line-number="7">}</div>
-<div class="sourceLine" id="cb4-8" data-line-number="8"></div>
-<div class="sourceLine" id="cb4-9" data-line-number="9">## Name streaming file based on time of stream</div>
-<div class="sourceLine" id="cb4-10" data-line-number="10">## Combine with directory to form path</div>
-<div class="sourceLine" id="cb4-11" data-line-number="11">filename &lt;-<span class="st"> </span><span class="kw">file.path</span>(</div>
-<div class="sourceLine" id="cb4-12" data-line-number="12">  rtweet.folder, <span class="kw">paste0</span>(<span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">"%F-%H-%S"</span>), <span class="st">".json"</span>)</div>
-<div class="sourceLine" id="cb4-13" data-line-number="13">)</div>
-<div class="sourceLine" id="cb4-14" data-line-number="14"></div>
-<div class="sourceLine" id="cb4-15" data-line-number="15">## create meta data</div>
-<div class="sourceLine" id="cb4-16" data-line-number="16">metadata &lt;-<span class="st"> </span><span class="kw">paste0</span>(</div>
-<div class="sourceLine" id="cb4-17" data-line-number="17">  <span class="st">"q = "</span>, q, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</div>
-<div class="sourceLine" id="cb4-18" data-line-number="18">  <span class="st">"streamtime = "</span>, streamtime, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</div>
-<div class="sourceLine" id="cb4-19" data-line-number="19">  <span class="st">"filename = "</span>, filename</div>
-<div class="sourceLine" id="cb4-20" data-line-number="20">)</div>
-<div class="sourceLine" id="cb4-21" data-line-number="21"></div>
-<div class="sourceLine" id="cb4-22" data-line-number="22">## create file name for stream's meta data</div>
-<div class="sourceLine" id="cb4-23" data-line-number="23">metafile &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">".json$"</span>, <span class="st">".txt"</span>, filename)</div>
-<div class="sourceLine" id="cb4-24" data-line-number="24"></div>
-<div class="sourceLine" id="cb4-25" data-line-number="25">## save meta data</div>
-<div class="sourceLine" id="cb4-26" data-line-number="26">
-<span class="kw">cat</span>(metadata, <span class="dt">file =</span> metafile, <span class="dt">fill =</span> <span class="ot">TRUE</span>)</div></code></pre>
-</section><section id="parsing-stream-files" class="level2"><h2>Parsing stream files</h2>
+<div id="parsing-stream-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#parsing-stream-files" class="anchor"></a>Parsing stream files</h2>
 <p>Regardless of whether you decide to setup an organizational system for streaming data, the process of streaming a file to disk and parsing it at a later point in space-time is the same, as illustrated in the example below.</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">## No upfront-parse save as json file instead method</div>
-<div class="sourceLine" id="cb5-2" data-line-number="2">
-<span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(</div>
-<div class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">q =</span> q, </div>
-<div class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">parse =</span> <span class="ot">FALSE</span>,</div>
-<div class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">timeout =</span> streamtime,</div>
-<div class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">file_name =</span> filename</div>
-<div class="sourceLine" id="cb5-7" data-line-number="7">)</div>
-<div class="sourceLine" id="cb5-8" data-line-number="8">## Parse from json file</div>
-<div class="sourceLine" id="cb5-9" data-line-number="9">rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_stream.html">parse_stream</a></span>(filename)</div></code></pre>
-</section><section id="returned-data-object" class="level2"><h2>Returned data object</h2>
-<p>The parsed object should be the same whether a user parses up-front or from a json file in a later session. The returned object should be a data frame consisting of tweets data.</p>
-<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">## Preview tweets data</div>
-<div class="sourceLine" id="cb6-2" data-line-number="2">
-<span class="kw">head</span>(rt)</div></code></pre>
-<p>The returned object should also include a data frame of users data, which Twitter’s stream API automatically returns along with tweets data. To access users data, use the <code>users_data</code> function.</p>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">## Preview users data</div>
-<div class="sourceLine" id="cb7-2" data-line-number="2">
-<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt) <span class="op">%&gt;%</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## No upfront-parse save as json file instead method
+<span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(
+  <span class="dt">q =</span> q, 
+  <span class="dt">parse =</span> <span class="ot">FALSE</span>,
+  <span class="dt">timeout =</span> streamtime,
+  <span class="dt">file_name =</span> filename
+)
+## Parse from json file
+rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_stream.html">parse_stream</a></span>(filename)</code></pre></div>
 </div>
-<div class="sourceLine" id="cb7-3" data-line-number="3">
-<span class="st">  </span><span class="kw">head</span>()</div></code></pre>
-</section><section id="plotting" class="level2"><h2>Plotting</h2>
+<div id="returned-data-object" class="section level2">
+<h2 class="hasAnchor">
+<a href="#returned-data-object" class="anchor"></a>Returned data object</h2>
+<p>The parsed object should be the same whether a user parses up-front or from a json file in a later session. The returned object should be a data frame consisting of tweets data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preview tweets data
+<span class="kw">head</span>(rt)</code></pre></div>
+<p>The returned object should also include a data frame of users data, which Twitter’s stream API automatically returns along with tweets data. To access users data, use the <code>users_data</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preview users data
+<span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">head</span>()</code></pre></div>
+</div>
+<div id="plotting" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plotting" class="anchor"></a>Plotting</h2>
 <p>Once parsed, <code><a href="../reference/ts_plot.html">ts_plot()</a></code> provides a quick visual of the frequency of tweets. By default, <code><a href="../reference/ts_plot.html">ts_plot()</a></code> will try to aggregate time by the day. Because I know the stream only lasted 30 minutes, I’ve opted to aggregate tweets by the second. It’d also be possible to aggregate by the minute, i.e., <code>by = "mins"</code>, or by some value of seconds, e.g.,<code>by = "15 secs"</code>. I usually fiddle around with this a bit until the plot looks good.</p>
-<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">## Plot time series of all tweets aggregated by second</div>
-<div class="sourceLine" id="cb8-2" data-line-number="2">
-<span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt, <span class="dt">by =</span> <span class="st">"secs"</span>)</div></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Plot time series of all tweets aggregated by second
+<span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt, <span class="dt">by =</span> <span class="st">"secs"</span>)</code></pre></div>
 <p align="center">
 <img src="files/stream-ts.png" alt="stream-ts"></p>
-</section><section id="plotting-with-filters" class="level2"><h2>Plotting with filters</h2>
+</div>
+<div id="plotting-with-filters" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plotting-with-filters" class="anchor"></a>Plotting with filters</h2>
 <p>The <code><a href="../reference/ts_plot.html">ts_plot()</a></code> function can also generate multiple time series using regular expressions to filter through the texts of tweets. For convenience, this functionality can also be broken into two parts. The first part involves filtering (subsetting) the data according to user-provided filtering rules and converting the data into a frequency data structure aggregated over some unit of time. <code>ts_filter()</code> creates a time series-like data structure, which consists of “time” (specific interval of time determined via the <code>by</code> argument), “freq” (the number of observations, or tweets, that fall within the corresponding interval of time), and “filter” (a label representing the filtering rule used to subset the data). If no filter is provided, the returned data object includes a “filter” variable, but all of the entries will be blank <code>""</code>, indicating that no filter filter was used. Otherwise, <code>ts_filter()</code> uses the regular expressions supplied to the <code>filter</code> argument as values for the filter variable. To make the filter labels pretty, users may also provide a character vector using the <code>key</code> parameter.</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">## plot multiple time series by first filtering the data using</div>
-<div class="sourceLine" id="cb9-2" data-line-number="2">## regular expressions on the tweet "text" variable</div>
-<div class="sourceLine" id="cb9-3" data-line-number="3">rt <span class="op">%&gt;%</span>
-</div>
-<div class="sourceLine" id="cb9-4" data-line-number="4">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot multiple time series by first filtering the data using
+## regular expressions on the tweet "text" variable
+rt <span class="op">%&gt;%</span>
 <span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(screen_name) <span class="op">%&gt;%</span>
-</div>
-<div class="sourceLine" id="cb9-5" data-line-number="5">
-<span class="st">  </span>## The pipe operator allows you to combine this with ts_plot</div>
-<div class="sourceLine" id="cb9-6" data-line-number="6">
-<span class="st">  </span>## without things getting too messy.</div>
-<div class="sourceLine" id="cb9-7" data-line-number="7">
+<span class="st">  </span>## The pipe operator allows you to combine this with ts_plot
+<span class="st">  </span>## without things getting too messy.
 <span class="st">  </span><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>() <span class="op">+</span><span class="st"> </span>
-</div>
-<div class="sourceLine" id="cb9-8" data-line-number="8">
-<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(</div>
-<div class="sourceLine" id="cb9-9" data-line-number="9">    <span class="dt">title =</span> <span class="st">"Tweets during election day for the 2016 U.S. election"</span>,</div>
-<div class="sourceLine" id="cb9-10" data-line-number="10">    <span class="dt">subtitle =</span> <span class="st">"Tweets collected, parsed, and plotted using `rtweet`"</span>
-</div>
-<div class="sourceLine" id="cb9-11" data-line-number="11">  )</div></code></pre>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(
+    <span class="dt">title =</span> <span class="st">"Tweets during election day for the 2016 U.S. election"</span>,
+    <span class="dt">subtitle =</span> <span class="st">"Tweets collected, parsed, and plotted using `rtweet`"</span>
+  )</code></pre></div>
 <p>Often times these plots kinda resemble a frowny face with the first and last points appearing significantly lower than the rest. This is because the first and last intervals of time are artificially shrunken by connection and disconnection processes. To remedy this, users can specify <code>trim = TRUE</code> to tell R to drop the first and last observation for each time series. This usually yields a much more attractive looking plot.</p>
 <p align="center">
 <img src="files/stream-filter.png" alt="stream-filter"></p>
-</section>
+</div>
 </div>
   </div>
 

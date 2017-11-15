@@ -55,16 +55,11 @@ library(rtweet)
 
 ## Getting started
 
-#### (NEW) **Get up and running with rtweet in no time**
-- NO MORE CREATING TWITTER APPS
-- NO MORE DEALING WITH API/CONSUMER/SECRET/ACCESS KEYS
-- NO MORE COMPLICATED INSTRUCTIONS
-
-All you need is a **Twitter account** and **rtweet** and you're up and
+**NEW**: All you need is a **Twitter account** and **rtweet** and you're up and
 running!
 
-#### Easy API authorization
-- The first time you make an API request function---e.g.,
+### API authorization
+- The first time you make an API request---e.g.,
 `search_tweets()`, `stream_tweets()`, `get_followers()`---a browser
 window will open.
 - Log in to your Twitter account.
@@ -77,24 +72,24 @@ data!
 
 ### Search tweets
 
-Search for 5,000 (non-retweeted) tweets containing the rstats hashtag.
+Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.
 ```{r, eval=FALSE}
 ## search for 5000 tweets using the rstats hashtag
 rt <- search_tweets(
-  "#rstats", n = 5000, include_rts = FALSE
+  "#rstats", n = 18000, include_rts = FALSE
 )
 ```
 
 Quickly visualize frequency of tweets over time using `ts_plot()`.
 ```{r, eval=FALSE}
 ## plot time series of tweets
-ts_plot(rt, "hours") +
+ts_plot(rt, "3 hours") +
   ggplot2::theme_minimal() +
   ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
   ggplot2::labs(
     x = NULL, y = NULL,
-    title = "Twitter statuses containing \"rstats\" hashtag over time",
-    subtitle = "Tweets aggregated and counted in 1-hour intervals",
+    title = "Frequency of #rstats Twitter statuses from past 9 days",
+    subtitle = "Twitter status (tweet) counts aggregated using three-hour intervals",
     caption = "\nSource: Data collected from Twitter's REST API via rtweet"
   )
 ```
@@ -201,11 +196,21 @@ tmls <- get_timelines(c("cnn", "BBCWorld", "foxnews"), n = 3200)
 
 ## plot the frequency of tweets for each user over time
 tmls %>%
-  dplyr::filter(created_at > "2017-10-23") %>%
+  dplyr::filter(created_at > "2017-10-29") %>%
   dplyr::group_by(screen_name) %>%
   ts_plot("days", trim = 1L) +
+  ggplot2::geom_point() +
   ggplot2::theme_minimal() +
-  ggplot2::ggsave("example-tmls.png", width = 8, height = 6, units = "in")
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequency of Twitter statuses posted by news organization",
+    subtitle = "Twitter status (tweet) counts aggregated by day from October/November 2017",
+    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
+  )
 ```
 
 ![](example-tmls.png)

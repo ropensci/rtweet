@@ -394,7 +394,7 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   ## save file name for final file
   file_name <- dots[["file_name"]]
   if (is.null(file_name)) {
-    file_name <- stream_dir()
+    file_name <- "stream"
   } else if (grepl("\\.json$", file_name)) {
     file_name <- gsub("\\.json$", "", file_name)
   }
@@ -418,7 +418,7 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   ## restart and continue stream until reqtime
   while (Sys.time() <= reqtime) {
     dots[["file_name"]] <- file.path(dir, paste0(file_name, "-", i, ".json"))
-    do.call("stream_tweets", dots)
+    rt[[length(rt) + 1L]] <- do.call("stream_tweets", dots)
     i <- i + 1L
     dots[["timeout"]] <- ceiling(as.numeric(reqtime - Sys.time(), "secs"))
   }
@@ -426,9 +426,9 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
     message("Finished streaming tweets!")
   }
   ## merge JSON files into single file (named file_name)
-  pat <- paste0("^", file_name, "\\-[[:digit:]]{1,}\\.json$")
+  pat <- paste0(file_name, "\\-[[:digit:]]{1,}\\.json$")
   jsons <- list.files(dir, pattern = pat, full.names = TRUE)
-  file_name <- paste0(file_name, ".json")
+  file_name <- paste0(dir, ".json")
   for (i in jsons) {
     x <- readr::read_lines(i, progress = FALSE)
     readr::write_lines(x, file_name, append = append)
@@ -483,7 +483,6 @@ parse_streamlimit <- function(x) {
       as.numeric(unlist(lapply(x, "[[", 12L))) / 1000, origin = "1970-01-01")
   )
 }
-
 
 stream_dir <- function() {
   timestamp <- gsub("\\s|\\:|\\-", "", substr(Sys.time(), 1, 19))
