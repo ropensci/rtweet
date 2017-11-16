@@ -5,7 +5,14 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 notes
+
+I confirm the new maintainer email address.
+
+New maintainer:
+   Michael W. Kearney <kearneymw@missouri.edu>
+Old maintainer(s):
+   Michael W. Kearney <mkearney@ku.edu>
 
 ## Reverse dependencies
 

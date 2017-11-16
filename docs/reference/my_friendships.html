@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lookup friendship information between two specified users. — lookup_friendships • rtweet</title>
+<title>Lookup friendship information between users. — my_friendships • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,24 +96,21 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lookup friendship information between two specified users.</h1>
+    <h1>Lookup friendship information between users.</h1>
     </div>
 
     
-    <p>Gets information on friendship between two Twitter users.</p>
+    <p>Gets information on friendship between authenticated user and up
+to 100 other users.</p>
     
 
-    <pre class="usage"><span class='fu'>lookup_friendships</span>(<span class='no'>source</span>, <span class='no'>target</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>my_friendships</span>(<span class='no'>user</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>source</th>
-      <td><p>Screen name or user id of source user.</p></td>
-    </tr>
-    <tr>
-      <th>target</th>
+      <th>user</th>
       <td><p>Screen name or user id of target user.</p></td>
     </tr>
     <tr>
@@ -137,7 +134,7 @@ tokens vignette (in r, send <code>?tokens</code> to console).</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other friends: <code><a href='my_friendships.html'>my_friendships</a></code></p>
+    <p>Other friends: <code><a href='lookup_friendships.html'>lookup_friendships</a></code></p>
     
 
   </div>

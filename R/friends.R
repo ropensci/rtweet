@@ -265,9 +265,9 @@ fnd_internal <- function(r) {
 #'   not true, the HTTP response object is returned instead.
 #' @family friends
 #' @export
-lookup_myfriendships <- function(user,
-                                 parse = TRUE,
-                                 token = NULL) {
+my_friendships <- function(user,
+                           parse = TRUE,
+                           token = NULL) {
   stopifnot(is.atomic(user))
   token <- check_token(token)
   query <- "friendships/lookup"
@@ -289,23 +289,8 @@ lookup_myfriendships <- function(user,
 }
 
 
-#' Lookup friendship information between two specified users.
-#'
-#' Gets information on friendship between two Twitter users.
-#'
-#' @param source Screen name or user id of source user.
-#' @param target Screen name or user id of target user.
-#' @param parse Logical indicating whether to return parsed data frame.
-#'   Defaults to true.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find instructions
-#'   on how to create tokens and setup an environment variable in the
-#'   tokens vignette (in r, send \code{?tokens} to console).
-#' @return Data frame converted form returned JSON object. If parse is
-#'   not true, the HTTP response object is returned instead.
-#' @family friends
-#' @export
-lookup_friendship <- function(source,
+
+lookup_friendships_ <- function(source,
                               target,
                               parse = TRUE,
                               token = NULL) {
@@ -326,47 +311,69 @@ lookup_friendship <- function(source,
     error = function(e) return(NULL))
   f <- from_js(f)
   if (parse) {
-    f <- parse_showfriendships(f)
+    f <- parse_showfriendships(f, source, target)
   }
   f
 }
 
-#' @inheritParams lookup_friendship
+#' Lookup friendship information between two specified users.
+#'
+#' Gets information on friendship between two Twitter users.
+#'
+#' @param source Screen name or user id of source user.
+#' @param target Screen name or user id of target user.
+#' @param parse Logical indicating whether to return parsed data frame.
+#'   Defaults to true.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find instructions
+#'   on how to create tokens and setup an environment variable in the
+#'   tokens vignette (in r, send \code{?tokens} to console).
+#' @return Data frame converted form returned JSON object. If parse is
+#'   not true, the HTTP response object is returned instead.
+#' @family friends
 #' @export
-#' @rdname lookup_friendship
 lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
   if (length(source) > 1L && length(target) > 1L) {
     stopifnot(length(source) == length(target))
   }
-  fds <- mapply(
-    "lookup_friendship", source, target,
+  fds <- Map(
+    "lookup_friendships_", source, target,
     MoreArgs = list(parse = parse, token = token)
   )
   if (parse) {
     fds <- do.call("rbind", fds)
+    row.names(fds) <- NULL
   }
   fds
 }
 
 
 
-parse_showfriendships <- function(x) {
+parse_showfriendships <- function(x, source_user, target_user) {
   if (has_name_(x, "relationship")) {
     x <- x$relationship
   }
   if (has_name_(x, "source")) {
-    src <- x$source
+    src <- unlist(x$source)
+    src <- tibble::data_frame(
+      relationship = "source",
+      user = target_user,
+      variable = names(src),
+      value = src
+    )
   } else {
-    src <- NULL
+    src <- data.frame()
   }
   if (has_name_(x, "target")) {
-    trg <- x$target
+    trg <- unlist(x$target)
+    trg <- tibble::data_frame(
+      relationship = "target",
+      user = source_user,
+      variable = names(trg),
+      value = trg
+    )
   } else {
-    trg <- NULL
+    trg <- data.frame()
   }
-  tibble::data_frame(
-    relationship = c(rep("source", length(src)), rep("target", length(trg))),
-    variable = c(names(src), names(trg)),
-    value = c(unlist(src), unlist(trg))
-  )
+  rbind(src, trg)
 }

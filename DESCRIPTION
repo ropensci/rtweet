@@ -4,12 +4,10 @@ Version: 0.6.0
 Title: Collecting Twitter Data
 Date: 2017-11-14
 Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))
-Description: An implementation of calls designed to extract and
+Description: An implementation of calls designed to collect and
     organize Twitter data via Twitter's REST and stream Application
-    Program Interfaces (API). Functions formulate and send API
-    requests, convert response objects to more user friendly data
-    structures---e.g., data frames---and provide some aesthetically
-    pleasing visualizations for exploring the data.
+    Program Interfaces (API), which can be found at the following URL:
+    <https://developer.twitter.com/en/docs>.
 Depends:
     R (>= 3.1.0)
 Imports:

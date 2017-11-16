@@ -11,7 +11,7 @@ vignette: >
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-    echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
+  echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
 ## Installing and loading package
@@ -78,39 +78,9 @@ Air, which has 4gb of RAM, about 10 minutes to process.
 Given a lengthy parsing process, users may want to stream tweets into
 json files upfront and parse those files later on. To do this, simply
 add `parse = FALSE` and make sure you provide a path (file name) to a
-location you can find later. The code below creates a dedicated rtweet
-data folder and demonstrates a time-based file naming system.
-
-```{r}
-## Name of dedicated rtweet data directory
-rtweet.folder <- "rtweet-data"
-
-## Create dedicated rtweet data directory
-if (!dir.exists(rtweet.folder)) {
-  dir.create(rtweet.folder)
-}
-
-## Name streaming file based on time of stream
-## Combine with directory to form path
-filename <- file.path(
-  rtweet.folder, paste0(format(Sys.time(), "%F-%H-%S"), ".json")
-)
-
-## create meta data
-metadata <- paste0(
-  "q = ", q, "\n",
-  "streamtime = ", streamtime, "\n",
-  "filename = ", filename
-)
-
-## create file name for stream's meta data
-metafile <- gsub(".json$", ".txt", filename)
-
-## save meta data
-cat(metadata, file = metafile, fill = TRUE)
-```
-
-## Parsing stream files
+location you can find later. To ensure the stream automatically reconnects following
+any interruption prior to the specified stream time, use
+`stream_tweets2()`.
 
 Regardless of whether you decide to setup an organizational system for
 streaming data, the process of streaming a file to disk and parsing it
@@ -120,13 +90,26 @@ below.
 ```{r}
 ## No upfront-parse save as json file instead method
 stream_tweets(
-  q = q, 
+  q = q,
   parse = FALSE,
   timeout = streamtime,
   file_name = filename
 )
 ## Parse from json file
 rt <- parse_stream(filename)
+
+## stream_tweets2 method
+twoweeks <- 60L * 60L * 24L * 7L * 2L
+congress <- "congress,senate,house of representatives,representatives,senators,legislative"
+stream_tweets2(
+  q = congress,
+  parse = FALSE,
+  timeout = twoweeks,
+  dir = "congress-stream"
+)
+
+## Parse from json file
+rt <- parse_stream("congress-stream.json")
 ```
 
 ## Returned data object
@@ -137,7 +120,7 @@ data frame consisting of tweets data.
 
 ```{r}
 ## Preview tweets data
-head(rt)
+rt
 ```
 
 The returned object should also include a data frame of users data,
@@ -146,8 +129,7 @@ data. To access users data, use the `users_data` function.
 
 ```{r}
 ## Preview users data
-users_data(rt) %>% 
-  head()
+users_data(rt)
 ```
 
 ## Plotting
@@ -171,32 +153,14 @@ ts_plot(rt, by = "secs")
 
 ## Plotting with filters
 
-The `ts_plot()` function can also generate multiple time series using
-regular expressions to filter through the texts of tweets. For
-convenience, this functionality can also be broken into two parts. The
-first part involves filtering (subsetting) the data according to
-user-provided filtering rules and converting the data into a frequency
-data structure aggregated over some unit of time. `ts_filter()`
-creates a time series-like data structure, which consists of "time"
-(specific interval of time determined via the `by` argument), "freq"
-(the number of observations, or tweets, that fall within the
-corresponding interval of time), and "filter" (a label representing
-the filtering rule used to subset the data). If no filter is provided,
-the returned data object includes a "filter" variable, but all
-of the entries will be blank `""`, indicating that no filter filter
-was used. Otherwise, `ts_filter()` uses the regular expressions supplied to
-the `filter` argument as values for the filter variable. To make the
-filter labels pretty, users may also provide a character vector using
-the `key` parameter.
+The `ts_plot()` function can also generate multiple time series for
+grouped data frames.
 
 ```{r}
-## plot multiple time series by first filtering the data using
-## regular expressions on the tweet "text" variable
+## plot multiple time series by first grouping the data by screen name
 rt %>%
   dplyr::group_by(screen_name) %>%
-  ## The pipe operator allows you to combine this with ts_plot
-  ## without things getting too messy.
-  ts_plot() + 
+  ts_plot() +
   ggplot2::labs(
     title = "Tweets during election day for the 2016 U.S. election",
     subtitle = "Tweets collected, parsed, and plotted using `rtweet`"
@@ -207,7 +171,7 @@ Often times these plots kinda resemble a frowny face with the
 first and last points appearing significantly lower than the
 rest. This is because the first and last intervals of time are
 artificially shrunken by connection and disconnection processes. To
-remedy this, users can specify `trim = TRUE` to tell R to drop the
+remedy this, users can specify `trim = 1` to tell R to drop the
 first and last observation for each time series. This usually yields a
 much more attractive looking plot.
 

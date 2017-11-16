@@ -76,9 +76,9 @@ secret <- "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"
 
 ## create token named "twitter_token"
 twitter_token <- create_token(
-    app = appname,
-    consumer_key = key,
-    consumer_secret = secret)
+  app = appname,
+  consumer_key = key,
+  consumer_secret = secret)
 ```
 
 *NOTE*: Following the steps outlined above, it's possible to create *multiple*
