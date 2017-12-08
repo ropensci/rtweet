@@ -1,18 +1,16 @@
 ---
 title: rtweet: Collecting Twitter data'
 tags:
-  - R
-  - Twitter
-  - Web APIs
+    - R
+    - Twitter
+    - Web APIs
 authors:
- - name: Michael W. Kearney
-   orcid: 0000-0002-0730-4694
-   affiliation: "1, 2"
+    - name: Michael W. Kearney
+      orcid: 0000-0002-0730-4694
+      affiliation: "1, 2"
 affiliations:
- - name: Missouri School of Journalism
-   index: 1
- - name: Missouri Informatics Institute
-   index: 2
+    - name: School of Journalism, Informatics Institute, University of Missouri
+      index: 1
 date: 8 December 2017
 bibliography: paper.bib
 ---
