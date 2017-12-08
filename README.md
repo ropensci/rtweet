@@ -1,16 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-rtweet <img src="man/figures/logo.png" align="right" />
-=======================================================
+rtweet <img src="man/figures/logo.png" align="right" /> ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
+================================================================================================================================================================================
 
-[![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet) ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) <!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --> <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --> [![Rdoc](http://www.rdocumentation.org/badges/version/rtweet)](http://www.rdocumentation.org/packages/rtweet)
+[![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet)
 
-R client for accessing Twitter's REST and stream APIs.
+R client for accessing Twitter's REST and stream APIs. Check out the [rtweet package documentation website](http://rtweet.info).
 
-Check out the [rtweet package documentation website](http://rtweet.info).
-
-Install
--------
+Installation
+------------
 
 To get the current released version from CRAN:
 
@@ -37,8 +35,8 @@ devtools::install_github("mkearney/rtweet")
 library(rtweet)
 ```
 
-Getting started
----------------
+Usage
+-----
 
 **NEW**: All you need is a **Twitter account** and **rtweet** and you're up and running!
 
@@ -50,10 +48,9 @@ Getting started
 
 And that's it! You're ready to start collecting and analyzing Twitter data!
 
-Package features
-----------------
+### Package features
 
-### Search tweets
+#### Search tweets
 
 Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.
 
@@ -111,7 +108,7 @@ with(rt, points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75)))
 
 ![](tools/readme/example-statemap.png)
 
-### Stream tweets
+#### Stream tweets
 
 Randomly sample (approximately 1%) from the live stream of all tweets.
 
@@ -142,7 +139,7 @@ stream_tweets(
 djt <- parse_stream("tweetsabouttrump.json")
 ```
 
-### Get friends
+#### Get friends
 
 Retrieve a list of all the accounts a **user follows**.
 
@@ -154,7 +151,7 @@ cnn_fds <- get_friends("cnn")
 cnn_fds_data <- lookup_users(cnn_fds$user_id)
 ```
 
-### Get followers
+##### Get followers
 
 Retrieve a list of the **accounts following** a user.
 
@@ -178,7 +175,7 @@ cnn_flw <- get_followers(
 )
 ```
 
-### Get timelines
+#### Get timelines
 
 Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.
 
@@ -207,7 +204,7 @@ tmls %>%
 
 ![](tools/readme/example-tmls.png)
 
-### Get favorites
+#### Get favorites
 
 Get the 3,000 most recently favorited statuses by JK Rowling.
 
@@ -215,7 +212,7 @@ Get the 3,000 most recently favorited statuses by JK Rowling.
 jkr <- get_favorites("jk_rowling", n = 3000)
 ```
 
-### Search users
+#### Search users
 
 Search for 1,000 users with the rstats hashtag in their profile bios.
 
@@ -224,7 +221,7 @@ Search for 1,000 users with the rstats hashtag in their profile bios.
 usrs <- search_users("#rstats", n = 1000)
 ```
 
-### Get trends
+#### Get trends
 
 Discover what's currently trending in San Francisco.
 
@@ -232,19 +229,13 @@ Discover what's currently trending in San Francisco.
 sf <- get_trends("san francisco")
 ```
 
-For posting (tweeting from R console) or read DM permissions
-------------------------------------------------------------
+#### Post actions
 
+-   Posting (tweeting from R console) or reading direct messages require addtional permissions
 -   If you'd like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you'll need to create your own Twitter app.
 -   To create your own Twitter app, follow the instructions in the authorization vignette on [obtaining and using access tokens](http://rtweet.info/articles/auth.html).
 
-``` r
-## authorizing API access
-vignette("auth", package = "rtweet")
-```
-
-Other vignettes
----------------
+#### Vignettes
 
 [Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
 

@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,600,600i');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
 /* Sticker footer */
@@ -10,11 +9,13 @@ body > .container {
 }
 
 body > .container .row {
-    flex: 1;
+  flex: 1;
 }
 
 body {
-    line-height: 1.65;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  line-height: 1.8;
+  color: #222;
 }
 footer {
   margin-top: 45px;
@@ -88,9 +89,9 @@ a.anchor {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Roboto', Helvetica;
-    font-weight: 400;
-    color: #222;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: 600;
+  color: #222;
 }
 
 h1 {font-size: 2.4em;}
@@ -150,7 +151,7 @@ pre {
 
 pre, code {
   background-color: #f8f8f8;
-  color: #333;
+  color: #222;
   line-height: 1.4;
 }
 
@@ -185,7 +186,7 @@ code a, pre a {
 
 .navbar-default {
     background-color: #fbfbfb;
-    font-family: 'Roboto';
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
 }
 .navbar-default .navbar-brand {
   color: #444;

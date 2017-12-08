@@ -1,0 +1,8 @@
+urls:
+  reference: http://rtweet.info/reference
+  article: http://rtweet.info/articles
+articles:
+  auth: auth.html
+  intro: intro.html
+  stream: stream.html
+

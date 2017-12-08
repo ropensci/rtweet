@@ -29,37 +29,23 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="/index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/auth.html">Obtaining and using access tokens</a>
-    </li>
-    <li>
-      <a href="articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
-    </li>
-    <li>
-      <a href="articles/stream.html">Live streaming tweets</a>
-    </li>
-  </ul>
+  <a href="articles/index.html">Vignettes</a>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="reference/index.html">Functions</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/mkearney/rtweet">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -76,16 +62,15 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="rtweet" class="section level1">
+<div id="rtweet-downloadsdownloads" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#rtweet" class="anchor"></a>rtweet <img src="reference/figures/logo.png" align="right">
+<a href="#rtweet-downloadsdownloads" class="anchor"></a>rtweet <img src="reference/figures/logo.png" align="right"><img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads">
 </h1></div>
-<p><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a> <a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/rtweet" alt="Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rtweet" alt="Downloads"><!-- [![Travis-CI Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) --><!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mkearney/rtweet/master.svg)](https://codecov.io/gh/mkearney/rtweet) --><a href="http://www.rdocumentation.org/packages/rtweet"><img src="http://www.rdocumentation.org/badges/version/rtweet" alt="Rdoc"></a></p>
-<p>R client for accessing Twitter’s REST and stream APIs.</p>
-<p>Check out the <a href="http://rtweet.info">rtweet package documentation website</a>.</p>
-<div id="install" class="section level2">
+
+<p>R client for accessing Twitter’s REST and stream APIs. Check out the <a href="http://rtweet.info">rtweet package documentation website</a>.</p>
+<div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#install" class="anchor"></a>Install</h2>
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>To get the current released version from CRAN:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## install rtweet from CRAN
 <span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)
@@ -104,9 +89,9 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 ## load rtweet package
 <span class="kw">library</span>(rtweet)</code></pre></div>
 </div>
-<div id="getting-started" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h2>
+<a href="#usage" class="anchor"></a>Usage</h2>
 <p><strong>NEW</strong>: All you need is a <strong>Twitter account</strong> and <strong>rtweet</strong> and you’re up and running!</p>
 <div id="api-authorization" class="section level3">
 <h3 class="hasAnchor">
@@ -118,13 +103,12 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 </ul>
 <p>And that’s it! You’re ready to start collecting and analyzing Twitter data!</p>
 </div>
-</div>
-<div id="package-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-features" class="anchor"></a>Package features</h2>
-<div id="search-tweets" class="section level3">
+<div id="package-features" class="section level3">
 <h3 class="hasAnchor">
-<a href="#search-tweets" class="anchor"></a>Search tweets</h3>
+<a href="#package-features" class="anchor"></a>Package features</h3>
+<div id="search-tweets" class="section level4">
+<h4 class="hasAnchor">
+<a href="#search-tweets" class="anchor"></a>Search tweets</h4>
 <p>Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for 5000 tweets using the rstats hashtag
 rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(
@@ -168,9 +152,9 @@ maps<span class="op">::</span><span class="kw"><a href="http://www.rdocumentatio
 <img src="tools/readme/example-statemap.png">
 </div>
 </div>
-<div id="stream-tweets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#stream-tweets" class="anchor"></a>Stream tweets</h3>
+<div id="stream-tweets" class="section level4">
+<h4 class="hasAnchor">
+<a href="#stream-tweets" class="anchor"></a>Stream tweets</h4>
 <p>Randomly sample (approximately 1%) from the live stream of all tweets.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## random sample for 30 seconds (default)
 rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</code></pre></div>
@@ -189,19 +173,18 @@ rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_twee
 ## read in the data as a tidy tbl data frame
 djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</code></pre></div>
 </div>
-<div id="get-friends" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-friends" class="anchor"></a>Get friends</h3>
+<div id="get-friends" class="section level4">
+<h4 class="hasAnchor">
+<a href="#get-friends" class="anchor"></a>Get friends</h4>
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
 cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)
 
 ## lookup data on those accounts
 cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</code></pre></div>
-</div>
-<div id="get-followers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-followers" class="anchor"></a>Get followers</h3>
+<div id="get-followers" class="section level5">
+<h5 class="hasAnchor">
+<a href="#get-followers" class="anchor"></a>Get followers</h5>
 <p>Retrieve a list of the <strong>accounts following</strong> a user.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts following CNN
 cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)
@@ -217,9 +200,10 @@ cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_fo
   <span class="st">"cnn"</span>, <span class="dt">n =</span> cnn<span class="op">$</span>followers_count, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span>
 )</code></pre></div>
 </div>
-<div id="get-timelines" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-timelines" class="anchor"></a>Get timelines</h3>
+</div>
+<div id="get-timelines" class="section level4">
+<h4 class="hasAnchor">
+<a href="#get-timelines" class="anchor"></a>Get timelines</h4>
 <p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## get user IDs of accounts followed by CNN
 tmls &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_timeline.html">get_timelines</a></span>(<span class="kw">c</span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)
@@ -245,45 +229,45 @@ tmls <span class="op">%&gt;%</span>
 <img src="tools/readme/example-tmls.png">
 </div>
 </div>
-<div id="get-favorites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-favorites" class="anchor"></a>Get favorites</h3>
+<div id="get-favorites" class="section level4">
+<h4 class="hasAnchor">
+<a href="#get-favorites" class="anchor"></a>Get favorites</h4>
 <p>Get the 3,000 most recently favorited statuses by JK Rowling.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">jkr &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</code></pre></div>
 </div>
-<div id="search-users" class="section level3">
-<h3 class="hasAnchor">
-<a href="#search-users" class="anchor"></a>Search users</h3>
+<div id="search-users" class="section level4">
+<h4 class="hasAnchor">
+<a href="#search-users" class="anchor"></a>Search users</h4>
 <p>Search for 1,000 users with the rstats hashtag in their profile bios.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## search for users with #rstats in their profiles
 usrs &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</code></pre></div>
 </div>
-<div id="get-trends" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-trends" class="anchor"></a>Get trends</h3>
+<div id="get-trends" class="section level4">
+<h4 class="hasAnchor">
+<a href="#get-trends" class="anchor"></a>Get trends</h4>
 <p>Discover what’s currently trending in San Francisco.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sf &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)</code></pre></div>
 </div>
-</div>
-<div id="for-posting-tweeting-from-r-console-or-read-dm-permissions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#for-posting-tweeting-from-r-console-or-read-dm-permissions" class="anchor"></a>For posting (tweeting from R console) or read DM permissions</h2>
+<div id="post-actions" class="section level4">
+<h4 class="hasAnchor">
+<a href="#post-actions" class="anchor"></a>Post actions</h4>
 <ul>
+<li>Posting (tweeting from R console) or reading direct messages require addtional permissions</li>
 <li>If you’d like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you’ll need to create your own Twitter app.</li>
 <li>To create your own Twitter app, follow the instructions in the authorization vignette on <a href="http://rtweet.info/articles/auth.html">obtaining and using access tokens</a>.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## authorizing API access
-<span class="kw">vignette</span>(<span class="st">"auth"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
 </div>
-<div id="other-vignettes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-vignettes" class="anchor"></a>Other vignettes</h2>
+<div id="vignettes" class="section level4">
+<h4 class="hasAnchor">
+<a href="#vignettes" class="anchor"></a>Vignettes</h4>
 <p><a href="http://rtweet.info/articles/intro.html">Quick overview of rtweet package</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## quick overview of rtweet functions
 <span class="kw">vignette</span>(<span class="st">"intro"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
 <p><a href="http://rtweet.info/articles/stream.html">Live streaming tweets data</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## working with the stream
 <span class="kw">vignette</span>(<span class="st">"stream"</span>, <span class="dt">package =</span> <span class="st">"rtweet"</span>)</code></pre></div>
+</div>
+</div>
 </div>
 <div id="contact" class="section level2">
 <h2 class="hasAnchor">
@@ -312,6 +296,11 @@ usrs &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_us
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Michael W. Kearney <br><small class="roles"> Author, maintainer </small> </li>
+</ul>
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/mkearney/rtweet"><img src="https://travis-ci.org/mkearney/rtweet.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=rtweet"><img src="http://www.r-pkg.org/badges/version/rtweet" alt="CRAN_Status_Badge"></a></li>
 </ul>
 </div>
 

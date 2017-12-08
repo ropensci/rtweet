@@ -1,5 +1,19 @@
-navbar:
-  type: default
+url: http://rtweet.info
+
 template:
   params:
     bootswatch: paper
+
+navbar:
+  title: rtweet
+  type: default
+  left:
+  - text: Home
+    href: index.html
+  - text: Vignettes
+    href: articles/index.html
+  - text: Functions
+    href: reference/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/mkearney/rtweet
