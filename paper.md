@@ -1,5 +1,5 @@
 ---
-title: rtweet: Collecting Twitter data'
+title: rtweet: Collecting Twitter data
 tags:
     - R
     - Twitter
