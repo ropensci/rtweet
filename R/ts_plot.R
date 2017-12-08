@@ -246,7 +246,7 @@ trim_time <- function(dt, by, tz = "UTC", ...) {
 parse_unit <- function(by) {
   stopifnot(is.atomic(by))
   if (is.numeric(by)) {
-    n <- by
+    return(by)
   } else if (grepl("year", by)) {
     n <- 60 * 60 * 24 * 365
   } else if (grepl("month", by)) {
