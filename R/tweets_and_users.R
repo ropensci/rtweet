@@ -256,7 +256,13 @@ tweets_to_tbl_ <- function(dat) {
   statuscols <- statuscols_()
   nacols <- statuscols[!statuscols %in% names(dat)]
   for (i in nacols) {
-    dat[[i]] <- NA
+    if (grepl("_count$", i)) {
+      dat[[i]] <- NA_integer_
+    } else if (grepl("^is_", i)) {
+      dat[[i]] <- NA
+    } else {
+      dat[[i]] <- NA_character_
+    }
   }
   dat <- dat[, statuscols[statuscols %in% names(dat)]]
   names(dat) <- names(statuscols)[statuscols %in% names(dat)]
@@ -376,6 +382,8 @@ statuscols_ <- function() {
     is_retweet = "is_retweet",
     favorite_count = "favorite_count",
     retweet_count = "retweet_count",
+    quote_count = "quote_count",
+    reply_count = "reply_count",
     hashtags = "hashtags",
     symbols = "symbols",
     urls_url = "urls_url",
