@@ -67,6 +67,7 @@ get_timeline <- function(user,
     user = user,
     n = n,
     max_id = max_id,
+    home = home,
     parse = parse,
     check = check,
     token = token
