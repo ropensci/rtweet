@@ -404,6 +404,15 @@ statuscols_ <- function() {
     quoted_text = "quoted_text",
     retweet_status_id = "retweet_status_id",
     retweet_text = "retweet_text",
+    retweet_user_id = "retweet_user_id",
+    retweet_screen_name = "retweet_screen_name",
+    retweet_name = "retweet_name",
+    retweet_followers_count = "retweet_followers_count",
+    retweet_friends_count = "retweet_friends_count",
+    retweet_statuses_count = "retweet_statuses_count",
+    retweet_location = "retweet_location",
+    retweet_description = "retweet_description",
+    retweet_verified = "retweet_verified",
     place_url = "place_url",
     place_name = "place_name",
     place_full_name = "place_full_name",
@@ -444,8 +453,57 @@ wrangle_retweet_status <- function(x) {
   }
   if (has_name(rst, "full_text")) {
     x$retweet_text <- rst$full_text
+  } else if (has_name(rst, "text")) {
+    x$retweet_text <- rst$text
   } else {
     x$retweet_text <- NA_character_
+  }
+  if (has_name(rst, "user") && has_name(rst$user, "screen_name")) {
+    x$retweet_screen_name <- rst$user$screen_name
+  } else {
+    x$retweet_screen_name <- NA_character_
+  }
+  if (has_name(rst, "user") && has_name(rst$user, "id_str")) {
+    x$retweet_user_id <- rst$user$id_str
+  } else {
+    x$retweet_user_id <- NA_character_
+  }
+  ##
+  if (has_name(rst, "user") && has_name(rst$user, "name")) {
+    x$retweet_name <- rst$user$name
+  } else {
+    x$retweet_name <- NA_character_
+  }
+    if (has_name(rst, "user") && has_name(rst$user, "description")) {
+    x$retweet_description <- rst$user$description
+  } else {
+    x$retweet_description <- NA_character_
+  }
+  if (has_name(rst, "user") && has_name(rst$user, "followers_count")) {
+    x$retweet_followers_count <- rst$user$followers_count
+  } else {
+    x$retweet_followers_count <- NA_integer_
+  }
+    if (has_name(rst, "user") && has_name(rst$user, "friends_count")) {
+    x$retweet_friends_count <- rst$user$friends_count
+  } else {
+    x$retweet_friends_count <- NA_integer_
+  }
+    if (has_name(rst, "user") && has_name(rst$user, "statuses_count")) {
+    x$retweet_statuses_count <- rst$user$statuses_count
+  } else {
+    x$retweet_statuses_count <- NA_integer_
+  }
+
+  if (has_name(rst, "user") && has_name(rst$user, "verified")) {
+    x$retweet_verified <- rst$user$verified
+  } else {
+    x$retweet_verified <- NA
+  }
+    if (has_name(rst, "user") && has_name(rst$user, "location")) {
+    x$retweet_location <- rst$user$location
+  } else {
+    x$retweet_location <- NA_character_
   }
   x$is_retweet <- !is.na(x$retweet_status_id)
   x[["retweeted_status"]] <- NULL
