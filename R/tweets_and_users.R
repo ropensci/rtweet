@@ -135,6 +135,7 @@ status_object_ <- function(x) {
 
 tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
+  dat$display_text_width <- display_text_range(dat)
   ## extended entitites > media
   if (has_name(dat, "extended_entities") &&
       has_name(dat[['extended_entities']], "media")) {
@@ -375,6 +376,7 @@ statuscols_ <- function() {
     screen_name = "screen_name",
     text = "text",
     source = "source",
+    display_text_width = "display_text_width",
     reply_to_status_id = "in_reply_to_status_id_str",
     reply_to_user_id = "in_reply_to_user_id_str",
     reply_to_screen_name = "in_reply_to_screen_name",
@@ -382,8 +384,8 @@ statuscols_ <- function() {
     is_retweet = "is_retweet",
     favorite_count = "favorite_count",
     retweet_count = "retweet_count",
-    quote_count = "quote_count",
-    reply_count = "reply_count",
+    ##quote_count = "quote_count",
+    ##reply_count = "reply_count",
     hashtags = "hashtags",
     symbols = "symbols",
     urls_url = "urls_url",
@@ -402,8 +404,24 @@ statuscols_ <- function() {
     lang = "lang",
     quoted_status_id = "quoted_status_id",
     quoted_text = "quoted_text",
+    quoted_created_at = "quoted_created_at",
+    quoted_source = "quoted_source",
+    quoted_favorite_count = "quoted_favorite_count",
+    quoted_retweet_count = "quoted_retweet_count",
+    quoted_user_id = "quoted_user_id",
+    quoted_screen_name = "quoted_screen_name",
+    quoted_name = "quoted_name",
+    quoted_followers_count = "quoted_followers_count",
+    quoted_friends_count = "quoted_friends_count",
+    quoted_statuses_count = "quoted_statuses_count",
+    quoted_location = "quoted_location",
+    quoted_description = "quoted_description",
+    quoted_verified = "quoted_verified",
     retweet_status_id = "retweet_status_id",
     retweet_text = "retweet_text",
+    retweet_created_at = "retweet_created_at",
+    retweet_source = "retweet_source",
+    retweet_favorite_count = "retweet_favorite_count",
     retweet_user_id = "retweet_user_id",
     retweet_screen_name = "retweet_screen_name",
     retweet_name = "retweet_name",
@@ -424,6 +442,17 @@ statuscols_ <- function() {
     bbox_coords = "bbox_coords"
   )
 }
+
+display_text_range <- function(x) {
+  if (has_name(x, "display_text_range")) {
+    vapply(
+      x$display_text_range,
+      function(x) ifelse(is.null(x), NA_integer_, diff(x)), double(1))
+  } else {
+    rep(NA_integer_, nrow(x))
+  }
+}
+
 
 ##-----------------------------------------------------
 ## utility funs
@@ -457,6 +486,21 @@ wrangle_retweet_status <- function(x) {
     x$retweet_text <- rst$text
   } else {
     x$retweet_text <- NA_character_
+  }
+  if (has_name(rst, "source")) {
+    x$retweet_screen_name <- rst$source
+  } else {
+    x$retweet_screen_name <- NA_character_
+  }
+  if (has_name(rst, "created_at")) {
+    x$retweet_created_at <- format_date(rst$created_at)
+  } else {
+    x$retweet_created_at <- as.POSIXct(NA_character_)
+  }
+  if (has_name(rst, "favorite_count")) {
+    x$retweet_favorite_count <- rst$favorite_count
+  } else {
+    x$retweet_favorite_count <- NA_integer_
   }
   if (has_name(rst, "user") && has_name(rst$user, "screen_name")) {
     x$retweet_screen_name <- rst$user$screen_name
@@ -494,7 +538,6 @@ wrangle_retweet_status <- function(x) {
   } else {
     x$retweet_statuses_count <- NA_integer_
   }
-
   if (has_name(rst, "user") && has_name(rst$user, "verified")) {
     x$retweet_verified <- rst$user$verified
   } else {
@@ -525,8 +568,75 @@ wrangle_quote_status <- function(x) {
   }
   if (has_name(qst, "full_text")) {
     x$quoted_text <- qst$full_text
+  } else if (has_name(qst, "text")) {
+    x$quoted_text <- qst$text
   } else {
     x$quoted_text <- NA_character_
+  }
+  if (has_name(qst, "source")) {
+    x$quoted_screen_name <- qst$source
+  } else {
+    x$quoted_screen_name <- NA_character_
+  }
+  if (has_name(qst, "created_at")) {
+    x$quoted_created_at <- format_date(qst$created_at)
+  } else {
+    x$quoted_created_at <- as.POSIXct(NA_character_)
+  }
+  if (has_name(qst, "favorite_count")) {
+    x$quoted_favorite_count <- qst$favorite_count
+  } else {
+    x$quoted_favorite_count <- NA_integer_
+  }
+  if (has_name(qst, "created_at")) {
+    x$quoted_retweet_count <- qst$retweet_count
+  } else {
+    x$quoted_retweet_count <- NA_integer_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "screen_name")) {
+    x$quoted_screen_name <- qst$user$screen_name
+  } else {
+    x$quoted_screen_name <- NA_character_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "id_str")) {
+    x$quoted_user_id <- qst$user$id_str
+  } else {
+    x$quoted_user_id <- NA_character_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "name")) {
+    x$quoted_name <- qst$user$name
+  } else {
+    x$quoted_name <- NA_character_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "description")) {
+    x$quoted_description <- qst$user$description
+  } else {
+    x$quoted_description <- NA_character_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "followers_count")) {
+    x$quoted_followers_count <- qst$user$followers_count
+  } else {
+    x$quoted_followers_count <- NA_integer_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "friends_count")) {
+    x$quoted_friends_count <- qst$user$friends_count
+  } else {
+    x$quoted_friends_count <- NA_integer_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "statuses_count")) {
+    x$quoted_statuses_count <- qst$user$statuses_count
+  } else {
+    x$quoted_statuses_count <- NA_integer_
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "verified")) {
+    x$quoted_verified <- qst$user$verified
+  } else {
+    x$quoted_verified <- NA
+  }
+  if (has_name(qst, "user") && has_name(qst$user, "location")) {
+    x$quoted_location <- qst$user$location
+  } else {
+    x$quoted_location <- NA_character_
   }
   x$is_quote <- !is.na(x$quoted_status_id)
   x[["quoted_status"]] <- NULL
