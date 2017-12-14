@@ -140,6 +140,10 @@ stream_tweets <- function(q = "",
                           file_name = NULL,
                           verbose = TRUE,
                           ...) {
+  if ("append" %in% names(list(...))) {
+    stop("append should only be used with stream_tweets2() (in development)",
+         call. = FALSE)
+  }
   ## set encoding
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")
@@ -198,6 +202,7 @@ stream_tweets <- function(q = "",
       httr::progress()),
       error = function(e) return(e)
       )
+    message("Finished streaming tweets!")
   } else {
     r <- tryCatch(httr::POST(
       url = url,
@@ -206,9 +211,6 @@ stream_tweets <- function(q = "",
       httr::add_headers(`Accept-Encoding` = "deflate, gzip")),
       error = function(e) return(e)
       )
-  }
-  if (verbose) {
-    message("Finished streaming tweets!")
   }
   if (parse) {
     out <- parse_stream(file_name)
@@ -225,7 +227,7 @@ stream_tweets <- function(q = "",
 }
 
 tmp_json <- function() {
-  timestamp <- gsub("\\s|\\:|\\-", "", substr(Sys.time(), 1, 19))
+  timestamp <- gsub("[^[:digit:]_]", "", Sys.time())
   paste0("stream-", timestamp, ".json")
 }
 
