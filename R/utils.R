@@ -1,13 +1,18 @@
+
 local_time <- function(x) UseMethod("local_time")
+
 local_time.default <- function(x) x
+
 local_time.POSIXct <- function(x) {
   x <- format(x, tz = Sys.timezone())
   as.POSIXct(x)
 }
+
 local_time.Date <- function(x) {
   x <- format(x, tz = Sys.timezone())
   as.Date(x)
 }
+
 local_time.data.frame <- function(x) {
   ca <- grep("created\\_at$", names(x))
   x[ca] <- lapply(x[ca], local_time)

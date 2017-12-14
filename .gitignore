@@ -13,3 +13,4 @@ tests/testthat/twitter_tokens
 make
 .pkg-funs.R
 .DS_Store
+vignettes/*.R
