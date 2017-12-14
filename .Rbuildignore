@@ -14,7 +14,7 @@
 ^_pkgdown\.yml$
 ^\.make.*
 ^make$
-^\.pkg-funs.R$
+^\.pkg-funs\.R$
 ^.*\.DS\_Store$
 ^paper\.md$
 ^paper\.bib$

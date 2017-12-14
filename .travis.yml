@@ -12,5 +12,4 @@ before_install:
 r_github_packages:
 - jimhester/covr
 after_success:
-- Rscript -e 'covr::codecov(function_exclusions = c("print\\.", "create_token",
-  "global_token_finder", "post_tweet", "all_tw"))'
+- Rscript -e 'covr::codecov(function_exclusions = c("print\\.", "create_token", "global_token_finder", "post_tweet", "all_tw"))'

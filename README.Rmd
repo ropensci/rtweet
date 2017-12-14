@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 [![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rtweet)](https://CRAN.R-project.org/package=rtweet)
+[![codecov](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet)
 
 R client for accessing Twitter's REST and stream APIs. Check out the [rtweet package documentation website](http://rtweet.info).
 
