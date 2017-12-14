@@ -56,7 +56,7 @@ lat_lng <- function(x, coords = c("bbox_coords", "coords_coords", "geo_coords"))
   if (!any(is.na(unlist(bbox)))) {
     return(tibble::as_tibble(x, validate = FALSE))
   }
-  coords <- grep("box", coords, invert = TRUE)
+  coords <- grep("box", coords, invert = TRUE, value = TRUE)
   if (length(coords) == 0L) {
     return(tibble::as_tibble(x, validate = FALSE))
   }
@@ -65,6 +65,7 @@ lat_lng <- function(x, coords = c("bbox_coords", "coords_coords", "geo_coords"))
   }
   tibble::as_tibble(x, validate = FALSE)
 }
+
 
 lnglat_ <- function(x) {
   stopifnot(is.atomic(x))
@@ -100,16 +101,16 @@ if_has_else_na <- function(var, x, na_ = NA) {
 
 update_if_na <- function(x, coords) {
   ## if each element doesn't contain two numerics, return x
-  if (!all(lengths(coords) == 2L)) {
+  if (!all(lengths(x) == 2L)) {
     return(x)
   }
   ## if coords data contains any non-missing data
-  if (any(!is.na(unlist(coords)))) {
+  if (!any(is.na(unlist(x)))) {
     ## first data point assumed to be longitude
-    coords_lng <- unlist(lapply(coords, "[[", 1L), use.names = FALSE)
+    coords_lng <- unlist(lapply(x, "[[", 1L), use.names = FALSE)
     x$lng[is.na(x$lng)] <- coords_lng[is.na(x$lng)]
     ## second data point assumed to be latitude
-    coords_lat <- unlist(lapply(coords, "[[", 2L), use.names = FALSE)
+    coords_lat <- unlist(lapply(x, "[[", 2L), use.names = FALSE)
     x$lat[is.na(x$lat)] <- coords_lat[is.na(x$lat)]
   }
   ## return data object
