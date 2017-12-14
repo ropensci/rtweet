@@ -18,3 +18,5 @@ R/media.R$
 ^make$
 ^\.pkg-funs.R$
 .DS_Store
+^paper.md$
+paper.bib$
