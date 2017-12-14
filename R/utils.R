@@ -48,7 +48,7 @@ uq_rtweet.data.frame <- function(x) {
     x <- x[order(x[["account_created_at"]], decreasing = TRUE), ]
   }
   kp <- !duplicated(x[[id]])
-  if ("users" %in% names(attributes(x)) && nrow(user_data(x)) > 0L) {
+  if ("users" %in% names(attributes(x)) && nrow(users_data(x)) > 0L) {
     users <- rtweet::users_data(x)
     if (has_name_(x, "user_id")) {
       if (nrow(x) == nrow(users) && identical(x$user_id, users$user_id)) {
