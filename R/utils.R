@@ -1,3 +1,78 @@
+local_time <- function(x) UseMethod("local_time")
+local_time.default <- function(x) x
+local_time.POSIXct <- function(x) {
+  x <- format(x, tz = Sys.timezone())
+  as.POSIXct(x)
+}
+local_time.Date <- function(x) {
+  x <- format(x, tz = Sys.timezone())
+  as.Date(x)
+}
+local_time.data.frame <- function(x) {
+  ca <- grep("created\\_at$", names(x))
+  x[ca] <- lapply(x[ca], local_time)
+  x
+}
+
+#' filter unique data using presumably status ID or user ID
+#'
+#' Removes duplicates based on ID (status ID or user ID) rather than whether each
+#' has unique values
+#'
+#' @param x Data frame returned by rtweet functions
+#' @return Data frame with unique observations and users or tweets attribute data
+#'   if already contained it
+#' @export
+uq_rtweet <- function(x) UseMethod("uq_rtweet")
+
+#' @export
+uq_rtweet.default <- function(x) unique(x)
+
+#' @export
+uq_rtweet.data.frame <- function(x) {
+  if (has_name_(x, "status_id")) {
+    id <- "status_id"
+  } else if (has_name_(x, "status_id_str")) {
+    id <- "status_id_str"
+  } else {
+    id <- grep("^id$|\\_id$|\\_id\\_str$", names(x), value = TRUE)
+    if (length(id) == 0L) {
+      return(unique(x))
+    } else if (length(id) > 1L) {
+      id <- id[1]
+    }
+  }
+  if (has_name_(x, "^created\\_at$")) {
+    x <- x[order(x[["created_at"]], decreasing = TRUE), ]
+  } else if (has_name_(x, "^account\\_created\\_at$")) {
+    x <- x[order(x[["account_created_at"]], decreasing = TRUE), ]
+  }
+  kp <- !duplicated(x[[id]])
+  if ("users" %in% names(attributes(x)) && nrow(user_data(x)) > 0L) {
+    users <- rtweet::users_data(x)
+    if (has_name_(x, "user_id")) {
+      if (nrow(x) == nrow(users) && identical(x$user_id, users$user_id)) {
+        users <- users[kp, ]
+      } else {
+        users <- uq_rtweet(users)
+      }
+    }
+    x <- x[kp, ]
+    attr(x, "users") <- users
+  } else if ("tweets" %in% names(attributes(x)) && nrow(tweets_data(x)) > 0L) {
+    tweets <- rtweet::tweets_data(x)
+    if (nrow(x) == nrow(tweets) && identical(x$user_id, tweets$user_id)) {
+      tweets <- tweets[kp, ]
+    } else {
+      tweets <- uq_rtweet(tweets)
+    }
+    x <- x[kp, ]
+    attr(x, "tweets") <- tweets
+  } else {
+    x <- x[kp, ]
+  }
+  x
+}
 
 ##----------------------------------------------------------------------------##
 ##                                  HTTP GET                                  ##

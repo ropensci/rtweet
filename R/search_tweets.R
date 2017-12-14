@@ -317,7 +317,7 @@ search_tweets_ <- function(q = "",
   ## path name
   query <- "search/tweets"
   ## validate
-  stopifnot(is_n(n), is.atomic(q), is.atomic(max_id))
+  stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
   ## number of loops
   n.times <- ceiling(n / 100)
   if (n < 100) {

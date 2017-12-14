@@ -204,19 +204,41 @@ check_token <- function(token, query = NULL) {
 }
 
 
+is_ttoken <- function(x) {
+  if (is.token(x)) return(TRUE)
+  if (is.list(x) && is.token(x[[1]])) return(TRUE)
+  FALSE
+}
+
+is_tokenfile <- function(x) {
+  if (!file.exists(x)) FALSE
+  if (identical(x, ".httr-oauth") || if_rds(x)) {
+    x <- readRDS(x)
+  } else if (if_load(x)) {
+    e <- new.env()
+    load(x, envir = e)
+    x <- ls(envir = e, all.names = TRUE)
+    if (length(x) == 0) return(FALSE)
+    x <- get(x, envir = e)
+  } else if (any(grepl("token",
+    ls(envir = .GlobalEnv), ignore.case = TRUE))) {
+    x <- global_token_finder()
+  }
+  is_ttoken(x)
+}
 
 twitter_pat <- function() {
   pat <- Sys.getenv("TWITTER_PAT")
   if (identical(pat, "")) {
-    if (file.exists(".httr-oauth")) {
+    if (file.exists(".httr-oauth") && is_tokenfile(".httr-oauth")) {
       pat <- ".httr-oauth"
-    } else if (file.exists("twitter_tokens")) {
+    } else if (file.exists("twitter_tokens") && is_tokenfile("twitter_tokens")) {
       pat <- "twitter_tokens"
-    } else if (file.exists("twitter_token")) {
+    } else if (file.exists("twitter_token") && is_tokenfile("twitter_token")) {
       pat <- "twitter_token"
-    } else if (file.exists("tokens")) {
+    } else if (file.exists("tokens") && is_tokenfile("tokens")) {
       pat <- "tokens"
-    } else if (file.exists("token")) {
+    } else if (file.exists("token") && is_tokenfile("token")) {
       pat <- "token"
     } else {
       pat <- "system"
