@@ -4,7 +4,7 @@
 \alias{lat_lng}
 \title{Adds single-point latitude and longitude variables to tweets data.}
 \usage{
-lat_lng(x, coords = c("bbox_coords", "coords_coords", "geo_coords"))
+lat_lng(x, coords = c("coords_coords", "bbox_coords", "geo_coords"))
 }
 \arguments{
 \item{x}{Parsed tweets data as returned by various rtweet
