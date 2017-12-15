@@ -143,6 +143,7 @@ max_id.character <- function(x) {
 max_id.data.frame <- function(x) {
   if (has_name_(attributes(x), "max_id_str")) return(attr(x, "max_id_str"))
   if (has_name_(attributes(x), "max_id")) return(attr(x, "max_id"))
+  if (has_name_(x, "id_str")) return(x[["id_str"]])
   x <- x[[grep("id$", names(x))[1]]]
   NextMethod()
 }

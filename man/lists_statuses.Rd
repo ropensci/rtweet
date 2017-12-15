@@ -5,7 +5,7 @@
 \title{Get a timeline of tweets authored by members of a specified list.}
 \usage{
 lists_statuses(list_id = NULL, slug = NULL, owner_user = NULL,
-  since_id = NULL, max_id = NULL, n = 5000, include_rts = TRUE,
+  since_id = NULL, max_id = NULL, n = 200, include_rts = TRUE,
   parse = TRUE, token = NULL)
 }
 \arguments{

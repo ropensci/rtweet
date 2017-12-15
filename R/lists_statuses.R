@@ -35,10 +35,54 @@ lists_statuses <- function(list_id = NULL,
                            owner_user = NULL,
                            since_id = NULL,
                            max_id = NULL,
-                           n = 5000,
+                           n = 200,
                            include_rts = TRUE,
                            parse = TRUE,
                            token = NULL) {
+  out <- vector("list", ceiling(n / 200))
+  for (i in seq_along(out)) {
+    out[[i]] <- tryCatch(lists_statuses_(
+      list_id = list_id,
+      slug = slug,
+      owner_user = owner_user,
+      since_id = since_id,
+      max_id = max_id,
+      n = n,
+      include_rts = include_rts,
+      parse = parse,
+      token = token
+    ), error = function(e) return(NULL))
+    if (is.null(out[[i]])) break
+    maxid <- max_id(out[[i]])
+    if (is.null(maxid) || length(maxid) == 0L) break
+    if (!is.null(max_id) && identical(maxid, max_id)) break
+    max_id <- maxid
+  }
+  out <- out[!vapply(out, is.null, logical(1))]
+  if (parse) {
+    out <- ll2df(out)
+  }
+  out
+}
+
+
+ll2df <- function(x) {
+  nms <- table(unlist(lapply(x, names)))
+  nms <- names(nms)[nms == max(nms, na.rm = TRUE)]
+  x <- lapply(x, function(i) i[nms])
+  do.call("rbind", x)
+}
+
+
+lists_statuses_ <- function(list_id = NULL,
+                            slug = NULL,
+                            owner_user = NULL,
+                            since_id = NULL,
+                            max_id = NULL,
+                            n = 5000,
+                            include_rts = TRUE,
+                            parse = TRUE,
+                            token = NULL) {
   query <- "lists/statuses"
   if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
     params <- list(
