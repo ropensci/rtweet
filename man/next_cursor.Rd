@@ -7,7 +7,7 @@
 \usage{
 next_cursor(x)
 
-max_id(x)
+max_id(.x)
 }
 \arguments{
 \item{x}{Data object returned by Twitter API.}

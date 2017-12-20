@@ -30,6 +30,7 @@
 #' @family lists
 #' @family tweets
 #' @return data
+#' @export
 lists_statuses <- function(list_id = NULL,
                            slug = NULL,
                            owner_user = NULL,
@@ -40,6 +41,9 @@ lists_statuses <- function(list_id = NULL,
                            parse = TRUE,
                            token = NULL) {
   out <- vector("list", ceiling(n / 200))
+  if (n > 200) {
+    n <- 200
+  }
   for (i in seq_along(out)) {
     out[[i]] <- tryCatch(lists_statuses_(
       list_id = list_id,
@@ -55,7 +59,7 @@ lists_statuses <- function(list_id = NULL,
     if (is.null(out[[i]])) break
     maxid <- max_id(out[[i]])
     if (is.null(maxid) || length(maxid) == 0L) break
-    if (!is.null(max_id) && identical(maxid, max_id)) break
+    if (identical(maxid, max_id)) break
     max_id <- maxid
   }
   out <- out[!vapply(out, is.null, logical(1))]
@@ -67,10 +71,20 @@ lists_statuses <- function(list_id = NULL,
 
 
 ll2df <- function(x) {
-  nms <- table(unlist(lapply(x, names)))
-  nms <- names(nms)[nms == max(nms, na.rm = TRUE)]
-  x <- lapply(x, function(i) i[nms])
-  do.call("rbind", x)
+  ##nms <- table(unlist(lapply(x, names)))
+  ##nms <- names(nms)[nms == max(nms, na.rm = TRUE)]
+  #x <- lapply(x, function(i) i[names(i) %in% nms])
+  #x
+  x <- x[vapply(x, is.data.frame, logical(1)) &
+           vapply(x, function(i) nrow(i) > 0L, logical(1))]
+  x <- lapply(x, function(x)
+    tibble::as_tibble(
+      x[!vapply(x, is.recursive, logical(1))],
+      validate = FALSE))
+  x <- do.call("rbind", x)
+  x <- x[!grepl("^id$|\\_id$", names(x))]
+  names(x) <- gsub("\\str$", "", names(x))
+  x
 }
 
 
@@ -79,12 +93,12 @@ lists_statuses_ <- function(list_id = NULL,
                             owner_user = NULL,
                             since_id = NULL,
                             max_id = NULL,
-                            n = 5000,
+                            n = 200,
                             include_rts = TRUE,
                             parse = TRUE,
                             token = NULL) {
   query <- "lists/statuses"
-  if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
+  if (is.null(list_id) && !is.null(slug) && !is.null(owner_user)) {
     params <- list(
       slug = slug,
       owner_user = owner_user,
@@ -108,8 +122,8 @@ lists_statuses_ <- function(list_id = NULL,
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
-    r <- as_lists_statuses(r)
-    r <- as.data.frame(r)
+    ##r <- as_lists_statuses(r)
+    ##r <- as.data.frame(r)
   }
   r
 }

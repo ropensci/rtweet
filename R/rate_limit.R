@@ -205,6 +205,7 @@ funs_and_apis <- function() {
     `lists/memberships` = "lists_memberships",
     `lists/subscribers` = "lists_subscribers",
     `lists/subscriptions` = "lists_subscriptions",
+    `lists/statuses` = "lists_statuses",
 
     `search/tweets` = "search_tweets",
     `search/tweets` = "search_twitter",

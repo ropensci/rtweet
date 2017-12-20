@@ -255,6 +255,8 @@ unique_id <- function(x) {
     x[["id_str"]]
   } else if ("ids" %in% names(x)) {
     x[["ids"]]
+  } else if ("id" %in% names(x)) {
+    x[["id"]]
   } else if ("ids" %in% names(x[[1]])) {
     x[[1]][["ids"]]
   } else if ("status_id" %in% names(x)) {

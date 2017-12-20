@@ -102,17 +102,20 @@ next_cursor.response <- function(x) {
 }
 
 
-get_max_id <- function(x, adj = -1L) {
+get_max_id <- function(x) {
   if (!is.atomic(x)) {
     if (has_name_(x, "statuses")) {
       x <- x[["statuses"]]
     }
+    if (has_name_(x, "next_cursor_str")) {
+        return(x[["next_cursor_str"]])
+    }
     if (has_name_(x, "id")) {
       x <- x[["id"]]
     } else if (has_name_(x, "ids")) {
-      return(x[["next_cursor_str"]])
+      x <- x[["ids"]]
     } else if (is.null(names(x))) {
-      if (has_name_(x, "ids")) {
+      if (has_name_(x[[1]], "next_cursor_str")) {
         return(x[[1]][["next_cursor_str"]])
       }
     } else if (has_name_(x, "status_id")) {
@@ -122,46 +125,161 @@ get_max_id <- function(x, adj = -1L) {
     }
   }
   ##return_last(x) + adj
-  bit64::as.integer64(return_last(x)) + adj
+  if (!is.recursive(x)) {
+    id_minus_one(return_last(x))
+  } else {
+    NULL
+  }
 }
 
 
 #' @rdname next_cursor
 #' @export
-max_id <- function(x) UseMethod("max_id")
+max_id <- function(.x) UseMethod("max_id")
 
 #' @export
-max_id.default <- function(x) return_last(x)
-
-#' @export
-max_id.character <- function(x) {
-  x <- sort(bit64::as.integer64(x))
-  as.character(x[1])
-}
-
-#' @export
-max_id.data.frame <- function(x) {
-  if (has_name_(attributes(x), "max_id_str")) return(attr(x, "max_id_str"))
-  if (has_name_(attributes(x), "max_id")) return(attr(x, "max_id"))
-  if (has_name_(x, "id_str")) return(x[["id_str"]])
-  x <- x[[grep("id$", names(x))[1]]]
-  NextMethod()
-}
-
-#' @export
-max_id.list <- function(x) {
-  if (has_name_(x, "max_id_str")) return(x[["max_id_str"]])
-  if (has_name_(x, "max_id")) return(x[["max_id"]])
-  if (!is.null(names(x))) {
-    x <- list(x)
+max_id.default <- function(.x) {
+  if (inherits(.x, "response")) {
+    .x <- from_js(.x)
+  } else {
+    return(NULL)
   }
-  x <- lapply(x, function(x) x[[grep("id$", names(x))[1]]])
-  x <- unlist(lapply(x, max_id))
-  return_last(x)
+  max_id(.x)
 }
 
 #' @export
-max_id.response <- function(x) {
-  x <- from_js(x)
-  NextMethod()
+max_id.character <- function(.x) {
+  .x[length(.x)]
+}
+
+#' @export
+max_id.NULL <- function(.x) return(NULL)
+
+#' @export
+max_id.numeric <- function(.x) {
+  op <- getOption("scipen")
+  on.exit(options(scipen = op))
+  options(scipen = 15)
+  .x <- as.character(.x)
+  max_id(.x)
+}
+
+#' @export
+max_id.integer <- function(.x) {
+  op <- getOption("scipen")
+  on.exit(options(scipen = op))
+  options(scipen = 15)
+  .x <- as.character(.x)
+  max_id(.x)
+}
+
+
+#' @export
+max_id.factor <- function(.x) {
+  .x <- as.character(.x)
+  max_id(.x)
+}
+
+
+#' @export
+max_id.data.frame <- function(.x) {
+  if (has_name_(attributes(.x), "max_id_str")) return(attr(.x, "max_id_str"))
+  if (has_name_(attributes(.x), "max_id")) return(attr(.x, "max_id"))
+  idvar <- c("status_id", "id_str", "id")
+  if (nrow(.x) > 0L && any(idvar %in% names(.x))) {
+    idvar <- idvar[idvar %in% names(.x)][1]
+    .x <- .x[[idvar]]
+  } else if (nrow(.x) > 0L && "user_id" %in% names(.x) &&
+      any(c("description", "profile_image_url", "friends_count") %in% names(.x))) {
+    stop("Failed to find status ID variable. You may have specified users data by mistake.")
+  } else {
+    .x <- NULL
+  }
+  max_id(.x)
+}
+
+#' @export
+max_id.list <- function(.x) {
+  if (has_name_(.x, "max_id_str")) return(.x[["max_id_str"]])
+  if (has_name_(.x, "max_id")) return(.x[["max_id"]])
+  while(is_emptylist(.x)) {
+    .x <- .x[[1]]
+  }
+  if (is.null(names(.x)) &&
+        any(vapply(.x, function(x) isTRUE("statuses" %in% names(x)),
+                   logical(1)))) {
+    .x <- lapply(.x, "[[", "statuses")
+  }
+  if (is.null(names(.x)) && any(vapply(.x, is.recursive, logical(1)))) {
+    .x <- .x[lengths(.x) > 0L & vapply(.x, is.recursive, logical(1))]
+    .x <- .x[[length(.x)]]
+  }
+  if (isTRUE("statuses" %in% names(.x))) {
+    .x <- .x[["statuses"]]
+  }
+  if (is.null(.x) || length(.x) == 0L) return(NULL)
+  .x <- tryCatch(
+    as.data.frame(.x[!vapply(.x, is.recursive, logical(1))],
+                  row.names = NULL, stringsAsFactors = FALSE),
+    error = function(e) return(NULL)
+  )
+  max_id(.x)
+}
+
+#' @export
+max_id.response <- function(.x) {
+  .x <- from_js(.x)
+  max_id(.x)
+}
+
+
+
+id_minus_one <- function(x) {
+  if (gregexpr("[0]{1,}$", x)[[1]] != -1) {
+    m <- gregexpr("[0]{1,}$", x)
+    m <- regmatches(x, m)[[1]]
+    nines <- paste(rep("9", nchar(m)), collapse = "")
+    x <- gsub("[0]{1,}$", "", x)
+    if (nchar(x) == 0) {
+      x <- paste0("1", nines)
+    } else {
+      ln <- substr(x, nchar(x), nchar(x))
+      ln <- as.character(as.integer(ln) - 1L)
+      x <- gsub("[0-9]{1}$", "", x)
+      x <- paste0(x, ln, nines)
+    }
+    return(x)
+  }
+  ln <- substr(x, nchar(x), nchar(x))
+  ln <- as.character(as.integer(ln) - 1L)
+  x <- gsub("[0-9]{1}$", "", x)
+  paste0(x, ln)
+}
+
+id_plus_one <- function(x) {
+  if (gregexpr("[9]{1,}$", x)[[1]] != -1) {
+    m <- gregexpr("[9]{1,}$", x)
+    m <- regmatches(x, m)[[1]]
+    zeros <- paste(rep("0", nchar(m)), collapse = "")
+    x <- gsub("[9]{1,}$", "", x)
+    if (nchar(x) == 0) {
+      x <- paste0("1", zeros)
+    } else {
+      ln <- substr(x, nchar(x), nchar(x))
+      ln <- as.character(as.integer(ln) + 1L)
+      x <- gsub("[0-9]{1}$", "", x)
+      x <- paste0(x, ln, zeros)
+    }
+    return(x)
+  }
+  ln <- substr(x, nchar(x), nchar(x))
+  ln <- as.character(as.integer(ln) + 1L)
+  x <- gsub("[0-9]{1}$", "", x)
+  paste0(x, ln)
+}
+
+
+
+is_emptylist <- function(x) {
+  inherits(x, "list") && length(x) == 1L && is.null(names(x))
 }

@@ -216,8 +216,10 @@ more_followers <- function(f, i, n, ctr) {
 
 ncs_ <- function(f) {
   if (length(f) == 0) return("0")
-  f <- f[[length(f)]]
-  if (has_name(f, "next_cursor_str")) {
+  if (!has_name(f, "next_cursor_str")) {
+    f <- f[[length(f)]]
+  }
+  if (!has_name(f, "next_cursor_str")) {
     ## next cursor
     nc <- f[["next_cursor_str"]]
     if (is.null(nc)) return("0")
