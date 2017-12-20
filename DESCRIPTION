@@ -1,6 +1,6 @@
 Package: rtweet
 Type: Package
-Version: 0.6.12
+Version: 0.6.13
 Title: Collecting Twitter Data
 Date: 2017-12-19
 Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))
@@ -11,7 +11,6 @@ Description: An implementation of calls designed to collect and
 Depends:
     R (>= 3.1.0)
 Imports:
-    bit64,
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
@@ -26,7 +25,6 @@ Encoding: UTF-8
 Suggests:
     ggplot2,
     knitr,
-    parallel,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
