@@ -80,3 +80,4 @@ nyc_trends
 \seealso{
 Other trends: \code{\link{trends_available}}
 }
+\concept{trends}

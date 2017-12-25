@@ -62,8 +62,10 @@ favs
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}
 
 Other tweets: \code{\link{get_mentions}},
+  \code{\link{get_my_timeline}},
   \code{\link{get_timeline}}, \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }
+\concept{tweets}

@@ -45,3 +45,4 @@ Sends request to generate OAuth 1.0 tokens. Twitter
 Other tokens: \code{\link{get_tokens}},
   \code{\link{rate_limit}}
 }
+\concept{tokens}

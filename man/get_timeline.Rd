@@ -79,8 +79,11 @@ table(tmls$screen_name)
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
 
 Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_mentions}}, \code{\link{lists_statuses}},
+  \code{\link{get_mentions}},
+  \code{\link{get_my_timeline}},
+  \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }
+\concept{tweets}

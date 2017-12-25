@@ -66,6 +66,7 @@ get_timeline <- function(user,
   args <- list(
     user = user,
     n = n,
+    home = home,
     max_id = max_id,
     parse = parse,
     check = check,
@@ -90,7 +91,7 @@ get_timelines <- function(user,
 }
 
 
-get_timeline_ <- function(user, n = 100, ...) {
+get_timeline_ <- function(user, n = 100, home = FALSE, ...) {
   ## check inputs
   stopifnot(is.atomic(user), is.numeric(n))
   if (length(user) == 0L) {
@@ -98,10 +99,11 @@ get_timeline_ <- function(user, n = 100, ...) {
   }
   ## search for each string in column of queries
   dots <- list(...)
+
   if (length(dots) > 0L) {
-    rt <- Map(get_timeline_call, user = user, n = n, MoreArgs = dots)
+    rt <- Map(get_timeline_call, user = user, n = n, home = home, MoreArgs = dots)
   } else {
-    rt <- Map(get_timeline_call, user = user, n = n)
+    rt <- Map(get_timeline_call, user = user, n = n, home = home)
   }
   ## merge users data into one data frame
   rt_users <- do.call("rbind", lapply(rt, users_data))

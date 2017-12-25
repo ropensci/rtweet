@@ -39,3 +39,4 @@ token
 Other tokens: \code{\link{create_token}},
   \code{\link{rate_limit}}
 }
+\concept{tokens}
