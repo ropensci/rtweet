@@ -60,3 +60,4 @@ Other users: \code{\link{lists_subscribers}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }
+\concept{users}

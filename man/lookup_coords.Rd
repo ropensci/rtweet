@@ -51,3 +51,4 @@ ustw <- stream_tweets(usa, timeout = 10)
 \seealso{
 Other geo: \code{\link{lat_lng}}
 }
+\concept{geo}

@@ -38,8 +38,9 @@ users_with_tweets(usr)
 Other parsing: \code{\link{do_call_rbind}}
 
 Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_mentions}}, \code{\link{get_timeline}},
-  \code{\link{lists_statuses}},
+  \code{\link{get_mentions}},
+  \code{\link{get_my_timeline}},
+  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
   \code{\link{lookup_statuses}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}}
 
@@ -50,3 +51,6 @@ Other users: \code{\link{as_screenname}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{users_data}}
 }
+\concept{parsing}
+\concept{tweets}
+\concept{users}
