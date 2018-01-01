@@ -576,3 +576,8 @@ try_require <- function(pkg, f) {
   stop("Package `", pkg, "` required for `", f , "`.\n",
     "Please install and try again.", call. = FALSE)
 }
+
+is.valid.username <- function(username) {
+  !grepl(' ', username);
+}
+
