@@ -134,6 +134,7 @@ get_max_id <- function(x) {
 
 
 #' @rdname next_cursor
+#' @param .x id
 #' @export
 max_id <- function(.x) UseMethod("max_id")
 

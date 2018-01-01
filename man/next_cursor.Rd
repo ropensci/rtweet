@@ -11,6 +11,8 @@ max_id(.x)
 }
 \arguments{
 \item{x}{Data object returned by Twitter API.}
+
+\item{.x}{id}
 }
 \value{
 Character string of next cursor value used to retrieved

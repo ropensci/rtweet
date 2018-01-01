@@ -16,7 +16,7 @@ should be older than.}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list object. By default, \code{parse =
-  TRUE} saves users from the time \link{and frustrations} associated
+  TRUE} saves users from the time (and frustrations) associated
 with disentangling the Twitter API return objects.}
 
 \item{check}{Logical indicating whether to remove check available
@@ -30,12 +30,6 @@ variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
 
 \item{...}{Further arguments passed on as parameters in API query.}
-
-\item{home}{Logical, indicating whether to return a user-timeline
-or home-timeline. By default, home is set to FALSE, which means
-\code{get_timeline} returns tweets posted by the given user. To
-return a user's home timeline feed, that is, the tweets posted by
-accounts followed by a user, set the home to false.}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.
