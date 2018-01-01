@@ -563,3 +563,7 @@ obs2string <- function(x, sep) {
   x[is.na(x)] <- ""
   paste(x, collapse = sep)
 }
+
+is.valid.username <- function(username) {
+  !grepl(' ', username);
+}

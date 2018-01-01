@@ -71,7 +71,7 @@ get_favorites_call <- function(user,
     token <- check_token(token)
   }
   ## check inputs
-  stopifnot(is.atomic(user), is.numeric(n))
+  stopifnot(is.atomic(user), is.numeric(n), sapply(user, is.valid.username))
   if (length(user) == 0L) {
     stop("No user found", call. = FALSE)
   }
