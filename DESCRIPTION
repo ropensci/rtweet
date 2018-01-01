@@ -26,7 +26,11 @@ Suggests:
     ggplot2,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    glue,
+    magick,
+    webshot,
+    scales
 VignetteBuilder: knitr
 LazyData: yes
 RoxygenNote: 6.0.1.9000

@@ -564,6 +564,20 @@ obs2string <- function(x, sep) {
   paste(x, collapse = sep)
 }
 
+# Enables loading packages when necessary vs import
+
+try_require <- function(pkg, f) {
+
+  if (requireNamespace(pkg, quietly = TRUE)) {
+    library(pkg, character.only = TRUE)
+    return(invisible())
+  }
+
+  stop("Package `", pkg, "` required for `", f , "`.\n",
+    "Please install and try again.", call. = FALSE)
+}
+
 is.valid.username <- function(username) {
   !grepl(' ', username);
 }
+
