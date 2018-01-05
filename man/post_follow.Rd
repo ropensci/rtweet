@@ -6,6 +6,7 @@
 \alias{post_unfollow_user}
 \alias{unfollow_user}
 \alias{post_mute}
+\alias{unfollow_user}
 \title{Follows target twitter user.}
 \usage{
 post_follow(user, destroy = FALSE, mute = FALSE, notify = FALSE,
@@ -47,4 +48,3 @@ post_follow("BarackObama")
 Other post: \code{\link{post_favorite}},
   \code{\link{post_friendship}}, \code{\link{post_tweet}}
 }
-\concept{post}

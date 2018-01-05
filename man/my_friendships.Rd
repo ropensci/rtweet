@@ -28,4 +28,3 @@ to 100 other users.
 \seealso{
 Other friends: \code{\link{lookup_friendships}}
 }
-\concept{friends}

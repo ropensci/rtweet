@@ -39,4 +39,3 @@ NOTE: Twitter's API is currently limited to 100 or fewer
 \seealso{
 Other retweets: \code{\link{get_retweeters}}
 }
-\concept{retweets}

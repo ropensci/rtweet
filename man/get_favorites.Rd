@@ -68,4 +68,3 @@ Other tweets: \code{\link{get_mentions}},
   \code{\link{search_tweets}}, \code{\link{tweets_data}},
   \code{\link{tweets_with_users}}
 }
-\concept{tweets}

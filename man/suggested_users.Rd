@@ -30,6 +30,8 @@ Recommended users
 }
 \description{
 Returns Twitter's list of suggested user categories.
+
+Returns users from a specific, suggested category
 }
 \examples{
 

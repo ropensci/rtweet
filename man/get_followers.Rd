@@ -105,4 +105,3 @@ pres
 Other ids: \code{\link{get_friends}},
   \code{\link{next_cursor}}
 }
-\concept{ids}

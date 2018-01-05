@@ -58,4 +58,3 @@ post_tweet(status="second in the thread", in_reply_to_status_id=reply_id)
 Other post: \code{\link{post_favorite}},
   \code{\link{post_follow}}, \code{\link{post_friendship}}
 }
-\concept{post}

@@ -35,4 +35,3 @@ rt <- parse_stream("theaanand.json")
 \seealso{
 Other stream tweets: \code{\link{stream_tweets}}
 }
-\concept{stream tweets}

@@ -174,4 +174,3 @@ x <- lat_lng(rtworld)
 
 Other stream tweets: \code{\link{parse_stream}}
 }
-\concept{stream tweets}

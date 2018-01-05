@@ -53,7 +53,6 @@ lists_statuses <- function(list_id = NULL,
       max_id = max_id,
       n = n,
       include_rts = include_rts,
-      parse = parse,
       token = token
     ), error = function(e) return(NULL))
     if (is.null(out[[i]])) break
@@ -75,16 +74,17 @@ ll2df <- function(x) {
   ##nms <- names(nms)[nms == max(nms, na.rm = TRUE)]
   #x <- lapply(x, function(i) i[names(i) %in% nms])
   #x
-  x <- x[vapply(x, is.data.frame, logical(1)) &
-           vapply(x, function(i) nrow(i) > 0L, logical(1))]
-  x <- lapply(x, function(x)
-    tibble::as_tibble(
-      x[!vapply(x, is.recursive, logical(1))],
-      validate = FALSE))
-  x <- do.call("rbind", x)
-  x <- x[!grepl("^id$|\\_id$", names(x))]
-  names(x) <- gsub("\\str$", "", names(x))
-  x
+  #x <- x[vapply(x, is.data.frame, logical(1)) &
+  #         vapply(x, function(i) nrow(i) > 0L, logical(1))]
+  #x <- lapply(x, function(x)
+  #  tibble::as_tibble(
+  #    x[!vapply(x, is.recursive, logical(1))],
+  #    validate = FALSE))
+  #x <- do.call("rbind", x)
+  #x <- x[!grepl("^id$|\\_id$", names(x))]
+  #names(x) <- gsub("\\str$", "", names(x))
+  #x
+  tweets_with_users(x)
 }
 
 
@@ -95,7 +95,6 @@ lists_statuses_ <- function(list_id = NULL,
                             max_id = NULL,
                             n = 200,
                             include_rts = TRUE,
-                            parse = TRUE,
                             token = NULL) {
   query <- "lists/statuses"
   if (is.null(list_id) && !is.null(slug) && !is.null(owner_user)) {
@@ -120,10 +119,5 @@ lists_statuses_ <- function(list_id = NULL,
   token <- check_token(token, query)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
-  if (parse) {
-    r <- from_js(r)
-    ##r <- as_lists_statuses(r)
-    ##r <- as.data.frame(r)
-  }
-  r
+  from_js(r)
 }

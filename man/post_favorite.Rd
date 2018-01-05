@@ -35,4 +35,3 @@ r <- lapply(rt$user_id, post_favorite)
 Other post: \code{\link{post_follow}},
   \code{\link{post_friendship}}, \code{\link{post_tweet}}
 }
-\concept{post}

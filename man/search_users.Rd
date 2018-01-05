@@ -71,4 +71,3 @@ Other users: \code{\link{as_screenname}},
   \code{\link{lookup_users}},
   \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }
-\concept{users}

@@ -55,4 +55,3 @@ with(rtll, plot(lng, lat))
 \seealso{
 Other geo: \code{\link{lookup_coords}}
 }
-\concept{geo}

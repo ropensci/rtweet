@@ -45,5 +45,3 @@ Other users: \code{\link{as_screenname}},
 Other extractors: \code{\link{next_cursor}},
   \code{\link{tweets_data}}
 }
-\concept{extractors}
-\concept{users}
