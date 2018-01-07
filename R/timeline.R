@@ -70,7 +70,8 @@ get_timeline <- function(user,
     max_id = max_id,
     parse = parse,
     check = check,
-    token = token
+    token = token,
+    ...
   )
   do.call("get_timeline_", args)
 }
