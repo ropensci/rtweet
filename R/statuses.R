@@ -87,6 +87,11 @@ lookup_statuses_ <- function(statuses,
     query = query,
     param = params)
   token <- check_token(token)
-  resp <- TWIT(get = TRUE, url, token)
+  if (length(statuses) > 20L) {
+    get <- FALSE
+  } else {
+    get <- TRUE
+  }
+  resp <- TWIT(get = get, url, token)
   from_js(resp)
 }
