@@ -96,6 +96,9 @@ lookup_users_ <- function(users,
     users <- users[1:100]
   }
   if (length(users) > 80) get <- FALSE
+  op <- getOption("scipen")
+  on.exit(options(scipen = op))
+  options(scipen = 10)
   params <- list(id_type = paste0(users, collapse = ","))
   names(params)[1] <- .ids_type(users)
   url <- make_url(
