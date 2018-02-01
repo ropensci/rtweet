@@ -65,9 +65,7 @@ lookup_statuses_ <- function(statuses,
     if (to > length(statuses)) {
       to <- length(statuses)
     }
-    twt[[i]] <- .status_lookup(
-      statuses[from:to],
-      token, parse = parse)
+    twt[[i]] <- .status_lookup(statuses[from:to], token = token)
     from <- to + 1
     if (from > length(statuses)) break
   }
@@ -77,12 +75,8 @@ lookup_statuses_ <- function(statuses,
   twt
 }
 
-.status_lookup <- function(statuses, token = NULL, parse) {
+.status_lookup <- function(statuses, token = NULL) {
   query <- "statuses/lookup"
-  if (is.list(statuses)) {
-    statuses <- unlist(statuses)
-  }
-  stopifnot(is.atomic(statuses))
   if (length(statuses) > 100) {
     statuses <- statuses[1:100]
   }
@@ -92,7 +86,7 @@ lookup_statuses_ <- function(statuses,
   url <- make_url(
     query = query,
     param = params)
-  token <- check_token(token, query = "statuses/lookup")
+  token <- check_token(token)
   resp <- TWIT(get = TRUE, url, token)
   from_js(resp)
 }

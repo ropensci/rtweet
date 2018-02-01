@@ -1,8 +1,8 @@
 Package: rtweet
 Type: Package
-Version: 0.6.15
+Version: 0.6.16
 Title: Collecting Twitter Data
-Date: 2018-01-07
+Date: 2018-01-31
 Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))
 Description: An implementation of calls designed to collect and
     organize Twitter data via Twitter's REST and stream Application
