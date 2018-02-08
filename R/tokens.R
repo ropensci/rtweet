@@ -58,8 +58,8 @@ get_token <- function() get_tokens()
 #'   application must have \code{Read and write} access level and
 #'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
 #' @param set_renv Logical indicating whether to save the created token
-#'   as the default environment twitter token variable. Defaults to FALSE.
-#'   If TRUE, the token is saved to user's home directory as
+#'   as the default environment twitter token variable. Defaults to TRUE,
+#'   meaning the token is saved to user's home directory as
 #'   ".rtweet_token.rds" (or, if that already exists, then
 #'   .rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
 #'   token to said token is then set in the user's .Renviron file and re-
