@@ -9,7 +9,7 @@
 stopwordslangs
 }
 \description{
-This data comes form a group of Twitter searches conducted at
+This data comes from a group of Twitter searches conducted at
 several times during the calendar year of 2017. The data are
 commonly observed words associated with 10 different languages,
 including \code{c("ar", "en", "es", "fr", "in", "ja", "pt", "ru",
