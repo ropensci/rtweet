@@ -170,6 +170,7 @@ rate_limit_ <- function(token,
   } else {
     rl_df$reset <- structure(NA_character_, class = "difftime", units = "mins")
   }
+  rl_df$timestamp <- Sys.time()
   tibble::as_tibble(rl_df, validate = FALSE)
 }
 
