@@ -219,7 +219,7 @@ ncs_ <- function(f) {
   if (!has_name(f, "next_cursor_str")) {
     f <- f[[length(f)]]
   }
-  if (!has_name(f, "next_cursor_str")) {
+  if (has_name(f, "next_cursor_str")) {
     ## next cursor
     nc <- f[["next_cursor_str"]]
     if (is.null(nc)) return("0")
