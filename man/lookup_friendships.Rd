@@ -29,3 +29,4 @@ Gets information on friendship between two Twitter users.
 \seealso{
 Other friends: \code{\link{my_friendships}}
 }
+\concept{friends}

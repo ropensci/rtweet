@@ -59,3 +59,5 @@ Other ids: \code{\link{get_followers}},
 Other extractors: \code{\link{tweets_data}},
   \code{\link{users_data}}
 }
+\concept{extractors}
+\concept{ids}

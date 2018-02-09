@@ -37,3 +37,4 @@ trends
 \seealso{
 Other trends: \code{\link{get_trends}}
 }
+\concept{trends}

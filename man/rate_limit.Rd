@@ -69,3 +69,4 @@ rate_limit(token, "search_tweets")
 Other tokens: \code{\link{create_token}},
   \code{\link{get_tokens}}
 }
+\concept{tokens}

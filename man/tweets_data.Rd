@@ -50,3 +50,5 @@ Other tweets: \code{\link{get_favorites}},
 Other extractors: \code{\link{next_cursor}},
   \code{\link{users_data}}
 }
+\concept{extractors}
+\concept{tweets}

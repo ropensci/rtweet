@@ -28,3 +28,4 @@ Updates friendship notifications and retweet abilities.
 Other post: \code{\link{post_favorite}},
   \code{\link{post_follow}}, \code{\link{post_tweet}}
 }
+\concept{post}
