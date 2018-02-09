@@ -239,7 +239,7 @@ stream_params <- function(stream, ...) {
   ## if [coordinates] vector is > 1 then locations
   ## if comma separated stream of IDs then follow
   ## otherwise use query string to track
-  if (length(stream) > 1) {
+  if (length(stream) == 4 && is.numeric(stream)) {
     params <- list(locations = paste(stream, collapse = ","))
   } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
     params <- list(follow = stream, ...)
