@@ -56,7 +56,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     stop("can only post one status at a time",
          call. = FALSE)
   }
-  token <- check_token(token, query)
+  token <- check_token(token)
 
   ## media if provided
   if (!is.null(media)) {
@@ -128,7 +128,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
     stop("can only post one message at a time",
          call. = FALSE)
   }
-  token <- check_token(token, query)
+  token <- check_token(token)
   ## media if provided
   if (!is.null(media)) {
     media2upload <- httr::upload_file(media)

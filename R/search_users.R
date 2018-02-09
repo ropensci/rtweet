@@ -71,7 +71,7 @@ search_users_call <- function(q, n = 20,
                               verbose = TRUE) {
   query <- "users/search"
   stopifnot(is_n(n), is.atomic(q))
-  token <- check_token(token, query)
+  token <- check_token(token, NULL)
   if (n > 1000) {
     warning(
       paste0("search only returns up to 1,000 users per ",

@@ -9,7 +9,7 @@
 #' @rdname suggested_users
 suggested_slugs <- function(lang = NULL, token = NULL) {
   query <- "users/suggestions"
-  token <- check_token(token, query)
+  token <- check_token(token)
   params <- list(lang = lang)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
@@ -51,7 +51,7 @@ suggested_users <- function(slug, lang = NULL, token = NULL) {
          call. = FALSE)
   }
   query <- "users/suggestions/:slug"
-  token <- check_token(token, query)
+  token <- check_token(token)
   params <- list(slug = slug, lang = lang)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)

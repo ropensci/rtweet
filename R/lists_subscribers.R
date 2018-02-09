@@ -119,7 +119,7 @@ lists_subscribers_call <- function(list_id = NULL,
       cursor = cursor
     )
   }
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   rr <- httr::content(r)

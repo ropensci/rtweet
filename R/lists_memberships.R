@@ -79,7 +79,7 @@ lists_memberships_call <- function(user,
     filter_to_owned_lists
   )
   names(params)[1] <- .id_type(user)
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   if (parse) {

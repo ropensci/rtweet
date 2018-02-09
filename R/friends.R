@@ -110,7 +110,7 @@ get_friends_ <- function(users,
   n <- length(users)
   ## build URL
   query <- "friends/ids"
-  token <- check_token(token, query)
+  token <- check_token(token)
   ## for larger requests implement Sys.sleep
   if (n > 1) {
     ## initialize output object

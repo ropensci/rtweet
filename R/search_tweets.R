@@ -223,7 +223,7 @@ search_tweets_ <- function(q = "",
                            ...) {
 
   ## check token and get rate limit data
-  token <- check_token(token, "search/tweets")
+  token <- check_token(token)
   rtlimit <- rate_limit(token, "search/tweets")
   remaining <- rtlimit[["remaining"]] * 100
   reset <- rtlimit[["reset"]]

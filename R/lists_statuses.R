@@ -116,7 +116,7 @@ lists_statuses_ <- function(list_id = NULL,
       include_rts = include_rts
     )
   }
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   from_js(r)

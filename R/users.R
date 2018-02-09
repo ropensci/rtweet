@@ -105,7 +105,7 @@ lookup_users_ <- function(users,
     query = query,
     param = params
   )
-  token <- check_token(token, query = query)
+  token <- check_token(token)
   resp <- TWIT(get = get, url, token)
   from_js(resp)
 }

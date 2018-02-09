@@ -112,7 +112,7 @@ get_trends_ <- function(woeid = 1,
     woeid <- check_woeid(woeid)
   }
   query <- "trends/place"
-  token <- check_token(token, query)
+  token <- check_token(token)
   if (exclude) {
     exclude <- "hashtags"
   } else {
@@ -135,7 +135,7 @@ get_trends_ <- function(woeid = 1,
 
 trends_closest <- function(lat, long, token = NULL) {
   query <- "trends/closest"
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query,
                   param = list(lat = lat, long = long))
   trd <- TWIT(get = TRUE, url, token)
@@ -200,7 +200,7 @@ format_trend_date <- function(x) {
 #' @export
 trends_available <- function(token = NULL, parse = TRUE) {
   query <- "trends/available"
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query,
                   param = NULL)
   trd <- TWIT(get = TRUE, url, token)

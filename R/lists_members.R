@@ -68,7 +68,7 @@ lists_members <- function(list_id = NULL,
       cursor = cursor
     )
   }
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   if (parse) {

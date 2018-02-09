@@ -74,7 +74,7 @@ get_mentions_ <- function(n = 100,
     max_id = max_id,
     ...
   )
-  token <- check_token(token, query)
+  token <- check_token(token)
   message("Getting mentions for ", token_home_user(token))
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)

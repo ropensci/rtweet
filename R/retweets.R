@@ -28,7 +28,7 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
     count = n,
     ...
   )
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   if (parse) {
@@ -124,7 +124,7 @@ get_retweeters_call <- function(status_id,
     cursor = cursor,
     stringify_ids = TRUE
   )
-  token <- check_token(token, query)
+  token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   if (parse) {

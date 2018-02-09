@@ -140,7 +140,7 @@ get_timeline_call <- function(user,
     stop("can only return tweets for one user at a time.",
       call. = FALSE)
   }
-  token <- check_token(token, query)
+  token <- check_token(token)
   if (check) {
     rl <- rate_limit(token, query)
     n.times <- rl[["remaining"]]

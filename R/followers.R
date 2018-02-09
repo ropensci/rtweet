@@ -126,7 +126,7 @@ get_followers_ <- function(user,
   }
   ## build URL
   query <- "followers/ids"
-  token <- check_token(token, query)
+  token <- check_token(token)
   params <- list(
     user_type = user,
     count = count,

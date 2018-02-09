@@ -63,7 +63,7 @@ direct_messages <- function(since_id = NULL,
                             parse = TRUE,
                             token = NULL) {
   query <- "direct_messages"
-  token <- check_token(token, query)
+  token <- check_token(token)
   params <- list(include_entities = TRUE, count = n)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
@@ -83,7 +83,7 @@ direct_messages_sent <- function(since_id = NULL,
                                  parse = TRUE,
                                  token = NULL) {
   query <- "direct_messages/sent"
-  token <- check_token(token, query)
+  token <- check_token(token)
   params <- list(include_entities = TRUE, count = n)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
