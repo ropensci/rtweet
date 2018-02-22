@@ -5,7 +5,8 @@ warnings_are_errors: false
 r:
 - release
 before_install:
-- openssl aes-256-cbc -K $encrypted_ef53a5096bfa_key -iv $encrypted_ef53a5096bfa_iv -in /Users/mwk/r/rtweet/tests/testthat/twitter_tokens.enc -out ~\/r/rtweet/tests/testthat/twitter_tokens -d
+- openssl aes-256-cbc -K $encrypted_ef53a5096bfa_key -iv $encrypted_ef53a5096bfa_iv
+  -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
 r_github_packages:
 - jimhester/covr
 after_success:
