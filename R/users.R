@@ -46,12 +46,9 @@ lookup_users <- function(users, parse = TRUE, token = NULL) {
 lookup_users_ <- function(users,
                           token = NULL,
                           parse = TRUE) {
-  if (is.list(users)) {
-    users <- unlist(users, use.names = FALSE)
-  }
   stopifnot(is.atomic(users))
-  users <- unique(as.character(users))
-  users <- users[!is.na(users)]
+#  users <- unique(as.character(users))
+#  users <- users[!is.na(users)]
   if (length(users) < 101L) {
     usr <- .user_lookup(users, token)
   } else {
@@ -68,26 +65,56 @@ lookup_users_ <- function(users,
         to.id <- length(users)
       }
       usr[[i]] <- .user_lookup(users[from.id:to.id], token)
-      from.id <- to.id + 1
+      if (parse) {
+        usr[[i]] <- check_for_errors(usr[[i]])
+      }
+      from.id <- to.id + 1L
       if (from.id > length(users)) break
     }
   }
   if (parse) {
-    if (identical(c("code", "message"), names(usr[[1]]))) {
-      message("Error code: ", usr[[1]]$code)
-      message(usr[[1]]$message)
-      usr <- tibble::as_tibble()
-      attr(usr, "tweets") <- tibble::as_tibble()
-    } else if (is.character(usr)) {
-      message(usr)
-      usr <- tibble::as_tibble()
-      attr(usr, "tweets") <- tibble::as_tibble()
-    } else {
-      usr <- users_with_tweets(usr)
-    }
+    usr <- users_with_tweets(usr)
   }
   usr
 }
+
+
+check_for_errors <- function(x) {
+  if (identical(c("code", "message"), names(x))) {
+    message("Error code: ", x$code)
+    message(x$message)
+    return(tibble::as_tibble())
+  } else if (is.character(x)) {
+    message(x)
+    return(tibble::as_tibble())
+  }
+  x
+}
+
+
+has_read_access <- function(x) {
+  al <- get_access_level(x)
+  identical(al, "read")
+}
+
+
+get_access_level <- function(token) {
+  if ("access_level" %in% names(attributes(token))) {
+    return(attr(token, "access_level"))
+  }
+  r <- httr::GET(
+    "https://api.twitter.com/1.1/account/verify_credentials.json",
+    token)
+  headers <- r$all_headers[[1]]$headers
+  if (has_name(headers, "x-access-level")) {
+    access_level <- headers$`x-access-level`
+  } else {
+    access_level <- ""
+  }
+  attr(token, "access_level") <- access_level
+  access_level
+}
+
 
 .user_lookup <- function(users, token = NULL) {
   query <- "users/lookup"
@@ -95,17 +122,21 @@ lookup_users_ <- function(users,
   if (length(users) > 100) {
     users <- users[1:100]
   }
-  if (length(users) > 80) get <- FALSE
+  token <- check_token(token)
+  if (length(users) > 80 && has_read_access(token)) {
+    get <- FALSE
+  }
   op <- getOption("scipen")
-  on.exit(options(scipen = op))
-  options(scipen = 10)
+  if (is.numeric(users)) {
+    on.exit(options(scipen = op))
+    options(scipen = 10)
+  }
   params <- list(id_type = paste0(users, collapse = ","))
   names(params)[1] <- .ids_type(users)
   url <- make_url(
     query = query,
     param = params
   )
-  token <- check_token(token)
   resp <- TWIT(get = get, url, token)
   from_js(resp)
 }
