@@ -10,11 +10,10 @@ status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org
 [![Coverage
 Status](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet?branch=master)
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-\[![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
-\[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
+![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
+![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
 [![Depsy](http://depsy.org/api/package/cran/rtweet/badge.svg)](http://depsy.org/package/r/rtweet)
-[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/mkearney/rtweet/master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 R client for accessing Twitter’s REST and stream APIs. Check out the
 [rtweet package documentation website](http://rtweet.info).
