@@ -1,7 +1,20 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rtweet <img src="man/figures/logo.png" align="right" /> ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet) [![CRAN status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet) [![Depsy](http://depsy.org/api/package/cran/rtweet/badge.svg)](http://depsy.org/package/r/rtweet) [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/mkearney/rtweet/master) [![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet) [![codecov](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet)
+# rtweet <img src="man/figures/logo.png" align="right" />
+
+[![Build
+Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
+[![Coverage
+Status](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet?branch=master)
+
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+\[![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
+\[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
+[![Depsy](http://depsy.org/api/package/cran/rtweet/badge.svg)](http://depsy.org/package/r/rtweet)
+[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/mkearney/rtweet/master)
 
 R client for accessing Twitter’s REST and stream APIs. Check out the
 [rtweet package documentation website](http://rtweet.info).

@@ -11,13 +11,15 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,13 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Get one or more user timelines (tweets posted by target user(s)). — get_timeline" />
+
+<meta property="og:description" content="Returns up to 3,200 statuses posted to the timelines of each of one
+or more specified Twitter users." />
+
+<meta property="og:image" content="http://rtweet.info/logo.png" />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,13 +61,34 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Vignettes</a>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/auth.html">Obtaining and using access tokens</a>
+    </li>
+    <li>
+      <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+    </li>
+    <li>
+      <a href="../articles/stream.html">Live streaming tweets</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Functions</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
@@ -154,7 +184,9 @@ console).</p></td>
 
     <p><a href='https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline'>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline</a></p>
 <p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_mentions.html'>get_mentions</a></code>, <code><a href='lists_statuses.html'>lists_statuses</a></code>,
+  <code><a href='get_mentions.html'>get_mentions</a></code>,
+  <code><a href='get_my_timeline.html'>get_my_timeline</a></code>,
+  <code><a href='lists_statuses.html'>lists_statuses</a></code>,
   <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
   <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
   <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p>
@@ -205,7 +237,7 @@ console).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -213,3 +245,4 @@ console).</p></td>
 
   </body>
 </html>
+

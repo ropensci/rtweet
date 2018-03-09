@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parsing data into tweets/users data tibbles — tweets_with_users • rtweet</title>
+<title>Capture an image of a tweet/thread — tweet_shot • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,11 @@
 <script src="../pkgdown.js"></script>
   
   
-<meta property="og:title" content="Parsing data into tweets/users data tibbles — tweets_with_users" />
+<meta property="og:title" content="Capture an image of a tweet/thread — tweet_shot" />
 
-<meta property="og:description" content="Parsing data into tweets/users data tibbles" />
+<meta property="og:description" content="Provide a status id or a full Twitter link to a tweet and this function
+will capture an image of the tweet --- or tweet + thread (if there are
+Twitter-linked replies) --- from the mobile version of said tweet/thread." />
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -109,60 +111,53 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parsing data into tweets/users data tibbles</h1>
+    <h1>Capture an image of a tweet/thread</h1>
     </div>
 
     
-    <p>Parsing data into tweets/users data tibbles</p>
+    <p>Provide a status id or a full Twitter link to a tweet and this function
+will capture an image of the tweet --- or tweet + thread (if there are
+Twitter-linked replies) --- from the mobile version of said tweet/thread.</p>
     
 
-    <pre class="usage"><span class='fu'>tweets_with_users</span>(<span class='no'>x</span>)
-
-<span class='fu'>users_with_tweets</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>tweet_shot</span>(<span class='no'>statusid_or_url</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Unparsed data returned by rtweet API request.</p></td>
+      <th>statusid_or_url</th>
+      <td><p>a valid Twitter status id (e.g. "<code>947082036019388416</code>") or
+a valid Twitter status URL (e.g. "<code>https://twitter.com/jhollist/status/947082036019388416</code>").</p></td>
+    </tr>
+    <tr>
+      <th>zoom</th>
+      <td><p>a positive number &gt;= 1. See the help for <code>[webshot::webshot()]</code> for more information.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>auto-scale the image back to 1:1? Default it <code>TRUE</code>, which means <code>magick</code>
+will be used to return a "normal" sized tweet. Set it to <code>FALSE</code> to perform your
+own image manipulation.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tweets/users tibble (data frame) with users/tweets tibble attribute.</p>
+    <p><code>magick</code> object</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Other parsing: <code><a href='do_call_rbind.html'>do_call_rbind</a></code></p>
-<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_mentions.html'>get_mentions</a></code>,
-  <code><a href='get_my_timeline.html'>get_my_timeline</a></code>,
-  <code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='lists_statuses.html'>lists_statuses</a></code>,
-  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
-  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code></p>
-<p>Other parsing: <code><a href='do_call_rbind.html'>do_call_rbind</a></code></p>
-<p>Other users: <code><a href='as_screenname.html'>as_screenname</a></code>,
-  <code><a href='lists_subscribers.html'>lists_subscribers</a></code>,
-  <code><a href='lookup_users.html'>lookup_users</a></code>, <code><a href='search_users.html'>search_users</a></code>,
-  <code><a href='users_data.html'>users_data</a></code></p>
+    <p>For this to work, you will need to ensure the packages in <code>Suggests:</code> are
+installed as they will be loaded upon the first invocation of this function.</p>
+<p>Use the <code>zoom</code> factor to get more pixels which may improve the text rendering
+of the tweet/thread.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## search with parse = FALSE</span>
-<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'>## parse to tweets data tibble with users data attribute object</span>
-<span class='fu'>tweets_with_users</span>(<span class='no'>rt</span>)
-
-<span class='co'>## search with parse = FALSE</span>
-<span class='no'>usr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_users.html'>search_users</a></span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'>## parse to users data tibble with users data attribute object</span>
-<span class='fu'>users_with_tweets</span>(<span class='no'>usr</span>)
-
+<span class='fu'>tweet_shot</span>(<span class='st'>"947082036019388416"</span>)
+<span class='fu'>tweet_shot</span>(<span class='st'>"https://twitter.com/jhollist/status/947082036019388416"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -172,7 +167,7 @@
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

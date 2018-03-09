@@ -1,8 +1,16 @@
+pandoc: 2.1.1
+pkgdown: 0.1.0.9000
+pkgdown_sha: 17f683717d0a1547f13a08a259b34c58927452d6
+articles:
+  auth: auth.html
+  created.png: files/created.png
+  creating.png: files/creating.png
+  keys.png: files/keys.png
+  stream-filter.png: files/stream-filter.png
+  stream-ts.png: files/stream-ts.png
+  intro: intro.html
+  stream: stream.html
 urls:
   reference: http://rtweet.info/reference
   article: http://rtweet.info/articles
-articles:
-  auth: auth.html
-  intro: intro.html
-  stream: stream.html
 

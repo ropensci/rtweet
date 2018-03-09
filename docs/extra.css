@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  font-weight: 700;
+}
+
+pre, code {
+  font-family: Consolas, Monaco, Menlo, Inconsolata, monospace;
+}

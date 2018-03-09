@@ -11,13 +11,15 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,21 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Creating Twitter authorization token(s). — create_token" />
+
+<meta property="og:description" content="Sends request to generate OAuth 1.0 tokens. Twitter
+  also allows users to create user-only (OAuth 2.0) access token.
+  Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
+  on a host user. Which means these tokens cannot be used to send
+  information (follow requests, Twitter statuses, etc.).  If you
+  have no interest in those capabilities, then 2.0 OAuth tokens do
+  offer some higher rate limits. At the current time, the
+  difference given the functions in this package is trivial, so I
+  have yet to verified OAuth 2.0 token method.  Consequently, I
+  encourage you to use 1.0 tokens." />
+
+<meta property="og:image" content="http://rtweet.info/logo.png" />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,13 +69,34 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Vignettes</a>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/auth.html">Obtaining and using access tokens</a>
+    </li>
+    <li>
+      <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+    </li>
+    <li>
+      <a href="../articles/stream.html">Live streaming tweets</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Functions</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
@@ -119,8 +157,8 @@ application must have <code>Read and write</code> access level and
     <tr>
       <th>set_renv</th>
       <td><p>Logical indicating whether to save the created token
-as the default environment twitter token variable. Defaults to FALSE.
-If TRUE, the token is saved to user's home directory as
+as the default environment twitter token variable. Defaults to TRUE,
+meaning the token is saved to user's home directory as
 ".rtweet_token.rds" (or, if that already exists, then
 .rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
 token to said token is then set in the user's .Renviron file and re-
@@ -159,7 +197,7 @@ read to start being used in current active session.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -167,3 +205,4 @@ read to start being used in current active session.</p></td>
 
   </body>
 </html>
+

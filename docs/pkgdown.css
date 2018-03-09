@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Inconsolata');
-
 /* Sticker footer */
 body > .container {
   display: flex;
@@ -12,11 +10,6 @@ body > .container .row {
   flex: 1;
 }
 
-body {
-  font-family: 'Helvetica Neue', Helvetica, sans-serif;
-  line-height: 1.8;
-  color: #222;
-}
 footer {
   margin-top: 45px;
   padding: 35px 0 36px;
@@ -88,16 +81,6 @@ a.anchor {
   }
 }
 
-h1, h2, h3, h4, h5 {
-  font-family: 'Helvetica Neue', Helvetica, sans-serif;
-  font-weight: 600;
-  color: #222;
-}
-
-h1 {font-size: 2.4em;}
-h2 {font-size: 2.2em;}
-h3 {font-size: 2.0em;}
-h4 {font-size: 1.8em;}
 
 /* Sidebar --------------------------*/
 
@@ -115,6 +98,11 @@ h4 {font-size: 1.8em;}
 
 #sidebar .list-unstyled li {
   margin-bottom: 0.5em;
+}
+
+.orcid {
+  height: 16px;
+  vertical-align: middle;
 }
 
 /* Reference index & topics ----------------------------------------------- */
@@ -151,8 +139,13 @@ pre {
 
 pre, code {
   background-color: #f8f8f8;
-  color: #222;
-  line-height: 1.4;
+  color: #333;
+}
+
+pre code {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
 }
 
 pre .img {
@@ -166,48 +159,36 @@ pre .img img {
 }
 
 code a, pre a {
-  color: #1858c5;
+  color: #375f84;
 }
 
-.fl      {color: #11b;}
-.fu      {color: #000;} /* function */
-.ch,.st  {color: #060;} /* string */
-.kw      {color: #039;} /* keyword */
-.co      {color: #888;} /* comment */
-.dt      {color: #a60;}
+a.sourceLine:hover {
+  text-decoration: none;
+}
+
+.fl      {color: #1514b5;}
+.fu      {color: #000000;} /* function */
+.ch,.st  {color: #036a07;} /* string */
+.kw      {color: #264D66;} /* keyword */
+.co      {color: #888888;} /* comment */
+
 .message { color: black;   font-weight: bolder;}
 .error   { color: orange;  font-weight: bolder;}
-.warning { color: #506; font-weight: bolder;}
-.sourceCode { color: #444; }
+.warning { color: #6A0366; font-weight: bolder;}
 
-.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-    background-color: #fbfbfb;
+/* Clipboard --------------------------*/
+
+.hasCopyButton {
+  position: relative;
 }
 
-.navbar-default {
-    background-color: #fbfbfb;
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+.btn-copy-ex {
+  position: absolute;
+  right: 0;
+  top: 0;
+  visibility: hidden;
 }
-.navbar-default .navbar-brand {
-  color: #444;
-}
-.navbar-default .navbar-nav>li>a {
-  color: #444;
-}
-.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
-    color: #820;
-}
-a {
-    color: #06d;
-}
-a:hover {
-    color: #c22;
-}
-.navbar {
-    box-shadow: 0 0px 1px rgba(0,0,0,0.3);
-}
-.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
-    background: #ddd;
-    color: #000;
-    border-radius: 5px;
+
+.hasCopyButton:hover button.btn-copy-ex {
+  visibility: visible;
 }
