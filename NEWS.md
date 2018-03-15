@@ -1,3 +1,5 @@
+# rtweet 0.6.19.9000
+
 # rtweet 0.6.2
 - Tokens have been retooled. For at least the time being, users must 
   create a Twitter app in order to be authorized to interact with the 
