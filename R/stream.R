@@ -56,9 +56,6 @@
 #' ## data frame where each observation (row) is a different tweet
 #' e
 #'
-#' ## users data also retrieved, access it via users_data()
-#' users_data(e)
-#'
 #' ## plot tweet frequency
 #' ts_plot(e, "secs")
 #'
@@ -273,14 +270,14 @@ limits_data <- function(x) {
 #' @importFrom jsonlite stream_in
 stream_data <- function(file_name, ...) {
   tw <- .parse_stream(file_name, ...)
-  usr <- users_data(tw)
-  if (nrow(tw) > 1L) {
-    tw <- tw[!is.na(tw$status_id), ]
-  }
-  if (nrow(usr) > 1L) {
-    usr <- usr[!is.na(usr$user_id), ]
-  }
-  attr(tw, "users") <- usr
+  #usr <- users_data(tw)
+  #if (nrow(tw) > 1L) {
+  #  tw <- tw[!is.na(tw$status_id), ]
+  #}
+  #if (nrow(usr) > 1L) {
+  #  usr <- usr[!is.na(usr$user_id), ]
+  #}
+  #attr(tw, "users") <- usr
   tw
 }
 

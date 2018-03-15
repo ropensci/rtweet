@@ -95,9 +95,6 @@ e <- stream_tweets("election", timeout = 90)
 ## data frame where each observation (row) is a different tweet
 e
 
-## users data also retrieved, access it via users_data()
-users_data(e)
-
 ## plot tweet frequency
 ts_plot(e, "secs")
 
