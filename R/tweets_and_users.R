@@ -31,7 +31,7 @@ tweets_with_users <- function(x) {
   users <- user_object(x)
   users <- users_df_(users)
   attr(tweets, "users") <- users
-  tweets
+  join_rtweet(tweets)
 }
 
 #' @inheritParams tweets_with_users
@@ -58,7 +58,7 @@ users_with_tweets <- function(x) {
     }
   }
   attr(users, "tweets") <- tweets
-  users
+  join_rtweet(users)
 }
 
 tweets_df_ <- function(dat) {

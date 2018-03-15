@@ -1,34 +1,5 @@
-#' Save Twitter data as a comma separated value file.
-#'
-#' Saves tweets and users data as CSV files.
-#'
-#' @param x Data table to be saved (tweets or user object) generated
-#'   via rtweet function like \code{\link{search_tweets}}. If x is a list
-#'   object containing both tweets and users data (which is currently
-#'   the output for many of the rtweet functions), then a CSV file is
-#'   created and saved for each object using the file_name provided as
-#'   a base--e.g, if x is a list object from search_tweets with
-#'   file_name = "election", this function will save both the
-#'   tweets data ("election.tweets.csv") and the user data
-#'   ("election.users.csv"). If not included in file_name, the CSV
-#'   extension will be added when writing file to disk.
-#' @param file_name Path/file name where object(s) is to be saved.  If
-#'   object includes both tweets and users data then provided
-#'   file_name will be used as base for the two saved files.  For
-#'   example, file_name = "election", would save files as
-#'   "election.tweets.csv" and "election.users.csv".
-#' @param prepend_ids Logical indicating whether to prepend an "x"
-#'   before all Twitter IDs (for users, statuses, lists, etc.). It's
-#'   recommended when saving to CSV as these values otherwise get
-#'   treated as numeric and as a result the values are often less
-#'   precise due to rounding or other class-related quirks. Defaults
-#'   to true.
-#' @param na Value to be used for missing (NA)s. Defaults to empty
-#'   character, "".
-#' @param fileEncoding Encoding to be used when saving to
-#'   CSV. defaults to "UTF-8".
-#' @export
-save_as_csv <- function(x, file_name,
+
+save_as_csv2 <- function(x, file_name,
                         prepend_ids = TRUE,
                         na = "",
                         fileEncoding = "UTF-8") {
@@ -100,6 +71,104 @@ modify_file_name <- function(file_name, ext = NULL) {
   }
   file_name
 }
+
+
+
+#' function to flatten IDs vars
+#'
+#' @param x Data object
+#' @return Data with each observation of IDs represented by a single string,
+#'   separating each ID with a space.
+#' @keywords internal
+#' @export
+flatten_id <- function(x) UseMethod("flatten_id")
+
+#' @keywords internal
+#' @export
+flatten_id.character <- function(x) {
+  if (all(is.na(x))) return(x)
+  x[!is.na(x)] <- paste0("x", x[!is.na(x)])
+  x
+}
+
+#' @keywords internal
+#' @export
+flatten_id.list <- function(x) {
+  flist <- function(x) {
+    if (length(x) == 0 || (length(x) == 1L && is.na(x))) {
+      return(NA_character_)
+    }
+    paste(paste0("x", x), collapse = " ")
+  }
+  na <- lengths(x) == 1 & vapply(x, function(i) is.na(i[1]), FUN.VALUE = logical(1))
+  x[!na] <- lapply(x[!na], flist)
+  unlist(x)
+}
+
+#' function to flatten data
+#'
+#' @param x Data
+#' @return Flatten data in preparation to be saved as CSV.
+#' @keywords internal
+#' @export
+flatten_var <- function(x) UseMethod("flatten_var")
+
+#' @keywords internal
+#' @export
+flatten_var.default <- function(x) x
+
+#' @keywords internal
+#' @export
+flatten_var.list <- function(x) {
+  flist <- function(x) {
+    if (length(x) == 0 || (length(x) == 1L && is.na(x))) {
+      return(NA_character_)
+    }
+    paste(x, collapse = " ")
+  }
+  na <- lengths(x) == 1 & vapply(x, function(i) is.na(i[1]), FUN.VALUE = logical(1))
+  if (sum(!na) > 0) {
+    x[!na] <- lapply(x[!na], flist)
+  }
+  unlist(x)
+}
+
+#' Save Twitter data as a comma separated value file.
+#'
+#' Saves tweets and users data as CSV files.
+#'
+#' @param x Data frame returned by rtweet function like
+#'   \code{\link{search_tweets}} to be saved as CSV file.
+#' @param file_name Path/file name where data file is to be saved. If a ".csv"
+#'   extension isn't used, it'll be appending onto the supplied file name.
+#' @details Flattens list columns by pasting them into a single string for each
+#'   observations. For example, a tweet that mentions four other users, for the
+#'   mentions_user_id variable, it will include the four user IDs separated by
+#'   a space.
+#'
+#' It should also be noted that the save_as_csv function prepends all Twitter
+#'   IDs (user ID and status ID) with an "x" in order to ensure spreadsheet
+#'   programs (cough, excel, cough) don't treat the values as numeric and,
+#'   consequently, round the numbers, preventing future identification. For this
+#'   reason, it's best to read in data saved this way using the read_twitter_csv
+#'   function or taking care to remove the prepended "x"s before using the
+#'   captured ID values.
+#' @export
+save_as_csv <- function(x, file_name) {
+  ## validate inputs
+  stopifnot(is.data.frame(x), is.character(file_name), length(file_name) == 1L)
+  if (!grepl("\\.csv$", file_name)) {
+    file_name <- paste0(file_name, ".csv")
+  }
+  ## join users and tweets
+  x <- join_rtweet(x)
+  ## collapse recursive columns into single strings (space separated)
+  x[grep("_id", names(x))] <- lapply(x[grep("_id", names(x))], flatten_id)
+  x[1:ncol(x)] <- lapply(x, flatten_var)
+  ## save as CSV file
+  write.csv(x, file_name, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+}
+
 
 #' Saves as flattened CSV file of Twitter data.
 #'

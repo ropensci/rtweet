@@ -1,8 +1,8 @@
 Package: rtweet
 Type: Package
-Version: 0.6.17
+Version: 0.6.19
 Title: Collecting Twitter Data
-Date: 2018-02-08
+Date: 2018-03-10
 Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))
 Description: An implementation of calls designed to collect and
     organize Twitter data via Twitter's REST and stream Application
@@ -10,14 +10,15 @@ Description: An implementation of calls designed to collect and
     <https://developer.twitter.com/en/docs>.
 Depends:
     R (>= 3.1.0)
-Imports:
+Imports: 
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
     openssl,
     readr,
     tibble,
-    utils
+    utils,
+    hms
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
 BugReports: https://github.com/mkearney/rtweet/issues

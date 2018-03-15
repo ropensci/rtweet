@@ -8,9 +8,19 @@ test_that("lists_users returns data frame with nrow > 1", {
     sns <- "kearneymw"
     token <- readRDS("twitter_tokens")
     x <- lists_users(sns, token = token)
-
     expect_true(is.data.frame(x))
-    ##expect_true(is.character(f[["ids"]]))
+    expect_gt(nrow(x), 0)
+    x <- lists_members(slug = "senators", owner_user = "cspan", token = token)
+    expect_true(is.data.frame(x))
+    expect_gt(nrow(x), 0)
+
+    x <- lists_members(slug = "rstats", owner_user = "scultrera")
+    expect_true(is.data.frame(x))
+    expect_gt(nrow(x), 0)
+
+    ## get up to 200 list memberships of Nate Silver
+    x <- lists_memberships("NateSilver538", n = 200)
+    expect_true(is.data.frame(x))
     expect_gt(nrow(x), 0)
 })
 

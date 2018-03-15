@@ -18,3 +18,4 @@
 ^.*\.DS\_Store$
 ^paper\.md$
 ^paper\.bib$
+^pkgdown*$

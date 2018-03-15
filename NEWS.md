@@ -1,3 +1,21 @@
+# rtweet 0.6.2
+- Tokens have been retooled. For at least the time being, users must 
+  create a Twitter app in order to be authorized to interact with the 
+  REST and stream APIs.
+- Joined data: instead of returning users/tweets data with its
+  complementary tweets/users data stored as an attribute, functions now
+  return a joined data frame, consisting of the tweets-level data 
+  joined with the newest (most recent) observation for each user 
+  This means functions now return a more consistent and intuitive 
+  data object where one row is always equal to one tweet. 
+- Overhauled `save_as_csv()` with improved flattening and ID-preserving 
+  saving methods. THe function now saves a single [joined] data set as 
+  well.
+- Fixed major bugs in `get_favorites()` and in several `lists_*()` 
+  functions.
+- Tweaked date-time aggregator internals to make time-rounding more 
+  precise.
+
 # rtweet 0.6.0
 - Introduced new API authorization method, which leverages an embedded
   rtweet Twitter app that is authorized locally by the user. Creating

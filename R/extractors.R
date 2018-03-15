@@ -29,9 +29,12 @@ users_data <- function(tweets) {
   if (!is.recursive(tweets)) return(data.frame())
   if (isTRUE("users" %in% names(attributes(tweets)))) {
     attr(tweets, "users")
+  } else if (names_in_users(tweets) > 2L) {
+    tweets[names(tweets) %in% users_names()]
   } else {
     data.frame()
   }
+
 }
 
 #' Extracts tweets data from users data object.
@@ -67,6 +70,8 @@ tweets_data <- function(users) {
   if (!is.recursive(users)) return(data.frame())
   if (isTRUE("tweets" %in% names(attributes(users)))) {
     attr(users, "tweets")
+  } else if (names_in_tweets(users) > 2L) {
+    users[names(users) %in% tweets_names()]
   } else {
     data.frame()
   }
