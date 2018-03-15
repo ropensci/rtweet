@@ -107,11 +107,11 @@ get_timeline_ <- function(user, n = 100, home = FALSE, ...) {
     rt <- Map(get_timeline_call, user = user, n = n, home = home)
   }
   ## merge users data into one data frame
-  rt_users <- do.call("rbind", lapply(rt, users_data))
+  #rt_users <- do.call("rbind", lapply(rt, users_data))
   ## merge tweets data into one data frame
   rt <- do.call("rbind", rt)
   ## set users attribute
-  attr(rt, "users") <- rt_users
+  #attr(rt, "users") <- rt_users
   ## return tibble (validate = FALSE makes it a bit faster)
   tibble::as_tibble(rt, validate = FALSE)
 }
@@ -177,11 +177,11 @@ get_timeline_call <- function(user,
   tm <- scroller(url, n, n.times, type = "timeline", token)
   if (parse) {
     tm <- tweets_with_users(tm)
-    usr <- users_data(tm)
-    if (nrow(usr) > 0L) {
-      uq <- !duplicated(usr$user_id)
-      attr(tm, "users") <- usr[uq, ]
-    }
+    #usr <- users_data(tm)
+    #if (nrow(usr) > 0L) {
+    #  uq <- !duplicated(usr$user_id)
+    #  attr(tm, "users") <- usr[uq, ]
+    #}
   }
   tm
 }

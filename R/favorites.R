@@ -172,11 +172,11 @@ get_favorites_ <- function(user,
   fav <- scroller(url, n, n.times, type = "timeline", token)
   if (parse) {
     fav <- tweets_with_users(fav)
-    usr <- users_data(fav)
-    if (nrow(usr) > 0L) {
-      uq <- !duplicated(usr$user_id)
-      attr(fav, "users") <- usr[uq, ]
-    }
+    #usr <- users_data(fav)
+    #if (nrow(usr) > 0L) {
+    #  uq <- !duplicated(usr$user_id)
+    #  attr(fav, "users") <- usr[uq, ]
+    #}
   }
   fav
 }
