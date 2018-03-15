@@ -45,7 +45,9 @@ do_call_rbind <- function(x) {
     att <- "users"
   }
   x <- do.call("rbind", x)
-  attr(x, att) <- att_df
+  if (nrow(att_df) > 0) {
+    attr(x, att) <- att_df
+  }
   x
 }
 

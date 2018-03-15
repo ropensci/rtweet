@@ -4,10 +4,10 @@
 
 #' Adds single-point latitude and longitude variables to tweets data.
 #'
-#' Appends parsed tweets data with latitude and longitude variables
+#' Appends parsed Twitter data with latitude and longitude variables
 #' using all available geolocation information.
 #'
-#' @param x Parsed tweets data as returned by various rtweet
+#' @param x Parsed Twitter data as returned by various rtweet
 #'   functions. This should be a data frame with variables such as
 #'   "bbox_coords", "coords_coords", and "geo_coords" (among
 #'   other non-geolocation Twitter variables).
@@ -45,7 +45,6 @@
 #' @export
 lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords")) {
   stopifnot(is.data.frame(x))
-  users <- users_data(x)
   if (!has_name_(x, "lat")) {
     x$lat <- NA_real_
   }
@@ -53,9 +52,6 @@ lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"))
     x$lng <- NA_real_
   }
   x[coords] <- lapply(coords, if_has_else_na, x = x, na_ = NA_real_)
-  ##if (!any(is.na(x$lat))) {
-  ##  return(tibble::as_tibble(x, validate = FALSE))
-  ##}
   coords2 <- grep("box", coords, invert = TRUE, value = TRUE)
   if (length(coords2) > 0L) {
     for (i in seq_along(coords2)) {
@@ -68,7 +64,6 @@ lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"))
     x$lng[is.na(x$lng)] <- bbox[, 1][is.na(x$lng)]
     x$lat[is.na(x$lat)] <- bbox[, 2][is.na(x$lat)]
   }
-  attr(x, "users") <- users
   tibble::as_tibble(x, validate = FALSE)
 }
 

@@ -44,9 +44,6 @@ statuses <- c(
 tw <- lookup_statuses(statuses)
 tw
 
-## view users data for these statuses via users_data()
-users_data(tw)
-
 }
 
 }

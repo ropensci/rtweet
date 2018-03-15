@@ -132,12 +132,12 @@ search_users_call <- function(q, n = 20,
     if (k >= n * 20) break
   }
   if (parse) {
-    usr2 <- users_with_tweets(usr)
-    if (nrow(usr2) > 0L) {
-      uq <- !duplicated(usr2$user_id)
-      usr <- usr2[uq, ]
-      attr(usr, "tweets") <- tweets_data(usr2)[uq, ]
-    }
+    usr <- users_with_tweets(usr)
+    #if (nrow(usr2) > 0L) {
+    #  uq <- !duplicated(usr2$user_id)
+    #  usr <- usr2[uq, ]
+    #  attr(usr, "tweets") <- tweets_data(usr2)[uq, ]
+    #}
   }
   if (verbose) {
     message("Finished collecting users!")

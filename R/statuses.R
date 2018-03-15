@@ -28,9 +28,6 @@
 #' tw <- lookup_statuses(statuses)
 #' tw
 #'
-#' ## view users data for these statuses via users_data()
-#' users_data(tw)
-#'
 #' }
 #'
 #' @return A tibble of tweets data.
