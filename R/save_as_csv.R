@@ -160,13 +160,24 @@ save_as_csv <- function(x, file_name) {
   if (!grepl("\\.csv$", file_name)) {
     file_name <- paste0(file_name, ".csv")
   }
+  ## prep data
+  x <- prep_for_csv(x)
+  ## save as CSV file
+  write.csv(x, file_name, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+}
+
+#' Returns flattened and ID-prepended data frame, as it's done internally via
+#' \code{save_as_csv}
+#'
+#' @export
+#' @rdname prep_for_csv
+prep_for_csv <- function(x) {
   ## join users and tweets
   x <- join_rtweet(x)
   ## collapse recursive columns into single strings (space separated)
   x[grep("_id", names(x))] <- lapply(x[grep("_id", names(x))], flatten_id)
   x[1:ncol(x)] <- lapply(x, flatten_var)
-  ## save as CSV file
-  write.csv(x, file_name, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+  x
 }
 
 
