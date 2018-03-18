@@ -16,3 +16,15 @@ test_that("get_timeline", {
   expect_true(is.data.frame(users_data(x)))
   expect_true(is.data.frame(xts))
 })
+
+test_that("get_timeline(... home = TRUE ...) passes home to get_timeline_", {
+  with_mock(
+    `rtweet::get_timeline_` = function(user, n = 1, ...) {
+      dots <- list(...)
+      expect_true(dots$home)
+      return(NULL)
+    },
+
+    x <- get_timeline("ignored", home = TRUE)
+  )
+})
