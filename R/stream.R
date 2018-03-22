@@ -228,6 +228,12 @@ tmp_json <- function() {
   paste0("stream-", timestamp, ".json")
 }
 
+is_user_ids <- function(x) {
+  if (length(x) == 1L && grepl(",", x)) {
+    x <- strsplit(x, "\\,")[[1]]
+  }
+  isTRUE(all(!is.na(suppressWarnings(as.numeric(x)))))
+}
 
 stream_params <- function(stream, ...) {
   if (inherits(stream, "coords")) {
@@ -236,9 +242,9 @@ stream_params <- function(stream, ...) {
   ## if [coordinates] vector is > 1 then locations
   ## if comma separated stream of IDs then follow
   ## otherwise use query string to track
-  if (length(stream) == 4 && is.numeric(stream)) {
+  if ((length(stream) %% 4 == 0) && is.numeric(stream)) {
     params <- list(locations = paste(stream, collapse = ","))
-  } else if (!all(suppressWarnings(is.na(as.numeric(stream))))) {
+  } else if (is_user_ids(stream)) {
     params <- list(follow = stream, ...)
   } else {
     params <- list(track = stream, ...)
@@ -320,7 +326,7 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L) {
     data[[length(data) + 1L]] <- stream_data(tmp)
     if (NROW(data[[length(data)]]) == 0L) break
   }
-  do_call_rbind(data)
+  do.call("rbind", data)
 }
 
 
