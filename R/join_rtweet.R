@@ -13,7 +13,7 @@ join_rtweet <- function(x) {
     ## remove duplicate user rows
     u <- u[!duplicated(u$user_id), ]
     ## merge tweets and users data
-    x <- unique(merge(x, u, by = "user_id"))
+    x <- merge(x, u, by = "user_id")
     ## remove duplicate tweet rows
     x <- x[!duplicated(x$status_id), ]
     x <- tibble::as_tibble(x, validate = FALSE)
@@ -24,10 +24,11 @@ join_rtweet <- function(x) {
     ## remove duplicate user rows
     x <- x[!duplicated(x$user_id), ]
     ## merge tweets and users data
-    x <- unique(merge(x, w, by = "user_id"))
+    x <- merge(x, w, by = "user_id")
     ## order by date and then remove duplicate tweet rows
     x <- x[!duplicated(x$status_id), ]
     x <- tibble::as_tibble(x, validate = FALSE)
   }
+  x <- x[order(x$created_at), ]
   x
 }

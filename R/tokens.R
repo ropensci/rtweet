@@ -163,9 +163,11 @@ fetch_tokens <- function(tokens, query, sleep = FALSE) {
 }
 
 is.token <- function(x) {
+  if (length(x) == 0) return(FALSE)
   lgl <- FALSE
+  ## check if inherits token class and uses a twitter api endpoint
   lgl <- all(
-    any(c("token", "token1.0", "R6") %in% class(x)),
+    any(c("token", "token1.0") %in% tolower(class(x))),
     grepl("api.twitter", x[['endpoint']][['request']], ignore.case = TRUE)
   )
   lgl
@@ -211,15 +213,17 @@ is_ttoken <- function(x) {
 }
 
 is_tokenfile <- function(x) {
-  if (!file.exists(x)) FALSE
+  if (!file.exists(x)) return(FALSE)
   if (identical(x, ".httr-oauth") || if_rds(x)) {
     x <- readRDS(x)
   } else if (if_load(x)) {
+    ## load in new environment and then get it
     e <- new.env()
     load(x, envir = e)
     x <- ls(envir = e, all.names = TRUE)
     if (length(x) == 0) return(FALSE)
     x <- get(x, envir = e)
+    ## else look for .*token.* in GlobalEnv
   } else if (any(grepl("token",
     ls(envir = .GlobalEnv), ignore.case = TRUE))) {
     x <- global_token_finder()
@@ -248,23 +252,21 @@ twitter_pat <- function() {
 }
 
 if_load <- function(x) {
-  lgl <- TRUE
+  lgl <- FALSE
   lgl <- suppressWarnings(
     tryCatch(load(x),
-      error = function(e) (return(FALSE))))
-  if (is.null(lgl)) return(FALSE)
-  if (identical(length(lgl), 0L)) return(FALSE)
+      error = function(e) return(NULL)))
+  if (is.null(lgl) || length(lgl) == 0L) return(FALSE)
   if (identical(lgl, FALSE)) return(FALSE)
   TRUE
 }
 
 if_rds <- function(x) {
-  lgl <- TRUE
+  lgl <- FALSE
   lgl <- suppressWarnings(
     tryCatch(readRDS(x),
-      error = function(e) (return(FALSE))))
-  if (is.null(lgl)) return(FALSE)
-  if (identical(length(lgl), 0L)) return(FALSE)
+      error = function(e) return(NULL)))
+  if (is.null(lgl) || length(lgl) == 0L) return(FALSE)
   if (identical(lgl, FALSE)) return(FALSE)
   TRUE
 }
