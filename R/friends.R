@@ -218,24 +218,6 @@ get_friend <- function(url, token = NULL) {
 }
 
 
-#' @importFrom jsonlite fromJSON
-parse.piper.fnd <- function(r) {
-  if (isTRUE("content" %in% names(r))) {
-    r <- tryCatch(
-      jsonlite::fromJSON(rawToChar(r[["content"]])),
-      error = function(e) return(NULL))
-    r <- fnd_internal(r)
-  } else {
-    if (length(r) > 1L) {
-      r <- lapply(r, fnd_internal)
-      r <- do.call("rbind", r)
-
-    } else {
-      r <- fnd_internal(r)
-    }
-  }
-  tibble::as_tibble(r, validate = FALSE)
-}
 
 fnd_internal <- function(r) {
   if (is.null(r)) return(data.frame(user_id = NA_character_))

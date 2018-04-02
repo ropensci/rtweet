@@ -7,6 +7,9 @@
 \usage{
 prep_for_csv(x)
 }
+\arguments{
+\item{x}{Data frame (or tibble) returned by rtweet functions.}
+}
 \description{
 Returns flattened and ID-prepended data frame, as it's done internally via
 \code{save_as_csv}

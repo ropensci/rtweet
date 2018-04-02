@@ -99,69 +99,6 @@ lookup_coords <- function(address, components = NULL, ...) {
 }
 
 
-mean.dbls <- function(x) mean(as.double(x, na.rm = TRUE))
-
-
-mutate.coords <- function(x) {
-  if (is.data.frame(x)) {
-    if ("place.bounding_box.coordinates" %in% names(x)) {
-      coordinates <- x[["place.bounding_box.coordinates"]]
-    } else if ("bounding_box_coordinates" %in% names(x)) {
-      coordinates <- x[["bounding_box_coordinates"]]
-    } else if ("coordinates" %in% names(x)) {
-      coordinates <- x[["coordinates"]]
-    }
-  } else {
-    coordinates <- x
-  }
-
-  if (is.character(coordinates)) {
-    coordinates <- gsub(
-      ",", " ", coordinates
-    )
-    coordinates <- strsplit(
-      coordinates, " "
-    )
-  }
-
-  if (is.list(coordinates)) {
-    lns <- lengths(coordinates)
-    if (all(lns < 3)) {
-      coordinates <- do.call(
-        "rbind",
-        lapply(coordinates, function(x) matrix(x, 1, 2))
-      )
-    } else if (all(lns < 9)) {
-      coordinates <- do.call(
-        "rbind",
-        lapply(coordinates, function(x) matrix(x, 1, 8))
-      )
-    }
-  }
-
-  if (any(is.data.frame(coordinates),
-      is.matrix(coordinates))) {
-    coordinates <- apply(coordinates, 2, as.double)
-    if (ncol(coordinates) == 8) {
-      coordinates <- cbind(
-      rowMeans(coordinates[, 1:4], na.rm = TRUE),
-      rowMeans(coordinates[, 5:8], na.rm = TRUE)
-      )
-    }
-  }
-
-  if (!any(is.data.frame(coordinates),
-          is.matrix(coordinates),
-          isTRUE(ncol(coordinates) == 2))) {
-    lat <- rep(NA, NROW(x))
-    lng <- rep(NA, NROW(x))
-  } else {
-    lat <- coordinates[, 2]
-    lng <- coordinates[, 1]
-  }
-  latlng <- cbind(x, lat, lng)
-  tibble::as_tibble(latlng, validate = FALSE)
-}
 
 
 
@@ -171,18 +108,3 @@ as.coords <- function(place, box, point) {
   coords
 }
 
-
-max_coords <- function(x) {
-  ypt <- apply(x@point, 1, function(.) all(is.na(.)))
-  lng <- x@point[, 1]
-  lat <- x@point[, 2]
-  b <- x@box[ypt, ]
-  lng[ypt] <- rowMeans(b[, 1:4], na.rm = TRUE)
-  lat[ypt] <- rowMeans(b[, 5:8], na.rm = TRUE)
-  lng[is.nan(lng)] <- NA_real_
-  lat[is.nan(lat)] <- NA_real_
-  cbind(
-    lng = lng,
-    lat = lat
-  )
-}

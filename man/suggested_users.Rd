@@ -7,7 +7,7 @@
 \usage{
 suggested_slugs(lang = NULL, token = NULL)
 
-suggested_users(slug, lang = NULL, token = NULL)
+suggested_users(slug, lang = NULL, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{lang}{optional Restricts the suggested categories to the
@@ -21,6 +21,9 @@ variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
 
 \item{slug}{required The short name of list or a category}
+
+\item{parse}{Logical indicating whether to parse the returned data into
+a tibble data frame. See details for more on the returned users data.}
 }
 \value{
 List of recommended categories which can be passed along as
@@ -31,6 +34,13 @@ Recommended users
 \description{
 Returns Twitter's list of suggested user categories.
 }
+\details{
+Currently, this parsing process drops all
+  recursive (list) columns, which mostly means you are shorted some
+  entities data. To maximize users data, however, it is recommended to
+  make an additional \code{\link{lookup_users}} call using the user IDs
+  returned by this function.
+}
 \examples{
 
 \dontrun{
@@ -40,6 +50,18 @@ slugs <- suggested_slugs()
 
 ## use slugs to get suggested users
 suggested_users(slugs$slug[1])
+
+## alternatively, get all users from all slugs in one function
+sugs <- all_suggested_users()
+
+## print data
+sugs
+
+## for complete users data, lookup user IDs
+sugs_usr <- lookup_users(sugs$user_id)
+
+## view users data
+sugs_usr
 
 }
 

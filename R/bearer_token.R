@@ -22,6 +22,7 @@ get_bearer_token <- function(token = NULL) {
   stop_for_status(r)
   bearer <- content(r)
   bearer_env <- new.env()
+  assign(".bearer_env", bearer_env, envir = .GlobalEnv)
   assign("bearer", r, envir = bearer_env)
   invisible()
 }
@@ -35,8 +36,8 @@ bearer_token <- function() {
   httr::add_headers(Authorization = paste0("Bearer ", bearer$access_token))
 }
 
-
 get_bearer_token <- function() {
+  bearer_env <- get(".bearer_env", envir = .GlobalEnv)
   bearer <- tryCatch(get("bearer", envir = bearer_env), error = function(e) NULL)
   if (is.null(bearer)) {
     stop("couldn't find bearer token")

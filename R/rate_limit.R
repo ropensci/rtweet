@@ -65,6 +65,19 @@ rate_limit.default <- function(token = NULL, query = NULL, parse = TRUE) {
   rate_limit_(token, query, parse)
 }
 
+#' @export
+rate_limit.function <- function(token = NULL, query = NULL, parse = TRUE) {
+  token <- as.character(substitute(token))
+  if (is.character(token) && length(token) == 1L &&
+      (is.null(query) || inherits(query, "Token") || is.list(query))) {
+    fix_query <- token
+    token <- query
+    query <- fix_query
+  }
+  rate_limit_(token, query, parse)
+}
+
+
 token_name <- function(x) {
   x$app$appname
 }
@@ -73,6 +86,9 @@ token_name <- function(x) {
 rate_limit.NULL <- function(token = NULL, query = NULL, parse = TRUE) {
   if (is.null(token)) {
     token <- get_tokens()
+  }
+  if (is.function(query)) {
+    query <- as.character(substitute(query))
   }
   rate_limit(token = token, query = query, parse = parse)
 }
@@ -144,14 +160,18 @@ rate_limit_ <- function(token,
   }
 }
 
+
 .rl_df <- function(r) {
   if (has_name_(r, "errors")) return(data.frame())
   if (!has_name_(r, "resources")) return(data.frame())
   data <- r$resources
+  if (!all(c("lists", "application", "search", "users") %in% names(data))) {
+    return(data.frame())
+  }
   rl_df <- data.frame(
-    query = gsub(".limit|.remaining|.reset", "",
+    query = gsub("\\.limit$|\\.remaining$|\\.reset$", "",
                  gsub(".*[.][/]", "",
-                      grep(".limit$", names(unlist(data)),
+                      grep("\\.limit$", names(unlist(data)),
                            value = TRUE))),
     limit = unlist(lapply(data, function(y)
       lapply(y, function(x) getElement(x, "limit")))),
@@ -252,7 +272,8 @@ funs_and_apis <- function() {
 
     `friendships/lookup` = "lookup_friendships",
     `users/suggestions` = "suggested_users",
-    `users/suggestions/:slug` = "suggested_slugs"
+    `users/suggestions/:slug` = "suggested_slugs",
+    `users/suggestions/:slug$|^users/suggestions` = "all_suggested_users"
   )
 }
 
@@ -265,13 +286,26 @@ stream_api_funs <- function() {
 
 post_api_funs <- function() {
   list(
+    ## post status
     `statuses/update` = "post_status",
     `media/upload` = "post_status",
+    `statuses/update` = "post_tweet",
+    `media/upload` = "post_tweet",
+
+    ## dms
     `direct_messages/new` = "post_direct_message",
-    `friendships/update` = "post_follow",
+
+    ## mute
     `mutes/users/create` = "post_mute",
+
+    ## friendship status
+    `friendships/update` = "post_friendship",
     `friendships/destroy` = "post_unfollow",
-    `friendships/create` = "post_follow"
+    `friendships/create` = "post_follow",
+
+    ## favs
+    `favorites/create` = "post_favorite",
+    `favorites/destroy` = "post_unfavorite"
   )
 }
 

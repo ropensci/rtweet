@@ -169,6 +169,8 @@ save_as_csv <- function(x, file_name) {
 #' Returns flattened and ID-prepended data frame, as it's done internally via
 #' \code{save_as_csv}
 #'
+#' @param x Data frame (or tibble) returned by rtweet functions.
+#'
 #' @export
 #' @rdname prep_for_csv
 prep_for_csv <- function(x) {
