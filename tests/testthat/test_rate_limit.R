@@ -12,3 +12,4 @@ test_that("rate_limit returns rate_limit data", {
   expect_gt(nrow(x), 2)
   expect_gt(ncol(x), 2)
 })
+

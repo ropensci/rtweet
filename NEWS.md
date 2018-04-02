@@ -1,5 +1,8 @@
 # rtweet 0.6.2
-- Fixes and improvements to `save_as_csv()`, including addition of new 
+- Added `all_suggested_users()`, which automates the collection of Twitter's
+  suggested users data.
+- Various bug fixes and stability improvements.
+- Significant upgrades to `save_as_csv()`, including addition of new 
   `prep_as_csv()` as convience function for flattening Twitter data frames.
 - Tokens have been retooled. For at least the time being, users must 
   create a Twitter app in order to be authorized to interact with the 

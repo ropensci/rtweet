@@ -326,17 +326,6 @@ is.na.quiet <- function(x) {
   suppressWarnings(is.na(x))
 }
 
-is_empty_list <- function(x) {
-  if (is.null(x)) return(TRUE)
-  if (is.list(x)) {
-    return(identical(length(unlist(
-      x, use.names = FALSE)), 0))
-  } else if (identical(length(x), 0)) {
-    return(TRUE)
-  }
-  FALSE
-}
-
 is_n <- function(n) {
   if (is.character(n)) {
     n <- suppressWarnings(as.numeric(n))
@@ -367,14 +356,7 @@ is_url <- function(url) {
 ##                                  wranglers                                 ##
 ##----------------------------------------------------------------------------##
 
-nanull <- function(x) {
-  if (is.null(x)) return(NA)
-  if (identical(x, "")) return(NA)
-  if (length(x) == 0) return(NA)
-  x[x == ""] <- NA
-  x[is.null(x)] <- NA
-  x
-}
+
 
 #' @importFrom jsonlite fromJSON
 from_js <- function(rsp) {

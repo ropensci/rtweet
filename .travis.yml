@@ -10,4 +10,4 @@ before_install:
 r_github_packages:
 - jimhester/covr
 after_success:
-- Rscript -e 'covr::codecov(function_exclusions = c("create_token", "global_token_finder", "post_tweet", "upload_media_to_twitter", "post_message", "post_follow", "check_status_code", "post_unfollow_user", "post_mute", "post_favorite", "post_friendship", "home_user_", "fetch_tokens", "system_tokens", "validate_token", "rtweet_app", "rtweet_app_", "rtweet_token_", "rtweet_token", "parse_streamlimit", "match_fun", "stream_tweets2", "new_dir", "stream_dir", "save_as_csv2", "modify_file_name"))'
+- Rscript -e 'covr::codecov(function_exclusions = c("create_token", "global_token_finder", "post_tweet", "upload_media_to_twitter", "post_message", "post_follow", "check_status_code", "post_unfollow_user", "post_mute", "post_favorite", "post_friendship", "home_user_", "fetch_tokens", "system_tokens", "validate_token", "rtweet_app", "rtweet_app_", "rtweet_token_", "rtweet_token", "parse_streamlimit", "match_fun", "stream_tweets2", "new_dir", "stream_dir", "save_as_csv2", "modify_file_name", "is_empty_list", "nanull"))'
