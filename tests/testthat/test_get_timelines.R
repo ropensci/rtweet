@@ -12,6 +12,7 @@ test_that("get_timeline", {
     p <- ts_plot(dplyr::group_by(x, screen_name, is_retweet))
     expect_true(inherits(p, "ggplot"))
   }
+  xx <- x
   class(xx) <- c("grouped_df", "tbl_df", "data.frame")
   ts_plot(xx, "45 mins")
   expect_equal(is.data.frame(x), TRUE)
