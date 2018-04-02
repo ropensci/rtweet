@@ -14,9 +14,9 @@ test_that("lists_users returns data frame with nrow > 1", {
     expect_true(is.data.frame(x))
     expect_gt(nrow(x), 0)
 
-    x <- lists_members(slug = "rstats", owner_user = "scultrera")
-    expect_true(is.data.frame(x))
-    expect_gt(nrow(x), 0)
+    #x <- lists_members(slug = "rstats", owner_user = "scultrera")
+    #expect_true(is.data.frame(x))
+    #expect_gt(nrow(x), 0)
 
     ## get up to 200 list memberships of Nate Silver
     x <- lists_memberships("NateSilver538", n = 200)
