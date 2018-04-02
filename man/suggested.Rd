@@ -4,9 +4,13 @@
 \alias{all_suggested_users}
 \title{Get all user [account] suggestions for authenticating user}
 \usage{
-all_suggested_users(parse = TRUE)
+all_suggested_users(slugs = NULL, parse = TRUE)
 }
 \arguments{
+\item{slugs}{Optional, one or more slugs returned by
+\code{\link{suggested_slugs}}. API rate limits this to 15 max (function
+will return warnings for slugs provided beyond the remaining limit).}
+
 \item{parse}{Logical indicating whether to parse the returned data into
 a tibble data frame. See details for more on the returned users data.}
 }

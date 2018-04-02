@@ -88,14 +88,23 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #' Returns users data for all users in Twitter's suggested categories.
 #'
 #' @inheritParams suggested_users
+#' @param slugs Optional, one or more slugs returned by
+#'   \code{\link{suggested_slugs}}. API rate limits this to 15 max (function
+#'   will return warnings for slugs provided beyond the remaining limit).
 #' @export
 #' @rdname suggested
-all_suggested_users <- function(parse = TRUE) {
-  slugs <- suggested_slugs()
-  stopifnot(is.data.frame(slugs), nrow(slugs) > 0L)
-  d <- vector('list', nrow(slugs))
+all_suggested_users <- function(slugs = NULL, parse = TRUE) {
+  if (is.null(slugs)) {
+    slugs <- suggested_slugs()
+    stopifnot(is.data.frame(slugs), nrow(slugs) > 0L)
+  }
+  if (is.data.frame(slugs)) {
+    slugs <- slugs$slug
+  }
+  stopifnot(is.character(slugs))
+  d <- vector('list', length(slugs))
   for (i in seq_along(d)) {
-    d[[i]] <- suggested_users(slugs$slug[i], parse = parse)
+    d[[i]] <- suggested_users(slugs[i], parse = parse)
   }
   if (parse) {
     d <- do.call("rbind", d)
