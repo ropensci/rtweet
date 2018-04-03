@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rtweet <img src="man/figures/logo.png" align="right" /> 
+# rtweet <img src="man/figures/logo.png" width="200px" align="right" /> 
 
 [![Build Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis-ci.org/mkearney/rtweet)
 [![CRAN status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
