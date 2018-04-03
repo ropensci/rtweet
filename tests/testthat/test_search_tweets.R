@@ -1,6 +1,6 @@
 context("search_tweets")
 
-test_that("search_tweets returns tweets data", {
+test_that("search_tweets returns tweets data and latlng", {
   skip_on_cran()
 
   n <- 50
@@ -15,15 +15,11 @@ test_that("search_tweets returns tweets data", {
   expect_gt(nrow(x), 25)
   expect_gt(ncol(x), 15)
   expect_true(all(c("friends_count", "description") %in% names(x)))
-  #expect_true(is.data.frame(attr(x, "users")))
-  #expect_true(is.data.frame(users_data(x)))
-  #expect_gt(nrow(users_data(x)), 0)
-  #expect_gt(ncol(users_data(x)), 15)
-  #expect_named(users_data(x))
   expect_true(any(c("user_id", "friends_count") %in% names(x)))
 
   x <- search_tweets("lol", n = 300,
                      include_rts = FALSE, token = token, lang = "en")
+  x <- lat_lng(x)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
@@ -32,11 +28,7 @@ test_that("search_tweets returns tweets data", {
   expect_gt(nrow(x), 200)
   expect_gt(ncol(x), 15)
   expect_true(all(c("friends_count", "description") %in% names(x)))
-  #expect_true(is.data.frame(attr(x, "users")))
-  #expect_true(is.data.frame(users_data(x)))
-  #expect_gt(nrow(users_data(x)), 0)
-  #expect_gt(ncol(users_data(x)), 15)
-  #expect_named(users_data(x))
+  expect_true(all(c("lat", "lng") %in% names(x)))
   expect_true(any(c("user_id", "friends_count") %in% names(x)))
   expect_true(all(FALSE %in% x$is_retweet))
 

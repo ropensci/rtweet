@@ -22,7 +22,8 @@
 #' @export
 #' @family retweets
 get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
-  query <- "statuses/retweets/:id"
+  stopifnot(is.character(status_id), length(status_id) == 1L)
+  query <- sprintf("statuses/retweets/%s", status_id)
   params <- list(
     id = status_id,
     count = n,
@@ -33,8 +34,9 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   r <- httr::GET(url, token)
   if (parse) {
     r <- from_js(r)
-    r <- as_retweets(r)
-    r <- as.data.frame(r)
+    r <- tweets_with_users(r)
+    #r <- as_retweets(r)
+    #r <- as.data.frame(r)
   }
   r
 }
