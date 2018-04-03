@@ -57,7 +57,7 @@ And that's it! You're ready to start collecting and analyzing Twitter data!
 Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.
 
 ``` r
-## search for 5000 tweets using the rstats hashtag
+## search for 18000 tweets using the rstats hashtag
 rt <- search_tweets(
   "#rstats", n = 18000, include_rts = FALSE
 )
@@ -233,7 +233,7 @@ sf <- get_trends("san francisco")
 
 #### Post actions
 
--   Posting (tweeting from R console) or reading direct messages require addtional permissions
+-   Posting (tweeting from R console) or reading direct messages require additional permissions
 -   If you'd like to post Twitter statuses, follow or unfollow accounts, and/or read your direct messages, you'll need to create your own Twitter app.
 -   To create your own Twitter app, follow the instructions in the authorization vignette on [obtaining and using access tokens](http://rtweet.info/articles/auth.html).
 

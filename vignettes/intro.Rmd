@@ -20,7 +20,7 @@ This vignette provides a quick tour of the R package `rtweet: Collecting Twitter
 
 Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.
 ```{r, eval=FALSE}
-## search for 5000 tweets using the rstats hashtag
+## search for 18000 tweets using the rstats hashtag
 rt <- search_tweets(
   "#rstats", n = 18000, include_rts = FALSE
 )
