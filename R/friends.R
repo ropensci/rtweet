@@ -158,12 +158,16 @@ get_friends_ <- function(users,
         warning(f[[i]]$errors[["message"]], call. = FALSE)
         return(list(data.frame()))
       } else if (parse) {
-        nextcursor <- f[["next_cursor"]]
-        f[[i]] <- tibble::as_tibble(
-          list(user = users[[i]], user_id = f[[i]][["ids"]]),
-          validate = FALSE
-        )
-        attr(f[[i]], "next_cursor") <- nextcursor
+        if (length(f[[i]][["ids"]]) == 0) {
+          f[[i]] <- tibble::as_tibble()
+        } else {
+          nextcursor <- f[["next_cursor"]]
+          f[[i]] <- tibble::as_tibble(
+            list(user = users[[i]], user_id = f[[i]][["ids"]]),
+            validate = FALSE
+          )
+          attr(f[[i]], "next_cursor") <- nextcursor
+        }
       }
       if (verbose) {
         message(paste(i, "friend networks collected!"))
@@ -201,11 +205,15 @@ get_friends_ <- function(users,
         return(list(data.frame()))
       } else if (parse) {
         nextcursor <- f[["next_cursor"]]
-        f <- tibble::as_tibble(
-          list(user = users, user_id = f[["ids"]]),
-          validate = FALSE
-        )
-        attr(f, "next_cursor") <- nextcursor
+        if (length(f[["ids"]]) == 0) {
+          f <- tibble::as_tibble()
+        } else {
+          f <- tibble::as_tibble(
+            list(user = users, user_id = f[["ids"]]),
+            validate = FALSE
+          )
+          attr(f, "next_cursor") <- nextcursor
+        }
       }
   }
   f
@@ -215,19 +223,6 @@ get_friends_ <- function(users,
 #' @importFrom httr GET
 get_friend <- function(url, token = NULL) {
   from_js(httr::GET(url, token))
-}
-
-
-
-fnd_internal <- function(r) {
-  if (is.null(r)) return(data.frame(user_id = NA_character_))
-  next_cursor <- as.character(r[["next_cursor_str"]])
-  usrs <- data.frame(as.character(r[["ids"]]),
-                     stringsAsFactors = FALSE)
-  names(usrs) <- "user_id"
-  if (is.null(next_cursor)) next_cursor <- NA_character_
-  attr(usrs, "next_cursor") <- next_cursor
-  usrs
 }
 
 
