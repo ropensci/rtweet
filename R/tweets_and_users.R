@@ -481,11 +481,11 @@ wrangle_retweet_status <- function(x) {
   } else {
     x$retweet_status_id <- NA_character_
   }
-  if (has_name(rst,"retweet_count")) {
+  if (has_name(rst, "retweet_count")) {
     x$retweet_retweeted_count <- rst$retweet_count
   }
   else {
-    x$retweet_retweeted_count <- NA_character_
+    x$retweet_retweeted_count <- NA_integer_
   }
   if (has_name(rst, "full_text")) {
     x$retweet_text <- rst$full_text
