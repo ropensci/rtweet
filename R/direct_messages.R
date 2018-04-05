@@ -98,10 +98,14 @@ warn_for_twitter_status <- function(x) {
   if (x$status_code != 200L) {
     w <- from_js(x)
     if (has_name_(w, "errors")) {
-      warning(paste(w$errors, collapse = " - "), call. = FALSE)
+      warning(paste(w$errors, collapse = " - "), call. = FALSE,
+        immediate. = TRUE)
     } else {
-      warning(w, call. = FALSE)
+      warning(paste(w, collapse = " - "), call. = FALSE,
+        immediate. = TRUE)
     }
+    invisible(FALSE)
+  } else {
+    invisible(TRUE)
   }
-  x
 }
