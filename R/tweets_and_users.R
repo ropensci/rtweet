@@ -421,8 +421,8 @@ statuscols_ <- function() {
     retweet_text = "retweet_text",
     retweet_created_at = "retweet_created_at",
     retweet_source = "retweet_source",
-    retweet_retweeted_count = "retweet_retweeted_count",
     retweet_favorite_count = "retweet_favorite_count",
+    retweet_retweet_count = "retweet_retweet_count",
     retweet_user_id = "retweet_user_id",
     retweet_screen_name = "retweet_screen_name",
     retweet_name = "retweet_name",
@@ -482,10 +482,10 @@ wrangle_retweet_status <- function(x) {
     x$retweet_status_id <- NA_character_
   }
   if (has_name(rst, "retweet_count")) {
-    x$retweet_retweeted_count <- rst$retweet_count
+    x$retweet_retweet_count <- rst$retweet_count
   }
   else {
-    x$retweet_retweeted_count <- NA_integer_
+    x$retweet_retweet_count <- NA_integer_
   }
   if (has_name(rst, "full_text")) {
     x$retweet_text <- rst$full_text
