@@ -6,6 +6,7 @@
 #' @export
 #'
 join_rtweet <- function(x) {
+  if (!is.data.frame(x) || nrow(x) == 0) return(data.frame())
   if ("users" %in% names(attributes(x))) {
     ## get users data and drop screen name
     u <- attr(x, "users")
