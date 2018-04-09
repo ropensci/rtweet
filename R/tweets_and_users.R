@@ -496,7 +496,7 @@ wrangle_retweet_status <- function(x) {
     x$retweet_text <- NA_character_
   }
   if (has_name(rst, "source")) {
-    x$retweet_source <- rst$source
+    x$retweet_source <- clean_source_(rst$source)
   } else {
     x$retweet_source <- NA_character_
   }
@@ -582,7 +582,7 @@ wrangle_quote_status <- function(x) {
     x$quoted_text <- NA_character_
   }
   if (has_name(qst, "source")) {
-    x$quoted_source <- qst$source
+    x$quoted_source <- clean_source_(qst$source)
   } else {
     x$quoted_source <- NA_character_
   }
