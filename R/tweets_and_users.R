@@ -136,6 +136,7 @@ status_object_ <- function(x) {
 tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
   dat$display_text_width <- display_text_range(dat)
+  dat$text <- ifelse(dat$truncated, dat$extended_tweet$full_text, dat$text)
   ## extended entitites > media
   if (has_name(dat, "extended_entities") &&
       has_name(dat[['extended_entities']], "media")) {
