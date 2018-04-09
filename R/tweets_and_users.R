@@ -496,9 +496,9 @@ wrangle_retweet_status <- function(x) {
     x$retweet_text <- NA_character_
   }
   if (has_name(rst, "source")) {
-    x$retweet_screen_name <- rst$source
+    x$retweet_source <- rst$source
   } else {
-    x$retweet_screen_name <- NA_character_
+    x$retweet_source <- NA_character_
   }
   if (has_name(rst, "created_at")) {
     x$retweet_created_at <- format_date(rst$created_at)
@@ -582,9 +582,9 @@ wrangle_quote_status <- function(x) {
     x$quoted_text <- NA_character_
   }
   if (has_name(qst, "source")) {
-    x$quoted_screen_name <- qst$source
+    x$quoted_source <- qst$source
   } else {
-    x$quoted_screen_name <- NA_character_
+    x$quoted_source <- NA_character_
   }
   if (has_name(qst, "created_at")) {
     x$quoted_created_at <- format_date(qst$created_at)
