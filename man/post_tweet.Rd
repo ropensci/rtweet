@@ -6,7 +6,7 @@
 \title{Posts status update to user's Twitter account}
 \usage{
 post_tweet(status = "my first rtweet #rstats", media = NULL, token = NULL,
-  in_reply_to_status_id = NULL)
+  in_reply_to_status_id = NULL, destroy_id = NULL)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 140
@@ -23,17 +23,27 @@ variable tokens.}
 Note: in line with the Twitter API, this parameter is ignored unless the
 author of the tweet this parameter references is mentioned within the
 status text.}
+
+\item{destroy_id}{To delete a status, supply the single status ID here.
+If a character string is supplied, overriding the default (NULL),
+then a destroy request is made (and the status text and media attachments)
+are irrelevant.}
 }
 \description{
 Posts status update to user's Twitter account
 }
 \examples{
 \dontrun{
+## generate data to make/save plot (as a .png file)
 x <- rnorm(300)
 y <- x + rnorm(300, 0, .75)
 col <- c(rep("#002244aa", 50), rep("#440000aa", 50))
 bg <- c(rep("#6699ffaa", 50), rep("#dd6666aa", 50))
-tmp <- tempfile(fileext = "png")
+
+## crate temporary file name
+tmp <- tempfile(fileext = ".png")
+
+## save as png
 png(tmp, 6, 6, "in", res = 127.5)
 par(tcl = -.15, family = "Inconsolata",
     font.main = 2, bty = "n", xaxt = "l", yaxt = "l",
@@ -43,15 +53,23 @@ plot(x, y, xlab = NULL, ylab = NULL, pch = 21, cex = 1,
      main = "This image was uploaded by rtweet")
 grid(8, lwd = .15, lty = 2, col = "#00000088")
 dev.off()
-browseURL(tmp)
-post_tweet(".Call(\\"oops\\", ...)",
-           media = tmp)
+
+## post tweet with media attachment
+post_tweet("a tweet with media attachment", media = tmp)
 
 # example of replying within a thread
+## first post
 post_tweet(status="first in a thread")
-my_timeline <- get_timeline(self_user_name, n=1, token=twitter_token)
-reply_id <- my_timeline[1,]$status_id
-post_tweet(status="second in the thread", in_reply_to_status_id=reply_id)
+
+## lookup status_id
+my_timeline <- get_timeline(rtweet:::home_user())
+
+## ID for reply
+reply_id <- my_timeline$status_id[1]
+
+## post reply
+post_tweet("second in the thread",
+  in_reply_to_status_id = reply_id)
 }
 }
 \seealso{
