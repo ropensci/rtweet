@@ -34,6 +34,7 @@ tweets_with_users <- function(x) {
   join_rtweet(tweets)
 }
 
+
 #' @inheritParams tweets_with_users
 #' @family parsing
 #' @family users
