@@ -1,4 +1,6 @@
-# rtweet 0.6.2
+# rtweet 0.6.3
+- Worked out bug in `join_rtweet()`, which omitted users who didn't have 
+  available tweets.
 - Added `all_suggested_users()`, which automates the collection of Twitter's
   suggested users data.
 - Various bug fixes and stability improvements.
