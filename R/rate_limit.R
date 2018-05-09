@@ -143,6 +143,9 @@ rate_limit_ <- function(token,
   r <- from_js(r)
   if (parse) {
     rl_df <- .rl_df(r)
+    if (is.null(rl_df) || nrow(rl_df) == 0) {
+      return(data.frame())
+    }
     rl_df$app <- token_name(token)
     if (!is.null(query)) {
       query <- fun2api(query)
@@ -168,7 +171,8 @@ rate_limit_ <- function(token,
   if (!all(c("lists", "application", "search", "users") %in% names(data))) {
     return(data.frame())
   }
-  rl_df <- data.frame(
+  rl_df <- tryCatch({
+    data.frame(
     query = gsub("\\.limit$|\\.remaining$|\\.reset$", "",
                  gsub(".*[.][/]", "",
                       grep("\\.limit$", names(unlist(data)),
@@ -181,7 +185,11 @@ rate_limit_ <- function(token,
       lapply(y, function(x) getElement(x, "reset")))),
     stringsAsFactors = FALSE,
     row.names = NULL
-  )
+  )},
+    error = function(e) NULL)
+  if (is.null(rl_df)) {
+    return(data.frame())
+  }
   rl_df$reset_at <- format_rate_limit_reset(rl_df$reset)
   if (inherits(rl_df$reset_at, "POSIXt")) {
     rl_df$reset <- difftime(
