@@ -245,7 +245,7 @@ twitter_pat <- function() {
     } else if (file.exists("token") && is_tokenfile("token")) {
       pat <- "token"
     } else {
-      pat <- "system"
+      stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
     }
   }
   pat
@@ -269,31 +269,6 @@ if_rds <- function(x) {
   if (is.null(lgl) || length(lgl) == 0L) return(FALSE)
   if (identical(lgl, FALSE)) return(FALSE)
   TRUE
-}
-
-#' @importFrom openssl rsa_decrypt
-system_tokens <- function() {
-  y <- sysdat
-  x <- y$tokens
-  x[[1]]$app$secret <- rawToChar(
-    openssl::rsa_decrypt(y$cipher_appsecret[[1]],
-      y$cipher_key))
-  x[[2]]$app$secret <- rawToChar(
-    openssl::rsa_decrypt(y$cipher_appsecret[[2]],
-      y$cipher_key))
-  x[[3]]$app$secret <- rawToChar(
-    openssl::rsa_decrypt(y$cipher_appsecret[[3]],
-      y$cipher_key))
-  x[[1]]$credentials$oauth_token_secret <- rawToChar(
-    openssl::rsa_decrypt(
-      y$cipher_tknsecret[[1]], y$cipher_key))
-  x[[2]]$credentials$oauth_token_secret <- rawToChar(
-    openssl::rsa_decrypt(
-      y$cipher_tknsecret[[2]], y$cipher_key))
-  x[[3]]$credentials$oauth_token_secret <- rawToChar(
-    openssl::rsa_decrypt(
-      y$cipher_tknsecret[[3]], y$cipher_key))
-  x
 }
 
 global_token_finder <- function(env = globalenv()) {
@@ -346,7 +321,8 @@ load_tokens_ <- function(pat, env = globalenv()) {
   if (identical(pat, ".httr-oauth")) {
     readRDS(pat)
   } else if (identical(pat, "system")) {
-    rtweet_token()
+    set_renv(TWITTER_PAT = NULL)
+    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
   } else if (if_load(pat)) {
     x <- load(pat)
     get(x)
@@ -418,46 +394,12 @@ validate_token <- function() {
 }
 
 
-rtweet_app_ <- function() {
-  tkn <- system_tokens()[[3]]
-  httr::oauth_app(
-    tkn$app$appname, tkn$app$key, tkn$app$secret
-  )
-}
-
-
-rtweet_app <- function() {
-  if (exists(".rtweet_token") &&
-        exists("app", envir = get(".rtweet_token"))) {
-    app <- get("app", envir = get(".rtweet_token"))
-  } else {
-    .rtweet_token  <- new.env()
-    app <- rtweet_app_()
-    assign("app", app, envir = .rtweet_token)
-  }
-  app
-}
-
-rtweet_token_ <- function() {
-  if (interactive()) {
-    app <- rtweet_app()
-    httr::oauth1.0_token(
-      httr::oauth_endpoints("twitter"),
-      app, cache = FALSE
-    )
-  } else {
-    system_tokens()[[1]]
-  }
-}
-
 rtweet_token <- function() {
   if (exists(".rtweet_token") &&
         exists("token", envir = get(".rtweet_token"))) {
     token <- get("token", envir = get(".rtweet_token"))
   } else {
-    token <- rtweet_token_()
-    .rtweet_token  <- new.env()
-    assign("token", token, envir = .rtweet_token)
+    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
   }
   if (identical(Sys.getenv("TWITTER_PAT"), "")) {
     pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
