@@ -9,8 +9,9 @@ tests/testthat/twitter_tokens
 .Rapp.history
 .Rhistory
 .httr-oauth
-.make.R
-make
+make.R
 .pkg-funs.R
 .DS_Store
 vignettes/*.R
+rtweet.sublime-project
+rtweet.sublime-workspace

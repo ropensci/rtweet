@@ -46,15 +46,40 @@ library(rtweet)
 
 ## Usage
 
-**NEW**: All you need is a **Twitter account** and **rtweet** and you’re
-up and running\!
+All you need is a **Twitter account** and you can be up in running in
+minutes\! + See the `auth` vignette for instructions on obtaining access
+to Twitter’s APIs: <http://rtweet.info/articles/auth.html>.
 
 ### API authorization
 
-  - The first time you make an API request—e.g., `search_tweets()`,
-    `stream_tweets()`, `get_followers()`—a browser window will open.
-  - Log in to your Twitter account.
-  - Agree/authorize the rtweet application.
+  - To access Twitter’s APIs, go to
+    [apps.twitter.com](https://apps.twitter.com/) and create a new app
+    by completing the form fields (note: **users must enter the value
+    for `Callback URL` exactly as it appears below**):
+      - **`Name`**: Name of Twitter app e.g., `mwk_twitter_research_app`
+      - **`Description`**: Describe use case e.g., `for researching
+        trends and behaviors on twitter`
+      - **`Website`**: Valid website e.g.,
+        `https://twitter.com/kearneymw`
+      - **`***Callback URL***`**: `http://127.0.0.1:1410`
+  - Check yes if you agree and then click “Create your Twitter
+    application”
+  - Click on tab labeled `Keys and Access Tokens`
+      - Copy consumer (api) and secret keys and paste (along with app
+        name) into R script
+      - Use `create_token()` to save token as an environment variable
+        (so you don’t have to worry about doing this process again in
+        future R sessions).
+
+<!-- end list -->
+
+``` r
+## create token and save it as an environment variable
+create_token(
+  app = "rtweet_token",
+  consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+  consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
+```
 
 And that’s it\! You’re ready to start collecting and analyzing Twitter
 data\!
