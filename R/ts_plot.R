@@ -146,8 +146,10 @@ ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   data <- data[order(data[[dtvar]]), ]
   ## reformat time var
   .unit <- parse_unit(by)
+  ## adjust to desired tz
+  data[[dtvar]] <- as.POSIXct(format(data[[dtvar]], tz = "UTC"), tz = tz)
   data[[dtvar]] <- round_time(data[[dtvar]], by, tz)
-  data[[dtvar]] <- trim_time(data[[dtvar]], by, tz)
+  ##data[[dtvar]] <- trim_time(data[[dtvar]], by, tz)
   ## get unique values of time in series
   dtm <- unique(
     seq(data[[dtvar]][1], data[[dtvar]][length(data[[dtvar]])], .unit)
@@ -297,13 +299,11 @@ round_time <- function(x, n, tz) UseMethod("round_time")
 #' @export
 round_time.POSIXt <- function(x, n = "mins", tz = "UTC") {
   n <- parse_to_secs(n)
-  x <- as.POSIXct(format(x, tz = "UTC"), tz = tz)
-  as.POSIXct(hms::hms(as.numeric(x) %/% n * n))
+  as.POSIXct(hms::hms(as.numeric(x) %/% n * n), tz = tz)
 }
 
 #' @export
 round_time.Date <- function(x, n = "months", tz = "UTC") {
-  x <- as.POSIXct(x, tz = tz)
   as.Date(round_time(x, n, tz = tz))
 }
 
