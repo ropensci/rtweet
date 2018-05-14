@@ -4,7 +4,7 @@
 \alias{ts_data}
 \title{Converts tweets data into time series-like data object.}
 \usage{
-ts_data(data, by = "days", trim = 0L)
+ts_data(data, by = "days", trim = 0L, tz = "UTC")
 }
 \arguments{
 \item{data}{Data frame or grouped data frame.}
@@ -16,6 +16,8 @@ seconds.}
 
 \item{trim}{Number of observations to trim off the front and end of
 each time series}
+
+\item{tz}{Time zone to be used, defaults to "UTC" (Twitter default)}
 }
 \value{
 Data frame with time, n, and grouping column if applicable.

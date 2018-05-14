@@ -4,7 +4,7 @@
 \alias{round_time}
 \title{A generic function for rounding date and time values}
 \usage{
-round_time(x, n)
+round_time(x, n, tz)
 }
 \arguments{
 \item{x}{A vector of class POSIX or Date.}
@@ -12,6 +12,8 @@ round_time(x, n)
 \item{n}{Unit to round to. Defaults to mins. Numeric values treated
 as seconds. Otherwise this should be one of "mins", "hours", "days",
 "weeks", "months", "years" (plural optional).}
+
+\item{tz}{Time zone to be used, defaults to "UTC" (Twitter default)}
 }
 \value{
 If POSIXct then POSIX. If date then Date.

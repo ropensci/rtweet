@@ -10,6 +10,7 @@
 #'   seconds.
 #' @param trim The number of observations to drop off the beginning
 #'   and end of the time series.
+#' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @param ... Other arguments passed to
 #'   \code{\link[ggplot2]{geom_line}}.
 #' @return If
@@ -50,14 +51,14 @@
 #' }
 #' @family ts_data
 #' @export
-ts_plot <- function(data, by = "days", trim = 0L, ...) {
-  do.call("ts_plot_", list(data = data, by = by, trim = trim, ...))
+ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
+  do.call("ts_plot_", list(data = data, by = by, trim = trim, tz = tz, ...))
 }
 
 
 #' @importFrom graphics legend
-ts_plot_ <- function(data, by = "days", trim = 0L, ...) {
-  data <- ts_data(data, by, trim)
+ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
+  data <- ts_data(data, by, trim, tz)
   if (requireNamespace("ggplot2", quietly = TRUE)) {
     if (ncol(data) == 3L) {
       ggplot2::ggplot(
@@ -100,6 +101,7 @@ ggcols <- function(n) {
 #'   seconds.
 #' @param trim Number of observations to trim off the front and end of
 #'   each time series
+#' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @examples
 #'
@@ -125,12 +127,12 @@ ggcols <- function(n) {
 #' }
 #'
 #' @export
-ts_data <- function(data, by = "days", trim = 0L) {
-  args <- list(data = data, by = by, trim = trim)
+ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
+  args <- list(data = data, by = by, trim = trim, tz = tz)
   do.call("ts_data_", args)
 }
 
-ts_data_ <- function(data, by = "days", trim = 0L) {
+ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   stopifnot(is.data.frame(data), is.atomic(by))
   if (has_name_(data, "created_at")) {
     dtvar <- "created_at"
@@ -144,8 +146,8 @@ ts_data_ <- function(data, by = "days", trim = 0L) {
   data <- data[order(data[[dtvar]]), ]
   ## reformat time var
   .unit <- parse_unit(by)
-  data[[dtvar]] <- round_time(data[[dtvar]], by)
-  data[[dtvar]] <- trim_time(data[[dtvar]], by)
+  data[[dtvar]] <- round_time(data[[dtvar]], by, tz)
+  data[[dtvar]] <- trim_time(data[[dtvar]], by, tz)
   ## get unique values of time in series
   dtm <- unique(
     seq(data[[dtvar]][1], data[[dtvar]][length(data[[dtvar]])], .unit)
@@ -160,7 +162,7 @@ ts_data_ <- function(data, by = "days", trim = 0L) {
     }
     group1 <- groups[1]
     lv1 <- unique(data[[group1]])
-    df1 <- as.POSIXct(character(), tz = "UTC")
+    df1 <- as.POSIXct(character(), tz = tz)
     df2 <- integer()
     df3 <- list()
     if (!is.null(group2)) {
@@ -279,6 +281,7 @@ parse_unit <- function(by) {
 #' @param n Unit to round to. Defaults to mins. Numeric values treated
 #'   as seconds. Otherwise this should be one of "mins", "hours", "days",
 #'   "weeks", "months", "years" (plural optional).
+#' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return If POSIXct then POSIX. If date then Date.
 #' @export
 #' @importFrom hms hms
@@ -289,22 +292,23 @@ parse_unit <- function(by) {
 #'
 #' ## class date
 #' unique(round_time(seq(Sys.Date(), Sys.Date() + 100, "1 day"), "weeks"))
-round_time <- function(x, n) UseMethod("round_time")
+round_time <- function(x, n, tz) UseMethod("round_time")
 
 #' @export
-round_time.POSIXt <- function(x, n = "mins") {
+round_time.POSIXt <- function(x, n = "mins", tz = "UTC") {
   n <- parse_to_secs(n)
+  x <- as.POSIXct(format(x, tz = "UTC"), tz = tz)
   as.POSIXct(hms::hms(as.numeric(x) %/% n * n))
 }
 
 #' @export
-round_time.Date <- function(x, n = "months") {
-  x <- as.POSIXct(x)
-  as.Date(round_time(x, n))
+round_time.Date <- function(x, n = "months", tz = "UTC") {
+  x <- as.POSIXct(x, tz = tz)
+  as.Date(round_time(x, n, tz = tz))
 }
 
 
-round_time2 <- function(x, interval = 60, center = TRUE) {
+round_time2 <- function(x, interval = 60, center = TRUE, tz = "UTC") {
   stopifnot(inherits(x, "POSIXct"))
   ## parse interval
   interval <- parse_unit(interval)
@@ -315,7 +319,7 @@ round_time2 <- function(x, interval = 60, center = TRUE) {
     rounded <- rounded + round(interval * .5, 0)
   }
   ## return to date-time
-  as.POSIXct(rounded, tz = "UTC", origin = "1970-01-01")
+  as.POSIXct(rounded, tz = tz, origin = "1970-01-01")
 }
 
 

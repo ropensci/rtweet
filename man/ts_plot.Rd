@@ -4,7 +4,7 @@
 \alias{ts_plot}
 \title{Plots tweets data as a time series-like data object.}
 \usage{
-ts_plot(data, by = "days", trim = 0L, ...)
+ts_plot(data, by = "days", trim = 0L, tz = "UTC", ...)
 }
 \arguments{
 \item{data}{Data frame or grouped data frame.}
@@ -16,6 +16,8 @@ seconds.}
 
 \item{trim}{The number of observations to drop off the beginning
 and end of the time series.}
+
+\item{tz}{Time zone to be used, defaults to "UTC" (Twitter default)}
 
 \item{...}{Other arguments passed to
 \code{\link[ggplot2]{geom_line}}.}
