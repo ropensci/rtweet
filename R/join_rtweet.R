@@ -34,6 +34,10 @@ join_rtweet <- function(x) {
         stringsAsFactors = FALSE, check.rows = FALSE, check.names = FALSE,
         row.names = NULL))
       names(tw) <- names(statuscols_())
+      if (NROW(tw) == NROW(us)) {
+        tw$user_id[is.na(tw$user_id)] <- us$user_id[is.na(tw$user_id)]
+        tw$screen_name[is.na(tw$screen_name)] <- us$screen_name[is.na(tw$screen_name)]
+      }
       ## if any us$users are not in tw$users
     } else if (any(!us$user_id %in% tw$user_id)) {
       tw2 <- as_tbl(data.frame(

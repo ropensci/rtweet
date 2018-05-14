@@ -132,7 +132,7 @@ search_users_call <- function(q, n = 20,
     if (k >= n * 20) break
   }
   if (parse) {
-    usr <- users_with_tweets(usr)
+    usr <- tweets_with_users(usr)
     #if (nrow(usr2) > 0L) {
     #  uq <- !duplicated(usr2$user_id)
     #  usr <- usr2[uq, ]

@@ -41,7 +41,7 @@ tweets_with_users <- function(x) {
 #' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
-  if (is.null(x) || length(x) == 0L) {
+  if (is.null(x) || (length(x) == 0L && !is.data.frame(x))) {
     x <- data.frame()
     attr(x, "tweets") <- data.frame()
     return(x)
