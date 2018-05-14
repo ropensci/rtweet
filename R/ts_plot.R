@@ -304,6 +304,7 @@ round_time.POSIXt <- function(x, n = "mins", tz = "UTC") {
 
 #' @export
 round_time.Date <- function(x, n = "months", tz = "UTC") {
+  x <- as.POSIXct(format(x, tz = "UTC"), tz = tz)
   as.Date(round_time(x, n, tz = tz))
 }
 
