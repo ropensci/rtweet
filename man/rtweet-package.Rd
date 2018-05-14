@@ -36,6 +36,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu}
+\strong{Maintainer}: Michael Wayne Kearney \email{kearneymw@missouri.edu} (0000-0002-0730-4694)
 
 }

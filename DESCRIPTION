@@ -2,7 +2,12 @@ Package: rtweet
 Type: Package
 Version: 0.6.30
 Title: Collecting Twitter Data
-Authors@R: person("Michael W.", "Kearney", "", "kearneymw@missouri.edu", c("aut", "cre"))
+Authors@R: c(
+    person("Michael Wayne", "Kearney", , email = "kearneymw@missouri.edu", role = c("aut", "cre"), 
+    comment = c(ORCID = "0000-0002-0730-4694"))
+    ## add contributor template (middle name/initial optional)
+    #person("First Middle", "Last", , email = "email@address.com", role = c("ctb"))
+    )
 Description: An implementation of calls designed to collect and
     organize Twitter data via Twitter's REST and stream Application
     Program Interfaces (API), which can be found at the following URL:
