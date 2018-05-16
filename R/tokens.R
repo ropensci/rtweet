@@ -57,6 +57,8 @@ get_token <- function() get_tokens()
 #' @param consumer_secret Application API secret User-owned
 #'   application must have \code{Read and write} access level and
 #'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
+#' @param access_token Access token as supplied by Twitter (apps.twitter.com)
+#' @param access_secret Access secret as supplied by Twitter (apps.twitter.com)
 #' @param set_renv Logical indicating whether to save the created token
 #'   as the default environment twitter token variable. Defaults to TRUE,
 #'   meaning the token is saved to user's home directory as
@@ -74,22 +76,33 @@ get_token <- function() get_tokens()
 create_token <- function(app = "mytwitterapp",
                          consumer_key,
                          consumer_secret,
+                         access_token = NULL,
+                         access_secret = NULL,
                          set_renv = TRUE) {
-  token <- oauth_app(
+  ## create app object
+  app <- httr::oauth_app(
     appname = app,
-    key = gsub(" ", "", consumer_key),
-    secret = gsub(" ", "", consumer_secret)
+    key = gsub("\\s+", "", consumer_key),
+    secret = gsub("\\s+", "", consumer_secret)
   )
-  token <- oauth1.0_token(
-    oauth_endpoints("twitter"),
-    token,
-    cache = FALSE
-  )
+  ## if access token/secret use sign method otherwise browser
+  if (!is.null(access_token) && !is.null(access_secret)) {
+    credentials <- list(oauth_token = access_token,
+      oauth_token_secret = access_secret)
+    params <- list(as_header = TRUE)
+    token <- httr::Token1.0$new(app = app, endpoint = NULL, params = params,
+      credentials = credentials)
+  } else {
+    token <- httr::oauth1.0_token(
+      httr::oauth_endpoints("twitter"), app, cache = FALSE)
+  }
+  ## save token and set as environment variable
   if (set_renv) {
     pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
     saveRDS(token, file = pathtotoken)
     set_renv("TWITTER_PAT" = pathtotoken)
   }
+  ## return token
   token
 }
 
@@ -132,45 +145,17 @@ uq_filename <- function(file_name) {
 }
 
 
-fetch_tokens <- function(tokens, query, sleep = FALSE) {
-  remaining <- NA_real_
-  if (missing(query)) {
-    stop("Must specify Twitter API query of interest",
-      call. = FALSE)
-  }
-  if (is.list(tokens)) {
-    for (i in seq_along(tokens)) {
-      remaining <- rate_limit(token = tokens[[i]],
-        query)[["remaining"]]
-      if (isTRUE(remaining > 0)) return(tokens[[i]])
-    }
-  } else {
-    remaining <- rate_limit(token = tokens,
-      query)[["remaining"]]
-    if (isTRUE(remaining > 0)) return(tokens)
-  }
-
-  if (sleep) {
-    token <- tokens[[1]]
-    reset <- rate_limit(token, query)[["reset"]]
-    Sys.sleep(reset[[1]] * 60)
-    return(token)
-  } else {
-    stop("Rate limit exceeded - please wait!",
-      call. = FALSE)
-  }
-  token
-}
-
 is.token <- function(x) {
   if (length(x) == 0) return(FALSE)
-  lgl <- FALSE
+  ## if it doesn't have request endpoint return FALSE
+  if (!"endpoint" %in% names(x) && !"request" %in% names(x$endpoint)) {
+    return(FALSE)
+  }
   ## check if inherits token class and uses a twitter api endpoint
-  lgl <- all(
-    any(c("token", "token1.0") %in% tolower(class(x))),
-    grepl("api.twitter", x[['endpoint']][['request']], ignore.case = TRUE)
-  )
-  lgl
+  any(c("token", "token1.0") %in% tolower(class(x))) &&
+    (any(grepl("api.twitter", x[['endpoint']][['request']], ignore.case = TRUE)) ||
+        (is.null(x[['endpoint']][['request']]) &&
+            !is.null(x[['credentials']][['oauth_token']])))
 }
 
 rate_limit_used <- function(x) {
@@ -180,25 +165,26 @@ rate_limit_used <- function(x) {
 }
 
 
-check_token <- function(token, query = NULL) {
+check_token <- function(token) {
   if (is.null(token)) {
     token <- get_tokens()
   }
+  ## if valid token, then return
   if (is.token(token)) {
     return(token)
   }
+  ## if list then extract first
+  if (is.list(token)) {
+    token <- token[[1]]
+  }
+  ## if class OAuth, use values to create token
   if (identical(class(token), "OAuth")) {
     token <- create_token(
       sample(letters, 8),
       token$consumerKey,
       token$consumerSecret)
   }
-  if (!is.null(query)) {
-    token <- fetch_tokens(token, query)
-  }
-  if (is.list(token)) {
-    token <- token[[1]]
-  }
+  ## final check
   if (!is.token(token)) {
     stop("Not a valid access token.", call. = FALSE)
   }
@@ -213,22 +199,30 @@ is_ttoken <- function(x) {
 }
 
 is_tokenfile <- function(x) {
+  if (is_ttoken(token)) return(TRUE)
   if (!file.exists(x)) return(FALSE)
   if (identical(x, ".httr-oauth") || if_rds(x)) {
-    x <- readRDS(x)
-  } else if (if_load(x)) {
+    token <- readRDS(x)
+    if (is_ttoken(token)) return(TRUE)
+  }
+  ## if it can be read/loaded
+  if (if_load(x)) {
     ## load in new environment and then get it
     e <- new.env()
     load(x, envir = e)
-    x <- ls(envir = e, all.names = TRUE)
-    if (length(x) == 0) return(FALSE)
-    x <- get(x, envir = e)
-    ## else look for .*token.* in GlobalEnv
-  } else if (any(grepl("token",
-    ls(envir = .GlobalEnv), ignore.case = TRUE))) {
-    x <- global_token_finder()
+    token <- ls(envir = e, all.names = TRUE)
+    if (length(token) > 0) {
+      token <- get(x, envir = e)
+      if (is_ttoken(token)) return(TRUE)
+    }
   }
-  is_ttoken(x)
+  ## else look for .*token.* in GlobalEnv
+  if (any(grepl("token",
+    ls(envir = .GlobalEnv), ignore.case = TRUE))) {
+    token <- global_token_finder()
+    if (is_ttoken(token)) return(TRUE)
+  }
+  FALSE
 }
 
 twitter_pat <- function() {
@@ -375,6 +369,9 @@ home_user_ <- function() {
 ## validate user token
 validate_token <- function() {
   token <- tryCatch(get_tokens(), error = function(e) NULL)
+  if (is.list(token) && inherits(token[[1]], "Token")) {
+    token <- token[[1]]
+  }
   if (is.null(token) || !inherits(token, "Token")) {
     stop(paste0(
       "Could not find token. Please save path to token associated with @",

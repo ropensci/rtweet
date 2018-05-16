@@ -49,18 +49,25 @@ append_lines <- function(x, ...) {
 }
 
 is_incomplete <- function(x) {
-  if (!file.exists(x)) return(FALSE)
   con <- file(x)
   x <- tryCatch(readLines(con), warning = function(w) return(TRUE))
   close(con)
   ifelse(isTRUE(x), TRUE, FALSE)
 }
 
+clean_renv <- function(x) {
+  x <- readlines(.Renviron())
+  x <- grep("^TWITTER_PAT=", x, invert = TRUE, value = TRUE)
+  writeLines(x, .Renviron())
+}
 
 check_renv <- function() {
+  if (!file.exists(.Renviron())) return(invisible())
   if (is_incomplete(.Renviron())) {
     append_lines("", file = .Renviron())
   }
+  clean_renv()
+  invisible()
 }
 
 set_renv <- function(...) {

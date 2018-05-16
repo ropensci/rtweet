@@ -134,7 +134,7 @@ rate_limit.list <- function(token = NULL,
 rate_limit_ <- function(token,
                         query = NULL,
                         parse = TRUE) {
-  token <- check_token(token, query = NULL)
+  token <- check_token(token)
   url <- make_url(
     restapi = TRUE,
     query = "application/rate_limit_status")

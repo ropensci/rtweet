@@ -71,7 +71,7 @@ search_users_call <- function(q, n = 20,
                               verbose = TRUE) {
   query <- "users/search"
   stopifnot(is_n(n), is.atomic(q))
-  token <- check_token(token, NULL)
+  token <- check_token(token)
   if (n > 1000) {
     warning(
       paste0("search only returns up to 1,000 users per ",
@@ -133,11 +133,6 @@ search_users_call <- function(q, n = 20,
   }
   if (parse) {
     usr <- tweets_with_users(usr)
-    #if (nrow(usr2) > 0L) {
-    #  uq <- !duplicated(usr2$user_id)
-    #  usr <- usr2[uq, ]
-    #  attr(usr, "tweets") <- tweets_data(usr2)[uq, ]
-    #}
   }
   if (verbose) {
     message("Finished collecting users!")

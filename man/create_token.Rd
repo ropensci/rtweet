@@ -5,7 +5,7 @@
 \title{Creating Twitter authorization token(s).}
 \usage{
 create_token(app = "mytwitterapp", consumer_key, consumer_secret,
-  set_renv = TRUE)
+  access_token = NULL, access_secret = NULL, set_renv = TRUE)
 }
 \arguments{
 \item{app}{Name of user created Twitter application}
@@ -15,6 +15,10 @@ create_token(app = "mytwitterapp", consumer_key, consumer_secret,
 \item{consumer_secret}{Application API secret User-owned
 application must have \code{Read and write} access level and
 \code{Callback URL} of \code{http://127.0.0.1:1410}.}
+
+\item{access_token}{Access token as supplied by Twitter (apps.twitter.com)}
+
+\item{access_secret}{Access secret as supplied by Twitter (apps.twitter.com)}
 
 \item{set_renv}{Logical indicating whether to save the created token
 as the default environment twitter token variable. Defaults to TRUE,
