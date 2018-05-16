@@ -1,13 +1,12 @@
 language: r
-r:
-  - release
 sudo: false
+dist: trusty
 addons:
   apt:
     packages:
+      - libmagick++-dev
       - libmagickwand-dev
       - libmagickcore-dev
-      - libmagick++-dev
 cache: packages
 warnings_are_errors: false
 before_install:
