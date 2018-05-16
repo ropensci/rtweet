@@ -1,6 +1,18 @@
+# rtweet 0.6.4
+- Added new oauth method to `create_token()` which allows for creation of token
+  non-interactive sessions via accepting inputs for consumer key, consumer 
+  secret (always required), oauth key, and oauth secret (optional, if supplied
+  then non-browser sign method is used).
+- `ts_*()` functions now offer a `tz` (timezone) argument, allowing users to 
+  more easily print and plot in non-UTC time.
+- Users can now delete tweets by passing the status ID (of the desired tweet to
+  be deleted) to the `destroy_id` argument in `post_tweet()`
+
 # rtweet 0.6.3
-- Worked out bug in `join_rtweet()`, which omitted users who didn't have 
+- Fixed bug in `join_rtweet()`, which omitted users who didn't have 
   available tweets.
+
+# rtweet 0.6.2
 - Added `all_suggested_users()`, which automates the collection of Twitter's
   suggested users data.
 - Various bug fixes and stability improvements.
