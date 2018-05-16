@@ -3,17 +3,10 @@ context("system_token")
 test_that("system_token functions", {
   skip_on_cran()
 
+  tokens <- get_tokens()
   x <- search_tweets(
     "a OR b OR c OR d OR e",
-    max_id = NULL,
-    type = "recent",
-    include_rts = TRUE
-  )
-
-  #tokens <- get_tokens()
-  x <- search_tweets(
-    "a OR b OR c OR d OR e",
-  #  token = tokens,
+    token = tokens,
     max_id = NULL,
     type = "recent",
     include_rts = FALSE

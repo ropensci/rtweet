@@ -3,8 +3,9 @@ context("friendships")
 
 test_that("friendships returns data", {
   skip_on_cran()
+  token <- readRDS("twitter_tokens")
 
-  x <- my_friendships("kearneymw")
+  x <- my_friendships("kearneymw", token = token)
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("screen_name" %in% names(x))

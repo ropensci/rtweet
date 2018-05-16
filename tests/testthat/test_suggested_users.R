@@ -6,7 +6,7 @@ test_that("all_suggested_users returns users data", {
 
   token <- readRDS("twitter_tokens")
   slugs <- suggested_slugs()
-  x <- all_suggested_users(slugs[1:3, ])
+  x <- all_suggested_users(slugs[1:3, ], token = token)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

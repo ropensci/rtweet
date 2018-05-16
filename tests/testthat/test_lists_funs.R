@@ -14,7 +14,7 @@ test_that("lists_users returns data frame with nrow > 1", {
     expect_true(is.data.frame(x))
     expect_gt(nrow(x), 0)
     ## get up to 200 list memberships of Nate Silver
-    x <- lists_memberships("NateSilver538", n = 200)
+    x <- lists_memberships("NateSilver538", n = 200, token = token)
     expect_true(is.data.frame(x))
     expect_gt(nrow(x), 0)
 })
@@ -60,7 +60,8 @@ test_that("lists_subscribers returns users data frame", {
   x <- lists_subscribers(
     slug = "new-york-times-politics",
     owner_user = "nytpolitics",
-    n = 200
+    n = 200,
+    token = token
   )
 
   expect_true(is.data.frame(x))
