@@ -199,7 +199,7 @@ is_ttoken <- function(x) {
 }
 
 is_tokenfile <- function(x) {
-  if (is_ttoken(token)) return(TRUE)
+  if (is_ttoken(x)) return(TRUE)
   if (!file.exists(x)) return(FALSE)
   if (identical(x, ".httr-oauth") || if_rds(x)) {
     token <- readRDS(x)
