@@ -175,7 +175,7 @@ is.token <- function(x) {
   if (length(x) == 0) return(FALSE)
   if (inherits(x, "bearer")) return(TRUE)
   ## if it doesn't have request endpoint return FALSE
-  if (!"endpoint" %in% names(x) && !"request" %in% names(x$endpoint)) {
+  if (!"endpoint" %in% names(x) || !"request" %in% names(x$endpoint)) {
     return(FALSE)
   }
   ## check if inherits token class and uses a twitter api endpoint
