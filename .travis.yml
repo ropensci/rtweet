@@ -1,6 +1,10 @@
 language: r
 sudo: false
 cache: packages
+addons:
+  apt:
+    packages:
+      - libxml2-dev
 warnings_are_errors: false
 before_install:
 - openssl aes-256-cbc -K $encrypted_ef53a5096bfa_key -iv $encrypted_ef53a5096bfa_iv -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
