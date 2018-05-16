@@ -79,19 +79,45 @@ create_token <- function(app = "mytwitterapp",
                          access_token = NULL,
                          access_secret = NULL,
                          set_renv = TRUE) {
+  create_token_(app, consumer_key, consumer_secret, access_token,
+    access_secret, set_renv)
+}
+
+create_token_ <- function(app = "mytwitterapp",
+                          consumer_key,
+                          consumer_secret,
+                          access_token = NULL,
+                          access_secret = NULL,
+                          set_renv = TRUE) {
+  ## validate app name
+  stopifnot(is.character(app))
+  ## validate consumer key
+  stopifnot(is.character(consumer_key), length(consumer_key) == 1L)
+  consumer_key <- gsub("\\s+", "", consumer_key)
+  if (grepl("[^[:alnum:]]", consumer_key)) {
+    stop("consumer key must be alpha numeric (e.g., a98ds0879fa", call. = FALSE)
+  }
+  ## validate consumer secret
+  stopifnot(is.character(consumer_secret), length(consumer_secret) == 1L)
+  consumer_secret <- gsub("\\s+", "", consumer_secret)
+  if (grepl("[^[:alnum:]]", consumer_secret)) {
+    stop("consumer_secret must be alpha numeric (e.g., a98ds087", call. = FALSE)
+  }
   ## create app object
   app <- httr::oauth_app(
     appname = app,
-    key = gsub("\\s+", "", consumer_key),
-    secret = gsub("\\s+", "", consumer_secret)
+    key = consumer_key,
+    secret = consumer_secret
   )
   ## if access token/secret use sign method otherwise browser
   if (!is.null(access_token) && !is.null(access_secret)) {
+    stopifnot(is.character(access_token), is.character(access_secret))
     credentials <- list(oauth_token = access_token,
       oauth_token_secret = access_secret)
     params <- list(as_header = TRUE)
-    token <- httr::Token1.0$new(app = app, endpoint = NULL, params = params,
-      credentials = credentials)
+    token <- httr::Token1.0$new(app = app,
+      endpoint = httr::oauth_endpoints("twitter"),
+      params = params, credentials = credentials, cache = FALSE)
   } else {
     token <- httr::oauth1.0_token(
       httr::oauth_endpoints("twitter"), app, cache = FALSE)
@@ -99,7 +125,7 @@ create_token <- function(app = "mytwitterapp",
   ## save token and set as environment variable
   if (set_renv) {
     pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
-    saveRDS(token, file = pathtotoken)
+    saveRDS(token, file = pathtotoken, compress = FALSE)
     set_renv("TWITTER_PAT" = pathtotoken)
   }
   ## return token
@@ -147,6 +173,7 @@ uq_filename <- function(file_name) {
 
 is.token <- function(x) {
   if (length(x) == 0) return(FALSE)
+  if (inherits(x, "bearer")) return(TRUE)
   ## if it doesn't have request endpoint return FALSE
   if (!"endpoint" %in% names(x) && !"request" %in% names(x$endpoint)) {
     return(FALSE)
@@ -168,6 +195,8 @@ rate_limit_used <- function(x) {
 check_token <- function(token) {
   if (is.null(token)) {
     token <- get_tokens()
+  } else if (inherits(token, "bearer")) {
+    return(token)
   }
   ## if valid token, then return
   if (is.token(token)) {
