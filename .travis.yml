@@ -3,6 +3,7 @@ sudo: false
 cache: packages
 addons:
   apt:
+    update: true
     packages:
       - libxml2-dev
       - libmagick++-dev
