@@ -94,6 +94,12 @@ rate_limit.NULL <- function(token = NULL, query = NULL, parse = TRUE) {
 }
 
 #' @export
+rate_limit.bearer <- function(token = NULL, query = NULL, parse = TRUE) {
+  rate_limit_(token, query, parse)
+}
+
+
+#' @export
 rate_limit.character <- function(token = NULL, query = NULL, parse = TRUE) {
   if (is.character(token) && length(token) == 1L &&
         (is.null(query) || inherits(query, "Token") || is.list(query))) {
@@ -138,7 +144,11 @@ rate_limit_ <- function(token,
   url <- make_url(
     restapi = TRUE,
     query = "application/rate_limit_status")
-  r <- TWIT(get = TRUE, url, config = token)
+  if (inherits(token, "bearer")) {
+    r <- TWIT(get = TRUE, url, token)
+  } else {
+    r <- TWIT(get = TRUE, url, config = token)
+  }
   warn_for_twitter_status(r)
   r <- from_js(r)
   if (parse) {
