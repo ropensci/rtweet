@@ -3,29 +3,20 @@
 \name{direct_messages}
 \alias{direct_messages}
 \alias{direct_messages_sent}
-\title{Get the most recent direct messages sent to the authenticating user.}
+\title{Get direct messages sent to and received by the authenticating user from the past 30 days}
 \usage{
-direct_messages(since_id = NULL, max_id = NULL, n = 200, parse = TRUE,
-  token = NULL)
+direct_messages(n = 50, next_cursor = NULL, parse = TRUE, token = NULL)
 
 direct_messages_sent(since_id = NULL, max_id = NULL, n = 200,
   parse = TRUE, token = NULL)
 }
 \arguments{
-\item{since_id}{optional Returns results with an ID greater than
-(that is, more recent than) the specified ID. There are limits to
-the number of Tweets which can be accessed through the API. If
-the limit of Tweets has occurred since the since_id, the since_id
-will be forced to the oldest ID available.}
-
-\item{max_id}{optional Returns results with an ID less than (that
-is, older than) or equal to the specified ID.}
-
 \item{n}{optional Specifies the number of direct messages to try
-and retrieve, up to a maximum of 200. The value of count is best
-thought of as a limit to the number of Tweets to return because
-suspended or deleted content is removed after the count has been
-applied.}
+and retrieve, up to a maximum of 50.}
+
+\item{next_cursor}{If there are more than 200 DMs in the last 30 days,
+respones will include a next_cursor value, which can be supplied in
+additional requests to scroll through pages of results.}
 
 \item{parse}{Logical indicating whether to convert response object
 into nested list. Defaults to true.}
@@ -37,20 +28,16 @@ variable in the tokens vignette (in r, send \code{?tokens} to
 console).}
 }
 \value{
-Return object converted to nested list. If status code of
-  response object is not 200, the response object is returned
-  directly.
+Return parsed or non-parsed response object.
 }
 \description{
-Retrieves up to 200 of the most recently received direct messages
-by the authenticating (home) user. This function requires access
-token with read, write, and direct messages access.
+Returns all Direct Message events (both sent and received) within the last 30 days. Sorted in reverse-chronological order.
 }
 \details{
 Includes detailed information about the sender and
-  recipient user. You can request up to 200 direct messages per
-  call, and only the most recent 200 direct messages will be available using
-  this endpoint.
+  recipient user. You can request up to 50 direct messages per
+  call, and only direct messages from the last 30 days will be
+  available using this endpoint.
 
   Important: This method requires an access token with read,
   write, and direct message permissions. To change your application's
@@ -66,12 +53,6 @@ Includes detailed information about the sender and
 
 ## get my direct messages
 dms <- direct_messages()
-
-## inspect data structure
-str(dms)
-
-## get direct messages I've sent
-sdms <- direct_messages_sent()
 
 ## inspect data structure
 str(dms)
