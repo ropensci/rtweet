@@ -3,8 +3,22 @@ sudo: false
 cache: packages
 warnings_are_errors: false
 before_install:
-- openssl aes-256-cbc -K $encrypted_ef53a5096bfa_key -iv $encrypted_ef53a5096bfa_iv -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
+- openssl aes-256-cbc -K $encrypted_157a5922bd30_key -iv $encrypted_157a5922bd30_iv
+  -in twitter_tokens.enc -out twitter_tokens -d
+- openssl aes-256-cbc -K $encrypted_ef53a5096bfa_key -iv $encrypted_ef53a5096bfa_iv
+  -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
 r_github_packages:
 - jimhester/covr
 after_success:
-- Rscript -e 'covr::codecov(function_exclusions = c("create_token", "global_token_finder", "post_tweet", "upload_media_to_twitter", "post_message", "post_follow", "check_status_code", "post_unfollow_user", "post_mute", "post_favorite", "post_friendship", "home_user_", "validate_token", "rtweet_token", "parse_streamlimit", "match_fun", "stream_tweets2", "new_dir", "stream_dir", "save_as_csv2", "modify_file_name", "is_emptylist", "nanull", "id_plus_one", "search_tweets2", "add_var", "vobs2string", "obs2string", "try_require", "flatten_rtweet", "get_tokens_global", "rate_limit_used", "uq_filename", "paste_before_ext", "no_ext", "only_ext", "has_ext", "home_user", "next_cursor.numeric", "max_id.numeric", "next_cursor.list", "max_id.list", "next_id", "more_followers", "ncs_", "post_api_funs", "stream_api_funs", "has_read_access", "get_access_level", ".Renviron", "home", "readlines", "define_args", "append_lines", "set_renv", "check_renv", "is_incomplete", "is_named", "are_named"))'
+- Rscript -e 'covr::codecov(function_exclusions = c("create_token", "global_token_finder",
+  "post_tweet", "upload_media_to_twitter", "post_message", "post_follow", "check_status_code",
+  "post_unfollow_user", "post_mute", "post_favorite", "post_friendship", "home_user_",
+  "validate_token", "rtweet_token", "parse_streamlimit", "match_fun", "stream_tweets2",
+  "new_dir", "stream_dir", "save_as_csv2", "modify_file_name", "is_emptylist", "nanull",
+  "id_plus_one", "search_tweets2", "add_var", "vobs2string", "obs2string", "try_require",
+  "flatten_rtweet", "get_tokens_global", "rate_limit_used", "uq_filename", "paste_before_ext",
+  "no_ext", "only_ext", "has_ext", "home_user", "next_cursor.numeric", "max_id.numeric",
+  "next_cursor.list", "max_id.list", "next_id", "more_followers", "ncs_", "post_api_funs",
+  "stream_api_funs", "has_read_access", "get_access_level", ".Renviron", "home", "readlines",
+  "define_args", "append_lines", "set_renv", "check_renv", "is_incomplete", "is_named",
+  "are_named"))'
