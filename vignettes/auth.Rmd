@@ -40,7 +40,15 @@ and create a new app by providing a `Name`, `Description`, and
 <img src="files/creating.png" alt="creating">
 </p>
 
-- Once you've successfully created an app, click the tab labeled
+- Once you've successfully created an app, go to the `Settings` tab for your app
+and uncheck the `Enable callback locking` setting, which Twitter enables by default.
+Failure to uncheck this box will result in a 403 error.
+
+<p align="center">
+<img src="files/locking.png" alt="locking">
+</p>
+
+- Next, click the tab labeled
   `Keys and Access Tokens` to retrieve your consumer (api) and secret
   keys.
 
