@@ -408,3 +408,141 @@ post_friendship <- function(user,
   }
   invisible(r)
 }
+
+
+
+post_list_create <- function(name, private = FALSE, description = NULL, token = NULL) {
+
+  stopifnot(is.atomic(name), length(name) == 1, is.logical(private))
+
+  token <- check_token(token)
+
+  query <- "lists/create"
+
+  if (private) {
+    mode <- "private"
+  } else {
+    mode <- "public"
+  }
+
+  params <- list(
+    name = name,
+    mode = mode,
+    description = description)
+
+  url <- make_url(query = query, param = params)
+
+  r <- TWIT(get = FALSE, url, token)
+
+  warn_for_twitter_status(r)
+
+  r
+}
+
+
+post_list_destroy <- function(list_id = NULL, slug = NULL, token = NULL) {
+  if (!is.null(list_id)) {
+
+    stopifnot(is.atomic(list_id), length(list_id) == 1)
+    params <- list(list_id = list_id)
+
+  } else if (!is.null(slug)) {
+
+    stopifnot(is.atomic(slug), length(slug) == 1)
+    params <- list(slug = slug)
+
+  } else {
+    stop("must supply list_id or slug")
+  }
+
+  token <- check_token(token)
+
+  query <- "lists/destroy"
+
+  url <- make_url(query = query, param = params)
+
+  r <- TWIT(get = FALSE, url, token)
+
+  warn_for_twitter_status(r)
+
+  r
+}
+
+post_list_create_all <- function(list_id,
+                                 slug,
+                                 users,
+                                 token = NULL) {
+
+  stopifnot(is.atomic(list_id), is.atomic(slug),
+    is.atomic(users))
+
+  users <- paste(users, collapse = ",")
+
+  token <- check_token(token)
+
+  query <- "lists/members/create_all"
+
+  params <- list(
+    list_id = list_id,
+    slug = slug,
+    users = users)
+
+  names(params)[3] <- .ids_type(users)
+
+  url <- make_url(query = query, param = params)
+
+  r <- TWIT(get = FALSE, url, token)
+
+  warn_for_twitter_status(r)
+
+  r
+}
+
+
+#' Manage Twitter lists
+#'
+#' Create, add users, and destroy Twitter lists
+#'
+#' @param users Character vectors of users to be added to list.
+#' @param name Name of new list to create.
+#' @param description Optional, description of list (single character string).
+#' @param destroy Logical indicating whether to delete a list. Either `list_id` or
+#'   `slug` must be provided if `destroy = TRUE`.
+#' @param list_id Optional, numeric ID of list.
+#' @param slug Optional, list slug.
+#' @param token OAuth token associated with user who owns [or will own] the list
+#'   of interest. Token must have write permissions!
+#' @return Response object from HTTP request.
+#' @examples
+#' \dontrun{
+#'
+#' ## CNN twitter accounts
+#' users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
+#'   "cnnnewsroom", "cnnspecreport", "CNNNewsource",
+#'   "CNNNSdigital", "CNNTonight")
+#'
+#' ## create CNN-accounts list with users and a description
+#' cnn_lst <- post_list(users, "cnn-accounts", description = "Official CNN accounts")
+#'
+#'
+#' }
+#' @export
+post_list <- function(users, name,
+                      private = FALSE,
+                      description = NULL,
+                      destroy = FALSE,
+                      list_id = NULL,
+                      slug = NULL,
+                      token = NULL) {
+  if (destroy) {
+    return(post_list_destroy(list_id, slug, token))
+  }
+  r <- post_list_create(name, private, description, token)
+  if (r$status_code != 200) {
+    warning("failed to create list")
+    r
+  }
+  tl <- from_js(r)
+  r <- post_list_create_all(tl$id_str, tl$slug, users)
+  r
+}
