@@ -144,6 +144,9 @@ get_timeline_call <- function(user,
   if (check) {
     rl <- rate_limit(token, query)
     n.times <- rl[["remaining"]]
+    if (n %/% 200 < n.times) {
+      n.times <- ceiling(n / 200L)
+    }
   } else {
     rl <- NULL
     n.times <- ceiling(n / 200L)
@@ -177,11 +180,6 @@ get_timeline_call <- function(user,
   tm <- scroller(url, n, n.times, type = "timeline", token)
   if (parse) {
     tm <- tweets_with_users(tm)
-    #usr <- users_data(tm)
-    #if (nrow(usr) > 0L) {
-    #  uq <- !duplicated(usr$user_id)
-    #  attr(tm, "users") <- usr[uq, ]
-    #}
   }
   tm
 }
