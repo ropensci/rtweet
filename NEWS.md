@@ -1,3 +1,11 @@
+# rtweet 0.6.5
+- Added list management functionality via `post_list()`, which now allows users
+  to create and populate lists as well as delete lists on behalf of one's own
+  Twitter account.
+- `lists_memberships()` and now scrolls through multiple pages of results to 
+  automate collection of larger numbers of lists.
+- Various bug fixes and improvements.
+
 # rtweet 0.6.4
 - Added new oauth method to `create_token()` which allows for creation of token
   non-interactive sessions via accepting inputs for consumer key, consumer 

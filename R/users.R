@@ -73,7 +73,7 @@ lookup_users_ <- function(users,
     }
   }
   if (parse) {
-    usr <- tweets_with_users(usr)
+    usr <- users_with_tweets(usr)
   }
   usr
 }
