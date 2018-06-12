@@ -133,7 +133,9 @@ get_favorites_call <- function(user,
     }
     ## add favoriter variable to data frames
     for (i in seq_along(user)) {
-      rt[[i]]$favorited_by <- user[i]
+      if (nrow(rt[[i]]) > 0) {
+        rt[[i]]$favorited_by <- user[i]
+      }
     }
     rt <- do_call_rbind(rt)
   }
@@ -172,11 +174,6 @@ get_favorites_ <- function(user,
   fav <- scroller(url, n, n.times, type = "timeline", token)
   if (parse) {
     fav <- tweets_with_users(fav)
-    #usr <- users_data(fav)
-    #if (nrow(usr) > 0L) {
-    #  uq <- !duplicated(usr$user_id)
-    #  attr(fav, "users") <- usr[uq, ]
-    #}
   }
   fav
 }
