@@ -1,4 +1,4 @@
-#' Get the lists a specified user has been added to.
+#' Get Twitter list memeberships (lists containing a given user)
 #'
 #' @param user The user id or screen_name of the user for whom to
 #'   return results for.
@@ -12,8 +12,8 @@
 #' @examples
 #' \dontrun{
 #'
-#' ## get up to 200 list memberships of Nate Silver
-#' ns538 <- lists_memberships("NateSilver538", n = 200)
+#' ## get up to 300 Twitter lists that include Nate Silver
+#' ns538 <- lists_memberships("NateSilver538", n = 300)
 #'
 #' ## view data
 #' ns538
@@ -28,7 +28,7 @@ lists_memberships <- function(user = NULL,
                               filter_to_owned_lists = FALSE,
                               token = NULL,
                               parse = TRUE) {
-  stopifnot(is.numeric(100))
+  stopifnot(is.numeric(n))
   n.times <- n %/% 100
   if (n > 100) {
     n <- 100

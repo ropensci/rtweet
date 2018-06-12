@@ -3,7 +3,7 @@
 \name{lists_members}
 \alias{lists_members}
 \alias{lists_memberships}
-\title{Get the members of a specified Twitter list.}
+\title{Get Twitter list members (users on a given list).}
 \usage{
 lists_members(list_id = NULL, slug = NULL, owner_user = NULL, n = 5000,
   cursor = "-1", token = NULL, parse = TRUE, ...)
@@ -23,8 +23,9 @@ owner_user parameters.}
 who owns the list being requested by a slug.}
 
 \item{n}{Specifies the number of results to return
-per page (see cursor below). The default is 20, with a maximum
-of 5,000.}
+per page (see cursor below). For `list_memberships()`, the default, and
+max per page, is 100. For `lists_members()`, the default, and max number
+of users per list, is 5,000.}
 
 \item{cursor}{optional Breaks the results into pages. Provide a
 value of -1 to begin paging. Provide values as returned in the
@@ -53,9 +54,9 @@ represented by user_id or screen_name is a member of.}
 Either a nested list (if parsed) or an HTTP response object.
 }
 \description{
-Get the members of a specified Twitter list.
+Get Twitter list members (users on a given list).
 
-Get the lists a specified user has been added to.
+Get Twitter list memeberships (lists containing a given user)
 }
 \details{
 Due to deleted or removed lists, the returned number of memberships
@@ -81,8 +82,8 @@ rstats
 
 \dontrun{
 
-## get up to 200 list memberships of Nate Silver
-ns538 <- lists_memberships("NateSilver538", n = 200)
+## get up to 300 Twitter lists that include Nate Silver
+ns538 <- lists_memberships("NateSilver538", n = 300)
 
 ## view data
 ns538
