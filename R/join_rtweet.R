@@ -54,7 +54,7 @@ join_rtweet <- function(x) {
     ## remove duplicate user rows
     us <- us[!duplicated(us$user_id), ]
     ## merge tweets and users data
-    x <- merge(tw, us, by = "user_id")
+    x <- merge(tw, us, by = "user_id", sort = FALSE)
     ## remove duplicate tweet rows
     x <- as_tbl(x[!(duplicated(x$status_id) & !is.na(x$status_id)), ])
   } else if ("tweets" %in% names(attributes(x))) {
@@ -95,19 +95,14 @@ join_rtweet <- function(x) {
     ## remove duplicate user rows
     us <- us[!duplicated(us$user_id), ]
     ## merge tweets and users data
-    x <- merge(tw, us, by = "user_id")
+    x <- merge(tw, us, by = "user_id", sort = FALSE)
     ## remove duplicate tweet rows
     x <- as_tbl(x[!(duplicated(x$status_id) & !is.na(x$status_id)), ])
   }
-  ## arrange newest to oldest
-  #if (any(!is.na(x$created_at))) {
-  #  x <- x[order(x$created_at, decreasing = TRUE), ]
-  #}
-  ## return merged data frame
   x
 }
 
 
-as_tbl <- function(x, ..., validate = FALSE) {
+as_tbl <- function(x, ...) {
   tibble::as_tibble(x, ..., validate = FALSE)
 }

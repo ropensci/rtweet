@@ -1,6 +1,6 @@
 Package: rtweet
 Type: Package
-Version: 0.6.4
+Version: 0.6.5
 Title: Collecting Twitter Data
 Authors@R: c(
     person("Michael Wayne", "Kearney", , email = "kearneymw@missouri.edu", role = c("aut", "cre"), 

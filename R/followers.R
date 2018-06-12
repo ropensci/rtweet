@@ -244,7 +244,7 @@ parse.piper.fs <- function(f, n = NULL) {
   nextcursor <- unlist(lapply(f, "[[[", "next_cursor_str"), use.names = FALSE)
   nextcursor <- na_omit(nextcursor)
   nextcursor <- nextcursor[length(nextcursor)]
-  df <- tibble::as_tibble(list(user_id = df), validate = FALSE)
+  df <- as_tbl(list(user_id = df))
   attr(df, "next_cursor") <- nextcursor
   if (!is.null(n)) {
     if (n < nrow(df)) {
