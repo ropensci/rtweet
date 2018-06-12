@@ -8,7 +8,7 @@
 lists_members(list_id = NULL, slug = NULL, owner_user = NULL, n = 5000,
   cursor = "-1", token = NULL, parse = TRUE, ...)
 
-lists_memberships(user = NULL, n = 20, cursor = "-1",
+lists_memberships(user = NULL, n = 100, cursor = "-1",
   filter_to_owned_lists = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{

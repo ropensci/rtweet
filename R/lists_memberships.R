@@ -23,16 +23,31 @@
 #' @rdname lists_members
 #' @export
 lists_memberships <- function(user = NULL,
-                              n = 20,
+                              n = 100,
                               cursor = "-1",
                               filter_to_owned_lists = FALSE,
                               token = NULL,
                               parse = TRUE) {
-  lists_memberships_(
-    user = user, n = n, cursor = cursor,
-    filter_to_owned_lists = filter_to_owned_lists,
-    token = token, parse = parse
-  )
+  stopifnot(is.numeric(100))
+  n.times <- n %/% 100
+  if (n > 100) {
+    n <- 100
+  }
+  m <- vector("list", n.times)
+  for (i in seq_along(m)) {
+    m[[i]] <- lists_memberships_(
+      user = user, n = n, cursor = cursor,
+      filter_to_owned_lists = filter_to_owned_lists,
+      token = token, parse = parse
+    )
+    cursor <- next_cursor(m[[i]])
+    if (is.null(cursor) || identical(cursor, "-1")) break
+  }
+  if (is.list(m) && is.data.frame(m[[1]])) {
+    m <- do.call("rbind", m)
+  }
+  attr(m, "next_cursor") <- cursor
+  m
 }
 
 lists_memberships_ <- function(user,
@@ -90,10 +105,24 @@ lists_memberships_call <- function(user,
   token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
+  warn_for_twitter_status(r)
+  if (r$status_code != 200L) {
+    return(data.frame())
+  }
+  r <- from_js(r)
+  if (is.recursive(r) && "next_cursor_str" %in% names(r)) {
+    cursor <- r$next_cursor_str
+  } else if (is.recursive(r) && "next_cursor" %in% names(r)) {
+    cursor <- r$next_cursor
+  } else {
+    cursor <- NULL
+  }
   if (parse) {
-    r <- from_js(r)
     r <- as_lists_memberships(r)
     r <- as.data.frame(r)
+  }
+  if (!is.null(r)) {
+    attr(r, "next_cursor") <- cursor
   }
   r
 }
