@@ -6,6 +6,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_278d15dd6d45_key -iv $encrypted_278d15dd6d45_iv -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
 r_github_packages:
 - jimhester/covr
+- ropensci/magick
 after_success:
 - Rscript -e 'covr::codecov(function_exclusions = c("create_token", "global_token_finder",
   "post_tweet", "upload_media_to_twitter", "post_message", "post_follow", "check_status_code",

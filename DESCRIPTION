@@ -19,7 +19,6 @@ Imports:
     jsonlite,
     magrittr,
     openssl,
-    readr,
     tibble,
     utils,
     hms
@@ -29,13 +28,14 @@ BugReports: https://github.com/mkearney/rtweet/issues
 Encoding: UTF-8
 Suggests:
     ggplot2,
-    knitr,
-    rmarkdown,
-    testthat,
     glue,
+    knitr,
     magick,
-    webshot,
-    scales
+    readr,
+    rmarkdown,
+    scales,
+    testthat,
+    webshot
 VignetteBuilder: knitr
 LazyData: yes
 RoxygenNote: 6.0.1.9000

@@ -276,14 +276,6 @@ limits_data <- function(x) {
 #' @importFrom jsonlite stream_in
 stream_data <- function(file_name, ...) {
   tw <- .parse_stream(file_name, ...)
-  #usr <- users_data(tw)
-  #if (nrow(tw) > 1L) {
-  #  tw <- tw[!is.na(tw$status_id), ]
-  #}
-  #if (nrow(usr) > 1L) {
-  #  usr <- usr[!is.na(usr$user_id), ]
-  #}
-  #attr(tw, "users") <- usr
   tw
 }
 
@@ -301,6 +293,10 @@ stream_data <- function(file_name, ...) {
 data_from_stream <- function(x, n = 10000L, n_max = -1L) {
   if (!file.exists(x)) {
     stop("No such file exists", call. = FALSE)
+  }
+  if (!requireNamespace("readr", quietly = TRUE)) {
+    warning("For better performance when reading large twitter .json files, try installing the readr package before using this function.")
+    return(stream_data(x))
   }
   ## initalize counters and output vector
   d <- NA_character_
@@ -382,6 +378,9 @@ parse_stream <- function(path, ...) {
 #' @importFrom readr read_lines write_lines
 #' @rdname stream_tweets
 stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
+  if (!requireNamespace("readr", quietly = TRUE)) {
+    stop("this function requires the readr package. please install it first")
+  }
   if (is.null(dir)) {
     dir <- stream_dir()
   }
@@ -434,12 +433,6 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   pat <- paste0(file_name, "\\-[[:digit:]]{1,}\\.json$")
   jsons <- list.files(dir, pattern = pat, full.names = TRUE)
   file_name <- paste0(dir, ".json")
-  for (i in jsons) {
-    x <- readr::read_lines(i, progress = FALSE)
-    readr::write_lines(x, file_name, append = append)
-    ## set append to TRUE after first iteration
-    append <- TRUE
-  }
   unlink(dir, recursive = TRUE)
   if (!parse) {
     return(invisible())
