@@ -4,8 +4,9 @@
 \alias{post_list}
 \title{Manage Twitter lists}
 \usage{
-post_list(users, name, private = FALSE, description = NULL,
-  destroy = FALSE, list_id = NULL, slug = NULL, token = NULL)
+post_list(users = NULL, name = NULL, description = NULL,
+  private = FALSE, destroy = FALSE, list_id = NULL, slug = NULL,
+  token = NULL)
 }
 \arguments{
 \item{users}{Character vectors of users to be added to list.}
@@ -38,9 +39,45 @@ users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
   "cnnnewsroom", "cnnspecreport", "CNNNewsource",
   "CNNNSdigital", "CNNTonight")
 
-## create CNN-accounts list with users and a description
-cnn_lst <- post_list(users, "cnn-accounts", description = "Official CNN accounts")
+## create CNN-accounts list with 9 total users
+(cnn_lst <- post_list(users,
+  "cnn-accounts", description = "Official CNN accounts"))
 
+## view list in browser
+browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
+  rtweet:::home_user()))
+
+## search for more CNN users
+cnn_users <- search_users("CNN", n = 200)
+
+## filter and select more users to add to list
+more_users <- cnn_users \%>\%
+  subset(verified & !tolower(screen_name) \%in\% tolower(users)) \%>\%
+  .$screen_name \%>\%
+  grep("cnn", ., ignore.case = TRUE, value = TRUE)
+
+## add more users to list- note: can only add up to 100 at a time
+post_list(users = more_users, slug = "cnn-accounts")
+
+## view updated list in browser (should be around 100 users)
+browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
+  rtweet:::home_user()))
+
+## select users on list without "cnn" in their name field
+drop_users <- cnn_users \%>\%
+  subset(screen_name \%in\% more_users & !grepl("cnn", name, ignore.case = TRUE)) \%>\%
+  .$screen_name
+
+## drop these users from the cnn list
+post_list(users = drop_users, slug = "cnn-accounts",
+  destroy = TRUE)
+
+## view updated list in browser (should be around 100 users)
+browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
+  rtweet:::home_user()))
+
+## delete list entirely
+post_list(slug = "cnn-accounts", destroy = TRUE)
 
 }
 }
