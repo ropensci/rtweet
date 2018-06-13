@@ -68,9 +68,6 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        destroy_id = NULL,
                        retweet_id = NULL) {
 
-  ## validate
-  stopifnot(is.character(status))
-  stopifnot(length(status) == 1)
   ## check token
   token <- check_token(token)
 
@@ -100,7 +97,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     ## validate destroy_id
     stopifnot(is.character(retweet_id) && length(retweet_id) == 1)
     ## build query
-    query <- sprintf("statuses/retweet/%s", destroy_id)
+    query <- sprintf("statuses/retweet/%s", retweet_id)
     ## make URL
     url <- make_url(query = query)
 
@@ -119,6 +116,10 @@ post_tweet <- function(status = "my first rtweet #rstats",
     message("the tweet has been retweeted!")
     return(invisible(r))
   }
+
+  ## validate
+  stopifnot(is.character(status))
+  stopifnot(length(status) == 1)
 
   ## update statuses query
   query <- "statuses/update"
@@ -719,4 +720,3 @@ post_list <- function(users = NULL,
   ## add users to list
   post_list_create_all(users, list_id, slug, token)
 }
-
