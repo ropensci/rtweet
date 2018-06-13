@@ -56,6 +56,7 @@ test_that("lists_statuses returns data frame with nrow > 1", {
 
 test_that("lists_subscribers returns users data frame", {
   skip_on_cran()
+  token <- readRDS("twitter_tokens")
 
   x <- lists_subscribers(
     slug = "new-york-times-politics",
