@@ -55,27 +55,32 @@ is_incomplete <- function(x) {
   ifelse(isTRUE(x), TRUE, FALSE)
 }
 
-clean_renv <- function(x) {
+clean_renv <- function(var) {
   x <- readlines(.Renviron())
-  x <- grep("^TWITTER_PAT=", x, invert = TRUE, value = TRUE)
+  x <- grep(sprintf("^%s=", var), x, invert = TRUE, value = TRUE)
   writeLines(x, .Renviron())
 }
 
-check_renv <- function() {
+check_renv <- function(var = NULL) {
   if (!file.exists(.Renviron())) return(invisible())
   if (is_incomplete(.Renviron())) {
     append_lines("", file = .Renviron())
   }
-  clean_renv()
+  if (!is.null(var)) {
+    clean_renv(var)
+  }
   invisible()
 }
 
 set_renv <- function(...) {
   dots <- list(...)
   stopifnot(are_named(dots))
+  vars <- names(dots)
   x <- paste0(names(dots), "=", dots)
   x <- paste(x, collapse = "\n")
-  check_renv()
+  for (var in vars) {
+    check_renv(var)
+  }
   append_lines(x, file = .Renviron())
   readRenviron(.Renviron())
 }
