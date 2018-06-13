@@ -43,10 +43,10 @@ get_my_timeline <- function(n = 100,
                             token = NULL,
                             ...) {
 
-  tok <- check_token(token)
+  user <- home_user()
 
   args <- list(
-    user = tok$credentials$screen_name,
+    user = user,
     n = n,
     home = TRUE,
     max_id = max_id,
