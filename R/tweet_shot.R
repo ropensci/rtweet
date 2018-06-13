@@ -23,25 +23,25 @@
 #' tweet_shot("947082036019388416")
 #' tweet_shot("https://twitter.com/jhollist/status/947082036019388416")
 #' }
-tweet_shot <- function(statusid_or_url, zoom=3, scale=TRUE) {
+tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
+  ## check for required packages
   if (!requireNamespace("magick", quietly = FALSE)) {
     stop("tweetshot requires the magick package to be installed, i.e., \ninstall.packages(\"magick\")")
+  }
+  if (!requireNamespace("webshot", quietly = FALSE)) {
+    stop("tweetshot requires the webshot package to be installed, i.e., \ninstall.packages(\"webshot\")")
   }
 
   statusid_or_url <- statusid_or_url[1]
   zoom <- zoom[1]
   scale <- scale[1]
 
-  if (zoom <= 1) stop("zoom must be a positive number, >= 1", call.=FALSE)
-  if (!is.logical(scale)) stop("scale must be TRUE/FALSE", call.=FALSE)
-
-  # can we do it?
-  try_require("glue", "glue_data")
-  try_require("magick", "image_read")
-  try_require("webshot", "webshot")
-  try_require("scales", "percent")
-
-  # yes we can! (if the function got to this point)
+  if (zoom <= 1) {
+    stop("zoom must be a positive number, >= 1", call. = FALSE)
+  }
+  if (!is.logical(scale)) {
+    stop("scale must be TRUE/FALSE", call. = FALSE)
+  }
 
   x <- statusid_or_url
 
@@ -51,37 +51,55 @@ tweet_shot <- function(statusid_or_url, zoom=3, scale=TRUE) {
   if (is_url) { # mebbe, let's look further
 
     is_twitter <- grepl("twitter", x) # shld have "twitter" in it
-    if (!is_twitter) stop("statusid_or_url must be a valid Twitter status id or URL", call.=FALSE)
+    if (!is_twitter) {
+      stop("statusid_or_url must be a valid Twitter status id or URL", call.=FALSE)
+    }
 
     is_status <- grepl("status", x) # shld also have "status" in it
-    if (!is_status) stop("statusid_or_url must be a valid Twitter status id or URL", call.=FALSE)
+    if (!is_status) {
+      stop("statusid_or_url must be a valid Twitter status id or URL",
+        call. = FALSE)
+    }
 
-    already_mobile <- grepl("://mobile\\.", x) # if it's not a mobile status, make it one
-    if (!already_mobile) x <- sub("://twi", "://mobile.twi", x)
+    ## if it's not a mobile status, make it one
+    already_mobile <- grepl("://mobile\\.", x)
+    if (!already_mobile) {
+      x <- sub("://twi", "://mobile.twi", x)
+    }
 
   } else { # let's see if it's a status id
 
     x <- rtweet::lookup_tweets(x)
-    if (!(nrow(x) > 0)) stop("Twitter status not found", call.=FALSE) # nope
+    if (!(nrow(x) > 0)) {
+      stop("Twitter status not found", call. = FALSE)
+    }
 
     # make a mobile URL
-    x <- glue::glue_data(x, "https://mobile.twitter.com/{screen_name}/status/{status_id}")
+    x <- sprintf("https://mobile.twitter.com/%s/status/%s",
+      x$screen_name, x$status_id)
 
   }
 
   # keep the filesystem clean
   tf <- tempfile(fileext = ".png")
-  on.exit(unlink(tf), add=TRUE) # it'll clean up for us
+  on.exit(unlink(tf), add = TRUE) # it'll clean up for us
 
   # capture the tweet
-  webshot::webshot(url=x, file=tf, zoom=zoom)
+  webshot::webshot(url = x, file = tf, zoom = zoom)
 
   img <- magick::image_read(tf) # read the image in
   img <- magick::image_trim(img) # remove the extraneous border
 
   # scale if we want to
-  if ((zoom > 1) && (scale)) img <- magick::image_scale(img, scales::percent(1/zoom))
+  if ((zoom > 1) && (scale)) {
+    img <- magick::image_scale(img, as_percent(1/zoom))
+  }
 
   img
 
 }
+
+as_percent <- function(x) {
+  paste0(round(x * 100), "%")
+}
+
