@@ -28,12 +28,10 @@ BugReports: https://github.com/mkearney/rtweet/issues
 Encoding: UTF-8
 Suggests:
     ggplot2,
-    glue,
     knitr,
     magick,
     readr,
     rmarkdown,
-    scales,
     testthat,
     webshot
 VignetteBuilder: knitr
