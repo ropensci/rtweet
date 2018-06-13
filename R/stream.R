@@ -375,7 +375,6 @@ parse_stream <- function(path, ...) {
 #' @return Returns data as expected using original search_tweets
 #'   function.
 #' @export
-#' @importFrom readr read_lines write_lines
 #' @rdname stream_tweets
 stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   if (!requireNamespace("readr", quietly = TRUE)) {
