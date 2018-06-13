@@ -138,7 +138,7 @@ stream_tweets <- function(q = "",
                           verbose = TRUE,
                           ...) {
   if ("append" %in% names(list(...))) {
-    stop("append should only be used with stream_tweets2() (in development)",
+    stop("append should only be used with stream_tweets2() (which is in development)",
          call. = FALSE)
   }
   ## set encoding
