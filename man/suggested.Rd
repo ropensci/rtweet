@@ -4,7 +4,7 @@
 \alias{all_suggested_users}
 \title{Get all user [account] suggestions for authenticating user}
 \usage{
-all_suggested_users(slugs = NULL, parse = TRUE)
+all_suggested_users(slugs = NULL, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{slugs}{Optional, one or more slugs returned by
@@ -13,6 +13,12 @@ will return warnings for slugs provided beyond the remaining limit).}
 
 \item{parse}{Logical indicating whether to parse the returned data into
 a tibble data frame. See details for more on the returned users data.}
+
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable. Find
+instructions on how to create tokens and setup an environment
+variable in the tokens vignette (in r, send \code{?tokens} to
+console).}
 }
 \description{
 Returns users data for all users in Twitter's suggested categories.

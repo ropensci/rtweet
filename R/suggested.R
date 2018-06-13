@@ -91,11 +91,16 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #' @param slugs Optional, one or more slugs returned by
 #'   \code{\link{suggested_slugs}}. API rate limits this to 15 max (function
 #'   will return warnings for slugs provided beyond the remaining limit).
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable. Find
+#'   instructions on how to create tokens and setup an environment
+#'   variable in the tokens vignette (in r, send \code{?tokens} to
+#'   console).
 #' @export
 #' @rdname suggested
-all_suggested_users <- function(slugs = NULL, parse = TRUE) {
+all_suggested_users <- function(slugs = NULL, parse = TRUE, token = NULL) {
   if (is.null(slugs)) {
-    slugs <- suggested_slugs()
+    slugs <- suggested_slugs(token = token)
     stopifnot(is.data.frame(slugs), nrow(slugs) > 0L)
   }
   if (is.data.frame(slugs)) {
@@ -104,7 +109,7 @@ all_suggested_users <- function(slugs = NULL, parse = TRUE) {
   stopifnot(is.character(slugs))
   d <- vector('list', length(slugs))
   for (i in seq_along(d)) {
-    d[[i]] <- suggested_users(slugs[i], parse = parse)
+    d[[i]] <- suggested_users(slugs[i], parse = parse, token = token)
   }
   if (parse) {
     d <- do.call("rbind", d)
