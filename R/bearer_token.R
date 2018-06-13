@@ -80,7 +80,7 @@ print.bearer <- function(bearer) {
 }
 
 ## Invalidate bearer token
-
+#' @param token Oauth token created via \code{\link{create_token}}.
 #' @export
 invalidate_bearer <- function(token = NULL) {
   if (is.null(token)) {

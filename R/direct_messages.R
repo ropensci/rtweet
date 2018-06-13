@@ -125,7 +125,8 @@ direct_messages_received <- function(since_id = NULL,
                                      token = NULL) {
   query <- "direct_messages"
   token <- check_token(token)
-  params <- list(include_entities = TRUE, count = n)
+  params <- list(include_entities = TRUE, count = n,
+    since_id = since_id, max_id = max_id)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   warn_for_twitter_status(r)
@@ -135,7 +136,7 @@ direct_messages_received <- function(since_id = NULL,
   r
 }
 
-#' @inheritParams direct_messages
+#' @inheritParams direct_messages_received
 #' @export
 #' @rdname direct_messages
 direct_messages_sent <- function(since_id = NULL,
@@ -145,7 +146,8 @@ direct_messages_sent <- function(since_id = NULL,
                                  token = NULL) {
   query <- "direct_messages/events/list"
   token <- check_token(token)
-  params <- list(include_entities = TRUE, count = n)
+  params <- list(include_entities = TRUE, count = n,
+    since_id = since_id, max_id = max_id)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
   warn_for_twitter_status(r)

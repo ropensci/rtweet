@@ -15,6 +15,10 @@
 #'   If a character string is supplied, overriding the default (NULL),
 #'   then a destroy request is made (and the status text and media attachments)
 #'   are irrelevant.
+#' @param retweet_id To retweet a status, supply the single status ID here.
+#'   If a character string is supplied, overriding the default (NULL),
+#'   then a retweet request is made (and the status text and media attachments)
+#'   are irrelevant.
 #' @examples
 #' \dontrun{
 #' ## generate data to make/save plot (as a .png file)
@@ -61,7 +65,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,
                        token = NULL,
                        in_reply_to_status_id = NULL,
-                       destroy_id = NULL) {
+                       destroy_id = NULL,
+                       retweet_id = NULL) {
 
   ## validate
   stopifnot(is.character(status))
@@ -89,6 +94,32 @@ post_tweet <- function(status = "my first rtweet #rstats",
     message("your tweet has been deleted!")
     return(invisible(r))
   }
+
+  ## if retweet
+  if (!is.null(retweet_id)) {
+    ## validate destroy_id
+    stopifnot(is.character(retweet_id) && length(retweet_id) == 1)
+    ## build query
+    query <- sprintf("statuses/retweet/%s", destroy_id)
+    ## make URL
+    url <- make_url(query = query)
+
+    ## send request
+    r <- TWIT(get = FALSE, url, token)
+
+    ## wait for status
+    warn_for_twitter_status(r)
+
+    ## if it didn't work return message
+    if (r$status_code != 200) {
+      return(r)
+    }
+
+    ## if it did, print message and silently return response object
+    message("the tweet has been retweeted!")
+    return(invisible(r))
+  }
+
   ## update statuses query
   query <- "statuses/update"
   ## validate status text
@@ -596,6 +627,9 @@ post_list_destroy_all <- function(users,
 #' @param users Character vectors of users to be added to list.
 #' @param name Name of new list to create.
 #' @param description Optional, description of list (single character string).
+#' @param private Logical indicating whether created list should be private.
+#'   Defaults to false, meaning the list would be public. Not applicable if list
+#'   already exists.
 #' @param destroy Logical indicating whether to delete a list. Either `list_id` or
 #'   `slug` must be provided if `destroy = TRUE`.
 #' @param list_id Optional, numeric ID of list.

@@ -27,6 +27,15 @@ Twitter token via environment variables (which is what `create_token()`
 sets up by default during initial token creation). For instruction on how
 to create a Twitter token see the tokens vignette, i.e.,
 `vignettes("auth", "rtweet")` or see \code{?tokens}.}
+
+\item{since_id}{optional Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to
+the number of Tweets which can be accessed through the API. If
+the limit of Tweets has occurred since the since_id, the since_id
+will be forced to the oldest ID available.}
+
+\item{max_id}{optional Returns results with an ID less than (that
+is, older than) or equal to the specified ID.}
 }
 \value{
 Return parsed or non-parsed response object.

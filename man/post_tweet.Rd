@@ -6,7 +6,7 @@
 \title{Posts status update to user's Twitter account}
 \usage{
 post_tweet(status = "my first rtweet #rstats", media = NULL, token = NULL,
-  in_reply_to_status_id = NULL, destroy_id = NULL)
+  in_reply_to_status_id = NULL, destroy_id = NULL, retweet_id = NULL)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 140
@@ -27,6 +27,11 @@ status text.}
 \item{destroy_id}{To delete a status, supply the single status ID here.
 If a character string is supplied, overriding the default (NULL),
 then a destroy request is made (and the status text and media attachments)
+are irrelevant.}
+
+\item{retweet_id}{To retweet a status, supply the single status ID here.
+If a character string is supplied, overriding the default (NULL),
+then a retweet request is made (and the status text and media attachments)
 are irrelevant.}
 }
 \description{

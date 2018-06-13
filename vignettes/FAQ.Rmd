@@ -1,12 +1,17 @@
 ---
-output: 
-  github_document:
-  toc: true
-  toc_depth: 5
+title: "Obtaining and using access tokens"
+subtitle: "rtweet: Collecting Twitter Data"
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Obtaining and using access tokens}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
 # Troubleshooting common rtweet errors
@@ -23,13 +28,14 @@ Occurs when attempting to create a token
 #>   app = "rtweet_token",
 #>   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
 #>   consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
-`Error in init_oauth1.0(endpoint, app, permission = params$permission) : 
+`Error in init_oauth1.0(endpoint, app, permission = params$permission) :
   client error: (401) Unauthorized`
 ```
 
 #### Solutions
 
 1. Check callback URL
+1. If checked, uncheck `Enable callback locking` option in "Settings" tab at https://apps.twitter.com
 1. Make sure API keys **match exactly** the values for your Twitter app (found under the `Keys and Access Tokens` tab at https://apps.twitter.com)
 1. Regenerate token
 1. Install **{httpuv}** package

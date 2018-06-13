@@ -19,3 +19,4 @@
 ^paper\.md$
 ^paper\.bib$
 ^pkgdown*$
+^\.github.*

@@ -15,6 +15,10 @@ post_list(users = NULL, name = NULL, description = NULL,
 
 \item{description}{Optional, description of list (single character string).}
 
+\item{private}{Logical indicating whether created list should be private.
+Defaults to false, meaning the list would be public. Not applicable if list
+already exists.}
+
 \item{destroy}{Logical indicating whether to delete a list. Either `list_id` or
 `slug` must be provided if `destroy = TRUE`.}
 
