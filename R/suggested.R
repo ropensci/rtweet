@@ -26,11 +26,12 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 #'   appropriate two letter ISO 639-1 representation.
 #' @param parse Logical indicating whether to parse the returned data into
 #'   a tibble data frame. See details for more on the returned users data.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @details Currently, this parsing process drops all
 #'   recursive (list) columns, which mostly means you are shorted some
 #'   entities data. To maximize users data, however, it is recommended to
@@ -91,11 +92,12 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #' @param slugs Optional, one or more slugs returned by
 #'   \code{\link{suggested_slugs}}. API rate limits this to 15 max (function
 #'   will return warnings for slugs provided beyond the remaining limit).
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @export
 #' @rdname suggested
 all_suggested_users <- function(slugs = NULL, parse = TRUE, token = NULL) {

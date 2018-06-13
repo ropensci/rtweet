@@ -9,11 +9,12 @@
 #'   Must be less than or equal to 100.
 #' @param parse Logical indicating whether to convert the response
 #'   object into an R list. Defaults to TRUE.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param ... Other arguments used as parameters in the query sent to
 #'   Twitter's rest API, for example, \code{trim_user = TRUE}.
 #' @return Tweets data of the most recent retweets of a given status
@@ -35,8 +36,6 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   if (parse) {
     r <- from_js(r)
     r <- tweets_with_users(r)
-    #r <- as_retweets(r)
-    #r <- as.data.frame(r)
   }
   r
 }
@@ -70,11 +69,12 @@ as.data.frame.retweets <- function(x) {
 #'   intervals of 100.
 #' @param parse Logical indicating whether to convert the response
 #'   object into an R list. Defaults to TRUE.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @return data
 #' @details At time of writing, pagination offers no additional
 #'   data. See the post from Pipes here:

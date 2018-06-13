@@ -14,11 +14,12 @@ will return warnings for slugs provided beyond the remaining limit).}
 \item{parse}{Logical indicating whether to parse the returned data into
 a tibble data frame. See details for more on the returned users data.}
 
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send \code{?tokens} to
-console).}
+\item{token}{Every user should have their own Oauth (Twitter API) token. By
+default \code{token = NULL} this function looks for the path to a saved
+Twitter token via environment variables (which is what `create_token()`
+sets up by default during initial token creation). For instruction on how
+to create a Twitter token see the tokens vignette, i.e.,
+`vignettes("auth", "rtweet")` or see \code{?tokens}.}
 }
 \description{
 Returns users data for all users in Twitter's suggested categories.

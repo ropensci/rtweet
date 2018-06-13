@@ -5,11 +5,12 @@
 #' whilst avoiding rate limits, which reset every 15 minutes.
 #'
 #' @param users User id or screen name of target user.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param parse Logical, indicating whether or not to parse
 #'   return object into data frame(s).
 #'
@@ -47,8 +48,6 @@ lookup_users_ <- function(users,
                           token = NULL,
                           parse = TRUE) {
   stopifnot(is.atomic(users))
-#  users <- unique(as.character(users))
-#  users <- users[!is.na(users)]
   if (length(users) < 101L) {
     usr <- .user_lookup(users, token)
   } else {

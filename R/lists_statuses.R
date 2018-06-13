@@ -22,11 +22,12 @@
 #'   home_timeline.
 #' @param parse Logical indicating whether to convert the response object into
 #'   an R list. Defaults to TRUE.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @family lists
 #' @family tweets
 #' @return data
@@ -63,30 +64,10 @@ lists_statuses <- function(list_id = NULL,
   }
   out <- out[!vapply(out, is.null, logical(1))]
   if (parse) {
-    out <- ll2df(out)
+    out <- tweets_with_users(out)
   }
   out
 }
-
-
-ll2df <- function(x) {
-  ##nms <- table(unlist(lapply(x, names)))
-  ##nms <- names(nms)[nms == max(nms, na.rm = TRUE)]
-  #x <- lapply(x, function(i) i[names(i) %in% nms])
-  #x
-  #x <- x[vapply(x, is.data.frame, logical(1)) &
-  #         vapply(x, function(i) nrow(i) > 0L, logical(1))]
-  #x <- lapply(x, function(x)
-  #  tibble::as_tibble(
-  #    x[!vapply(x, is.recursive, logical(1))],
-  #    validate = FALSE))
-  #x <- do.call("rbind", x)
-  #x <- x[!grepl("^id$|\\_id$", names(x))]
-  #names(x) <- gsub("\\str$", "", names(x))
-  #x
-  tweets_with_users(x)
-}
-
 
 lists_statuses_ <- function(list_id = NULL,
                             slug = NULL,

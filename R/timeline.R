@@ -20,11 +20,12 @@
 #' @param check Logical indicating whether to remove check available
 #'   rate limit. Ensures the request does not exceed the maximum
 #'   remaining number of calls.  Defaults to TRUE.
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @param token Every user should have their own Oauth (Twitter API) token. By
+#'   default \code{token = NULL} this function looks for the path to a saved
+#'   Twitter token via environment variables (which is what `create_token()`
+#'   sets up by default during initial token creation). For instruction on how
+#'   to create a Twitter token see the tokens vignette, i.e.,
+#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso
@@ -106,14 +107,10 @@ get_timeline_ <- function(user, n = 100, home = FALSE, ...) {
   } else {
     rt <- Map(get_timeline_call, user = user, n = n, home = home)
   }
-  ## merge users data into one data frame
-  #rt_users <- do.call("rbind", lapply(rt, users_data))
   ## merge tweets data into one data frame
   rt <- do.call("rbind", rt)
-  ## set users attribute
-  #attr(rt, "users") <- rt_users
   ## return tibble (validate = FALSE makes it a bit faster)
-  tibble::as_tibble(rt, validate = FALSE)
+  as_tbl(rt)
 }
 
 
