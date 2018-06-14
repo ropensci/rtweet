@@ -1,3 +1,29 @@
+twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
+                                   is_interactive = interactive(),
+                                   private_key = NULL) {
+    oauth_sig <- function(url, method, token = NULL, token_secret = NULL,
+        private_key = NULL, ...) {
+        httr::oauth_header(httr::oauth_signature(url, method, app, token,
+            token_secret, private_key, other_params = c(list(...),
+                oauth_callback = "http://127.0.0.1:1410")))
+    }
+    response <- httr::POST(endpoint$request, oauth_sig(endpoint$request,
+        "POST", private_key = private_key))
+    httr::stop_for_status(response)
+    params <- httr::content(response, type = "application/x-www-form-urlencoded")
+    token <- params$oauth_token
+    secret <- params$oauth_token_secret
+    authorize_url <- httr::modify_url(endpoint$authorize,
+      query = list(oauth_token = token, permission = "read"))
+    verifier <- httr::oauth_listener(authorize_url, is_interactive)
+    verifier <- verifier$oauth_verifier %||% verifier[[1]]
+    response <- httr::POST(endpoint$access, oauth_sig(endpoint$access,
+        "POST", token, secret, oauth_verifier = verifier, private_key = private_key),
+        body = "")
+    httr::stop_for_status(response)
+    httr::content(response, type = "application/x-www-form-urlencoded")
+}
+
 #' Fetching Twitter authorization token(s).
 #'
 #' Call function used to fetch and load Twitter OAuth tokens.
@@ -119,8 +145,9 @@ create_token_ <- function(app = "mytwitterapp",
       endpoint = httr::oauth_endpoints("twitter"),
       params = params, credentials = credentials, cache = FALSE)
   } else {
-    token <- httr::oauth1.0_token(
-      httr::oauth_endpoints("twitter"), app, cache = FALSE)
+    token <- twitter_init_oauth1.0(httr::oauth_endpoints("twitter"), app)
+    #token <- httr::oauth1.0_token(
+    #  httr::oauth_endpoints("twitter"), app, cache = FALSE)
   }
   ## save token and set as environment variable
   if (set_renv) {
