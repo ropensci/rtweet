@@ -24,6 +24,10 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
     httr::content(response, type = "application/x-www-form-urlencoded")
 }
 
+`%||%` <- function(a, b) {
+  if (length(a) > 0) a else b
+}
+
 #' Fetching Twitter authorization token(s).
 #'
 #' Call function used to fetch and load Twitter OAuth tokens.
