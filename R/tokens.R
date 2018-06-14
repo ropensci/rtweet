@@ -1,8 +1,10 @@
 twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
                                    is_interactive = interactive(),
                                    private_key = NULL) {
-    oauth_sig <- function(url, method, token = NULL, token_secret = NULL,
-        private_key = NULL, ...) {
+    oauth_sig <- function(url, method,
+                          token = NULL,
+                          token_secret = NULL,
+                          private_key = NULL, ...) {
         httr::oauth_header(httr::oauth_signature(url, method, app, token,
             token_secret, private_key, other_params = c(list(...),
                 oauth_callback = "http://127.0.0.1:1410")))
@@ -26,6 +28,63 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
 
 `%||%` <- function(a, b) {
   if (length(a) > 0) a else b
+}
+
+twitter_Token1.0 <- R6::R6Class("Token1.0", inherit = httr::Token, list(
+  init_credentials = function(force = FALSE) {
+    self$credentials <- twitter_init_oauth1.0(
+      self$endpoint, self$app,
+      permission = self$params$permission,
+      private_key = self$private_key
+    )
+  },
+  can_refresh = function() {
+    FALSE
+  },
+  refresh = function() {
+    stop("Not implemented")
+  },
+  sign = function(method, url) {
+    oauth <- httr::oauth_signature(url, method, self$app,
+      self$credentials$oauth_token, self$credentials$oauth_token_secret,
+      self$private_key)
+    if (isTRUE(self$params$as_header)) {
+      c(request(url = url), httr::oauth_header(oauth))
+    } else {
+      url <- httr::parse_url(url)
+      url$query <- c(url$query, oauth)
+      request(url = httr::build_url(url))
+    }
+  }
+))
+
+keep_last <- function (...) {
+  x <- c(...)
+  x[!duplicated(names(x), fromLast = TRUE)]
+}
+
+is_empty <- function (x) length(x) == 0
+
+compact <- function (x) {
+  empty <- vapply(x, is_empty, logical(1))
+  x[!empty]
+}
+
+request <- function (method = NULL, url = NULL, headers = NULL, fields = NULL,
+  options = NULL, auth_token = NULL, output = NULL) {
+  if (!is.null(method))
+    stopifnot(is.character(method), length(method) == 1)
+  if (!is.null(url))
+    stopifnot(is.character(url), length(url) == 1)
+  if (!is.null(headers))
+    stopifnot(is.character(headers))
+  if (!is.null(fields))
+    stopifnot(is.list(fields))
+  if (!is.null(output))
+    stopifnot(inherits(output, "write_function"))
+  structure(list(method = method, url = url, headers = keep_last(headers),
+    fields = fields, options = compact(keep_last(options)),
+    auth_token = auth_token, output = output), class = "request")
 }
 
 #' Fetching Twitter authorization token(s).
@@ -149,7 +208,10 @@ create_token_ <- function(app = "mytwitterapp",
       endpoint = httr::oauth_endpoints("twitter"),
       params = params, credentials = credentials, cache = FALSE)
   } else {
-    token <- twitter_init_oauth1.0(httr::oauth_endpoints("twitter"), app)
+    ##token <- twitter_init_oauth1.0(httr::oauth_endpoints("twitter"), app)
+    token <- twitter_Token1.0$new(app = app,
+      endpoint = httr::oauth_endpoints("twitter"),
+      cache = FALSE)
     #token <- httr::oauth1.0_token(
     #  httr::oauth_endpoints("twitter"), app, cache = FALSE)
   }
