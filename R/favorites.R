@@ -166,7 +166,9 @@ get_favorites_ <- function(user,
   params <- list(
     user_type = user,
     count = count,
-    tweet_mode = "extended"
+    tweet_mode = "extended",
+    max_id = max_id,
+    since_id = since_id
   )
   names(params)[1] <- .id_type(user)
   url <- make_url(
