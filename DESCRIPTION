@@ -3,7 +3,7 @@ Type: Package
 Version: 0.6.5
 Title: Collecting Twitter Data
 Authors@R: c(
-    person("Michael Wayne", "Kearney", , email = "kearneymw@missouri.edu", role = c("aut", "cre"), 
+    person("Michael Wayne", "Kearney", , email = "kearneymw@missouri.edu", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-0730-4694"))
     ## add contributor template (middle name/initial optional)
     #person("First Middle", "Last", , email = "email@address.com", role = c("ctb"))
@@ -14,11 +14,10 @@ Description: An implementation of calls designed to collect and
     <https://developer.twitter.com/en/docs>.
 Depends:
     R (>= 3.1.0)
-Imports: 
+Imports:
     httr (>= 1.0.0),
     jsonlite,
     magrittr,
-    openssl,
     tibble,
     utils,
     hms
@@ -30,6 +29,7 @@ Suggests:
     ggplot2,
     knitr,
     magick,
+    openssl,
     readr,
     rmarkdown,
     testthat,

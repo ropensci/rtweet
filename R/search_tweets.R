@@ -446,15 +446,3 @@ add_var <- function(x, ...) {
   x[[varname]] <- unlist(dots, use.names = FALSE)
   x
 }
-
-
-
-
-next_id <- function(df) {
-  if (!all(c("created_at", "status_id") %in% names(df))) {
-    stop("wrong data frame - function requires tweets data")
-  }
-  df <- df[!is.na(df$status_id), ]
-  df <- df[order(df$created_at), ]
-  df$status_id[1]
-}

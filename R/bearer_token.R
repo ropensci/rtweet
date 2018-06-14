@@ -1,6 +1,9 @@
 
 
 encode_keys <- function(key, secret) {
+  if (!requireNamespace("openssl", quietly = TRUE)) {
+    stop("bearer_token requires the {openssl} package to be installed")
+  }
   openssl::base64_encode(paste0(key, ":", secret))
 }
 
