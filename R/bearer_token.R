@@ -76,10 +76,11 @@ get_oauth_secret <- function(token) {
 }
 
 print.bearer <- function(bearer) {
-  cat(paste0("Bearer token: ", attr(bt, "bearer")$access_token), fill = TRUE)
+  cat(paste0("Bearer token: ", attr(bearer, "bearer")$access_token), fill = TRUE)
 }
 
-## Invalidate bearer token
+#' Invalidate bearer token
+#'
 #' @param token Oauth token created via \code{\link{create_token}}.
 #' @export
 invalidate_bearer <- function(token = NULL) {
