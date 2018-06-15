@@ -6,8 +6,8 @@
 #' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user.
-#' @param max_id Character, status_id from which returned tweets
-#'   should be older than.
+#' @param max_id Character, returns results with an ID less than (that is,
+#'   older than) or equal to `max_id`.
 #' @param home Logical, indicating whether to return a user-timeline
 #'   or home-timeline. By default, home is set to FALSE, which means
 #'   \code{get_timeline} returns tweets posted by the given user. To

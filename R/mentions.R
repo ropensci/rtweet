@@ -13,8 +13,8 @@
 #'   number of Tweets which can be accessed through the API. If the
 #'   limit of Tweets has occurred since the since_id, the since_id
 #'   will be forced to the oldest ID available.
-#' @param max_id Returns results with an ID less than (that is, older
-#'   than) or equal to the specified ID.
+#' @param max_id Character, returns results with an ID less than (that is,
+#'   older than) or equal to `max_id`.
 #' @param parse Logical indicating whether to convert the response
 #'   object into an R list. Defaults to TRUE.
 #' @param token Every user should have their own Oauth (Twitter API) token. By
