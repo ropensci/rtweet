@@ -298,14 +298,7 @@ return_last <- function(x, n = 1) {
 ##                                 check data                                 ##
 ##----------------------------------------------------------------------------##
 
-has_name_ <- function(x, ...) {
-  vars <- c(...)
-  stopifnot(is.character(vars))
-  if (!is.recursive(x)) {
-    return(FALSE)
-  }
-  all(vars %in% names(x))
-}
+has_name_ <- function(x, name) isTRUE(name %in% names(x))
 
 any_recursive <- function(x) {
   if (!is.recursive(x)) {
@@ -365,18 +358,7 @@ from_js <- function(rsp) {
     stop("API did not return json", call. = FALSE)
   }
   rsp <- httr::content(rsp, as = "text", encoding = "UTF-8")
-  rsp <- jsonlite::fromJSON(rsp)
-  if ("statuses" %in% names(rsp) && "full_text" %in% names(rsp$statuses)) {
-    names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "text"] <- "texttrunc"
-    names(rsp[["statuses"]])[names(rsp[["statuses"]]) == "full_text"] <- "text"
-  } else if ("status" %in% names(rsp) && "full_text" %in% names(rsp$status)) {
-    names(rsp[["status"]])[names(rsp[["status"]]) == "text"] <- "texttrunc"
-    names(rsp[["status"]])[names(rsp[["status"]]) == "full_text"] <- "text"
-  } else if ("full_text" %in% names(rsp)) {
-    names(rsp)[names(rsp) == "text"] <- "texttrunc"
-    names(rsp)[names(rsp) == "full_text"] <- "text"
-  }
-  rsp
+  jsonlite::fromJSON(rsp)
 }
 
 na_omit <- function(x) {
