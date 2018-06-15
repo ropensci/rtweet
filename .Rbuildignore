@@ -20,3 +20,4 @@
 ^paper\.bib$
 ^pkgdown*$
 ^\.github.*
+^make\.R$
