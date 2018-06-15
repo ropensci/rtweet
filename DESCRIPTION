@@ -19,8 +19,7 @@ Imports:
     jsonlite,
     magrittr,
     tibble,
-    utils,
-    hms
+    utils
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
 BugReports: https://github.com/mkearney/rtweet/issues

@@ -286,7 +286,6 @@ parse_unit <- function(by) {
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return If POSIXct then POSIX. If date then Date.
 #' @export
-#' @importFrom hms hms
 #' @examples
 #'
 #' ## class posixct
@@ -299,8 +298,19 @@ round_time <- function(x, n, tz) UseMethod("round_time")
 #' @export
 round_time.POSIXt <- function(x, n = "mins", tz = "UTC") {
   n <- parse_to_secs(n)
-  as.POSIXct(hms::hms(as.numeric(x) %/% n * n), tz = tz)
+  #as.POSIXct(hms::hms(as.numeric(x) %/% n * n), tz = tz)
+  hms(as.numeric(x) %/% n * n, tz = tz)
 }
+
+
+hms <- function(secs = NULL, tz = "UTC") {
+  if (is.null(secs)) {
+    secs <- numeric()
+  }
+  structure(secs, tzone = tz,
+    class = c("POSIXct", "POSIXt"))
+}
+
 
 #' @export
 round_time.Date <- function(x, n = "months", tz = "UTC") {
