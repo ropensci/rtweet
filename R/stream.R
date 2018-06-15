@@ -274,12 +274,12 @@ limits_data <- function(x) {
   }
 }
 
-#' @importFrom jsonlite stream_in
 stream_data <- function(file_name, ...) {
   tw <- .parse_stream(file_name, ...)
   tw
 }
 
+#' @importFrom jsonlite stream_in
 .parse_stream <- function(file_name) {
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")
