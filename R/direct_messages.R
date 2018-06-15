@@ -69,8 +69,8 @@ direct_messages <- function(n = 50,
 #'   the number of Tweets which can be accessed through the API. If
 #'   the limit of Tweets has occurred since the since_id, the since_id
 #'   will be forced to the oldest ID available.
-#' @param max_id optional Returns results with an ID less than (that
-#'   is, older than) or equal to the specified ID.
+#' @param max_id Character, returns results with an ID less than (that is,
+#'   older than) or equal to `max_id`.
 #' @param n optional Specifies the number of direct messages to try
 #'   and retrieve, up to a maximum of 200. The value of count is best
 #'   thought of as a limit to the number of Tweets to return because

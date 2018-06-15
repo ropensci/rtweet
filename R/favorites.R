@@ -14,8 +14,8 @@
 #'   limits to the number of tweets returned by the REST API. If the
 #'   limit is hit, since_id is adjusted (by Twitter) to the oldest ID
 #'   available.
-#' @param max_id Returns results with status_id less (older) than or
-#'   equal to (if hit limit) the specified status_id.
+#' @param max_id Character, returns results with an ID less than (that is,
+#'   older than) or equal to `max_id`.
 #' @param parse Logical, indicating whether to return parsed vector or
 #'   nested list object. By default, \code{parse = TRUE}
 #'   saves you the time [and frustrations] associated with

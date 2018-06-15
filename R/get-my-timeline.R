@@ -9,8 +9,8 @@
 #' @md
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user.
-#' @param max_id Character, status_id from which returned tweets
-#'   should be older than.
+#' @param max_id Character, returns results with an ID less than (that is,
+#'   older than) or equal to `max_id`.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list object. By default, \code{parse =
 #'   TRUE} saves users from the time (and frustrations) associated
