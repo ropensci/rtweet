@@ -51,9 +51,9 @@ users_with_tweets <- function(x) {
   users <- user_object(x)
   users <- users_df_(users)
   if (nrow(tweets) == nrow(users)) {
-    if (has_name(users, "user_id")) {
+    if (has_name_(users, "user_id")) {
       tweets$user_id <- users$user_id
-      if (has_name(users, "screen_name")) {
+      if (has_name_(users, "screen_name")) {
         tweets$screen_name <- users$screen_name
       }
     }
@@ -118,7 +118,7 @@ status_object_ <- function(x) {
     }
     if (`&&`(
       is.data.frame(x),
-      c("text", "source") %in% names(x)
+      c("favorite_count", "source") %in% names(x)
     )) {
       return(x)
     }
@@ -138,8 +138,8 @@ tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
   dat$display_text_width <- display_text_range(dat)
   ## extended entitites > media
-  if (has_name(dat, "extended_entities") &&
-      has_name(dat[['extended_entities']], "media")) {
+  if (has_name_(dat, "extended_entities") &&
+      has_name_(dat[['extended_entities']], "media")) {
     dat$ext_media_url <- lapply(
       dat$extended_entities$media, "[[[", "media_url")
     dat$ext_media_expanded_url <- lapply(
@@ -153,7 +153,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$ext_media_type <- as.list(NA_character_)
   }
   ## entities > urls
-  if (has_name(dat, "entities") && has_name(dat[['entities']], "urls")) {
+  if (has_name_(dat, "entities") && has_name_(dat[['entities']], "urls")) {
     dat$urls_url <- lapply(dat$entities$urls, "[[[", "display_url")
     dat$urls_expanded_url <- lapply(dat$entities$urls, "[[[", "expanded_url")
     dat$urls_t.co <- lapply(dat$entities$urls, "[[[", "url")
@@ -163,7 +163,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$urls_t.co <- as.list(NA_character_)
   }
   ## entities > media
-  if (has_name(dat, "entities") && has_name(dat[['entities']], "media")) {
+  if (has_name_(dat, "entities") && has_name_(dat[['entities']], "media")) {
     dat$media_url <- lapply(dat$entities$media, "[[[", "media_url")
     dat$media_expanded_url <- lapply(dat$entities$media, "[[[", "expanded_url")
     dat$media_t.co <- lapply(dat$entities$media, "[[[", "url")
@@ -175,8 +175,8 @@ tweets_to_tbl_ <- function(dat) {
     dat$media_type <- as.list(NA_character_)
   }
   ## entities > user_mentions
-  if (has_name(dat, "entities") &&
-      has_name(dat[["entities"]], "user_mentions")) {
+  if (has_name_(dat, "entities") &&
+      has_name_(dat[["entities"]], "user_mentions")) {
     dat$mentions_user_id <- lapply(
       dat$entities$user_mentions, "[[[", "id_str")
     dat$mentions_screen_name <- lapply(
@@ -186,38 +186,38 @@ tweets_to_tbl_ <- function(dat) {
     dat$mentions_screen_name <- as.list(NA_character_)
   }
   ## entities > hashtags
-  if (has_name(dat, "entities") && has_name(dat[["entities"]], "hashtags")) {
+  if (has_name_(dat, "entities") && has_name_(dat[["entities"]], "hashtags")) {
     dat$hashtags <- lapply(dat$entities$hashtags, "[[[", "text")
   } else {
     dat$hashtags <- as.list(NA_character_)
   }
-  if (has_name(dat, "entities") && has_name(dat[["entities"]], "symbols")) {
+  if (has_name_(dat, "entities") && has_name_(dat[["entities"]], "symbols")) {
     dat$symbols <- lapply(dat$entities$symbols, "[[[", "text")
   } else {
     dat$symbols <- as.list(NA_character_)
   }
-  if (has_name(dat, "geo") && has_name(dat[["geo"]], "coordinates")) {
+  if (has_name_(dat, "geo") && has_name_(dat[["geo"]], "coordinates")) {
     dat$geo_coords <- lapply(
       dat$geo$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
     dat$geo_coords <- list(c(NA_real_, NA_real_))
   }
-  if (has_name(dat, "coordinates") &&
-      has_name(dat[["coordinates"]], "coordinates")) {
+  if (has_name_(dat, "coordinates") &&
+      has_name_(dat[["coordinates"]], "coordinates")) {
     dat$coordinates_coords <- lapply(
       dat$coordinates$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
     dat$coordinates_coords <- list(c(NA_real_, NA_real_))
   }
-  if (has_name(dat, "place") && has_name(dat[["place"]], "id")) {
+  if (has_name_(dat, "place") && has_name_(dat[["place"]], "id")) {
     dat$place_url <- `[[[`(dat$place, "url")
     dat$place_full_name <- `[[[`(dat$place, "full_name")
     dat$place_name <- `[[[`(dat$place, "name")
     dat$country_code <- `[[[`(dat$place, "country_code")
     dat$place_type <- `[[[`(dat$place, "place_type")
     dat$country <- `[[[`(dat$place, "country")
-    if (has_name(dat$place, "bounding_box") &&
-          has_name(dat$place[["bounding_box"]], "coordinates")) {
+    if (has_name_(dat$place, "bounding_box") &&
+          has_name_(dat$place[["bounding_box"]], "coordinates")) {
       dat$bbox_coords <- lapply(
         dat$place$bounding_box[["coordinates"]], function(i) {
           if (is.array(i)) {
@@ -246,13 +246,22 @@ tweets_to_tbl_ <- function(dat) {
           NA_real_, NA_real_, NA_real_, NA_real_)
       )
   }
-  if (has_name(dat, "user") && has_name(dat[["user"]], "id_str")) {
+  if (has_name_(dat, "user") && has_name_(dat[["user"]], "id_str")) {
     dat$user_id <- `[[[`(dat$user, "id_str")
     dat$screen_name <- `[[[`(dat$user, "screen_name")
   } else {
     dat$user_id <- NA_character_
     dat$screen_name <- NA_character_
   }
+  ## full text
+  if (has_name_(dat, "full_text")) {
+    dat$text <- dat$full_text
+  }
+  if (has_name_(dat, "extended_tweet") && has_name_(dat$extended_tweet, "full_text")) {
+    is_et <- !is.na(dat$extended_tweet$full_text)
+    dat$text[is_et] <- dat$extended_tweet$full_text[is_et]
+  }
+
   dat <- wrangle_quote_status(dat)
   dat <- wrangle_retweet_status(dat)
   statuscols <- statuscols_()
@@ -319,12 +328,12 @@ users_to_tbl_ <- function(dat) {
   dat$profile_url <- unlist(
     lapply(urls, function(x) {
       if (is.data.frame(x)) x[["url"]] else NA_character_
-    })
+    }), use.names = FALSE
   )
   dat$profile_expanded_url <- unlist(
     lapply(urls, function(x) {
       if (is.data.frame(x)) x[["expanded_url"]] else NA_character_
-    })
+    }), use.names = FALSE
   )
   dat$created_at <- format_date(dat$created_at)
   usercols <- usercols_()
@@ -446,7 +455,7 @@ statuscols_ <- function() {
 }
 
 display_text_range <- function(x) {
-  if (has_name(x, "display_text_range")) {
+  if (has_name_(x, "display_text_range")) {
     vapply(
       x$display_text_range,
       function(x) ifelse(is.null(x), NA_integer_, diff(x)), double(1))
@@ -460,98 +469,100 @@ display_text_range <- function(x) {
 ## utility funs
 ##-----------------------------------------------------
 
-has_name <- function(x, name) isTRUE(name %in% names(x))
-
-clean_source_ <- function(x) {
-  unlist(lapply(
-    strsplit(as.character(x), "[<]|[>]"),
-    function(x) x[3]), use.names = FALSE)
+clean_source_ <- function(s) {
+  sub("<\\/.*", "", sub("[^>]+>", "", s))
 }
 
 
 wrangle_retweet_status <- function(x) {
   n <- nrow(x)
-  if (has_name(x, "retweeted_status")) {
+  if (has_name_(x, "retweeted_status")) {
     rst <- x[["retweeted_status"]]
   } else {
     rst <- data.frame()
   }
   ## user mentions
-  if (has_name(rst, "id_str")) {
+  if (has_name_(rst, "id_str")) {
     x$retweet_status_id <- rst$id_str
   } else {
     x$retweet_status_id <- NA_character_
   }
-  if (has_name(rst, "retweet_count")) {
+  if (has_name_(rst, "retweet_count")) {
     x$retweet_retweet_count <- rst$retweet_count
-  }
-  else {
+  } else {
     x$retweet_retweet_count <- NA_integer_
   }
-  if (has_name(rst, "full_text")) {
+  if (has_name_(rst, "full_text")) {
     x$retweet_text <- rst$full_text
-  } else if (has_name(rst, "text")) {
+  } else if (has_name_(rst, "text")) {
     x$retweet_text <- rst$text
   } else {
     x$retweet_text <- NA_character_
   }
-  if (has_name(rst, "source")) {
+  if (has_name_(rst, "extended_tweet") && has_name_(rst$extended_tweet, "full_text")) {
+    is_et <- !is.na(rst$extended_tweet$full_text)
+    x$retweet_text[is_et] <- rst$extended_tweet$full_text[is_et]
+  }
+  ## make 'text' include full retweet text
+  rt_et <- !is.na(x$retweet_text)
+  x$text[rt_et] <- x$retweet_text[rt_et]
+  if (has_name_(rst, "source")) {
     x$retweet_source <- clean_source_(rst$source)
   } else {
     x$retweet_source <- NA_character_
   }
-  if (has_name(rst, "created_at")) {
+  if (has_name_(rst, "created_at")) {
     x$retweet_created_at <- format_date(rst$created_at)
   } else {
     x$retweet_created_at <- as.POSIXct(NA_character_)
   }
-  if (has_name(rst, "favorite_count")) {
+  if (has_name_(rst, "favorite_count")) {
     x$retweet_favorite_count <- rst$favorite_count
   } else {
     x$retweet_favorite_count <- NA_integer_
   }
-  if (has_name(rst, "user") && has_name(rst$user, "screen_name")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "screen_name")) {
     x$retweet_screen_name <- rst$user$screen_name
   } else {
     x$retweet_screen_name <- NA_character_
   }
-  if (has_name(rst, "user") && has_name(rst$user, "id_str")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "id_str")) {
     x$retweet_user_id <- rst$user$id_str
   } else {
     x$retweet_user_id <- NA_character_
   }
   ##
-  if (has_name(rst, "user") && has_name(rst$user, "name")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "name")) {
     x$retweet_name <- rst$user$name
   } else {
     x$retweet_name <- NA_character_
   }
-    if (has_name(rst, "user") && has_name(rst$user, "description")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "description")) {
     x$retweet_description <- rst$user$description
   } else {
     x$retweet_description <- NA_character_
   }
-  if (has_name(rst, "user") && has_name(rst$user, "followers_count")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "followers_count")) {
     x$retweet_followers_count <- rst$user$followers_count
   } else {
     x$retweet_followers_count <- NA_integer_
   }
-    if (has_name(rst, "user") && has_name(rst$user, "friends_count")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "friends_count")) {
     x$retweet_friends_count <- rst$user$friends_count
   } else {
     x$retweet_friends_count <- NA_integer_
   }
-    if (has_name(rst, "user") && has_name(rst$user, "statuses_count")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "statuses_count")) {
     x$retweet_statuses_count <- rst$user$statuses_count
   } else {
     x$retweet_statuses_count <- NA_integer_
   }
-  if (has_name(rst, "user") && has_name(rst$user, "verified")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "verified")) {
     x$retweet_verified <- rst$user$verified
   } else {
     x$retweet_verified <- NA
   }
-    if (has_name(rst, "user") && has_name(rst$user, "location")) {
+  if (has_name_(rst, "user") && has_name_(rst$user, "location")) {
     x$retweet_location <- rst$user$location
   } else {
     x$retweet_location <- NA_character_
@@ -563,85 +574,89 @@ wrangle_retweet_status <- function(x) {
 
 wrangle_quote_status <- function(x) {
   n <- nrow(x)
-  if (has_name(x, "quoted_status")) {
+  if (has_name_(x, "quoted_status")) {
     qst <- x[["quoted_status"]]
   } else {
     qst <- data.frame()
   }
   ## user mentions
-  if (has_name(qst, "id_str")) {
+  if (has_name_(qst, "id_str")) {
     x$quoted_status_id <- qst$id_str
   } else {
     x$quoted_status_id <- NA_character_
   }
-  if (has_name(qst, "full_text")) {
+  if (has_name_(qst, "full_text")) {
     x$quoted_text <- qst$full_text
-  } else if (has_name(qst, "text")) {
+  } else if (has_name_(qst, "text")) {
     x$quoted_text <- qst$text
   } else {
     x$quoted_text <- NA_character_
   }
-  if (has_name(qst, "source")) {
+  if (has_name_(qst, "extended_tweet") && has_name_(qst$extended_tweet, "full_text")) {
+    is_et <- !is.na(qst$extended_tweet$full_text)
+    x$quoted_text[is_et] <- qst$extended_tweet$full_text[is_et]
+  }
+  if (has_name_(qst, "source")) {
     x$quoted_source <- clean_source_(qst$source)
   } else {
     x$quoted_source <- NA_character_
   }
-  if (has_name(qst, "created_at")) {
+  if (has_name_(qst, "created_at")) {
     x$quoted_created_at <- format_date(qst$created_at)
   } else {
     x$quoted_created_at <- as.POSIXct(NA_character_)
   }
-  if (has_name(qst, "favorite_count")) {
+  if (has_name_(qst, "favorite_count")) {
     x$quoted_favorite_count <- qst$favorite_count
   } else {
     x$quoted_favorite_count <- NA_integer_
   }
-  if (has_name(qst, "created_at")) {
+  if (has_name_(qst, "created_at")) {
     x$quoted_retweet_count <- qst$retweet_count
   } else {
     x$quoted_retweet_count <- NA_integer_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "screen_name")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "screen_name")) {
     x$quoted_screen_name <- qst$user$screen_name
   } else {
     x$quoted_screen_name <- NA_character_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "id_str")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "id_str")) {
     x$quoted_user_id <- qst$user$id_str
   } else {
     x$quoted_user_id <- NA_character_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "name")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "name")) {
     x$quoted_name <- qst$user$name
   } else {
     x$quoted_name <- NA_character_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "description")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "description")) {
     x$quoted_description <- qst$user$description
   } else {
     x$quoted_description <- NA_character_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "followers_count")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "followers_count")) {
     x$quoted_followers_count <- qst$user$followers_count
   } else {
     x$quoted_followers_count <- NA_integer_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "friends_count")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "friends_count")) {
     x$quoted_friends_count <- qst$user$friends_count
   } else {
     x$quoted_friends_count <- NA_integer_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "statuses_count")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "statuses_count")) {
     x$quoted_statuses_count <- qst$user$statuses_count
   } else {
     x$quoted_statuses_count <- NA_integer_
   }
-  if (has_name(qst, "user") && has_name(qst$user, "verified")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "verified")) {
     x$quoted_verified <- qst$user$verified
   } else {
     x$quoted_verified <- NA
   }
-  if (has_name(qst, "user") && has_name(qst$user, "location")) {
+  if (has_name_(qst, "user") && has_name_(qst$user, "location")) {
     x$quoted_location <- qst$user$location
   } else {
     x$quoted_location <- NA_character_
