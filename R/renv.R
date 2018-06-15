@@ -32,7 +32,7 @@ define_args <- function(args, ...) {
   dots <- list(...)
   nms <- names(dots)
   for (i in nms) {
-    if (!has_name(args, i)) {
+    if (!has_name_(args, i)) {
       args[[i]] <- dots[[i]]
     }
   }

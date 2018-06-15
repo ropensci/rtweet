@@ -105,7 +105,7 @@ get_access_level <- function(token) {
     "https://api.twitter.com/1.1/account/verify_credentials.json",
     token)
   headers <- r$all_headers[[1]]$headers
-  if (has_name(headers, "x-access-level")) {
+  if (has_name_(headers, "x-access-level")) {
     access_level <- headers$`x-access-level`
   } else {
     access_level <- ""

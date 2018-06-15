@@ -155,7 +155,7 @@ get_friends_ <- function(users,
       }
       ## make call
       f[[i]] <- get_friend(url, token = token)
-      if (has_name(f[[i]], "errors")) {
+      if (has_name_(f[[i]], "errors")) {
         warning(f[[i]]$errors[["message"]], call. = FALSE)
         return(list(data.frame()))
       } else if (parse) {
@@ -201,7 +201,7 @@ get_friends_ <- function(users,
     )
     ## if !retryonratelimit then if necessary exhaust what can with token
     f <- get_friend(url, token = token)
-      if (has_name(f, "errors")) {
+      if (has_name_(f, "errors")) {
         warning(f$errors[["message"]], call. = FALSE)
         return(list(data.frame()))
       } else if (parse) {
@@ -225,7 +225,7 @@ get_friends_ <- function(users,
 get_friend <- function(url, token = NULL) {
   r <- httr::GET(url, token)
   if (!warn_for_twitter_status(r)) {
-    if (has_name(url, "query") &&
+    if (has_name_(url, "query") &&
         any(grepl("user_id|screen_name", names(url$query)))) {
       warning("^^ warning regarding user: ",
         url$query[[grep("screen_name|user_id", names(url$query))]],

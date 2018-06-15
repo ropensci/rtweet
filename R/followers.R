@@ -210,17 +210,17 @@ more_followers <- function(f, i, n, ctr) {
   ##   then yes, TRUE, there are more followers to get
   all(
     n > ctr,
-    has_name(f, "next_cursor_str"),
+    has_name_(f, "next_cursor_str"),
     !isTRUE(identical(`[[`(f, "next_cursor_str"), "0"))
   )
 }
 
 ncs_ <- function(f) {
   if (length(f) == 0) return("0")
-  if (!has_name(f, "next_cursor_str")) {
+  if (!has_name_(f, "next_cursor_str")) {
     f <- f[[length(f)]]
   }
-  if (has_name(f, "next_cursor_str")) {
+  if (has_name_(f, "next_cursor_str")) {
     ## next cursor
     nc <- f[["next_cursor_str"]]
     if (is.null(nc)) return("0")
