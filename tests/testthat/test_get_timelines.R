@@ -10,7 +10,7 @@ test_that("get_timeline", {
   p <- ts_plot(xts)
   expect_true(inherits(p, "ggplot"))
   #if (requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("dplyr", quietly = TRUE)) {
-  p <- ts_plot(dplyr::group_by(x, screen_name, is_retweet), "hours")
+  p <- ts_plot(group_by(x, screen_name, is_retweet), "hours")
   expect_true(inherits(p, "ggplot"))
   #}
   expect_equal(is.data.frame(x), TRUE)
