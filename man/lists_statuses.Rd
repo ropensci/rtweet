@@ -55,6 +55,7 @@ Get a timeline of tweets authored by members of a specified list.
 \seealso{
 Other lists: \code{\link{lists_members}},
   \code{\link{lists_subscribers}},
+  \code{\link{lists_subscriptions}},
   \code{\link{lists_users}}
 
 Other tweets: \code{\link{get_favorites}},

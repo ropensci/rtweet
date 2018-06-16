@@ -95,6 +95,7 @@ ns538
 \seealso{
 Other lists: \code{\link{lists_statuses}},
   \code{\link{lists_subscribers}},
+  \code{\link{lists_subscriptions}},
   \code{\link{lists_users}}
 }
 \concept{lists}

@@ -42,6 +42,7 @@ lists_users("NateSilver538")
 \seealso{
 Other lists: \code{\link{lists_members}},
   \code{\link{lists_statuses}},
-  \code{\link{lists_subscribers}}
+  \code{\link{lists_subscribers}},
+  \code{\link{lists_subscriptions}}
 }
 \concept{lists}
