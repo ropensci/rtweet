@@ -3,22 +3,23 @@ context("get_timeline")
 test_that("get_timeline", {
   skip_on_cran()
 
-  n <- 300
+  n <- 400
   token <- readRDS("twitter_tokens")
   x <- get_timeline(c("cnnbrk", "cnn"), n = n, token = token)
-  xts <- ts_data(x, by = "hours", trim = 1)
-  p <- ts_plot(xts)
-  expect_true(inherits(p, "ggplot"))
-  #if (requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("dplyr", quietly = TRUE)) {
-  #p <- ts_plot(group_by(x, screen_name, is_retweet), "hours")
-  #expect_true(inherits(p, "ggplot"))
-  #}
-  expect_equal(is.data.frame(x), TRUE)
+  expect_true(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))
   expect_gt(nrow(x), 100)
   expect_gt(ncol(x), 25)
   expect_true(is.data.frame(users_data(x)))
   expect_true(is.data.frame(xts))
+  xts <- ts_data(x, by = "days")
+  p <- ts_plot(xts)
+  expect_true(inherits(p, "ggplot"))
+  g <- readRDS("g.rds")
+  p <- ts_plot(g, "hours", trim = 1)
+  expect_true(is.data.frame(g), TRUE)
+  expect_equal(ncol(g), 4)
+  expect_true(inherits(p, "ggplot"))
   unlink("Rplots.pdf")
 })
