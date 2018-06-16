@@ -26,7 +26,6 @@
 #' ## get subscriptions of new york times politics list
 #' rstats <- lists_subscriptions(
 #'   slug = "new-york-times-politics",
-#'   owner_user = "nytpolitics",
 #'   n = 1000
 #' )
 #'

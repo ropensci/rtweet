@@ -69,7 +69,6 @@ tweets_data(rstats)
 
 Other users: \code{\link{as_screenname}},
   \code{\link{lists_subscribers}},
-  \code{\link{lists_subscriptions}},
   \code{\link{lookup_users}},
   \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }

@@ -31,9 +31,6 @@ Twitter token via environment variables (which is what `create_token()`
 sets up by default during initial token creation). For instruction on how
 to create a Twitter token see the tokens vignette, i.e.,
 `vignettes("auth", "rtweet")` or see \code{?tokens}.}
-
-\item{owner_user}{optional The screen name or user ID of the user
-who owns the list being requested by a slug.}
 }
 \description{
 Get list subscriptions of a given user.
@@ -45,7 +42,6 @@ Get list subscriptions of a given user.
 ## get subscriptions of new york times politics list
 rstats <- lists_subscriptions(
   slug = "new-york-times-politics",
-  owner_user = "nytpolitics",
   n = 1000
 )
 
@@ -57,11 +53,5 @@ Other lists: \code{\link{lists_members}},
   \code{\link{lists_statuses}},
   \code{\link{lists_subscribers}},
   \code{\link{lists_users}}
-
-Other users: \code{\link{as_screenname}},
-  \code{\link{lists_subscribers}},
-  \code{\link{lookup_users}}, \code{\link{search_users}},
-  \code{\link{tweets_with_users}}, \code{\link{users_data}}
 }
 \concept{lists}
-\concept{users}

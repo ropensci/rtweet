@@ -39,7 +39,6 @@ head(users_data(r))
 \seealso{
 Other users: \code{\link{as_screenname}},
   \code{\link{lists_subscribers}},
-  \code{\link{lists_subscriptions}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{tweets_with_users}}
 

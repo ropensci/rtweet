@@ -48,7 +48,6 @@ Other parsing: \code{\link{do_call_rbind}}
 
 Other users: \code{\link{as_screenname}},
   \code{\link{lists_subscribers}},
-  \code{\link{lists_subscriptions}},
   \code{\link{lookup_users}}, \code{\link{search_users}},
   \code{\link{users_data}}
 }
