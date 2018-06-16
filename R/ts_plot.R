@@ -59,33 +59,24 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #' @importFrom graphics legend
 ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
-    if (ncol(data) == 3L) {
-      ggplot2::ggplot(
-        data, ggplot2::aes_string(
-          x = "time", y = "n", colour = names(data)[3])
-      ) +
-      ggplot2::geom_line(...)
-    } else if (ncol(data) == 4L) {
-      ggplot2::ggplot(
-        data, ggplot2::aes_string(
-          x = "time", y = "n", colour = names(data)[3], linetype = names(data)[4])
-      ) +
-      ggplot2::geom_line(...)
-    } else {
-      ggplot2::ggplot(
-        data, ggplot2::aes_string(x = "time", y = "n")) +
-        ggplot2::geom_line(...)
-    }
+  try_require("ggplot2")
+  if (ncol(data) == 3L) {
+    ggplot2::ggplot(
+      data, ggplot2::aes_string(
+        x = "time", y = "n", colour = names(data)[3])
+    ) +
+    ggplot2::geom_line(...)
+  } else if (ncol(data) == 4L) {
+    ggplot2::ggplot(
+      data, ggplot2::aes_string(
+        x = "time", y = "n", colour = names(data)[3], linetype = names(data)[4])
+    ) +
+    ggplot2::geom_line(...)
   } else {
-    stop("please install ggplot2 to use ts_plot", call. = FALSE)
+    ggplot2::ggplot(
+      data, ggplot2::aes_string(x = "time", y = "n")) +
+      ggplot2::geom_line(...)
   }
-}
-
-#' @importFrom grDevices hcl
-ggcols <- function(n) {
-  hues = seq(15, 375, length = n + 1)
-  grDevices::hcl(h = hues, l = 65, c = 100)[1:n]
 }
 
 

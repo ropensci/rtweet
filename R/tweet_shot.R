@@ -25,12 +25,8 @@
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   ## check for required packages
-  if (!requireNamespace("magick", quietly = FALSE)) {
-    stop("tweetshot requires the magick package to be installed, i.e., \ninstall.packages(\"magick\")")
-  }
-  if (!requireNamespace("webshot", quietly = FALSE)) {
-    stop("tweetshot requires the webshot package to be installed, i.e., \ninstall.packages(\"webshot\")")
-  }
+  try_require("magick")
+  try_require("webshot")
 
   statusid_or_url <- statusid_or_url[1]
   zoom <- zoom[1]
@@ -52,7 +48,7 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
 
     is_twitter <- grepl("twitter", x) # shld have "twitter" in it
     if (!is_twitter) {
-      stop("statusid_or_url must be a valid Twitter status id or URL", call.=FALSE)
+      stop("statusid_or_url must be a valid Twitter status id or URL", call. = FALSE)
     }
 
     is_status <- grepl("status", x) # shld also have "status" in it
