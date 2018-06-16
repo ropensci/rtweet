@@ -10,13 +10,9 @@ test_that("get_timeline", {
   p <- ts_plot(xts)
   expect_true(inherits(p, "ggplot"))
   #if (requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("dplyr", quietly = TRUE)) {
-    p <- ts_plot(dplyr::group_by(x, screen_name, is_retweet))
-    expect_true(inherits(p, "ggplot"))
-  #}
-  xx <- x
-  class(xx) <- c("grouped_df", "tbl_df", "data.frame")
-  p <- ts_plot(xx, "45 mins", trim = 1)
+  p <- ts_plot(dplyr::group_by(x, screen_name, is_retweet), "hours")
   expect_true(inherits(p, "ggplot"))
+  #}
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))

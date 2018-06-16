@@ -15,6 +15,7 @@ r_github_packages:
   - jimhester/covr
 r_packages:
   - dplyr
+  - ggplot2
 after_success:
 - Rscript -e 'covr::codecov(function_exclusions = c("create_token", "global_token_finder",
   "post_tweet", "upload_media_to_twitter", "post_message", "post_follow", "check_status_code",
