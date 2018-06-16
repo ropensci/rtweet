@@ -25,4 +25,5 @@ after_success:
   "next_cursor.list", "max_id.list", "next_id", "more_followers", "ncs_", "post_api_funs",
   "stream_api_funs", "has_read_access", "get_access_level", ".Renviron", "home", "readlines",
   "define_args", "append_lines", "set_renv", "check_renv", "is_incomplete", "is_named",
-  "are_named"))'
+  "are_named", "post_list", "twitter_init_oauth1.0", "twitter_Token1.0", "keep_last",
+  "compact", "request", "%||%"))'
