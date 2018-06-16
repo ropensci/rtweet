@@ -3,10 +3,12 @@ Type: Package
 Version: 0.6.6
 Title: Collecting Twitter Data
 Authors@R: c(
-    person("Michael Wayne", "Kearney", , email = "kearneymw@missouri.edu", role = c("aut", "cre"),
+    person("Michael Wayne", "Kearney", , 
+    email = "kearneymw@missouri.edu", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-0730-4694"))
     ## add contributor template (middle name/initial optional)
-    #person("First Middle", "Last", , email = "email@address.com", role = c("ctb"))
+    #person("First Middle", "Last", , 
+    #email = "email@address.com", role = c("ctb"))
     )
 Description: An implementation of calls designed to collect and
     organize Twitter data via Twitter's REST and stream Application
@@ -15,10 +17,10 @@ Description: An implementation of calls designed to collect and
 Depends:
     R (>= 3.1.0)
 Imports:
-    httr (>= 1.0.0),
-    jsonlite,
-    magrittr,
-    tibble,
+    httr (>= 1.3.0),
+    jsonlite (>= 0.9.22),
+    magrittr (>= 1.5.0),
+    tibble (>= 1.3.4),
     utils
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
