@@ -51,9 +51,9 @@ entering "RT" into the text of one's tweets).}
 "latitude,longitude,radius" e.g., \code{geocode =
 "37.78,-122.40,1mi"}.}
 
-\item{max_id}{Character string specifying the [oldest] status id
-beyond which search results should resume returning.  Especially
-useful large data returns that require multiple iterations
+\item{max_id}{Character, returns results with an ID less
+than (that is, older than) or equal to `max_id`.  Especially
+useful for large data returns that require multiple iterations
 interrupted by user time constraints. For searches exceeding
 18,000 tweets, users are encouraged to take advantage of rtweet's
 internal automation procedures for waiting on rate limits by
