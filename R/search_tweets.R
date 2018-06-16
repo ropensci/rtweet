@@ -225,12 +225,8 @@ search_tweets_ <- function(q = "",
 
   ## check token and get rate limit data
   token <- check_token(token)
-  rtlimit <- rate_limit(token, "search/tweets")
-  remaining <- rtlimit[["remaining"]] * 100
-  reset <- rtlimit[["reset"]]
-  reset <- as.numeric(reset, "secs")
 
-  if (n <= remaining || !retryonratelimit) {
+  if (!retryonratelimit) {
     rt <- .search_tweets(
       q = q, n = n,
       type = type,
@@ -242,6 +238,11 @@ search_tweets_ <- function(q = "",
       verbose = verbose,
       ...)
   } else {
+    rtlimit <- rate_limit(token, "search/tweets")
+    remaining <- rtlimit[["remaining"]] * 100
+    reset <- rtlimit[["reset"]]
+    reset <- as.numeric(reset, "secs")
+
     if (identical(remaining, 0)) {
       ntimes <- ceiling((n - remaining) / 18000)
     } else {
