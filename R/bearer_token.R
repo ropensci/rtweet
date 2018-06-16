@@ -73,7 +73,7 @@ get_oauth_key <- function(token) {
 }
 
 get_oauth_secret <- function(token) {
-  token$credentials$oauth_token
+  token$credentials$oauth_token_secret
 }
 
 print.bearer <- function(bearer) {
