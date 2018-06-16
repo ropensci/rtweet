@@ -14,7 +14,7 @@ test_that("get_timeline", {
   }
   xx <- x
   class(xx) <- c("grouped_df", "tbl_df", "data.frame")
-  ts_plot(xx, "45 mins")
+  ts_plot(xx, "45 mins", trim = 1)
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("status_id" %in% names(x))
