@@ -123,14 +123,13 @@ lists_subscribers_call <- function(list_id = NULL,
   token <- check_token(token)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
-  rr <- httr::content(r)
-  if (has_name_(rr, "next_cursor_str")) {
-    next_cursor <- rr[["next_cursor_str"]]
+  r <- from_js(r)
+  if (has_name_(r, "next_cursor_str")) {
+    next_cursor <- r[["next_cursor_str"]]
   } else {
     next_cursor <- "0"
   }
   if (parse) {
-    r <- from_js(r)
     r <- as_lists_subscribers(r)
     r <- as.data.frame(r)
   }

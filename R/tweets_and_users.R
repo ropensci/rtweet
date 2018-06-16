@@ -279,7 +279,8 @@ tweets_to_tbl_ <- function(dat) {
   names(dat) <- names(statuscols)[statuscols %in% names(dat)]
   dat$created_at <- format_date(dat$created_at)
   dat$source <- clean_source_(dat$source)
-  tibble::as_tibble(dat, validate = FALSE)
+  dat <- status_url_(dat)
+  as_tbl(dat)
 }
 
 
@@ -343,7 +344,7 @@ users_to_tbl_ <- function(dat) {
   }
   dat <- dat[, usercols[usercols %in% names(dat)]]
   names(dat) <- names(usercols)[usercols %in% names(dat)]
-  tibble::as_tibble(dat, validate = FALSE)
+  as_tbl(dat)
 }
 
 
