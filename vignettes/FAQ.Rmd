@@ -1,10 +1,10 @@
 ---
-title: "Obtaining and using access tokens"
+title: "FAQ"
 subtitle: "rtweet: Collecting Twitter Data"
 output:
   rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Obtaining and using access tokens}
+  %\VignetteIndexEntry{FAQ}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,8 +13,6 @@ vignette: >
 knitr::opts_chunk$set(
     echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
-
-# Troubleshooting common rtweet errors
 
 ## `Error in init_oauth1.0(...`
 
@@ -35,11 +33,9 @@ Occurs when attempting to create a token
 #### Solutions
 
 1. Check callback URL
-1. If checked, uncheck `Enable callback locking` option in "Settings" tab at https://apps.twitter.com
+1. Make sure `Callback URL` option in "Settings" tab at https://apps.twitter.com **match exactly** the following: `http://127.0.0.1:1410`
 1. Make sure API keys **match exactly** the values for your Twitter app (found under the `Keys and Access Tokens` tab at https://apps.twitter.com)
-1. Regenerate token
-1. Install **{httpuv}** package
-1. Check internet connection
+1. In your app page at https://apps.twitter.com/ under the `Keys and Access Tokens` tab, click `Regenerate Consumer Key and Secret`. Create a new token using the new key and secret.
 1. Update the **{httr}** package
 1. Update R
 
@@ -79,7 +75,7 @@ Warning: 89 - Invalid or expired token.
 ```
 
 #### Solutions
-1. Create new token using the keys for your Twitter application found at https://apps.twitter.com
+1. Create new token using the keys from your previously created Twitter application found at https://apps.twitter.com
 1. In your app page at https://apps.twitter.com/ under the `Keys and Access Tokens` tab, click `Regenerate Consumer Key and Secret`. Create a new token using the new key and secret.
 
 ``` r
