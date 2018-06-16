@@ -140,8 +140,3 @@ search_users_call <- function(q, n = 20,
   }
   usr
 }
-
-count_users_returned <- function(x) {
-  length(unique(unlist(lapply(x, function(x) x[["id_str"]]),
-    use.names = FALSE)))
-}

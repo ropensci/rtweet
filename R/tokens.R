@@ -524,32 +524,6 @@ home_user_ <- function() {
     "\nTWITTER_SCREEN_NAME={screen_name} "))
 }
 
-
-## validate user token
-validate_token <- function() {
-  token <- tryCatch(get_tokens(), error = function(e) NULL)
-  if (is.list(token) && inherits(token[[1]], "Token")) {
-    token <- token[[1]]
-  }
-  if (is.null(token) || !inherits(token, "Token")) {
-    stop(paste0(
-      "Could not find token. Please save path to token associated with @",
-      home_user(), "'s account as the \"TWITTER_PAT\" environment variable."),
-      call. = FALSE)
-  }
-  token_user <- token[["credentials"]][["screen_name"]]
-  if (!identical(home_user(), token_user)) {
-    stop(paste0(
-      "Invalid token. This token belongs to @",
-      token_user, " and not @", home_user(), ".\n",
-      "Please save path to token associated with @", home_user(),
-      "'s account as the \"TWITTER_PAT\" environment variable."),
-      call. = FALSE)
-  }
-  TRUE
-}
-
-
 rtweet_token <- function() {
   if (exists(".rtweet_token") &&
         exists("token", envir = get(".rtweet_token"))) {

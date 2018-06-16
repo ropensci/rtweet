@@ -87,11 +87,6 @@ lnglat <- function(x) {
   cbind(lng, lat)
 }
 
-area <- function(x) {
-  f <- function(x) abs(x[1] - x[3]) * abs(x[5] - x[7])
-  vapply(x, f, numeric(1))
-}
-
 if_has_else_na <- function(var, x, na_ = NA) {
   if (has_name_(x, var)) {
     x[[var]]

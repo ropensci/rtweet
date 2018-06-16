@@ -253,8 +253,6 @@ check_woeid <- function(x) {
   as.character(x)
 }
 
-is_zero <- function(x) isTRUE(identical(length(x), 0L))
-
 match_woeid <- function(x) {
   if (tolower(x) %in% c("world", "worldwide",
                         "world wide", "all")) {

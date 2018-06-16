@@ -257,27 +257,6 @@ id_minus_one <- function(x) {
   paste0(x, ln)
 }
 
-id_plus_one <- function(x) {
-  if (gregexpr("[9]{1,}$", x)[[1]] != -1) {
-    m <- gregexpr("[9]{1,}$", x)
-    m <- regmatches(x, m)[[1]]
-    zeros <- paste(rep("0", nchar(m)), collapse = "")
-    x <- gsub("[9]{1,}$", "", x)
-    if (nchar(x) == 0) {
-      x <- paste0("1", zeros)
-    } else {
-      ln <- substr(x, nchar(x), nchar(x))
-      ln <- as.character(as.integer(ln) + 1L)
-      x <- gsub("[0-9]{1}$", "", x)
-      x <- paste0(x, ln, zeros)
-    }
-    return(x)
-  }
-  ln <- substr(x, nchar(x), nchar(x))
-  ln <- as.character(as.integer(ln) + 1L)
-  x <- gsub("[0-9]{1}$", "", x)
-  paste0(x, ln)
-}
 
 
 

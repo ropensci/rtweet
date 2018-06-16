@@ -40,23 +40,6 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   r
 }
 
-as_retweets <- function(x) {
-  structure(x, class = "retweets")
-}
-
-as.data.frame.retweets <- function(x) {
-  if (has_name_(x, "ids")) {
-    x <- data.frame(
-      user_id = x$ids,
-      stringsAsFactors = FALSE
-    )
-  } else {
-    x <- data.frame()
-  }
-  x
-}
-
-
 
 #' Get user IDs of users who retweeted a given status.
 #'
