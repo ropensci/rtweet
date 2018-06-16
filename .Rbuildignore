@@ -21,3 +21,4 @@
 ^pkgdown*$
 ^\.github.*
 ^make\.R$
+^codecov\.yml$
