@@ -140,7 +140,6 @@ ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   ## adjust to desired tz
   data[[dtvar]] <- as.POSIXct(format(data[[dtvar]], tz = "UTC"), tz = tz)
   data[[dtvar]] <- round_time(data[[dtvar]], by, tz)
-  ##data[[dtvar]] <- trim_time(data[[dtvar]], by, tz)
   ## get unique values of time in series
   dtm <- unique(
     seq(data[[dtvar]][1], data[[dtvar]][length(data[[dtvar]])], .unit)
@@ -218,24 +217,6 @@ ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
     df <- trim_ts(df, trim)
   }
   df
-}
-
-
-
-trim_time <- function(dt, by, tz = "UTC", ...) {
-  if (grepl("year", by)) {
-    as.POSIXct(paste0(substr(dt, 1, 5), "01-01 00:00:00"), tz = tz, ...)
-  } else if (grepl("month", by)) {
-    as.POSIXct(paste0(substr(dt, 1, 8),    "01 00:00:00"), tz = tz, ...)
-  } else if (grepl("week|day", by)) {
-    as.POSIXct(paste0(substr(dt, 1, 12),      "00:00:00"), tz = tz, ...)
-  } else if (grepl("hour", by)) {
-    as.POSIXct(paste0(substr(dt, 1, 15),         "00:00"), tz = tz, ...)
-  } else if (grepl("min", by)) {
-    as.POSIXct(paste0(substr(dt, 1, 18),            "00"), tz = tz, ...)
-  } else {
-    dt
-  }
 }
 
 parse_unit <- function(by) {
