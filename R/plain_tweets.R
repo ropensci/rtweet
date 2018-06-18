@@ -25,6 +25,9 @@ plain_tweets <- function(x) {
 }
 
 plain_tweets_ <- function(x) {
+  if (is.factor(x)) {
+    x <- as.character(x)
+  }
   stopifnot(is.character(x))
   x <- rm_links(x)
   x <- rm_linebreaks(x)
