@@ -3,7 +3,7 @@ sudo: false
 cache: packages
 warnings_are_errors: false
 before_install:
-  - openssl aes-256-cbc -K $encrypted_278d15dd6d45_key -iv $encrypted_278d15dd6d45_iv -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
+- openssl aes-256-cbc -K $encrypted_278d15dd6d45_key -iv $encrypted_278d15dd6d45_iv -in tests/testthat/twitter_tokens.enc -out tests/testthat/twitter_tokens -d
 addons:
   apt:
     update: true
@@ -12,18 +12,6 @@ addons:
     packages:
       - libmagick++-dev
 r_github_packages:
-  - r-lib/covr
+- r-lib/covr
 after_success:
-  - Rscript -e 'covr::codecov(function_exclusions = c("create_token", "post.*",
-  "global_token_finder", "upload_media_to_twitter", "check_status_code",
-  "home_user_", "parse_streamlimit", "match_fun", "stream_tweets2", "new_dir",
-  "stream_dir", "save_as_csv2", "modify_file_name", "is_emptylist", "nanull",
-  "id_plus_one", "search_tweets2", "add_var", "vobs2string", "obs2string",
-  "try_require", "flatten_rtweet", "get_tokens_global", "rate_limit_used",
-  "uq_filename", "paste_before_ext", "no_ext", "only_ext", "has_ext",
-  "home_user", "more_followers", "ncs_", "post_api_funs", "stream_api_funs",
-  "has_read_access", "get_access_level", "\\.Renviron", "home", "readlines",
-  "define_args", "append_lines", "set_renv", "check_renv", "is_incomplete",
-  "is_named", "are_named", "post_list", "twitter_init_oauth1\\.0",
-  "init_credentials", "refresh", "sign", "can_refresh", "keep_last", "%||%",
-  "compact", "request", "is_tokenfile", "has_oauth_token_creds"))'
+- Rscript -e 'covr::codecov(function_exclusions = c("create_token", "post.*", "global_token_finder", "upload_media_to_twitter", "check_status_code", "home_user_", "parse_streamlimit", "match_fun", "stream_tweets2", "new_dir", "stream_dir", "save_as_csv2", "modify_file_name", "is_emptylist", "nanull", "id_plus_one", "search_tweets2", "add_var", "vobs2string", "obs2string", "try_require", "flatten_rtweet", "get_tokens_global", "rate_limit_used", "uq_filename", "paste_before_ext", "no_ext", "only_ext", "has_ext", "home_user", "more_followers", "ncs_", "post_api_funs", "stream_api_funs", "has_read_access", "get_access_level", "\\.Renviron", "home", "readlines", "define_args", "append_lines", "set_renv", "check_renv", "is_incomplete", "is_named", "are_named", "post_list", "twitter_init_oauth1\\.0", "init_credentials", "refresh", "sign", "can_refresh", "keep_last", "\\|\\", "compact", "request", "is_tokenfile", "has_oauth_token_creds"))'
