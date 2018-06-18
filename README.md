@@ -56,8 +56,8 @@ minutes\!
 ## API authorization
 
 All users must be authorized to interact with Twitter’s APIs. To become
-authorized, follow the instructions below to (a) make a Twitter app and
-then (b) create and save your access token (using one of the two
+authorized, follow the instructions below to (1) make a Twitter app and
+(2) create and save your access token (using one of the two
 authorization methods described below).
 
 ### 1\. Create an app
@@ -315,10 +315,10 @@ sf <- get_trends("san francisco")
     additional permissions
   - If you’d like to post Twitter statuses, follow or unfollow accounts,
     and/or read your direct messages, you’ll need to create your own
-    Twitter app.
+    Twitter app
   - To create your own Twitter app, follow the instructions in the
     authorization vignette on [obtaining and using access
-    tokens](http://rtweet.info/articles/auth.html).
+    tokens](http://rtweet.info/articles/auth.html)
 
 #### Vignettes
 
