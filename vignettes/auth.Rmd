@@ -107,7 +107,7 @@ identical(twitter_token, get_token())
 - In the `Keys and Access Tokens` tab, scroll down to `Token Actions` and click `Create my access token`. That should generate two access keys, i.e. `Access Token` and `Access Token Secret`.
 
 <p align="center">
-<img src="files/accesskeys.png" alt="keys">
+<img src="files/accesskeys.png" alt="acesskeys">
 </p>
 
 - Copy and paste the four keys (along with the name of your app) into an R script file and assign them to objects as is done in the code below.
