@@ -21,6 +21,6 @@ frequently and lower values meaning the words occur less
 frequently).
 }
 \examples{
-stopwordslangs
+head(stopwordslangs)
 }
 \keyword{datasets}

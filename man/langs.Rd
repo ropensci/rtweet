@@ -16,6 +16,6 @@ Variables include translations for each language represented as
 bibliographic, terminologic, alpha, english, and french.
 }
 \examples{
-langs
+head(langs)
 }
 \keyword{datasets}

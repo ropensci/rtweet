@@ -14,6 +14,6 @@ This data comes from "Unicode.org",
 codes and descriptions of Emojis.
 }
 \examples{
-emojis
+head(emojis)
 }
 \keyword{datasets}
