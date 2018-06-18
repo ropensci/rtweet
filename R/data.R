@@ -8,7 +8,7 @@
 #' @name emojis
 #' @format A tibble with two variables and 2,623 observations.
 #' @examples
-#' emojis
+#' head(emojis)
 "emojis"
 
 #' Language codes recognized by Twitter data.
@@ -23,7 +23,7 @@
 #' @name langs
 #' @format A tibble with five variables and 486 observations.
 #' @examples
-#' langs
+#' head(langs)
 "langs"
 
 
@@ -44,5 +44,5 @@
 #' @name stopwordslangs
 #' @format A tibble with three variables and 24,000 observations
 #' @examples
-#' stopwordslangs
+#' head(stopwordslangs)
 "stopwordslangs"
