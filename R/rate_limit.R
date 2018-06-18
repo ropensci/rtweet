@@ -232,8 +232,12 @@ format_rate_limit_reset <- function(x) {
 
 funs_and_apis <- function() {
   list(
+    `account/verify_credentials` = "authenticating_user_name",
+    `application/rate_limit_status` = "rate_limit",
+
     `favorites/list` = "get_favorites",
     `favorites/list` = "favorites",
+
     `followers/ids` = "get_followers",
     `followers/ids` = "followers",
     `friends/ids` = "get_friends",
@@ -291,7 +295,7 @@ funs_and_apis <- function() {
     `friendships/lookup` = "lookup_friendships",
     `users/suggestions` = "suggested_users",
     `users/suggestions/:slug` = "suggested_slugs",
-    `users/suggestions/:slug$|^users/suggestions` = "all_suggested_users"
+    `users/suggestions/:slug$|^users/suggestions` = "suggested_users_all"
   )
 }
 
@@ -309,9 +313,14 @@ post_api_funs <- function() {
     `media/upload` = "post_status",
     `statuses/update` = "post_tweet",
     `media/upload` = "post_tweet",
+    `statuses/destroy/:id` = "post_tweet",
+    `statuses/destroy/:id` = "post_status",
 
     ## dms
     `direct_messages/new` = "post_direct_message",
+    `direct_messages` = "direct_messages_received",
+    `direct_messages/events/list` = "direct_messages",
+    `direct_messages/events/list` = "direct_messages_received",
 
     ## mute
     `mutes/users/create` = "post_mute",
@@ -323,7 +332,13 @@ post_api_funs <- function() {
 
     ## favs
     `favorites/create` = "post_favorite",
-    `favorites/destroy` = "post_unfavorite"
+    `favorites/destroy` = "post_unfavorite",
+
+    ## lists
+    `lists/create` = "post_list",
+    `lists/members/create_all` = "post_list",
+    `lists/destroy` = "post_list",
+    `lists/members/destroy_all` = "post_list"
   )
 }
 
