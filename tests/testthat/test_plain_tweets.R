@@ -5,7 +5,7 @@ test_that("plain_tweets functions", {
 
   txt <- c(" my website is http://mikewk.com or \njust enter mikewk.com into
   the nav     bar  ")
-  x <- data.frame(text = txt)
+  x <- data.frame(text = txt, stringsAsFactors = FALSE)
   x <- plain_tweets(x)
   expect_true(is.data.frame(x))
   x <- list(text = txt)
