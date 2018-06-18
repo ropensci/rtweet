@@ -6,7 +6,7 @@ test_that("plain_tweets functions", {
   text <- c(" my website is http://mikewk.com or \njust enter mikewk.com into
   the nav     bar  ")
 
-  expect_true(is.data.frame(plain_tweets(data.frame(text))))
+  expect_true(is.data.frame(plain_tweets(data.frame(text = text))))
   expect_true(is.list(plain_tweets(list(text = text))))
   expect_true(is.character(plain_tweets(text)))
   expect_true(grepl("^\\S", plain_tweets(text)))
