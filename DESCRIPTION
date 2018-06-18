@@ -34,7 +34,8 @@ Suggests:
     readr,
     rmarkdown,
     testthat,
-    webshot
+    webshot,
+    covr
 VignetteBuilder: knitr
 LazyData: yes
 RoxygenNote: 6.0.1.9000
