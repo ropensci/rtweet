@@ -3,9 +3,9 @@ context("plain_tweets")
 test_that("plain_tweets functions", {
   skip_on_cran()
 
-  text <- c(" my website is http://mikewk.com or \njust enter mikewk.com into
+  txt <- c(" my website is http://mikewk.com or \njust enter mikewk.com into
   the nav     bar  ")
-  x <- data.frame(text = text)
+  x <- data.frame(text = txt)
   x <- plain_tweets(x)
   expect_true(is.data.frame(x))
   x <- list(text = txt)
