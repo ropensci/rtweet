@@ -97,7 +97,13 @@ identical(twitter_token, get_token())
 <img src="files/keys.png" alt="keys">
 </p>
 
-- In the `Keys and Access Tokens` tab, scroll down to `Token Actions` and click `Create my access token`. That should generate two access keys,`Access Token` and `Access Token Secret`, as shown in image below (those are fake keys btw).
+- In the `Keys and Access Tokens` tab, scroll down to `Token Actions` and click `Create my access token`.
+
+<p align="center">
+<img src="files/gen_token.png" alt="gen_token">
+</p>
+
+- Two access keys,`Access Token` and `Access Token Secret`, should then appear as shown in image below (those are fake keys btw).
 
 <p align="center">
 <img src="files/accesskeys.png" alt="acesskeys">
