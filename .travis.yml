@@ -26,4 +26,5 @@ after_success:
   "stream_api_funs", "has_read_access", "get_access_level", ".Renviron", "home", "readlines",
   "define_args", "append_lines", "set_renv", "check_renv", "is_incomplete", "is_named",
   "are_named", "post_list", "twitter_init_oauth1.0", "init_credentials", "refresh",
-  "sign", "can_refresh", "keep_last", "%||%", "compact", "request", "is_tokenfile"))'
+  "sign", "can_refresh", "keep_last", "%||%", "compact", "request", "is_tokenfile",
+  "has_oauth_token_creds"))'

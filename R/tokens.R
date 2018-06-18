@@ -300,11 +300,21 @@ check_token <- function(token) {
     token <- token[[1]]
   }
   ## if class OAuth, use values to create token
-  if (identical(class(token), "OAuth")) {
+  if (identical(class(token), "OAuth") &&
+    has_oauth_token_creds(token)) {
+    token <- create_token(
+      sample(letters, 8),
+      token$app$key,
+      token$app$secret,
+      token$credentials$oauth_token,
+      token$credentials$oauth_token_secret
+    )
+  } else if (identical(class(token), "OAuth")) {
     token <- create_token(
       sample(letters, 8),
       token$consumerKey,
-      token$consumerSecret)
+      token$consumerSecret
+    )
   }
   ## final check
   if (!is.token(token)) {
@@ -313,6 +323,16 @@ check_token <- function(token) {
   token
 }
 
+has_oauth_token_creds <- function(token) {
+  has_name_(token, "app") &&
+  has_name_(token$app, "secret") &&
+  length(token$app$secret) == 1 &&
+  !identical(token$app$secret, "") &&
+  has_name_(token, "credentials") &&
+  has_name_(token$credentials, "oauth_token") &&
+  length(token$credentials$oauth_token) == 1 &&
+  !identical(token$credentials$oauth_token, "")
+}
 
 is_ttoken <- function(x) {
   if (is.token(x)) return(TRUE)

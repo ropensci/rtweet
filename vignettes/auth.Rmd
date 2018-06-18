@@ -15,16 +15,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE
 
 ## rtweet
 
-This vignette covers how to obtain and use Twitter API access tokens
-for use in the `rtweet` package.
-
-```{r}
-# install from CRAN
-install.packages("rtweet")
-
-# load rtweet
-library(rtweet)
-```
+This vignette covers how to obtain and use Twitter API access tokens for use in the `rtweet` package.
 
 ## Creating a Twitter App
 
@@ -44,9 +35,11 @@ library(rtweet)
 <img src="files/created.png" alt="created">
 </p>
 
-- Users can create their personal access token in two different ways. Each method is outlined below.
+## Authorization methods
 
-### Browser-based authentication method
+Users can create their personal access token in two different ways. Each method is outlined below.
+
+### 1. Browser-based authentication
 
 - Authentication via web browser requires the `httpuv` package to be installed.
 
@@ -96,7 +89,7 @@ identical(twitter_token, get_token())
 ```
 
 
-### Oauth signature method
+### 2. Access token/secret method
 
 - In the `Keys and Access Tokens` tab, locate the values `Consumer Key` (aka "API Key") and `Consumer Secret` (aka "API Secret").
 
@@ -104,7 +97,7 @@ identical(twitter_token, get_token())
 <img src="files/keys.png" alt="keys">
 </p>
 
-- In the `Keys and Access Tokens` tab, scroll down to `Token Actions` and click `Create my access token`. That should generate two access keys, i.e. `Access Token` and `Access Token Secret`.
+- In the `Keys and Access Tokens` tab, scroll down to `Token Actions` and click `Create my access token`. That should generate two access keys,`Access Token` and `Access Token Secret`, as shown in image below (those are fake keys btw).
 
 <p align="center">
 <img src="files/accesskeys.png" alt="acesskeys">
