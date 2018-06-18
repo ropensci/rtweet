@@ -100,7 +100,7 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @export
 #' @rdname suggested
-all_suggested_users <- function(slugs = NULL, parse = TRUE, token = NULL) {
+suggested_users_all <- function(slugs = NULL, parse = TRUE, token = NULL) {
   if (is.null(slugs)) {
     slugs <- suggested_slugs(token = token)
     stopifnot(is.data.frame(slugs), nrow(slugs) > 0L)
