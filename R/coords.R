@@ -122,6 +122,7 @@ find_google_geocode_key <- function() {
     }
     key <- readline("Please enter your Google Maps API key:")
     key <- gsub("\\s+|\"|'", "", key)
+    set_renv(GOOGLE_MAPS_KEY = key)
   } else {
     stop("sorry, lookup_users() requires a Google Maps API key stored as a GOOGLE_MAPS_KEY environment variable")
   }
