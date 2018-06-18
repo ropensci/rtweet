@@ -55,8 +55,8 @@ rm_fancy_spaces <- function(x) {
 }
 
 rm_links <- function(x) {
-  x <- gsub("\\s{0,1}http\\S{1,}\\s{0,1}", "", x)
-  gsub("\\s{0,1}\\S{1,}(\\.com|\\.net|\\.gov|\\.io|\\.org)\\b\\s{0,1}", "", x)
+  x <- gsub("\\s?https?[[:graph:]]", "", x)
+  gsub("\\s?\\b[[:graph:]]+(\\.com|\\.net|\\.gov|\\.io|\\.org)\\b", "", x)
 }
 
 rm_linebreaks <- function(x, y = " ") {
@@ -75,6 +75,6 @@ rm_amp <- function(x, y = "&") {
 }
 
 trim_ws <- function(x) {
-  x <- gsub("\\s{2,}", " ", x)
-  gsub("^\\s|\\s$", "", x)
+  x <- gsub("[ ]{2,}", " ", x)
+  gsub("^[ ]+|[ ]+$", "", x)
 }
