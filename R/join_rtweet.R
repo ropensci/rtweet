@@ -1,10 +1,4 @@
-#' Joining users and tweets data
-#'
-#' @param x Data frame returned by rtweet API calls
-#'
-#' @return Joined users and tweets dta
-#' @export
-#'
+
 join_rtweet <- function(x) {
   if (!is.data.frame(x) || (nrow(x) == 0 &&
       (NROW(attr(x, "users")) == 0) &&
