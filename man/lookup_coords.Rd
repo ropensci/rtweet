@@ -4,7 +4,7 @@
 \alias{lookup_coords}
 \title{Get coordinates of specified location.}
 \usage{
-lookup_coords(address, components = NULL, ...)
+lookup_coords(address, components = NULL, apikey = NULL, ...)
 }
 \arguments{
 \item{address}{Desired location typically in the form of place
@@ -17,6 +17,10 @@ states, e.g., address = "missouri" or cities, e.g., address =
 "country:US". Potential components include postal_code, country,
 administrative_area, locality, route.}
 
+\item{apikey}{A valid Google Maps API key. If NULL, `lookup_coords()` will
+look for a relevant API key stored as an environment variable (e.g.,
+`GOOGLE_MAPS_KEY`).}
+
 \item{...}{Additional arguments passed as parameters in the HTTP
 request}
 }
@@ -27,7 +31,8 @@ Object of class coords.
 Convenience function for looking up latitude/longitude coordinate
 information for a given location. Returns data as a special
 "coords" object, which is specifically designed to interact
-smoothly with other relevant package functions.
+smoothly with other relevant package functions. NOTE: USE OF THIS FUNCTION
+REQUIRES A VALID GOOGLE MAPS API KEY.
 }
 \examples{
 
