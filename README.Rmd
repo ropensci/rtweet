@@ -64,17 +64,25 @@ and create a new app by completing the form fields (note: **users must enter the
    - **`Website`**: Valid website e.g., `https://twitter.com/kearneymw`
    - **`***Callback URL***`**: `http://127.0.0.1:1410`
 + Check yes if you agree and then click "Create your Twitter application"
-+ Click on tab labeled `Keys and Access Tokens` 
-   - Copy consumer (api) and secret keys and paste (along with app name) into R script
-   - Use `create_token()` to save token as an environment variable (so you don't have to worry about doing this process again in future R sessions).
-
-```{r, eval=FALSE}
-## create token and save it as an environment variable
-create_token(
-  app = "rtweet_token",
-  consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
-  consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
-```
++ Click on tab labeled `Keys and Access Tokens`.
++ Use `create_token()` with one of the two authorization methods described below to create and save your token as an environment variable (so you don't have to worry about doing this process again in future R sessions)
+   1. **Web browser authentication**: copy consumer (api) and consumer secret keys and paste (along with app name) into R script
+    ```{r, eval=FALSE}
+    ## web browser method: create token and save it as an environment variable
+    create_token(
+      app = "rtweet_token",
+      consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+      consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
+    ```
+   1. **Access token authentication**: copy consumer (api) and consumer secret keys, then click button under `Token actions` to generate access token, and copy the access token and access secret keys.
+    ```{r, eval=FALSE}
+    ## access token method: create token and save it as an environment variable
+    create_token(
+      app = "rtweet_token",
+      consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+      acess_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
+      access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
+    ```
 
 And that's it! You're ready to start collecting and analyzing Twitter data!
 
@@ -276,6 +284,14 @@ Twitter app.
 
 #### Vignettes
 
+[Obtaining and using Twitter API tokens](http://rtweet.info/articles/auth.html)
+
+```{r, eval=FALSE}
+## quick overview of rtweet functions
+vignette("auth", package = "rtweet")
+```
+
+
 [Quick overview of rtweet package](http://rtweet.info/articles/intro.html)
 
 ```{r, eval=FALSE}
@@ -288,6 +304,13 @@ vignette("intro", package = "rtweet")
 ```{r, eval=FALSE}
 ## working with the stream
 vignette("stream", package = "rtweet")
+```
+
+[Troubleshooting common rtweet problems](http://rtweet.info/articles/FAQ.html)
+
+```{r, eval=FALSE}
+## working with the stream
+vignette("FAQ", package = "rtweet")
 ```
 
 ## Contact
