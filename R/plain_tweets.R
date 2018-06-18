@@ -5,35 +5,27 @@
 #' @return Data reformatted with ascii encoding and normal ampersands and
 #'   without URL links, line breaks, fancy spaces/tabs, fancy apostrophes,
 #' @export
-plain_tweets <- function(x) UseMethod("plain_tweets")
-
-#' @export
-plain_tweets.default <- function(x) x
-
-#' @export
-plain_tweets.data.frame <- function(x) {
-  if (has_name_(x, "text")) {
-    stopifnot(is.character(x[["text"]]))
-    x[["text"]] <- plain_tweets(x[["text"]])
+plain_tweets <- function(x) {
+  if (is.data.frame(x)) {
+    if (has_name_(x, "text")) {
+      x$text <- plain_tweets_(x$text)
+    } else {
+      stop("Couldn't find \"text\" variable.", call. = FALSE)
+    }
+  } else if (is.list(x)) {
+    if (has_name_(x, "text")) {
+      x$text <- plain_tweets_(x$text)
+    } else {
+      stop("Couldn't find \"text\" variable.", call. = FALSE)
+    }
   } else {
-    stop("Couldn't find \"text\" variable.", call. = FALSE)
+    x <- plain_tweets_(x)
   }
   x
 }
 
-#' @export
-plain_tweets.list <- function(x) {
-  if (has_name_(x, "text")) {
-    stopifnot(is.character(x[["text"]]))
-    x[["text"]] <- plain_tweets(x[["text"]])
-  } else {
-    stop("Couldn't find \"text\" variable.", call. = FALSE)
-  }
-  x
-}
-
-#' @export
-plain_tweets.character <- function(x) {
+plain_tweets_ <- function(x) {
+  stopifnot(is.character(x))
   x <- rm_links(x)
   x <- rm_linebreaks(x)
   x <- rm_fancy_spaces(x)
