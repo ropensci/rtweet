@@ -16,8 +16,6 @@ test_that("system_token functions", {
   expect_true("status_id" %in% names(x))
   expect_gt(ncol(x), 15)
   expect_gt(nrow(x), 50)
-  #expect_true("users" %in% names(attributes(x)))
-  #expect_true(is.data.frame(attr(x, "users")))
   expect_true(is.data.frame(users_data(x)))
   expect_gt(nrow(users_data(x)), 0)
   expect_gt(ncol(users_data(x)), 15)
