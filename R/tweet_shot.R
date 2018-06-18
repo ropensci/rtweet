@@ -41,17 +41,20 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
 
   x <- statusid_or_url
 
-  # first test if we have a Twitter URL
+  ## first test if we have a Twitter URL
   is_url <- grepl("^http[s]://", x)
 
-  if (is_url) { # mebbe, let's look further
+  if (is_url) {
 
-    is_twitter <- grepl("twitter", x) # shld have "twitter" in it
+    ## shld have "twitter" in it
+    is_twitter <- grepl("twitter", x)
     if (!is_twitter) {
-      stop("statusid_or_url must be a valid Twitter status id or URL", call. = FALSE)
+      stop("statusid_or_url must be a valid Twitter status id or URL",
+        call. = FALSE)
     }
 
-    is_status <- grepl("status", x) # shld also have "status" in it
+    ## shld also have "status" in it
+    is_status <- grepl("status", x)
     if (!is_status) {
       stop("statusid_or_url must be a valid Twitter status id or URL",
         call. = FALSE)
@@ -63,36 +66,40 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
       x <- sub("://twi", "://mobile.twi", x)
     }
 
-  } else { # let's see if it's a status id
+  } else {
 
+    ## let's see if it's a status id
     x <- rtweet::lookup_tweets(x)
     if (!(nrow(x) > 0)) {
       stop("Twitter status not found", call. = FALSE)
     }
 
-    # make a mobile URL
+    ## make a mobile URL
     x <- sprintf("https://mobile.twitter.com/%s/status/%s",
       x$screen_name, x$status_id)
 
   }
 
-  # keep the filesystem clean
+  ## keep the filesystem clean
   tf <- tempfile(fileext = ".png")
-  on.exit(unlink(tf), add = TRUE) # it'll clean up for us
+  ## it'll clean up for us
+  on.exit(unlink(tf), add = TRUE)
 
-  # capture the tweet
+  ## capture the tweet
   webshot::webshot(url = x, file = tf, zoom = zoom)
 
-  img <- magick::image_read(tf) # read the image in
-  img <- magick::image_trim(img) # remove the extraneous border
+  ## read the image in
+  img <- magick::image_read(tf)
+  ## remove the extraneous border
+  img <- magick::image_trim(img)
 
-  # scale if we want to
+  ## scale if we want to
   if ((zoom > 1) && (scale)) {
     img <- magick::image_scale(img, as_percent(1/zoom))
   }
 
+  ## return img
   img
-
 }
 
 as_percent <- function(x) {
