@@ -2,16 +2,20 @@
 % Please edit documentation in R/save_as_csv.R
 \name{write_as_csv}
 \alias{write_as_csv}
-\title{Saves as flattened CSV file of Twitter data.}
+\alias{save_as_csv}
+\title{Save Twitter data as a comma separated value file.}
 \usage{
 write_as_csv(x, file_name, prepend_ids = TRUE, na = "",
   fileEncoding = "UTF-8")
+
+save_as_csv(x, file_name, prepend_ids = TRUE, na = "",
+  fileEncoding = "UTF-8")
 }
 \arguments{
-\item{x}{Data frame with tweets and users data.}
+\item{x}{Data frame returned by an rtweet function.}
 
-\item{file_name}{Desired name(stem) to save files as (one save for
-tweets, one save for users).}
+\item{file_name}{Desired name to save file as. If `file_name` does not
+include the extension ".csv" it will be added automatically.}
 
 \item{prepend_ids}{Logical indicating whether to prepend an "x"
 before all Twitter IDs (for users, statuses, lists, etc.). It's
@@ -32,3 +36,11 @@ Saved CSV files in current working directory.
 \description{
 Saves as flattened CSV file of Twitter data.
 }
+\seealso{
+Other datafiles: \code{\link{flatten}},
+  \code{\link{read_twitter_csv}}
+
+Other datafiles: \code{\link{flatten}},
+  \code{\link{read_twitter_csv}}
+}
+\concept{datafiles}

@@ -404,35 +404,8 @@ na_omit <- function(x) {
 
 
 ##----------------------------------------------------------------------------##
-##                                flatten data                                ##
+##                                require pkgs                                ##
 ##----------------------------------------------------------------------------##
-
-flatten_rtweet <- function(x) {
-  lst <- vapply(x, is.list, logical(1))
-  x[lst] <- lapply(x[lst], vobs2string)
-  x
-}
-
-vobs2string <- function(x, sep = " ") {
-  x[lengths(x) == 0L] <- NA_character_
-  x[lengths(x) > 1L] <- vapply(
-    x[lengths(x) > 1L],
-    obs2string, sep = sep,
-    FUN.VALUE = character(1)
-  )
-  as.character(x)
-}
-
-obs2string <- function(x, sep) {
-  stopifnot(is.atomic(x))
-  if (all(is.na(x))) {
-    return(NA_character_)
-  }
-  x[is.na(x)] <- ""
-  paste(x, collapse = sep)
-}
-
-# Enables loading packages when necessary vs import
 
 try_require <- function(pkg, f) {
 

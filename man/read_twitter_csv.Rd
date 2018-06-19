@@ -4,10 +4,14 @@
 \alias{read_twitter_csv}
 \title{Read comma separated value Twitter data.}
 \usage{
-read_twitter_csv(file)
+read_twitter_csv(file, unflatten = FALSE)
 }
 \arguments{
 \item{file}{Name of CSV file.}
+
+\item{unflatten}{Logical indicating whether to unflatten (separate hasthags
+and mentions columns on space, converting characters to lists), defaults
+to FALSE.}
 }
 \value{
 A tbl data frame of Twitter data
@@ -24,3 +28,8 @@ rt <- read_twitter_csv("data.csv")
 
 }
 }
+\seealso{
+Other datafiles: \code{\link{flatten}},
+  \code{\link{write_as_csv}}
+}
+\concept{datafiles}

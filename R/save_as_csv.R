@@ -1,193 +1,10 @@
-
-save_as_csv2 <- function(x, file_name,
-                        prepend_ids = TRUE,
-                        na = "",
-                        fileEncoding = "UTF-8") {
-  if (missing(file_name)) {
-    stop("must provide file_name.", call. = FALSE)
-  }
-  tweets_names <- c(
-    "reply_to_status_id",
-    "quote_status",
-    "retweet_count",
-    "is_retweet"
-  )
-  users_names <- c(
-    "followers_count",
-    "description",
-    "statuses_count",
-    "friends_count"
-  )
-  if (any(tweets_names %in% names(x))) {
-    write_as_csv(
-      x, modify_file_name(file_name, "tweets"),
-      prepend_ids = prepend_ids,
-      na = na,
-      fileEncoding = fileEncoding
-    )
-    if ("users" %in% names(attributes(x))) {
-      write_as_csv(
-        users_data(x),
-        modify_file_name(file_name, "users"),
-        prepend_ids = prepend_ids,
-        na = na,
-        fileEncoding = fileEncoding
-      )
-    }
-  } else if (any(users_names %in% names(x))) {
-    write_as_csv(
-      x, modify_file_name(file_name, "users"),
-      prepend_ids = prepend_ids,
-      na = na,
-      fileEncoding = fileEncoding
-    )
-    if ("tweets" %in% names(attributes(x))) {
-      write_as_csv(
-        tweets_data(x),
-        modify_file_name(file_name, "tweets"),
-        prepend_ids = prepend_ids,
-        na = na,
-        fileEncoding = fileEncoding
-      )
-    }
-  } else {
-    write_as_csv(
-      x, modify_file_name(file_name),
-      prepend_ids = prepend_ids,
-      na = na,
-      fileEncoding = fileEncoding
-    )
-  }
-}
-
-modify_file_name <- function(file_name, ext = NULL) {
-  stopifnot(is.character(file_name),
-    length(file_name) == 1)
-  file_name <- gsub(".csv$", "", file_name)
-  if (is.null(ext)) {
-    file_name <- paste0(file_name, ".csv")
-  } else {
-    file_name <- paste0(file_name, ".", ext, ".csv")
-  }
-  file_name
-}
-
-
-
-#' function to flatten IDs vars
-#'
-#' @param x Data object
-#' @return Data with each observation of IDs represented by a single string,
-#'   separating each ID with a space.
-#' @keywords internal
-#' @export
-flatten_id <- function(x) UseMethod("flatten_id")
-
-#' @keywords internal
-#' @export
-flatten_id.character <- function(x) {
-  if (all(is.na(x))) return(x)
-  x[!is.na(x)] <- paste0("x", x[!is.na(x)])
-  x
-}
-
-#' @keywords internal
-#' @export
-flatten_id.list <- function(x) {
-  flist <- function(x) {
-    if (length(x) == 0 || (length(x) == 1L && is.na(x))) {
-      return(NA_character_)
-    }
-    paste(paste0("x", x), collapse = " ")
-  }
-  na <- lengths(x) == 1 & vapply(x, function(i) is.na(i[1]), FUN.VALUE = logical(1))
-  x[!na] <- lapply(x[!na], flist)
-  unlist(x)
-}
-
-#' function to flatten data
-#'
-#' @param x Data
-#' @return Flatten data in preparation to be saved as CSV.
-#' @keywords internal
-#' @export
-flatten_var <- function(x) UseMethod("flatten_var")
-
-#' @keywords internal
-#' @export
-flatten_var.default <- function(x) x
-
-#' @keywords internal
-#' @export
-flatten_var.list <- function(x) {
-  flist <- function(x) {
-    if (length(x) == 0 || (length(x) == 1L && is.na(x))) {
-      return(NA_character_)
-    }
-    paste(x, collapse = " ")
-  }
-  na <- lengths(x) == 1 & vapply(x, function(i) is.na(i[1]), FUN.VALUE = logical(1))
-  if (sum(!na) > 0) {
-    x[!na] <- lapply(x[!na], flist)
-  }
-  unlist(x)
-}
-
 #' Save Twitter data as a comma separated value file.
 #'
-#' Saves tweets and users data as CSV files.
-#'
-#' @param x Data frame returned by rtweet function like
-#'   \code{\link{search_tweets}} to be saved as CSV file.
-#' @param file_name Path/file name where data file is to be saved. If a ".csv"
-#'   extension isn't used, it'll be appending onto the supplied file name.
-#' @details Flattens list columns by pasting them into a single string for each
-#'   observations. For example, a tweet that mentions four other users, for the
-#'   mentions_user_id variable, it will include the four user IDs separated by
-#'   a space.
-#'
-#' It should also be noted that the save_as_csv function prepends all Twitter
-#'   IDs (user ID and status ID) with an "x" in order to ensure spreadsheet
-#'   programs (cough, excel, cough) don't treat the values as numeric and,
-#'   consequently, round the numbers, preventing future identification. For this
-#'   reason, it's best to read in data saved this way using the read_twitter_csv
-#'   function or taking care to remove the prepended "x"s before using the
-#'   captured ID values.
-#' @export
-save_as_csv <- function(x, file_name) {
-  ## validate inputs
-  stopifnot(is.data.frame(x), is.character(file_name), length(file_name) == 1L)
-  if (!grepl("\\.csv$", file_name)) {
-    file_name <- paste0(file_name, ".csv")
-  }
-  ## prep data
-  x <- prep_for_csv(x)
-  ## save as CSV file
-  write.csv(x, file_name, row.names = FALSE, fileEncoding = "UTF-8", na = "")
-}
-
-#' Returns flattened and ID-prepended data frame, as it's done internally via
-#' \code{save_as_csv}
-#'
-#' @param x Data frame (or tibble) returned by rtweet functions.
-#'
-#' @export
-#' @rdname prep_for_csv
-prep_for_csv <- function(x) {
-  ## join users and tweets
-  x <- join_rtweet(x)
-  ## collapse recursive columns into single strings (space separated)
-  x[grep("_id", names(x))] <- lapply(x[grep("_id", names(x))], flatten_id)
-  x[1:ncol(x)] <- lapply(x, flatten_var)
-  x
-}
-
-
 #' Saves as flattened CSV file of Twitter data.
 #'
-#' @param x Data frame with tweets and users data.
-#' @param file_name Desired name(stem) to save files as (one save for
-#'   tweets, one save for users).
+#' @param x Data frame returned by an rtweet function.
+#' @param file_name Desired name to save file as. If `file_name` does not
+#'   include the extension ".csv" it will be added automatically.
 #' @param prepend_ids Logical indicating whether to prepend an "x"
 #'   before all Twitter IDs (for users, statuses, lists, etc.). It's
 #'   recommended when saving to CSV as these values otherwise get
@@ -200,17 +17,118 @@ prep_for_csv <- function(x) {
 #'   CSV. defaults to "UTF-8".
 #' @return Saved CSV files in current working directory.
 #' @importFrom utils write.csv
+#' @family datafiles
 #' @export
 write_as_csv <- function(x, file_name,
                          prepend_ids = TRUE,
                          na = "",
                          fileEncoding = "UTF-8") {
-  stopifnot(is.data.frame(x))
-  x <- flatten_rtweet(x)
+  ## validate inputs
+  stopifnot(is.data.frame(x), is.character(file_name), length(file_name) == 1L)
+  if (!grepl("\\.csv$", file_name)) {
+    file_name <- paste0(file_name, ".csv")
+  }
+  ## flatten data
+  x <- flatten(x)
   if (prepend_ids) {
     x <- prepend_ids(x)
   }
-  write.csv(x, file_name, row.names = FALSE, na = na, fileEncoding = fileEncoding)
+  utils::write.csv(x, file_name, row.names = FALSE, na = na,
+    fileEncoding = fileEncoding)
+}
+
+#' @export
+#' @rdname write_as_csv
+#' @inheritParams write_as_csv
+#' @family datafiles
+save_as_csv <- function(x, file_name,
+                        prepend_ids = TRUE,
+                        na = "",
+                        fileEncoding = "UTF-8") {
+  write_as_csv(x, file_name, prepend_ids, na, fileEncoding)
+}
+
+#' flatten/unflatten data frame
+#'
+#' Converts list columns that containing all atomic elements into
+#' character vectors and vice versa (for appropriate named variables
+#' according to the rtweet package)
+#'
+#' @param x Data frame with list columns or converted-to-character (flata'd)
+#'   columns.
+#' @return If flattened, then data frame where non-recursive list
+#'   columns---that is, list columns that contain only atomic, or non-list,
+#'   elements---have been converted to character vectors. If unflattened,
+#'   this function splits on spaces columsn originally returned as lists
+#'   by functions in rtweett package. See details for more information.
+#'
+#' @details If recursive list columns are contained within the data frame,
+#'   convertion of relevant columns will still occur but output will also
+#'   be accompanied with a warning message.
+#'
+#' `flatten` flattens list columns by pasting them into a single string for
+#'   each observations. For example, a tweet that mentions four other users,
+#'   for the mentions_user_id variable, it will include the four user IDs
+#'   separated by a space.
+#'
+#' `unflatten`` splits on spaces to convert into list columns any
+#'   columns with the following names: hashtags, symbols, urls_url,
+#'   urls_t.co, urls_expanded_url, media_url, media_t.co,
+#'   media_expanded_url, media_type, ext_media_url, ext_media_t.co,
+#'   ext_media_expanded_url, mentions_user_id, mentions_screen_name,
+#'   geo_coords, coords_coords, bbox_coords, mentions_screen_name
+#' @export
+#' @rdname flatten
+#' @family datafiles
+flatten <- function(x) {
+  stopifnot(is.data.frame(x))
+  lst <- which(vapply(x, is.list,
+    FUN.VALUE = logical(1), USE.NAMES = FALSE))
+  atom <- which(vapply(x[lst], function(.) all(
+    vapply(., is.atomic, FUN.VALUE = logical(1), USE.NAMES = FALSE)
+  ), FUN.VALUE = logical(1), USE.NAMES = FALSE))
+  la <- lst[atom]
+  x[la] <- lapply(x[la], function(a)
+    vapply(a, function(b)
+      ifelse(length(b) == 0 | (length(b) == 1 && is.na(b)), "",
+        paste(b, collapse = " ")),
+      FUN.VALUE = character(1), USE.NAMES = FALSE))
+  if (any(vapply(x, is.recursive,
+    FUN.VALUE = logical(1), USE.NAMES = FALSE))) {
+    warning("data frame still contains recursive columns!")
+  }
+  x
+}
+
+#' @inheritParams flatten
+#' @export
+#' @rdname flatten
+#' @family datafiles
+unflatten <- function(x) {
+  yes_coords <- c("geo_coords", "coords_coords", "bbox_coords")
+  rec_cols <- c("hashtags", "symbols",
+    "urls_url", "urls_t.co", "urls_expanded_url", "media_url",
+    "media_t.co", "media_expanded_url", "media_type",
+    "ext_media_url", "ext_media_t.co", "ext_media_expanded_url",
+    "mentions_user_id", "mentions_screen_name", "mentions_screen_name",
+    yes_coords)
+  rc <- names(x) %in% rec_cols
+  lg <- vapply(x[rc], is.logical, FUN.VALUE = logical(1))
+  if (any(lg)) {
+    kp <- names(x[rc])
+    rc <- kp[!lg]
+  }
+  x[rc] <- lapply(x[rc], strsplit, " ")
+  rc <- names(x) %in% rec_cols[!rec_cols %in% yes_coords]
+  x[rc] <- lapply(x[rc], function(.) {
+    .[lengths(.) == 0] <- NA_character_
+    .})
+  rc <- names(x) %in% yes_coords
+  x[rc] <- lapply(x[rc], function(.) {
+    . <- lapply(., function(y) suppressWarnings(as.numeric(y)))
+    .[lengths(.) == 0] <- NA_real_
+    .})
+  x
 }
 
 prepend_ids <- function(x) {
@@ -219,8 +137,17 @@ prepend_ids <- function(x) {
   x
 }
 
+
 x_ids <- function(x) {
-  x[!is.na(x)] <- paste0("x", x[!is.na(x)])
+  if (is.recursive(x)) {
+    x <- lapply(x, function(.)
+      ifelse(length(.) == 0 || (length(.) == 1 && is.na(.)),
+        list(NA_character_), list(paste0("x", .))))
+    x <- lapply(x, unlist, recursive = FALSE)
+  } else {
+    x[!is.na(x)] <- paste0("x", x[!is.na(x)])
+    x[!is.na(x)] <- gsub(" ", " x", x[!is.na(x)])
+  }
   x
 }
 
@@ -231,7 +158,15 @@ unprepend_ids <- function(x) {
 }
 
 unx_ids <- function(x) {
-  gsub("^x", "", x)
+  if (is.recursive(x)) {
+    x <- lapply(x, function(.)
+      ifelse(length(.) == 0 || (length(.) == 1 && is.na(.)),
+        list(NA_character_), list(gsub("x", "", .))))
+    x <- lapply(x, unlist, recursive = FALSE)
+  } else {
+    x <- gsub("x", "", x)
+  }
+  x
 }
 
 #' Read comma separated value Twitter data.
@@ -239,6 +174,9 @@ unx_ids <- function(x) {
 #' Reads Twitter data that was previously saved as a CSV file.
 #'
 #' @param file Name of CSV file.
+#' @param unflatten Logical indicating whether to unflatten (separate hasthags
+#'   and mentions columns on space, converting characters to lists), defaults
+#'   to FALSE.
 #' @return A tbl data frame of Twitter data
 #' @importFrom utils read.csv
 #' @examples
@@ -249,8 +187,9 @@ unx_ids <- function(x) {
 #' rt <- read_twitter_csv("data.csv")
 #'
 #' }
+#' @family datafiles
 #' @export
-read_twitter_csv <- function(file) {
+read_twitter_csv <- function(file, unflatten = FALSE) {
   x <- utils::read.csv(
     file = file,
     na.strings = "",
@@ -259,5 +198,8 @@ read_twitter_csv <- function(file) {
     encoding = "UTF-8"
   )
   x <- unprepend_ids(x)
-  tibble::as_tibble(x, validate = FALSE)
+  if (unflatten) {
+    x <- unflatten(x)
+  }
+  as_tbl(x)
 }
