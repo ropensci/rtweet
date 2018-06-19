@@ -1,3 +1,14 @@
+# rtweet 0.6.7
+- `lookup_coords()` now requires a Google Maps API key. It will be stored for 
+  easy future use once supplied.
+- Improved documentation for authentication/token creation.
+- Various bug fixes and improvements.
+
+# rtweet 0.6.6
+- Added `bearer_token()` option for access to more generous rate limits.
+- Fixed issues with `create_token()` when using browse-based authentication 
+  method.
+
 # rtweet 0.6.5
 - Added list management functionality via `post_list()`, which now allows users
   to create and populate lists as well as delete lists on behalf of one's own
