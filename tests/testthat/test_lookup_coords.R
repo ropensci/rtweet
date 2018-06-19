@@ -9,7 +9,20 @@ test_that("lookup_coords returns coords data", {
   expect_named(x)
   expect_true("box" %in% names(x))
 
+  x <- lookup_coords("world")
+  expect_equal(is.list(x), TRUE)
+  expect_named(x)
+  expect_true("box" %in% names(x))
+
   gmk <- Sys.getenv("GOOGLE_MAPS_KEY")
+  if (!is.null(gmk) && !identical(gmk, "")) {
+    x <- lookup_coords("New York, NY")
+    expect_equal(is.list(x), TRUE)
+    expect_named(x)
+    expect_true("box" %in% names(x))
+  }
+  rtweet:::set_renv(GOOGLE_KEY = gmk)
+  rtweet:::set_renv(GOOGLE_MAPS_KEY = "")
   if (!is.null(gmk) && !identical(gmk, "")) {
     x <- lookup_coords("New York, NY")
     expect_equal(is.list(x), TRUE)

@@ -9,4 +9,6 @@ test_that("save_as_csv saves tweets data", {
   expect_gt(nrow(utils::read.csv("csv_data.csv")), 60)
   expect_gt(ncol(utils::read.csv("csv_data.csv")), 15)
   unlink("csv_data.csv")
+  d <- flata(x)
+  all(vapply(d, is.atomic, FUN.VALUE = logical(1)))
 })
