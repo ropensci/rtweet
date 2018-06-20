@@ -21,21 +21,29 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
+
+
+
+  <link href="../extra.css" rel="stylesheet">
   
 <meta property="og:title" content="Get user IDs of accounts followed by target user(s). — get_friends" />
 
 <meta property="og:description" content="Returns a list of user IDs for the accounts following BY one or
 more specified users. To return the friends of more than 15 users
-in a single call (the rate limit maximum), set "retryonratelimit"
+in a single call (the rate limit maximum), set &quot;retryonratelimit&quot;
 to TRUE." />
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -58,8 +66,12 @@ to TRUE." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -79,6 +91,9 @@ to TRUE." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -90,7 +105,7 @@ to TRUE." />
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -102,6 +117,7 @@ to TRUE." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -109,23 +125,27 @@ to TRUE." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get user IDs of accounts followed by target user(s).</h1>
+    
+    <div class="hidden name"><code>get_friends.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Returns a list of user IDs for the accounts following BY one or
 more specified users. To return the friends of more than 15 users
 in a single call (the rate limit maximum), set "retryonratelimit"
 to TRUE.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>get_friends</span>(<span class='no'>users</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
   <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -181,11 +201,12 @@ for each inputted user.</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code>?tokens</code> to
-console).</p></td>
+      <td><p>Every user should have their own Oauth (Twitter API) token. By
+default <code>token = NULL</code> this function looks for the path to a saved
+Twitter token via environment variables (which is what `create_token()`
+sets up by default during initial token creation). For instruction on how
+to create a Twitter token see the tokens vignette, i.e.,
+`vignettes("auth", "rtweet")` or see <code>?tokens</code>.</p></td>
     </tr>
     </table>
     
@@ -209,9 +230,9 @@ console).</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><a href='https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids'>https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a></p>
+    <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids'>https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a></p>
 <p>Other ids: <code><a href='get_followers.html'>get_followers</a></code>,
-  <code><a href='next_cursor.html'>next_cursor</a></code></p>
+  <code><a href='next_cursor.html'>next_cursor</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -245,7 +266,7 @@ console).</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -254,6 +275,8 @@ console).</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

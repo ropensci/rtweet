@@ -21,22 +21,30 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
+
+
+
+  <link href="../extra.css" rel="stylesheet">
   
 <meta property="og:title" content="Fetching Twitter authorization token(s). — get_tokens" />
 
 <meta property="og:description" content="Call function used to fetch and load Twitter OAuth tokens.
 Since Twitter application key should be stored privately, users should save
 the path to token(s) as an environment variable. This allows Tokens
-to be instantly [re]loaded in future sessions. See the "tokens"
+to be instantly [re]loaded in future sessions. See the &quot;tokens&quot;
 vignette for instructions on obtaining and using access tokens." />
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +67,12 @@ vignette for instructions on obtaining and using access tokens." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -80,6 +92,9 @@ vignette for instructions on obtaining and using access tokens." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -91,7 +106,7 @@ vignette for instructions on obtaining and using access tokens." />
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -103,6 +118,7 @@ vignette for instructions on obtaining and using access tokens." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -110,12 +126,15 @@ vignette for instructions on obtaining and using access tokens." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fetching Twitter authorization token(s).</h1>
+    
+    <div class="hidden name"><code>get_tokens.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Call function used to fetch and load Twitter OAuth tokens.
 Since Twitter application key should be stored privately, users should save
@@ -123,6 +142,7 @@ the path to token(s) as an environment variable. This allows Tokens
 to be instantly [re]loaded in future sessions. See the "tokens"
 vignette for instructions on obtaining and using access tokens.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>get_tokens</span>()
 
@@ -139,8 +159,8 @@ vignette for instructions on obtaining and using access tokens.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other tokens: <code><a href='create_token.html'>create_token</a></code>,
-  <code><a href='rate_limit.html'>rate_limit</a></code></p>
+    <div class='dont-index'><p>Other tokens: <code><a href='create_token.html'>create_token</a></code>,
+  <code><a href='rate_limit.html'>rate_limit</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -173,7 +193,7 @@ vignette for instructions on obtaining and using access tokens.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -182,6 +202,8 @@ vignette for instructions on obtaining and using access tokens.</p>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -21,11 +21,16 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
+
+
+
+  <link href="../extra.css" rel="stylesheet">
   
 <meta property="og:title" content="Creating Twitter authorization token(s). — create_token" />
 
@@ -42,6 +47,9 @@
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -64,8 +72,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -85,6 +97,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -96,7 +111,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -108,6 +123,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -115,12 +131,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Creating Twitter authorization token(s).</h1>
+    
+    <div class="hidden name"><code>create_token.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Sends request to generate OAuth 1.0 tokens. Twitter
   also allows users to create user-only (OAuth 2.0) access token.
@@ -133,11 +152,12 @@
   have yet to verified OAuth 2.0 token method.  Consequently, I
   encourage you to use 1.0 tokens.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>create_token</span>(<span class='kw'>app</span> <span class='kw'>=</span> <span class='st'>"mytwitterapp"</span>, <span class='no'>consumer_key</span>, <span class='no'>consumer_secret</span>,
-  <span class='kw'>set_renv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>access_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>access_secret</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>set_renv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -153,6 +173,14 @@
       <td><p>Application API secret User-owned
 application must have <code>Read and write</code> access level and
 <code>Callback URL</code> of <code>http://127.0.0.1:1410</code>.</p></td>
+    </tr>
+    <tr>
+      <th>access_token</th>
+      <td><p>Access token as supplied by Twitter (apps.twitter.com)</p></td>
+    </tr>
+    <tr>
+      <th>access_secret</th>
+      <td><p>Access secret as supplied by Twitter (apps.twitter.com)</p></td>
     </tr>
     <tr>
       <th>set_renv</th>
@@ -172,9 +200,9 @@ read to start being used in current active session.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><a href='https://developer.twitter.com/en/docs/basics/authentication/overview/oauth'>https://developer.twitter.com/en/docs/basics/authentication/overview/oauth</a></p>
+    <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/basics/authentication/overview/oauth'>https://developer.twitter.com/en/docs/basics/authentication/overview/oauth</a></p>
 <p>Other tokens: <code><a href='get_tokens.html'>get_tokens</a></code>,
-  <code><a href='rate_limit.html'>rate_limit</a></code></p>
+  <code><a href='rate_limit.html'>rate_limit</a></code></p></div>
     
 
   </div>
@@ -193,7 +221,7 @@ read to start being used in current active session.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -202,6 +230,8 @@ read to start being used in current active session.</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

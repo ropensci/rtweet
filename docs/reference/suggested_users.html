@@ -21,11 +21,16 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
+
+
+
+  <link href="../extra.css" rel="stylesheet">
   
 <meta property="og:title" content="Get user [account] suggestions for authenticating user — suggested_slugs" />
 
@@ -33,6 +38,9 @@
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,8 +63,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -76,6 +88,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -87,7 +102,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -99,6 +114,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -106,21 +122,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get user [account] suggestions for authenticating user</h1>
+    
+    <div class="hidden name"><code>suggested_users.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Returns Twitter's list of suggested user categories.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>suggested_slugs</span>(<span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>suggested_users</span>(<span class='no'>slug</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>suggested_users</span>(<span class='no'>slug</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -131,15 +151,21 @@ appropriate two letter ISO 639-1 representation.</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>OAuth token. By default <code>token = NULL</code> fetches a
-non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send <code>?tokens</code> to
-console).</p></td>
+      <td><p>Every user should have their own Oauth (Twitter API) token. By
+default <code>token = NULL</code> this function looks for the path to a saved
+Twitter token via environment variables (which is what `create_token()`
+sets up by default during initial token creation). For instruction on how
+to create a Twitter token see the tokens vignette, i.e.,
+`vignettes("auth", "rtweet")` or see <code>?tokens</code>.</p></td>
     </tr>
     <tr>
       <th>slug</th>
       <td><p>required The short name of list or a category</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>Logical indicating whether to parse the returned data into
+a tibble data frame. See details for more on the returned users data.</p></td>
     </tr>
     </table>
     
@@ -148,6 +174,14 @@ console).</p></td>
     <p>List of recommended categories which can be passed along as
   the "slug" parameter in <code>suggested_users</code></p>
 <p>Recommended users</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Currently, this parsing process drops all
+  recursive (list) columns, which mostly means you are shorted some
+  entities data. To maximize users data, however, it is recommended to
+  make an additional <code><a href='lookup_users.html'>lookup_users</a></code> call using the user IDs
+  returned by this function.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -159,6 +193,18 @@ console).</p></td>
 <span class='co'>## use slugs to get suggested users</span>
 <span class='fu'>suggested_users</span>(<span class='no'>slugs</span>$<span class='no'>slug</span>[<span class='fl'>1</span>])
 
+<span class='co'>## alternatively, get all users from all slugs in one function</span>
+<span class='no'>sugs</span> <span class='kw'>&lt;-</span> <span class='fu'>all_suggested_users</span>()
+
+<span class='co'>## print data</span>
+<span class='no'>sugs</span>
+
+<span class='co'>## for complete users data, lookup user IDs</span>
+<span class='no'>sugs_usr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lookup_users.html'>lookup_users</a></span>(<span class='no'>sugs</span>$<span class='no'>user_id</span>)
+
+<span class='co'>## view users data</span>
+<span class='no'>sugs_usr</span>
+
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
@@ -168,6 +214,8 @@ console).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -177,7 +225,7 @@ console).</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -186,6 +234,8 @@ console).</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -21,21 +21,30 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
+
+
+
+  <link href="../extra.css" rel="stylesheet">
   
 <meta property="og:title" content="Get coordinates of specified location. — lookup_coords" />
 
 <meta property="og:description" content="Convenience function for looking up latitude/longitude coordinate
 information for a given location. Returns data as a special
-"coords" object, which is specifically designed to interact
-smoothly with other relevant package functions." />
+&quot;coords&quot; object, which is specifically designed to interact
+smoothly with other relevant package functions. NOTE: USE OF THIS FUNCTION
+REQUIRES A VALID GOOGLE MAPS API KEY." />
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -58,8 +67,12 @@ smoothly with other relevant package functions." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -79,6 +92,9 @@ smoothly with other relevant package functions." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -90,7 +106,7 @@ smoothly with other relevant package functions." />
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -102,6 +118,7 @@ smoothly with other relevant package functions." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -109,22 +126,27 @@ smoothly with other relevant package functions." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get coordinates of specified location.</h1>
+    
+    <div class="hidden name"><code>lookup_coords.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Convenience function for looking up latitude/longitude coordinate
 information for a given location. Returns data as a special
 "coords" object, which is specifically designed to interact
-smoothly with other relevant package functions.</p>
+smoothly with other relevant package functions. NOTE: USE OF THIS FUNCTION
+REQUIRES A VALID GOOGLE MAPS API KEY.</p>
     
+    </div>
 
-    <pre class="usage"><span class='fu'>lookup_coords</span>(<span class='no'>address</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>lookup_coords</span>(<span class='no'>address</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apikey</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -142,6 +164,12 @@ states, e.g., address = "missouri" or cities, e.g., address =
 administrative_area, locality, route.</p></td>
     </tr>
     <tr>
+      <th>apikey</th>
+      <td><p>A valid Google Maps API key. If NULL, `lookup_coords()` will
+look for a relevant API key stored as an environment variable (e.g.,
+`GOOGLE_MAPS_KEY`).</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional arguments passed as parameters in the HTTP
 request</p></td>
@@ -154,7 +182,7 @@ request</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other geo: <code><a href='lat_lng.html'>lat_lng</a></code></p>
+    <div class='dont-index'><p>Other geo: <code><a href='lat_lng.html'>lat_lng</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -192,7 +220,7 @@ request</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -201,6 +229,8 @@ request</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

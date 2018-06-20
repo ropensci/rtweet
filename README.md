@@ -75,7 +75,7 @@ authorization methods described below).
   - Check yes if you agree and then click “Create your Twitter
     application”
 
-### 2a. Create token via web browser (interactive)
+### 2a. Authenticate via web browser (interactive)
 
   - Go to your app’s page at
     [apps.twitter.com](https://apps.twitter.com/) and click the tab
@@ -93,7 +93,7 @@ authorization methods described below).
       consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
     ```
 
-### 2b. Create token via access token
+### 2b. Authenticate via access token
 
   - Go to your app’s page at
     [apps.twitter.com](https://apps.twitter.com/) and click the tab

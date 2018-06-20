@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Saves as flattened CSV file of Twitter data. — write_as_csv • rtweet</title>
+<title>Save Twitter data as a comma separated value file. — write_as_csv • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,18 +21,26 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+  <link href="../extra.css" rel="stylesheet">
   
-  
-<meta property="og:title" content="Saves as flattened CSV file of Twitter data. — write_as_csv" />
+<meta property="og:title" content="Save Twitter data as a comma separated value file. — write_as_csv" />
 
 <meta property="og:description" content="Saves as flattened CSV file of Twitter data." />
 
 <meta property="og:image" content="http://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,8 +63,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -76,6 +88,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -87,7 +102,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -99,6 +114,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -106,30 +122,37 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Saves as flattened CSV file of Twitter data.</h1>
+    <h1>Save Twitter data as a comma separated value file.</h1>
+    
+    <div class="hidden name"><code>write_as_csv.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Saves as flattened CSV file of Twitter data.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>write_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)
+
+<span class='fu'>save_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Data frame with tweets and users data.</p></td>
+      <td><p>Data frame returned by an rtweet function.</p></td>
     </tr>
     <tr>
       <th>file_name</th>
-      <td><p>Desired name(stem) to save files as (one save for
-tweets, one save for users).</p></td>
+      <td><p>Desired name to save file as. If `file_name` does not
+include the extension ".csv" it will be added automatically.</p></td>
     </tr>
     <tr>
       <th>prepend_ids</th>
@@ -156,6 +179,13 @@ CSV. defaults to "UTF-8".</p></td>
 
     <p>Saved CSV files in current working directory.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other datafiles: <code><a href='flatten.html'>flatten</a></code>,
+  <code><a href='read_twitter_csv.html'>read_twitter_csv</a></code></p>
+<p>Other datafiles: <code><a href='flatten.html'>flatten</a></code>,
+  <code><a href='read_twitter_csv.html'>read_twitter_csv</a></code></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -164,6 +194,8 @@ CSV. defaults to "UTF-8".</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>
@@ -171,7 +203,7 @@ CSV. defaults to "UTF-8".</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -180,6 +212,8 @@ CSV. defaults to "UTF-8".</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

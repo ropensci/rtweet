@@ -8,8 +8,9 @@
 <title>Obtaining and using access tokens • rtweet</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Obtaining and using access tokens">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Obtaining and using access tokens">
 <meta property="og:description" content="">
 <meta property="og:image" content="http://rtweet.info/logo.png">
 <meta name="twitter:card" content="summary">
@@ -19,7 +20,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -28,8 +29,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rtweet</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rtweet</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -49,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/FAQ.html">FAQ</a>
+    </li>
+    <li>
       <a href="../articles/auth.html">Obtaining and using access tokens</a>
     </li>
     <li>
@@ -60,7 +68,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -80,111 +88,124 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Obtaining and using access tokens</h1>
             <h3 class="subtitle">rtweet: Collecting Twitter Data</h3>
             
-          </div>
+      
+      
+      <div class="hidden name"><code>auth.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <div id="rtweet" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rtweet" class="anchor"></a>rtweet</h2>
 <p>This vignette covers how to obtain and use Twitter API access tokens for use in the <code>rtweet</code> package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install from CRAN</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">"rtweet"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># load rtweet</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(rtweet)</a></code></pre></div>
 </div>
 <div id="creating-a-twitter-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-a-twitter-app" class="anchor"></a>Creating a Twitter App</h2>
 <ul>
-<li>To create a Twitter app, navigate to <a href="https://apps.twitter.com/">apps.twitter.com</a> and create a new app by providing a <code>Name</code>, <code>Description</code>, and <code>Website</code> of your choosing (example screenshot provided below).</li>
-<li>
-<strong>Important</strong> In the <code>Callback URL</code> field, make sure to enter the following: <code>http://127.0.0.1:1410</code>
-</li>
-<li>Check yes if you agree and then click “Create your Twitter application”.</li>
+<li><p>To create a Twitter app, navigate to <a href="https://apps.twitter.com/">apps.twitter.com</a> and create a new app by providing a <code>Name</code>, <code>Description</code>, and <code>Website</code> of your choosing (example screenshot provided below).</p></li>
+<li><p><strong>Important</strong> In the <code>Callback URL</code> field, make sure to enter the following: <code>http://127.0.0.1:1410</code></p></li>
+<li><p>Check yes if you agree and then click “Create your Twitter application”.</p></li>
 </ul>
 <p align="center">
 <img src="files/creating.png" alt="creating"></p>
+</div>
+<div id="authorization-methods" class="section level2">
+<h2 class="hasAnchor">
+<a href="#authorization-methods" class="anchor"></a>Authorization methods</h2>
+<p>Users can create their personal access token in two different ways. Each method is outlined below.</p>
+<div id="browser-based-authentication" class="section level3">
+<h3 class="hasAnchor">
+<a href="#browser-based-authentication" class="anchor"></a>1. Browser-based authentication</h3>
 <ul>
-<li>Once you’ve successfully created an app, click the tab labeled <code>Keys and Access Tokens</code> to retrieve your consumer (api) and secret keys.</li>
+<li>Authentication via web browser requires the <code>httpuv</code> package to be installed.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">## install httpuv if not already</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"httpuv"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="kw">install.packages</span>(<span class="st">"httpuv"</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">}</a></code></pre></div>
+<ul>
+<li>Click the tab labeled <code>Keys and Access Tokens</code> to retrieve your keys.</li>
 </ul>
 <p align="center">
 <img src="files/created.png" alt="created"></p>
 <ul>
-<li><p>To create a personal access token, users must provide their <code>Consumer Key</code> (aka “API Key”) and <code>Consumer Secret</code> (aka “API Secret”).</p></li>
-<li><p>I’ve highlighted the keys in the screen shot below.</p></li>
+<li>In the <code>Keys and Access Tokens</code> tab, locate the values <code>Consumer Key</code> (aka “API Key”) and <code>Consumer Secret</code> (aka “API Secret”).</li>
 </ul>
 <p align="center">
 <img src="files/keys.png" alt="keys"></p>
 <ul>
-<li><p>Copy and paste these keys into an R script file and assign them to objects like I’ve done in the code below.</p></li>
-<li><p>Once the keys are read into R, use <code><a href="../reference/create_token.html">create_token()</a></code> and store the output as <code>twitter_token</code>.</p></li>
+<li>Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## whatever name you assigned to your created app</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">appname &lt;-<span class="st"> "rtweet_token"</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">## api key (example below is not a real key)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">key &lt;-<span class="st"> "XYznzPFOFZR2a39FwWKN1Jp41"</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">## api secret (example below is not a real key)</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">secret &lt;-<span class="st"> "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">## create token named "twitter_token"</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="dt">app =</span> appname,</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="dt">consumer_key =</span> key,</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="dt">consumer_secret =</span> secret)</a></code></pre></div>
-<p><em>NOTE</em>: Following the steps outlined above, it’s possible to create <em>multiple</em> Twitter apps, resulting in multiple tokens. Twitter discourages abusing their API rate limits (these are like speed limits, regulating the amount of requests you can make within a given period of time). Abusing Twitter rate limits can even result in Twitter completely revoking your API access. However, Twitter does allow users multiple tokens so long as each token is used for a unique purpose..</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## autheticate via web browser</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">app =</span> <span class="st">"rtweet_token"</span>,</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">consumer_key =</span> <span class="st">"XYznzPFOFZR2a39FwWKN1Jp41"</span>,</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="dt">consumer_secret =</span> <span class="st">"CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>)</a></code></pre></div>
+<ul>
+<li><p>A browser window should pop up. Click to approve (must be signed into twitter.com) and return to R.</p></li>
+<li><p>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code></p></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## check to see if the token is loaded</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 </div>
-<div id="saving-tokens" class="section level2">
-<h2 class="hasAnchor">
-<a href="#saving-tokens" class="anchor"></a>Saving tokens</h2>
+<div id="access-tokensecret-method" class="section level3">
+<h3 class="hasAnchor">
+<a href="#access-tokensecret-method" class="anchor"></a>2. Access token/secret method</h3>
 <ul>
-<li><p>At this point, you technically have enough to start using <code>rtweet</code> functions—you’d just need to set the <code>token</code> argument equal to <code>twitter_token</code> (the token object we just created).</p></li>
-<li><p>Rather than creating a token every time you open R, remembering where you saved your token(s) or passwords, and specifying a token every time you use a function, users are encouraged to save tokens as an environment variable.</p></li>
-<li><p>To save a personal access token as an environment variable, save the <code>twitter_token</code> object created earlier in your computer’s home directory (to locate your home directory, you can enter <code>normalizePath("~/")</code> into your R console, or follow the directions below for what I think is the easiest method).</p></li>
-<li><p>Use <code>saveRDS()</code> to save <code>twitter_token</code> to your home directory. The code below should locate and construct the path to your home directory for you. Assuming you’ve saved your token as <code>twitter_token</code>, the final line in the code below will save your token for you as well.</p></li>
+<li>Click the tab labeled <code>Keys and Access Tokens</code> to retrieve your keys.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## path of home directory</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">home_directory &lt;-<span class="st"> </span><span class="kw">path.expand</span>(<span class="st">"~/"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">## combine with name for token</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">file_name &lt;-<span class="st"> </span><span class="kw">file.path</span>(home_directory, <span class="st">"twitter_token.rds"</span>)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">## save token to home directory</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">saveRDS</span>(twitter_token, <span class="dt">file =</span> file_name)</a></code></pre></div>
+<p align="center">
+<img src="files/created.png" alt="created"></p>
 <ul>
-<li>The last step is to create an environment variable that points to the saved twitter token. This makes sure that the token will be read and available to use every time you start R.</li>
+<li>In the <code>Keys and Access Tokens</code> tab, locate and copy/paste values <code>Consumer Key</code> (aka “API Key”) and <code>Consumer Secret</code> (aka “API Secret”) into an R script.</li>
 </ul>
-</div>
-<div id="environment-variable" class="section level2">
-<h2 class="hasAnchor">
-<a href="#environment-variable" class="anchor"></a>Environment variable</h2>
+<p align="center">
+<img src="files/keys.png" alt="keys"></p>
 <ul>
-<li><p>Create a plain text file containing the path to your token object and save it to your home directory as “.Renviron”.</p></li>
-<li><p>To create a plain text file in R, modify the code below. Change <code>TWITTER_PAT</code> location to match the path you used earlier (in the example below, you’d want to change “/Users/mwk/twitter_token.rds”). You can also create a plain text document in any text editor like TextEdit or Notepad. If you’re using Rstudio, select File &gt; New File &gt; Text File.</p></li>
-<li><p><strong>Important</strong>: Make sure the last line of “.Renviron” is blank. I achieved this in the code below by including <code>fill = TRUE</code> in the <code>cat</code> function.</p></li>
+<li>In the <code>Keys and Access Tokens</code> tab, scroll down to <code>Token Actions</code> and click <code>Create my access token</code>.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## On my mac, the .Renviron text looks like this:</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">##     TWITTER_PAT=/Users/mwk/twitter_token.rds</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">## assuming you followed the procodures to create "file_name"</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">##     from the previous code chunk, then the code below should</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">##     create and save your environment variable.</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">"TWITTER_PAT="</span>, file_name),</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">    <span class="dt">file =</span> <span class="kw">file.path</span>(home_directory, <span class="st">".Renviron"</span>),</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">    <span class="dt">append =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p align="center">
+<img src="files/gen_token.png" alt="gen_token"></p>
 <ul>
-<li><p>Restart R so it can process the environment variable.</p></li>
-<li><p>If you completed the steps successfully, you should be able to use <code>rtweet</code> functions without specifying [or even <em>thinking</em> about] tokens [ever again].</p></li>
+<li>That should generate two access keys <code>Access Token</code> and <code>Access Token Secret</code>
+</li>
 </ul>
+<p align="center">
+<img src="files/accesskeys.png" alt="acesskeys"></p>
+<ul>
+<li>Locate and copy/paste <code>Access Token</code> and <code>Access Token Secret</code> (fake keys shown in image above) into an R script file</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## authenticate via access token</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">app =</span> <span class="st">"my_twitter_research_app"</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">consumer_key =</span> <span class="st">"XYznzPFOFZR2a39FwWKN1Jp41"</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">acess_token =</span> <span class="st">"9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span>,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">access_secret =</span> <span class="st">"9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span>)</a></code></pre></div>
+<ul>
+<li>Once the keys are read into R, pass the objects to <code><a href="../reference/create_token.html">create_token()</a></code>, and store the output as <code>twitter_token</code>.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">## create token and save it as an environment variable</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">app =</span> appname,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">consumer_key =</span> key,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">consumer_secret =</span> secret,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">access_token =</span> access_token,</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">access_secret =</span> access_secret</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">)</a></code></pre></div>
+<ul>
+<li>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code>
+</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">## check to see if the token is loaded</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 <p>That’s it!</p>
 </div>
 </div>
@@ -197,8 +218,7 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#rtweet">rtweet</a></li>
       <li><a href="#creating-a-twitter-app">Creating a Twitter App</a></li>
-      <li><a href="#saving-tokens">Saving tokens</a></li>
-      <li><a href="#environment-variable">Environment variable</a></li>
+      <li><a href="#authorization-methods">Authorization methods</a></li>
       </ul>
 </div>
       </div>
@@ -207,7 +227,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by Michael Wayne Kearney.</p>
 </div>
 
 <div class="pkgdown">
@@ -216,6 +236,8 @@
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>
