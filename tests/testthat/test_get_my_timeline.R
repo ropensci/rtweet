@@ -14,6 +14,6 @@ test_that("get_my_timeline", {
 
   expect_equal(as_userid("101342234"), "userid")
   expect_equal(as_screenname("101342234"), "screen_name")
-  x <- print(as_screenname("asdf"))
-  expect_equal(x, "asdf")
+  #x <- print(as_screenname("asdf"))
+  #expect_equal(x, "asdf")
 })

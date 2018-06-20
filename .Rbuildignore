@@ -22,3 +22,4 @@
 ^\.github.*
 ^make\.R$
 ^codecov\.yml$
+^CRAN-RELEASE$
