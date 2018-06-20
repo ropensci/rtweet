@@ -7,8 +7,7 @@
 lists_users(user, reverse = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
-\item{user}{The ID of the user or screen name for whom to return results.
-Helpful for disambiguating when a valid user ID is also a valid screen name.}
+\item{user}{The ID of the user or screen name for whom to return results.}
 
 \item{reverse}{optional Set this to true if you would like owned lists
 to be returned first. See description above for information on

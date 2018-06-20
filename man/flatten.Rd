@@ -10,15 +10,15 @@ flatten(x)
 unflatten(x)
 }
 \arguments{
-\item{x}{Data frame with list columns or converted-to-character (flata'd)
+\item{x}{Data frame with list columns or converted-to-character (flattened)
 columns.}
 }
 \value{
 If flattened, then data frame where non-recursive list
   columns---that is, list columns that contain only atomic, or non-list,
   elements---have been converted to character vectors. If unflattened,
-  this function splits on spaces columsn originally returned as lists
-  by functions in rtweett package. See details for more information.
+  this function splits on spaces columns originally returned as lists
+  by functions in rtweet package. See details for more information.
 }
 \description{
 Converts list columns that containing all atomic elements into
@@ -27,8 +27,8 @@ according to the rtweet package)
 }
 \details{
 If recursive list columns are contained within the data frame,
-  convertion of relevant columns will still occur but output will also
-  be accompanied with a warning message.
+  relevant columns will still be converted to atomic types but output
+  will also be accompanied with a warning message.
 
 `flatten` flattens list columns by pasting them into a single string for
   each observations. For example, a tweet that mentions four other users,

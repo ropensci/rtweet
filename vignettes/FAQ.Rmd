@@ -32,6 +32,7 @@ Occurs when attempting to create a token
 
 #### Solutions
 
+1. Make sure you have **at least** rtweet version `0.6.6`
 1. Check callback URL
 1. Make sure `Callback URL` option in "Settings" tab at https://apps.twitter.com **match exactly** the following: `http://127.0.0.1:1410`
 1. Make sure API keys **match exactly** the values for your Twitter app (found under the `Keys and Access Tokens` tab at https://apps.twitter.com)

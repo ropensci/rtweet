@@ -54,17 +54,17 @@ save_as_csv <- function(x, file_name,
 #' character vectors and vice versa (for appropriate named variables
 #' according to the rtweet package)
 #'
-#' @param x Data frame with list columns or converted-to-character (flata'd)
+#' @param x Data frame with list columns or converted-to-character (flattened)
 #'   columns.
 #' @return If flattened, then data frame where non-recursive list
 #'   columns---that is, list columns that contain only atomic, or non-list,
 #'   elements---have been converted to character vectors. If unflattened,
-#'   this function splits on spaces columsn originally returned as lists
-#'   by functions in rtweett package. See details for more information.
+#'   this function splits on spaces columns originally returned as lists
+#'   by functions in rtweet package. See details for more information.
 #'
 #' @details If recursive list columns are contained within the data frame,
-#'   convertion of relevant columns will still occur but output will also
-#'   be accompanied with a warning message.
+#'   relevant columns will still be converted to atomic types but output
+#'   will also be accompanied with a warning message.
 #'
 #' `flatten` flattens list columns by pasting them into a single string for
 #'   each observations. For example, a tweet that mentions four other users,
@@ -93,6 +93,7 @@ flatten <- function(x) {
       ifelse(length(b) == 0 | (length(b) == 1 && is.na(b)), "",
         paste(b, collapse = " ")),
       FUN.VALUE = character(1), USE.NAMES = FALSE))
+  x[la] <- lapply(x[la], function(.) ifelse(. == "", NA, .))
   if (any(vapply(x, is.recursive,
     FUN.VALUE = logical(1), USE.NAMES = FALSE))) {
     warning("data frame still contains recursive columns!")
@@ -145,6 +146,7 @@ x_ids <- function(x) {
         list(NA_character_), list(paste0("x", .))))
     x <- lapply(x, unlist, recursive = FALSE)
   } else {
+    x[x == ""] <- NA_character_
     x[!is.na(x)] <- paste0("x", x[!is.na(x)])
     x[!is.na(x)] <- gsub(" ", " x", x[!is.na(x)])
   }

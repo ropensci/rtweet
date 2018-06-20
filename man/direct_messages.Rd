@@ -15,7 +15,7 @@ direct_messages_sent(since_id = NULL, max_id = NULL, n = 200,
 and retrieve, up to a maximum of 50.}
 
 \item{next_cursor}{If there are more than 200 DMs in the last 30 days,
-respones will include a next_cursor value, which can be supplied in
+responses will include a next_cursor value, which can be supplied in
 additional requests to scroll through pages of results.}
 
 \item{parse}{Logical indicating whether to convert response object

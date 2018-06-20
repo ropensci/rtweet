@@ -5,7 +5,7 @@
 #' @param n optional Specifies the number of direct messages to try
 #'   and retrieve, up to a maximum of 50.
 #' @param next_cursor If there are more than 200 DMs in the last 30 days,
-#'   respones will include a next_cursor value, which can be supplied in
+#'   responses will include a next_cursor value, which can be supplied in
 #'   additional requests to scroll through pages of results.
 #' @param parse Logical indicating whether to convert response object
 #'   into nested list. Defaults to true.

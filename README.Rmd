@@ -71,7 +71,7 @@ and create a new app by completing the form fields (note: **users must enter the
   - **`***Callback URL***`**: `http://127.0.0.1:1410`
 + Check yes if you agree and then click "Create your Twitter application"
 
-### 2a. Create token via web browser (interactive)
+### 2a. Authenticate via web browser (interactive)
 + Go to your app's page at [apps.twitter.com](https://apps.twitter.com/) and click the tab labeled **`Keys and Access Tokens`**
 + Copy the **`Consumer Key`** and **`Consumer Secret`** values and pass them, along with the name of your app, to the `create_token()` function
     ```{r}
@@ -82,7 +82,7 @@ and create a new app by completing the form fields (note: **users must enter the
       consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
     ```
 
-### 2b. Create token via access token
+### 2b. Authenticate via access token
 + Go to your app's page at [apps.twitter.com](https://apps.twitter.com/) and click the tab labeled **`Keys and Access Tokens`**
 + Scroll down to **`Token Actions`** and click **`Create my access token`**
 + Copy the **`Consumer Key`**, **`Consumer Secret`**, **`Access Token`**, and **`Access Token Secret`** values and pass them, along with the name of your app, to the `create_token()` function

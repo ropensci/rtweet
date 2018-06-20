@@ -1,7 +1,6 @@
 #' Get all lists a specified user subscribes to, including their own.
 #'
 #' @param user The ID of the user or screen name for whom to return results.
-#'   Helpful for disambiguating when a valid user ID is also a valid screen name.
 #' @param reverse optional Set this to true if you would like owned lists
 #'   to be returned first. See description above for information on
 #'   how this parameter works.

@@ -29,12 +29,6 @@ This vignette covers how to obtain and use Twitter API access tokens for use in 
 <img src="files/creating.png" alt="creating">
 </p>
 
-- Next, click the tab labeled `Keys and Access Tokens` to retrieve your keys.
-
-<p align="center">
-<img src="files/created.png" alt="created">
-</p>
-
 ## Authorization methods
 
 Users can create their personal access token in two different ways. Each method is outlined below.
@@ -50,36 +44,29 @@ if (!requireNamespace("httpuv", quietly = TRUE)) {
 }
 ```
 
+- Click the tab labeled `Keys and Access Tokens` to retrieve your keys.
+
+<p align="center">
+<img src="files/created.png" alt="created">
+</p>
+
 - In the `Keys and Access Tokens` tab, locate the values `Consumer Key` (aka "API Key") and `Consumer Secret` (aka "API Secret").
 
 <p align="center">
 <img src="files/keys.png" alt="keys">
 </p>
 
-- Copy and paste the two keys (along with the name of your app) into an R script file and assign them to objects as is done in the code below.
+- Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to `create_token()`.
 
 ```{r}
-## whatever name you assigned to your created app
-appname <- "rtweet_token"
-
-## api key (example below is not a real key)
-key <- "XYznzPFOFZR2a39FwWKN1Jp41"
-
-## api secret (example below is not a real key)
-secret <- "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"
+## autheticate via web browser
+token <- create_token(
+  app = "rtweet_token",
+  consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+  consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
 ```
 
-- Once the keys are read into R, pass the objects to `create_token()`, and store the output as `twitter_token`.
-
-```{r}
-## create token and save it as an environment variable
-twitter_token <- create_token(
-  app = appname,
-  consumer_key = key,
-  consumer_secret = secret)
-```
-
-- A browser window should pop up. Click to approve and return to R.
+- A browser window should pop up. Click to approve (must be signed into twitter.com) and return to R.
 
 - The `create_token()` function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by `get_token()`
 
@@ -91,7 +78,13 @@ identical(twitter_token, get_token())
 
 ### 2. Access token/secret method
 
-- In the `Keys and Access Tokens` tab, locate the values `Consumer Key` (aka "API Key") and `Consumer Secret` (aka "API Secret").
+- Click the tab labeled `Keys and Access Tokens` to retrieve your keys.
+
+<p align="center">
+<img src="files/created.png" alt="created">
+</p>
+
+- In the `Keys and Access Tokens` tab, locate and copy/paste values `Consumer Key` (aka "API Key") and `Consumer Secret` (aka "API Secret") into an R script.
 
 <p align="center">
 <img src="files/keys.png" alt="keys">
@@ -103,29 +96,21 @@ identical(twitter_token, get_token())
 <img src="files/gen_token.png" alt="gen_token">
 </p>
 
-- Two access keys,`Access Token` and `Access Token Secret`, should then appear as shown in image below (those are fake keys btw).
+- That should generate two access keys `Access Token` and `Access Token Secret`
 
 <p align="center">
 <img src="files/accesskeys.png" alt="acesskeys">
 </p>
 
-- Copy and paste the four keys (along with the name of your app) into an R script file and assign them to objects as is done in the code below.
+- Locate and copy/paste `Access Token` and `Access Token Secret` (fake keys shown in image above) into an R script file
 
 ```{r}
-## whatever name you assigned to your created app
-appname <- "rtweet_token"
-
-## api key (example below is not a real key)
-key <- "XYznzPFOFZR2a39FwWKN1Jp41"
-
-## api secret (example below is not a real key)
-secret <- "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"
-
-## access token (example below is not a real key)
-acess_token <- "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"
-
-## access secret (example below is not a real key)
-access_secret <- "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"
+## authenticate via access token
+token <- create_token(
+  app = "my_twitter_research_app",
+  consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+  acess_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
+  access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
 ```
 
 - Once the keys are read into R, pass the objects to `create_token()`, and store the output as `twitter_token`.
@@ -147,7 +132,6 @@ twitter_token <- create_token(
 ## check to see if the token is loaded
 identical(twitter_token, get_token())
 ```
-
 
 
 That's it!
