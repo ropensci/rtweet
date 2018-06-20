@@ -5,12 +5,14 @@ citEntry(
     title        = "rtweet: Collecting Twitter Data",
     author       = as.person("Michael W. Kearney"),
     year         = "2018",
-    note         = paste("R package version", utils::packageVersion("rtweet")),
+#    note         = paste("R package version", utils::packageVersion("rtweet")),
+    note         = "R package version 0.6.7",
     url          = "https://cran.r-project.org/package=rtweet",
     key          = "rtweet-package",
     textVersion  = paste(
         "Kearney, M. W. (2018). rtweet: Collecting Twitter",
-        "Data. R package version", paste0(utils::packageVersion("rtweet"), "."),
+   #     "Data. R package version", paste0(utils::packageVersion("rtweet"), "."),
+        "Data. R package version 0.6.7",
         "Retrieved from https://cran.r-project.org/package=rtweet"
     )
 )
