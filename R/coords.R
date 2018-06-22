@@ -115,7 +115,7 @@ find_google_geocode_key <- function() {
     p <- grep("GOOGLE.*KEY", evs, ignore.case = TRUE)
     p <- p[length(p)]
     key <- Sys.getenv(evs[p])
-  } else if (interactive) {
+  } else if (interactive()) {
     yn <- menuline("lookup_users() requires a Google Maps API key (for instructions on how to acquire one, see: https://developers.google.com/maps/documentation/javascript/tutorial), Do you have a Google Maps API key you'd like to use?", c("Yes", "No"))
     if (yn == 2) {
       stop("sorry, lookup_users() requires a Google Maps API key")
@@ -124,7 +124,16 @@ find_google_geocode_key <- function() {
     key <- gsub("\\s+|\"|'", "", key)
     set_renv(GOOGLE_MAPS_KEY = key)
   } else {
-    stop("sorry, lookup_users() requires a Google Maps API key stored as a GOOGLE_MAPS_KEY environment variable")
+    key <- ""
+  }
+  ## if invalid key
+  if (identical(key, "")) {
+    msg <- paste0("Invalid key. `lookup_users()` expects a non-empty string stored as ",
+      "`GOOGLE_MAPS_KEY` in the \".Renviron\" file or passed via `apikey`, e.g., ",
+      "`lookup_coords(\"London, UK\", apikey = \"MWIFdTiGjPqy-nPknKmvLLeOInVzETZVlRg_2mg\")`",
+      ". For instructions on obtaining a Google Maps API key, see: ",
+      "https://developers.google.com/maps/documentation/javascript/tutorial")
+    stop(msg)
   }
   key
 }
