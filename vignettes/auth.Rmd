@@ -102,28 +102,16 @@ identical(twitter_token, get_token())
 <img src="files/accesskeys.png" alt="acesskeys">
 </p>
 
-- Locate and copy/paste `Access Token` and `Access Token Secret` (fake keys shown in image above) into an R script file
+- Locate and copy/paste the `Consumer Key` (aka "API Key"), `Consumer Secret` (aka "API Secret"), `Access Token`, and `Access Token Secret` values and pass them along to `create_token()`, storing the output as a `token` object.
 
 ```{r}
 ## authenticate via access token
 token <- create_token(
   app = "my_twitter_research_app",
   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+  consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD",
   acess_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
   access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
-```
-
-- Once the keys are read into R, pass the objects to `create_token()`, and store the output as `twitter_token`.
-
-```{r}
-## create token and save it as an environment variable
-twitter_token <- create_token(
-  app = appname,
-  consumer_key = key,
-  consumer_secret = secret,
-  access_token = access_token,
-  access_secret = access_secret
-)
 ```
 
 - The `create_token()` function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by `get_token()`
