@@ -4,7 +4,7 @@
 #' Response data varies significantly compared to most other users and tweets
 #' data objects returned in this package.
 #'
-#' @param id required The identifier of the Collection to return results for
+#' @param id required. The identifier of the Collection to return results for
 #'   e.g., "custom-539487832448843776"
 #' @param n Specifies the maximum number of results to include in
 #'   the response. Specify count between 1 and 200.
