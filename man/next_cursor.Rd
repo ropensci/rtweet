@@ -3,11 +3,17 @@
 \name{next_cursor}
 \alias{next_cursor}
 \alias{max_id}
-\title{next_cursor/max_id}
+\alias{previous_cursor}
+\alias{since_id}
+\title{next_cursor/previous_cursor/max_id}
 \usage{
 next_cursor(x)
 
 max_id(.x)
+
+previous_cursor(x)
+
+since_id(.x)
 }
 \arguments{
 \item{x}{Data object returned by Twitter API.}
@@ -24,6 +30,10 @@ Character string of next cursor value used to retrieved
 \description{
 Method for returning next value (used to request next page or results)
 object returned from Twitter APIs.
+
+Paginate in reverse (limited integration)
+
+Get the newest ID collected to date.
 }
 \examples{
 \dontrun{
@@ -53,6 +63,12 @@ nrow(f)
 
 }
 \seealso{
+Other ids: \code{\link{get_followers}},
+  \code{\link{get_friends}}
+
+Other extractors: \code{\link{tweets_data}},
+  \code{\link{users_data}}
+
 Other ids: \code{\link{get_followers}},
   \code{\link{get_friends}}
 
