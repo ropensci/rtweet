@@ -8,8 +8,9 @@
 lists_members(list_id = NULL, slug = NULL, owner_user = NULL, n = 5000,
   cursor = "-1", token = NULL, parse = TRUE, ...)
 
-lists_memberships(user = NULL, n = 100, cursor = "-1",
-  filter_to_owned_lists = FALSE, token = NULL, parse = TRUE)
+lists_memberships(user = NULL, n = 200, cursor = "-1",
+  filter_to_owned_lists = FALSE, token = NULL, parse = TRUE,
+  previous_cursor = NULL)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -23,8 +24,10 @@ owner_user parameters.}
 who owns the list being requested by a slug.}
 
 \item{n}{Specifies the number of results to return
-per page (see cursor below). For `list_memberships()`, the default, and
-max per page, is 100. For `lists_members()`, the default, and max number
+per page (see cursor below). For `list_memberships()`, the default and
+max is 200 per page. Twitter technically allows up to 1,000 per page,
+but above 200 frequently results in an over capacity error.
+For `lists_members()`, the default, and max number
 of users per list, is 5,000.}
 
 \item{cursor}{optional Breaks the results into pages. Provide a
@@ -50,6 +53,9 @@ return results for.}
 \item{filter_to_owned_lists}{When set to true . t or 1 , will
 return just lists the authenticating user owns, and the user
 represented by user_id or screen_name is a member of.}
+
+\item{previous_cursor}{If you wish to use previous cursor instead of next,
+input value here to override next cursor.}
 }
 \value{
 Either a nested list (if parsed) or an HTTP response object.
@@ -83,8 +89,8 @@ rstats
 
 \dontrun{
 
-## get up to 300 Twitter lists that include Nate Silver
-ns538 <- lists_memberships("NateSilver538", n = 300)
+## get up to 1000 Twitter lists that include Nate Silver
+ns538 <- lists_memberships("NateSilver538", n = 1000)
 
 ## view data
 ns538
