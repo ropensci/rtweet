@@ -8,8 +8,10 @@
 #' @param owner_user optional The screen name or user ID of the user
 #'   who owns the list being requested by a slug.
 #' @param n Specifies the number of results to return
-#'   per page (see cursor below). For `list_memberships()`, the default, and
-#'   max per page, is 100. For `lists_members()`, the default, and max number
+#'   per page (see cursor below). For `list_memberships()`, the default and
+#'   max is 200 per page. Twitter technically allows up to 1,000 per page,
+#'   but above 200 frequently results in an over capacity error.
+#'   For `lists_members()`, the default, and max number
 #'   of users per list, is 5,000.
 #' @param cursor optional Breaks the results into pages. Provide a
 #'   value of -1 to begin paging. Provide values as returned in the
