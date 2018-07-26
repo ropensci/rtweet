@@ -316,6 +316,11 @@ search_tweets_ <- function(q = "",
                            token = NULL,
                            verbose = TRUE,
                            ...) {
+  ## gotta have ut8-encoding for the comma separated IDs
+  op <- getOption("encoding")
+  on.exit(options(encoding = op), add = TRUE)
+  options(encoding = "UTF-8")
+
   ## path name
   query <- "search/tweets"
   ## validate

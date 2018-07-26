@@ -47,8 +47,8 @@ next_cursor.default <- function(x) return_last(x)
 
 #' @export
 next_cursor.numeric <- function(x) {
-  op <- options()
-  on.exit(options(op))
+  sp <- getOption("scipen")
+  on.exit(options(sp), add = TRUE)
   options(scipen = 14)
   x <- as.character(x)
   NextMethod()
@@ -154,8 +154,8 @@ max_id.NULL <- function(.x) return(NULL)
 
 #' @export
 max_id.numeric <- function(.x) {
-  op <- getOption("scipen")
-  on.exit(options(scipen = op))
+  sp <- getOption("scipen")
+  on.exit(options(scipen = sp), add = TRUE)
   options(scipen = 15)
   .x <- as.character(.x)
   max_id(.x)
@@ -163,8 +163,8 @@ max_id.numeric <- function(.x) {
 
 #' @export
 max_id.integer <- function(.x) {
-  op <- getOption("scipen")
-  on.exit(options(scipen = op))
+  sp <- getOption("scipen")
+  on.exit(options(scipen = sp), add = TRUE)
   options(scipen = 15)
   .x <- as.character(.x)
   max_id(.x)
@@ -284,8 +284,8 @@ previous_cursor.default <- function(x) return_last(x)
 
 #' @export
 previous_cursor.numeric <- function(x) {
-  op <- options()
-  on.exit(options(op))
+  sp <- getOption("scipen")
+  on.exit(options(scipen = sp), add = TRUE)
   options(scipen = 14)
   x <- as.character(x)
   NextMethod()
@@ -363,8 +363,8 @@ since_id.NULL <- function(.x) return(NULL)
 
 #' @export
 since_id.numeric <- function(.x) {
-  op <- getOption("scipen")
-  on.exit(options(scipen = op))
+  sp <- getOption("scipen")
+  on.exit(options(scipen = sp), add = TRUE)
   options(scipen = 15)
   .x <- as.character(.x)
   since_id(.x)
@@ -372,8 +372,8 @@ since_id.numeric <- function(.x) {
 
 #' @export
 since_id.integer <- function(.x) {
-  op <- getOption("scipen")
-  on.exit(options(scipen = op))
+  sp <- getOption("scipen")
+  on.exit(options(scipen = sp), add = TRUE)
   options(scipen = 15)
   .x <- as.character(.x)
   since_id(.x)

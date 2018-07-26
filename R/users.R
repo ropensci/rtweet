@@ -116,6 +116,11 @@ get_access_level <- function(token) {
 
 
 .user_lookup <- function(users, token = NULL) {
+  ## gotta have ut8-encoding for the comma separated IDs
+  op <- getOption("encoding")
+  on.exit(options(encoding = op), add = TRUE)
+  options(encoding = "UTF-8")
+
   query <- "users/lookup"
   get <- TRUE
   if (length(users) > 100) {
@@ -125,9 +130,9 @@ get_access_level <- function(token) {
   if (length(users) > 80 && has_read_access(token)) {
     get <- FALSE
   }
-  op <- getOption("scipen")
+  sp <- getOption("scipen")
   if (is.numeric(users)) {
-    on.exit(options(scipen = op))
+    on.exit(options(scipen = sp), add = TRUE)
     options(scipen = 10)
   }
   params <- list(id_type = paste0(users, collapse = ","))

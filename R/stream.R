@@ -146,7 +146,7 @@ stream_tweets <- function(q = "",
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")
     options(encoding = "UTF-8")
-    on.exit(options(encoding = op))
+    on.exit(options(encoding = op), add = TRUE)
   }
   token <- check_token(token)
   if (!timeout) {
@@ -244,6 +244,11 @@ is_user_ids <- function(x) {
 }
 
 stream_params <- function(stream, ...) {
+  ## gotta have ut8-encoding for the comma separated IDs
+  op <- getOption("encoding")
+  on.exit(options(encoding = op), add = TRUE)
+  options(encoding = "UTF-8")
+
   if (inherits(stream, "coords")) {
     stream <- stream$box
   }

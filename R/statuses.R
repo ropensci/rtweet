@@ -74,6 +74,11 @@ lookup_statuses_ <- function(statuses,
 }
 
 .status_lookup <- function(statuses, token = NULL) {
+  ## gotta have ut8-encoding for the comma separated IDs
+  op <- getOption("encoding")
+  on.exit(options(encoding = op), add = TRUE)
+  options(encoding = "UTF-8")
+
   query <- "statuses/lookup"
   if (length(statuses) > 100) {
     statuses <- statuses[1:100]
