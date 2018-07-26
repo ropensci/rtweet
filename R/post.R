@@ -475,6 +475,65 @@ post_list_create <- function(name,
 }
 
 
+
+post_list_add_one <- function(user,
+                              list_id = NULL,
+                              slug = NULL,
+                              token = NULL) {
+  ## must id list via numeric ID or slug
+  if (is.null(list_id) && is.null(slug)) {
+    stop("must supply either list_id or slug to identify pre-existing list")
+  }
+
+  ## check and reformat users
+  stopifnot(is.character(user))
+  if (length(user) > 1) {
+    warning("Can only add 1 users at a time via this method. Adding user[]...",
+      call. = FALSE)
+    user <- user[1]
+  }
+  users_param_name <- .ids_type(user)
+
+  ## check token
+  token <- check_token(token)
+
+  ## specify API path
+  query <- "lists/members/create"
+
+  ## if list id
+  if (!is.null(list_id)) {
+    stopifnot(is.atomic(list_id), length(list_id) == 1)
+    params <- list(
+      list_id = list_id,
+      user = user
+    )
+
+  ## if slug
+  } else {
+    stopifnot(is.atomic(slug), length(slug) == 1)
+    params <- list(
+      slug = slug,
+      owner_screen_name = home_user(),
+      user = user
+    )
+  }
+  ## rename last param
+  names(params)[length(params)] <- users_param_name
+
+  ## build URL
+  url <- make_url(query = query, param = params)
+
+  ## send request
+  r <- TWIT(get = FALSE, url, token)
+
+  ## check status
+  warn_for_twitter_status(r)
+
+  ## return response object
+  r
+}
+
+
 post_list_destroy <- function(list_id = NULL,
                               slug = NULL,
                               token = NULL) {
@@ -521,7 +580,8 @@ post_list_create_all <- function(users,
       call. = FALSE)
     users <- users[1:100]
   }
-  users <- paste(users, collapse = ",")
+  users_param_name <- .ids_type(users)
+  users <- paste0(users, collapse = ",")
 
   ## check token
   token <- check_token(token)
@@ -547,7 +607,7 @@ post_list_create_all <- function(users,
     )
   }
   ## rename last param
-  names(params)[length(params)] <- .ids_type(users)
+  names(params)[length(params)] <- users_param_name
 
   ## build URL
   url <- make_url(query = query, param = params)
@@ -578,8 +638,8 @@ post_list_destroy_all <- function(users,
       call. = FALSE)
     users <- users[1:100]
   }
-
-  users <- paste(users, collapse = ",")
+  users_param_name <- .ids_type(users)
+  users <- paste0(users, collapse = ",")
 
   ## check token
   token <- check_token(token)
@@ -605,7 +665,7 @@ post_list_destroy_all <- function(users,
     )
   }
   ## rename last param
-  names(params)[length(params)] <- .ids_type(users)
+  names(params)[length(params)] <- users_param_name
 
   ## build URL
   url <- make_url(query = query, param = params)
@@ -696,6 +756,12 @@ post_list <- function(users = NULL,
                       list_id = NULL,
                       slug = NULL,
                       token = NULL) {
+  ## this took me forever to figure out but gotta have ut8-encoding
+  ## for the comma separated IDs
+  op <- getOption("encoding")
+  on.exit(options(encoding = op), add = TRUE)
+  options(encoding = "UTF-8")
+
   ## destroy list
   if (destroy && is.null(users)) {
     return(post_list_destroy(list_id, slug, token))
@@ -717,6 +783,17 @@ post_list <- function(users = NULL,
     list_id <- tl$id_str
   }
 
-  ## add users to list
-  post_list_create_all(users, list_id, slug, token)
+  ## add users to list one at a time
+  #post_list_create_all(users, list_id, slug, token)
+  r <- list()
+  for (i in seq_along(users)) {
+    r[[length(r) + 1]] <- post_list_add_one(users[i], list_id = list_id, slug = slug, token = token)
+  }
+  if (r[[length(r)]]$status_code == 200) {
+    message("Successfully added users to list!")
+    invisible(r)
+  } else {
+    message(httr::content(r))
+    r
+  }
 }
