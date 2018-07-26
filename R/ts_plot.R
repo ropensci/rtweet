@@ -146,7 +146,8 @@ ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   )
   ## if grouped df (up to 2 groups)
   if (inherits(data, "grouped_df")) {
-    groups <- names(attr(data, "labels"))
+    groups <- names(attr(data, "groups"))
+    groups <- groups[!groups %in% ".rows"]
     if (length(groups) > 1L) {
       group2 <- groups[2]
     } else {
