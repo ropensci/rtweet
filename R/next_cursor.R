@@ -106,13 +106,25 @@ get_max_id <- function(x) {
     if (has_name_(x, "next_cursor_str")) {
       return(x[["next_cursor_str"]])
     }
-    if (has_name_(x, "id")) {
+    if (has_name_(x, "id_str")) {
+      x <- x[["id_str"]]
+    } else if (has_name_(x, "id")) {
       x <- x[["id"]]
     } else if (has_name_(x, "ids")) {
       x <- x[["ids"]]
     } else if (is.null(names(x))) {
       if (has_name_(x[[1]], "next_cursor_str")) {
         return(x[[1]][["next_cursor_str"]])
+      }
+      if (has_name_(x[[1]], "next_cursor")) {
+        return(x[[1]][["next_cursor"]])
+      }
+      if (has_name_(x[[1]], "id_str")) {
+        x <- x[[1]][["id_str"]]
+      } else if (has_name_(x[[1]], "id")) {
+        x <- x[[1]][["id"]]
+      } else if (has_name_(x[[1]], "ids")) {
+        x <- x[[1]][["ids"]]
       }
     } else if (has_name_(x, "status_id")) {
       x <- x[["status_id"]]
