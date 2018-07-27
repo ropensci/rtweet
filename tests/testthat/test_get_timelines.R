@@ -17,7 +17,7 @@ test_that("get_timeline", {
   expect_true(inherits(p, "ggplot"))
   if (requireNamespace("ggplot2", quietly = TRUE)) {
     g <- readRDS("g.rds")
-    g <- structure(g, class = c("grouped_df", "data.frame"))
+    #g <- structure(g, class = c("grouped_df", "data.frame"))
     p <- ts_plot(g, "hours", trim = 1)
     expect_true(inherits(p, "ggplot"))
   }
