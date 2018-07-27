@@ -6,7 +6,7 @@ test_that("get_timeline", {
   n <- 400
   token <- readRDS("twitter_tokens")
   x <- get_timeline(c("cnnbrk", "cnn"), n = n, token = token)
-  expect_true(is.data.frame(x), TRUE)
+  expect_true(is.data.frame(x))
   expect_named(x)
   expect_true("status_id" %in% names(x))
   expect_gt(nrow(x), 100)
@@ -15,10 +15,12 @@ test_that("get_timeline", {
   expect_true(is.data.frame(xts))
   p <- ts_plot(xts)
   expect_true(inherits(p, "ggplot"))
-  g <- readRDS("g.rds")
-  g <- structure(g, class = c("grouped_df", "data.frame"))
-  p <- ts_plot(g, "hours", trim = 1)
-  expect_true(inherits(p, "ggplot"))
+  if (requireNamespace("ggplot2", quietly = TRUE)) {
+    g <- readRDS("g.rds")
+    g <- structure(g, class = c("grouped_df", "data.frame"))
+    p <- ts_plot(g, "hours", trim = 1)
+    expect_true(inherits(p, "ggplot"))
+  }
   d <- ts_data(g, "hours", trim = 1)
   expect_true(is.data.frame(d), TRUE)
   expect_equal(ncol(d), 4)

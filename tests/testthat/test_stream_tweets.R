@@ -6,7 +6,7 @@ test_that("stream_tweets returns tweets data", {
   token <- readRDS("twitter_tokens")
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
-                  timeout = 4, verbose = FALSE, token = token))
+                  timeout = 4, verbose = TRUE, token = token))
 
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
