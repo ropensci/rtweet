@@ -5,7 +5,8 @@
 \alias{direct_messages_sent}
 \title{Get direct messages sent to and received by the authenticating user from the past 30 days}
 \usage{
-direct_messages(n = 50, next_cursor = NULL, parse = TRUE, token = NULL)
+direct_messages(n = 50, next_cursor = NULL, parse = TRUE,
+  token = NULL)
 
 direct_messages_sent(since_id = NULL, max_id = NULL, n = 200,
   parse = TRUE, token = NULL)

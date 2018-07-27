@@ -37,7 +37,7 @@
 <meta property="og:description" content="Get Twitter list members (users on a given list).
 Get Twitter list memeberships (lists containing a given user)" />
 
-<meta property="og:image" content="http://rtweet.info/logo.png" />
+<meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +66,7 @@ Get Twitter list memeberships (lists containing a given user)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtweet</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7.9000</span>
       </span>
     </div>
 
@@ -138,11 +138,12 @@ Get Twitter list memeberships (lists containing a given user)" />
     
     </div>
 
-    <pre class="usage"><span class='fu'>lists_members</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
-  <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lists_members</span>(<span class='kw'>list_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slug</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>owner_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>lists_memberships</span>(<span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
-  <span class='kw'>filter_to_owned_lists</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>lists_memberships</span>(<span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='st'>"-1"</span>,
+  <span class='kw'>filter_to_owned_lists</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>previous_cursor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,8 +167,10 @@ who owns the list being requested by a slug.</p></td>
     <tr>
       <th>n</th>
       <td><p>Specifies the number of results to return
-per page (see cursor below). For `list_memberships()`, the default, and
-max per page, is 100. For `lists_members()`, the default, and max number
+per page (see cursor below). For `list_memberships()`, the default and
+max is 200 per page. Twitter technically allows up to 1,000 per page,
+but above 200 frequently results in an over capacity error.
+For `lists_members()`, the default, and max number
 of users per list, is 5,000.</p></td>
     </tr>
     <tr>
@@ -206,6 +209,11 @@ return results for.</p></td>
 return just lists the authenticating user owns, and the user
 represented by user_id or screen_name is a member of.</p></td>
     </tr>
+    <tr>
+      <th>previous_cursor</th>
+      <td><p>If you wish to use previous cursor instead of next,
+input value here to override next cursor.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -242,8 +250,8 @@ represented by user_id or screen_name is a member of.</p></td>
 
 <span class='co'># }</span><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='co'>## get up to 300 Twitter lists that include Nate Silver</span>
-<span class='no'>ns538</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_memberships</span>(<span class='st'>"NateSilver538"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+<span class='co'>## get up to 1000 Twitter lists that include Nate Silver</span>
+<span class='no'>ns538</span> <span class='kw'>&lt;-</span> <span class='fu'>lists_memberships</span>(<span class='st'>"NateSilver538"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
 <span class='co'>## view data</span>
 <span class='no'>ns538</span>
@@ -270,7 +278,7 @@ represented by user_id or screen_name is a member of.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael Wayne Kearney.</p>
+  <p>Developed by Michael W. Kearney.</p>
 </div>
 
 <div class="pkgdown">

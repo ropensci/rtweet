@@ -12,7 +12,7 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Obtaining and using access tokens">
 <meta property="og:description" content="">
-<meta property="og:image" content="http://rtweet.info/logo.png">
+<meta property="og:image" content="https://rtweet.info/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtweet</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7.9000</span>
       </span>
     </div>
 
@@ -181,31 +181,21 @@
 <p align="center">
 <img src="files/accesskeys.png" alt="acesskeys"></p>
 <ul>
-<li>Locate and copy/paste <code>Access Token</code> and <code>Access Token Secret</code> (fake keys shown in image above) into an R script file</li>
+<li>Locate and copy/paste the <code>Consumer Key</code> (aka “API Key”), <code>Consumer Secret</code> (aka “API Secret”), <code>Access Token</code>, and <code>Access Token Secret</code> values and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>, storing the output as a <code>token</code> object.</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## authenticate via access token</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">app =</span> <span class="st">"my_twitter_research_app"</span>,</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">consumer_key =</span> <span class="st">"XYznzPFOFZR2a39FwWKN1Jp41"</span>,</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">acess_token =</span> <span class="st">"9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span>,</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">access_secret =</span> <span class="st">"9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span>)</a></code></pre></div>
-<ul>
-<li>Once the keys are read into R, pass the objects to <code><a href="../reference/create_token.html">create_token()</a></code>, and store the output as <code>twitter_token</code>.</li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">## create token and save it as an environment variable</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">twitter_token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">app =</span> appname,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">consumer_key =</span> key,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">consumer_secret =</span> secret,</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">access_token =</span> access_token,</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">access_secret =</span> access_secret</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">)</a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">consumer_secret =</span> <span class="st">"CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">acess_token =</span> <span class="st">"9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span>,</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="dt">access_secret =</span> <span class="st">"9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span>)</a></code></pre></div>
 <ul>
 <li>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code>
 </li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">## check to see if the token is loaded</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">## check to see if the token is loaded</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 <p>That’s it!</p>
 </div>
 </div>
@@ -227,7 +217,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael Wayne Kearney.</p>
+  <p>Developed by Michael W. Kearney.</p>
 </div>
 
 <div class="pkgdown">

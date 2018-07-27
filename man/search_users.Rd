@@ -4,7 +4,8 @@
 \alias{search_users}
 \title{Get users data on accounts identified via search query.}
 \usage{
-search_users(q, n = 100, parse = TRUE, token = NULL, verbose = TRUE)
+search_users(q, n = 100, parse = TRUE, token = NULL,
+  verbose = TRUE)
 }
 \arguments{
 \item{q}{Query to be searched, used in filtering relevant tweets to

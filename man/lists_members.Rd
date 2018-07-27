@@ -5,8 +5,8 @@
 \alias{lists_memberships}
 \title{Get Twitter list members (users on a given list).}
 \usage{
-lists_members(list_id = NULL, slug = NULL, owner_user = NULL, n = 5000,
-  cursor = "-1", token = NULL, parse = TRUE, ...)
+lists_members(list_id = NULL, slug = NULL, owner_user = NULL,
+  n = 5000, cursor = "-1", token = NULL, parse = TRUE, ...)
 
 lists_memberships(user = NULL, n = 200, cursor = "-1",
   filter_to_owned_lists = FALSE, token = NULL, parse = TRUE,

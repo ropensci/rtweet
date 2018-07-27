@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>next_cursor/max_id — next_cursor • rtweet</title>
+<title>next_cursor/previous_cursor/max_id — next_cursor • rtweet</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -32,12 +32,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="next_cursor/max_id — next_cursor" />
+<meta property="og:title" content="next_cursor/previous_cursor/max_id — next_cursor" />
 
 <meta property="og:description" content="Method for returning next value (used to request next page or results)
-object returned from Twitter APIs." />
+object returned from Twitter APIs.
+Paginate in reverse (limited integration)
+Get the newest ID collected to date." />
 
-<meta property="og:image" content="http://rtweet.info/logo.png" />
+<meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +68,7 @@ object returned from Twitter APIs." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtweet</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7.9000</span>
       </span>
     </div>
 
@@ -126,7 +128,7 @@ object returned from Twitter APIs." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>next_cursor/max_id</h1>
+    <h1>next_cursor/previous_cursor/max_id</h1>
     
     <div class="hidden name"><code>next_cursor.Rd</code></div>
     </div>
@@ -135,12 +137,18 @@ object returned from Twitter APIs." />
     
     <p>Method for returning next value (used to request next page or results)
 object returned from Twitter APIs.</p>
+<p>Paginate in reverse (limited integration)</p>
+<p>Get the newest ID collected to date.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>next_cursor</span>(<span class='no'>x</span>)
 
-<span class='fu'>max_id</span>(<span class='no'>.x</span>)</pre>
+<span class='fu'>max_id</span>(<span class='no'>.x</span>)
+
+<span class='fu'>previous_cursor</span>(<span class='no'>x</span>)
+
+<span class='fu'>since_id</span>(<span class='no'>.x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +174,10 @@ object returned from Twitter APIs.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other ids: <code><a href='get_followers.html'>get_followers</a></code>,
+  <code><a href='get_friends.html'>get_friends</a></code></p>
+<p>Other extractors: <code><a href='tweets_data.html'>tweets_data</a></code>,
+  <code><a href='users_data.html'>users_data</a></code></p>
+<p>Other ids: <code><a href='get_followers.html'>get_followers</a></code>,
   <code><a href='get_friends.html'>get_friends</a></code></p>
 <p>Other extractors: <code><a href='tweets_data.html'>tweets_data</a></code>,
   <code><a href='users_data.html'>users_data</a></code></p></div>
@@ -214,7 +226,7 @@ object returned from Twitter APIs.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael Wayne Kearney.</p>
+  <p>Developed by Michael W. Kearney.</p>
 </div>
 
 <div class="pkgdown">

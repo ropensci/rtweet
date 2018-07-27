@@ -12,7 +12,7 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="FAQ">
 <meta property="og:description" content="">
-<meta property="og:image" content="http://rtweet.info/logo.png">
+<meta property="og:image" content="https://rtweet.info/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtweet</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7.9000</span>
       </span>
     </div>
 
@@ -114,8 +114,8 @@
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;   app = "rtweet_token",</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">`</span><span class="dt">Error in init_oauth1.0(endpoint, app, permission = params$permission) :</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="dt">  client error: (401) Unauthorized</span><span class="st">`</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># `Error in init_oauth1.0(endpoint, app, permission = params$permission) :</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#  client error: (401) Unauthorized`</span></a></code></pre></div>
 </div>
 <div id="solutions" class="section level4">
 <h4 class="hasAnchor">
@@ -146,8 +146,8 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   app = "rtweet_token",</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">Error <span class="cf">in</span> <span class="kw">oauth_listener</span>(authorize_url, is_interactive) <span class="op">:</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">  </span>httpuv package required to capture OAuth credentials.</a></code></pre></div>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#Error in oauth_listener(authorize_url, is_interactive) :</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#  httpuv package required to capture OAuth credentials.</span></a></code></pre></div>
 </div>
 <div id="solutions-1" class="section level4">
 <h4 class="hasAnchor">
@@ -167,7 +167,7 @@
 <a href="#context-2" class="anchor"></a>Context</h4>
 <p>Occurs when sending request to Twitter API. It means you have invalid or expired keys stored in access token.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">#&gt; search_tweets("lang:en")</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">Warning<span class="op">:</span><span class="st"> </span><span class="dv">89</span> <span class="op">-</span><span class="st"> </span>Invalid or expired token.</a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#Warning: 89 - Invalid or expired token.</span></a></code></pre></div>
 </div>
 <div id="solutions-2" class="section level4">
 <h4 class="hasAnchor">
@@ -202,7 +202,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael Wayne Kearney.</p>
+  <p>Developed by Michael W. Kearney.</p>
 </div>
 
 <div class="pkgdown">

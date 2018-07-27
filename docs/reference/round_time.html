@@ -36,7 +36,7 @@
 
 <meta property="og:description" content="A generic function for rounding date and time values" />
 
-<meta property="og:image" content="http://rtweet.info/logo.png" />
+<meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtweet</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7.9000</span>
       </span>
     </div>
 
@@ -165,12 +165,11 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## class posixct</span>
-<span class='fu'>round_time</span>(<span class='fu'>Sys.time</span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2018-06-20 UTC"</div><div class='input'>
+<span class='fu'>round_time</span>(<span class='fu'>Sys.time</span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2018-07-27 12:00:00 UTC"</div><div class='input'>
 <span class='co'>## class date</span>
-<span class='fu'>unique</span>(<span class='fu'>round_time</span>(<span class='fu'>seq</span>(<span class='fu'>Sys.Date</span>(), <span class='fu'>Sys.Date</span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2018-06-14" "2018-06-21" "2018-06-28" "2018-07-05" "2018-07-12"
-#&gt;  [6] "2018-07-19" "2018-07-26" "2018-08-02" "2018-08-09" "2018-08-16"
-#&gt; [11] "2018-08-23" "2018-08-30" "2018-09-06" "2018-09-13" "2018-09-20"
-#&gt; [16] "2018-09-27"</div></pre>
+<span class='fu'>unique</span>(<span class='fu'>round_time</span>(<span class='fu'>seq</span>(<span class='fu'>Sys.Date</span>(), <span class='fu'>Sys.Date</span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2018-07-26" "2018-08-02" "2018-08-09" "2018-08-16" "2018-08-23"
+#&gt;  [6] "2018-08-30" "2018-09-06" "2018-09-13" "2018-09-20" "2018-09-27"
+#&gt; [11] "2018-10-04" "2018-10-11" "2018-10-18" "2018-10-25" "2018-11-01"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -187,7 +186,7 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael Wayne Kearney.</p>
+  <p>Developed by Michael W. Kearney.</p>
 </div>
 
 <div class="pkgdown">

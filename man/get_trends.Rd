@@ -4,8 +4,8 @@
 \alias{get_trends}
 \title{Get Twitter trends data.}
 \usage{
-get_trends(woeid = 1, lat = NULL, lng = NULL, exclude_hashtags = FALSE,
-  token = NULL, parse = TRUE)
+get_trends(woeid = 1, lat = NULL, lng = NULL,
+  exclude_hashtags = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{woeid}{Numeric, WOEID (Yahoo! Where On Earth ID) or character

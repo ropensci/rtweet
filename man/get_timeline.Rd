@@ -5,11 +5,11 @@
 \alias{get_timelines}
 \title{Get one or more user timelines (tweets posted by target user(s)).}
 \usage{
-get_timeline(user, n = 100, max_id = NULL, home = FALSE, parse = TRUE,
-  check = TRUE, token = NULL, ...)
+get_timeline(user, n = 100, max_id = NULL, home = FALSE,
+  parse = TRUE, check = TRUE, token = NULL, ...)
 
-get_timelines(user, n = 100, max_id = NULL, home = FALSE, parse = TRUE,
-  check = TRUE, token = NULL, ...)
+get_timelines(user, n = 100, max_id = NULL, home = FALSE,
+  parse = TRUE, check = TRUE, token = NULL, ...)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
