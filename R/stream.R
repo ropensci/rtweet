@@ -192,28 +192,31 @@ stream_tweets <- function(q = "",
   }
   r <- NULL
   con <- file(file_name, "wt")
-  if (verbose) {
+  on.exit({sh <- tryCatch(close(con), error = function(e) return(NULL),
+    warning = function(w) return(NULL))}, add = TRUE)
+
+  start_time <- Sys.time()
+  stop_time <- Sys.time() + timeout
+  ctr <- 0
+  while (timeout > 0) {
     r <- tryCatch(httr::POST(
       url = url,
       httr::config(token = token, timeout = timeout),
       httr::write_stream(write_fun(con)),
       httr::add_headers(Accept = "application/json"),
       httr::add_headers(`Accept-Encoding` = "gzip, deflate")),
-      error = function(e) return(e)
-      )
-    message("Finished streaming tweets!")
-  } else {
-    r <- tryCatch(httr::POST(
-      url = url,
-      httr::config(token = token, timeout = timeout),
-      httr::write_stream(write_fun(con)),
-      httr::add_headers(Accept = "application/json"),
-      httr::add_headers(`Accept-Encoding` = "gzip, deflate")),
-      error = function(e) return(e)
-      )
+      error = function(e) return(e))
+    timeout <- as.numeric(difftime(stop_time, Sys.time(), units = "secs"))
+    if (timeout > 0) {
+      ctr <- ctr + 1
+      if (ctr == 1 && verbose) message(
+        "The stream disconnected prematurely. Reconnecting...")
+      if (ctr == 2 && verbose) message("Reconnecting again...")
+      if (ctr == 5) break
+    } else if (verbose) {
+      message("Finished streaming tweets!")
+    }
   }
-  sh <- tryCatch(close(con), error = function(e) return(NULL),
-    warning = function(w) return(NULL))
   if (parse) {
     out <- parse_stream(file_name, verbose = verbose)
     if (tmp) {
@@ -273,9 +276,8 @@ stream_params <- function(stream, ...) {
 
 
 good_lines <- function(x) {
-  grep("^\\{\"created.*ms\":\"[[:digit:]]{10,}\"\\}$", x, value = TRUE)
+  grep("^\\{\"created.*ms\":\"\\d+\"\\}$", x, value = TRUE)
 }
-
 
 
 limits_data <- function(x) {
@@ -297,7 +299,26 @@ stream_data <- function(file_name, ...) {
     options(encoding = "UTF-8")
     on.exit(options(encoding = op), add = TRUE)
   }
-  s <- jsonlite::stream_in(file(file_name), ...)
+  s <- tryCatch(jsonlite::stream_in(file(file_name), ...), error = function(e)
+    return(NULL))
+  if (is.null(s)) {
+    d <- readr::read_lines(file_name)
+    if (length(d) > 0) {
+      tmp <- tempfile()
+      on.exit(file.remove(tmp), add = TRUE)
+      d <- good_lines(d)
+    }
+    if (length(d) > 0) {
+      dd <- sapply(d, function(x) {
+        o <- tryCatch(jsonlite::fromJSON(x),
+          error = function(e) return(FALSE))
+        if (identical(o, FALSE)) return(FALSE)
+        return(TRUE)
+      }, USE.NAMES = FALSE)
+      writeLines(d[dd], tmp)
+      s <- jsonlite::stream_in(file(tmp, "rb"))
+    }
+  }
   if (length(s) == 0L) s <- NULL
   tweets_with_users(s)
 }
@@ -307,7 +328,8 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
     stop("No such file exists", call. = FALSE)
   }
   if (!requireNamespace("readr", quietly = TRUE)) {
-    warning("For better performance when reading large twitter .json files, try installing the readr package before using this function.")
+    warning("For better performance when reading large twitter .json files, ",
+      "try installing the readr package before using this function.")
     return(stream_data(x, ...))
   }
   ## initalize counters and output vector
