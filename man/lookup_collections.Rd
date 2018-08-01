@@ -7,7 +7,7 @@
 lookup_collections(id, n = 200, parse = TRUE, token = NULL, ...)
 }
 \arguments{
-\item{id}{required The identifier of the Collection to return results for
+\item{id}{required. The identifier of the Collection to return results for
 e.g., "custom-539487832448843776"}
 
 \item{n}{Specifies the maximum number of results to include in
