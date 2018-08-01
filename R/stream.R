@@ -217,6 +217,7 @@ stream_tweets <- function(q = "",
       message("Finished streaming tweets!")
     }
   }
+  close(con)
   if (parse) {
     out <- parse_stream(file_name, verbose = verbose)
     if (tmp) {
