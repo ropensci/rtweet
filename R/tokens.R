@@ -381,7 +381,8 @@ twitter_pat <- function() {
     } else if (file.exists("token") && is_tokenfile("token")) {
       pat <- "token"
     } else {
-      stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
+      pat <- "system"
+      #stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
     }
   }
   pat
@@ -457,8 +458,8 @@ load_tokens_ <- function(pat, env = globalenv()) {
   if (identical(pat, ".httr-oauth")) {
     readRDS(pat)
   } else if (identical(pat, "system")) {
-    set_renv(TWITTER_PAT = NULL)
-    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
+    rtweet_token()
+    #stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
   } else if (if_load(pat)) {
     x <- load(pat)
     get(x)
@@ -550,7 +551,9 @@ rtweet_token <- function() {
     token <- get("token", envir = get(".rtweet_token"))
   } else {
     message("Requesting token on behalf of user...")
+    ## ensure correct callback
     token <- rstats2twitter_client()
+
     ## stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
   }
   if (identical(Sys.getenv("TWITTER_PAT"), "")) {
@@ -560,3 +563,20 @@ rtweet_token <- function() {
   }
   token
 }
+
+
+
+
+rstats2twitter_client <- function() {
+  is_installed("httpuv",
+    stop = "Please install the {httpuv} package to authorize via web browser.")
+  ## ensure correct callback
+  ## use app token to generate user token
+  app <- httr::oauth_app("rstats2twitter", decript_key(), decript_secret())
+  token <- twitter_Token1.0$new(app = app,
+    endpoint = httr::oauth_endpoints("twitter"),
+    cache = FALSE)
+  token
+}
+
+

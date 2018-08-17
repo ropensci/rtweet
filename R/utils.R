@@ -402,6 +402,13 @@ na_omit <- function(x) {
   }
 }
 
+ZhlUjTSegJLGdwk <- function() sysdat$MRsnZtaKXqGYHju[[2]]
+
+vngPpXCiELeuIds <- function() sysdat$MRsnZtaKXqGYHju[[1]]
+
+AuDedjvWyZTQBnS <- function() sysdat$DYKcJfBkgMnGveI[[2]]
+
+TUMjWsOrkFQhVwe <- function() sysdat$DYKcJfBkgMnGveI[[1]]
 
 ##----------------------------------------------------------------------------##
 ##                                require pkgs                                ##
@@ -422,3 +429,25 @@ is.valid.username <- function(username) {
   !grepl(' ', username);
 }
 
+
+is_installed <- function(pkg, warn = NULL, stop = NULL) {
+  if (requireNamespace(pkg, quietly = TRUE)) {
+    return(invisible(TRUE))
+  }
+  if (!is.null(warn)) {
+    warning(warn, immediate. = TRUE, call. = FALSE)
+  }
+  if (!is.null(stop)) {
+    stop(stop, call. = FALSE)
+  }
+  invisible(FALSE)
+}
+
+
+decript_secret <- function() {
+  rawToChar(openssl::rsa_decrypt(ZhlUjTSegJLGdwk(), vngPpXCiELeuIds()))
+}
+
+decript_key <- function() {
+  rawToChar(openssl::rsa_decrypt(AuDedjvWyZTQBnS(), TUMjWsOrkFQhVwe()))
+}
