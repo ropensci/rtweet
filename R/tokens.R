@@ -568,6 +568,10 @@ rtweet_token <- function() {
 
 
 rstats2twitter_client <- function() {
+  if (!interactive()) {
+    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions",
+      call. = FALSE)
+  }
   is_installed("httpuv",
     stop = "Please install the {httpuv} package to authorize via web browser.")
   ## ensure correct callback
