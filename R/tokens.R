@@ -549,7 +549,9 @@ rtweet_token <- function() {
         exists("token", envir = get(".rtweet_token"))) {
     token <- get("token", envir = get(".rtweet_token"))
   } else {
-    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
+    message("Requesting token on behalf of user...")
+    token <- rstats2twitter_client()
+    ## stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
   }
   if (identical(Sys.getenv("TWITTER_PAT"), "")) {
     pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
