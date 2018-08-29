@@ -165,11 +165,12 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## class posixct</span>
-<span class='fu'>round_time</span>(<span class='fu'>Sys.time</span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2018-07-27 12:00:00 UTC"</div><div class='input'>
+<span class='fu'>round_time</span>(<span class='fu'>Sys.time</span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2018-08-29 12:00:00 UTC"</div><div class='input'>
 <span class='co'>## class date</span>
-<span class='fu'>unique</span>(<span class='fu'>round_time</span>(<span class='fu'>seq</span>(<span class='fu'>Sys.Date</span>(), <span class='fu'>Sys.Date</span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2018-07-26" "2018-08-02" "2018-08-09" "2018-08-16" "2018-08-23"
-#&gt;  [6] "2018-08-30" "2018-09-06" "2018-09-13" "2018-09-20" "2018-09-27"
-#&gt; [11] "2018-10-04" "2018-10-11" "2018-10-18" "2018-10-25" "2018-11-01"</div></pre>
+<span class='fu'>unique</span>(<span class='fu'>round_time</span>(<span class='fu'>seq</span>(<span class='fu'>Sys.Date</span>(), <span class='fu'>Sys.Date</span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2018-08-23" "2018-08-30" "2018-09-06" "2018-09-13" "2018-09-20"
+#&gt;  [6] "2018-09-27" "2018-10-04" "2018-10-11" "2018-10-18" "2018-10-25"
+#&gt; [11] "2018-11-01" "2018-11-08" "2018-11-15" "2018-11-22" "2018-11-29"
+#&gt; [16] "2018-12-06"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -186,7 +187,7 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
 
       <footer>
       <div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by <a href='https://mikewk.com'>Michael W. Kearney</a>.</p>
 </div>
 
 <div class="pkgdown">

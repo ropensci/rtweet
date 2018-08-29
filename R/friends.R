@@ -164,9 +164,7 @@ get_friends_ <- function(users,
         } else {
           nextcursor <- f[["next_cursor"]]
           f[[i]] <- tibble::as_tibble(
-            list(user = users[[i]], user_id = f[[i]][["ids"]]),
-            validate = FALSE
-          )
+            list(user = users[[i]], user_id = f[[i]][["ids"]]))
           attr(f[[i]], "next_cursor") <- nextcursor
         }
       }
@@ -210,9 +208,7 @@ get_friends_ <- function(users,
           f <- tibble::as_tibble()
         } else {
           f <- tibble::as_tibble(
-            list(user = users, user_id = f[["ids"]]),
-            validate = FALSE
-          )
+            list(user = users, user_id = f[["ids"]]))
           attr(f, "next_cursor") <- nextcursor
         }
       }

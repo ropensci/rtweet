@@ -64,7 +64,7 @@ lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"))
     x$lng[is.na(x$lng)] <- bbox[, 1][is.na(x$lng)]
     x$lat[is.na(x$lat)] <- bbox[, 2][is.na(x$lat)]
   }
-  tibble::as_tibble(x, validate = FALSE)
+  tibble::as_tibble(x)
 }
 
 

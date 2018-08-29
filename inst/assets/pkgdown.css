@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,600,600i');
-@import url('https://fonts.googleapis.com/css?family=Inconsolata');
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url(https://cdn.rawgit.com/tonsky/FiraCode/1.205/distr/fira_code.css);
 
 /* Sticker footer */
 body > .container {
@@ -63,7 +61,7 @@ a.anchor {
 
 @media (max-width: 767px) {
   .hasAnchor:hover a.anchor {
-    visibility: hidden;
+  visibility: hidden;
   }
 }
 
@@ -104,21 +102,21 @@ a.anchor {
   margin-bottom: 0.5em;
 }
 
-h1, h2, h3, h4, h5 {
-    font-family: 'Montserrat';
-    color: #222;
+h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
+  font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, sans-serif;
+  color: #222;
 }
 
-h1 {font-size: 2.4em;}
-h2 {font-size: 2.2em;}
-h3 {font-size: 2.0em;}
-h4 {font-size: 1.8em;}
+h1, .h1 {font-size: 2.4em;}
+h2, .h2 {font-size: 2.2em;}
+h3, .h3 {font-size: 2.0em;}
+h4, .h4 {font-size: 1.8em;}
 
 
 /* Reference index & topics ----------------------------------------------- */
 
 .ref-index th {font-weight: normal;}
-.ref-index h2 {font-size: 20px;}
+.ref-index h2, .ref-index .h2 {font-size: 20px;}
 
 .ref-index td {vertical-align: top;}
 .ref-index .alias {width: 40%;}
@@ -141,11 +139,11 @@ table {
 
 /* Syntax highlighting ---------------------------------------------------- */
 body {
-    font-family: "Roboto";
-    font-size: 15px;
-    background-color: #fff;
-    color: #444;
-    line-height: 1.85;
+  font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 15px;
+  background-color: #fff;
+  color: #444;
+  line-height: 1.85;
 }
 
 pre {
@@ -155,8 +153,8 @@ pre {
 }
 
 pre, code {
-    font-family: Inconsolata, mono;
-    font-size: 15px;
+  font-family: 'Fira Code', Consolas, Inconsolata, monospace;
+  font-size: 15px;
   background-color: #f8f8f8;
   color: #333;
 }
@@ -175,11 +173,11 @@ code a, pre a {
   color: #1858a5;
 }
 
-.fl      {color: #1514b5;}
-.fu      {color: #000000;} /* function */
+.fl  {color: #1514b5;}
+.fu  {color: #000000;} /* function */
 .ch,.st  {color: #036a07;} /* string */
-.kw      {color: #264D66;} /* keyword */
-.co      {color: #888888;} /* comment */
+.kw  {color: #264D66;} /* keyword */
+.co  {color: #888888;} /* comment */
 
 .message { color: black;   font-weight: bolder;}
 .error   { color: orange;  font-weight: bolder;}
@@ -187,12 +185,12 @@ code a, pre a {
 
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-    background-color: #fbfbfb;
+  background-color: #fbfbfb;
 }
 
 .navbar-default {
-    background-color: #fbfbfb;
-    font-family: 'Roboto';
+  background-color: #fbfbfb;
+  font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, sans-serif;
 }
 .navbar-default .navbar-brand {
   color: #444;
@@ -201,14 +199,14 @@ code a, pre a {
   color: #444;
 }
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
-    color: #820;
+  color: #820;
 }
 a {
-    color: #068;
+  color: #068;
 }
 a:hover {
-    color: #820;
+  color: #820;
 }
 .navbar {
-    box-shadow: 0 0px 1px rgba(0,0,0,0.3);
+  box-shadow: 0 0px 1px rgba(0,0,0,0.3);
 }

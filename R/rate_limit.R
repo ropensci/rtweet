@@ -209,7 +209,7 @@ rate_limit_ <- function(token,
     rl_df$reset <- structure(NA_character_, class = "difftime", units = "mins")
   }
   rl_df$timestamp <- Sys.time()
-  tibble::as_tibble(rl_df, validate = FALSE)
+  tibble::as_tibble(rl_df)
 }
 
 format_rate_limit_reset <- function(x) {

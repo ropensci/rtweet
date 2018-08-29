@@ -159,7 +159,7 @@ parse_trends <- function(x) {
   x$woeid <- woeid
   x$as_of <- as_of
   x$created_at <- created_at
-  tibble::as_tibble(x, validate = FALSE)
+  tibble::as_tibble(x)
 }
 
 var_or_na <- function(x) {
@@ -217,7 +217,7 @@ parse_trends_available <- function(x) {
                         stringsAsFactors = FALSE),
              stringsAsFactors = FALSE)
   names(p)[ncol(p)] <- "place_type"
-  tibble::as_tibble(p, validate = FALSE)
+  tibble::as_tibble(p)
 }
 
 

@@ -1,5 +1,11 @@
 url: https://rtweet.info
 
+template:
+  ganalytics: "UA-124886828-1"
+
+authors:
+  Michael W. Kearney:
+    href: https://mikewk.com
 navbar:
   right:
   - icon: fa-github fa-lg

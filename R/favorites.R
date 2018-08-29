@@ -124,7 +124,7 @@ get_favorites_call <- function(user,
             rt[[i]][[j]] <- as.POSIXct(rt[[i]][[j]])
           }
         } else if (!has_name_(rt[[i]], j) && nrow(rt[[i]]) == 0L) {
-          rt[[i]] <- tibble::as_tibble(data.frame(j = NA), validate = FALSE)
+          rt[[i]] <- tibble::as_tibble(data.frame(j = NA))
           names(rt[[i]]) <- j
           if (j == "created_at") {
             rt[[i]][[j]] <- as.POSIXct(rt[[i]][[j]])

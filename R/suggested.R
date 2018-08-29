@@ -136,8 +136,7 @@ slug_tbl <- function(x) {
     ## rename to account_created_at
     names(x$users)[names(x$users) == "created_at"] <- "account_created_at"
     ## convert to tibble
-    x <- tibble::as_tibble(x$users[vapply(x$users, is.atomic, FUN.VALUE = logical(1))],
-      validate = FALSE)
+    x <- tibble::as_tibble(x$users[vapply(x$users, is.atomic, FUN.VALUE = logical(1))])
     ## rearrange so slug is first
     x[c(ncol(x), 1:(ncol(x) - 1L))]
   }

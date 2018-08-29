@@ -127,7 +127,7 @@
 <ul>
 <li>Authentication via web browser requires the <code>httpuv</code> package to be installed.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">## install httpuv if not already</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## install httpuv if not already</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"httpuv"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="kw">install.packages</span>(<span class="st">"httpuv"</span>)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">}</a></code></pre></div>
@@ -144,7 +144,7 @@
 <ul>
 <li>Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## autheticate via web browser</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## autheticate via web browser</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">app =</span> <span class="st">"rtweet_token"</span>,</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">consumer_key =</span> <span class="st">"XYznzPFOFZR2a39FwWKN1Jp41"</span>,</a>
@@ -153,7 +153,7 @@
 <li><p>A browser window should pop up. Click to approve (must be signed into twitter.com) and return to R.</p></li>
 <li><p>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code></p></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## check to see if the token is loaded</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## check to see if the token is loaded</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 </div>
 <div id="access-tokensecret-method" class="section level3">
@@ -183,7 +183,7 @@
 <ul>
 <li>Locate and copy/paste the <code>Consumer Key</code> (aka “API Key”), <code>Consumer Secret</code> (aka “API Secret”), <code>Access Token</code>, and <code>Access Token Secret</code> values and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>, storing the output as a <code>token</code> object.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## authenticate via access token</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">## authenticate via access token</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">app =</span> <span class="st">"my_twitter_research_app"</span>,</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">consumer_key =</span> <span class="st">"XYznzPFOFZR2a39FwWKN1Jp41"</span>,</a>
@@ -194,7 +194,7 @@
 <li>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code>
 </li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">## check to see if the token is loaded</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## check to see if the token is loaded</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 <p>That’s it!</p>
 </div>
@@ -217,7 +217,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael W. Kearney.</p>
+  <p>Developed by <a href="https://mikewk.com">Michael W. Kearney</a>.</p>
 </div>
 
 <div class="pkgdown">

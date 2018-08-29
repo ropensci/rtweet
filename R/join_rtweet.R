@@ -98,5 +98,5 @@ join_rtweet <- function(x) {
 
 
 as_tbl <- function(x, ...) {
-  tibble::as_tibble(x, ..., validate = FALSE)
+  tibble::as_tibble(x, ...)
 }
