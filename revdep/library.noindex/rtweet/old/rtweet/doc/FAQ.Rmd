@@ -1,0 +1,88 @@
+---
+title: "FAQ"
+subtitle: "rtweet: Collecting Twitter Data"
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FAQ}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
+```
+
+## `Error in init_oauth1.0(...`
+
+#### Context
+
+Occurs when attempting to create a token
+
+``` r
+## these are fake keys
+#> create_token(
+#>   app = "rtweet_token",
+#>   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+#>   consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
+`Error in init_oauth1.0(endpoint, app, permission = params$permission) :
+  client error: (401) Unauthorized`
+```
+
+#### Solutions
+
+1. Make sure you have **at least** rtweet version `0.6.6`
+1. Check callback URL
+1. Make sure `Callback URL` option in "Settings" tab at https://apps.twitter.com **match exactly** the following: `http://127.0.0.1:1410`
+1. Make sure API keys **match exactly** the values for your Twitter app (found under the `Keys and Access Tokens` tab at https://apps.twitter.com)
+1. In your app page at https://apps.twitter.com/ under the `Keys and Access Tokens` tab, click `Regenerate Consumer Key and Secret`. Create a new token using the new key and secret.
+1. Update the **{httr}** package
+1. Update R
+
+
+## `Error in oauth_listener(...`
+
+#### Context
+
+Occurs when attempting to create a token (using in-browser authorization method)
+
+``` r
+## these are fake keys
+#> create_token(
+#>   app = "rtweet_token",
+#>   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+#>   consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
+Error in oauth_listener(authorize_url, is_interactive) :
+  httpuv package required to capture OAuth credentials.
+```
+
+#### Solutions
+1. Install the **{httpuv}** package
+
+``` r
+install.packages("httpuv")
+```
+
+## `Warning: 89 - Invalid or expired token.`
+
+#### Context
+
+Occurs when sending request to Twitter API. It means you have invalid or expired keys stored in access token.
+
+``` r
+#> search_tweets("lang:en")
+Warning: 89 - Invalid or expired token.
+```
+
+#### Solutions
+1. Create new token using the keys from your previously created Twitter application found at https://apps.twitter.com
+1. In your app page at https://apps.twitter.com/ under the `Keys and Access Tokens` tab, click `Regenerate Consumer Key and Secret`. Create a new token using the new key and secret.
+
+``` r
+## these are fake keys
+#> create_token(
+#>   app = "rtweet_token",
+#>   consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+#>   consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
+```

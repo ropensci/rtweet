@@ -23,3 +23,4 @@
 ^make\.R$
 ^codecov\.yml$
 ^CRAN-RELEASE$
+^revdep$

@@ -1,0 +1,10 @@
+* installing *source* package 'graphTweets' ...
+** package 'graphTweets' successfully unpacked and MD5 sums checked
+** R
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+*** copying figures
+** building package indices
+** testing if installed package can be loaded
+* DONE (graphTweets)
