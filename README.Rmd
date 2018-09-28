@@ -25,6 +25,10 @@ knitr::opts_chunk$set(
 
 R client for accessing Twitter's REST and stream APIs. Check out the [rtweet package documentation website](https://rtweet.info).
 
+## Responsible use
+
+**{rtweet}}** should be used in strict accordance with Twitter's [developer terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
+
 ## Installation
 
 To get the current released version from CRAN:

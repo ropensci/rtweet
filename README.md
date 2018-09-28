@@ -17,6 +17,12 @@ Status](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](ht
 R client for accessing Twitter’s REST and stream APIs. Check out the
 [rtweet package documentation website](https://rtweet.info).
 
+## Responsible use
+
+**{rtweet}}** should be used in strict accordance with Twitter’s
+[developer
+terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
+
 ## Installation
 
 To get the current released version from CRAN:
@@ -113,7 +119,7 @@ authorization methods described below).
       app = "my_twitter_research_app",
       consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
       consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD",
-      acess_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
+      access_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
       access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
     ```
 
