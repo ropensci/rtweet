@@ -38,4 +38,4 @@ Suggests:
     covr
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.0.9000
