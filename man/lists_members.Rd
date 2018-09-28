@@ -63,7 +63,7 @@ Either a nested list (if parsed) or an HTTP response object.
 \description{
 Get Twitter list members (users on a given list).
 
-Get Twitter list memeberships (lists containing a given user)
+Get Twitter list memberships (lists containing a given user)
 }
 \details{
 Due to deleted or removed lists, the returned number of memberships
@@ -73,7 +73,7 @@ Due to deleted or removed lists, the returned number of memberships
 \examples{
 \dontrun{
 
-## get list memebers for a list of polling experts using list_id
+## get list members for a list of polling experts using list_id
 (pollsters <- lists_members("105140588"))
 
 ## get list members of cspan's senators list

@@ -30,7 +30,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' ## get list memebers for a list of polling experts using list_id
+#' ## get list members for a list of polling experts using list_id
 #' (pollsters <- lists_members("105140588"))
 #'
 #' ## get list members of cspan's senators list

@@ -1,4 +1,4 @@
-#' Get Twitter list memeberships (lists containing a given user)
+#' Get Twitter list memberships (lists containing a given user)
 #'
 #' @param user The user id or screen_name of the user for whom to
 #'   return results for.
