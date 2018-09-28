@@ -4,7 +4,6 @@
 ^cran-comments\.md$
 ^README\.Rmd$
 ^README\.html$
-^NEWS\.md$
 ^\.travis\.yml$
 ^tests/testthat/twitter_tokens.enc$
 ^\.httr-oauth$

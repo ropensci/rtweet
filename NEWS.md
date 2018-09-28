@@ -1,3 +1,6 @@
+# rtweet 0.6.8
+- Users can now create read-only using the built-in rtweet client!
+
 # rtweet 0.6.7
 - `lookup_coords()` now requires a Google Maps API key. It will be stored for 
   easy future use once supplied.
