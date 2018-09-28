@@ -3,7 +3,8 @@
 \name{direct_messages}
 \alias{direct_messages}
 \alias{direct_messages_sent}
-\title{Get direct messages sent to and received by the authenticating user from the past 30 days}
+\title{Get direct messages sent to and received by the authenticating user from the
+past 30 days}
 \usage{
 direct_messages(n = 50, next_cursor = NULL, parse = TRUE,
   token = NULL)
@@ -42,7 +43,8 @@ older than) or equal to `max_id`.}
 Return parsed or non-parsed response object.
 }
 \description{
-Returns all Direct Message events (both sent and received) within the last 30 days. Sorted in reverse-chronological order.
+Returns all Direct Message events (both sent and received) within the last 30
+days. Sorted in reverse-chronological order.
 }
 \details{
 Includes detailed information about the sender and

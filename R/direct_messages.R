@@ -1,6 +1,8 @@
-#' Get direct messages sent to and received by the authenticating user from the past 30 days
+#' Get direct messages sent to and received by the authenticating user from the
+#' past 30 days
 #'
-#' Returns all Direct Message events (both sent and received) within the last 30 days. Sorted in reverse-chronological order.
+#' Returns all Direct Message events (both sent and received) within the last 30
+#' days. Sorted in reverse-chronological order.
 #'
 #' @param n optional Specifies the number of direct messages to try
 #'   and retrieve, up to a maximum of 50.
@@ -47,6 +49,10 @@ direct_messages <- function(n = 50,
                             token = NULL) {
   query <- "direct_messages/events/list"
   token <- check_token(token)
+  if (!is_read_write_directmessages(token)) {
+    stop("Token does not have `read-write-directmessages` access level. ",
+      "For DM permissions, users must create their own app at developer.twitter.com")
+  }
   params <- list(count = n, next_cursor = next_cursor)
   url <- make_url(query = query, param = params)
   r <- httr::GET(url, token)
@@ -123,6 +129,8 @@ direct_messages_received <- function(since_id = NULL,
                                      n = 200,
                                      parse = TRUE,
                                      token = NULL) {
+  stop("The endpoint for `direct_messages_received()` no longer exists. ",
+    "Please use `direct_messages()` instead.")
   query <- "direct_messages"
   token <- check_token(token)
   params <- list(include_entities = TRUE, count = n,
@@ -144,6 +152,8 @@ direct_messages_sent <- function(since_id = NULL,
                                  n = 200,
                                  parse = TRUE,
                                  token = NULL) {
+  stop("The endpoint for `direct_messages_received()` no longer exists. ",
+    "Please use `direct_messages()` instead.")
   query <- "direct_messages/events/list"
   token <- check_token(token)
   params <- list(include_entities = TRUE, count = n,
