@@ -194,10 +194,17 @@ upload_media_to_twitter <- function(media, token) {
 #' @importFrom httr POST upload_file content
 #' @export
 post_message <- function(text, user, media = NULL, token = NULL) {
-    ## validate
+  ## get user id
+  user_id <- lookup_user(user)
+  user_id <- user_id$user_id[1]
   stopifnot(is.character(text))
   stopifnot(length(text) == 1)
-  query <- "direct_messages/new"
+  query <- "direct_messages/events/new"
+  body <- list(
+    event = list(type = "message_create",
+      message_create = list(target = list(recipient_id = user_id),
+    message_data = list(text = text))))
+  body <- jsonlite::toJSON(body, auto_unbox = TRUE)
   if (length(text) > 1) {
     stop("can only post one message at a time",
          call. = FALSE)
@@ -212,17 +219,16 @@ post_message <- function(text, user, media = NULL, token = NULL) {
     r <- httr::POST(rurl, body = list(media = media2upload), token)
     r <- httr::content(r, "parsed")
     params <- list(
-      text = text,
-      user = user,
       media_ids = r$media_id_string
     )
   } else {
-    params <- list(text = text, user = user)
+    params <- NULL
   }
-  names(params)[2] <- .id_type(user)
-  query <- "direct_messages/new"
+  #names(params)[2] <- .id_type(user)
+  query <- "direct_messages/events/new"
   url <- make_url(query = query, param = params)
-  r <- TWIT(get = FALSE, url, token)
+
+  r <- TWIT(get = FALSE, url, token, body = body)
   if (r$status_code != 200) {
     return(httr::content(r))
   }
