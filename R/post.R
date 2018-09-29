@@ -195,7 +195,7 @@ upload_media_to_twitter <- function(media, token) {
 #' @export
 post_message <- function(text, user, media = NULL, token = NULL) {
   ## get user id
-  user_id <- lookup_user(user)
+  user_id <- lookup_users(user)
   user_id <- user_id$user_id[1]
   stopifnot(is.character(text))
   stopifnot(length(text) == 1)
