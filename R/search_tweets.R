@@ -373,17 +373,17 @@ search_tweets_ <- function(q = "",
     query = query,
     param = params)
 
-  if (verbose) {
-    message("Searching for tweets...")
-    if (n > 10000) message("This may take a few seconds...")
-  }
-  tw <- scroller(url, n, n.times, type = "search", token)
+  #if (verbose) {
+  #  message("Searching for tweets...")
+  #  if (n > 10000) message("This may take a few seconds...")
+  #}
+  tw <- scroller(url, n, n.times, type = "search", token, verbose = verbose)
   if (parse) {
     tw <- tweets_with_users(tw)
   }
-  if (verbose) {
-    message("Finished collecting tweets!")
-  }
+  #if (verbose) {
+  #  message("Finished collecting tweets!")
+  #}
   tw
 }
 

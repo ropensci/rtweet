@@ -77,7 +77,7 @@ make_url <- function(restapi = TRUE, query, param = NULL) {
 ##                                   scroll                                   ##
 ##----------------------------------------------------------------------------##
 
-scroller <- function(url, n, n.times, type = NULL, ...) {
+scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
   ## check args
   stopifnot(is_n(n), is_url(url))
 
@@ -88,7 +88,22 @@ scroller <- function(url, n, n.times, type = NULL, ...) {
   x <- vector("list", n.times)
   counter <- 0L
 
+  if ("verbose" %in% ls(envir = parent.frame())) {
+    verbose <- get("verbose", envir = parent.frame())
+  } else {
+    verbose <- FALSE
+  }
+
+  if (verbose) {
+    pb <- progress::progress_bar$new(
+      format = "Downloading [:bar] :percent",
+      total = n.times, clear = FALSE, width = 60
+    )
+    pb$tick(0)
+  }
+
   for (i in seq_along(x)) {
+    if (verbose) pb$tick()
     ## send GET request
     x[[i]] <- httr::GET(url, ...)
     warn_for_twitter_status(x[[i]])

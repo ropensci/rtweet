@@ -191,6 +191,9 @@ get_followers_ <- function(user,
     ## if !retryonratelimit then if necessary exhaust what can with token
     rl <- rate_limit(token, query)
     n.times <- rl[["remaining"]]
+    if (n < (n.times * 5000)) {
+      n.times <- ceiling(n / 5000)
+    }
     f <- scroller(url, n, n.times, type = "followers", token)
     ## drop NULL and parse into data frame
     f <- f[!vapply(f, is.null, logical(1))]
