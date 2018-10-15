@@ -141,6 +141,10 @@ get_timeline_call <- function(user,
   if (check) {
     rl <- rate_limit(token, query)
     n.times <- rl[["remaining"]]
+    if (length(n.times) == 0 || !is.numeric(n.times)) {
+      n.times <- 0
+    }
+    n.times <- n.times[1]
     if (n %/% 200 < n.times) {
       n.times <- ceiling(n / 200L)
     }
