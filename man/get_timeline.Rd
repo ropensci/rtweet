@@ -15,7 +15,9 @@ get_timelines(user, n = 100, max_id = NULL, home = FALSE,
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
 
 \item{n}{Number of tweets to return per timeline. Defaults to 100.
-Must be of length 1 or equal to length of user.}
+Must be of length 1 or equal to length of user. This number should
+not exceed 3200 as Twitter limits returns to the most recent 3,200
+statuses posted or retweeted by each user.}
 
 \item{max_id}{Character, returns results with an ID less than (that is,
 older than) or equal to `max_id`.}

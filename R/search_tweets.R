@@ -21,6 +21,20 @@
 #'   e.g., \code{q = '"data science"'} or escape each internal double
 #'   quote with a single backslash, e.g., \code{q =
 #'   "\"data science\""}.
+#'
+#' Some other useful query tips:
+#'
+#' \itemize{
+#'   \item Exclude retweets via \code{"-filter:retweets"}
+#'   \item Exclude quotes via \code{"-filter:quote"}
+#'   \item Exclude replies via \code{"-filter:replies"}
+#'   \item Filter (return only) verified via \code{"filter:verified"}
+#'   \item Exclude verified via \code{"-filter:verified"}
+#'   \item Get everything (firehose for free) via \code{"-filter:verified OR filter:verified"}
+#'   \item Filter (return only) tweets with links to news articles via \code{"filter:news"}
+#'   \item Filter (return only) tweets with media \code{"filter:media"}
+#' }
+#'
 #' @param n Integer, specifying the total number of desired tweets to
 #'   return. Defaults to 100. Maximum number of tweets returned from a
 #'   single token is 18,000. To return more than 18,000 tweets, users

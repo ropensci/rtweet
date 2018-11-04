@@ -13,21 +13,34 @@ search_tweets2(...)
 }
 \arguments{
 \item{q}{Query to be searched, used to filter and select tweets to
-return from Twitter's REST API. Must be a character string not to
-exceed maximum of 500 characters. Spaces behave like boolean
-"AND" operator. To search for tweets containing at least one of
-multiple possible terms, separate each search term with spaces
-and "OR" (in caps). For example, the search \code{q =
-"data science"} looks for tweets containing both "data" and
-"science" anywhere located anywhere in the tweets and in any
-order. When "OR" is entered between search terms, \code{query =
-"data OR science"}, Twitter's REST API should return any tweet
-that contains either "data" or "science." It is also possible to
-search for exact phrases using double quotes. To do this, either
-wrap single quotes around a search query using double quotes,
-e.g., \code{q = '"data science"'} or escape each internal double
-quote with a single backslash, e.g., \code{q =
-"\"data science\""}.}
+  return from Twitter's REST API. Must be a character string not to
+  exceed maximum of 500 characters. Spaces behave like boolean
+  "AND" operator. To search for tweets containing at least one of
+  multiple possible terms, separate each search term with spaces
+  and "OR" (in caps). For example, the search \code{q =
+  "data science"} looks for tweets containing both "data" and
+  "science" anywhere located anywhere in the tweets and in any
+  order. When "OR" is entered between search terms, \code{query =
+  "data OR science"}, Twitter's REST API should return any tweet
+  that contains either "data" or "science." It is also possible to
+  search for exact phrases using double quotes. To do this, either
+  wrap single quotes around a search query using double quotes,
+  e.g., \code{q = '"data science"'} or escape each internal double
+  quote with a single backslash, e.g., \code{q =
+  "\"data science\""}.
+
+Some other useful query tips:
+
+\itemize{
+  \item Exclude retweets via \code{"-filter:retweets"}
+  \item Exclude quotes via \code{"-filter:quote"}
+  \item Exclude replies via \code{"-filter:replies"}
+  \item Filter (return only) verified via \code{"filter:verified"}
+  \item Exclude verified via \code{"-filter:verified"}
+  \item Get everything (firehose for free) via \code{"-filter:verified OR filter:verified"}
+  \item Filter (return only) tweets with links to news articles via \code{"filter:news"}
+  \item Filter (return only) tweets with media \code{"filter:media"}
+}}
 
 \item{n}{Integer, specifying the total number of desired tweets to
 return. Defaults to 100. Maximum number of tweets returned from a
