@@ -154,7 +154,7 @@
 <li><p>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code></p></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## check to see if the token is loaded</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">identical</span>(token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 </div>
 <div id="access-tokensecret-method" class="section level3">
 <h3 class="hasAnchor">
@@ -179,7 +179,7 @@
 </li>
 </ul>
 <p align="center">
-<img src="files/accesskeys.png" alt="acesskeys"></p>
+<img src="files/accesskeys.png" alt="accesskeys"></p>
 <ul>
 <li>Locate and copy/paste the <code>Consumer Key</code> (aka “API Key”), <code>Consumer Secret</code> (aka “API Secret”), <code>Access Token</code>, and <code>Access Token Secret</code> values and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>, storing the output as a <code>token</code> object.</li>
 </ul>
@@ -188,14 +188,14 @@
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">app =</span> <span class="st">"my_twitter_research_app"</span>,</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">consumer_key =</span> <span class="st">"XYznzPFOFZR2a39FwWKN1Jp41"</span>,</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">consumer_secret =</span> <span class="st">"CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD"</span>,</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">acess_token =</span> <span class="st">"9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span>,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">access_token =</span> <span class="st">"9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span>,</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="dt">access_secret =</span> <span class="st">"9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span>)</a></code></pre></div>
 <ul>
 <li>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by <code><a href="../reference/get_tokens.html">get_token()</a></code>
 </li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## check to see if the token is loaded</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">identical</span>(twitter_token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">identical</span>(token, <span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>())</a></code></pre></div>
 <p>That’s it!</p>
 </div>
 </div>
