@@ -9,6 +9,7 @@ Status](https://travis-ci.org/mkearney/rtweet.svg?branch=master)](https://travis
 status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
 [![Coverage
 Status](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet?branch=master)
+[![DOI](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
 
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
@@ -19,7 +20,7 @@ R client for accessing Twitter’s REST and stream APIs. Check out the
 
 ## Responsible use
 
-**{rtweet}}** should be used in strict accordance with Twitter’s
+**{{rtweet}}** should be used in strict accordance with Twitter’s
 [developer
 terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
 
@@ -38,13 +39,13 @@ library(rtweet)
 To get the current development version from Github:
 
 ``` r
-## install devtools package if it's not already
-if (!requireNamespace("devtools", quietly = TRUE)) {
-  install.packages("devtools")
+## install remotes package if it's not already
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
 }
 
 ## install dev version of rtweet from github
-devtools::install_github("mkearney/rtweet")
+remotes::install_github("mkearney/rtweet")
 
 ## load rtweet package
 library(rtweet)
@@ -52,80 +53,35 @@ library(rtweet)
 
 ## Usage
 
-All you need is a **Twitter account** and you can be up in running in
-minutes\!
+All you need is a **Twitter account** (user name and password) and you
+can be up in running in minutes\!
 
-  - See the `auth` vignette (or the API authorization section below) for
-    instructions on obtaining access to Twitter’s APIs:
-    <https://rtweet.info/articles/auth.html>.
+Simply send a request to Twitter’s API (with a function like
+`search_tweets()`, `get_timeline()`, `get_followers()`,
+`get_favorites()`, etc.) during an interactive session of R, authorize
+the embedded **`rstats2twitter`** app (approve the browser popup), and
+your token will be created and saved/stored (for future sessions) for
+you\!
 
 ## API authorization
 
 All users must be authorized to interact with Twitter’s APIs. To become
-authorized, follow the instructions below to (1) make a Twitter app and
-(2) create and save your access token (using one of the two
-authorization methods described below).
+authorized, simply use a function like `search_tweets()`,
+`get_timeline()`, `get_followers()`, or `get_favorites()` in an
+interactive session an authorize via web browser popup on behalf of your
+Twitter account\!
 
-### 1\. Create an app
+**It is no longer necessary to obtain a developer account and create
+your own Twitter application to use Twitter’s API.** You may still
+choose to do this (gives you more stability and permissions), but
+**{rtweet}** should work out of the box assuming (a) you are working in
+an interactive/live session of R and (b) you have installed the
+[**{httpuv}**](https://github.com/rstudio/httpuv) package.
 
-  - To gain access Twitter’s APIs, first go to
-    [apps.twitter.com](https://apps.twitter.com/) and create a new app
-    by completing the form fields (note: **users must enter the value
-    for `Callback URL` exactly as it appears below**):
-      - **`Name`**: Name of Twitter app e.g., `my_twitter_research_app`
-      - **`Description`**: Describe use case e.g., `for researching
-        trends and behaviors on twitter`
-      - **`Website`**: Valid website e.g.,
-        `https://twitter.com/kearneymw`
-      - **`***Callback URL***`**: `http://127.0.0.1:1410`
-  - Check yes if you agree and then click “Create your Twitter
-    application”
-
-### 2a. Authenticate via web browser (interactive)
-
-  - Go to your app’s page at
-    [apps.twitter.com](https://apps.twitter.com/) and click the tab
-    labeled **`Keys and Access Tokens`**
-
-  - Copy the **`Consumer Key`** and **`Consumer Secret`** values and
-    pass them, along with the name of your app, to the `create_token()`
-    function
-    
-    ``` r
-    ## web browser method: create token and save it as an environment variable
-    create_token(
-      app = "my_twitter_research_app",
-      consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
-      consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
-    ```
-
-### 2b. Authenticate via access token
-
-  - Go to your app’s page at
-    [apps.twitter.com](https://apps.twitter.com/) and click the tab
-    labeled **`Keys and Access Tokens`**
-
-  - Scroll down to **`Token Actions`** and click **`Create my access
-    token`**
-
-  - Copy the **`Consumer Key`**, **`Consumer Secret`**, **`Access
-    Token`**, and **`Access Token Secret`** values and pass them, along
-    with the name of your app, to the `create_token()`
-    function
-    
-    ``` r
-    ## access token method: create token and save it as an environment variable
-    create_token(
-      app = "my_twitter_research_app",
-      consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
-      consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD",
-      access_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
-      access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
-    ```
-
-And that’s it\! You’re ready to start collecting and analyzing Twitter
-data\! And because `create_token()` automatically saves your token as an
-environment variable, you’ll be set for future sessions as well\!
+  - If you still want to apply for a developer account and crate your
+    own application, see the `auth` vignette (or the API authorization
+    section below) for additional instructions:
+    <https://rtweet.info/articles/auth.html>.
 
 ### Package features
 
@@ -145,7 +101,8 @@ Quickly visualize frequency of tweets over time using `ts_plot()`.
 
 ``` r
 ## plot time series of tweets
-ts_plot(rt, "3 hours") +
+rt %>%
+  ts_plot("3 hours") +
   ggplot2::theme_minimal() +
   ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
   ggplot2::labs(
