@@ -38,4 +38,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (0000-0002-0730-4694)
 
+Other contributors:
+\itemize{
+  \item Jonathan Sidi \email{yonicd@gmail.com} (0000-0002-4222-1819) [contributor]
+}
+
 }

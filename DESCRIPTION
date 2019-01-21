@@ -5,10 +5,10 @@ Title: Collecting Twitter Data
 Authors@R: c(
     person("Michael W.", "Kearney", ,
     email = "kearneymw@missouri.edu", role = c("aut", "cre"),
-    comment = c(ORCID = "0000-0002-0730-4694"))
-    ## add contributor template (middle name/initial optional)
-    person("Jonathan", "Sidi", ,
-     email = "yonicd@gmail.com", role = c("ctb"))
+    comment = c(ORCID = "0000-0002-0730-4694")),
+    person("Jonathan", "Sidi",
+     email = "yonicd@gmail.com", role = c("ctb"),
+     comment = c(ORCID = "0000-0002-4222-1819"))
     )
 Description: An implementation of calls designed to collect and
     organize Twitter data via Twitter's REST and stream Application
@@ -39,4 +39,4 @@ Suggests:
     covr
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 6.1.0.9000
+RoxygenNote: 6.1.1
