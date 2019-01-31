@@ -4,11 +4,19 @@
 \alias{tweet_threading}
 \title{Collect statuses contained in a thread}
 \usage{
-tweet_threading(tw)
+tweet_threading(tw, traverse = c("backwards", "forwards"), n = 10,
+  verbose = FALSE)
 }
 \arguments{
 \item{tw}{\code{\link[rtweet]{lookup_statuses}} output containing
 at least the last status in the thread}
+
+\item{traverse}{character, direction to traverse from origin status in tw, 
+Default: c('backwards','forwards')}
+
+\item{n}{numeric, timeline to fetch to start forwards traversing, Default: 10}
+
+\item{verbose}{logical, Output to console status of traverse, Default: FALSE}
 }
 \value{
 \code{\link[rtweet]{lookup_statuses}} tibble
@@ -17,7 +25,8 @@ at least the last status in the thread}
 Return all statuses that are part of a thread
 }
 \details{
-This function traverses up the thread until it gets to the root status
+By default the function traverses first backwards from the origin status_id of the thread up to the root, 
+ then checks if there are any child statuses that were posted after the origin status.
 }
 \examples{
 tw <- lookup_statuses('1084143184664510470')
