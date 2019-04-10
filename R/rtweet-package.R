@@ -21,3 +21,9 @@
 "_PACKAGE"
 
 .state <- new.env(parent = emptyenv())
+
+## usethis namespace: start
+#' @useDynLib rtweet, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+## usethis namespace: end
+NULL
