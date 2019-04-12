@@ -6,24 +6,24 @@
 using namespace Rcpp;
 
 // unroll_connections
-List unroll_connections(CharacterVector from, std::vector<std::vector<std::string>> to);
+List unroll_connections(CharacterVector from, std::vector<std::vector<std::string> > to);
 RcppExport SEXP _rtweet_unroll_connections(SEXP fromSEXP, SEXP toSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type from(fromSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::vector<std::string>> >::type to(toSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::vector<std::string> > >::type to(toSEXP);
     rcpp_result_gen = Rcpp::wrap(unroll_connections(from, to));
     return rcpp_result_gen;
 END_RCPP
 }
 // unroll_users
-std::vector<std::string> unroll_users(std::vector<std::vector<std::string>> x);
+std::vector<std::string> unroll_users(std::vector<std::vector<std::string> > x);
 RcppExport SEXP _rtweet_unroll_users(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<std::vector<std::string>> >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::vector<std::string> > >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(unroll_users(x));
     return rcpp_result_gen;
 END_RCPP

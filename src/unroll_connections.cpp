@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List unroll_connections(CharacterVector from, std::vector<std::vector<std::string>> to) {
+List unroll_connections(CharacterVector from, std::vector<std::vector<std::string> > to) {
   // set size paramaeters (exclude NAs from the 'to'-based output count)
   const int n = from.size();
   int len = 0;
@@ -45,7 +45,7 @@ List unroll_connections(CharacterVector from, std::vector<std::vector<std::strin
 
 
 // [[Rcpp::export]]
-std::vector<std::string> unroll_users(std::vector<std::vector<std::string>> x) {
+std::vector<std::string> unroll_users(std::vector<std::vector<std::string> > x) {
   // use second column in each element to determine output size
   int n = x.size();
   int len = 0;
