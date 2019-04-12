@@ -32,20 +32,55 @@ prep_from_to <- function(x, from, to) {
   }
 }
 
-twitter_graph <- function(.x, .e) {
+#' Network data
+#'
+#' Convert Twitter data into a network-friendly data frame
+#'
+#' @param .x Data frame returned by rtweet function
+#' @param .e Type of edge/link–i.e., "mention", "retweet", "quote", "reply"
+#' @return A from/to data edge data frame
+#' @details This function returns a data frame that can easily be converted to
+#'   various network classes. For direct conversion to a network object, see
+#'  \code{\link{network_graph}}.
+#' @seealso network_graph
+#' @export
+network_data <- function(.x, .e = NULL) {
   if (!is.null(.e)) {
     .e <- sub("d$|s$", "", .e)
     vars <- c("user_id", "screen_name", switch(.e,
       mention = c("mentions_user_id", "mentions_screen_name"),
       retweet = c("retweet_user_id", "retweet_screen_name"),
       reply = c("reply_to_user_id", "reply_to_screen_name"),
-      quote = c("quoted_user_id", "quoted_screen_name"),
-      mention = c("reply_to_user_id", "reply_to_screen_name")))
+      quote = c("quoted_user_id", "quoted_screen_name")))
     .x <- .x[, vars]
   }
   idsn <- id_sn_index(.x)
   v <- names(.x)
   .x <- prep_from_to(.x, v[1], v[3])
+  attr(.x, "idsn") <- idsn
+  .x
+}
+
+#' Network graph
+#'
+#' Convert Twitter data into network graph object (igraph)
+#'
+#' @param .x Data frame returned by rtweet function
+#' @param .e Type of edge/link–i.e., "mention", "retweet", "quote", "reply"
+#' @return An igraph object
+#' @details This function requires previous installation of the igraph package.
+#'   To return a network-friendly data frame, see \code{\link{network_data}}
+#' @seealso network_data
+#' @export
+network_graph <- function(.x, .e = NULL) {
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    stop(
+      "Please install the {igraph} package to use this function",
+      call. = FALSE
+    )
+  }
+  .x <- network_data(.x, .e)
+  idsn <- attr(.x, "idsn")
   g <- igraph::make_empty_graph(n = 0, directed = TRUE)
   g <- igraph::add_vertices(g, length(idsn$id),
     attr = list(user_id = idsn$id, screen_name = idsn$sn))

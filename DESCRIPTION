@@ -37,7 +37,8 @@ Suggests:
     rmarkdown,
     testthat,
     webshot,
-    covr
+    covr,
+    igraph
 VignetteBuilder: knitr
 LazyData: yes
 RoxygenNote: 6.1.1
