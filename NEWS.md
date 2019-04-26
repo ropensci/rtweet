@@ -1,4 +1,7 @@
-# rtweet 0.6.8.9000
+# rtweet 0.6.9
+- Better tweet-validating in streaming data–interrupted statuses/broken lines 
+  are now returned
+- Added network-graph convenience functions
 
 # rtweet 0.6.8
 - Users can now create read-only using the built-in rtweet client!

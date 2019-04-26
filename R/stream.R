@@ -279,7 +279,18 @@ stream_params <- function(stream, ...) {
 good_lines <- function(x) {
   grep("^\\{\"created.*ms\":\"\\d+\"\\}$", x, value = TRUE)
 }
-
+good_lines2 <- function(x) {
+  x <- x[nchar(x) > 0]
+  x <- grep("{\"delete", x, fixed = TRUE, invert = TRUE, value = TRUE)
+  x <- grep("{\"limit", x, fixed = TRUE, invert = TRUE, value = TRUE)
+  co <- grep("\\d+\"\\}$", x, invert = TRUE)
+  for (i in co) {
+    if (i + 1 > length(x)) break
+    x[i] <- paste0(x[i], x[i + 1])
+  }
+  x[-c(co + 1)]
+  #grep("timestamp_ms\":\"\\d+\"\\}$", x, value = TRUE)
+}
 
 limits_data <- function(x) {
   if (has_name_(attributes(x), "limit")) {
@@ -292,6 +303,14 @@ limits_data <- function(x) {
 stream_data <- function(file_name, ...) {
   .parse_stream(file_name, ...)
 }
+
+
+.parse_stream_two <- function(d) {
+  d <- paste0("[", paste0(d, collapse = ","), "]")
+  d <- jsonlite::fromJSON(d)
+  tweets_with_users(d)
+}
+
 
 #' @importFrom jsonlite stream_in
 .parse_stream <- function(file_name, ...) {
@@ -307,7 +326,7 @@ stream_data <- function(file_name, ...) {
     if (length(d) > 0) {
       tmp <- tempfile()
       on.exit(file.remove(tmp), add = TRUE)
-      d <- good_lines(d)
+      d <- good_lines2(d)
     }
     if (length(d) > 0) {
       dd <- sapply(d, function(x) {
@@ -361,6 +380,41 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
 }
 
 
+
+data_from_stream2 <- function(x, n = 10000L, n_max = -1L, ...) {
+  if (!file.exists(x)) {
+    stop("No such file exists", call. = FALSE)
+  }
+  if (!requireNamespace("readr", quietly = TRUE)) {
+    warning("For better performance when reading large twitter .json files, ",
+      "try installing the readr package before using this function.")
+    return(stream_data(x, ...))
+  }
+  ## initalize counters and output vector
+  d <- NA_character_
+  skip <- 0L
+  data <- list()
+  ## read in chunks until completion
+  if (identical(n_max, -1L)) {
+    n_max2 <- Inf
+  } else {
+    n_max2 <- n_max
+  }
+  while (length(d) > 0L && skip < n_max2) {
+    if (n_max > 0L && (skip + n) > n_max2) {
+      n <- n_max - skip
+    }
+    d <- readr::read_lines(x, skip = skip, n_max = n)
+    skip <- length(d) + skip
+    d <- good_lines2(d)
+    if (length(d) == 0) break
+    data[[length(data) + 1L]] <- .parse_stream_two(d)
+    if (NROW(data[[length(data)]]) == 0L) break
+  }
+  do.call("rbind", data)
+}
+
+
 #' Converts Twitter stream data (JSON file) into parsed data frame.
 #'
 #' @param path Character, name of JSON file with data collected by
@@ -385,9 +439,9 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
 parse_stream <- function(path, ...) {
   dots <- list(...)
   if (length(dots) > 0L) {
-    do.call("data_from_stream", c(path, dots))
+    do.call("data_from_stream2", c(path, dots))
   } else {
-    eval(call("data_from_stream", path))
+    eval(call("data_from_stream2", path))
   }
 }
 
