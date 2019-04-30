@@ -48,6 +48,30 @@ prep_from_to <- function(x, from, to) {
 #'   various network classes. For direct conversion to a network object, see
 #'  \code{\link{network_graph}}.
 #' @seealso network_graph
+#' @examples
+#'
+#' ## search for #rstats tweets
+#' rstats <- search_tweets("#rstats", n = 200)
+#'
+#' ## create from-to data frame representing retweet/mention/reply connections
+#' rstats_net <- network_data(rstats, "retweet,mention,reply")
+#'
+#' ## view edge data frame
+#' rstats_net
+#'
+#' ## view user_id->screen_name index
+#' attr(rstats_net, "idsn")
+#'
+#' ## if igraph is installed...
+#' if (requireNamespace("igraph", quietly = TRUE)) {
+#'
+#'   ## (1) convert directly to graph object representing semantic network
+#'   rstats_net <- network_graph(rstats)
+#'
+#'   ## (2) plot graph via igraph.plotting
+#'   plot(rstats_net)
+#'}
+#'
 #' @export
 network_data <- function(.x, .e = c("mention,retweet,reply,quote")) {
   if (isTRUE(.e)) {
@@ -71,20 +95,21 @@ network_data <- function(.x, .e = c("mention,retweet,reply,quote")) {
   .x
 }
 
-
 network_data_one <- function(.e, .x) {
   stopifnot(.e %in% c("mention", "retweet", "reply", "quote"))
   vars <- c("user_id", "screen_name", switch(.e,
     mention = c("mentions_user_id", "mentions_screen_name"),
-    retweet = c("retweet_user_id", "retweet_screen_name"),
-    reply = c("reply_to_user_id", "reply_to_screen_name"),
-    quote = c("quoted_user_id", "quoted_screen_name")))
+    retweet = c("retweet_user_id",  "retweet_screen_name"),
+    reply =   c("reply_to_user_id", "reply_to_screen_name"),
+    quote =   c("quoted_user_id",   "quoted_screen_name")))
   .x <- .x[, vars]
   idsn <- id_sn_index(.x)
   v <- names(.x)
   .x <- prep_from_to(.x, v[1], v[3])
+  if (nrow(.x) > 0) {
+    .x$type <- .e
+  }
   attr(.x, "idsn") <- idsn
-  .x$type <- .e
   .x
 }
 
@@ -123,7 +148,7 @@ network_graph <- function(.x, .e = c("mention,retweet,reply,quote")) {
   idsn <- attr(.x, "idsn")
   g <- igraph::make_empty_graph(n = 0, directed = TRUE)
   g <- igraph::add_vertices(g, length(idsn$id),
-    attr = list(user_id = idsn$id, screen_name = idsn$sn))
+    attr = list(id = idsn$id, name = idsn$sn))
   edges <- rbind(match(.x[[1]], idsn$id), match(.x[[2]], idsn$id))
   igraph::add_edges(g, edges, attr = list(type = .x[[3]]))
 }

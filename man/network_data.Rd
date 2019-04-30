@@ -4,12 +4,17 @@
 \alias{network_data}
 \title{Network data}
 \usage{
-network_data(.x, .e = NULL)
+network_data(.x, .e = c("mention,retweet,reply,quote"))
 }
 \arguments{
 \item{.x}{Data frame returned by rtweet function}
 
-\item{.e}{Type of edge/link–i.e., "mention", "retweet", "quote", "reply"}
+\item{.e}{Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
+This must be a character vector of length one or more. This value will be
+split on punctuation and space (so you can include multiple types in the
+same string spearated by a comma or space). The values "all" and
+"semantic" are assumed to mean all edge types, which is equivalent to the
+default value of \code{c("mention,retweet,reply,quote")}}
 }
 \value{
 A from/to data edge data frame
@@ -21,6 +26,31 @@ Convert Twitter data into a network-friendly data frame
 This function returns a data frame that can easily be converted to
   various network classes. For direct conversion to a network object, see
  \code{\link{network_graph}}.
+}
+\examples{
+
+## search for #rstats tweets
+rstats <- search_tweets("#rstats", n = 200)
+
+## create from-to data frame representing retweet/mention/reply connections
+rstats_net <- network_data(rstats, "retweet,mention,reply")
+
+## view edge data frame
+rstats_net
+
+## view user_id->screen_name index
+attr(rstats_net, "idsn")
+
+## if igraph is installed...
+if (requireNamespace("igraph", quietly = TRUE)) {
+
+  ## (1) convert directly to graph object representing semantic network
+  rstats_net <- network_graph(rstats)
+
+  ## (2) plot graph via igraph.plotting
+  plot(rstats_net)
+}
+
 }
 \seealso{
 network_graph
