@@ -48,7 +48,7 @@
 #'   processing/retrieval messages.
 #' @param \dots Insert magical parameters, spell, or potion here. Or
 #'   filter for tweets by language, e.g., \code{language = "en"}.
-#' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
+#' @seealso \url{https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose}
 #' @examples
 #' \dontrun{
 #' ## stream tweets mentioning "election" for 90 seconds

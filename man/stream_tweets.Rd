@@ -168,7 +168,7 @@ x <- lat_lng(rtworld)
 
 }
 \seealso{
-\url{https://stream.twitter.com/1.1/statuses/filter.json}
+\url{https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose}
 
 Other stream tweets: \code{\link{parse_stream}}
 }

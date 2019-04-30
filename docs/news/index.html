@@ -135,7 +135,8 @@
 </h1>
 <ul>
 <li>Better tweet-validating in streaming data–interrupted statuses/broken lines are now returned</li>
-<li>Added network-graph convenience functions</li>
+<li>Added network-graph convenience functions <code><a href="../reference/network_graph.html">network_data()</a></code> and <code><a href="../reference/network_graph.html">network_graph()</a></code>
+</li>
 </ul>
 </div>
     <div id="rtweet-068" class="section level1">
@@ -206,10 +207,10 @@
 <ul>
 <li>Added <code>all_suggested_users()</code>, which automates the collection of Twitter’s suggested users data.</li>
 <li>Various bug fixes and stability improvements.</li>
-<li>Significant upgrades to <code><a href="../reference/write_as_csv.html">save_as_csv()</a></code>, including addition of new <code>prep_as_csv()</code> as convience function for flattening Twitter data frames.</li>
+<li>Significant upgrades to <code><a href="../reference/write_as_csv.html">save_as_csv()</a></code>, including addition of new <code>prep_as_csv()</code> as convenience function for flattening Twitter data frames.</li>
 <li>Tokens have been retooled. For at least the time being, users must create a Twitter app in order to be authorized to interact with the REST and stream APIs.</li>
 <li>Joined data: instead of returning users/tweets data with its complementary tweets/users data stored as an attribute, functions now return a joined data frame, consisting of the tweets-level data joined with the newest (most recent) observation for each user This means functions now return a more consistent and intuitive data object where one row is always equal to one tweet.</li>
-<li>Overhauled <code><a href="../reference/write_as_csv.html">save_as_csv()</a></code> with improved flattening and ID-preserving saving methods. THe function now saves a single [joined] data set as well.</li>
+<li>Overhauled <code><a href="../reference/write_as_csv.html">save_as_csv()</a></code> with improved flattening and ID-preserving saving methods. The function now saves a single [joined] data set as well.</li>
 <li>Fixed major bugs in <code><a href="../reference/get_favorites.html">get_favorites()</a></code> and in several <code>lists_*()</code> functions.</li>
 <li>Tweaked date-time aggregator internals to make time-rounding more precise.</li>
 </ul>
@@ -223,7 +224,7 @@
 <li>Improved parsing and line-reading internals for <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>
 </li>
 <li>Added <code><a href="../reference/stream_tweets.html">stream_tweets2()</a></code> function for more robust streaming method. Streams JSON files to directory and reconnects following premature disruptions.</li>
-<li>Various bug fixes nad numerous documentation improvements.</li>
+<li>Various bug fixes and numerous documentation improvements.</li>
 </ul>
 </div>
     <div id="rtweet-050" class="section level1">
@@ -351,7 +352,7 @@
 <ul>
 <li>All interactive/posting functions have been modified with the prefix <code>post_</code>. This was done to clearly distinguish write functions from retrieval functions.</li>
 <li>More bug fixes and various improvements.</li>
-<li>The <code><a href="../reference/ts_plot.html">ts_plot()</a></code> function is now more robust with more adaptive characteristics for variations in the number of filters, the method of distiguishing lines, the position of the legend, and the aesthetics of the themes.</li>
+<li>The <code><a href="../reference/ts_plot.html">ts_plot()</a></code> function is now more robust with more adaptive characteristics for variations in the number of filters, the method of distinguishing lines, the position of the legend, and the aesthetics of the themes.</li>
 <li>Added <code>ts_filter()</code> function which allows users to convert Twitter data into a time series-like data frame. Users may also provide filtering rules with which <code>ts_filter()</code> will subset the data as it converts it to multiple time series, which it then outputs as a long-form (tidy) data frame.</li>
 </ul>
 </div>
@@ -373,7 +374,7 @@
 <ul>
 <li>Major improvements to ts_plot including SIX different themes from which users may choose</li>
 <li>More parsing fixes and misc stability improvements</li>
-<li>Minor renamig of variables along with returning more variables overall</li>
+<li>Minor renaming of variables along with returning more variables overall</li>
 </ul>
 </div>
     <div id="rtweet-039" class="section level1">
@@ -548,7 +549,7 @@
 <a href="#rtweet-024" class="anchor"></a>rtweet 0.2.4<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Added new trends functions. Find what trending locations are available with <code><a href="../reference/trends_available.html">trends_available()</a></code> and/or search for trends worldwide or by geogaphical location using <code><a href="../reference/get_trends.html">get_trends()</a></code>.</p></li>
+<li><p>Added new trends functions. Find what trending locations are available with <code><a href="../reference/trends_available.html">trends_available()</a></code> and/or search for trends worldwide or by geographical location using <code><a href="../reference/get_trends.html">get_trends()</a></code>.</p></li>
 <li><p>Stability improvements including integration with Travis CI and code analysis via codecov. Token encryption method also means API testing conducted on multiple machines and systems.</p></li>
 </ul>
 </div>
@@ -567,7 +568,7 @@
 <ul>
 <li><p>Output for <code><a href="../reference/search_tweets.html">search_tweets()</a></code>, <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>, and <code><a href="../reference/get_timeline.html">get_timeline()</a></code> now consists of tweets data and contains users data attribute.</p></li>
 <li><p>Output for <code><a href="../reference/lookup_users.html">lookup_users()</a></code> now consists of users data and contains tweets data attribute.</p></li>
-<li><p>To access users data from a tweets object or vice-versa, use <code><a href="../reference/users_data.html">users_data()</a></code> and <code><a href="../reference/tweets_data.html">tweets_data()</a></code> functions on objects outputed by major rtweet retrieval functions.</p></li>
+<li><p>To access users data from a tweets object or vice-versa, use <code><a href="../reference/users_data.html">users_data()</a></code> and <code><a href="../reference/tweets_data.html">tweets_data()</a></code> functions on objects output by major rtweet retrieval functions.</p></li>
 <li><p>Updated testthat tests</p></li>
 </ul>
 </div>
