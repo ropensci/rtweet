@@ -346,7 +346,7 @@ parse_showfriendships <- function(x, source_user, target_user) {
   }
   if (has_name_(x, "source")) {
     src <- unlist(x$source)
-    src <- tibble::data_frame(
+    src <- tibble::tibble(
       relationship = "source",
       user = target_user,
       variable = names(src),
@@ -357,7 +357,7 @@ parse_showfriendships <- function(x, source_user, target_user) {
   }
   if (has_name_(x, "target")) {
     trg <- unlist(x$target)
-    trg <- tibble::data_frame(
+    trg <- tibble::tibble(
       relationship = "target",
       user = source_user,
       variable = names(trg),

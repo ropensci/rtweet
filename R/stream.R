@@ -568,7 +568,7 @@ parse_streamlimit <- function(x) {
   x <- grep("^\\{\"limit", x, value = TRUE)
   x <- strsplit(x, ":|,|\"")
   x <- x[lengths(x) >= 7L]
-  tibble::data_frame(
+  tibble::tibble(
     track = unlist(lapply(x, "[[", 7L)),
     timestamp = as.POSIXct(
       as.numeric(unlist(lapply(x, "[[", 12L))) / 1000, origin = "1970-01-01")

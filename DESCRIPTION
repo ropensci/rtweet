@@ -35,7 +35,7 @@ Suggests:
     openssl,
     readr,
     rmarkdown,
-    testthat,
+    testthat (>= 2.1.0),
     webshot,
     covr,
     igraph
