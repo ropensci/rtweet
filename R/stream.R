@@ -284,11 +284,14 @@ good_lines2 <- function(x) {
   x <- grep("{\"delete", x, fixed = TRUE, invert = TRUE, value = TRUE)
   x <- grep("{\"limit", x, fixed = TRUE, invert = TRUE, value = TRUE)
   co <- grep("\\d+\"\\}$", x, invert = TRUE)
-  for (i in co) {
-    if (i + 1 > length(x)) break
-    x[i] <- paste0(x[i], x[i + 1])
+  for (i in seq_along(co)) {
+    if (co[i] + 1 > length(x)) break
+    x[co[i]] <- paste0(x[co[i]], x[co[i] + 1])
   }
-  x[-c(co + 1)]
+  if (length(co) > 0) {
+    x <- x[-c(co + 1)]
+  }
+  x
   #grep("timestamp_ms\":\"\\d+\"\\}$", x, value = TRUE)
 }
 
@@ -370,7 +373,7 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
     if (length(d) == 0) break
     skip <- length(d) + skip
     tmp <- tempfile()
-    d <- good_lines(d)
+    d <- good_lines2(d)
     if (length(d) == 0) break
     readr::write_lines(d, tmp)
     data[[length(data) + 1L]] <- stream_data(tmp, ...)
