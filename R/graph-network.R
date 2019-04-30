@@ -116,7 +116,7 @@ network_data_one <- function(.e, .x) {
 #' @param .e Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
 #'   This must be a character vector of length one or more. This value will be
 #'   split on punctuation and space (so you can include multiple types in the
-#'   same string spearated by a comma or space). The values "all" and
+#'   same string separated by a comma or space). The values "all" and
 #'   "semantic" are assumed to mean all edge types, which is equivalent to the
 #'   default value of \code{c("mention,retweet,reply,quote")}
 #' @return An igraph object

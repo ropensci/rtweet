@@ -44,3 +44,4 @@ LazyData: yes
 RoxygenNote: 6.1.1
 LinkingTo: 
     Rcpp
+Language: en-US
