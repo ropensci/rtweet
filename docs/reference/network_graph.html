@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture an image of a tweet/thread — tweet_shot • rtweet</title>
+<title>Network data — network_data • rtweet</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,11 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Capture an image of a tweet/thread — tweet_shot" />
+<meta property="og:title" content="Network data — network_data" />
 
-<meta property="og:description" content="Provide a status id or a full Twitter link to a tweet and this function
-will capture an image of the tweet --- or tweet + thread (if there are
-Twitter-linked replies) --- from the mobile version of said tweet/thread." />
+<meta property="og:description" content="Convert Twitter data into a network-friendly data frame
+Convert Twitter data into network graph object (igraph)" />
 
 <meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -129,57 +128,83 @@ Twitter-linked replies) --- from the mobile version of said tweet/thread." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture an image of a tweet/thread</h1>
+    <h1>Network data</h1>
     
-    <div class="hidden name"><code>tweet_shot.Rd</code></div>
+    <div class="hidden name"><code>network_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Provide a status id or a full Twitter link to a tweet and this function
-will capture an image of the tweet --- or tweet + thread (if there are
-Twitter-linked replies) --- from the mobile version of said tweet/thread.</p>
+    <p>Convert Twitter data into a network-friendly data frame</p>
+<p>Convert Twitter data into network graph object (igraph)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tweet_shot</span>(<span class='no'>statusid_or_url</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>network_data</span>(<span class='no'>.x</span>, <span class='kw'>.e</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mention,retweet,reply,quote"</span>))
+
+<span class='fu'>network_graph</span>(<span class='no'>.x</span>, <span class='kw'>.e</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mention,retweet,reply,quote"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>statusid_or_url</th>
-      <td><p>a valid Twitter status id (e.g. "<code>947082036019388416</code>") or
-a valid Twitter status URL (e.g. "<code>https://twitter.com/jhollist/status/947082036019388416</code>").</p></td>
+      <th>.x</th>
+      <td><p>Data frame returned by rtweet function</p></td>
     </tr>
     <tr>
-      <th>zoom</th>
-      <td><p>a positive number &gt;= 1. See the help for <code>[webshot::webshot()]</code> for more information.</p></td>
-    </tr>
-    <tr>
-      <th>scale</th>
-      <td><p>auto-scale the image back to 1:1? Default it <code>TRUE</code>, which means <code>magick</code>
-will be used to return a "normal" sized tweet. Set it to <code>FALSE</code> to perform your
-own image manipulation.</p></td>
+      <th>.e</th>
+      <td><p>Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
+This must be a character vector of length one or more. This value will be
+split on punctuation and space (so you can include multiple types in the
+same string spearated by a comma or space). The values "all" and
+"semantic" are assumed to mean all edge types, which is equivalent to the
+default value of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("mention,retweet,reply,quote")</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>magick</code> object</p>
+    <p>A from/to data edge data frame</p>
+<p>An igraph object</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For this to work, you will need to ensure the packages in <code>Suggests:</code> are
-installed as they will be loaded upon the first invocation of this function.</p>
-<p>Use the <code>zoom</code> factor to get more pixels which may improve the text rendering
-of the tweet/thread.</p>
+    <p><code>network_data</code> returns a data frame that can easily be converted to
+  various network classes. For direct conversion to a network object, see
+ <code>network_graph</code>.</p>
+<p><code>network_graph</code> requires previous installation of the igraph package.
+  To return a network-friendly data frame, see <code>network_data</code></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>network_graph</p>
+<p>network_data</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>tweet_shot</span>(<span class='st'>"947082036019388416"</span>)
-<span class='fu'>tweet_shot</span>(<span class='st'>"https://twitter.com/jhollist/status/947082036019388416"</span>)
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+  <span class='co'>## search for #rstats tweets</span>
+  <span class='no'>rstats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)
+
+  <span class='co'>## create from-to data frame representing retweet/mention/reply connections</span>
+  <span class='no'>rstats_net</span> <span class='kw'>&lt;-</span> <span class='fu'>network_data</span>(<span class='no'>rstats</span>, <span class='st'>"retweet,mention,reply"</span>)
+
+  <span class='co'>## view edge data frame</span>
+  <span class='no'>rstats_net</span>
+
+  <span class='co'>## view user_id-&gt;screen_name index</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>rstats_net</span>, <span class='st'>"idsn"</span>)
+
+  <span class='co'>## if igraph is installed...</span>
+  <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"igraph"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+
+    <span class='co'>## (1) convert directly to graph object representing semantic network</span>
+    <span class='no'>rstats_net</span> <span class='kw'>&lt;-</span> <span class='fu'>network_graph</span>(<span class='no'>rstats</span>)
+
+    <span class='co'>## (2) plot graph via igraph.plotting</span>
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>rstats_net</span>)
+  }
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -190,6 +215,8 @@ of the tweet/thread.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

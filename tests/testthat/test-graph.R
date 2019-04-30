@@ -16,3 +16,4 @@ test_that("graphing functions work", {
   )
 
 })
+
