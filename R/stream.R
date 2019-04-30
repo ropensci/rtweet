@@ -290,9 +290,12 @@ good_lines2 <- function(x) {
   }
   if (length(co) > 0) {
     x <- x[-c(co + 1)]
+    while (!grepl("\\d+\"\\}$", x[length(x)])) {
+      x <- x[-length(x)]
+      if (length(x) == 0) break
+    }
   }
   x
-  #grep("timestamp_ms\":\"\\d+\"\\}$", x, value = TRUE)
 }
 
 limits_data <- function(x) {
@@ -546,7 +549,6 @@ new_dir <- function(dir, force = TRUE) {
 
 match_fun <- function(dots, fun) {
   rfuns <- names(formals(fun))
-  #[!names(formals(fun)) %in% names(dots)]
   nms <- match(names(dots), rfuns)
   nms[names(dots) != ""] <- names(dots)[names(dots) != ""]
   is_na <- function(x) is.na(x) | x == "NA"
