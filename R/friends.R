@@ -167,7 +167,7 @@ get_friends_ <- function(users,
         if (length(f[[i]][["ids"]]) == 0) {
           f[[i]] <- tibble::as_tibble()
         } else {
-          nextcursor <- f[["next_cursor"]]
+          nextcursor <- next_cursor(f)
           f[[i]] <- tibble::as_tibble(
             list(user = users[[i]], user_id = f[[i]][["ids"]]))
           attr(f[[i]], "next_cursor") <- nextcursor
