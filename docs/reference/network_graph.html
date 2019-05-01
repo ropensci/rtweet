@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Converts tweets data into time series-like data object. — ts_data • rtweet</title>
+<title>Network data — network_data • rtweet</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Converts tweets data into time series-like data object. — ts_data" />
+<meta property="og:title" content="Network data — network_data" />
 
-<meta property="og:description" content="Returns data containing the frequency of tweets over a specified
-interval of time." />
+<meta property="og:description" content="Convert Twitter data into a network-friendly data frame
+Convert Twitter data into network graph object (igraph)" />
 
 <meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -128,72 +128,84 @@ interval of time." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Converts tweets data into time series-like data object.</h1>
+    <h1>Network data</h1>
     
-    <div class="hidden name"><code>ts_data.Rd</code></div>
+    <div class="hidden name"><code>network_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Returns data containing the frequency of tweets over a specified
-interval of time.</p>
+    <p>Convert Twitter data into a network-friendly data frame</p>
+<p>Convert Twitter data into network graph object (igraph)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ts_data</span>(<span class='no'>data</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"days"</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
+    <pre class="usage"><span class='fu'>network_data</span>(<span class='no'>.x</span>, <span class='kw'>.e</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mention,retweet,reply,quote"</span>))
+
+<span class='fu'>network_graph</span>(<span class='no'>.x</span>, <span class='kw'>.e</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mention,retweet,reply,quote"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Data frame or grouped data frame.</p></td>
+      <th>.x</th>
+      <td><p>Data frame returned by rtweet function</p></td>
     </tr>
     <tr>
-      <th>by</th>
-      <td><p>Desired interval of time expressed as numeral plus one of
-"secs", "mins", "hours", "days", "weeks", "months", or
-"years". If a numeric is provided, the value is assumed to be in
-seconds.</p></td>
-    </tr>
-    <tr>
-      <th>trim</th>
-      <td><p>Number of observations to trim off the front and end of
-each time series</p></td>
-    </tr>
-    <tr>
-      <th>tz</th>
-      <td><p>Time zone to be used, defaults to "UTC" (Twitter default)</p></td>
+      <th>.e</th>
+      <td><p>Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
+This must be a character vector of length one or more. This value will be
+split on punctuation and space (so you can include multiple types in the
+same string separated by a comma or space). The values "all" and
+"semantic" are assumed to mean all edge types, which is equivalent to the
+default value of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("mention,retweet,reply,quote")</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame with time, n, and grouping column if applicable.</p>
+    <p>A from/to data edge data frame</p>
+<p>An igraph object</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>network_data</code> returns a data frame that can easily be converted to
+  various network classes. For direct conversion to a network object, see
+ <code>network_graph</code>.</p>
+<p><code>network_graph</code> requires previous installation of the igraph package.
+  To return a network-friendly data frame, see <code>network_data</code></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>network_graph</p>
+<p>network_data</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='co'>## handles of women senators</span>
-<span class='no'>sens</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SenatorBaldwin"</span>, <span class='st'>"SenGillibrand"</span>, <span class='st'>"PattyMurray"</span>, <span class='st'>"SenatorHeitkamp"</span>)
+  <span class='co'>## search for #rstats tweets</span>
+  <span class='no'>rstats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)
 
-<span class='co'>## get timelines for each</span>
-<span class='no'>sens</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timeline</a></span>(<span class='no'>sens</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3200</span>)
+  <span class='co'>## create from-to data frame representing retweet/mention/reply connections</span>
+  <span class='no'>rstats_net</span> <span class='kw'>&lt;-</span> <span class='fu'>network_data</span>(<span class='no'>rstats</span>, <span class='st'>"retweet,mention,reply"</span>)
 
-<span class='co'>## get single time series for tweets</span>
-<span class='fu'>ts_data</span>(<span class='no'>sens</span>)
+  <span class='co'>## view edge data frame</span>
+  <span class='no'>rstats_net</span>
 
-<span class='co'>## using weekly intervals</span>
-<span class='fu'>ts_data</span>(<span class='no'>sens</span>, <span class='st'>"weeks"</span>)
+  <span class='co'>## view user_id-&gt;screen_name index</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>rstats_net</span>, <span class='st'>"idsn"</span>)
 
-<span class='co'>## group by screen name and then use weekly intervals</span>
-<span class='no'>sens</span> <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>screen_name</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='st'>"weeks"</span>)
+  <span class='co'>## if igraph is installed...</span>
+  <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"igraph"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 
-<span class='co'># }</span><div class='input'>
-</div></pre>
+    <span class='co'>## (1) convert directly to graph object representing semantic network</span>
+    <span class='no'>rstats_net</span> <span class='kw'>&lt;-</span> <span class='fu'>network_graph</span>(<span class='no'>rstats</span>)
+
+    <span class='co'>## (2) plot graph via igraph.plotting</span>
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>rstats_net</span>)
+  }
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -201,6 +213,10 @@ each time series</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

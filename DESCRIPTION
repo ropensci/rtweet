@@ -1,6 +1,6 @@
 Package: rtweet
 Type: Package
-Version: 0.6.8.9000
+Version: 0.6.9
 Title: Collecting Twitter Data
 Authors@R: c(
     person("Michael W.", "Kearney", ,
@@ -22,7 +22,9 @@ Imports:
     magrittr (>= 1.5.0),
     tibble (>= 1.3.4),
     utils,
-    progress
+    progress,
+    Rcpp,
+    httpuv
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
 BugReports: https://github.com/mkearney/rtweet/issues
@@ -34,9 +36,12 @@ Suggests:
     openssl,
     readr,
     rmarkdown,
-    testthat,
+    testthat (>= 2.1.0),
     webshot,
-    covr
+    covr,
+    igraph
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 6.1.0.9000
+RoxygenNote: 6.1.1
+LinkingTo: 
+    Rcpp

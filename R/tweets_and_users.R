@@ -118,7 +118,7 @@ status_object_ <- function(x) {
     }
     if (`&&`(
       is.data.frame(x),
-      c("favorite_count", "source") %in% names(x)
+      all(c("favorite_count", "source") %in% names(x))
     )) {
       return(x)
     }
