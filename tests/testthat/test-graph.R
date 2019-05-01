@@ -1,3 +1,5 @@
+context("network_data")
+
 test_that("graphing functions work", {
   skip_on_cran()
 
