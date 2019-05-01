@@ -1,6 +1,6 @@
 #' Posts status update to user's Twitter account
 #'
-#' @param status Character, tweet status. Must be 140 characters or less.
+#' @param status Character, tweet status. Must be 280 characters or less.
 #' @param media File path to image or video media to be included in tweet.
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable tokens.
@@ -122,8 +122,14 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## update statuses query
   query <- "statuses/update"
+
+  ## make sure encoding is utf-8
+  enc <- getOption("encoding")
+  on.exit(options(encoding = enc), add = TRUE)
+  options(encoding = "UTF-8")
+
   ## validate status text
-  if (all(nchar(status) > 280, !grepl("http", status))) {
+  if (all(is_tweet_length(status), !grepl("http", status))) {
     stop("cannot exceed 280 characters.", call. = FALSE)
   }
   if (length(status) > 1) {
@@ -157,7 +163,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   if (!is.null(in_reply_to_status_id)) {
     params[["in_reply_to_status_id"]] <- in_reply_to_status_id
   }
-  
+
   if (auto_populate_reply_metadata) {
     params[["auto_populate_reply_metadata"]] <- "true"
   }
@@ -173,6 +179,13 @@ post_tweet <- function(status = "my first rtweet #rstats",
   invisible(r)
 }
 
+is_tweet_length <- function(.x, n = 280) {
+  .x <- gsub("https?://[[:graph:]]+\\s?", "", .x)
+  while (grepl("^@\\S+\\s+", .x)) {
+    .x <- sub("^@\\S+\\s+", "", .x)
+  }
+  nchar(.x) <= n
+}
 
 upload_media_to_twitter <- function(media, token) {
   media2upload <- httr::upload_file(media)
