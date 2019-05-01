@@ -1,24 +1,22 @@
 #' Posts status update to user's Twitter account
 #'
-#' @param status Character, tweet status. Must be 140
-#'   characters or less.
-#' @param media File path to image or video media to be
-#'   included in tweet.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
+#' @param status Character, tweet status. Must be 140 characters or less.
+#' @param media File path to image or video media to be included in tweet.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like to reply.
 #'   Note: in line with the Twitter API, this parameter is ignored unless the
 #'   author of the tweet this parameter references is mentioned within the
 #'   status text.
-#' @param destroy_id To delete a status, supply the single status ID here.
-#'   If a character string is supplied, overriding the default (NULL),
-#'   then a destroy request is made (and the status text and media attachments)
-#'   are irrelevant.
-#' @param retweet_id To retweet a status, supply the single status ID here.
-#'   If a character string is supplied, overriding the default (NULL),
-#'   then a retweet request is made (and the status text and media attachments)
-#'   are irrelevant.
+#' @param destroy_id To delete a status, supply the single status ID here. If a
+#'   character string is supplied, overriding the default (NULL), then a destroy
+#'   request is made (and the status text and media attachments) are irrelevant.
+#' @param retweet_id To retweet a status, supply the single status ID here. If a
+#'   character string is supplied, overriding the default (NULL), then a retweet
+#'   request is made (and the status text and media attachments) are irrelevant.
+#' @param auto_populate_reply_metadata If set to TRUE and used with
+#'   in_reply_to_status_id, leading @mentions will be looked up from the
+#'   original Tweet, and added to the new Tweet from there. Defaults to FALSE.
 #' @examples
 #' \dontrun{
 #' ## generate data to make/save plot (as a .png file)
@@ -66,7 +64,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        token = NULL,
                        in_reply_to_status_id = NULL,
                        destroy_id = NULL,
-                       retweet_id = NULL) {
+                       retweet_id = NULL,
+                       auto_populate_reply_metadata = FALSE) {
 
   ## check token
   token <- check_token(token)
@@ -157,6 +156,10 @@ post_tweet <- function(status = "my first rtweet #rstats",
   query <- "statuses/update"
   if (!is.null(in_reply_to_status_id)) {
     params[["in_reply_to_status_id"]] <- in_reply_to_status_id
+  }
+  
+  if (auto_populate_reply_metadata) {
+    params[["auto_populate_reply_metadata"]] <- "true"
   }
 
   url <- make_url(query = query, param = params)
