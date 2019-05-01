@@ -229,8 +229,8 @@ get_friend <- function(url, token = NULL) {
     if (has_name_(url, "query") &&
         any(grepl("user_id|screen_name", names(url$query)))) {
       warning("^^ warning regarding user: ",
-              url$query[[grep("screen_name|user_id", names(url$query))]],
-              call. = FALSE, immediate. = TRUE)
+        url$query[[grep("screen_name|user_id", names(url$query))]],
+        call. = FALSE, immediate. = TRUE)
     }
     return(list(ids = character()))
   }
