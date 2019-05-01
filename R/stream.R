@@ -284,11 +284,11 @@ good_lines2 <- function(x) {
   x <- grep("{\"delete", x, fixed = TRUE, invert = TRUE, value = TRUE)
   x <- grep("{\"limit", x, fixed = TRUE, invert = TRUE, value = TRUE)
   co <- grep("\\d+\"\\}$", x, invert = TRUE)
-  for (i in seq_along(co)) {
-    if (co[i] + 1 > length(x)) break
-    x[co[i]] <- paste0(x[co[i]], x[co[i] + 1])
-  }
   if (length(co) > 0) {
+    for (i in seq_along(co)) {
+      if (co[i] + 1 > length(x)) break
+      x[co[i]] <- paste0(x[co[i]], x[co[i] + 1])
+    }
     x <- x[-c(co + 1)]
     while (!grepl("\\d+\"\\}$", x[length(x)])) {
       x <- x[-length(x)]
