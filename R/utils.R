@@ -429,19 +429,24 @@ TUMjWsOrkFQhVwe <- function() sysdat$DYKcJfBkgMnGveI[[1]]
 ##                                require pkgs                                ##
 ##----------------------------------------------------------------------------##
 
-try_require <- function(pkg, f) {
+try_require <- function(pkg, f = NULL) {
+  if (is.null(f)) {
+    f <- "this action"
+  } else {
+    f <- paste0("`", f, "`")
+  }
 
   if (requireNamespace(pkg, quietly = TRUE)) {
     library(pkg, character.only = TRUE)
     return(invisible())
   }
 
-  stop("Package `", pkg, "` required for `", f , "`.\n",
-    "Please install and try again.", call. = FALSE)
+  stop(paste0("Package `", pkg, "` required for ", f , ".\n",
+    "Please install and try again."), call. = FALSE)
 }
 
 is.valid.username <- function(username) {
-  !grepl(' ', username);
+  !grepl("\\s", username)
 }
 
 
@@ -465,4 +470,8 @@ decript_secret <- function() {
 
 decript_key <- function() {
   rawToChar(openssl::rsa_decrypt(AuDedjvWyZTQBnS(), TUMjWsOrkFQhVwe()))
+}
+
+r_t_c <- function(x) {
+  httpuv::rawToBase64(x)
 }

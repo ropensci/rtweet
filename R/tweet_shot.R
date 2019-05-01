@@ -25,8 +25,8 @@
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   ## check for required packages
-  try_require("magick")
-  try_require("webshot")
+  try_require("magick", "tweet_shot")
+  try_require("webshot", "tweet_shot")
 
   statusid_or_url <- statusid_or_url[1]
   zoom <- zoom[1]
