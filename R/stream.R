@@ -388,7 +388,7 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
 
 
 data_from_stream2 <- function(x, n = 10000L, n_max = -1L, ...) {
-  if (!file.exists(x)) {
+  if (!inherits(x, "connection") && !file.exists(x)) {
     stop("No such file exists", call. = FALSE)
   }
   if (!requireNamespace("readr", quietly = TRUE)) {
