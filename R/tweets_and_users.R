@@ -116,6 +116,9 @@ status_object_ <- function(x) {
     if (is.list(x) && "statuses" %in% names(x)) {
       x <- x$statuses
     }
+    if (is.list(x) && "results" %in% names(x)) {
+      x <- x$results
+    }
     if (`&&`(
       is.data.frame(x),
       all(c("favorite_count", "source") %in% names(x))
@@ -303,6 +306,9 @@ user_object_ <- function(x) {
     }
     if (is.list(x) && "statuses" %in% names(x)) {
       x <- x$statuses
+    }
+    if (is.list(x) && "results" %in% names(x)) {
+      x <- x$results
     }
     if (`&&`(
       is.data.frame(x),

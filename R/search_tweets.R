@@ -337,6 +337,14 @@ search_tweets_ <- function(q = "",
 
   ## path name
   query <- "search/tweets"
+  if ("premium" %in% names(list(...)) &&
+      all(c("env_name", "path") %in% names(list(...)$premium))) {
+    premium <- list(...)$premium
+    premium$path <- sub("tweets/search/?|search/tweets/?", "", premium$path)
+    query <- gsub("/+", "/",
+      paste0("tweets/search/", premium$path, "/", premium$env_name))
+    cat(query, "***")
+  }
   ## validate
   stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
   ## number of loops
@@ -382,16 +390,45 @@ search_tweets_ <- function(q = "",
     tweet_mode = "extended",
     geocode = geocode,
     ...)
-  ## make url
-  url <- make_url(
-    query = query,
-    param = params)
+  if (grepl("fullarchive|30day", query)) {
+    params[["premium"]] <- NULL
+    params$result_type <- NULL
+    if (grepl("full", query)) {
+      params$maxResults <- 100
+    } else {
+      params$maxResults <- 100
+    }
+    names(params)[1] <- "query"
+    params$tweet_mode <- NULL
+    # m <- regexpr("(?<=since:)\\S+", params$q, perl = TRUE)
+    # if (m[1] > 0) {
+    #   params$fromDate <- regmatches(params$q, m)
+    #   params$q <- sub("since:\\S+\\s?", "", params$q)
+    # }
+    # m <- regexpr("(?<=until:)\\S+", params$q, perl = TRUE)
+    # if (m[1] > 0) {
+    #   params$toDate <- regmatches(params$q, m)
+    #   params$q <- sub("until:\\S+\\s?", "", params$q)
+    # }
+    params$count <- NULL
+    type <- "premium"
+    ## make url
+    url <- make_url(
+      query = query,
+      param = params)
+  } else {
+    type <- "search"
+    ## make url
+    url <- make_url(
+      query = query,
+      param = params)
+  }
 
   #if (verbose) {
   #  message("Searching for tweets...")
   #  if (n > 10000) message("This may take a few seconds...")
   #}
-  tw <- scroller(url, n, n.times, type = "search", token, verbose = verbose)
+  tw <- scroller(url, n, n.times, type = type, token, verbose = verbose)
   if (parse) {
     tw <- tweets_with_users(tw)
   }

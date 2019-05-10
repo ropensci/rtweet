@@ -101,11 +101,14 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
     )
     pb$tick(0)
   }
-
   for (i in seq_along(x)) {
     if (verbose) pb$tick()
     ## send GET request
-    x[[i]] <- httr::GET(url, ...)
+    if (type == "premium") {
+      x[[i]] <- httr::GET(url, ...)
+    } else {
+      x[[i]] <- httr::GET(url, ...)
+    }
     warn_for_twitter_status(x[[i]])
     ## if NULL (error) break
     if (is.null(x[[i]])) break
@@ -131,6 +134,8 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
     ## if cursor in URL then update otherwise use max id
     if ("cursor" %in% names(url$query)) {
       url$query$cursor <- get_max_id(x[[i]])
+    } else if (has_name_(x[[i]], "next")) {
+      url$query[["next"]] <- x[[i]][["next"]]
     } else {
       url$query$max_id <- get_max_id(x[[i]])
     }
@@ -146,6 +151,9 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
 unique_id_count <- function(x, type = NULL) {
   if (!is.null(type)) {
     if (type == "search") return(100)
+    if (type == "full") return(100)
+    if (type == "premium") return(100)
+    if (type == "30day") return(100)
     if (type == "timeline") return(200)
     if (type == "followers") return(5000)
   }
@@ -169,7 +177,10 @@ unique_id_count <- function(x, type = NULL) {
 unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
+  } else if ("results" %in% names(x)) {
+    x <- x[["results"]]
   }
+
   if ("id_str" %in% names(x)) {
     x[["id_str"]]
   } else if ("ids" %in% names(x)) {
@@ -190,7 +201,11 @@ break_check <- function(r, url, count = NULL) {
     if (as.numeric(count) <= 0) return(TRUE)
   }
   if (is.null(r)) return(TRUE)
-  x <- get_max_id(r)
+  if (has_name_(r, "next")) {
+    x <- r[["next"]]
+  } else {
+    x <- get_max_id(r)
+  }
   if (is.null(x)) return(TRUE)
   if (any(identical(x, 0), identical(x, "0"))) return(TRUE)
   if ("max_id" %in% names(url$query)) {
