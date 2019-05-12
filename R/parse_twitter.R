@@ -11,6 +11,11 @@ parse_twitter.list <- function(.x) {
   tweets_with_users(.x)
 }
 
+parse_twitter.data.frame <- function(.x) {
+  .x <- list(.x)
+  parse_twitter(.x)
+}
+
 parse_twitter.stream_file <- function(.x) {
   parse_stream(.x)
 }
