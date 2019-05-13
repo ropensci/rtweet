@@ -46,6 +46,7 @@ format_from_to_date <- function(x = NULL) {
 #' @param toDate Newest date-time (YYYYMMDDHHMM) from which tweets should be
 #'   searched for.
 #' @param env_name Name/label of developer environment to use for the search.
+#' @param parse Logical indicating whether to convert data into data frame.
 #' @param safedir Name of directory to which each response object should be
 #'   saved. If the directory doesn't exist, it will be created. If NULL (the
 #'   default) then a dir will be created in the current working directory. To
@@ -112,7 +113,7 @@ format_from_to_date <- function(x = NULL) {
 #' @return A tibble data frame of Twitter data
 #' @export
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
-  env_name = NULL, safedir = NULL, token = NULL) {
+  env_name = NULL, safedir = NULL, parse = TRUE, token = NULL) {
   token <- check_token(token)
   if (!length(get_app_secret(token))) {
     stop(paste0("This token does not have an app secret and therefore cannot ",
@@ -131,13 +132,19 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
   if (is.null(env_name)) {
     stop("Must provide dev environment name")
   }
-  search_tweets(q,
+  r <- search_tweets(q,
     fromDate = fromDate,
     toDate = toDate,
     premium = premium_api("fullarchive", env_name),
-    parse = TRUE, n = n,
+    parse = FALSE, n = n,
     safedir = safedir,
     token = token)
+  if (parse) {
+    np <- get_next_page(r)
+    r <- tweets_with_users(r)
+    attr(r, "next_page") <- np
+  }
+  r
 }
 
 #rstats <- search_fullarchive("rstats", n = 1000,

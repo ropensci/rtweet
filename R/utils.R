@@ -76,6 +76,27 @@ make_url <- function(restapi = TRUE, query, param = NULL) {
 ##----------------------------------------------------------------------------##
 ##                                   scroll                                   ##
 ##----------------------------------------------------------------------------##
+add_next_page_attr <- function(x) {
+  if (length(x) == 0) return(x)
+  if (inherits(x, "response")) {
+    np <- httr::content(x)[["next"]]
+  } else if (isTRUE("next" %in% names(x))) {
+    np <- x[["next"]]
+  }
+  attr(x, "next_page") <- c(attr(x, "next_page"), np)
+  x
+}
+get_next_page <- function(x) {
+  if (inherits(x, "response") || isTRUE("response" %in% names(attributes(x)))) {
+    attr(x, "next_page")
+  } else if (length(x) > 0 && isTRUE(inherits(x[[1]], "response"))) {
+    lapply(x, attr, "next_page")
+  } else if (is.null(names(x))) {
+    lapply(x, "[[", "next")
+  } else {
+    x[["next"]]
+  }
+}
 
 scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE, safedir = NULL) {
   ## check args
@@ -114,6 +135,11 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE, safedir 
       saveas <- paste0(format(Sys.time(), "%Y%m%d%H%M%S"), "-", i, ".rds")
       saveRDS(x[[i]], file.path(safedir, saveas))
     }
+
+    # if (type %in% c("premium", "fullarchive", "30days")) {
+    #   x[[i]] <- add_next_page_attr(x[[i]])
+    # }
+
     ## if NULL (error) break
     if (is.null(x[[i]])) break
     ## convert from json to R list
