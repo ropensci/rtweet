@@ -337,6 +337,7 @@ search_tweets_ <- function(q = "",
 
   ## path name
   query <- "search/tweets"
+  safedir <- NULL
   if ("premium" %in% names(list(...)) &&
       all(c("env_name", "path") %in% names(list(...)$premium))) {
     premium <- list(...)$premium
@@ -344,6 +345,10 @@ search_tweets_ <- function(q = "",
     query <- gsub("/+", "/",
       paste0("tweets/search/", premium$path, "/", premium$env_name))
     cat(query, "***")
+
+    if ("safedir" %in% names(list(...))) {
+      safedir <- list(...)$safedir
+    }
   }
   ## validate
   stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
@@ -400,6 +405,7 @@ search_tweets_ <- function(q = "",
     }
     names(params)[1] <- "query"
     params$tweet_mode <- NULL
+    params$safedir <- NULL
     # m <- regexpr("(?<=since:)\\S+", params$q, perl = TRUE)
     # if (m[1] > 0) {
     #   params$fromDate <- regmatches(params$q, m)
@@ -428,7 +434,9 @@ search_tweets_ <- function(q = "",
   #  message("Searching for tweets...")
   #  if (n > 10000) message("This may take a few seconds...")
   #}
-  tw <- scroller(url, n, n.times, type = type, token, verbose = verbose)
+  tw <- scroller(url, n, n.times, type = type, token, verbose = verbose,
+    safedir = safedir)
+
   if (parse) {
     tw <- tweets_with_users(tw)
   }

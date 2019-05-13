@@ -77,7 +77,7 @@ make_url <- function(restapi = TRUE, query, param = NULL) {
 ##                                   scroll                                   ##
 ##----------------------------------------------------------------------------##
 
-scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
+scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE, safedir = NULL) {
   ## check args
   stopifnot(is_n(n), is_url(url))
 
@@ -103,13 +103,17 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
   }
   for (i in seq_along(x)) {
     if (verbose) pb$tick()
-    ## send GET request
-    if (type == "premium") {
-      x[[i]] <- httr::GET(url, ...)
-    } else {
-      x[[i]] <- httr::GET(url, ...)
-    }
+
+    x[[i]] <- httr::GET(url, ...)
     warn_for_twitter_status(x[[i]])
+    ## send GET request
+    if (type %in% c("premium", "fullarchive", "30days") && !is.null(safedir)) {
+      if (!dir.exists(safedir)) {
+        dir.create(safedir)
+      }
+      saveas <- paste0(format(Sys.time(), "%Y%m%d%H%M%S"), "-", i, ".rds")
+      saveRDS(x[[i]], file.path(safedir, saveas))
+    }
     ## if NULL (error) break
     if (is.null(x[[i]])) break
     ## convert from json to R list
