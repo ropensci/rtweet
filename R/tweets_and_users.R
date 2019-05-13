@@ -384,10 +384,16 @@ users_to_tbl_ <- function(dat) {
     }), use.names = FALSE
   )
   dat$created_at <- format_date(dat$created_at)
+  if (!has_name_(dat, "reply_count")) {
+    dat$reply_count <- NA_integer_
+  }
+  if (!has_name_(dat, "quote_count")) {
+    dat$quote_count <- NA_integer_
+  }
   usercols <- usercols_()
   nacols <- usercols[!usercols %in% names(dat)]
-  for (i in nacols) {
-    dat[[i]] <- NA
+  for (i in seq_along(nacols)) {
+    dat[[nacols[i]]] <- NA
   }
   dat <- dat[, usercols[usercols %in% names(dat)]]
   names(dat) <- names(usercols)[usercols %in% names(dat)]
@@ -442,8 +448,8 @@ statuscols_ <- function() {
     is_retweet = "is_retweet",
     favorite_count = "favorite_count",
     retweet_count = "retweet_count",
-    ##quote_count = "quote_count",
-    ##reply_count = "reply_count",
+    quote_count = "quote_count",
+    reply_count = "reply_count",
     hashtags = "hashtags",
     symbols = "symbols",
     urls_url = "urls_url",
