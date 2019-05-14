@@ -128,7 +128,7 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE, safedir 
     x[[i]] <- httr::GET(url, ...)
     warn_for_twitter_status(x[[i]])
     ## send GET request
-    if (type %in% c("premium", "fullarchive", "30days") && !is.null(safedir)) {
+    if (type %in% c("premium", "fullarchive", "30day") && !is.null(safedir)) {
       if (!dir.exists(safedir)) {
         dir.create(safedir)
       }
