@@ -29,6 +29,10 @@ default) then a dir will be created in the current working directory. To
 override/deactivate safedir set this to FALSE.}
 
 \item{parse}{Logical indicating whether to convert data into data frame.}
+
+\item{token}{A token associated with a user-created APP (requires a developer
+account), which is converted to a bearer token in order to make premium
+API requests}
 }
 \value{
 A tibble data frame of Twitter data
@@ -49,9 +53,8 @@ account visit \url{https://developer.twitter.com}.
 
 \section{Search operators}{
 
-
-\emph{Note: Bolded operators ending with a colon should be immediately followed by
-a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
+\emph{Note: Bolded operators ending with a colon should be immediately
+followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 
 Matching on Tweet contents by keyword:
 

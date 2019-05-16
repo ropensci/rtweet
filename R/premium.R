@@ -52,6 +52,9 @@ format_from_to_date <- function(x = NULL) {
 #'   saved. If the directory doesn't exist, it will be created. If NULL (the
 #'   default) then a dir will be created in the current working directory. To
 #'   override/deactivate safedir set this to FALSE.
+#' @param token A token associated with a user-created APP (requires a developer
+#'   account), which is converted to a bearer token in order to make premium
+#'   API requests
 #'
 #' @details
 #'
@@ -62,9 +65,8 @@ format_from_to_date <- function(x = NULL) {
 #' account visit \url{https://developer.twitter.com}.
 #'
 #' @section Search operators:
-#'
-#' \emph{Note: Bolded operators ending with a colon should be immediately followed by
-#' a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
+#' \emph{Note: Bolded operators ending with a colon should be immediately
+#' followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 #'
 #' Matching on Tweet contents by keyword:
 #'
@@ -170,9 +172,8 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #' account visit \url{https://developer.twitter.com}.
 #'
 #' @section Search operators:
-#'
-#' \emph{Note: Bolded operators ending with a colon should be immediately followed by
-#' a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
+#' \emph{Note: Bolded operators ending with a colon should be immediately
+#' followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 #'
 #' Matching on Tweet contents by keyword:
 #'
