@@ -2,6 +2,7 @@
 - Better tweet-validating in streaming data–interrupted statuses/broken lines 
   are now returned
 - Added network-graph convenience functions `network_data()` and `network_graph()`
+- Added experimental support for premium APIs
 
 # rtweet 0.6.8
 - Users can now create read-only using the built-in rtweet client!
