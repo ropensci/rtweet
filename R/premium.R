@@ -56,8 +56,6 @@ format_from_to_date <- function(x = NULL) {
 #'   account), which is converted to a bearer token in order to make premium
 #'   API requests
 #'
-#' @details
-#'
 #' @section Developer Account:
 #' Users must have an approved developer account and an active/labelled
 #' environment to access Twitter's premium APIs. For more information, to check
@@ -68,26 +66,23 @@ format_from_to_date <- function(x = NULL) {
 #' \emph{Note: Bolded operators ending with a colon should be immediately
 #' followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 #'
-#' Matching on Tweet contents by keyword:
-#'
+#' @section Keyword:
 #' \itemize{
 #'   \item \strong{""}           ~~ match exact phrase
 #'   \item \strong{#}               ~~ hashtag
-#'   \item \strong{@}               ~~ at mentions)
+#'   \item \strong{@@}               ~~ at mentions)
 #'   \item \strong{url:}            ~~ found in URL
 #'   \item \strong{lang:}           ~~ language of tweet
 #' }
 #'
-#' accounts of interest:
-#'
+#' @section Accounts of interest:
 #' \itemize{
 #'   \item \strong{from:}           ~~ authored by
 #'   \item \strong{to:}             ~~ sent to
 #'   \item \strong{retweets_of:}    ~~ retweet author
 #' }
 #'
-#' tweet attributes:
-#'
+#' @section Tweet attributes:
 #' \itemize{
 #'   \item \strong{is:retweet}      ~~ only retweets
 #'   \item \strong{has:mentions}    ~~ uses mention(s)
@@ -99,8 +94,7 @@ format_from_to_date <- function(x = NULL) {
 #'   \item \strong{is:verified}     ~~ from verified accounts
 #' }
 #'
-#' and/or geospatial:
-#'
+#' @section Geospatial:
 #' \itemize{
 #'   \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
 #'   \item \strong{point_radius:[lon lat radius]} ~~ center of search radius
@@ -163,7 +157,6 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #' Search Twitter's '30day' (PREMIUM) API
 #'
 #' @inheritParams search_fullarchive
-#' @details
 #'
 #' @section Developer Account:
 #' Users must have an approved developer account and an active/labelled
@@ -175,26 +168,23 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #' \emph{Note: Bolded operators ending with a colon should be immediately
 #' followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 #'
-#' Matching on Tweet contents by keyword:
-#'
+#' @section Keyword:
 #' \itemize{
 #'   \item \strong{""}           ~~ match exact phrase
 #'   \item \strong{#}               ~~ hashtag
-#'   \item \strong{@}               ~~ at mentions)
+#'   \item \strong{@@}               ~~ at mentions)
 #'   \item \strong{url:}            ~~ found in URL
 #'   \item \strong{lang:}           ~~ language of tweet
 #' }
 #'
-#' accounts of interest:
-#'
+#' @section Accounts of interest:
 #' \itemize{
 #'   \item \strong{from:}           ~~ authored by
 #'   \item \strong{to:}             ~~ sent to
 #'   \item \strong{retweets_of:}    ~~ retweet author
 #' }
 #'
-#' tweet attributes:
-#'
+#' @section Tweet attributes:
 #' \itemize{
 #'   \item \strong{is:retweet}      ~~ only retweets
 #'   \item \strong{has:mentions}    ~~ uses mention(s)
@@ -206,8 +196,7 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #'   \item \strong{is:verified}     ~~ from verified accounts
 #' }
 #'
-#' and/or geospatial:
-#'
+#' @section Geospatial:
 #' \itemize{
 #'   \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
 #'   \item \strong{point_radius:[lon lat radius]} ~~ center of search radius

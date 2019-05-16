@@ -40,9 +40,6 @@ A tibble data frame of Twitter data
 \description{
 Search Twitter's 'fullarchive' (PREMIUM) API
 }
-\details{
-
-}
 \section{Developer Account}{
 
 Users must have an approved developer account and an active/labelled
@@ -55,8 +52,9 @@ account visit \url{https://developer.twitter.com}.
 
 \emph{Note: Bolded operators ending with a colon should be immediately
 followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
+}
 
-Matching on Tweet contents by keyword:
+\section{Keyword}{
 
 \itemize{
   \item \strong{""}           ~~ match exact phrase
@@ -65,16 +63,18 @@ Matching on Tweet contents by keyword:
   \item \strong{url:}            ~~ found in URL
   \item \strong{lang:}           ~~ language of tweet
 }
+}
 
-accounts of interest:
+\section{Accounts of interest}{
 
 \itemize{
   \item \strong{from:}           ~~ authored by
   \item \strong{to:}             ~~ sent to
   \item \strong{retweets_of:}    ~~ retweet author
 }
+}
 
-tweet attributes:
+\section{Tweet attributes}{
 
 \itemize{
   \item \strong{is:retweet}      ~~ only retweets
@@ -86,8 +86,9 @@ tweet attributes:
   \item \strong{has:links}       ~~ includes URL(s)
   \item \strong{is:verified}     ~~ from verified accounts
 }
+}
 
-and/or geospatial:
+\section{Geospatial}{
 
 \itemize{
   \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box

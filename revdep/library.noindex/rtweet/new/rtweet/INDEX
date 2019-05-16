@@ -1,0 +1,95 @@
+as_screenname           Coerces user identifier(s) to be evaluated as a
+                        screen name(s).
+bearer_token            Bearer token
+create_token            Creating Twitter authorization token(s).
+direct_messages         Get direct messages sent to and received by the
+                        authenticating user from the past 30 days
+direct_messages_received
+                        (DEPRECATED) Get the most recent direct
+                        messages sent to the authenticating user.
+do_call_rbind           Binds list of data frames while preserving
+                        attribute (tweets or users) data.
+emojis                  Emojis codes and descriptions data.
+flatten                 flatten/unflatten data frame
+get_collections         Get collections by user or status id.
+get_favorites           Get tweets data for statuses favorited by one
+                        or more target users.
+get_followers           Get user IDs for accounts following target
+                        user.
+get_friends             Get user IDs of accounts followed by target
+                        user(s).
+get_mentions            Get mentions for the authenticating user.
+get_my_timeline         Get _your_ timeline
+get_retweeters          Get user IDs of users who retweeted a given
+                        status.
+get_retweets            Get the most recent retweets of a specific
+                        Twitter status
+get_timeline            Get one or more user timelines (tweets posted
+                        by target user(s)).
+get_tokens              Fetching Twitter authorization token(s).
+get_trends              Get Twitter trends data.
+invalidate_bearer       Invalidate bearer token
+langs                   Language codes recognized by Twitter data.
+lat_lng                 Adds single-point latitude and longitude
+                        variables to tweets data.
+lists_members           Get Twitter list members (users on a given
+                        list).
+lists_statuses          Get a timeline of tweets authored by members of
+                        a specified list.
+lists_subscribers       Get subscribers of a specified list.
+lists_subscriptions     Get list subscriptions of a given user.
+lists_users             Get all lists a specified user subscribes to,
+                        including their own.
+lookup_collections      Get collections by user or status id.
+lookup_coords           Get coordinates of specified location.
+lookup_friendships      Lookup friendship information between two
+                        specified users.
+lookup_statuses         Get tweets data for given statuses (status
+                        IDs).
+lookup_users            Get Twitter users data for given users (user
+                        IDs or screen names).
+my_friendships          Lookup friendship information between users.
+network_data            Network data
+next_cursor             next_cursor/previous_cursor/max_id
+parse_stream            Converts Twitter stream data (JSON file) into
+                        parsed data frame.
+plain_tweets            Clean up character vector (tweets) to more of a
+                        plain text.
+post_favorite           Favorites target status id.
+post_follow             Follows target twitter user.
+post_friendship         Updates friendship notifications and retweet
+                        abilities.
+post_list               Manage Twitter lists
+post_message            Posts direct message from user's Twitter
+                        account
+post_tweet              Posts status update to user's Twitter account
+rate_limit              Get rate limit data for given Twitter access
+                        tokens.
+read_twitter_csv        Read comma separated value Twitter data.
+round_time              A generic function for rounding date and time
+                        values
+rtweet-package          rtweet: Collecting Twitter data
+search_30day            Search last 30day (PREMIUM)
+search_fullarchive      Search fullarchive (PREMIUM)
+search_tweets           Get tweets data on statuses identified via
+                        search query.
+search_users            Get users data on accounts identified via
+                        search query.
+stopwordslangs          Twitter stop words in multiple languages data.
+stream_tweets           Collect a live stream of Twitter data.
+suggested_slugs         Get user [account] suggestions for
+                        authenticating user
+suggested_users_all     Get all user [account] suggestions for
+                        authenticating user
+trends_available        Available Twitter trends along with associated
+                        WOEID.
+ts_data                 Converts tweets data into time series-like data
+                        object.
+ts_plot                 Plots tweets data as a time series-like data
+                        object.
+tweet_shot              Capture an image of a tweet/thread
+tweets_data             Extracts tweets data from users data object.
+tweets_with_users       Parsing data into tweets/users data tibbles
+users_data              Extracts users data from tweets data object.
+write_as_csv            Save Twitter data as a comma separated value
+                        file.
