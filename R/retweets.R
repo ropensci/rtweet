@@ -61,7 +61,7 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
 #' @return data
 #' @details At time of writing, pagination offers no additional
 #'   data. See the post from Pipes here:
-#'   \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298/8}
+#'   \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298}
 #' @family retweets
 #' @export
 get_retweeters <- function(status_id,
