@@ -80,7 +80,7 @@
 - Added access to direct messages, mentions, list subscriptions, list
   users, list members, and list memberships
 - Various fixes to parsing, integrating tibble for output, and
-  streamling geolocation-related functions and data.
+  streaming geolocation-related functions and data.
 - Fixed issues with streaming and parsing streamed data.
 
 # rtweet 0.4.9

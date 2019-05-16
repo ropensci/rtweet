@@ -57,7 +57,7 @@ format_from_to_date <- function(x = NULL) {
 #'   API requests
 #'
 #' @section Developer Account:
-#' Users must have an approved developer account and an active/labelled
+#' Users must have an approved developer account and an active/labeled
 #' environment to access Twitter's premium APIs. For more information, to check
 #' your current Subscriptions and Dev Environments, or to apply for a developer
 #' account visit \url{https://developer.twitter.com}.
@@ -159,7 +159,7 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #' @inheritParams search_fullarchive
 #'
 #' @section Developer Account:
-#' Users must have an approved developer account and an active/labelled
+#' Users must have an approved developer account and an active/labeled
 #' environment to access Twitter's premium APIs. For more information, to check
 #' your current Subscriptions and Dev Environments, or to apply for a developer
 #' account visit \url{https://developer.twitter.com}.
