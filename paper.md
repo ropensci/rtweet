@@ -16,6 +16,19 @@ tags:
   - API
 ---
 
+# Statement of need
+
+Following the [announced (2016) deprecation of the ``twitteR``
+package](https://github.com/mkearney/rtweet/issues/1#issuecomment-492753003)
+[@twitteR], R users seeking to interact with Twitter APIs have been encouraged
+to use the ``rtweet`` package. Use of the up-to-date and actively-maintained
+``rtweet`` package is especially important in light of changes to Twitter's APIs
+since 2016. Most notably is the increased character limit (from 140 to 280) for
+Twitter statuses [@tweetmodeextended]. In addition to providing an updated
+interface with similar functionality to ``twitteR``, allowing R users to
+communicate with various endpoints from Twitter's REST API, the ``rtweet``
+package also provides support for communicating with Twitter's stream API.
+
 # Summary
 
 Interest in Twitter data continues to grow, but for many the task of actually
@@ -24,21 +37,9 @@ order to interact with Twitter's APIs users must, in addition to identifying and
 digesting the relevant information from [Twitter's developer
 documentation](https://developer.twitter.com), build/send/receive requests,
 manage rate limits, and wrangle nested and real-time response objects into
-analysis-friendly data structures. Fortunately, the ``rtweet`` package [@rtweet]
+analysis-friendly data structures. Fortunately, the ``rtweet`` R package [@rtweet]
 is designed to simplify these processes, making interacting with Twitter's APIs
 more accessible to a wider range of users.
-
-Following the [announced (2016) deprecation of the ``twitteR``
-package](https://github.com/mkearney/rtweet/issues/1#issuecomment-492753003)
-[@twitteR], R users seeking to interact with Twitter APIs have been encouraged
-to use the ``rtweet`` package. Use of the up-to-date and actively-maintained
-``rtweet`` package is especially important in light of changes to Twitter's APIs
-since 2016. Most notably, one major change not reflected in the ``twitteR``
-package is the increased character limit for Twitter statuses from 140 to 280
-characters [@tweetmodeextended]). In addition to providing similar but updated
-functionality as the ``twitteR`` package for interacting with Twitter's REST
-API, the ``rtweet`` package also provides support for acessing Twitter's stream
-API.
 
 The main goals of the ``rtweet`` package are two-fold. The first goal is to make
 interacting with Twitter's APIs more approachable and streamlined for less
@@ -56,7 +57,7 @@ it a valuable contribution in the area of collecting and analyzing Twitter data.
 Although ``rtweet`` provides some coverage to user context-behaviors (e.g.,
 posting statuses, liking tweets, following users, etc.), the primary audience
 for the package to date has been researchers. Accordingly, ``rtweet`` has been
-featured in numerous mainstream [e.g.,
+featured in numerous popular press [e.g.,
 @bajak2019democrats;@machlis2019r;@riley2019twitter] and academic publications
 [e.g.,
 @bossetta2018simulated;@bradley2019major;@buscema2018media;@erlandsen2018twitter;@gitto2019brand;@kearney2019analyzing;@kearney2018analyzing;@li2018sentiment;@lutkenhaus2019tailoring;@lutkenhaus2019mapping;@molyneux2018media;@tsoi2018can;@unsihuay2018topic;@valls2017urban;@wu2018finding].
