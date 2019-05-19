@@ -42,7 +42,7 @@ Search Twitter's '30day' (PREMIUM) API
 }
 \section{Developer Account}{
 
-Users must have an approved developer account and an active/labelled
+Users must have an approved developer account and an active/labeled
 environment to access Twitter's premium APIs. For more information, to check
 your current Subscriptions and Dev Environments, or to apply for a developer
 account visit \url{https://developer.twitter.com}.
