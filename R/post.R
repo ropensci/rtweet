@@ -129,7 +129,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   options(encoding = "UTF-8")
 
   ## validate status text
-  if (all(is_tweet_length(status), !grepl("http", status))) {
+  if (all(!is_tweet_length(status), !grepl("http", status))) {
     stop("cannot exceed 280 characters.", call. = FALSE)
   }
   if (length(status) > 1) {
