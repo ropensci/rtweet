@@ -14,7 +14,7 @@
 #'   or home-timeline. By default, home is set to FALSE, which means
 #'   \code{get_timeline} returns tweets posted by the given user. To
 #'   return a user's home timeline feed, that is, the tweets posted by
-#'   accounts followed by a user, set the home to false.
+#'   accounts followed by a user, set home to TRUE.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list object. By default, \code{parse =
 #'   TRUE} saves users from the time [and frustrations] associated
@@ -25,7 +25,7 @@
 #' @param token Every user should have their own Oauth (Twitter API) token. By
 #'   default \code{token = NULL} this function looks for the path to a saved
 #'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
+#'   sets up by default during initial token creation). For instructions on how
 #'   to create a Twitter token see the tokens vignette, i.e.,
 #'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param ... Further arguments passed on as parameters in API query.
