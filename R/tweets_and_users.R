@@ -147,8 +147,12 @@ status_object_ <- function(x) {
     }
     if (has_name_(x, "id_str") && length(x$id_str)) {
       for (i in seq_along(x)) {
-        if (length(x[[i]])) {
-          x[[i]] <- rep(x[[i]], length(x$id_str))
+        if (length(x[[i]])==1) {
+          if (class(x[[i]])=='data.frame' ){
+            x[[i]]<-x[[i]]
+          } else {
+            x[[i]] <- rep(x[[i]], length(x$id_str))
+          }
         }
         if (length(x$id_str) == 1 && length(x[[i]]) > 1) {
           x[[i]] <- list(x[[i]])
