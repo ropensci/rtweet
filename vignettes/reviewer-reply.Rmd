@@ -1,0 +1,104 @@
+---
+title: "Reviewer Reply"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## andrewwheiss
+
+### Documentation and vignettes
+
+> Should the author(s) deem it appropriate, I agree to be acknowledged as a package reviewer ("rev" role) in the package DESCRIPTION file.
+
+* [x] Added @andrewwheis as reviewer role to DESCRIPTION
+
+> All vignettes worked great and were a perfect introduction to the package. It might be helpful to move up the vignette listing near the beginning of the README so that users can find them more easily.
+
+* [x] Moved vignettes section up to above key functions (and just after install/API authorization)
+ 
+> Each function is generally very well documented. There are some sparsely documented functions like bearer_token() and invalidate_bearer() that seem to only be used internally—it might be useful to either add @keywords internal to the roxygen block or add additional documentation explaining what a bearer token is and including some examples.
+
+* [x] Added `@ keywords internal` to `invalidate_bearer()`
+* [x] Improved name/description, added more information about requirements and usage, and several examples to `bearer_token()`
+
+> It's really helpful that the US and the world are baked into lookup_coords() (e.g. lookup_coords("usa")) so users don't need an API key for that. This should probably be documented, though. It caught me by surprise that "usa" was working just fine and all other locations triggered a message—I only figured out why because I looked at the source code for lookup_coords(), and that has a huge all caps note about needing a Google Maps API key. (A future expansion could maybe include hardcoded boundaries for a bunch of other countries (perhaps make an internal lookup table of lat/long coordinates?) so the package is less US-centric and less dependent on another API.)
+
+* [ ] Document US/world coordinates in `lookup_coords()`
+* [ ] Add other (less US-centric) defaults to `lookup_coords()`
+
+> The pkgdown site is great. It might be helpful (and recommended by rOpenSci) to add @family tags to roxygen documentation so that there are automatic groups of functions in the documentation and in the reference website.
+
+* [ ] Add `@family` tags for reference/function documentation grouping
+
+### Installation and testing
+
+
+> Testing doesn't work out of the box and it took me a while to figure out how to generate the /tests/testthat/twitter_tokens RDS file. When logged in through the embedded rstats2twitter app, running this created an auth token that the test suite can use...It might be useful to explain that process somewhere in the documentation—not in the README though, since it's not something a typical user would do.
+
+* [ ] Added description of configuration/setup of test token
+
+> (FAILED) direct_messages: This is because the rstats2twitter app doesn't provide read-write DM access. It worked when I used my own auth token
+
+* [x] Testing now checks for appropriate permissions.
+* [x] As for the limited permissions, this was a concsious decision on my part. I limited write and DM-related permissions in tokens generated via rstats2twitter because I don't want to encourage or be associated with automated/spam/TOS-violating behaviors.
+
+> (FAILED) get_my_timeline: One test failed because rtweet:::home_user() not equal to "kearneymw". Mike's account is hardcoded in the tests and this test can't pass if someone is using a different account. I don't know what else could be done to test it though.
+
+* [x] Agreed. This may have been possible back when I had a dedicated rtweet Twitter account, but that got shut down by Twitter (I learned you can't use multiple accounts/tokens to do the same thing the hard way), so I'm hesitant/careful not to further hurt my standing with them.
+
+> (FAILED) lookup_coords: This returns an error that seems unrelated to token issues and I don't know while it's failing
+
+* [x] Edited test to check if an environment variable named GOOGLE exists and optionally replaces with empty for following test.
+
+> (FAILED) tweet_shot: This failed because I didn't have PhantomJS installed. The test worked after installing it. Running tweet_shot() interactively gives a note that it should be installed with webshot::install_phantomjs(), but this message is invisible when testing on a fresh system. PhantomJS isn't installed as a dependency when the package in installed, but that's because it's not an R package. idk what the best way to handle this is, though, since it's 16+ MB and not handled automatically with R ¯\_(ツ)_/¯
+
+* [x] The webshot dependencies are especially difficult to configure in travis integrations. Since webshot is recommended and not required, I've changed the test to first check whether the webshot package is installed.
+
+> (FAILED) test-test_username-r: Like get_my_timeline, this failed because Mike's account is hardcoded in. Again, I don't know what the best way to handle this is.
+
+* [x] This may have been possible back when I had a dedicated rtweet Twitter account, but that got shut down by Twitter (I learned you can't use multiple accounts/tokens to do the same thing the hard way), so I'm hesitant/careful not to further hurt my standing with them.
+
+### Token creation and authentication
+
+> It might be helpful to more clearly explain the benefits of creating an app with tokens vs. just using the interactive browser-based token. Right now, the README says "You may still choose to do this [create an app] (gives you more stability and permissions)", and the auth vignette explains how to do it, but there isn't any explanation of why users might want to do it. Later in the README, under "Post actions," it explains that users would need their own app to post tweets and access DMs, but it could be helpful to have that information up above when describing authentication in general.
+
+> It might even be helpful to have a table of sorts showing pros/cons/features available when using a private app vs. the embedded `rstats2twitter` app, like this maybe?
+
+| Task 	                       | rstats2twitter | user-app |
+|------------------------------|----------------|----------|
+| Work interactively 	         |           	✅ |      ✅ |
+| Create reproducible research |           	❌  |      ✅ |
+| Search tweets 	             |           	✅ |      ✅ |
+| Stream tweets 	             |           	✅ |      ✅ |
+| Get friends 	               |           	✅ |      ✅ |
+| Get timelines 	             |           	✅ |      ✅ |
+| Post tweets 	               |           	❌ |      ✅ |
+| Run package tests            |           	❌  |      ✅ |
+
+
+> The page for creating apps looks slightly different from the screenshots, and the direction to go to apps.twitter.com is out of date—according to Twitter, that aspect of developer accounts is getting sunset. Instead, the URL is now https://developer.twitter.com/en/apps .
+
+### Community
+ 
+> It would be helpful to have some [community guidelines](https://ropensci.github.io/dev_guide/collaboration.html#friendlyfiles) in the package too, such as a CONTRIBUTING.md file (perhaps modeled after something like [this](https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md)) and a CONDUCT.md file (like [this](https://github.com/tidyverse/readr/blob/master/CONDUCT.md))
+ 
+> Creating an RStudio project `.Rproj` file could be helpful for encouraging package contributions, since it would enable RStudio's package building interface.
+> ### rOpenSci-related issues
+
+>     * [Following rOpenSci's package guidelines](https://ropensci.github.io/dev_guide/building.html#creating-metadata-for-your-package), it might be helpful to use the **codemetar** package to generate a `codemeta.json` file.
+
+>     * Consider adding a repostatus.org badge too ([following rOpenSci's guidelines](https://ropensci.github.io/dev_guide/building.html#readme))
+
+>     * Also add the rOpenSci peer review badge
+
+### JOSS-related issues
+ 
+> There are a few issues with `paper.bib`:
+ 
+>     * "Twitter as a tool of para-disploomacy" is misspelled
+ 
+>     * Several of the cited articles that have actual DOIs are missing DOIs (like "How can we better use Twitter to find a person who got lost due to dementia?" is https://dx.doi.org/10.1038/s41746-018-0017-5)
+

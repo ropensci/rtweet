@@ -8,6 +8,13 @@
 
 <title>Search last 30day (PREMIUM) — search_30day • rtweet</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -16,13 +23,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -51,6 +60,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -75,7 +85,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,6 +107,9 @@
     </li>
     <li>
       <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
+    </li>
+    <li>
+      <a href="../articles/reviewer-reply.html">Reviewer Reply</a>
     </li>
     <li>
       <a href="../articles/stream.html">Live streaming tweets</a>
@@ -122,6 +135,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -195,7 +209,8 @@ API requests</p></td>
     <h2 class="hasAnchor" id="developer-account"><a class="anchor" href="#developer-account"></a>Developer Account</h2>
 
     
-    <p>Users must have an approved developer account and an active/labelled
+
+<p>Users must have an approved developer account and an active/labeled
 environment to access Twitter's premium APIs. For more information, to check
 your current Subscriptions and Dev Environments, or to apply for a developer
 account visit <a href='https://developer.twitter.com'>https://developer.twitter.com</a>.</p>
@@ -203,33 +218,39 @@ account visit <a href='https://developer.twitter.com'>https://developer.twitter.
     <h2 class="hasAnchor" id="search-operators"><a class="anchor" href="#search-operators"></a>Search operators</h2>
 
     
-    <p><em>Note: Bolded operators ending with a colon should be immediately
+
+<p><em>Note: Bolded operators ending with a colon should be immediately
 followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en</code></p>
     
     <h2 class="hasAnchor" id="keyword"><a class="anchor" href="#keyword"></a>Keyword</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><strong>""</strong>           ~~ match exact phrase</p></li>
 <li><p><strong>#</strong>               ~~ hashtag</p></li>
 <li><p><strong>@</strong>               ~~ at mentions)</p></li>
 <li><p><strong>url:</strong>            ~~ found in URL</p></li>
 <li><p><strong>lang:</strong>           ~~ language of tweet</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="accounts-of-interest"><a class="anchor" href="#accounts-of-interest"></a>Accounts of interest</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><strong>from:</strong>           ~~ authored by</p></li>
 <li><p><strong>to:</strong>             ~~ sent to</p></li>
 <li><p><strong>retweets_of:</strong>    ~~ retweet author</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="tweet-attributes"><a class="anchor" href="#tweet-attributes"></a>Tweet attributes</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><strong>is:retweet</strong>      ~~ only retweets</p></li>
 <li><p><strong>has:mentions</strong>    ~~ uses mention(s)</p></li>
 <li><p><strong>has:hashtags</strong>    ~~ uses hashtags(s)</p></li>
@@ -239,11 +260,13 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 <li><p><strong>has:links</strong>       ~~ includes URL(s)</p></li>
 <li><p><strong>is:verified</strong>     ~~ from verified accounts</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="geospatial"><a class="anchor" href="#geospatial"></a>Geospatial</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><strong>bounding_box:[west_long south_lat east_long north_lat]</strong> ~~ lat/long coordinates box</p></li>
 <li><p><strong>point_radius:[lon lat radius]</strong> ~~ center of search radius</p></li>
 <li><p><strong>has:geo</strong>           ~~ uses geotagging</p></li>
@@ -254,13 +277,14 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 <li><p><strong>profile_region:</strong>   ~~ region associated with profile</p></li>
 <li><p><strong>profile_locality:</strong> ~~ locality associated with profile</p></li>
 </ul>
+
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>## format datetime for one week ago</span>
-<span class='no'>toDate</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/format'>format</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.time'>Sys.time</a></span>() - <span class='fl'>60</span> * <span class='fl'>60</span> * <span class='fl'>24</span> * <span class='fl'>7</span>, <span class='st'>"%Y%m%d%H%M"</span>)
+<span class='no'>toDate</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>() - <span class='fl'>60</span> * <span class='fl'>60</span> * <span class='fl'>24</span> * <span class='fl'>7</span>, <span class='st'>"%Y%m%d%H%M"</span>)
 
 <span class='co'>## search 30day for up to 300 rstats tweets sent before the last week</span>
 <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_30day</span>(<span class='st'>"#rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>300</span>,
@@ -293,19 +317,23 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='https://mikewk.com'>Michael W. Kearney</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

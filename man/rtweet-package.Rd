@@ -38,4 +38,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (0000-0002-0730-4694)
 
+Other contributors:
+\itemize{
+  \item Andrew Heiss Heiss (0000-0002-3948-3914) [reviewer]
+  \item Andrew Heiss Heiss (0000-0002-3948-3914) [reviewer]
+}
+
 }

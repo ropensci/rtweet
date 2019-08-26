@@ -58,9 +58,13 @@ Although ``rtweet`` provides some coverage to user context-behaviors (e.g.,
 posting statuses, liking tweets, following users, etc.), the primary audience
 for the package to date has been researchers. Accordingly, ``rtweet`` has been
 featured in numerous popular press [e.g.,
-@bajak2019democrats;@machlis2019r;@riley2019twitter] and academic publications
+@bajak2019democrats; @machlis2019r; @riley2019twitter] and academic publications
 [e.g.,
-@bossetta2018simulated;@bradley2019major;@buscema2018media;@erlandsen2018twitter;@gitto2019brand;@kearney2019analyzing;@kearney2018analyzing;@li2018sentiment;@lutkenhaus2019tailoring;@lutkenhaus2019mapping;@molyneux2018media;@tsoi2018can;@unsihuay2018topic;@valls2017urban;@wu2018finding].
+@bossetta2018simulated; @bradley2019major; @buscema2018media;
+@erlandsen2018twitter; @gitto2019brand; @kearney2019analyzing;
+@kearney2018analyzing; @li2018sentiment; @lutkenhaus2019tailoring;
+@lutkenhaus2019mapping; @molyneux2018media; @tsoi2018can; @unsihuay2018topic;
+@valls2017urban; @wu2018finding].
 
 # References
 
