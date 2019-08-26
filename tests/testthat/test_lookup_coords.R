@@ -30,10 +30,12 @@ test_that("lookup_coords returns coords data", {
     expect_true("box" %in% names(x))
   }
   e <- names(Sys.getenv())
-  g <- grep("google", e, ignore.case = TRUE, value = TRUE)
-  ng <- as.list(rep("", length(g)))
-  names(ng) <- g
-  do.call(Sys.setenv, ng)
+  g <- grep("google|gmap", e, ignore.case = TRUE, value = TRUE)
+  if (length(g) > 0) {
+    ng <- as.list(rep("", length(g)))
+    names(ng) <- g
+    do.call(Sys.setenv, ng)
+  }
   expect_error(lookup_coords("London, UK"))
 })
 
