@@ -24,3 +24,4 @@
 ^CRAN-RELEASE$
 ^revdep$
 ^R/build_search_query\.R$
+^\.github$
