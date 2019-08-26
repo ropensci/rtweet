@@ -63,7 +63,7 @@ the embedded **`rstats2twitter`** app (approve the browser popup), and
 your token will be created and saved/stored (for future sessions) for
 you\!
 
-## API authorization
+### API authorization
 
 All users must be authorized to interact with Twitter’s APIs. To become
 authorized, simply use a function like `search_tweets()`,
@@ -78,10 +78,43 @@ choose to do this (gives you more stability and permissions), but
 an interactive/live session of R and (b) you have installed the
 [**{httpuv}**](https://github.com/rstudio/httpuv) package.
 
-  - If you still want to apply for a developer account and crate your
+  - If you still want to apply for a developer account and create your
     own application, see the `auth` vignette (or the API authorization
     section below) for additional instructions:
     <https://rtweet.info/articles/auth.html>.
+
+### Vignettes
+
+[Obtaining and using Twitter API
+tokens](https://rtweet.info/articles/auth.html)
+
+``` r
+## quick overview of rtweet functions
+vignette("auth", package = "rtweet")
+```
+
+[Quick overview of rtweet
+package](https://rtweet.info/articles/intro.html)
+
+``` r
+## quick overview of rtweet functions
+vignette("intro", package = "rtweet")
+```
+
+[Live streaming tweets data](https://rtweet.info/articles/stream.html)
+
+``` r
+## working with the stream
+vignette("stream", package = "rtweet")
+```
+
+[Troubleshooting common rtweet
+problems](https://rtweet.info/articles/FAQ.html)
+
+``` r
+## working with the stream
+vignette("FAQ", package = "rtweet")
+```
 
 ### Package features
 
@@ -167,8 +200,7 @@ Stream all geo enabled tweets from London for 60 seconds.
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 ```
 
-Stream all tweets mentioning realDonaldTrump or Trump for a
-week.
+Stream all tweets mentioning realDonaldTrump or Trump for a week.
 
 ``` r
 ## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
@@ -283,39 +315,6 @@ sf <- get_trends("san francisco")
   - To create your own Twitter app, follow the instructions in the
     authorization vignette on [obtaining and using access
     tokens](https://rtweet.info/articles/auth.html)
-
-#### Vignettes
-
-[Obtaining and using Twitter API
-tokens](https://rtweet.info/articles/auth.html)
-
-``` r
-## quick overview of rtweet functions
-vignette("auth", package = "rtweet")
-```
-
-[Quick overview of rtweet
-package](https://rtweet.info/articles/intro.html)
-
-``` r
-## quick overview of rtweet functions
-vignette("intro", package = "rtweet")
-```
-
-[Live streaming tweets data](https://rtweet.info/articles/stream.html)
-
-``` r
-## working with the stream
-vignette("stream", package = "rtweet")
-```
-
-[Troubleshooting common rtweet
-problems](https://rtweet.info/articles/FAQ.html)
-
-``` r
-## working with the stream
-vignette("FAQ", package = "rtweet")
-```
 
 ## Contact
 
