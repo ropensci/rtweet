@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > It's really helpful that the US and the world are baked into lookup_coords() (e.g. lookup_coords("usa")) so users don't need an API key for that. This should probably be documented, though. It caught me by surprise that "usa" was working just fine and all other locations triggered a message—I only figured out why because I looked at the source code for lookup_coords(), and that has a huge all caps note about needing a Google Maps API key. (A future expansion could maybe include hardcoded boundaries for a bunch of other countries (perhaps make an internal lookup table of lat/long coordinates?) so the package is less US-centric and less dependent on another API.)
 
-* [ ] Document US/world coordinates in `lookup_coords()`
+* [x] Document US/world coordinates in `lookup_coords()`
 * [ ] Add other (less US-centric) defaults to `lookup_coords()`
 
 > The pkgdown site is great. It might be helpful (and recommended by rOpenSci) to add @family tags to roxygen documentation so that there are automatic groups of functions in the documentation and in the reference website.
