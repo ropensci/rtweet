@@ -26,19 +26,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > It's really helpful that the US and the world are baked into lookup_coords() (e.g. lookup_coords("usa")) so users don't need an API key for that. This should probably be documented, though. It caught me by surprise that "usa" was working just fine and all other locations triggered a message—I only figured out why because I looked at the source code for lookup_coords(), and that has a huge all caps note about needing a Google Maps API key. (A future expansion could maybe include hardcoded boundaries for a bunch of other countries (perhaps make an internal lookup table of lat/long coordinates?) so the package is less US-centric and less dependent on another API.)
 
-* [x] Document US/world coordinates in `lookup_coords()`
-* [ ] Add other (less US-centric) defaults to `lookup_coords()`
+* [x] Document US/world coordinates in `lookup_coords()`. This can be found in the details section of `lookup_coords()`
+* [x] Add other (less US-centric) defaults to `lookup_coords()`. Latitude and longitudes for major world cities are now hardwired in. This is documented in the details section of `lookup_coords()`. And I've added new automated tests for these as well.
 
 > The pkgdown site is great. It might be helpful (and recommended by rOpenSci) to add @family tags to roxygen documentation so that there are automatic groups of functions in the documentation and in the reference website.
 
-* [ ] Add `@family` tags for reference/function documentation grouping
+* [x] Add `@family` tags for reference/function documentation grouping
 
 ### Installation and testing
 
 
 > Testing doesn't work out of the box and it took me a while to figure out how to generate the /tests/testthat/twitter_tokens RDS file. When logged in through the embedded rstats2twitter app, running this created an auth token that the test suite can use...It might be useful to explain that process somewhere in the documentation—not in the README though, since it's not something a typical user would do.
 
-* [ ] Added description of configuration/setup of test token
+* [x] Added description of configuration/setup of test token. I've created a 'Github action' for this–so forking {rtweet} should trigger a message about automated testing and working with encrypted keys on travis-ci
 
 > (FAILED) direct_messages: This is because the rstats2twitter app doesn't provide read-write DM access. It worked when I used my own auth token
 
