@@ -15,10 +15,7 @@ Authors@R: c(
     #person("First Middle", "Last", ,
     #email = "email@address.com", role = c("ctb"))
     )
-Description: An implementation of calls designed to collect and
-    organize Twitter data via Twitter's REST and stream Application
-    Program Interfaces (API), which can be found at the following URL:
-    <https://developer.twitter.com/en/docs>.
+Description: An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: <https://developer.twitter.com/en/docs>.
 Depends:
     R (>= 3.1.0)
 Imports:

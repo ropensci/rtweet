@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org
 [![Coverage
 Status](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet?branch=master)
 [![DOI](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
-
+[![](https://badges.ropensci.org/%3Cissue_id%3E_status.svg)](https://github.com/ropensci/software-review/issues/%3Cissue_id%3E)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -200,7 +200,8 @@ Stream all geo enabled tweets from London for 60 seconds.
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 ```
 
-Stream all tweets mentioning realDonaldTrump or Trump for a week.
+Stream all tweets mentioning realDonaldTrump or Trump for a
+week.
 
 ``` r
 ## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)

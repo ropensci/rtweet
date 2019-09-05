@@ -151,9 +151,15 @@ knitr::opts_chunk$set(echo = TRUE)
 > Creating an RStudio project `.Rproj` file could be helpful for encouraging package contributions, since it would enable RStudio's package building interface.
 > ### rOpenSci-related issues
 
+[x] Removed `.Rproj` from `.gitignore` and added [rtweet.Rproj](rtweet.Rproj)
+
 >     * [Following rOpenSci's package guidelines](https://ropensci.github.io/dev_guide/building.html#creating-metadata-for-your-package), it might be helpful to use the **codemetar** package to generate a `codemeta.json` file.
 
+[x] Added [codemeta.json](codemeta.json) file
+
 >     * Consider adding a repostatus.org badge too ([following rOpenSci's guidelines](https://ropensci.github.io/dev_guide/building.html#readme))
+
+[x] Added rOpenSci badge!
 
 >     * Also add the rOpenSci peer review badge
 
