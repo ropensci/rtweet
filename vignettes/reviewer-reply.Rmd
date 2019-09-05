@@ -25,14 +25,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 * [x] Adding a package comparison table to README. Note: The RTwitterAPI package is outdated and very bare bones, but while it does technically offer a way to hit most endpoints it doesn't do much to automate that process, parse the response, or document endpoints besides a 'get friends' example. And, thus, I've used the red question mark on the relevant GET API endpoints for RTwitterAPI.
 
-| Task                   | rtweet | twitteR | streamR | RTwitterAPI |
+| Task                         | [rtweet](https://github.com/mkearney/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [twitteR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
 |------------------------------|--------|---------|---------|-------------|
 | Available on CRAN            |   ✅   |    ✅   |    ✅   |      ❌     |
 | Updated since 2016           |   ✅   |    ❌   |    ✅   |      ❌     |
 | Non-'developer' access       |   ✅   |    ❌   |    ❌   |      ❌     |
 | Extended tweets (280 chars)  |   ✅   |    ❌   |    ✅   |      ❌     |
 | Parses JSON data             |   ✅   |    ✅   |    ✅   |      ❌     |
-| Converts t❌data frames      |   ✅   |    ✅   |    ✅   |      ❌     |
+| Converts to data frames      |   ✅   |    ✅   |    ✅   |      ❌     |
 | Automated pagination         |   ✅   |    ❌   |    ❌   |      ❌     |
 | Search tweets                |   ✅   |    ✅   |    ❌   |      ❓     |
 | Search users                 |   ✅   |    ❌   |    ❌   |      ❓     |
@@ -123,20 +123,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Token creation and authentication
 
 > It might be helpful to more clearly explain the benefits of creating an app with tokens vs. just using the interactive browser-based token. Right now, the README says "You may still choose to do this [create an app] (gives you more stability and permissions)", and the auth vignette explains how to do it, but there isn't any explanation of why users might want to do it. Later in the README, under "Post actions," it explains that users would need their own app to post tweets and access DMs, but it could be helpful to have that information up above when describing authentication in general.
-
 > It might even be helpful to have a table of sorts showing pros/cons/features available when using a private app vs. the embedded `rstats2twitter` app, like this maybe?
 
 | Task                         | rstats2twitter | user-app |
 |------------------------------|----------------|----------|
 | Work interactively           |             ✅ |       ✅ |
-| Create reproducible research |             ❌ |       ✅ |
-| Search tweets                |             ✅ |       ✅ |
-| Stream tweets                |             ✅ |       ✅ |
-| Get friends                  |             ✅ |       ✅ |
-| Get timelines                |             ✅ |       ✅ |
+| Search/lookup tweets/users   |             ✅ |       ✅ |
+| Get friends/followers        |             ✅ |       ✅ |
+| Get timelines/favorites      |             ✅ |       ✅ |
+| Get lists/collections        |             ✅ |       ✅ |
 | Post tweets                  |             ❌ |       ✅ |
 | Run package tests            |             ❌ |       ✅ |
+| Use Bearer token             |             ❌ |       ✅ |
+| Read/Write Direct Messages   |             ❌ |       ✅ |
 
+[x] Futher developed comparison table for embedded app versus user-created apps (now included in README) and added more description of pros/cons of creating a token in documentation.
 
 > The page for creating apps looks slightly different from the screenshots, and the direction to go to apps.twitter.com is out of date—according to Twitter, that aspect of developer accounts is getting sunset. Instead, the URL is now https://developer.twitter.com/en/apps .
 
@@ -170,6 +171,9 @@ knitr::opts_chunk$set(echo = TRUE)
 > There are a few issues with `paper.bib`:
  
 >     * "Twitter as a tool of para-disploomacy" is misspelled
- 
+
+[x] Fixed to 'para-diplomacy'
+
 >     * Several of the cited articles that have actual DOIs are missing DOIs (like "How can we better use Twitter to find a person who got lost due to dementia?" is https://dx.doi.org/10.1038/s41746-018-0017-5)
 
+[x] Added all the DOIs I could find (including the one for the dementia paper)

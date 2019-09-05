@@ -19,13 +19,58 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
 [![Coverage Status](https://codecov.io/gh/mkearney/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/mkearney/rtweet?branch=master)
 [![DOI](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
-[![](https://badges.ropensci.org/1454_status.svg)](https://github.com/ropensci/software-review/issues/1454)
+[![](https://badges.ropensci.org/302_status.svg)](https://github.com/ropensci/software-review/issues/302)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 R client for accessing Twitter's REST and stream APIs. Check out the [rtweet package documentation website](https://rtweet.info).
+
+### Package Functionality
+
+There are several R packages for interacting with Twitter's APIs. See how {rtweet} compares to these others in the chart below.
+
+| Task                         | [rtweet](https://github.com/mkearney/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [twitteR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
+|------------------------------|--------|---------|---------|-------------|
+| Available on CRAN            |   ✅   |    ✅   |    ✅   |      ❌     |
+| Updated since 2016           |   ✅   |    ❌   |    ✅   |      ❌     |
+| Non-'developer' access       |   ✅   |    ❌   |    ❌   |      ❌     |
+| Extended tweets (280 chars)  |   ✅   |    ❌   |    ✅   |      ❌     |
+| Parses JSON data             |   ✅   |    ✅   |    ✅   |      ❌     |
+| Converts to data frames      |   ✅   |    ✅   |    ✅   |      ❌     |
+| Automated pagination         |   ✅   |    ❌   |    ❌   |      ❌     |
+| Search tweets                |   ✅   |    ✅   |    ❌   |      ❓     |
+| Search users                 |   ✅   |    ❌   |    ❌   |      ❓     |
+| Stream sample                |   ✅   |    ❌   |    ✅   |      ❌     |
+| Stream keywords              |   ✅   |    ❌   |    ✅   |      ❌     |
+| Stream users                 |   ✅   |    ❌   |    ✅   |      ❌     |
+| Get friends                  |   ✅   |    ✅   |    ❌   |      ✅     |
+| Get timelines                |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get mentions                 |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get favorites                |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get trends                   |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get list members             |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list memberships         |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list statuses            |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list subscribers         |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list subscriptions       |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list users               |   ✅   |    ❌   |    ❌   |      ❓     |
+| Lookup collections           |   ✅   |    ❌   |    ❌   |      ❓     |
+| Lookup friendships           |   ✅   |    ✅   |    ❌   |      ❓     |
+| Lookup statuses              |   ✅   |    ✅   |    ❌   |      ❓     |
+| Lookup users                 |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get retweeters               |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get retweets                 |   ✅   |    ✅   |    ❌   |      ❓     |
+| Post tweets                  |   ✅   |    ✅   |    ❌   |      ❌     |
+| Post favorite                |   ✅   |    ❌   |    ❌   |      ❌     |
+| Post follow                  |   ✅   |    ❌   |    ❌   |      ❌     |
+| Post messsage                |   ✅   |    ✅   |    ❌   |      ❌     |
+| Post mute                    |   ✅   |    ❌   |    ❌   |      ❌     |
+| Premium 30 day               |   ✅   |    ❌   |    ❌   |      ❌     |
+| Premium full archive         |   ✅   |    ❌   |    ❌   |      ❌     |
+| Premium 30 day               |   ✅   |    ❌   |    ❌   |      ❌     |
+| Run package tests            |   ✅   |    ❌   |    ❌   |      ❌     |
 
 ## Responsible use
 
@@ -68,9 +113,21 @@ Simply send a request to Twitter's API (with a function like `search_tweets()`, 
 
 All users must be authorized to interact with Twitter's APIs. To become authorized, simply use a function like `search_tweets()`, `get_timeline()`, `get_followers()`, or `get_favorites()` in an interactive session an authorize via web browser popup on behalf of your Twitter account!
 
-**It is no longer necessary to obtain a developer account and create your own Twitter application to use Twitter's API.** You may still choose to do this (gives you more stability and permissions), but **{rtweet}** should work out of the box assuming (a) you are working in an interactive/live session of R and (b) you have installed the [**{httpuv}**](https://github.com/rstudio/httpuv) package.
+**It is no longer necessary to obtain a developer account and create your own Twitter application to use Twitter's API.** You may still choose to do this (gives you more stability and permissions; see the table at the bottom of this section), but **{rtweet}** should work out of the box assuming (a) you are working in an interactive/live session of R and (b) you have installed the [**{httpuv}**](https://github.com/rstudio/httpuv) package.
 
 + If you still want to apply for a developer account and create your own application, see the `auth` vignette (or the API authorization section below) for additional instructions: [https://rtweet.info/articles/auth.html](https://rtweet.info/articles/auth.html).
+
+| Task                         | rstats2twitter | user-app |
+|------------------------------|----------------|----------|
+| Work interactively           |             ✅ |       ✅ |
+| Search/lookup tweets/users   |             ✅ |       ✅ |
+| Get friends/followers        |             ✅ |       ✅ |
+| Get timelines/favorites      |             ✅ |       ✅ |
+| Get lists/collections        |             ✅ |       ✅ |
+| Post tweets                  |             ❌ |       ✅ |
+| Run package tests            |             ❌ |       ✅ |
+| Use Bearer token             |             ❌ |       ✅ |
+| Read/Write Direct Messages   |             ❌ |       ✅ |
 
 ### Vignettes
 
