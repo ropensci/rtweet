@@ -7,6 +7,17 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+@sckott:
+
+First, thanks to @briatte and @andrewheiss for taking the time to review rtweet and providing such great feedback! 
+
+Second, please see my detailed reply to each reviewer below. This revision process has so far resulted in a lot of changes to rtweet–many of which were quite difficult😅–but I am quite certain the package is much better for it.
+
+Thank,
+
+-Mike
+
+
 ## @briatte
 
 > Should the author(s) deem it appropriate, I agree to be acknowledged as a package reviewer ("rev" role) in the package DESCRIPTION file.
@@ -137,34 +148,34 @@ knitr::opts_chunk$set(echo = TRUE)
 | Use Bearer token             |             ❌ |       ✅ |
 | Read/Write Direct Messages   |             ❌ |       ✅ |
 
-[x] Futher developed comparison table for embedded app versus user-created apps (now included in README) and added more description of pros/cons of creating a token in documentation.
+* [x] Futher developed comparison table for embedded app versus user-created apps (now included in README) and added more description of pros/cons of creating a token in documentation.
 
 > The page for creating apps looks slightly different from the screenshots, and the direction to go to apps.twitter.com is out of date—according to Twitter, that aspect of developer accounts is getting sunset. Instead, the URL is now https://developer.twitter.com/en/apps .
 
-[x] I've updated the auth and FAQ vignettes to reflect the new developer portal. I've also updated the steps, labels, and screen shots in the auth vignette.
+* [x] I've updated the auth and FAQ vignettes to reflect the new developer portal. I've also updated the steps, labels, and screen shots in the auth vignette.
 
 ### Community
  
 > It would be helpful to have some [community guidelines](https://ropensci.github.io/dev_guide/collaboration.html#friendlyfiles) in the package too, such as a CONTRIBUTING.md file (perhaps modeled after something like [this](https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md)) and a CONDUCT.md file (like [this](https://github.com/tidyverse/readr/blob/master/CONDUCT.md))
 
-[x] Added [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* [x] Added [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
  
 > Creating an RStudio project `.Rproj` file could be helpful for encouraging package contributions, since it would enable RStudio's package building interface.
 > ### rOpenSci-related issues
 
-[x] Removed `.Rproj` from `.gitignore` and added [rtweet.Rproj](rtweet.Rproj)
+* [x] Removed `.Rproj` from `.gitignore` and added [rtweet.Rproj](rtweet.Rproj)
 
 >     * [Following rOpenSci's package guidelines](https://ropensci.github.io/dev_guide/building.html#creating-metadata-for-your-package), it might be helpful to use the **codemetar** package to generate a `codemeta.json` file.
 
-[x] Added [codemeta.json](codemeta.json) file
+* [x] Added [codemeta.json](codemeta.json) file
 
 >     * Consider adding a repostatus.org badge too ([following rOpenSci's guidelines](https://ropensci.github.io/dev_guide/building.html#readme))
 
-[x] Added repostatus badge!
+* [x] Added repostatus badge!
 
 >     * Also add the rOpenSci peer review badge
 
-[x] Added rOpenSci badge!
+* [x] Added rOpenSci badge!
 
 ### JOSS-related issues
  
@@ -172,8 +183,9 @@ knitr::opts_chunk$set(echo = TRUE)
  
 >     * "Twitter as a tool of para-disploomacy" is misspelled
 
-[x] Fixed to 'para-diplomacy'
+* [x] Fixed to 'para-diplomacy'
 
 >     * Several of the cited articles that have actual DOIs are missing DOIs (like "How can we better use Twitter to find a person who got lost due to dementia?" is https://dx.doi.org/10.1038/s41746-018-0017-5)
 
-[x] Added all the DOIs I could find (including the one for the dementia paper)
+* [x] Added all the DOIs I could find (including the one for the dementia paper)
+
