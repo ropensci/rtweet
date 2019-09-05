@@ -1,0 +1,19 @@
+name: Token
+
+on: [fork]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Thank you for forking {rtweet}!
+    - name: Run a multi-line script
+      run: |
+        echo If you would like the automated (CI) testing to work with {rtweet},
+        echo (it's not required), you will need to create, encrypt, and save a 
+        echo Twitter API token. For more on this see the following documentation:
+        echo https://docs.travis-ci.com/user/encryption-keys/
