@@ -82,8 +82,12 @@ lookup_coords <- function(address, components = NULL, apikey = NULL, ...) {
       lat = 0,
       lng = 0
     )
-  } else if (gsub("\\,\\s?", " ", tolower(address)) %in% citycoords$city) {
+  } else if (gsub("\\,\\s?", " ", tolower(address)) %in% c(citycoords$city, 
+    sub("can$", "canada", citycoords$city), 
+    sub("usa$", "us", citycoords$city))) {
     address <- gsub("\\,\\s?", " ", tolower(address))
+    address <- sub("canada", "can", address)
+    address <- sub("usa$", "us", address)
     i <- match(address, citycoords$city)
     point <- c(
       lat = citycoords$lat[i],
