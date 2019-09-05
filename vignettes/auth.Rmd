@@ -19,19 +19,26 @@ This vignette covers how to obtain and use Twitter API access tokens for use in 
 
 ## Creating a Twitter App
 
-- To create a Twitter app, navigate to [apps.twitter.com](https://apps.twitter.com/) and create a new app by providing a `Name`, `Description`, and `Website` of your choosing (example screenshot provided below).
+- To create a Twitter app, you will first need to apply for a developer account. This process along with a detailed explanation can be found at [developer.twitter.com](https://developer.twitter.com).
 
-- **Important** In the `Callback URL` field, make sure to enter the following: `http://127.0.0.1:1410`
-
-- Check yes if you agree and then click "Create your Twitter application".
-
-<p align="center">
-<img src="files/creating.png" alt="creating">
-</p>
+- Once you have acquired a developer account, navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
+   + `App Name`: What your app will be called
+   + `Application Description`: How your app will be described to its users
+   <p align="center"><img src="files/create-app-1.png" alt="create-app-1"></p>
+   + `Website URLs`: Website associated with app–I recommend using the URL to your Twitter profile
+   + `Callback URLs`: ***IMPORTANT*** enter exactly the following: `http://127.0.0.1:1410`
+   <p align="center"><img src="files/create-app-2.png" alt="create-app-2"></p>
+   + `Tell us how this app will be used`: Be clear and honest
+   <p align="center"><img src="files/create-app-3.png" alt="create-app-3"></p>
+- When you've completed the required form fields, click the blue `Create` button at the bottom
+- Read through and indicate whether you accept the developer terms
+   <p align="center"><img src="files/create-app-4.png" alt="create-app-4"></p>
+- And you're done!
+   <p align="center"><img src="files/create-app-5.png" alt="create-app-5"></p>
 
 ## Authorization methods
 
-Users can create their personal access token in two different ways. Each method is outlined below.
+Users can create their personal Twitter token in two different ways. Each method is outlined below.
 
 ### 1. Browser-based authentication
 
@@ -44,82 +51,76 @@ if (!requireNamespace("httpuv", quietly = TRUE)) {
 }
 ```
 
-- Click the tab labeled `Keys and Access Tokens` to retrieve your keys.
+- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+- Click the tab labeled `Keys and tokens` to retrieve your keys.
+- Locate the `Consumer API keys` (aka "API Secret").
 
-<p align="center">
-<img src="files/created.png" alt="created">
-</p>
-
-- In the `Keys and Access Tokens` tab, locate the values `Consumer Key` (aka "API Key") and `Consumer Secret` (aka "API Secret").
-
-<p align="center">
-<img src="files/keys.png" alt="keys">
-</p>
+<p align="center"><img src="files/create-app-6.png" alt="create-app-6"></p>
 
 - Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to `create_token()`.
 
 ```{r}
-## autheticate via web browser
+## load rtweet
+library(rtweet)
+
+## store api keys (these are fake example values; replace with your own keys)
+api_key <- "afYS4vbIlPAj096E60c4W1fiK"
+api_secret_key <- "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"
+
+## authenticate via web browser
 token <- create_token(
-  app = "rtweet_token",
-  consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
-  consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD")
+  app = "rstatsjournalismresearch",
+  consumer_key = api_key,
+  consumer_secret = api_secret_key)
 ```
 
-- A browser window should pop up. Click to approve (must be signed into twitter.com) and return to R.
-
-- The `create_token()` function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by `get_token()`
+- A browser pop-up window should appear. Click to approve (must be signed into twitter.com) and return to R.
+- Your token has been created. Print your token to make sure the app name and `api_key` match
 
 ```{r}
-## check to see if the token is loaded
-identical(token, get_token())
+## view token (you should see the correct app name)
+token
 ```
-
 
 ### 2. Access token/secret method
 
-- Click the tab labeled `Keys and Access Tokens` to retrieve your keys.
+- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+- Click the tab labeled `Keys and tokens` to retrieve your keys.
+- Locate the `Consumer API keys` (aka "API Secret").
 
-<p align="center">
-<img src="files/created.png" alt="created">
-</p>
+<p align="center"><img src="files/create-app-6.png" alt="create-app-6"></p>
 
-- In the `Keys and Access Tokens` tab, locate and copy/paste values `Consumer Key` (aka "API Key") and `Consumer Secret` (aka "API Secret") into an R script.
+- Scroll down to `Access token & access token secret` and click `Create`
 
-<p align="center">
-<img src="files/keys.png" alt="keys">
-</p>
+<p align="center"><img src="files/create-app-7.png" alt="create-app-7"></p>
 
-- In the `Keys and Access Tokens` tab, scroll down to `Token Actions` and click `Create my access token`.
-
-<p align="center">
-<img src="files/gen_token.png" alt="gen_token">
-</p>
-
-- That should generate two access keys `Access Token` and `Access Token Secret`
-
-<p align="center">
-<img src="files/accesskeys.png" alt="accesskeys">
-</p>
-
-- Locate and copy/paste the `Consumer Key` (aka "API Key"), `Consumer Secret` (aka "API Secret"), `Access Token`, and `Access Token Secret` values and pass them along to `create_token()`, storing the output as a `token` object.
+- Copy and paste the four keys (along with the name of your app) into an R script file and pass them along to `create_token()`.
 
 ```{r}
-## authenticate via access token
+## store api keys (these are fake example values; replace with your own keys)
+api_key <- "afYS4vbIlPAj096E60c4W1fiK"
+api_secret_key <- "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"
+access_token <- "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"
+access_token_secret <- "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"
+
+## authenticate via web browser
 token <- create_token(
-  app = "my_twitter_research_app",
-  consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
-  consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD",
-  access_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
-  access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
+  app = "rstatsjournalismresearch",
+  consumer_key = api_key,
+  consumer_secret = api_secret_key,
+  access_token = access_token,
+  access_secret = access_token_secret)
 ```
 
-- The `create_token()` function should automatically save your token as an environment variable for you. To make sure it worked, compare the created token object to the object returned by `get_token()`
+## Authorization in future R sessions
+
+- The `create_token()` function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.
+- To make sure it works, restart your R session, run the following code, and again check to make sure the app name and `api_key` match.
 
 ```{r}
 ## check to see if the token is loaded
-identical(token, get_token())
+library(rtweet)
+get_token()
 ```
-
 
 That's it!

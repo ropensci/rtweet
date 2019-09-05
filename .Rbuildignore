@@ -25,3 +25,4 @@
 ^revdep$
 ^R/build_search_query\.R$
 ^\.github$
+^CODE_OF_CONDUCT\.md$

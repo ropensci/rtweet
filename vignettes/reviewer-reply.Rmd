@@ -7,7 +7,66 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## andrewwheiss
+## @briatte
+
+> Should the author(s) deem it appropriate, I agree to be acknowledged as a package reviewer ("rev" role) in the package DESCRIPTION file.
+
+* [x] Added @briatte as reviewer role to DESCRIPTION
+
+> Tested with both the "out of the box" access to the Twitter API and personal OAuth credentials via create_token -- both worked as expected, although I ran into exactly the same list of issues as @andrewheiss when testing the package with testthat::auto_test_package().
+
+* [x] This is addressed in my reply to @andrewwheis below
+
+> Typo at https://rtweet.info/articles/auth.html -- "autheticate via web browser".
+
+* [x] Fixed typo (`autheticate` to `authetincate`) in auth vignette.
+
+> Could the thread about how rwteet compares to other packages also document how the package compares to RTwitterAPI?
+
+* [x] Adding a package comparison table to README. Note: The RTwitterAPI package is outdated and very bare bones, but while it does technically offer a way to hit most endpoints it doesn't do much to automate that process, parse the response, or document endpoints besides a 'get friends' example. And, thus, I've used the red question mark on the relevant GET API endpoints for RTwitterAPI.
+
+| Task                   | rtweet | twitteR | streamR | RTwitterAPI |
+|------------------------------|--------|---------|---------|-------------|
+| Available on CRAN            |   ✅   |    ✅   |    ✅   |      ❌     |
+| Updated since 2016           |   ✅   |    ❌   |    ✅   |      ❌     |
+| Non-'developer' access       |   ✅   |    ❌   |    ❌   |      ❌     |
+| Extended tweets (280 chars)  |   ✅   |    ❌   |    ✅   |      ❌     |
+| Parses JSON data             |   ✅   |    ✅   |    ✅   |      ❌     |
+| Converts t❌data frames      |   ✅   |    ✅   |    ✅   |      ❌     |
+| Automated pagination         |   ✅   |    ❌   |    ❌   |      ❌     |
+| Search tweets                |   ✅   |    ✅   |    ❌   |      ❓     |
+| Search users                 |   ✅   |    ❌   |    ❌   |      ❓     |
+| Stream sample                |   ✅   |    ❌   |    ✅   |      ❌     |
+| Stream keywords              |   ✅   |    ❌   |    ✅   |      ❌     |
+| Stream users                 |   ✅   |    ❌   |    ✅   |      ❌     |
+| Get friends                  |   ✅   |    ✅   |    ❌   |      ✅     |
+| Get timelines                |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get mentions                 |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get favorites                |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get trends                   |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get list members             |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list memberships         |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list statuses            |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list subscribers         |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list subscriptions       |   ✅   |    ❌   |    ❌   |      ❓     |
+| Get list users               |   ✅   |    ❌   |    ❌   |      ❓     |
+| Lookup collections           |   ✅   |    ❌   |    ❌   |      ❓     |
+| Lookup friendships           |   ✅   |    ✅   |    ❌   |      ❓     |
+| Lookup statuses              |   ✅   |    ✅   |    ❌   |      ❓     |
+| Lookup users                 |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get retweeters               |   ✅   |    ✅   |    ❌   |      ❓     |
+| Get retweets                 |   ✅   |    ✅   |    ❌   |      ❓     |
+| Post tweets                  |   ✅   |    ✅   |    ❌   |      ❌     |
+| Post favorite                |   ✅   |    ❌   |    ❌   |      ❌     |
+| Post follow                  |   ✅   |    ❌   |    ❌   |      ❌     |
+| Post messsage                |   ✅   |    ✅   |    ❌   |      ❌     |
+| Post mute                    |   ✅   |    ❌   |    ❌   |      ❌     |
+| Premium 30 day               |   ✅   |    ❌   |    ❌   |      ❌     |
+| Premium full archive         |   ✅   |    ❌   |    ❌   |      ❌     |
+| Premium 30 day               |   ✅   |    ❌   |    ❌   |      ❌     |
+| Run package tests            |   ✅   |    ❌   |    ❌   |      ❌     |
+
+## @andrewwheiss
 
 ### Documentation and vignettes
 
@@ -67,23 +126,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > It might even be helpful to have a table of sorts showing pros/cons/features available when using a private app vs. the embedded `rstats2twitter` app, like this maybe?
 
-| Task 	                       | rstats2twitter | user-app |
+| Task                         | rstats2twitter | user-app |
 |------------------------------|----------------|----------|
-| Work interactively 	         |           	✅ |      ✅ |
-| Create reproducible research |           	❌  |      ✅ |
-| Search tweets 	             |           	✅ |      ✅ |
-| Stream tweets 	             |           	✅ |      ✅ |
-| Get friends 	               |           	✅ |      ✅ |
-| Get timelines 	             |           	✅ |      ✅ |
-| Post tweets 	               |           	❌ |      ✅ |
-| Run package tests            |           	❌  |      ✅ |
+| Work interactively           |             ✅ |       ✅ |
+| Create reproducible research |             ❌ |       ✅ |
+| Search tweets                |             ✅ |       ✅ |
+| Stream tweets                |             ✅ |       ✅ |
+| Get friends                  |             ✅ |       ✅ |
+| Get timelines                |             ✅ |       ✅ |
+| Post tweets                  |             ❌ |       ✅ |
+| Run package tests            |             ❌ |       ✅ |
 
 
 > The page for creating apps looks slightly different from the screenshots, and the direction to go to apps.twitter.com is out of date—according to Twitter, that aspect of developer accounts is getting sunset. Instead, the URL is now https://developer.twitter.com/en/apps .
 
+[x] I've updated the auth and FAQ vignettes to reflect the new developer portal. I've also updated the steps, labels, and screen shots in the auth vignette.
+
 ### Community
  
 > It would be helpful to have some [community guidelines](https://ropensci.github.io/dev_guide/collaboration.html#friendlyfiles) in the package too, such as a CONTRIBUTING.md file (perhaps modeled after something like [this](https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md)) and a CONDUCT.md file (like [this](https://github.com/tidyverse/readr/blob/master/CONDUCT.md))
+
+[x] Added [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
  
 > Creating an RStudio project `.Rproj` file could be helpful for encouraging package contributions, since it would enable RStudio's package building interface.
 > ### rOpenSci-related issues

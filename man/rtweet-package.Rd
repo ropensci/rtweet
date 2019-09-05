@@ -40,8 +40,8 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Andrew Heiss Heiss (0000-0002-3948-3914) [reviewer]
-  \item Andrew Heiss Heiss (0000-0002-3948-3914) [reviewer]
+  \item Andrew Heiss (0000-0002-3948-3914) [reviewer]
+  \item Francois Briatte [reviewer]
 }
 
 }
