@@ -159,9 +159,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 >     * Consider adding a repostatus.org badge too ([following rOpenSci's guidelines](https://ropensci.github.io/dev_guide/building.html#readme))
 
-[x] Added rOpenSci badge!
+[x] Added repostatus badge!
 
 >     * Also add the rOpenSci peer review badge
+
+[x] Added rOpenSci badge!
 
 ### JOSS-related issues
  
