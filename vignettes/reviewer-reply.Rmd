@@ -36,7 +36,7 @@ Thank,
 
 * [x] Adding a package comparison table to README. Note: The RTwitterAPI package is outdated and very bare bones, but while it does technically offer a way to hit most endpoints it doesn't do much to automate that process, parse the response, or document endpoints besides a 'get friends' example. And, thus, I've used the red question mark on the relevant GET API endpoints for RTwitterAPI.
 
-| Task                         | [rtweet](https://github.com/mkearney/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [twitteR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
+| Task                         | [rtweet](https://github.com/mkearney/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [tstream](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
 |------------------------------|--------|---------|---------|-------------|
 | Available on CRAN            |   ✅   |    ✅   |    ✅   |      ❌     |
 | Updated since 2016           |   ✅   |    ❌   |    ✅   |      ❌     |

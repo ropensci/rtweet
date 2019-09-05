@@ -27,7 +27,7 @@ There are several R packages for interacting with Twitter’s APIs. See
 how {rtweet} compares to these others in the chart
 below.
 
-| Task                        | [rtweet](https://github.com/mkearney/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [twitteR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
+| Task                        | [rtweet](https://github.com/mkearney/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [streamR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
 | --------------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- |
 | Available on CRAN           | ✅                                            | ✅                                                 | ✅                                                  | ❌                                                       |
 | Updated since 2016          | ✅                                            | ❌                                                 | ✅                                                  | ❌                                                       |
