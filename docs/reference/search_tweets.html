@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -41,17 +43,17 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Get tweets data on statuses identified via search query. — search_tweets" />
 
+<meta property="og:title" content="Get tweets data on statuses identified via search query. — search_tweets" />
 <meta property="og:description" content="Returns Twitter statuses matching a user provided search
 query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
 than 18,000 statuses in a single call, set &quot;retryonratelimit&quot; to
 TRUE.
 search_tweets2 Passes all arguments to search_tweets. Returns data from
 one OR MORE search queries." />
-
 <meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -125,7 +127,6 @@ one OR MORE search queries." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mkearney/rtweet">
@@ -152,14 +153,12 @@ one OR MORE search queries." />
     </div>
 
     <div class="ref-description">
-    
     <p>Returns Twitter statuses matching a user provided search
 query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
 than 18,000 statuses in a single call, set "retryonratelimit" to
 TRUE.</p>
 <p>search_tweets2 Passes all arguments to search_tweets. Returns data from
 one OR MORE search queries.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>search_tweets</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"recent"</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -167,7 +166,7 @@ one OR MORE search queries.</p>
   <span class='kw'>retryonratelimit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>search_tweets2</span>(<span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -307,13 +306,12 @@ tweets, for example, use <code>lang = "en"</code>. For more options see
 Twitter's API documentation.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>List object with tweets and users each returned as a
   data frame.</p>
 <p>A tbl data frame with additional "query" column.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Twitter API documentation recommends limiting searches to
@@ -341,7 +339,6 @@ Twitter's API documentation.</p></td>
   by leveraging <code>retryonratelimit</code> and then using the
   status_id of the oldest tweet as the <code>max_id</code> to resume
   searching where the previous efforts left off.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets'>https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</a></p>
@@ -351,11 +348,11 @@ Twitter's API documentation.</p></td>
   <code><a href='get_timeline.html'>get_timeline</a></code>, <code><a href='lists_statuses.html'>lists_statuses</a></code>,
   <code><a href='lookup_statuses.html'>lookup_statuses</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
   <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+
 <span class='co'>## search for 1000 tweets mentioning Hillary Clinton</span>
 <span class='no'>hrc</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"hillaryclinton"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 
@@ -402,9 +399,11 @@ Twitter's API documentation.</p></td>
 <span class='co'>## preview users data</span>
 <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>ds</span>)
 
-<span class='co'># }</span><div class='input'>
+}
 
-</div><span class='co'># NOT RUN {</span>
+
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+
 <span class='co'>## search using multilple queries</span>
 <span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets2</span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"\"data science\""</span>, <span class='st'>"rstats OR python"</span>),
@@ -420,20 +419,15 @@ Twitter's API documentation.</p></td>
 <span class='co'>## check breakdown of results by search query</span>
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>st2</span>$<span class='no'>query</span>)
 
-<span class='co'># }</span><div class='input'>
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -447,7 +441,7 @@ Twitter's API documentation.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
 
       </footer>

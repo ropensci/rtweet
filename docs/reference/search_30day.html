@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -41,12 +43,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
+
 <meta property="og:title" content="Search last 30day (PREMIUM) — search_30day" />
-
 <meta property="og:description" content="Search Twitter's '30day' (PREMIUM) API" />
-
 <meta property="og:image" content="https://rtweet.info/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -120,7 +122,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mkearney/rtweet">
@@ -147,14 +148,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Search Twitter's '30day' (PREMIUM) API</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>search_30day</span>(<span class='no'>q</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>fromDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>toDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>env_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>safedir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -201,11 +200,10 @@ account), which is converted to a bearer token in order to make premium
 API requests</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble data frame of Twitter data</p>
-    
     <h2 class="hasAnchor" id="developer-account"><a class="anchor" href="#developer-account"></a>Developer Account</h2>
 
     
@@ -214,14 +212,12 @@ API requests</p></td>
 environment to access Twitter's premium APIs. For more information, to check
 your current Subscriptions and Dev Environments, or to apply for a developer
 account visit <a href='https://developer.twitter.com'>https://developer.twitter.com</a>.</p>
-    
     <h2 class="hasAnchor" id="search-operators"><a class="anchor" href="#search-operators"></a>Search operators</h2>
 
     
 
 <p><em>Note: Bolded operators ending with a colon should be immediately
 followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en</code></p>
-    
     <h2 class="hasAnchor" id="keyword"><a class="anchor" href="#keyword"></a>Keyword</h2>
 
     
@@ -234,7 +230,6 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 <li><p><strong>lang:</strong>           ~~ language of tweet</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="accounts-of-interest"><a class="anchor" href="#accounts-of-interest"></a>Accounts of interest</h2>
 
     
@@ -245,7 +240,6 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 <li><p><strong>retweets_of:</strong>    ~~ retweet author</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="tweet-attributes"><a class="anchor" href="#tweet-attributes"></a>Tweet attributes</h2>
 
     
@@ -261,7 +255,6 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 <li><p><strong>is:verified</strong>     ~~ from verified accounts</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="geospatial"><a class="anchor" href="#geospatial"></a>Geospatial</h2>
 
     
@@ -278,39 +271,29 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 <li><p><strong>profile_locality:</strong> ~~ locality associated with profile</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## format datetime for one week ago</span>
 <span class='no'>toDate</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>() - <span class='fl'>60</span> * <span class='fl'>60</span> * <span class='fl'>24</span> * <span class='fl'>7</span>, <span class='st'>"%Y%m%d%H%M"</span>)
 
 <span class='co'>## search 30day for up to 300 rstats tweets sent before the last week</span>
 <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_30day</span>(<span class='st'>"#rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>300</span>,
   <span class='kw'>env_name</span> <span class='kw'>=</span> <span class='st'>"research"</span>, <span class='kw'>toDate</span> <span class='kw'>=</span> <span class='no'>toDate</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#developer-account">Developer Account</a></li>
-
       <li><a href="#search-operators">Search operators</a></li>
-
       <li><a href="#keyword">Keyword</a></li>
-
       <li><a href="#accounts-of-interest">Accounts of interest</a></li>
-
       <li><a href="#tweet-attributes">Tweet attributes</a></li>
-
       <li><a href="#geospatial">Geospatial</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -324,7 +307,7 @@ followed by a word or quoted phrase (if appropriate)–e.g.,</em> <code>lang:en<
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
 
       </footer>
