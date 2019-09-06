@@ -65,7 +65,6 @@ below.
 | Post mute                   | ✅                                            | ❌                                                 | ❌                                                  | ❌                                                       |
 | Premium 30 day              | ✅                                            | ❌                                                 | ❌                                                  | ❌                                                       |
 | Premium full archive        | ✅                                            | ❌                                                 | ❌                                                  | ❌                                                       |
-| Premium 30 day              | ✅                                            | ❌                                                 | ❌                                                  | ❌                                                       |
 | Run package tests           | ✅                                            | ❌                                                 | ❌                                                  | ❌                                                       |
 
 ## Responsible use

@@ -69,7 +69,6 @@ There are several R packages for interacting with Twitter's APIs. See how {rtwee
 | Post mute                    |   ✅   |    ❌   |    ❌   |      ❌     |
 | Premium 30 day               |   ✅   |    ❌   |    ❌   |      ❌     |
 | Premium full archive         |   ✅   |    ❌   |    ❌   |      ❌     |
-| Premium 30 day               |   ✅   |    ❌   |    ❌   |      ❌     |
 | Run package tests            |   ✅   |    ❌   |    ❌   |      ❌     |
 
 ## Responsible use

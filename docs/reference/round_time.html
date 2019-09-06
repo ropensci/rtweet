@@ -179,7 +179,7 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## class posixct</span>
-<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2019-09-05 12:00:00 UTC"</div><div class='input'>
+<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2019-09-06 12:00:00 UTC"</div><div class='input'>
 <span class='co'>## class date</span>
 <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2019-09-05" "2019-09-12" "2019-09-19" "2019-09-26" "2019-10-03"
 #&gt;  [6] "2019-10-10" "2019-10-17" "2019-10-24" "2019-10-31" "2019-11-07"
