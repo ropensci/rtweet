@@ -1,3 +1,5 @@
+# rtweet 0.7.0
+
 - Added paper.md as part of ROpenSci submission.
 - Added contributing template.
 - Added explanation of requirements and usage to `bearer_token()` docs.
