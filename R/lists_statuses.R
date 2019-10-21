@@ -85,7 +85,8 @@ lists_statuses_ <- function(list_id = NULL,
       since_id = since_id,
       max_id = max_id,
       count = n,
-      include_rts = include_rts
+      include_rts = include_rts,
+      tweet_mode = "extended"
     )
     names(params)[2] <- paste0("owner_", .id_type(owner_user))
   } else {
@@ -94,7 +95,8 @@ lists_statuses_ <- function(list_id = NULL,
       since_id = since_id,
       max_id = max_id,
       count = n,
-      include_rts = include_rts
+      include_rts = include_rts,
+      tweet_mode = "extended"
     )
   }
   token <- check_token(token)
