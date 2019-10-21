@@ -19,7 +19,7 @@ tags:
 # Statement of need
 
 Following the [announced (2016) deprecation of the ``twitteR``
-package](https://github.com/mkearney/rtweet/issues/1#issuecomment-492753003)
+package](https://github.com/ropensci/rtweet/issues/1#issuecomment-492753003)
 [@twitteR], R users seeking to interact with Twitter APIs have been encouraged
 to use the ``rtweet`` package. Use of the up-to-date and actively-maintained
 ``rtweet`` package is especially important in light of changes to Twitter's APIs

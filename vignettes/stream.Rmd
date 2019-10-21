@@ -1,8 +1,9 @@
 ---
 title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
-output:
-  rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    self_contained: no
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,8 +11,7 @@ vignette: >
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
 ## Installing and loading package

@@ -1,11 +1,14 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "rtweet",
-  "description": "An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: <https://developer.twitter.com/en/docs>.",
+  "description": "An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: <https://developer.twitter.com/en/docs>.\n This package has been peer-reviewed by rOpenSci (v. 0.6.9).",
   "name": "rtweet: Collecting Twitter Data",
   "codeRepository": "https://CRAN.R-project.org/package=rtweet",
-  "issueTracker": "https://github.com/mkearney/rtweet/issues",
+  "issueTracker": "https://github.com/ropensci/rtweet/issues",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.6.9",
   "programmingLanguage": {
@@ -268,8 +271,11 @@
   ],
   "releaseNotes": "https://github.com/mkearney/rtweet/blob/master/NEWS.md",
   "readme": "https://github.com/mkearney/rtweet/blob/master/README.md",
-  "fileSize": "3858.513KB",
-  "contIntegration": ["https://travis-ci.org/mkearney/rtweet", "https://codecov.io/gh/mkearney/rtweet?branch=master"],
+  "fileSize": "4137.709KB",
+  "contIntegration": [
+    "https://travis-ci.org/mkearney/rtweet",
+    "https://codecov.io/gh/mkearney/rtweet?branch=master"
+  ],
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing",
   "citation": [
     {
