@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Reviewer Reply">
@@ -125,25 +125,33 @@
 <p>Should the author(s) deem it appropriate, I agree to be acknowledged as a package reviewer (“rev” role) in the package DESCRIPTION file.</p>
 </blockquote>
 <ul>
-<li>[x] Added <span class="citation">@briatte</span> as reviewer role to DESCRIPTION</li>
+<li>
+<input type="checkbox" disabled checked>
+Added <span class="citation">@briatte</span> as reviewer role to DESCRIPTION</li>
 </ul>
 <blockquote>
 <p>Tested with both the “out of the box” access to the Twitter API and personal OAuth credentials via create_token – both worked as expected, although I ran into exactly the same list of issues as <span class="citation">@andrewheiss</span> when testing the package with testthat::auto_test_package().</p>
 </blockquote>
 <ul>
-<li>[x] This is addressed in my reply to <span class="citation">@andrewwheis</span> below</li>
+<li>
+<input type="checkbox" disabled checked>
+This is addressed in my reply to <span class="citation">@andrewwheis</span> below</li>
 </ul>
 <blockquote>
 <p>Typo at <a href="https://rtweet.info/articles/auth.html" class="uri">https://rtweet.info/articles/auth.html</a> – “autheticate via web browser”.</p>
 </blockquote>
 <ul>
-<li>[x] Fixed typo (<code>autheticate</code> to <code>authetincate</code>) in auth vignette.</li>
+<li>
+<input type="checkbox" disabled checked>
+Fixed typo (<code>autheticate</code> to <code>authetincate</code>) in auth vignette.</li>
 </ul>
 <blockquote>
 <p>Could the thread about how rwteet compares to other packages also document how the package compares to RTwitterAPI?</p>
 </blockquote>
 <ul>
-<li>[x] Adding a package comparison table to README. Note: The RTwitterAPI package is outdated and very bare bones, but while it does technically offer a way to hit most endpoints it doesn’t do much to automate that process, parse the response, or document endpoints besides a ‘get friends’ example. And, thus, I’ve used the red question mark on the relevant GET API endpoints for RTwitterAPI.</li>
+<li>
+<input type="checkbox" disabled checked>
+Adding a package comparison table to README. Note: The RTwitterAPI package is outdated and very bare bones, but while it does technically offer a way to hit most endpoints it doesn’t do much to automate that process, parse the response, or document endpoints besides a ‘get friends’ example. And, thus, I’ve used the red question mark on the relevant GET API endpoints for RTwitterAPI.</li>
 </ul>
 <table class="table">
 <thead><tr class="header">
@@ -427,36 +435,50 @@
 <p>Should the author(s) deem it appropriate, I agree to be acknowledged as a package reviewer (“rev” role) in the package DESCRIPTION file.</p>
 </blockquote>
 <ul>
-<li>[x] Added <span class="citation">@andrewwheis</span> as reviewer role to DESCRIPTION</li>
+<li>
+<input type="checkbox" disabled checked>
+Added <span class="citation">@andrewwheis</span> as reviewer role to DESCRIPTION</li>
 </ul>
 <blockquote>
 <p>All vignettes worked great and were a perfect introduction to the package. It might be helpful to move up the vignette listing near the beginning of the README so that users can find them more easily.</p>
 </blockquote>
 <ul>
-<li>[x] Moved vignettes section up to above key functions (and just after install/API authorization)</li>
+<li>
+<input type="checkbox" disabled checked>
+Moved vignettes section up to above key functions (and just after install/API authorization)</li>
 </ul>
 <blockquote>
 <p>Each function is generally very well documented. There are some sparsely documented functions like bearer_token() and invalidate_bearer() that seem to only be used internally—it might be useful to either add <span class="citation">@keywords</span> internal to the roxygen block or add additional documentation explaining what a bearer token is and including some examples.</p>
 </blockquote>
 <ul>
-<li>[x] Added <code>@ keywords internal</code> to <code><a href="../reference/invalidate_bearer.html">invalidate_bearer()</a></code>
+<li>
+<input type="checkbox" disabled checked>
+Added <code>@ keywords internal</code> to <code><a href="../reference/invalidate_bearer.html">invalidate_bearer()</a></code>
 </li>
-<li>[x] Improved name/description, added more information about requirements and usage, and several examples to <code><a href="../reference/bearer_token.html">bearer_token()</a></code>
+<li>
+<input type="checkbox" disabled checked>
+Improved name/description, added more information about requirements and usage, and several examples to <code><a href="../reference/bearer_token.html">bearer_token()</a></code>
 </li>
 </ul>
 <blockquote>
 <p>It’s really helpful that the US and the world are baked into lookup_coords() (e.g. lookup_coords(“usa”)) so users don’t need an API key for that. This should probably be documented, though. It caught me by surprise that “usa” was working just fine and all other locations triggered a message—I only figured out why because I looked at the source code for lookup_coords(), and that has a huge all caps note about needing a Google Maps API key. (A future expansion could maybe include hardcoded boundaries for a bunch of other countries (perhaps make an internal lookup table of lat/long coordinates?) so the package is less US-centric and less dependent on another API.)</p>
 </blockquote>
 <ul>
-<li>[x] Document US/world coordinates in <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>. This can be found in the details section of <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>
+<li>
+<input type="checkbox" disabled checked>
+Document US/world coordinates in <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>. This can be found in the details section of <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>
 </li>
-<li>[x] Add other (less US-centric) defaults to <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>. Latitude and longitudes for major world cities are now hardwired in. This is documented in the details section of <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>. And I’ve added new automated tests for these as well.</li>
+<li>
+<input type="checkbox" disabled checked>
+Add other (less US-centric) defaults to <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>. Latitude and longitudes for major world cities are now hardwired in. This is documented in the details section of <code><a href="../reference/lookup_coords.html">lookup_coords()</a></code>. And I’ve added new automated tests for these as well.</li>
 </ul>
 <blockquote>
 <p>The pkgdown site is great. It might be helpful (and recommended by rOpenSci) to add <span class="citation">@family</span> tags to roxygen documentation so that there are automatic groups of functions in the documentation and in the reference website.</p>
 </blockquote>
 <ul>
-<li>[x] Add <code>@family</code> tags for reference/function documentation grouping</li>
+<li>
+<input type="checkbox" disabled checked>
+Add <code>@family</code> tags for reference/function documentation grouping</li>
 </ul>
 </div>
 <div id="installation-and-testing" class="section level3">
@@ -466,38 +488,52 @@
 <p>Testing doesn’t work out of the box and it took me a while to figure out how to generate the /tests/testthat/twitter_tokens RDS file. When logged in through the embedded rstats2twitter app, running this created an auth token that the test suite can use…It might be useful to explain that process somewhere in the documentation—not in the README though, since it’s not something a typical user would do.</p>
 </blockquote>
 <ul>
-<li>[x] Added description of configuration/setup of test token. I’ve created a ‘Github action’ for this–so forking {rtweet} should trigger a message about automated testing and working with encrypted keys on travis-ci</li>
+<li>
+<input type="checkbox" disabled checked>
+Added description of configuration/setup of test token. I’ve created a ‘Github action’ for this–so forking {rtweet} should trigger a message about automated testing and working with encrypted keys on travis-ci</li>
 </ul>
 <blockquote>
 <p>(FAILED) direct_messages: This is because the rstats2twitter app doesn’t provide read-write DM access. It worked when I used my own auth token</p>
 </blockquote>
 <ul>
-<li>[x] Testing now checks for appropriate permissions.</li>
-<li>[x] As for the limited permissions, this was a concsious decision on my part. I limited write and DM-related permissions in tokens generated via rstats2twitter because I don’t want to encourage or be associated with automated/spam/TOS-violating behaviors.</li>
+<li>
+<input type="checkbox" disabled checked>
+Testing now checks for appropriate permissions.</li>
+<li>
+<input type="checkbox" disabled checked>
+As for the limited permissions, this was a concsious decision on my part. I limited write and DM-related permissions in tokens generated via rstats2twitter because I don’t want to encourage or be associated with automated/spam/TOS-violating behaviors.</li>
 </ul>
 <blockquote>
 <p>(FAILED) get_my_timeline: One test failed because rtweet:::home_user() not equal to “kearneymw”. Mike’s account is hardcoded in the tests and this test can’t pass if someone is using a different account. I don’t know what else could be done to test it though.</p>
 </blockquote>
 <ul>
-<li>[x] Agreed. This may have been possible back when I had a dedicated rtweet Twitter account, but that got shut down by Twitter (I learned you can’t use multiple accounts/tokens to do the same thing the hard way), so I’m hesitant/careful not to further hurt my standing with them.</li>
+<li>
+<input type="checkbox" disabled checked>
+Agreed. This may have been possible back when I had a dedicated rtweet Twitter account, but that got shut down by Twitter (I learned you can’t use multiple accounts/tokens to do the same thing the hard way), so I’m hesitant/careful not to further hurt my standing with them.</li>
 </ul>
 <blockquote>
 <p>(FAILED) lookup_coords: This returns an error that seems unrelated to token issues and I don’t know while it’s failing</p>
 </blockquote>
 <ul>
-<li>[x] Edited test to check if an environment variable named GOOGLE exists and optionally replaces with empty for following test.</li>
+<li>
+<input type="checkbox" disabled checked>
+Edited test to check if an environment variable named GOOGLE exists and optionally replaces with empty for following test.</li>
 </ul>
 <blockquote>
 <p>(FAILED) tweet_shot: This failed because I didn’t have PhantomJS installed. The test worked after installing it. Running tweet_shot() interactively gives a note that it should be installed with webshot::install_phantomjs(), but this message is invisible when testing on a fresh system. PhantomJS isn’t installed as a dependency when the package in installed, but that’s because it’s not an R package. idk what the best way to handle this is, though, since it’s 16+ MB and not handled automatically with R ¯_(ツ)_/¯</p>
 </blockquote>
 <ul>
-<li>[x] The webshot dependencies are especially difficult to configure in travis integrations. Since webshot is recommended and not required, I’ve changed the test to first check whether the webshot package is installed.</li>
+<li>
+<input type="checkbox" disabled checked>
+The webshot dependencies are especially difficult to configure in travis integrations. Since webshot is recommended and not required, I’ve changed the test to first check whether the webshot package is installed.</li>
 </ul>
 <blockquote>
 <p>(FAILED) test-test_username-r: Like get_my_timeline, this failed because Mike’s account is hardcoded in. Again, I don’t know what the best way to handle this is.</p>
 </blockquote>
 <ul>
-<li>[x] This may have been possible back when I had a dedicated rtweet Twitter account, but that got shut down by Twitter (I learned you can’t use multiple accounts/tokens to do the same thing the hard way), so I’m hesitant/careful not to further hurt my standing with them.</li>
+<li>
+<input type="checkbox" disabled checked>
+This may have been possible back when I had a dedicated rtweet Twitter account, but that got shut down by Twitter (I learned you can’t use multiple accounts/tokens to do the same thing the hard way), so I’m hesitant/careful not to further hurt my standing with them.</li>
 </ul>
 </div>
 <div id="token-creation-and-authentication" class="section level3">
@@ -561,13 +597,17 @@
 </tbody>
 </table>
 <ul>
-<li>[x] Futher developed comparison table for embedded app versus user-created apps (now included in README) and added more description of pros/cons of creating a token in documentation.</li>
+<li>
+<input type="checkbox" disabled checked>
+Futher developed comparison table for embedded app versus user-created apps (now included in README) and added more description of pros/cons of creating a token in documentation.</li>
 </ul>
 <blockquote>
 <p>The page for creating apps looks slightly different from the screenshots, and the direction to go to apps.twitter.com is out of date—according to Twitter, that aspect of developer accounts is getting sunset. Instead, the URL is now <a href="https://developer.twitter.com/en/apps" class="uri">https://developer.twitter.com/en/apps</a> .</p>
 </blockquote>
 <ul>
-<li>[x] I’ve updated the auth and FAQ vignettes to reflect the new developer portal. I’ve also updated the steps, labels, and screen shots in the auth vignette.</li>
+<li>
+<input type="checkbox" disabled checked>
+I’ve updated the auth and FAQ vignettes to reflect the new developer portal. I’ve also updated the steps, labels, and screen shots in the auth vignette.</li>
 </ul>
 </div>
 <div id="community" class="section level3">
@@ -577,33 +617,43 @@
 <p>It would be helpful to have some <a href="https://ropensci.github.io/dev_guide/collaboration.html#friendlyfiles">community guidelines</a> in the package too, such as a CONTRIBUTING.md file (perhaps modeled after something like <a href="https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md">this</a>) and a CONDUCT.md file (like <a href="https://github.com/tidyverse/readr/blob/master/CONDUCT.md">this</a>)</p>
 </blockquote>
 <ul>
-<li>[x] Added <a href="CONTRIBUTING.html">.github/CONTRIBUTING.md</a> and <a href="CODE_OF_CONDUCT.html">CODE_OF_CONDUCT.md</a>
+<li>
+<input type="checkbox" disabled checked>
+Added <a href="CONTRIBUTING.html">.github/CONTRIBUTING.md</a> and <a href="CODE_OF_CONDUCT.html">CODE_OF_CONDUCT.md</a>
 </li>
 </ul>
 <blockquote>
 <p>Creating an RStudio project <code>.Rproj</code> file could be helpful for encouraging package contributions, since it would enable RStudio’s package building interface. ### rOpenSci-related issues</p>
 </blockquote>
 <ul>
-<li>[x] Removed <code>.Rproj</code> from <code>.gitignore</code> and added <a href="rtweet.Rproj">rtweet.Rproj</a>
+<li>
+<input type="checkbox" disabled checked>
+Removed <code>.Rproj</code> from <code>.gitignore</code> and added <a href="rtweet.Rproj">rtweet.Rproj</a>
 </li>
 </ul>
 <blockquote>
 <pre><code>* [Following rOpenSci's package guidelines](https://ropensci.github.io/dev_guide/building.html#creating-metadata-for-your-package), it might be helpful to use the **codemetar** package to generate a `codemeta.json` file.</code></pre>
 </blockquote>
 <ul>
-<li>[x] Added <a href="codemeta.json">codemeta.json</a> file</li>
+<li>
+<input type="checkbox" disabled checked>
+Added <a href="codemeta.json">codemeta.json</a> file</li>
 </ul>
 <blockquote>
 <pre><code>* Consider adding a repostatus.org badge too ([following rOpenSci's guidelines](https://ropensci.github.io/dev_guide/building.html#readme))</code></pre>
 </blockquote>
 <ul>
-<li>[x] Added repostatus badge!</li>
+<li>
+<input type="checkbox" disabled checked>
+Added repostatus badge!</li>
 </ul>
 <blockquote>
 <pre><code>* Also add the rOpenSci peer review badge</code></pre>
 </blockquote>
 <ul>
-<li>[x] Added rOpenSci badge!</li>
+<li>
+<input type="checkbox" disabled checked>
+Added rOpenSci badge!</li>
 </ul>
 </div>
 <div id="joss-related-issues" class="section level3">
@@ -616,13 +666,17 @@
 <pre><code>* "Twitter as a tool of para-disploomacy" is misspelled</code></pre>
 </blockquote>
 <ul>
-<li>[x] Fixed to ‘para-diplomacy’</li>
+<li>
+<input type="checkbox" disabled checked>
+Fixed to ‘para-diplomacy’</li>
 </ul>
 <blockquote>
 <pre><code>* Several of the cited articles that have actual DOIs are missing DOIs (like "How can we better use Twitter to find a person who got lost due to dementia?" is https://dx.doi.org/10.1038/s41746-018-0017-5)</code></pre>
 </blockquote>
 <ul>
-<li>[x] Added all the DOIs I could find (including the one for the dementia paper)</li>
+<li>
+<input type="checkbox" disabled checked>
+Added all the DOIs I could find (including the one for the dementia paper)</li>
 </ul>
 </div>
 </div>
@@ -649,7 +703,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

@@ -3,7 +3,7 @@ title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
 output: 
   rmarkdown::html_vignette:
-    self_contained: no
+    self_contained: false
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
   %\VignetteEngine{knitr::rmarkdown}

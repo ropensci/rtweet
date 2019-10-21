@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Obtaining and using access tokens">
@@ -84,7 +84,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mkearney/rtweet">
+  <a href="https://github.com/ropensci/rtweet">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -123,7 +123,8 @@
 <a href="#creating-a-twitter-app" class="anchor"></a>Creating a Twitter App</h2>
 <ul>
 <li><p>To create a Twitter app, you will first need to apply for a developer account. This process along with a detailed explanation can be found at <a href="https://developer.twitter.com">developer.twitter.com</a>.</p></li>
-<li>Once you have acquired a developer account, navigate to <a href="https://developer.twitter.com/en/apps/">developer.twitter.com/en/apps</a>, click the blue button that says, <code>Create a New App</code>, and then complete the form with the following fields:
+<li>
+<p>Once you have acquired a developer account, navigate to <a href="https://developer.twitter.com/en/apps/">developer.twitter.com/en/apps</a>, click the blue button that says, <code>Create a New App</code>, and then complete the form with the following fields:</p>
 <ul>
 <li>
 <code>App Name</code>: What your app will be called</li>
@@ -146,14 +147,18 @@
 </li>
 </ul>
 </li>
-<li>When you’ve completed the required form fields, click the blue <code>Create</code> button at the bottom</li>
-<li>Read through and indicate whether you accept the developer terms
+<li><p>When you’ve completed the required form fields, click the blue <code>Create</code> button at the bottom</p></li>
+<li>
+<p>Read through and indicate whether you accept the developer terms</p>
 <p align="center">
-<img src="files/create-app-4.png" alt="create-app-4"></p>
+</p>
+<p><img src="files/create-app-4.png" alt="create-app-4"></p>
 </li>
-<li>And you’re done!
+<li>
+<p>And you’re done!</p>
 <p align="center">
-<img src="files/create-app-5.png" alt="create-app-5"></p>
+</p>
+<p><img src="files/create-app-5.png" alt="create-app-5"></p>
 </li>
 </ul>
 </div>
@@ -167,10 +172,10 @@
 <ul>
 <li>Authentication via web browser requires the <code>httpuv</code> package to be installed.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## install httpuv if not already</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"httpuv"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"httpuv"</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">## install httpuv if not already</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"httpuv"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"httpuv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>}</span></code></pre></div>
 <ul>
 <li>Navigate to <a href="https://developer.twitter.com/en/apps">developer.twitter.com/en/apps</a> and select your Twitter app</li>
 <li>Click the tab labeled <code>Keys and tokens</code> to retrieve your keys.</li>
@@ -181,24 +186,24 @@
 <ul>
 <li>Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## load rtweet</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">## store api keys (these are fake example values; replace with your own keys)</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">api_key &lt;-<span class="st"> "afYS4vbIlPAj096E60c4W1fiK"</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">api_secret_key &lt;-<span class="st"> "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">## authenticate via web browser</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="dt">app =</span> <span class="st">"rstatsjournalismresearch"</span>,</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="dt">consumer_key =</span> api_key,</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="dt">consumer_secret =</span> api_secret_key)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## load rtweet</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">## store api keys (these are fake example values; replace with your own keys)</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>api_key &lt;-<span class="st"> "afYS4vbIlPAj096E60c4W1fiK"</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>api_secret_key &lt;-<span class="st"> "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">## authenticate via web browser</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="dt">app =</span> <span class="st">"rstatsjournalismresearch"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="dt">consumer_key =</span> api_key,</span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="dt">consumer_secret =</span> api_secret_key)</span></code></pre></div>
 <ul>
 <li>A browser pop-up window should appear. Click to approve (must be signed into twitter.com) and return to R.</li>
 <li>Your token has been created. Print your token to make sure the app name and <code>api_key</code> match</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## view token (you should see the correct app name)</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">token</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## view token (you should see the correct app name)</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>token</span></code></pre></div>
 </div>
 <div id="access-tokensecret-method" class="section level3">
 <h3 class="hasAnchor">
@@ -219,19 +224,19 @@
 <ul>
 <li>Copy and paste the four keys (along with the name of your app) into an R script file and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">## store api keys (these are fake example values; replace with your own keys)</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">api_key &lt;-<span class="st"> "afYS4vbIlPAj096E60c4W1fiK"</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">api_secret_key &lt;-<span class="st"> "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">access_token &lt;-<span class="st"> "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">access_token_secret &lt;-<span class="st"> "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">## authenticate via web browser</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="dt">app =</span> <span class="st">"rstatsjournalismresearch"</span>,</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="dt">consumer_key =</span> api_key,</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">  <span class="dt">consumer_secret =</span> api_secret_key,</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">  <span class="dt">access_token =</span> access_token,</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">  <span class="dt">access_secret =</span> access_token_secret)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## store api keys (these are fake example values; replace with your own keys)</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>api_key &lt;-<span class="st"> "afYS4vbIlPAj096E60c4W1fiK"</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>api_secret_key &lt;-<span class="st"> "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>access_token &lt;-<span class="st"> "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>access_token_secret &lt;-<span class="st"> "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">## authenticate via web browser</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="dt">app =</span> <span class="st">"rstatsjournalismresearch"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10"></a>  <span class="dt">consumer_key =</span> api_key,</span>
+<span id="cb4-11"><a href="#cb4-11"></a>  <span class="dt">consumer_secret =</span> api_secret_key,</span>
+<span id="cb4-12"><a href="#cb4-12"></a>  <span class="dt">access_token =</span> access_token,</span>
+<span id="cb4-13"><a href="#cb4-13"></a>  <span class="dt">access_secret =</span> access_token_secret)</span></code></pre></div>
 </div>
 </div>
 <div id="authorization-in-future-r-sessions" class="section level2">
@@ -241,9 +246,9 @@
 <li>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.</li>
 <li>To make sure it works, restart your R session, run the following code, and again check to make sure the app name and <code>api_key</code> match.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## check to see if the token is loaded</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## check to see if the token is loaded</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>()</span></code></pre></div>
 <p>That’s it!</p>
 </div>
   </div>
@@ -271,7 +276,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>
