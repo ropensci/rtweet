@@ -3,6 +3,7 @@
 - Added paper.md as part of ROpenSci submission.
 - Added contributing template.
 - Added explanation of requirements and usage to `bearer_token()` docs.
+- Transferred repo to ropensci
 
 # rtweet 0.6.9
 - Better tweet-validating in streaming data–interrupted statuses/broken lines 
