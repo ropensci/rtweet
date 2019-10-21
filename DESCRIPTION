@@ -16,6 +16,7 @@ Authors@R: c(
     #email = "email@address.com", role = c("ctb"))
     )
 Description: An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: <https://developer.twitter.com/en/docs>.
+ This package has been peer-reviewed by rOpenSci (v. 0.6.9).
 Depends:
     R (>= 3.1.0)
 Imports:
@@ -29,7 +30,7 @@ Imports:
     httpuv
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
-BugReports: https://github.com/mkearney/rtweet/issues
+BugReports: https://github.com/ropensci/rtweet/issues
 Encoding: UTF-8
 Suggests:
     ggplot2,

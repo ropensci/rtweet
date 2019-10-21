@@ -31,7 +31,7 @@ vignette("rtweet")
 Useful links:
 \itemize{
   \item \url{https://CRAN.R-project.org/package=rtweet}
-  \item Report bugs at \url{https://github.com/mkearney/rtweet/issues}
+  \item Report bugs at \url{https://github.com/ropensci/rtweet/issues}
 }
 
 }

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ## Installing and loading package
 
 Prior to streaming, make sure to install and load rtweet. This
-vignette assumes users have already setup user access tokens (see: [obtaining and using access tokens](https://mkearney.github.io/rtweet/articles/auth.html)).
+vignette assumes users have already setup user access tokens (see: the "auth" vignette).
 
 ```{r}
 ## Install rtweet
