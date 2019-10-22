@@ -10,7 +10,7 @@
   "codeRepository": "https://CRAN.R-project.org/package=rtweet",
   "issueTracker": "https://github.com/ropensci/rtweet/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.6.9",
+  "version": "0.7.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -270,8 +270,8 @@
     }
   ],
   "releaseNotes": "https://github.com/mkearney/rtweet/blob/master/NEWS.md",
-  "readme": "https://github.com/mkearney/rtweet/blob/master/README.md",
-  "fileSize": "4137.709KB",
+  "readme": "https://github.com/ropensci/rtweet/blob/master/README.md",
+  "fileSize": "4137.791KB",
   "contIntegration": [
     "https://travis-ci.org/mkearney/rtweet",
     "https://codecov.io/gh/mkearney/rtweet?branch=master"
