@@ -17,6 +17,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.01829/status.svg)](https://doi.org/10.21105/joss.01829)
 
 R client for accessing Twitter’s REST and stream APIs. Check out the
 [rtweet package documentation website](https://rtweet.info).
@@ -24,8 +25,7 @@ R client for accessing Twitter’s REST and stream APIs. Check out the
 ### Package Functionality
 
 There are several R packages for interacting with Twitter’s APIs. See
-how {rtweet} compares to these others in the chart
-below.
+how {rtweet} compares to these others in the chart below.
 
 | Task                        | [rtweet](https://github.com/ropensci/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [streamR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
 | --------------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- |
@@ -262,8 +262,7 @@ Stream all geo enabled tweets from London for 60 seconds.
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 ```
 
-Stream all tweets mentioning realDonaldTrump or Trump for a
-week.
+Stream all tweets mentioning realDonaldTrump or Trump for a week.
 
 ``` r
 ## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
@@ -386,7 +385,6 @@ which can sometimes be inconsistent. With that said, if you encounter an
 obvious bug for which there is not already an active
 [issue](https://github.com/ropensci/rtweet/issues), please [create a new
 issue](https://github.com/ropensci/rtweet/issues/new) with all code used
-(preferably a reproducible example) on
-Github.
+(preferably a reproducible example) on Github.
 
 [![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
