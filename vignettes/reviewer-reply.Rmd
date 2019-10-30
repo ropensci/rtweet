@@ -160,7 +160,8 @@ Thank,
 * [x] Added [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
  
 > Creating an RStudio project `.Rproj` file could be helpful for encouraging package contributions, since it would enable RStudio's package building interface.
-> ### rOpenSci-related issues
+
+### rOpenSci-related issues
 
 * [x] Removed `.Rproj` from `.gitignore` and added [rtweet.Rproj](rtweet.Rproj)
 
