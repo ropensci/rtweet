@@ -114,6 +114,11 @@ get_followers_ <- function(user,
                            parse = TRUE,
                            verbose = TRUE,
                            token = NULL) {
+  ## set scipen to ensure IDs are not rounded
+  op_sci <- getOption("scipen")
+  on.exit(options(scipen = op_sci), add = TRUE)
+  options(scipen = 14)
+  
   ## if n == all or Inf then lookup followers count
   if (identical(n, "all") || identical(n, Inf)) {
     usr <- lookup_users(user)
@@ -155,7 +160,7 @@ get_followers_ <- function(user,
     ctr <- 0L
     ## until n followers have been retrieved
     while (more) {
-      rl <- rate_limit(token, query)
+      rl <- rate_limit2(token, query)
       n.times <- rl[["remaining"]]
       i <- i + 1L
       ## if no calls remaining then sleep until no longer rate limited
@@ -170,7 +175,7 @@ get_followers_ <- function(user,
           )
         }
         Sys.sleep(as.numeric(rl$reset, "secs") + 2)
-        rl <- rate_limit(token, query)
+        rl <- rate_limit2(token, query)
         n.times <- rl$remaining
         rate_limited <- isTRUE(n.times == 0)
       }
@@ -194,7 +199,7 @@ get_followers_ <- function(user,
     }
   } else {
     ## if !retryonratelimit then if necessary exhaust what can with token
-    rl <- rate_limit(token, query)
+    rl <- rate_limit2(token, query)
     n.times <- rl[["remaining"]]
     if (n < (n.times * 5000)) {
       n.times <- ceiling(n / 5000)

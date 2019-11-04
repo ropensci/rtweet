@@ -117,6 +117,12 @@ get_friends_ <- function(users,
   ## build URL
   query <- "friends/ids"
   token <- check_token(token)
+  
+  ## set scipen to ensure IDs are not rounded
+  op <- getOption("scipen")
+  on.exit(options(scipen = op), add = TRUE)
+  options(scipen = 14)
+  
   ## for larger requests implement Sys.sleep
   if (n > 1) {
     ## initialize output object
@@ -126,7 +132,7 @@ get_friends_ <- function(users,
     i <- 0L
     ## until friends of n users have been retrieved
     while (more) {
-      rl <- rate_limit(token, query)
+      rl <- rate_limit2(token, query)
       n.times <- rl[["remaining"]]
       i <- i + 1L
       params <- list(
@@ -153,13 +159,13 @@ get_friends_ <- function(users,
             )
           }
           Sys.sleep(as.numeric(rl$reset, "secs") + 2)
-          rl <- rate_limit(token, query)
+          rl <- rate_limit2(token, query)
           n.times <- rl$remaining
           rate_limited <- isTRUE(n.times == 0)
         }
       }
       ## make call
-      f[[i]] <- get_friend(url, token = token)
+      f[[i]] <- get_friend_nosp(url, token = token)
       if (has_name_(f[[i]], "errors")) {
         warning(f[[i]]$errors[["message"]], call. = FALSE)
         return(list(data.frame()))
@@ -203,7 +209,7 @@ get_friends_ <- function(users,
       param = params
     )
     ## if !retryonratelimit then if necessary exhaust what can with token
-    f <- get_friend(url, token = token)
+    f <- get_friend_nosp(url, token = token)
     if (has_name_(f, "errors")) {
       warning(f$errors[["message"]], call. = FALSE)
       return(list(data.frame()))
@@ -221,9 +227,41 @@ get_friends_ <- function(users,
   f
 }
 
+run_it_back <- function(fun, secs = 0.25) {
+  eval(parse(text = paste0("function(...) {
+    tryCatch(", fun, "(...), error = function(e) {
+      Sys.sleep(", secs, ")
+      ", fun, "(...)
+    })
+  }")))
+}
+
+rate_limit2 <- run_it_back("rate_limit")
+
+TWIT2 <- run_it_back("TWIT")
+
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET
 get_friend <- function(url, token = NULL) {
+  ## set scipen to ensure IDs are not rounded
+  op <- getOption("scipen")
+  on.exit(options(scipen = op), add = TRUE)
+  options(scipen = 14)
+  
+  r <- httr::GET(url, token)
+  if (!warn_for_twitter_status(r)) {
+    if (has_name_(url, "query") &&
+        any(grepl("user_id|screen_name", names(url$query)))) {
+      warning("^^ warning regarding user: ",
+        url$query[[grep("screen_name|user_id", names(url$query))]],
+        call. = FALSE, immediate. = TRUE)
+    }
+    return(list(ids = character()))
+  }
+  from_js(r)
+}
+
+get_friend_nosp <- function(url, token = NULL) {
   r <- httr::GET(url, token)
   if (!warn_for_twitter_status(r)) {
     if (has_name_(url, "query") &&
@@ -258,9 +296,11 @@ my_friendships <- function(user,
                            parse = TRUE,
                            token = NULL) {
   ## gotta have ut8-encoding for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
+  ## set scipen to ensure IDs are not rounded
+  op_enc <- getOption("encoding")
+  op_sci <- getOption("scipen")
+  on.exit(options(scipen = op_sci, encoding = op_enc), add = TRUE)
+  options(scipen = 14, encoding = "UTF-8")
 
   stopifnot(is.atomic(user))
   token <- check_token(token)
@@ -332,6 +372,12 @@ lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
   if (length(source) > 1L && length(target) > 1L) {
     stopifnot(length(source) == length(target))
   }
+
+  ## set scipen to ensure IDs are not rounded
+  op_sci <- getOption("scipen")
+  on.exit(options(scipen = op_sci), add = TRUE)
+  options(scipen = 14)
+  
   fds <- Map(
     "lookup_friendships_", source, target,
     MoreArgs = list(parse = parse, token = token)
