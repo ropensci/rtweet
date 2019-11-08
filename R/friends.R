@@ -70,7 +70,7 @@
 #'
 #'   At this time, results are ordered with the most recent following first —
 #'   however, this ordering is subject to unannounced change and eventual
-#'   consistency issues. While this remains true it is possible iteratively build
+#'   consistency issues. While this remains true it is possible to iteratively build
 #'   friends lists for a user over time.
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.

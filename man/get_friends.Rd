@@ -78,7 +78,7 @@ When \code{retryonratelimit = TRUE} this function internally
 
   At this time, results are ordered with the most recent following first —
   however, this ordering is subject to unannounced change and eventual
-  consistency issues. While this remains true it is possible iteratively build
+  consistency issues. While this remains true it is possible to iteratively build
   friends lists for a user over time.
 }
 \examples{
