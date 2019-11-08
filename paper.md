@@ -51,7 +51,7 @@ tweets over time. In short, although it is certainly possible for users to write
 their own Twitter API wrapper functions, the heavy-lifting done by ``rtweet`` to
 (a) streamline the building, authorizing, and sending of API requests, (b)
 wrangle deeply nested JSON data into tabular structures, and (c) provide
-convenience functions for for relevant and popular analytical techniques, make
+convenience functions for relevant and popular analytical techniques, make
 it a valuable contribution in the area of collecting and analyzing Twitter data.
 
 Although ``rtweet`` provides some coverage to user context-behaviors (e.g.,
