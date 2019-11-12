@@ -29,7 +29,7 @@ List unroll_connections(const CharacterVector& from,
   for (R_xlen_t i = 0; i < n; ++i) { 
     // `i` is index of current `to`
     const CharacterVector to_i = to[i];
-    
+    // `j` is index of current `to[i]`
     for (int j = 0; j < to_i.size(); ++j) {
       
       if (to_i[j].get() != R_NaString) {
@@ -41,15 +41,11 @@ List unroll_connections(const CharacterVector& from,
     }
     
   }
-  
-  Rcpp::List out = Rcpp::List::create(
-    _["from"] = from2,
-    _["to"] = to2
-  );
-  out.attr("row.names") = seq_len(len);
-  out.attr("class") = "data.frame";
-  
-  return out;
+  // combine the new [flat] vectors into a data frame (requires row names)
+  List df = List::create(_["from"] = from2,_["to"] = to2);
+  df.attr("row.names") = seq_len(len);
+  df.attr("class") = "data.frame";
+  return df;
 }
 
 
