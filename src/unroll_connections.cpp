@@ -20,8 +20,8 @@ List unroll_connections(const CharacterVector& from,
   }
   
   // use calculated lengths to initialize output character vectors
-  Rcpp::CharacterVector from2(len); 
-  Rcpp::CharacterVector to2(len); 
+  CharacterVector from2(len); 
+  CharacterVector to2(len); 
   
   // for each value of the 'from' vector, create appropriately re-sized from2
   // and to2 vectors
