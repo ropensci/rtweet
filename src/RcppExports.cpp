@@ -6,13 +6,13 @@
 using namespace Rcpp;
 
 // unroll_connections
-List unroll_connections(CharacterVector from, std::vector<std::vector<std::string> > to);
+List unroll_connections(const CharacterVector& from, const List& to);
 RcppExport SEXP _rtweet_unroll_connections(SEXP fromSEXP, SEXP toSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type from(fromSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::vector<std::string> > >::type to(toSEXP);
+    Rcpp::traits::input_parameter< const CharacterVector& >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< const List& >::type to(toSEXP);
     rcpp_result_gen = Rcpp::wrap(unroll_connections(from, to));
     return rcpp_result_gen;
 END_RCPP
