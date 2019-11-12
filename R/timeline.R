@@ -14,7 +14,7 @@
 #'   or home-timeline. By default, home is set to FALSE, which means
 #'   \code{get_timeline} returns tweets posted by the given user. To
 #'   return a user's home timeline feed, that is, the tweets posted by
-#'   accounts followed by a user, set the home to false.
+#'   accounts followed by a user, set the home to TRUE.
 #' @param parse Logical, indicating whether to return parsed
 #'   (data.frames) or nested list object. By default, \code{parse =
 #'   TRUE} saves users from the time [and frustrations] associated
