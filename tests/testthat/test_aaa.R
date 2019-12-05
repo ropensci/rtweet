@@ -11,7 +11,7 @@ test_that("create token", {
     access_token = rtweet:::rtweet_find_access_key(),
     set_renv = FALSE
   )
-  e <- tryCatch(rtweet::api_access_level(token),
+  e <- tryCatch(rtweet:::api_access_level(token),
     error = function(e) NULL)
   expect_true(!is.null(e))
   saveRDS(token, "twitter_tokens")
