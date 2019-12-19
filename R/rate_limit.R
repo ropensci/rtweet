@@ -10,7 +10,7 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @param query Specific API (path) or a character function name,
-#'   e.g., query = "get_timelines", used to subset the returned data.
+#'   e.g., query = "get_timeline", used to subset the returned data.
 #'   If null, this function returns entire rate limit request object
 #'   as a tibble data frame. Otherwise, query returns specific values
 #'   matching the query of interest; e.g., query = "lookup/users"
