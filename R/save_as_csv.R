@@ -23,6 +23,11 @@ write_as_csv <- function(x, file_name,
                          prepend_ids = TRUE,
                          na = "",
                          fileEncoding = "UTF-8") {
+  ## to minimize rounding
+  op <- options()
+  on.exit(options(op))
+  options(scipen = 14, digits = 22)
+
   ## validate inputs
   stopifnot(is.data.frame(x), is.character(file_name), length(file_name) == 1L)
   if (!grepl("\\.csv$", file_name)) {
@@ -39,7 +44,6 @@ write_as_csv <- function(x, file_name,
 
 #' @export
 #' @rdname write_as_csv
-#' @inheritParams write_as_csv
 #' @family datafiles
 save_as_csv <- function(x, file_name,
                         prepend_ids = TRUE,
@@ -101,7 +105,6 @@ flatten <- function(x) {
   x
 }
 
-#' @inheritParams flatten
 #' @export
 #' @rdname flatten
 #' @family datafiles
@@ -197,7 +200,8 @@ read_twitter_csv <- function(file, unflatten = FALSE) {
     na.strings = "",
     stringsAsFactors = FALSE,
     strip.white = TRUE,
-    encoding = "UTF-8"
+    encoding = "UTF-8",
+    numerals = "no.loss"
   )
   x <- unprepend_ids(x)
   if (unflatten) {
