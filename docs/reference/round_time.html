@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -111,9 +111,6 @@
       <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="../articles/reviewer-reply.html">Reviewer Reply</a>
-    </li>
-    <li>
       <a href="../articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
@@ -179,11 +176,11 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## class posixct</span>
-<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2019-10-21 12:00:00 UTC"</div><div class='input'>
+<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2019-12-19 12:00:00 UTC"</div><div class='input'>
 <span class='co'>## class date</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2019-10-17" "2019-10-24" "2019-10-31" "2019-11-07" "2019-11-14"
-#&gt;  [6] "2019-11-21" "2019-11-28" "2019-12-05" "2019-12-12" "2019-12-19"
-#&gt; [11] "2019-12-26" "2020-01-02" "2020-01-09" "2020-01-16" "2020-01-23"</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2019-12-19" "2019-12-26" "2020-01-02" "2020-01-09" "2020-01-16"
+#&gt;  [6] "2020-01-23" "2020-01-30" "2020-02-06" "2020-02-13" "2020-02-20"
+#&gt; [11] "2020-02-27" "2020-03-05" "2020-03-12" "2020-03-19" "2020-03-26"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -203,7 +200,7 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

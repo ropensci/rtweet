@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -111,9 +111,6 @@
       <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="../articles/reviewer-reply.html">Reviewer Reply</a>
-    </li>
-    <li>
       <a href="../articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
@@ -151,11 +148,9 @@
     <p>Saves as flattened CSV file of Twitter data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)
+    <pre class="usage"><span class='fu'>write_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)
 
-<span class='fu'>save_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)</pre>
+<span class='fu'>save_as_csv</span>(<span class='no'>x</span>, <span class='no'>file_name</span>, <span class='kw'>prepend_ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,10 +190,12 @@ CSV. defaults to "UTF-8".</p></td>
     <p>Saved CSV files in current working directory.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other datafiles: <code><a href='flatten.html'>flatten</a></code>,
-  <code><a href='read_twitter_csv.html'>read_twitter_csv</a></code></p>
-<p>Other datafiles: <code><a href='flatten.html'>flatten</a></code>,
-  <code><a href='read_twitter_csv.html'>read_twitter_csv</a></code></p></div>
+    <div class='dont-index'><p>Other datafiles: 
+<code><a href='flatten.html'>flatten</a>()</code>,
+<code><a href='read_twitter_csv.html'>read_twitter_csv</a>()</code></p>
+<p>Other datafiles: 
+<code><a href='flatten.html'>flatten</a>()</code>,
+<code><a href='read_twitter_csv.html'>read_twitter_csv</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -219,7 +216,7 @@ CSV. defaults to "UTF-8".</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

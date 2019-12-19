@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -112,9 +112,6 @@ or more specified Twitter users." />
       <a href="../articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="../articles/reviewer-reply.html">Reviewer Reply</a>
-    </li>
-    <li>
       <a href="../articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
@@ -153,11 +150,27 @@ or more specified Twitter users." />
 or more specified Twitter users.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_timeline</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>get_timeline</span>(
+  <span class='no'>user</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>get_timelines</span>(<span class='no'>user</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>get_timelines</span>(
+  <span class='no'>user</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>max_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>home</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,7 +197,7 @@ older than) or equal to `max_id`.</p></td>
 or home-timeline. By default, home is set to FALSE, which means
 <code>get_timeline</code> returns tweets posted by the given user. To
 return a user's home timeline feed, that is, the tweets posted by
-accounts followed by a user, set the home to false.</p></td>
+accounts followed by a user, set home to TRUE.</p></td>
     </tr>
     <tr>
       <th>parse</th>
@@ -204,7 +217,7 @@ remaining number of calls.  Defaults to TRUE.</p></td>
       <td><p>Every user should have their own Oauth (Twitter API) token. By
 default <code>token = NULL</code> this function looks for the path to a saved
 Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
+sets up by default during initial token creation). For instructions on how
 to create a Twitter token see the tokens vignette, i.e.,
 `vignettes("auth", "rtweet")` or see <code>?tokens</code>.</p></td>
     </tr>
@@ -220,13 +233,15 @@ to create a Twitter token see the tokens vignette, i.e.,
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline'>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline</a></p>
-<p>Other tweets: <code><a href='get_favorites.html'>get_favorites</a></code>,
-  <code><a href='get_mentions.html'>get_mentions</a></code>,
-  <code><a href='get_my_timeline.html'>get_my_timeline</a></code>,
-  <code><a href='lists_statuses.html'>lists_statuses</a></code>,
-  <code><a href='lookup_statuses.html'>lookup_statuses</a></code>,
-  <code><a href='search_tweets.html'>search_tweets</a></code>, <code><a href='tweets_data.html'>tweets_data</a></code>,
-  <code><a href='tweets_with_users.html'>tweets_with_users</a></code></p></div>
+<p>Other tweets: 
+<code><a href='get_favorites.html'>get_favorites</a>()</code>,
+<code><a href='get_mentions.html'>get_mentions</a>()</code>,
+<code><a href='get_my_timeline.html'>get_my_timeline</a>()</code>,
+<code><a href='lists_statuses.html'>lists_statuses</a>()</code>,
+<code><a href='lookup_statuses.html'>lookup_statuses</a>()</code>,
+<code><a href='search_tweets.html'>search_tweets</a>()</code>,
+<code><a href='tweets_data.html'>tweets_data</a>()</code>,
+<code><a href='tweets_with_users.html'>tweets_with_users</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -271,7 +286,7 @@ to create a Twitter token see the tokens vignette, i.e.,
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

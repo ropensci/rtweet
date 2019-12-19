@@ -166,9 +166,6 @@
     <loc>https://rtweet.info/reference/stream_tweets.html</loc>
   </url>
   <url>
-    <loc>https://rtweet.info/reference/suggested.html</loc>
-  </url>
-  <url>
     <loc>https://rtweet.info/reference/suggested_users.html</loc>
   </url>
   <url>
@@ -203,9 +200,6 @@
   </url>
   <url>
     <loc>https://rtweet.info/articles/intro.html</loc>
-  </url>
-  <url>
-    <loc>https://rtweet.info/articles/reviewer-reply.html</loc>
   </url>
   <url>
     <loc>https://rtweet.info/articles/stream.html</loc>

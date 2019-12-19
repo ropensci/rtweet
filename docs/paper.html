@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -110,9 +110,6 @@
       <a href="articles/intro.html">Intro to rtweet: Collecting Twitter Data</a>
     </li>
     <li>
-      <a href="articles/reviewer-reply.html">Reviewer Reply</a>
-    </li>
-    <li>
       <a href="articles/stream.html">Live streaming tweets</a>
     </li>
   </ul>
@@ -164,8 +161,8 @@
 <a href="#summary" class="anchor"></a>Summary</h1>
 <p>Interest in Twitter data continues to grow, but for many the task of actually collecting and analyzing data via Twitter APIs remains daunting. For example, in order to interact with Twitter’s APIs users must, in addition to identifying and digesting the relevant information from <a href="https://developer.twitter.com">Twitter’s developer documentation</a>, build/send/receive requests, manage rate limits, and wrangle nested and real-time response objects into analysis-friendly data structures. Fortunately, the <code>rtweet</code> R package [@rtweet] is designed to simplify these processes, making interacting with Twitter’s APIs more accessible to a wider range of users.</p>
 <p>The main goals of the <code>rtweet</code> package are two-fold. The first goal is to make interacting with Twitter’s APIs more approachable and streamlined for less computationally-experienced users. The second goal is to assist in the analysis of Twitter data via converting information returned by Twitter’s APIs into tabular data structures and providing several convenience functions for common analytical techniques such as examining Twitter networks or the frequency of tweets over time. In short, although it is certainly possible for users to write their own Twitter API wrapper functions, the heavy-lifting done by <code>rtweet</code> to</p>
-<p>(a) streamline the building, authorizing, and sending of API requests, (b) wrangle deeply nested JSON data into tabular structures, and (c) provide convenience functions for for relevant and popular analytical techniques, make it a valuable contribution in the area of collecting and analyzing Twitter data.</p>
-<p>Although <code>rtweet</code> provides some coverage to user context-behaviors (e.g., posting statuses, liking tweets, following users, etc.), the primary audience for the package to date has been researchers. Accordingly, <code>rtweet</code> has been featured in numerous popular press [e.g., @bajak2019democrats; @machlis2019r; @riley2019twitter] and academic publications [e.g., @bossetta2018simulated; @bradley2019major; @buscema2018media; @erlandsen2018twitter; @gitto2019brand; @kearney2019analyzing; @kearney2018analyzing; @li2018sentiment; @lutkenhaus2019tailoring; @lutkenhaus2019mapping; @molyneux2018media; @tsoi2018can; @unsihuay2018topic; @valls2017urban; @wu2018finding].</p>
+<p>(a) streamline the building, authorizing, and sending of API requests, (b) wrangle deeply nested JSON data into tabular structures, and (c) provide convenience functions for relevant and popular analytical techniques, make it a valuable contribution in the area of collecting and analyzing Twitter data.</p>
+<p>Although <code>rtweet</code> provides some coverage to user context-behaviors (e.g., posting statuses, liking tweets, following users, etc.), the primary audience for the package to date has been researchers. Accordingly, <code>rtweet</code> has been featured in numerous popular press [e.g., @bajak2019democrats; @machlis2019r; @riley2019twitter] and academic publications [e.g., @bossetta2018simulated; @bradley2019major; @buscema2018media; @erlandsen2018twitter; @gitto2019brand; @kearney2019analyzing; @kearney2018analyzing; @li2019sentiment; @lutkenhaus2019tailoring; @lutkenhaus2019mapping; @molyneux2018media; @tsoi2018can; @unsihuay2018topic; @valls2017urban; @wu2018finding].</p>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
@@ -185,7 +182,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>
