@@ -205,7 +205,7 @@
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
-      "version": ">= 1.5.0",
+      "version": ">= 1.5",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -269,9 +269,9 @@
       "sameAs": "https://CRAN.R-project.org/package=httpuv"
     }
   ],
-  "releaseNotes": "https://github.com/mkearney/rtweet/blob/master/NEWS.md",
+  "releaseNotes": "https://github.com/ropensci/rtweet/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/rtweet/blob/master/README.md",
-  "fileSize": "4137.791KB",
+  "fileSize": "4133.723KB",
   "contIntegration": [
     "https://travis-ci.org/mkearney/rtweet",
     "https://codecov.io/gh/mkearney/rtweet?branch=master"
