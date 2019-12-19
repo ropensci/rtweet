@@ -1,6 +1,8 @@
 context("test-access-level")
 
 test_that("api_access_level works", {
+  skip_on_cran()
+  
   if (!file.exists("twiter_tokens")) {
     token <- rtweet::create_token(
       "rstats2twitter",
