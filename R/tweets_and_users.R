@@ -35,7 +35,6 @@ tweets_with_users <- function(x) {
 }
 
 
-#' @inheritParams tweets_with_users
 #' @family parsing
 #' @family users
 #' @rdname tweets_with_users
@@ -150,7 +149,7 @@ status_object_ <- function(x) {
     }
     if (has_name_(x, "id_str") && length(x$id_str)) {
       for (i in seq_along(x)) {
-        if (length(x[[i]])) {
+        if (length(x[[i]]) > 0 && !is.data.frame(x[[i]])) {
           x[[i]] <- rep(x[[i]], length(x$id_str))
         }
         if (length(x$id_str) == 1 && length(x[[i]]) > 1) {
