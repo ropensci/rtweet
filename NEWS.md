@@ -4,6 +4,10 @@
 - Added contributing template.
 - Added explanation of requirements and usage to `bearer_token()` docs.
 - Transferred repo to ropensci
+- Fixed numerous typos and grammatical mistakes (thank you several pull requests)
+- More robust testing setup with encrypted keys entered via travis-ci web UI
+- Data parsing: various bug fixes and stability improvements
+- Added extended tweet mode to `list_statuses()` endpoint
 
 # rtweet 0.6.9
 - Better tweet-validating in streaming data–interrupted statuses/broken lines 
