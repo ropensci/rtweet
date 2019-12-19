@@ -192,7 +192,7 @@ default value of <code><a href='https://rdrr.io/r/base/c.html'>c("mention,retwee
     <pre class="examples"><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
   <span class='co'>## search for #rstats tweets</span>
-  <span class='no'>rstats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)
+  <span class='no'>rstats</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"#rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)
 
   <span class='co'>## create from-to data frame representing retweet/mention/reply connections</span>
   <span class='no'>rstats_net</span> <span class='kw'>&lt;-</span> <span class='fu'>network_data</span>(<span class='no'>rstats</span>, <span class='st'>"retweet,mention,reply"</span>)

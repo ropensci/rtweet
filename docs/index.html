@@ -18,8 +18,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Collecting Twitter Data">
-<meta property="og:description" content="An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: &lt;https://developer.twitter.com/en/docs&gt;.
- This package has been peer-reviewed by rOpenSci (v. 0.6.9).">
+<meta property="og:description" content="An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: &lt;https://developer.twitter.com/en/docs&gt;. This package has been peer-reviewed by rOpenSci (v. 0.6.9).">
 <meta property="og:image" content="https://rtweet.info/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -410,11 +409,11 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>All you need is a <strong>Twitter account</strong> (user name and password) and you can be up in running in minutes!</p>
-<p>Simply send a request to Twitter’s API (with a function like <code><a href="reference/search_tweets.html">search_tweets()</a></code>, <code><a href="reference/get_timeline.html">get_timeline()</a></code>, <code><a href="reference/get_followers.html">get_followers()</a></code>, <code><a href="reference/get_favorites.html">get_favorites()</a></code>, etc.) during an interactive session of R, authorize the embedded <strong><code>rstats2twitter</code></strong> app (approve the browser popup), and your token will be created and saved/stored (for future sessions) for you!</p>
+<p>Simply send a request to Twitter’s API (with a function like <code><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets()</a></code>, <code><a href="https://rdrr.io/pkg/rtweet/man/get_timeline.html">get_timeline()</a></code>, <code><a href="https://rdrr.io/pkg/rtweet/man/get_followers.html">get_followers()</a></code>, <code><a href="https://rdrr.io/pkg/rtweet/man/get_favorites.html">get_favorites()</a></code>, etc.) during an interactive session of R, authorize the embedded <strong><code>rstats2twitter</code></strong> app (approve the browser popup), and your token will be created and saved/stored (for future sessions) for you!</p>
 <div id="api-authorization" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-authorization" class="anchor"></a>API authorization</h3>
-<p>All users must be authorized to interact with Twitter’s APIs. To become authorized, simply use a function like <code><a href="reference/search_tweets.html">search_tweets()</a></code>, <code><a href="reference/get_timeline.html">get_timeline()</a></code>, <code><a href="reference/get_followers.html">get_followers()</a></code>, or <code><a href="reference/get_favorites.html">get_favorites()</a></code> in an interactive session an authorize via web browser popup on behalf of your Twitter account!</p>
+<p>All users must be authorized to interact with Twitter’s APIs. To become authorized, simply use a function like <code><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets()</a></code>, <code><a href="https://rdrr.io/pkg/rtweet/man/get_timeline.html">get_timeline()</a></code>, <code><a href="https://rdrr.io/pkg/rtweet/man/get_followers.html">get_followers()</a></code>, or <code><a href="https://rdrr.io/pkg/rtweet/man/get_favorites.html">get_favorites()</a></code> in an interactive session an authorize via web browser popup on behalf of your Twitter account!</p>
 <p><strong>It is no longer necessary to obtain a developer account and create your own Twitter application to use Twitter’s API.</strong> You may still choose to do this (gives you more stability and permissions; see the table at the bottom of this section), but <strong>{rtweet}</strong> should work out of the box assuming (a) you are working in an interactive/live session of R and (b) you have installed the <a href="https://github.com/rstudio/httpuv"><strong>{httpuv}</strong></a> package.</p>
 <ul>
 <li>If you still want to apply for a developer account and create your own application, see the <code>auth</code> vignette (or the API authorization section below) for additional instructions: <a href="https://rtweet.info/articles/auth.html" class="uri">https://rtweet.info/articles/auth.html</a>.</li>
@@ -498,13 +497,13 @@
 <a href="#search-tweets" class="anchor"></a>Search tweets</h4>
 <p>Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">## search for 18000 tweets using the rstats hashtag</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(</span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">18000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a>)</span></code></pre></div>
-<p>Quickly visualize frequency of tweets over time using <code><a href="reference/ts_plot.html">ts_plot()</a></code>.</p>
+<p>Quickly visualize frequency of tweets over time using <code><a href="https://rdrr.io/pkg/rtweet/man/ts_plot.html">ts_plot()</a></code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">## plot time series of tweets</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>rt <span class="op">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(<span class="st">"3 hours"</span>) <span class="op">+</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/ts_plot.html">ts_plot</a></span>(<span class="st">"3 hours"</span>) <span class="op">+</span></span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">plot.title =</span> ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">face =</span> <span class="st">"bold"</span>)) <span class="op">+</span></span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(</span>
@@ -516,17 +515,17 @@
 <p><img src="tools/readme/example-rstatsts.png"></p>
 <p>Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set <code>retryonratelimit = TRUE</code> and rtweet will wait for rate limit resets for you.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## search for 250,000 tweets containing the word data</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(</span>
+<span id="cb9-2"><a href="#cb9-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(</span>
 <span id="cb9-3"><a href="#cb9-3"></a>  <span class="st">"data"</span>, <span class="dt">n =</span> <span class="dv">250000</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span></span>
 <span id="cb9-4"><a href="#cb9-4"></a>)</span></code></pre></div>
-<p>Search by geo-location—for example, find 10,000 tweets in the English language sent from the United States. <em>Note: <code><a href="reference/lookup_coords.html">lookup_coords()</a></code> requires users have <a href="https://developers.google.com/maps/documentation/javascript/tutorial">a Google API key</a></em></p>
+<p>Search by geo-location—for example, find 10,000 tweets in the English language sent from the United States. <em>Note: <code><a href="https://rdrr.io/pkg/rtweet/man/lookup_coords.html">lookup_coords()</a></code> requires users have <a href="https://developers.google.com/maps/documentation/javascript/tutorial">a Google API key</a></em></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## search for 10,000 tweets sent from the US</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_tweets.html">search_tweets</a></span>(</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/lookup_coords.html">lookup_coords</a></span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span></span>
 <span id="cb10-4"><a href="#cb10-4"></a>)</span>
 <span id="cb10-5"><a href="#cb10-5"></a></span>
 <span id="cb10-6"><a href="#cb10-6"></a><span class="co">## create lat/lng variables using all available tweet and profile geo-location data</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/lat_lng.html">lat_lng</a></span>(rt)</span>
+<span id="cb10-7"><a href="#cb10-7"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/lat_lng.html">lat_lng</a></span>(rt)</span>
 <span id="cb10-8"><a href="#cb10-8"></a></span>
 <span id="cb10-9"><a href="#cb10-9"></a><span class="co">## plot state boundaries</span></span>
 <span id="cb10-10"><a href="#cb10-10"></a><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
@@ -541,13 +540,13 @@
 <a href="#stream-tweets" class="anchor"></a>Stream tweets</h4>
 <p>Randomly sample (approximately 1%) from the live stream of all tweets.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">## random sample for 30 seconds (default)</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</span></code></pre></div>
+<span id="cb11-2"><a href="#cb11-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</span></code></pre></div>
 <p>Stream all geo enabled tweets from London for 60 seconds.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">## stream tweets from london for 60 seconds</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</span></code></pre></div>
+<span id="cb12-2"><a href="#cb12-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</span></code></pre></div>
 <p>Stream all tweets mentioning realDonaldTrump or Trump for a week.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="reference/stream_tweets.html">stream_tweets</a></span>(</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/stream_tweets.html">stream_tweets</a></span>(</span>
 <span id="cb13-3"><a href="#cb13-3"></a>  <span class="st">"realdonaldtrump,trump"</span>,</span>
 <span id="cb13-4"><a href="#cb13-4"></a>  <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,</span>
 <span id="cb13-5"><a href="#cb13-5"></a>  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>,</span>
@@ -555,32 +554,32 @@
 <span id="cb13-7"><a href="#cb13-7"></a>)</span>
 <span id="cb13-8"><a href="#cb13-8"></a></span>
 <span id="cb13-9"><a href="#cb13-9"></a><span class="co">## read in the data as a tidy tbl data frame</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a>djt &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</span></code></pre></div>
+<span id="cb13-10"><a href="#cb13-10"></a>djt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</span></code></pre></div>
 </div>
 <div id="get-friends" class="section level4">
 <h4 class="hasAnchor">
 <a href="#get-friends" class="anchor"></a>Get friends</h4>
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">## get user IDs of accounts followed by CNN</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="co">## lookup data on those accounts</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</span></code></pre></div>
+<span id="cb14-5"><a href="#cb14-5"></a>cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</span></code></pre></div>
 <div id="get-followers" class="section level5">
 <h5 class="hasAnchor">
 <a href="#get-followers" class="anchor"></a>Get followers</h5>
 <p>Retrieve a list of the <strong>accounts following</strong> a user.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">## get user IDs of accounts following CNN</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)</span>
 <span id="cb15-3"><a href="#cb15-3"></a></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="co">## lookup data on those accounts</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>cnn_flw_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(cnn_flw<span class="op">$</span>user_id)</span></code></pre></div>
+<span id="cb15-5"><a href="#cb15-5"></a>cnn_flw_data &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/lookup_users.html">lookup_users</a></span>(cnn_flw<span class="op">$</span>user_id)</span></code></pre></div>
 <p>Or if you really want ALL of their followers:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">## how many total follows does cnn have?</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>cnn &lt;-<span class="st"> </span><span class="kw"><a href="reference/lookup_users.html">lookup_users</a></span>(<span class="st">"cnn"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>cnn &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/lookup_users.html">lookup_users</a></span>(<span class="st">"cnn"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3"></a></span>
 <span id="cb16-4"><a href="#cb16-4"></a><span class="co">## get them all (this would take a little over 5 days)</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_followers.html">get_followers</a></span>(</span>
+<span id="cb16-5"><a href="#cb16-5"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_followers.html">get_followers</a></span>(</span>
 <span id="cb16-6"><a href="#cb16-6"></a>  <span class="st">"cnn"</span>, <span class="dt">n =</span> cnn<span class="op">$</span>followers_count, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span></span>
 <span id="cb16-7"><a href="#cb16-7"></a>)</span></code></pre></div>
 </div>
@@ -590,13 +589,13 @@
 <a href="#get-timelines" class="anchor"></a>Get timelines</h4>
 <p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## get user IDs of accounts followed by CNN</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>tmls &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_timeline.html">get_timelines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a>tmls &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_timeline.html">get_timelines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)</span>
 <span id="cb17-3"><a href="#cb17-3"></a></span>
 <span id="cb17-4"><a href="#cb17-4"></a><span class="co">## plot the frequency of tweets for each user over time</span></span>
 <span id="cb17-5"><a href="#cb17-5"></a>tmls <span class="op">%&gt;%</span></span>
 <span id="cb17-6"><a href="#cb17-6"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(created_at <span class="op">&gt;</span><span class="st"> "2017-10-29"</span>) <span class="op">%&gt;%</span></span>
 <span id="cb17-7"><a href="#cb17-7"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(screen_name) <span class="op">%&gt;%</span></span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="st">  </span><span class="kw"><a href="reference/ts_plot.html">ts_plot</a></span>(<span class="st">"days"</span>, <span class="dt">trim =</span> 1L) <span class="op">+</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/ts_plot.html">ts_plot</a></span>(<span class="st">"days"</span>, <span class="dt">trim =</span> 1L) <span class="op">+</span></span>
 <span id="cb17-9"><a href="#cb17-9"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span></span>
 <span id="cb17-10"><a href="#cb17-10"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></span>
 <span id="cb17-11"><a href="#cb17-11"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(</span>
@@ -615,20 +614,20 @@
 <h4 class="hasAnchor">
 <a href="#get-favorites" class="anchor"></a>Get favorites</h4>
 <p>Get the 3,000 most recently favorited statuses by JK Rowling.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>jkr &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>jkr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</span></code></pre></div>
 </div>
 <div id="search-users" class="section level4">
 <h4 class="hasAnchor">
 <a href="#search-users" class="anchor"></a>Search users</h4>
 <p>Search for 1,000 users with the rstats hashtag in their profile bios.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">## search for users with #rstats in their profiles</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>usrs &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<span id="cb19-2"><a href="#cb19-2"></a>usrs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</span></code></pre></div>
 </div>
 <div id="get-trends" class="section level4">
 <h4 class="hasAnchor">
 <a href="#get-trends" class="anchor"></a>Get trends</h4>
 <p>Discover what’s currently trending in San Francisco.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>sf &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>sf &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)</span></code></pre></div>
 </div>
 <div id="post-actions" class="section level4">
 <h4 class="hasAnchor">

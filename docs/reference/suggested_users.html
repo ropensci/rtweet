@@ -201,7 +201,7 @@ will return warnings for slugs provided beyond the remaining limit).</p></td>
     <p>Currently, this parsing process drops all
   recursive (list) columns, which mostly means you are shorted some
   entities data. To maximize users data, however, it is recommended to
-  make an additional <code><a href='lookup_users.html'>lookup_users</a></code> call using the user IDs
+  make an additional <code>lookup_users</code> call using the user IDs
   returned by this function.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -221,7 +221,7 @@ will return warnings for slugs provided beyond the remaining limit).</p></td>
 <span class='no'>sugs</span>
 
 <span class='co'>## for complete users data, lookup user IDs</span>
-<span class='no'>sugs_usr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lookup_users.html'>lookup_users</a></span>(<span class='no'>sugs</span>$<span class='no'>user_id</span>)
+<span class='no'>sugs_usr</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_users</span>(<span class='no'>sugs</span>$<span class='no'>user_id</span>)
 
 <span class='co'>## view users data</span>
 <span class='no'>sugs_usr</span>

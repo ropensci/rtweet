@@ -116,7 +116,7 @@
 <a href="#search-tweets" class="anchor"></a>Search tweets</h3>
 <p>Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">## search for 18000 tweets using the rstats hashtag</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/search_tweets.html">search_tweets</a></span>(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>rt &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(</span>
 <span id="cb1-3"><a href="#cb1-3"></a>  <span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">18000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a>)</span>
 <span id="cb1-5"><a href="#cb1-5"></a></span>
@@ -124,13 +124,13 @@
 <span id="cb1-7"><a href="#cb1-7"></a>rt</span>
 <span id="cb1-8"><a href="#cb1-8"></a></span>
 <span id="cb1-9"><a href="#cb1-9"></a><span class="co">## preview users data</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="kw"><a href="../reference/users_data.html">users_data</a></span>(rt)</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">users_data</span>(rt)</span>
 <span id="cb1-11"><a href="#cb1-11"></a></span>
 <span id="cb1-12"><a href="#cb1-12"></a><span class="co">## plot time series (if ggplot2 is installed)</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt)</span></code></pre></div>
-<p>Quickly visualize frequency of tweets over time using <code><a href="../reference/ts_plot.html">ts_plot()</a></code>.</p>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">ts_plot</span>(rt)</span></code></pre></div>
+<p>Quickly visualize frequency of tweets over time using <code>ts_plot()</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## plot time series of tweets</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(rt, <span class="st">"3 hours"</span>) <span class="op">+</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">ts_plot</span>(rt, <span class="st">"3 hours"</span>) <span class="op">+</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">plot.title =</span> ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">face =</span> <span class="st">"bold"</span>)) <span class="op">+</span></span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(</span>
@@ -141,17 +141,17 @@
 <span id="cb2-10"><a href="#cb2-10"></a>  )</span></code></pre></div>
 <p>Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set <code>retryonratelimit = TRUE</code> and rtweet will wait for rate limit resets for you.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## search for 250,000 tweets containing the word data</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/search_tweets.html">search_tweets</a></span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>rt &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  <span class="st">"data"</span>, <span class="dt">n =</span> <span class="dv">250000</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span></span>
 <span id="cb3-4"><a href="#cb3-4"></a>)</span></code></pre></div>
 <p>Search by geo-location—for example, find 10,000 tweets in the English language sent from the United States.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## search for 10,000 tweets sent from the US</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/search_tweets.html">search_tweets</a></span>(</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw"><a href="../reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>rt &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="st">"lang:en"</span>, <span class="dt">geocode =</span> <span class="kw">lookup_coords</span>(<span class="st">"usa"</span>), <span class="dt">n =</span> <span class="dv">10000</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>)</span>
 <span id="cb4-5"><a href="#cb4-5"></a></span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="co">## create lat/lng variables using all available tweet and profile geo-location data</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/lat_lng.html">lat_lng</a></span>(rt)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>rt &lt;-<span class="st"> </span><span class="kw">lat_lng</span>(rt)</span>
 <span id="cb4-8"><a href="#cb4-8"></a></span>
 <span id="cb4-9"><a href="#cb4-9"></a><span class="co">## plot state boundaries</span></span>
 <span id="cb4-10"><a href="#cb4-10"></a><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
@@ -165,13 +165,13 @@
 <a href="#stream-tweets" class="anchor"></a>Stream tweets</h3>
 <p>Randomly sample (approximately 1%) from the live stream of all tweets.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## random sample for 30 seconds (default)</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="st">""</span>)</span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2"></a>rt &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<span class="st">""</span>)</span></code></pre></div>
 <p>Stream all geo enabled tweets from London for 60 seconds.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">## stream tweets from london for 60 seconds</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>rt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(<span class="kw"><a href="../reference/lookup_coords.html">lookup_coords</a></span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a>rt &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<span class="kw">lookup_coords</span>(<span class="st">"london, uk"</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</span></code></pre></div>
 <p>Stream all tweets mentioning realDonaldTrump or Trump for a week.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="../reference/stream_tweets.html">stream_tweets</a></span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">stream_tweets</span>(</span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="st">"realdonaldtrump,trump"</span>,</span>
 <span id="cb7-4"><a href="#cb7-4"></a>  <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,</span>
 <span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">file_name =</span> <span class="st">"tweetsabouttrump.json"</span>,</span>
@@ -179,33 +179,33 @@
 <span id="cb7-7"><a href="#cb7-7"></a>)</span>
 <span id="cb7-8"><a href="#cb7-8"></a></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="co">## read in the data as a tidy tbl data frame</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>djt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/parse_stream.html">parse_stream</a></span>(<span class="st">"tweetsabouttrump.json"</span>)</span></code></pre></div>
+<span id="cb7-10"><a href="#cb7-10"></a>djt &lt;-<span class="st"> </span><span class="kw">parse_stream</span>(<span class="st">"tweetsabouttrump.json"</span>)</span></code></pre></div>
 </div>
 <div id="get-friends" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-friends" class="anchor"></a>Get friends</h3>
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">## get user IDs of accounts followed by CNN</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>cnn_fds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_friends.html">get_friends</a></span>(<span class="st">"cnn"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>cnn_fds &lt;-<span class="st"> </span><span class="kw">get_friends</span>(<span class="st">"cnn"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="co">## lookup data on those accounts</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>cnn_fds_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/lookup_users.html">lookup_users</a></span>(cnn_fds<span class="op">$</span>user_id)</span></code></pre></div>
+<span id="cb8-5"><a href="#cb8-5"></a>cnn_fds_data &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(cnn_fds<span class="op">$</span>user_id)</span></code></pre></div>
 </div>
 <div id="get-followers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-followers" class="anchor"></a>Get followers</h3>
 <p>Retrieve a list of the <strong>accounts following</strong> a user.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## get user IDs of accounts following CNN</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_followers.html">get_followers</a></span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw">get_followers</span>(<span class="st">"cnn"</span>, <span class="dt">n =</span> <span class="dv">75000</span>)</span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="co">## lookup data on those accounts</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>cnn_flw_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/lookup_users.html">lookup_users</a></span>(cnn_flw<span class="op">$</span>user_id)</span></code></pre></div>
+<span id="cb9-5"><a href="#cb9-5"></a>cnn_flw_data &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(cnn_flw<span class="op">$</span>user_id)</span></code></pre></div>
 <p>Or if you really want ALL of their followers:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## how many total follows does cnn have?</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>cnn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/lookup_users.html">lookup_users</a></span>(<span class="st">"cnn"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>cnn &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(<span class="st">"cnn"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
 <span id="cb10-4"><a href="#cb10-4"></a><span class="co">## get them all (this would take a little over 5 days)</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_followers.html">get_followers</a></span>(</span>
+<span id="cb10-5"><a href="#cb10-5"></a>cnn_flw &lt;-<span class="st"> </span><span class="kw">get_followers</span>(</span>
 <span id="cb10-6"><a href="#cb10-6"></a>  <span class="st">"cnn"</span>, <span class="dt">n =</span> cnn<span class="op">$</span>followers_count, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span></span>
 <span id="cb10-7"><a href="#cb10-7"></a>)</span></code></pre></div>
 </div>
@@ -214,13 +214,13 @@
 <a href="#get-timelines" class="anchor"></a>Get timelines</h3>
 <p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">## get user IDs of accounts followed by CNN</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>tmls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_timeline.html">get_timelines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>tmls &lt;-<span class="st"> </span><span class="kw">get_timelines</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"cnn"</span>, <span class="st">"BBCWorld"</span>, <span class="st">"foxnews"</span>), <span class="dt">n =</span> <span class="dv">3200</span>)</span>
 <span id="cb11-3"><a href="#cb11-3"></a></span>
 <span id="cb11-4"><a href="#cb11-4"></a><span class="co">## plot the frequency of tweets for each user over time</span></span>
 <span id="cb11-5"><a href="#cb11-5"></a>tmls <span class="op">%&gt;%</span></span>
 <span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(created_at <span class="op">&gt;</span><span class="st"> "2017-10-29"</span>) <span class="op">%&gt;%</span></span>
 <span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(screen_name) <span class="op">%&gt;%</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="st">  </span><span class="kw"><a href="../reference/ts_plot.html">ts_plot</a></span>(<span class="st">"days"</span>, <span class="dt">trim =</span> 1L) <span class="op">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="st">  </span><span class="kw">ts_plot</span>(<span class="st">"days"</span>, <span class="dt">trim =</span> 1L) <span class="op">+</span></span>
 <span id="cb11-9"><a href="#cb11-9"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span></span>
 <span id="cb11-10"><a href="#cb11-10"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></span>
 <span id="cb11-11"><a href="#cb11-11"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(</span>
@@ -238,20 +238,20 @@
 <h3 class="hasAnchor">
 <a href="#get-favorites" class="anchor"></a>Get favorites</h3>
 <p>Get the 3,000 most recently favorited statuses by JK Rowling.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>jkr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_favorites.html">get_favorites</a></span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>jkr &lt;-<span class="st"> </span><span class="kw">get_favorites</span>(<span class="st">"jk_rowling"</span>, <span class="dt">n =</span> <span class="dv">3000</span>)</span></code></pre></div>
 </div>
 <div id="search-users" class="section level3">
 <h3 class="hasAnchor">
 <a href="#search-users" class="anchor"></a>Search users</h3>
 <p>Search for 1,000 users with the rstats hashtag in their profile bios.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## search for users with #rstats in their profiles</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>usrs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/search_users.html">search_users</a></span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a>usrs &lt;-<span class="st"> </span><span class="kw">search_users</span>(<span class="st">"#rstats"</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</span></code></pre></div>
 </div>
 <div id="get-trends" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-trends" class="anchor"></a>Get trends</h3>
 <p>Discover what’s currently trending in San Francisco.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_trends.html">get_trends</a></span>(<span class="st">"san francisco"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>sf &lt;-<span class="st"> </span><span class="kw">get_trends</span>(<span class="st">"san francisco"</span>)</span></code></pre></div>
 </div>
 <div id="lookup-users" class="section level3">
 <h3 class="hasAnchor">
@@ -263,24 +263,24 @@
 <span id="cb15-5"><a href="#cb15-5"></a>           <span class="st">"cnn"</span>, <span class="st">"foxnews"</span>, <span class="st">"msnbc"</span>, <span class="st">"maddow"</span>, <span class="st">"seanhannity"</span>,</span>
 <span id="cb15-6"><a href="#cb15-6"></a>           <span class="st">"potus"</span>, <span class="st">"epa"</span>, <span class="st">"hillaryclinton"</span>, <span class="st">"realdonaldtrump"</span>,</span>
 <span id="cb15-7"><a href="#cb15-7"></a>           <span class="st">"natesilver538"</span>, <span class="st">"ezraklein"</span>, <span class="st">"annecoulter"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8"></a>famous_tweeters &lt;-<span class="st"> </span><span class="kw"><a href="../reference/lookup_users.html">lookup_users</a></span>(users)</span>
+<span id="cb15-8"><a href="#cb15-8"></a>famous_tweeters &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(users)</span>
 <span id="cb15-9"><a href="#cb15-9"></a></span>
 <span id="cb15-10"><a href="#cb15-10"></a><span class="co">## preview users data</span></span>
 <span id="cb15-11"><a href="#cb15-11"></a>famous_tweeters</span>
 <span id="cb15-12"><a href="#cb15-12"></a></span>
 <span id="cb15-13"><a href="#cb15-13"></a><span class="co"># extract most recent tweets data from the famous tweeters</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="kw"><a href="../reference/tweets_data.html">tweets_data</a></span>(famous_tweeters)</span></code></pre></div>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="kw">tweets_data</span>(famous_tweeters)</span></code></pre></div>
 </div>
 <div id="posting-statuses" class="section level3">
 <h3 class="hasAnchor">
 <a href="#posting-statuses" class="anchor"></a>Posting statuses</h3>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="../reference/post_tweet.html">post_tweet</a></span>(<span class="st">"my first rtweet #rstats"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">post_tweet</span>(<span class="st">"my first rtweet #rstats"</span>)</span></code></pre></div>
 </div>
 <div id="following-users" class="section level3">
 <h3 class="hasAnchor">
 <a href="#following-users" class="anchor"></a>Following users</h3>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## ty for the follow ;)</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="kw"><a href="../reference/post_follow.html">post_follow</a></span>(<span class="st">"kearneymw"</span>)</span></code></pre></div>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">post_follow</span>(<span class="st">"kearneymw"</span>)</span></code></pre></div>
 </div>
   </div>
 

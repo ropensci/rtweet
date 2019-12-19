@@ -215,7 +215,7 @@ false as the parsing process can eat up processing resources and
 time. For other uses, setting parse to TRUE saves you from having
 to sort and parse the messy list structure returned by
 Twitter. (Note: if you set parse to false, you can use the
-<code><a href='parse_stream.html'>parse_stream</a></code> function to parse the JSON file at a
+<code>parse_stream</code> function to parse the JSON file at a
 later point in time.)</p></td>
     </tr>
     <tr>
@@ -270,7 +270,7 @@ pre-existing.</p></td>
 
     <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose'>https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose</a></p>
 <p>Other stream tweets: 
-<code><a href='parse_stream.html'>parse_stream</a>()</code></p></div>
+<code>parse_stream()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
@@ -281,7 +281,7 @@ pre-existing.</p></td>
 <span class='no'>e</span>
 
 <span class='co'>## plot tweet frequency</span>
-<span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>e</span>, <span class='st'>"secs"</span>)
+<span class='fu'>ts_plot</span>(<span class='no'>e</span>, <span class='st'>"secs"</span>)
 
 <span class='co'>## stream tweets mentioning Obama for 30 seconds</span>
 <span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(<span class='st'>"realdonaldtrump"</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>)
@@ -290,10 +290,10 @@ pre-existing.</p></td>
 <span class='no'>djt</span>
 
 <span class='co'>## get user IDs of people who mentioned trump</span>
-<span class='no'>usrs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
+<span class='no'>usrs</span> <span class='kw'>&lt;-</span> <span class='fu'>users_data</span>(<span class='no'>djt</span>)
 
 <span class='co'>## lookup users data</span>
-<span class='no'>usrdat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lookup_users.html'>lookup_users</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>usrs</span>$<span class='no'>user_id</span>))
+<span class='no'>usrdat</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_users</span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>usrs</span>$<span class='no'>user_id</span>))
 
 <span class='co'>## preview users data</span>
 <span class='no'>usrdat</span>
@@ -313,10 +313,10 @@ pre-existing.</p></td>
 )
 
 <span class='co'>## parse tweets at a later time using parse_stream function</span>
-<span class='no'>tw1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"tweets1.json"</span>)
+<span class='no'>tw1</span> <span class='kw'>&lt;-</span> <span class='fu'>parse_stream</span>(<span class='st'>"tweets1.json"</span>)
 <span class='no'>tw1</span>
 
-<span class='no'>tw2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"tweets2.json"</span>)
+<span class='no'>tw2</span> <span class='kw'>&lt;-</span> <span class='fu'>parse_stream</span>(<span class='st'>"tweets2.json"</span>)
 <span class='no'>tw2</span>
 
 <span class='co'>## streaming tweets by specifying lat/long coordinates</span>
@@ -329,7 +329,7 @@ pre-existing.</p></td>
 
 <span class='co'>## use lookup_coords() for a shortcut verson of the above code</span>
 <span class='no'>usa</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(
-  <span class='fu'><a href='lookup_coords.html'>lookup_coords</a></span>(<span class='st'>"usa"</span>),
+  <span class='fu'>lookup_coords</span>(<span class='st'>"usa"</span>),
   <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>300</span>
 )
 
@@ -343,10 +343,10 @@ pre-existing.</p></td>
 )
 
 <span class='co'>## read in JSON file</span>
-<span class='no'>rtworld</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='parse_stream.html'>parse_stream</a></span>(<span class='st'>"word-tweets.json"</span>)
+<span class='no'>rtworld</span> <span class='kw'>&lt;-</span> <span class='fu'>parse_stream</span>(<span class='st'>"word-tweets.json"</span>)
 
 <span class='co'>## world data set with with lat lng coords variables</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lat_lng.html'>lat_lng</a></span>(<span class='no'>rtworld</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>lat_lng</span>(<span class='no'>rtworld</span>)
 
 }</div></pre>
   </div>

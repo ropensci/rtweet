@@ -189,7 +189,7 @@ each time series</p></td>
 <span class='no'>sens</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SenatorBaldwin"</span>, <span class='st'>"SenGillibrand"</span>, <span class='st'>"PattyMurray"</span>, <span class='st'>"SenatorHeitkamp"</span>)
 
 <span class='co'>## get timelines for each</span>
-<span class='no'>sens</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timeline</a></span>(<span class='no'>sens</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3200</span>)
+<span class='no'>sens</span> <span class='kw'>&lt;-</span> <span class='fu'>get_timeline</span>(<span class='no'>sens</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3200</span>)
 
 <span class='co'>## get single time series for tweets</span>
 <span class='fu'>ts_data</span>(<span class='no'>sens</span>)
@@ -200,7 +200,7 @@ each time series</p></td>
 <span class='co'>## group by screen name and then use weekly intervals</span>
 <span class='no'>sens</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>screen_name</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='st'>"weeks"</span>)
+  <span class='fu'>ts_plot</span>(<span class='st'>"weeks"</span>)
 
 }</div></pre>
   </div>

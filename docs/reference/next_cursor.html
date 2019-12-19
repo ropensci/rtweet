@@ -185,23 +185,23 @@ object returned from Twitter APIs.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other ids: 
-<code><a href='get_followers.html'>get_followers</a>()</code>,
-<code><a href='get_friends.html'>get_friends</a>()</code></p>
+<code>get_followers()</code>,
+<code>get_friends()</code></p>
 <p>Other extractors: 
-<code><a href='tweets_data.html'>tweets_data</a>()</code>,
-<code><a href='users_data.html'>users_data</a>()</code></p>
+<code>tweets_data()</code>,
+<code>users_data()</code></p>
 <p>Other ids: 
-<code><a href='get_followers.html'>get_followers</a>()</code>,
-<code><a href='get_friends.html'>get_friends</a>()</code></p>
+<code>get_followers()</code>,
+<code>get_friends()</code></p>
 <p>Other extractors: 
-<code><a href='tweets_data.html'>tweets_data</a>()</code>,
-<code><a href='users_data.html'>users_data</a>()</code></p></div>
+<code>tweets_data()</code>,
+<code>users_data()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 
 <span class='co'>## Retrieve user ids of accounts following POTUS</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>)
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>)
 
 <span class='co'>## store next_cursor in page</span>
 <span class='no'>page</span> <span class='kw'>&lt;-</span> <span class='fu'>next_cursor</span>(<span class='no'>f1</span>)
@@ -213,7 +213,7 @@ object returned from Twitter APIs.</p>
 
 <span class='co'>## Use the page value returned from \code{next_cursor} to continue</span>
 <span class='co'>##   where you left off.</span>
-<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='no'>page</span>)
+<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"potus"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>page</span> <span class='kw'>=</span> <span class='no'>page</span>)
 
 <span class='co'>## combine</span>
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>"rbind"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))

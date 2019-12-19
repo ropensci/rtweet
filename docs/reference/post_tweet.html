@@ -204,9 +204,9 @@ original Tweet, and added to the new Tweet from there. Defaults to FALSE.</p></t
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other post: 
-<code><a href='post_favorite.html'>post_favorite</a>()</code>,
-<code><a href='post_follow.html'>post_follow</a>()</code>,
-<code><a href='post_friendship.html'>post_friendship</a>()</code></p></div>
+<code>post_favorite()</code>,
+<code>post_follow()</code>,
+<code>post_friendship()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
@@ -238,7 +238,7 @@ original Tweet, and added to the new Tweet from there. Defaults to FALSE.</p></t
 <span class='fu'>post_tweet</span>(<span class='kw'>status</span><span class='kw'>=</span><span class='st'>"first in a thread"</span>)
 
 <span class='co'>## lookup status_id</span>
-<span class='no'>my_timeline</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timeline</a></span>(<span class='kw pkg'>rtweet</span><span class='kw ns'>:::</span><span class='fu'>home_user</span>())
+<span class='no'>my_timeline</span> <span class='kw'>&lt;-</span> <span class='fu'>get_timeline</span>(<span class='kw pkg'>rtweet</span><span class='kw ns'>:::</span><span class='fu'>home_user</span>())
 
 <span class='co'>## ID for reply</span>
 <span class='no'>reply_id</span> <span class='kw'>&lt;-</span> <span class='no'>my_timeline</span>$<span class='no'>status_id</span>[<span class='fl'>1</span>]

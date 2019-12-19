@@ -181,7 +181,7 @@
 <p align="center">
 <img src="files/create-app-6.png" alt="create-app-6"></p>
 <ul>
-<li>Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>.</li>
+<li>Copy and paste the two keys (along with the name of your app) into an R script file and pass them along to <code><a href="https://rdrr.io/pkg/rtweet/man/create_token.html">create_token()</a></code>.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## load rtweet</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</span>
@@ -191,7 +191,7 @@
 <span id="cb2-6"><a href="#cb2-6"></a>api_secret_key &lt;-<span class="st"> "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"</span></span>
 <span id="cb2-7"><a href="#cb2-7"></a></span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="co">## authenticate via web browser</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</span>
+<span id="cb2-9"><a href="#cb2-9"></a>token &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/create_token.html">create_token</a></span>(</span>
 <span id="cb2-10"><a href="#cb2-10"></a>  <span class="dt">app =</span> <span class="st">"rstatsjournalismresearch"</span>,</span>
 <span id="cb2-11"><a href="#cb2-11"></a>  <span class="dt">consumer_key =</span> api_key,</span>
 <span id="cb2-12"><a href="#cb2-12"></a>  <span class="dt">consumer_secret =</span> api_secret_key)</span></code></pre></div>
@@ -219,7 +219,7 @@
 <p align="center">
 <img src="files/create-app-7.png" alt="create-app-7"></p>
 <ul>
-<li>Copy and paste the four keys (along with the name of your app) into an R script file and pass them along to <code><a href="../reference/create_token.html">create_token()</a></code>.</li>
+<li>Copy and paste the four keys (along with the name of your app) into an R script file and pass them along to <code><a href="https://rdrr.io/pkg/rtweet/man/create_token.html">create_token()</a></code>.</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## store api keys (these are fake example values; replace with your own keys)</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>api_key &lt;-<span class="st"> "afYS4vbIlPAj096E60c4W1fiK"</span></span>
@@ -228,7 +228,7 @@
 <span id="cb4-5"><a href="#cb4-5"></a>access_token_secret &lt;-<span class="st"> "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a></span>
 <span id="cb4-7"><a href="#cb4-7"></a><span class="co">## authenticate via web browser</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_token.html">create_token</a></span>(</span>
+<span id="cb4-8"><a href="#cb4-8"></a>token &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/create_token.html">create_token</a></span>(</span>
 <span id="cb4-9"><a href="#cb4-9"></a>  <span class="dt">app =</span> <span class="st">"rstatsjournalismresearch"</span>,</span>
 <span id="cb4-10"><a href="#cb4-10"></a>  <span class="dt">consumer_key =</span> api_key,</span>
 <span id="cb4-11"><a href="#cb4-11"></a>  <span class="dt">consumer_secret =</span> api_secret_key,</span>
@@ -240,12 +240,12 @@
 <h2 class="hasAnchor">
 <a href="#authorization-in-future-r-sessions" class="anchor"></a>Authorization in future R sessions</h2>
 <ul>
-<li>The <code><a href="../reference/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.</li>
+<li>The <code><a href="https://rdrr.io/pkg/rtweet/man/create_token.html">create_token()</a></code> function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.</li>
 <li>To make sure it works, restart your R session, run the following code, and again check to make sure the app name and <code>api_key</code> match.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## check to see if the token is loaded</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="../reference/get_tokens.html">get_token</a></span>()</span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/get_tokens.html">get_token</a></span>()</span></code></pre></div>
 <p>That’s it!</p>
 </div>
   </div>

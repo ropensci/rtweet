@@ -179,16 +179,16 @@ identifiers (i.e., screen names or user IDs).</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other users: 
-<code><a href='lists_subscribers.html'>lists_subscribers</a>()</code>,
-<code><a href='lookup_users.html'>lookup_users</a>()</code>,
-<code><a href='search_users.html'>search_users</a>()</code>,
-<code><a href='tweets_with_users.html'>tweets_with_users</a>()</code>,
-<code><a href='users_data.html'>users_data</a>()</code></p></div>
+<code>lists_subscribers()</code>,
+<code>lookup_users()</code>,
+<code>search_users()</code>,
+<code>tweets_with_users()</code>,
+<code>users_data()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## get friends list for user with the handle "1234"</span>
-<span class='fu'><a href='get_friends.html'>get_friends</a></span>(<span class='fu'>as_screenname</span>(<span class='st'>"1234"</span>))
+<span class='fu'>get_friends</span>(<span class='fu'>as_screenname</span>(<span class='st'>"1234"</span>))
 
 <span class='co'>## as_screenname coerces all elements to class "screen_name"</span>
 <span class='no'>sns</span> <span class='kw'>&lt;-</span> <span class='fu'>as_screenname</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kearneymw"</span>, <span class='st'>"1234"</span>, <span class='st'>"jack"</span>))
@@ -206,7 +206,7 @@ identifiers (i.e., screen names or user IDs).</p></td>
 <span class='no'>users</span>
 
 <span class='co'>## get friend networks for each user</span>
-<span class='fu'><a href='get_friends.html'>get_friends</a></span>(<span class='no'>users</span>)
+<span class='fu'>get_friends</span>(<span class='no'>users</span>)
 
 }</div></pre>
   </div>

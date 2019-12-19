@@ -193,7 +193,7 @@ and end of the time series.</p></td>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 
 <span class='co'>## search for tweets containing "rstats"</span>
-<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>)
+<span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>)
 
 <span class='co'>## plot frequency in 1 min intervals</span>
 <span class='fu'>ts_plot</span>(<span class='no'>rt</span>, <span class='st'>"mins"</span>)
@@ -204,7 +204,7 @@ and end of the time series.</p></td>
   <span class='fu'>ts_plot</span>(<span class='st'>"hours"</span>)
 
 <span class='co'>## compare account activity for some important US political figures</span>
-<span class='no'>tmls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timeline</a></span>(
+<span class='no'>tmls</span> <span class='kw'>&lt;-</span> <span class='fu'>get_timeline</span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SenSchumer"</span>, <span class='st'>"SenGillibrand"</span>, <span class='st'>"realDonaldTrump"</span>),
   <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3000</span>
 )

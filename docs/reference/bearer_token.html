@@ -157,7 +157,7 @@ authentication method</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>token</th>
-      <td><p>Oauth token created via <code><a href='create_token.html'>create_token</a></code>. See details
+      <td><p>Oauth token created via <code>create_token</code>. See details
 for more information on valid tokens.</p></td>
     </tr>
     </table>
@@ -169,7 +169,7 @@ for more information on valid tokens.</p></td>
 
     <p><code>bearer_token()</code> will only work on valid tokens generated from
   a user-created Twitter app (requires a Twitter developer account; see
-  <code><a href='create_token.html'>create_token</a></code> for more information). Unlike the default token
+  <code>create_token</code> for more information). Unlike the default token
   returned by <code>create_token</code>, bearer tokens operate without any
   knowledge/information about the user context–meaning, bearer token requests
   cannot engage in user actions (e.g., posting tweets, reading DMs), and the
@@ -185,25 +185,25 @@ for more information on valid tokens.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## use bearer token to search for &gt;18k tweets (up to 45k) w/o hitting rate limit</span>
-<span class='no'>verified_user_tweets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='st'>"filter:verified"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>30000</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
+<span class='no'>verified_user_tweets</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"filter:verified"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>30000</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
 
 <span class='co'>## get followers (user == app)</span>
 <span class='co'>### - USER (normal) token – rate limit 15req/15min</span>
-<span class='no'>cnn_flw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='st'>"cnn"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>)
+<span class='no'>cnn_flw</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"cnn"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>)
 <span class='co'>### - APP (bearer) token – rate limit 15req/15min</span>
-<span class='no'>cnn_flw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_followers.html'>get_followers</a></span>(<span class='st'>"cnn"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
+<span class='no'>cnn_flw</span> <span class='kw'>&lt;-</span> <span class='fu'>get_followers</span>(<span class='st'>"cnn"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>75000</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
 
 <span class='co'>## get timelines (user &lt; app)</span>
 <span class='co'>### - USER (normal) token – rate limit 900req/15min</span>
-<span class='no'>cnn_flw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timelines</a></span>(<span class='no'>cnn_flw</span>$<span class='no'>user_id</span>[<span class='fl'>1</span>:<span class='fl'>900</span>])
+<span class='no'>cnn_flw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>get_timelines</span>(<span class='no'>cnn_flw</span>$<span class='no'>user_id</span>[<span class='fl'>1</span>:<span class='fl'>900</span>])
 <span class='co'>### - APP (bearer) token – rate limit 1500req/15min</span>
-<span class='no'>cnn_flw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_timeline.html'>get_timelines</a></span>(<span class='no'>cnn_flw</span>$<span class='no'>user_id</span>[<span class='fl'>1</span>:<span class='fl'>1500</span>], <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
+<span class='no'>cnn_flw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>get_timelines</span>(<span class='no'>cnn_flw</span>$<span class='no'>user_id</span>[<span class='fl'>1</span>:<span class='fl'>1500</span>], <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
 
 <span class='co'>## lookup statuses (user &gt; app)</span>
 <span class='co'>### - USER (normal) token – rate limit 900req/15min</span>
-<span class='no'>cnn_flw_data2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lookup_statuses.html'>lookup_tweets</a></span>(<span class='no'>cnn_flw_data</span>$<span class='no'>status_id</span>[<span class='fl'>1</span>:<span class='fl'>90000</span>])
+<span class='no'>cnn_flw_data2</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_tweets</span>(<span class='no'>cnn_flw_data</span>$<span class='no'>status_id</span>[<span class='fl'>1</span>:<span class='fl'>90000</span>])
 <span class='co'>### - APP (bearer) token – rate limit 300req/15min</span>
-<span class='no'>cnn_flw_data2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lookup_statuses.html'>lookup_tweets</a></span>(<span class='no'>cnn_flw_data</span>$<span class='no'>status_id</span>[<span class='fl'>1</span>:<span class='fl'>30000</span>], <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
+<span class='no'>cnn_flw_data2</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_tweets</span>(<span class='no'>cnn_flw_data</span>$<span class='no'>status_id</span>[<span class='fl'>1</span>:<span class='fl'>30000</span>], <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer_token</span>())
 
 }</div></pre>
   </div>
