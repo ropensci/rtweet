@@ -15,6 +15,6 @@ test_that("api_access_level works", {
     saveRDS(token, "twitter_tokens")
   }
   token <- readRDS("twitter_tokens")
-  a <- api_access_level(token)
+  a <- rtweet:::api_access_level(token)
   expect_true(is.character(a) && length(a) == 1)
 })
