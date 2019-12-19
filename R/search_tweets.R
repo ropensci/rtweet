@@ -12,8 +12,8 @@
 #'   multiple possible terms, separate each search term with spaces
 #'   and "OR" (in caps). For example, the search \code{q =
 #'   "data science"} looks for tweets containing both "data" and
-#'   "science" anywhere located anywhere in the tweets and in any
-#'   order. When "OR" is entered between search terms, \code{query =
+#'   "science" located anywhere in the tweets and in any order.
+#'   When "OR" is entered between search terms, \code{query =
 #'   "data OR science"}, Twitter's REST API should return any tweet
 #'   that contains either "data" or "science." It is also possible to
 #'   search for exact phrases using double quotes. To do this, either
