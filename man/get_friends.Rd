@@ -4,8 +4,15 @@
 \alias{get_friends}
 \title{Get user IDs of accounts followed by target user(s).}
 \usage{
-get_friends(users, n = 5000, retryonratelimit = FALSE, page = "-1",
-  parse = TRUE, verbose = TRUE, token = NULL)
+get_friends(
+  users,
+  n = 5000,
+  retryonratelimit = FALSE,
+  page = "-1",
+  parse = TRUE,
+  verbose = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{users}{Screen name or user ID of target user from which the
@@ -97,7 +104,8 @@ When \code{retryonratelimit = TRUE} this function internally
 \seealso{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 
-Other ids: \code{\link{get_followers}},
-  \code{\link{next_cursor}}
+Other ids: 
+\code{\link{get_followers}()},
+\code{\link{next_cursor}()}
 }
 \concept{ids}

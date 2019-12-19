@@ -46,6 +46,7 @@ users_data(rt)
 
 }
 \seealso{
-Other parsing: \code{\link{tweets_with_users}}
+Other parsing: 
+\code{\link{tweets_with_users}()}
 }
 \concept{parsing}

@@ -283,7 +283,6 @@ is_emptylist <- function(x) {
 #'
 #' Paginate in reverse (limited integration)
 #'
-#' @inheritParams next_cursor
 #' @family ids
 #' @family extractors
 #' @rdname next_cursor
@@ -351,7 +350,6 @@ previous_cursor.response <- function(x) {
 #' Get the newest ID collected to date.
 #'
 #' @rdname next_cursor
-#' @inheritParams next_cursor
 #' @export
 since_id <- function(.x) UseMethod("since_id")
 

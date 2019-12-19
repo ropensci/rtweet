@@ -456,7 +456,6 @@ parse_stream <- function(path, ...) {
 #'
 #' Stream with hardwired reconnection method to ensure timeout integrity.
 #'
-#' @inheritParams stream_tweets
 #' @param dir Name of directory in which json files should be written.
 #'   The default, NULL, will create a timestamped "stream" folder in the
 #'   current working directory. If a dir name is provided that does not

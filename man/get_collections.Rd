@@ -4,8 +4,14 @@
 \alias{get_collections}
 \title{Get collections by user or status id.}
 \usage{
-get_collections(user, status_id = NULL, n = 200, cursor = NULL,
-  parse = TRUE, token = NULL)
+get_collections(
+  user,
+  status_id = NULL,
+  n = 200,
+  cursor = NULL,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{user}{Screen name or user id of target user. Requests must

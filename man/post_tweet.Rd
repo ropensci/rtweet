@@ -5,9 +5,15 @@
 \alias{post_status}
 \title{Posts status update to user's Twitter account}
 \usage{
-post_tweet(status = "my first rtweet #rstats", media = NULL,
-  token = NULL, in_reply_to_status_id = NULL, destroy_id = NULL,
-  retweet_id = NULL, auto_populate_reply_metadata = FALSE)
+post_tweet(
+  status = "my first rtweet #rstats",
+  media = NULL,
+  token = NULL,
+  in_reply_to_status_id = NULL,
+  destroy_id = NULL,
+  retweet_id = NULL,
+  auto_populate_reply_metadata = FALSE
+)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 280 characters or less.}
@@ -78,7 +84,9 @@ post_tweet("second in the thread",
 }
 }
 \seealso{
-Other post: \code{\link{post_favorite}},
-  \code{\link{post_follow}}, \code{\link{post_friendship}}
+Other post: 
+\code{\link{post_favorite}()},
+\code{\link{post_follow}()},
+\code{\link{post_friendship}()}
 }
 \concept{post}

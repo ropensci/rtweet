@@ -4,8 +4,13 @@
 \alias{direct_messages_received}
 \title{(DEPRECATED) Get the most recent direct messages sent to the authenticating user.}
 \usage{
-direct_messages_received(since_id = NULL, max_id = NULL, n = 200,
-  parse = TRUE, token = NULL)
+direct_messages_received(
+  since_id = NULL,
+  max_id = NULL,
+  n = 200,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{since_id}{optional Returns results with an ID greater than

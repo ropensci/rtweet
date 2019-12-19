@@ -52,9 +52,11 @@ tweets_data(usr_df)
 \seealso{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
 
-Other users: \code{\link{as_screenname}},
-  \code{\link{lists_subscribers}},
-  \code{\link{search_users}},
-  \code{\link{tweets_with_users}}, \code{\link{users_data}}
+Other users: 
+\code{\link{as_screenname}()},
+\code{\link{lists_subscribers}()},
+\code{\link{search_users}()},
+\code{\link{tweets_with_users}()},
+\code{\link{users_data}()}
 }
 \concept{users}

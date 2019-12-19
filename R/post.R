@@ -363,7 +363,6 @@ check_status_code <- function(x) {
 }
 
 
-#' @inheritParams post_follow
 #' @aliases unfollow_user
 #' @rdname post_follow
 #' @export
@@ -371,7 +370,6 @@ post_unfollow_user <- function(user, token = NULL) {
   post_follow(user, destroy = TRUE, token = token)
 }
 
-#' @inheritParams post_follow
 #' @aliases unfollow_user
 #' @rdname post_follow
 #' @aliases mute_user

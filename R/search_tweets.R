@@ -453,7 +453,6 @@ search_tweets_ <- function(q = "",
 #' search_tweets2 Passes all arguments to search_tweets. Returns data from
 #' one OR MORE search queries.
 #'
-#' @inheritParams search_tweets.
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
 #' @examples

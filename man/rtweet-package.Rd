@@ -36,11 +36,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (0000-0002-0730-4694)
+\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (\href{https://orcid.org/0000-0002-0730-4694}{ORCID})
 
 Other contributors:
 \itemize{
-  \item Andrew Heiss (0000-0002-3948-3914) [reviewer]
+  \item Andrew Heiss (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [reviewer]
   \item Francois Briatte [reviewer]
 }
 

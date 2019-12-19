@@ -4,8 +4,16 @@
 \alias{search_30day}
 \title{Search last 30day (PREMIUM)}
 \usage{
-search_30day(q, n = 100, fromDate = NULL, toDate = NULL,
-  env_name = NULL, safedir = NULL, parse = TRUE, token = NULL)
+search_30day(
+  q,
+  n = 100,
+  fromDate = NULL,
+  toDate = NULL,
+  env_name = NULL,
+  safedir = NULL,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{q}{Search query on which to match/filter tweets. See details for

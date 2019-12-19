@@ -37,13 +37,16 @@ head(users_data(r))
 
 }
 \seealso{
-Other users: \code{\link{as_screenname}},
-  \code{\link{lists_subscribers}},
-  \code{\link{lookup_users}}, \code{\link{search_users}},
-  \code{\link{tweets_with_users}}
+Other users: 
+\code{\link{as_screenname}()},
+\code{\link{lists_subscribers}()},
+\code{\link{lookup_users}()},
+\code{\link{search_users}()},
+\code{\link{tweets_with_users}()}
 
-Other extractors: \code{\link{next_cursor}},
-  \code{\link{tweets_data}}
+Other extractors: 
+\code{\link{next_cursor}()},
+\code{\link{tweets_data}()}
 }
 \concept{extractors}
 \concept{users}

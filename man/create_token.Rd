@@ -4,8 +4,14 @@
 \alias{create_token}
 \title{Creating Twitter authorization token(s).}
 \usage{
-create_token(app = "mytwitterapp", consumer_key, consumer_secret,
-  access_token = NULL, access_secret = NULL, set_renv = TRUE)
+create_token(
+  app = "mytwitterapp",
+  consumer_key,
+  consumer_secret,
+  access_token = NULL,
+  access_secret = NULL,
+  set_renv = TRUE
+)
 }
 \arguments{
 \item{app}{Name of user created Twitter application}
@@ -46,7 +52,8 @@ Sends request to generate OAuth 1.0 tokens. Twitter
 \seealso{
 \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 
-Other tokens: \code{\link{get_tokens}},
-  \code{\link{rate_limit}}
+Other tokens: 
+\code{\link{get_tokens}()},
+\code{\link{rate_limit}()}
 }
 \concept{tokens}

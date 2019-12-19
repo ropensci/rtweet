@@ -45,6 +45,6 @@ Suggests:
     igraph
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 LinkingTo: 
     Rcpp

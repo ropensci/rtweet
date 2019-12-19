@@ -5,9 +5,19 @@
 \alias{search_tweets2}
 \title{Get tweets data on statuses identified via search query.}
 \usage{
-search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
-  geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
-  retryonratelimit = FALSE, verbose = TRUE, ...)
+search_tweets(
+  q,
+  n = 100,
+  type = "recent",
+  include_rts = TRUE,
+  geocode = NULL,
+  max_id = NULL,
+  parse = TRUE,
+  token = NULL,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
+  ...
+)
 
 search_tweets2(...)
 }
@@ -19,8 +29,8 @@ search_tweets2(...)
   multiple possible terms, separate each search term with spaces
   and "OR" (in caps). For example, the search \code{q =
   "data science"} looks for tweets containing both "data" and
-  "science" anywhere located anywhere in the tweets and in any
-  order. When "OR" is entered between search terms, \code{query =
+  "science" located anywhere in the tweets and in any order.
+  When "OR" is entered between search terms, \code{query =
   "data OR science"}, Twitter's REST API should return any tweet
   that contains either "data" or "science." It is also possible to
   search for exact phrases using double quotes. To do this, either
@@ -207,7 +217,7 @@ ts_plot(rt, by = "mins")
 ## make multiple independent search queries
 ds <- Map(
   "search_tweets",
-  c("\\"data science\\"", "rstats OR python"),
+  c("\"data science\"", "rstats OR python"),
   n = 1000
 )
 
@@ -227,7 +237,7 @@ users_data(ds)
 
 ## search using multilple queries
 st2 <- search_tweets2(
-  c("\\"data science\\"", "rstats OR python"),
+  c("\"data science\"", "rstats OR python"),
   n = 500
 )
 
@@ -246,11 +256,14 @@ table(st2$query)
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
 
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_mentions}},
-  \code{\link{get_my_timeline}},
-  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
-  \code{\link{lookup_statuses}}, \code{\link{tweets_data}},
-  \code{\link{tweets_with_users}}
+Other tweets: 
+\code{\link{get_favorites}()},
+\code{\link{get_mentions}()},
+\code{\link{get_my_timeline}()},
+\code{\link{get_timeline}()},
+\code{\link{lists_statuses}()},
+\code{\link{lookup_statuses}()},
+\code{\link{tweets_data}()},
+\code{\link{tweets_with_users}()}
 }
 \concept{tweets}

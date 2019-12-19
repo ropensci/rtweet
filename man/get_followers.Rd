@@ -4,8 +4,15 @@
 \alias{get_followers}
 \title{Get user IDs for accounts following target user.}
 \usage{
-get_followers(user, n = 5000, page = "-1", retryonratelimit = FALSE,
-  parse = TRUE, verbose = TRUE, token = NULL)
+get_followers(
+  user,
+  n = 5000,
+  page = "-1",
+  retryonratelimit = FALSE,
+  parse = TRUE,
+  verbose = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{user}{Screen name or user ID of target user from which the
@@ -108,7 +115,8 @@ pres
 \seealso{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
 
-Other ids: \code{\link{get_friends}},
-  \code{\link{next_cursor}}
+Other ids: 
+\code{\link{get_friends}()},
+\code{\link{next_cursor}()}
 }
 \concept{ids}

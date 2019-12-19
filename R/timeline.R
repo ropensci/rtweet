@@ -80,7 +80,6 @@ get_timeline <- function(user,
 }
 
 
-#' @inheritParams get_timeline
 #' @export
 #' @rdname get_timeline
 get_timelines <- function(user,

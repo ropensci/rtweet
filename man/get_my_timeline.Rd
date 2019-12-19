@@ -4,8 +4,14 @@
 \alias{get_my_timeline}
 \title{Get \emph{your} timeline}
 \usage{
-get_my_timeline(n = 100, max_id = NULL, parse = TRUE, check = TRUE,
-  token = NULL, ...)
+get_my_timeline(
+  n = 100,
+  max_id = NULL,
+  parse = TRUE,
+  check = TRUE,
+  token = NULL,
+  ...
+)
 }
 \arguments{
 \item{n}{Number of tweets to return per timeline. Defaults to 100.
@@ -53,11 +59,14 @@ tweets_from_me_and_the_ppl_i_follow <- get_my_timeline(n = 3200)
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline}
 
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_mentions}}, \code{\link{get_timeline}},
-  \code{\link{lists_statuses}},
-  \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{tweets_data}},
-  \code{\link{tweets_with_users}}
+Other tweets: 
+\code{\link{get_favorites}()},
+\code{\link{get_mentions}()},
+\code{\link{get_timeline}()},
+\code{\link{lists_statuses}()},
+\code{\link{lookup_statuses}()},
+\code{\link{search_tweets}()},
+\code{\link{tweets_data}()},
+\code{\link{tweets_with_users}()}
 }
 \concept{tweets}

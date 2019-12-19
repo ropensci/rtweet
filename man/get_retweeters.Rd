@@ -36,6 +36,7 @@ At time of writing, pagination offers no additional
   \url{https://twittercommunity.com/t/paging-is-not-possible-with-statuses-retweeters-ids-json/71298}
 }
 \seealso{
-Other retweets: \code{\link{get_retweets}}
+Other retweets: 
+\code{\link{get_retweets}()}
 }
 \concept{retweets}

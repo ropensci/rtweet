@@ -4,8 +4,16 @@
 \alias{search_fullarchive}
 \title{Search fullarchive (PREMIUM)}
 \usage{
-search_fullarchive(q, n = 100, fromDate = NULL, toDate = NULL,
-  env_name = NULL, safedir = NULL, parse = TRUE, token = NULL)
+search_fullarchive(
+  q,
+  n = 100,
+  fromDate = NULL,
+  toDate = NULL,
+  env_name = NULL,
+  safedir = NULL,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{q}{Search query on which to match/filter tweets. See details for
