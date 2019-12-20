@@ -18,12 +18,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // unroll_users
-std::vector<std::string> unroll_users(std::vector<std::vector<std::string> > x);
+CharacterVector unroll_users(const List& x);
 RcppExport SEXP _rtweet_unroll_users(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<std::vector<std::string> > >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const List& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(unroll_users(x));
     return rcpp_result_gen;
 END_RCPP

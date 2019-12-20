@@ -5,7 +5,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 List unroll_connections(const CharacterVector& from,
                         const List& to) {
-  // set size paramaeters (exclude NAs from the 'to'-based output count)
+  // set size parameters (exclude NAs from the 'to'-based output count)
   const int n = from.size();
   R_xlen_t len = 0;
   for (R_xlen_t i = 0; i < n; ++i) {
@@ -30,7 +30,7 @@ List unroll_connections(const CharacterVector& from,
     // `i` is index of current `to`
     const CharacterVector to_i = to[i];
     // `j` is index of current `to[i]`
-    for (int j = 0; j < to_i.size(); ++j) {
+    for (R_xlen_t j = 0; j < to_i.size(); ++j) {
       
       if (to_i[j].get() != R_NaString) {
         from2[k] = from[i];
@@ -42,7 +42,7 @@ List unroll_connections(const CharacterVector& from,
     
   }
   // combine the new [flat] vectors into a data frame (requires row names)
-  List df = List::create(_["from"] = from2,_["to"] = to2);
+  List df = List::create(_["from"] = from2, _["to"] = to2);
   df.attr("row.names") = seq_len(len);
   df.attr("class") = "data.frame";
   return df;
@@ -52,32 +52,34 @@ List unroll_connections(const CharacterVector& from,
 
 
 // [[Rcpp::export]]
-std::vector<std::string> unroll_users(std::vector<std::vector<std::string> > x) {
+CharacterVector unroll_users(const List& x) {
   // use second column in each element to determine output size
-  int n = x.size();
-  int len = 0;
-  for (int i = 0; i < n; i++) {
-    if (x[i][0] != "NA") {
-      len += x[i].size();
+  R_xlen_t n = x.size();
+  R_xlen_t len = 0;
+  for (R_xlen_t i = 0; i < n; ++i) {
+    const CharacterVector x_i = x[i];
+    if (x_i[0].get() != R_NaString) {
+      len += x_i.size();
     }
   }
   // use calculated length to initialize IDs vector
-  std::vector<std::string> ids(len);
-
+  CharacterVector ids(len);
+  
   // for each value of the 'from' vector, create appropriately re-sized from2
   // and to2 vectors
-  int ctr = 0;
-  for (int i = 0; i < n; i++) {
-    int nn = x[i].size();
-    for (int j = 0; j < nn; j++) {
+  R_xlen_t ctr = 0;
+  for (R_xlen_t i = 0; i < n; ++i) {
+    const CharacterVector x_i = x[i];
+    R_xlen_t nn = x_i.size();
+    for (R_xlen_t j = 0; j < nn; ++j) {
       if (j == 0) {
-        if (x[i][j] != "NA") {
-          ids[ctr] = x[i][j];
-          ctr += 1;
+        if (x_i[j].get() != R_NaString) {
+          ids[ctr] = x_i[j];
+          ctr++;
         }
       } else {
-        ids[ctr] = x[i][j];
-        ctr += 1;
+        ids[ctr] = x_i[j];
+        ctr++;
       }
     }
   }
