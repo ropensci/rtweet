@@ -359,8 +359,9 @@ search_tweets_ <- function(q = "",
   } else {
     count <- 100
   }
-  ## validate query length
-  if (nchar(q) > 500) {
+  ## validate query length–char count might not always be same here as with 
+  ## Twitter, so set this to 600 and let Twitter reject others
+  if (nchar(q) > 600) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
   ## only select one type
