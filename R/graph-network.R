@@ -16,14 +16,42 @@ id_sn_index <- function(x) {
 }
 
 
+unroll_users <- function(x) {
+  x <- unlist(x, use.names = FALSE)
+  x[!is.na(x)]
+}
+
 id_sn_join <- function(x, ref) {
   m <- match(x, ref$id)
   ref$sn[m]
 }
 
+unroll_connections <- function(x) {
+  ## initialize logical (TRUE) vector
+  kp <- !logical(nrow(x))
+  
+  ## measure [and record] length of each 'to' field (list of character vector)
+  n <- lengths(x[[2]])
+  n1 <- which(n == 1)
+  
+  ## if length == 1 & is.na(x[1])
+  kp[n1[vapply(x[[2]][n1], is.na, logical(1))]] <- FALSE
+  
+  ## create 'from' and 'to' vectors
+  from <- unlist(mapply(rep, x[[1]][kp], n[kp]), use.names = FALSE)
+  to <- unlist(x[[2]][kp], use.names = FALSE)
+  
+  ## return as data frame
+  data.frame(
+    from = from,
+    to = to,
+    stringsAsFactors = FALSE
+  )
+}
+
 prep_from_to <- function(x, from, to) {
   if (is.list(x[[to]])) {
-    unroll_connections(x[[from]], x[[to]])
+    unroll_connections(x[c(from, to)])
   } else {
     x <- x[c(from, to)]
     names(x) <- c("from", "to")
