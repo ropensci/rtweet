@@ -176,11 +176,11 @@ as seconds. Otherwise this should be one of "mins", "hours", "days",
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## class posixct</span>
-<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2019-12-19 12:00:00 UTC"</div><div class='input'>
+<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span>(), <span class='st'>"12 hours"</span>)</div><div class='output co'>#&gt; [1] "2020-01-05 12:00:00 UTC"</div><div class='input'>
 <span class='co'>## class date</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2019-12-19" "2019-12-26" "2020-01-02" "2020-01-09" "2020-01-16"
-#&gt;  [6] "2020-01-23" "2020-01-30" "2020-02-06" "2020-02-13" "2020-02-20"
-#&gt; [11] "2020-02-27" "2020-03-05" "2020-03-12" "2020-03-19" "2020-03-26"</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'>round_time</span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>() + <span class='fl'>100</span>, <span class='st'>"1 day"</span>), <span class='st'>"weeks"</span>))</div><div class='output co'>#&gt;  [1] "2020-01-02" "2020-01-09" "2020-01-16" "2020-01-23" "2020-01-30"
+#&gt;  [6] "2020-02-06" "2020-02-13" "2020-02-20" "2020-02-27" "2020-03-05"
+#&gt; [11] "2020-03-12" "2020-03-19" "2020-03-26" "2020-04-02" "2020-04-09"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -208,7 +208,7 @@ request</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other geo: 
-<code>lat_lng()</code></p></div>
+<code><a href='lat_lng.html'>lat_lng</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -221,10 +221,10 @@ request</p></td>
 <span class='no'>bz</span> <span class='kw'>&lt;-</span> <span class='fu'>lookup_coords</span>(<span class='st'>"brazil"</span>)
 
 <span class='co'>## pass a returned coords object to search_tweets</span>
-<span class='no'>bztw</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>geocode</span> <span class='kw'>=</span> <span class='no'>bz</span>)
+<span class='no'>bztw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='search_tweets.html'>search_tweets</a></span>(<span class='kw'>geocode</span> <span class='kw'>=</span> <span class='no'>bz</span>)
 
 <span class='co'>## or stream tweets</span>
-<span class='no'>ustw</span> <span class='kw'>&lt;-</span> <span class='fu'>stream_tweets</span>(<span class='no'>usa</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='no'>ustw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stream_tweets.html'>stream_tweets</a></span>(<span class='no'>usa</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 }</div></pre>
   </div>

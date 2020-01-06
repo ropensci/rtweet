@@ -350,14 +350,14 @@ Twitter's API documentation.</p></td>
 
     <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets'>https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</a></p>
 <p>Other tweets: 
-<code>get_favorites()</code>,
-<code>get_mentions()</code>,
-<code>get_my_timeline()</code>,
-<code>get_timeline()</code>,
-<code>lists_statuses()</code>,
-<code>lookup_statuses()</code>,
-<code>tweets_data()</code>,
-<code>tweets_with_users()</code></p></div>
+<code><a href='get_favorites.html'>get_favorites</a>()</code>,
+<code><a href='get_mentions.html'>get_mentions</a>()</code>,
+<code><a href='get_my_timeline.html'>get_my_timeline</a>()</code>,
+<code><a href='get_timeline.html'>get_timeline</a>()</code>,
+<code><a href='lists_statuses.html'>lists_statuses</a>()</code>,
+<code><a href='lookup_statuses.html'>lookup_statuses</a>()</code>,
+<code><a href='tweets_data.html'>tweets_data</a>()</code>,
+<code><a href='tweets_with_users.html'>tweets_with_users</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -370,7 +370,7 @@ Twitter's API documentation.</p></td>
 <span class='no'>hrc</span>
 
 <span class='co'>## users data also retrieved. can access it via users_data()</span>
-<span class='fu'>users_data</span>(<span class='no'>hrc</span>)
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>hrc</span>)
 
 <span class='co'>## search for 1000 tweets in English</span>
 <span class='no'>djt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='st'>"realdonaldtrump"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>)
@@ -379,7 +379,7 @@ Twitter's API documentation.</p></td>
 <span class='no'>djt</span>
 
 <span class='co'>## preview users data</span>
-<span class='fu'>users_data</span>(<span class='no'>djt</span>)
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
 
 <span class='co'>## exclude retweets</span>
 <span class='no'>rt</span> <span class='kw'>&lt;-</span> <span class='fu'>search_tweets</span>(<span class='st'>"rstats"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>include_rts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -391,7 +391,7 @@ Twitter's API documentation.</p></td>
 )
 
 <span class='co'>## plot time series of tweets frequency</span>
-<span class='fu'>ts_plot</span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>)
+<span class='fu'><a href='ts_plot.html'>ts_plot</a></span>(<span class='no'>rt</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"mins"</span>)
 
 <span class='co'>## make multiple independent search queries</span>
 <span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span>(
@@ -401,13 +401,13 @@ Twitter's API documentation.</p></td>
 )
 
 <span class='co'>## bind by row whilst preserving users data</span>
-<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'>do_call_rbind</span>(<span class='no'>ds</span>)
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do_call_rbind.html'>do_call_rbind</a></span>(<span class='no'>ds</span>)
 
 <span class='co'>## preview tweets data</span>
 <span class='no'>ds</span>
 
 <span class='co'>## preview users data</span>
-<span class='fu'>users_data</span>(<span class='no'>ds</span>)
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>ds</span>)
 
 }
 
@@ -424,7 +424,7 @@ Twitter's API documentation.</p></td>
 <span class='no'>st2</span>
 
 <span class='co'>## preview users data</span>
-<span class='fu'>users_data</span>(<span class='no'>st2</span>)
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>st2</span>)
 
 <span class='co'>## check breakdown of results by search query</span>
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>st2</span>$<span class='no'>query</span>)

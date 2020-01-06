@@ -90,7 +90,7 @@ get_timelines <- function(user,
                           check = TRUE,
                           token = NULL,
                           ...) {
-  get_timeline(user, n, max_id, home, parse, check, token, ...)
+  get_timeline(user, n, max_id = max_id, home = home, parse = parse, check = check, token = token, ...)
 }
 
 
@@ -107,6 +107,9 @@ get_timeline_ <- function(user, n = 100, home = FALSE, ...) {
     rt <- Map(get_timeline_call, user = user, n = n, home = home, MoreArgs = dots)
   } else {
     rt <- Map(get_timeline_call, user = user, n = n, home = home)
+  }
+  if (has_name_(dots, "parse") && isFALSE(dots[["parse"]])) {
+    return(rt)
   }
   ## merge tweets data into one data frame
   rt <- do.call("rbind", rt)

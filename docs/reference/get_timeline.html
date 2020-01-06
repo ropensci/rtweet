@@ -234,14 +234,14 @@ to create a Twitter token see the tokens vignette, i.e.,
 
     <div class='dont-index'><p><a href='https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline'>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline</a></p>
 <p>Other tweets: 
-<code>get_favorites()</code>,
-<code>get_mentions()</code>,
-<code>get_my_timeline()</code>,
-<code>lists_statuses()</code>,
-<code>lookup_statuses()</code>,
-<code>search_tweets()</code>,
-<code>tweets_data()</code>,
-<code>tweets_with_users()</code></p></div>
+<code><a href='get_favorites.html'>get_favorites</a>()</code>,
+<code><a href='get_mentions.html'>get_mentions</a>()</code>,
+<code><a href='get_my_timeline.html'>get_my_timeline</a>()</code>,
+<code><a href='lists_statuses.html'>lists_statuses</a>()</code>,
+<code><a href='lookup_statuses.html'>lookup_statuses</a>()</code>,
+<code><a href='search_tweets.html'>search_tweets</a>()</code>,
+<code><a href='tweets_data.html'>tweets_data</a>()</code>,
+<code><a href='tweets_with_users.html'>tweets_with_users</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -254,7 +254,7 @@ to create a Twitter token see the tokens vignette, i.e.,
 <span class='no'>djt</span>
 
 <span class='co'>## users data for realDonaldTrump is also retrieved</span>
-<span class='fu'>users_data</span>(<span class='no'>djt</span>)
+<span class='fu'><a href='users_data.html'>users_data</a></span>(<span class='no'>djt</span>)
 
 <span class='co'>## retrieve timelines of mulitple users</span>
 <span class='no'>tmls</span> <span class='kw'>&lt;-</span> <span class='fu'>get_timeline</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"KFC"</span>, <span class='st'>"ConanOBrien"</span>, <span class='st'>"NateSilver538"</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)

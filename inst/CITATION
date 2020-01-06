@@ -1,18 +1,22 @@
 citHeader("To cite rtweet use:")
 
 citEntry(
-    entry        = "Manual",
-    title        = "rtweet: Collecting Twitter Data",
+    entry        = "article",
+    title        = "rtweet: Collecting and analyzing Twitter data",
     author       = as.person("Michael W. Kearney"),
     year         = "2019",
-#    note         = paste("R package version", utils::packageVersion("rtweet")),
-    note         = "R package version 0.6.9",
-    url          = "https://cran.r-project.org/package=rtweet",
+    note         = "R package version 0.7.0",
+    journal      = "Journal of Open Source Software",
+    volume       = "4",
+    number       = "42",
+    pages        = "1829",
+    doi          = "10.21105/joss.01829",
+    url          = "https://joss.theoj.org/papers/10.21105/joss.01829",
     key          = "rtweet-package",
     textVersion  = paste(
-        "Kearney, M. W. (2019). rtweet: Collecting Twitter",
-   #     "Data. R package version", paste0(utils::packageVersion("rtweet"), "."),
-        "Data. R package version 0.6.9",
-        "Retrieved from https://cran.r-project.org/package=rtweet"
+        "Kearney, M. W. (2019). rtweet: Collecting and analyzing Twitter data,",
+        "Journal of Open Source Software, 4, 42. 1829.",
+        "doi:10.21105/joss.01829",
+        "(R package version 0.7.0)"
     )
 )

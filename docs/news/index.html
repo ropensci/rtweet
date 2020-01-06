@@ -149,7 +149,7 @@
 <ul>
 <li>Added paper.md as part of ROpenSci submission.</li>
 <li>Added contributing template.</li>
-<li>Added explanation of requirements and usage to <code>bearer_token()</code> docs.</li>
+<li>Added explanation of requirements and usage to <code><a href="../reference/bearer_token.html">bearer_token()</a></code> docs.</li>
 <li>Transferred repo to ropensci</li>
 <li>Fixed numerous typos and grammatical mistakes (thank you several pull requests)</li>
 <li>More robust testing setup with encrypted keys entered via travis-ci web UI</li>
@@ -163,7 +163,7 @@
 </h1>
 <ul>
 <li>Better tweet-validating in streaming data–interrupted statuses/broken lines are now returned</li>
-<li>Added network-graph convenience functions <code>network_data()</code> and <code>network_graph()</code>
+<li>Added network-graph convenience functions <code><a href="../reference/network_graph.html">network_data()</a></code> and <code><a href="../reference/network_graph.html">network_graph()</a></code>
 </li>
 <li>Added experimental support for premium APIs</li>
 </ul>
@@ -182,7 +182,7 @@
 </h1>
 <ul>
 <li>
-<code>lookup_coords()</code> now requires a Google Maps API key. It will be stored for easy future use once supplied.</li>
+<code><a href="../reference/lookup_coords.html">lookup_coords()</a></code> now requires a Google Maps API key. It will be stored for easy future use once supplied.</li>
 <li>Improved documentation for authentication/token creation.</li>
 <li>Various bug fixes and improvements.</li>
 </ul>
@@ -192,8 +192,8 @@
 <a href="#rtweet-066" class="anchor"></a>rtweet 0.6.6<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added <code>bearer_token()</code> option for access to more generous rate limits.</li>
-<li>Fixed issues with <code>create_token()</code> when using browse-based authentication method.</li>
+<li>Added <code><a href="../reference/bearer_token.html">bearer_token()</a></code> option for access to more generous rate limits.</li>
+<li>Fixed issues with <code><a href="../reference/create_token.html">create_token()</a></code> when using browse-based authentication method.</li>
 </ul>
 </div>
     <div id="rtweet-065" class="section level1">
@@ -201,9 +201,9 @@
 <a href="#rtweet-065" class="anchor"></a>rtweet 0.6.5<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added list management functionality via <code>post_list()</code>, which now allows users to create and populate lists as well as delete lists on behalf of one’s own Twitter account.</li>
+<li>Added list management functionality via <code><a href="../reference/post_list.html">post_list()</a></code>, which now allows users to create and populate lists as well as delete lists on behalf of one’s own Twitter account.</li>
 <li>
-<code>lists_memberships()</code> and now scrolls through multiple pages of results to automate collection of larger numbers of lists.</li>
+<code><a href="../reference/lists_members.html">lists_memberships()</a></code> and now scrolls through multiple pages of results to automate collection of larger numbers of lists.</li>
 <li>Various bug fixes and improvements.</li>
 </ul>
 </div>
@@ -212,10 +212,10 @@
 <a href="#rtweet-064" class="anchor"></a>rtweet 0.6.4<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added new oauth method to <code>create_token()</code> which allows for creation of token non-interactive sessions via accepting inputs for consumer key, consumer secret (always required), oauth key, and oauth secret (optional, if supplied then non-browser sign method is used).</li>
+<li>Added new oauth method to <code><a href="../reference/create_token.html">create_token()</a></code> which allows for creation of token non-interactive sessions via accepting inputs for consumer key, consumer secret (always required), oauth key, and oauth secret (optional, if supplied then non-browser sign method is used).</li>
 <li>
 <code>ts_*()</code> functions now offer a <code>tz</code> (timezone) argument, allowing users to more easily print and plot in non-UTC time.</li>
-<li>Users can now delete tweets by passing the status ID (of the desired tweet to be deleted) to the <code>destroy_id</code> argument in <code>post_tweet()</code>
+<li>Users can now delete tweets by passing the status ID (of the desired tweet to be deleted) to the <code>destroy_id</code> argument in <code><a href="../reference/post_tweet.html">post_tweet()</a></code>
 </li>
 <li>Various bug fixes and stability improvements.</li>
 </ul>
@@ -236,11 +236,11 @@
 <ul>
 <li>Added <code>all_suggested_users()</code>, which automates the collection of Twitter’s suggested users data.</li>
 <li>Various bug fixes and stability improvements.</li>
-<li>Significant upgrades to <code>save_as_csv()</code>, including addition of new <code>prep_as_csv()</code> as convenience function for flattening Twitter data frames.</li>
+<li>Significant upgrades to <code><a href="../reference/write_as_csv.html">save_as_csv()</a></code>, including addition of new <code>prep_as_csv()</code> as convenience function for flattening Twitter data frames.</li>
 <li>Tokens have been retooled. For at least the time being, users must create a Twitter app in order to be authorized to interact with the REST and stream APIs.</li>
 <li>Joined data: instead of returning users/tweets data with its complementary tweets/users data stored as an attribute, functions now return a joined data frame, consisting of the tweets-level data joined with the newest (most recent) observation for each user This means functions now return a more consistent and intuitive data object where one row is always equal to one tweet.</li>
-<li>Overhauled <code>save_as_csv()</code> with improved flattening and ID-preserving saving methods. The function now saves a single [joined] data set as well.</li>
-<li>Fixed major bugs in <code>get_favorites()</code> and in several <code>lists_*()</code> functions.</li>
+<li>Overhauled <code><a href="../reference/write_as_csv.html">save_as_csv()</a></code> with improved flattening and ID-preserving saving methods. The function now saves a single [joined] data set as well.</li>
+<li>Fixed major bugs in <code><a href="../reference/get_favorites.html">get_favorites()</a></code> and in several <code>lists_*()</code> functions.</li>
 <li>Tweaked date-time aggregator internals to make time-rounding more precise.</li>
 </ul>
 </div>
@@ -250,9 +250,9 @@
 </h1>
 <ul>
 <li>Introduced new API authorization method, which leverages an embedded rtweet Twitter app that is authorized locally by the user. Creating Twitter apps is non longer necessary. Users need only click “okay” to create and store their API authorization token.</li>
-<li>Improved parsing and line-reading internals for <code>stream_tweets()</code>
+<li>Improved parsing and line-reading internals for <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>
 </li>
-<li>Added <code>stream_tweets2()</code> function for more robust streaming method. Streams JSON files to directory and reconnects following premature disruptions.</li>
+<li>Added <code><a href="../reference/stream_tweets.html">stream_tweets2()</a></code> function for more robust streaming method. Streams JSON files to directory and reconnects following premature disruptions.</li>
 <li>Various bug fixes and numerous documentation improvements.</li>
 </ul>
 </div>
@@ -271,8 +271,8 @@
 <a href="#rtweet-049" class="anchor"></a>rtweet 0.4.9<small> Unreleased </small>
 </h1>
 <ul>
-<li>Functions <code>get_timeline()</code>, <code>get_favorites()</code>, <code>get_friends()</code>, and <code>get_followers()</code> now accept vectors of length &gt; 1.</li>
-<li>Fixed bugs related to users data and its extracter, <code>users_data()</code>
+<li>Functions <code><a href="../reference/get_timeline.html">get_timeline()</a></code>, <code><a href="../reference/get_favorites.html">get_favorites()</a></code>, <code><a href="../reference/get_friends.html">get_friends()</a></code>, and <code><a href="../reference/get_followers.html">get_followers()</a></code> now accept vectors of length &gt; 1.</li>
+<li>Fixed bugs related to users data and its extracter, <code><a href="../reference/users_data.html">users_data()</a></code>
 </li>
 <li>New stream parser, <code>stream_data()</code>, designed to parse files that cannot wholely fit into memory. <code>stream_data()</code> can now work in parallel as well.</li>
 </ul>
@@ -283,7 +283,7 @@
 </h1>
 <ul>
 <li>Support for additional APIs has been added–including APIs designed to return information related to lists and retweets.</li>
-<li>The <code>post_status()</code> function has been fixed and can now be used to upload media.</li>
+<li>The <code><a href="../reference/post_tweet.html">post_status()</a></code> function has been fixed and can now be used to upload media.</li>
 <li>Several adjustments have been made in response to various changes in Twitter’s APIs.</li>
 <li>Thanks to all the great feedback on Github, numerous bug fixes and improvements have been included as well. In general, things should become a lot more stable across functions and data structures.</li>
 </ul>
@@ -296,7 +296,7 @@
 <li>The relatively lightweight tibble package is now a package dependency.</li>
 <li>Speed boosts to parsing process. It’s possible to convert from json to data frames in parallel, but I’m not sure minimal gains are worth the headache. Regardless, the current version should return more data, more reliably, and faster.</li>
 <li>By default, functions now return data frames (tibbles) with recursive lists (e.g., the 3rd observation of <code>mentions_screen_name</code> may consist of 4 screen names).</li>
-<li>To revert back to the flattened/delim object, use the <code>flatten()</code> function. Exporting functions such as <code>save_as_csv</code> will apply flatten by default.</li>
+<li>To revert back to the flattened/delim object, use the <code><a href="../reference/flatten.html">flatten()</a></code> function. Exporting functions such as <code>save_as_csv</code> will apply flatten by default.</li>
 <li>Three different sets of coordinate variables are now returned: <code>coords_coords</code>, <code>geo_coords</code>, and <code>bbox_coords</code> bounding box. The first two come in pairs of coords (a list column) and bbox_coords comes with 8 values (longX4 latX4). This should allow users to maximize returns on geo-location data.</li>
 </ul>
 </div>
@@ -315,8 +315,8 @@
 <a href="#rtweet-045" class="anchor"></a>rtweet 0.4.5<small> Unreleased </small>
 </h1>
 <ul>
-<li>Convenience function <code>plain_tweets()</code> added for textual analysis.</li>
-<li>Overhaul of <code>ts_plot()</code> with improved time-aggregating method. Now a wrapper around <code>ts_data()</code>, deprecating <code>ts_filter</code>.</li>
+<li>Convenience function <code><a href="../reference/plain_tweets.html">plain_tweets()</a></code> added for textual analysis.</li>
+<li>Overhaul of <code><a href="../reference/ts_plot.html">ts_plot()</a></code> with improved time-aggregating method. Now a wrapper around <code><a href="../reference/ts_data.html">ts_data()</a></code>, deprecating <code>ts_filter</code>.</li>
 </ul>
 </div>
     <div id="rtweet-044" class="section level1">
@@ -361,7 +361,7 @@
 <a href="#rtweet-040" class="anchor"></a>rtweet 0.4.0<small> 2017-01-18 </small>
 </h1>
 <ul>
-<li>CRAN release featuring major additions to documentation and support in addition to new and improved functions like <code>ts_plot()</code>, <code>ts_filter()</code> and more!</li>
+<li>CRAN release featuring major additions to documentation and support in addition to new and improved functions like <code><a href="../reference/ts_plot.html">ts_plot()</a></code>, <code>ts_filter()</code> and more!</li>
 </ul>
 </div>
     <div id="rtweet-0396" class="section level1">
@@ -381,7 +381,7 @@
 <ul>
 <li>All interactive/posting functions have been modified with the prefix <code>post_</code>. This was done to clearly distinguish write functions from retrieval functions.</li>
 <li>More bug fixes and various improvements.</li>
-<li>The <code>ts_plot()</code> function is now more robust with more adaptive characteristics for variations in the number of filters, the method of distinguishing lines, the position of the legend, and the aesthetics of the themes.</li>
+<li>The <code><a href="../reference/ts_plot.html">ts_plot()</a></code> function is now more robust with more adaptive characteristics for variations in the number of filters, the method of distinguishing lines, the position of the legend, and the aesthetics of the themes.</li>
 <li>Added <code>ts_filter()</code> function which allows users to convert Twitter data into a time series-like data frame. Users may also provide filtering rules with which <code>ts_filter()</code> will subset the data as it converts it to multiple time series, which it then outputs as a long-form (tidy) data frame.</li>
 </ul>
 </div>
@@ -497,7 +497,7 @@
 </h1>
 <ul>
 <li>
-<code>include_retweets</code> arg added to <code>search_tweets()</code> function.</li>
+<code>include_retweets</code> arg added to <code><a href="../reference/search_tweets.html">search_tweets()</a></code> function.</li>
 <li>
 <code>user_id</code> class changed to double when parsed. double is significantly faster and consumes less space. it’s also capable of handling the length of id scalars, so the only downside is truncated printing.</li>
 </ul>
@@ -517,7 +517,7 @@
 <a href="#rtweet-0292" class="anchor"></a>rtweet 0.2.92<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added gzip option for <code>stream_tweets()</code>
+<li>Added gzip option for <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>
 </li>
 </ul>
 </div>
@@ -526,7 +526,7 @@
 <a href="#rtweet-0291" class="anchor"></a>rtweet 0.2.91<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added sample method for <code>stream_tweets()</code> function. By default, the streaming query argument, <code>q</code>, is now set to an empty string, <code>q = ""</code>, which returns a random sample of all Tweets (pretty cool, right?).</li>
+<li>Added sample method for <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code> function. By default, the streaming query argument, <code>q</code>, is now set to an empty string, <code>q = ""</code>, which returns a random sample of all Tweets (pretty cool, right?).</li>
 </ul>
 </div>
     <div id="rtweet-029" class="section level1">
@@ -534,7 +534,7 @@
 <a href="#rtweet-029" class="anchor"></a>rtweet 0.2.9<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added <code>post_tweet()</code> function. Users can now post tweets from their R console.</li>
+<li>Added <code><a href="../reference/post_tweet.html">post_tweet()</a></code> function. Users can now post tweets from their R console.</li>
 </ul>
 </div>
     <div id="rtweet-028" class="section level1">
@@ -542,7 +542,7 @@
 <a href="#rtweet-028" class="anchor"></a>rtweet 0.2.8<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added <code>get_favorites()</code> function</li>
+<li>Added <code><a href="../reference/get_favorites.html">get_favorites()</a></code> function</li>
 <li>Update tests</li>
 <li>Exports tweets and users classes with show and plot methods</li>
 </ul>
@@ -560,7 +560,7 @@
 <a href="#rtweet-026" class="anchor"></a>rtweet 0.2.6<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Added <code>lookup_statuses()</code> function, which is the counterpart to <code>lookup_users()</code>. Supply a vector of status IDs and return tweet data for each status. <code>lookup_statuses()</code> is particularly powerful when combined with other methods designed to collect older Tweets. Early experiments with doing this all through R have turned out surprisingly well, but packaging it in a way that makes it easy to do on other machines is unlikely to happen in the short term.</p></li>
+<li><p>Added <code><a href="../reference/lookup_statuses.html">lookup_statuses()</a></code> function, which is the counterpart to <code><a href="../reference/lookup_users.html">lookup_users()</a></code>. Supply a vector of status IDs and return tweet data for each status. <code><a href="../reference/lookup_statuses.html">lookup_statuses()</a></code> is particularly powerful when combined with other methods designed to collect older Tweets. Early experiments with doing this all through R have turned out surprisingly well, but packaging it in a way that makes it easy to do on other machines is unlikely to happen in the short term.</p></li>
 <li><p>Removed dplyr dependencies. Everyone should install and use <code>dplyr</code>, but for sake of parsimony, it’s been removed from rtweet.</p></li>
 <li><p>Continued development of S4 classes and methods. Given removal of dplyr dependencies, I’ve started to integrate print/show methods that will limit the number of rows (and width of columns) when printed. Given the amount of data returned in a relatively short period of time, printing entire data frames quickly becomes headache-inducing.</p></li>
 </ul>
@@ -578,7 +578,7 @@
 <a href="#rtweet-024" class="anchor"></a>rtweet 0.2.4<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Added new trends functions. Find what trending locations are available with <code>trends_available()</code> and/or search for trends worldwide or by geographical location using <code>get_trends()</code>.</p></li>
+<li><p>Added new trends functions. Find what trending locations are available with <code><a href="../reference/trends_available.html">trends_available()</a></code> and/or search for trends worldwide or by geographical location using <code><a href="../reference/get_trends.html">get_trends()</a></code>.</p></li>
 <li><p>Stability improvements including integration with Travis CI and code analysis via codecov. Token encryption method also means API testing conducted on multiple machines and systems.</p></li>
 </ul>
 </div>
@@ -587,7 +587,7 @@
 <a href="#rtweet-023" class="anchor"></a>rtweet 0.2.3<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added new <code>search_users()</code> function! Search for users by keyword, name, or interest and return data on the first 1000 hits.</li>
+<li>Added new <code><a href="../reference/search_users.html">search_users()</a></code> function! Search for users by keyword, name, or interest and return data on the first 1000 hits.</li>
 </ul>
 </div>
     <div id="rtweet-022" class="section level1">
@@ -595,9 +595,9 @@
 <a href="#rtweet-022" class="anchor"></a>rtweet 0.2.2<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Output for <code>search_tweets()</code>, <code>stream_tweets()</code>, and <code>get_timeline()</code> now consists of tweets data and contains users data attribute.</p></li>
-<li><p>Output for <code>lookup_users()</code> now consists of users data and contains tweets data attribute.</p></li>
-<li><p>To access users data from a tweets object or vice-versa, use <code>users_data()</code> and <code>tweets_data()</code> functions on objects output by major rtweet retrieval functions.</p></li>
+<li><p>Output for <code><a href="../reference/search_tweets.html">search_tweets()</a></code>, <code><a href="../reference/stream_tweets.html">stream_tweets()</a></code>, and <code><a href="../reference/get_timeline.html">get_timeline()</a></code> now consists of tweets data and contains users data attribute.</p></li>
+<li><p>Output for <code><a href="../reference/lookup_users.html">lookup_users()</a></code> now consists of users data and contains tweets data attribute.</p></li>
+<li><p>To access users data from a tweets object or vice-versa, use <code><a href="../reference/users_data.html">users_data()</a></code> and <code><a href="../reference/tweets_data.html">tweets_data()</a></code> functions on objects output by major rtweet retrieval functions.</p></li>
 <li><p>Updated testthat tests</p></li>
 </ul>
 </div>
@@ -606,7 +606,7 @@
 <a href="#rtweet-021" class="anchor"></a>rtweet 0.2.1<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Output for <code>get_friends()</code> and <code>get_followers()</code> is now a tibble of “ids”. To retrieve next cursor value, use new <code>next_cursor()</code> function.</p></li>
+<li><p>Output for <code><a href="../reference/get_friends.html">get_friends()</a></code> and <code><a href="../reference/get_followers.html">get_followers()</a></code> is now a tibble of “ids”. To retrieve next cursor value, use new <code><a href="../reference/next_cursor.html">next_cursor()</a></code> function.</p></li>
 <li><p>Major stability improvements via testthat tests for every major function.</p></li>
 </ul>
 </div>
