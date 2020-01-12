@@ -8,9 +8,10 @@
 
 home <- function() {
   if (!identical(Sys.getenv("HOME"), "")) {
-    file.path(Sys.getenv("HOME"))
+    # Deal with mixed / and \\ returned by various base functions on Windows.
+    normalizePath(file.path(Sys.getenv("HOME")), winslash = "/")
   } else {
-    file.path(normalizePath("~"))
+    file.path(normalizePath("~", winslash = "/"))
   }
 }
 
