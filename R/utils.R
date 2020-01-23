@@ -429,6 +429,12 @@ na_omit <- function(x) {
   }
 }
 
+isFALSE <- if (is.element("package:base", find("isFALSE", mode = "function"))) {
+  base::isFALSE
+} else {
+  function(x) is.logical(x) && length(x) == 1L && !is.na(x) && !x
+}
+
 
 ##----------------------------------------------------------------------------##
 ##                            user type classifers                            ##
