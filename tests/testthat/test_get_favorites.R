@@ -19,6 +19,7 @@ test_that("get_favorites returns tweets data", {
 })
 
 test_that("get_favorites throws an error if usernames have spaces in them", {
+  skip_on_cran()
   n <- 2
   token <- readRDS("twitter_tokens")
   expect_error(get_favorites(c("elonmusk","elon musk"), n=n))

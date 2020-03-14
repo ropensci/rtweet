@@ -6,10 +6,17 @@
 \alias{post_unfollow_user}
 \alias{unfollow_user}
 \alias{post_mute}
+\alias{mute_user}
 \title{Follows target twitter user.}
 \usage{
-post_follow(user, destroy = FALSE, mute = FALSE, notify = FALSE,
-  retweets = TRUE, token = NULL)
+post_follow(
+  user,
+  destroy = FALSE,
+  mute = FALSE,
+  notify = FALSE,
+  retweets = TRUE,
+  token = NULL
+)
 
 post_unfollow_user(user, token = NULL)
 
@@ -44,7 +51,9 @@ post_follow("BarackObama")
 }
 }
 \seealso{
-Other post: \code{\link{post_favorite}},
-  \code{\link{post_friendship}}, \code{\link{post_tweet}}
+Other post: 
+\code{\link{post_favorite}()},
+\code{\link{post_friendship}()},
+\code{\link{post_tweet}()}
 }
 \concept{post}

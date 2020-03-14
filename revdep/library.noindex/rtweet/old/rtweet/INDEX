@@ -49,7 +49,7 @@ lookup_statuses         Get tweets data for given statuses (status
 lookup_users            Get Twitter users data for given users (user
                         IDs or screen names).
 my_friendships          Lookup friendship information between users.
-next_cursor             next_cursor/max_id
+next_cursor             next_cursor/previous_cursor/max_id
 parse_stream            Converts Twitter stream data (JSON file) into
                         parsed data frame.
 plain_tweets            Clean up character vector (tweets) to more of a

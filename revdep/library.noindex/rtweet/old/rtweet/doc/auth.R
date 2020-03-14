@@ -23,18 +23,9 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE
 #  token <- create_token(
 #    app = "my_twitter_research_app",
 #    consumer_key = "XYznzPFOFZR2a39FwWKN1Jp41",
+#    consumer_secret = "CtkGEWmSevZqJuKl6HHrBxbCybxI1xGLqrD5ynPd9jG0SoHZbD",
 #    acess_token = "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL",
 #    access_secret = "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7")
-
-## ------------------------------------------------------------------------
-#  ## create token and save it as an environment variable
-#  twitter_token <- create_token(
-#    app = appname,
-#    consumer_key = key,
-#    consumer_secret = secret,
-#    access_token = access_token,
-#    access_secret = access_secret
-#  )
 
 ## ------------------------------------------------------------------------
 #  ## check to see if the token is loaded

@@ -9,5 +9,5 @@ authors:
 navbar:
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/mkearney/rtweet
+    href: https://github.com/ropensci/rtweet
 

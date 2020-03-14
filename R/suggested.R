@@ -2,7 +2,6 @@
 #'
 #' Returns Twitter's list of suggested user categories.
 #'
-#' @inheritParams suggested_users
 #' @return List of recommended categories which can be passed along as
 #'   the "slug" parameter in \code{\link{suggested_users}}
 #' @export
@@ -64,7 +63,7 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 #'
 #' }
 #'
-#' @rdname suggested
+#' @family suggested
 suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
   if (missing(slug)) {
     stop("Must provide slug. See: suggested_slugs for list of possible values",
@@ -88,7 +87,6 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #'
 #' Returns users data for all users in Twitter's suggested categories.
 #'
-#' @inheritParams suggested_users
 #' @param slugs Optional, one or more slugs returned by
 #'   \code{\link{suggested_slugs}}. API rate limits this to 15 max (function
 #'   will return warnings for slugs provided beyond the remaining limit).
@@ -99,7 +97,7 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #'   to create a Twitter token see the tokens vignette, i.e.,
 #'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @export
-#' @rdname suggested
+#' @rdname suggested_users
 suggested_users_all <- function(slugs = NULL, parse = TRUE, token = NULL) {
   if (is.null(slugs)) {
     slugs <- suggested_slugs(token = token)

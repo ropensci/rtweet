@@ -265,7 +265,6 @@ parse_unit <- function(by) {
 #'   "weeks", "months", "years" (plural optional).
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return If POSIXct then POSIX. If date then Date.
-#' @export
 #' @examples
 #'
 #' ## class posixct
@@ -273,6 +272,8 @@ parse_unit <- function(by) {
 #'
 #' ## class date
 #' unique(round_time(seq(Sys.Date(), Sys.Date() + 100, "1 day"), "weeks"))
+#' 
+#' @export
 round_time <- function(x, n, tz) UseMethod("round_time")
 
 #' @export

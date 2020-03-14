@@ -39,7 +39,6 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
   do.call("lookup_statuses_", args)
 }
 
-#' @inheritParams lookup_statuses
 #' @rdname lookup_statuses
 #' @export
 lookup_tweets <- function(statuses, parse = TRUE, token = NULL) {

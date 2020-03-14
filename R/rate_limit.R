@@ -10,7 +10,7 @@
 #'   variable in the tokens vignette (in r, send \code{?tokens} to
 #'   console).
 #' @param query Specific API (path) or a character function name,
-#'   e.g., query = "get_timelines", used to subset the returned data.
+#'   e.g., query = "get_timeline", used to subset the returned data.
 #'   If null, this function returns entire rate limit request object
 #'   as a tibble data frame. Otherwise, query returns specific values
 #'   matching the query of interest; e.g., query = "lookup/users"
@@ -258,6 +258,7 @@ funs_and_apis <- function() {
 
     `statuses/user_timeline` = "timeline",
     `statuses/user_timeline` = "get_timeline",
+    `statuses/user_timeline` = "get_timelines",
     `statuses/home_timeline` = "home_timeline",
     `statuses/home_timeline` = "get_home_timeline",
     `statuses/mentions_timeline` = "get_mentions",
@@ -353,7 +354,6 @@ fun2api <- function(x) {
 
 #' @export
 #' @rdname rate_limit
-#' @inheritParams rate_limit
 rate_limits <- function(token = NULL,
                         query = NULL,
                         parse = TRUE) {

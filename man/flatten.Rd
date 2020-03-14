@@ -43,10 +43,12 @@ If recursive list columns are contained within the data frame,
   geo_coords, coords_coords, bbox_coords, mentions_screen_name
 }
 \seealso{
-Other datafiles: \code{\link{read_twitter_csv}},
-  \code{\link{write_as_csv}}
+Other datafiles: 
+\code{\link{read_twitter_csv}()},
+\code{\link{write_as_csv}()}
 
-Other datafiles: \code{\link{read_twitter_csv}},
-  \code{\link{write_as_csv}}
+Other datafiles: 
+\code{\link{read_twitter_csv}()},
+\code{\link{write_as_csv}()}
 }
 \concept{datafiles}

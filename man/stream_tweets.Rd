@@ -5,8 +5,15 @@
 \alias{stream_tweets2}
 \title{Collect a live stream of Twitter data.}
 \usage{
-stream_tweets(q = "", timeout = 30, parse = TRUE, token = NULL,
-  file_name = NULL, verbose = TRUE, ...)
+stream_tweets(
+  q = "",
+  timeout = 30,
+  parse = TRUE,
+  token = NULL,
+  file_name = NULL,
+  verbose = TRUE,
+  ...
+)
 
 stream_tweets2(..., dir = NULL, append = FALSE)
 }
@@ -168,8 +175,9 @@ x <- lat_lng(rtworld)
 
 }
 \seealso{
-\url{https://stream.twitter.com/1.1/statuses/filter.json}
+\url{https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose}
 
-Other stream tweets: \code{\link{parse_stream}}
+Other stream tweets: 
+\code{\link{parse_stream}()}
 }
 \concept{stream tweets}

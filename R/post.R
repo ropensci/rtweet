@@ -1,24 +1,22 @@
 #' Posts status update to user's Twitter account
 #'
-#' @param status Character, tweet status. Must be 140
-#'   characters or less.
-#' @param media File path to image or video media to be
-#'   included in tweet.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
+#' @param status Character, tweet status. Must be 280 characters or less.
+#' @param media File path to image or video media to be included in tweet.
+#' @param token OAuth token. By default \code{token = NULL} fetches a
+#'   non-exhausted token from an environment variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like to reply.
 #'   Note: in line with the Twitter API, this parameter is ignored unless the
 #'   author of the tweet this parameter references is mentioned within the
 #'   status text.
-#' @param destroy_id To delete a status, supply the single status ID here.
-#'   If a character string is supplied, overriding the default (NULL),
-#'   then a destroy request is made (and the status text and media attachments)
-#'   are irrelevant.
-#' @param retweet_id To retweet a status, supply the single status ID here.
-#'   If a character string is supplied, overriding the default (NULL),
-#'   then a retweet request is made (and the status text and media attachments)
-#'   are irrelevant.
+#' @param destroy_id To delete a status, supply the single status ID here. If a
+#'   character string is supplied, overriding the default (NULL), then a destroy
+#'   request is made (and the status text and media attachments) are irrelevant.
+#' @param retweet_id To retweet a status, supply the single status ID here. If a
+#'   character string is supplied, overriding the default (NULL), then a retweet
+#'   request is made (and the status text and media attachments) are irrelevant.
+#' @param auto_populate_reply_metadata If set to TRUE and used with
+#'   in_reply_to_status_id, leading @mentions will be looked up from the
+#'   original Tweet, and added to the new Tweet from there. Defaults to FALSE.
 #' @examples
 #' \dontrun{
 #' ## generate data to make/save plot (as a .png file)
@@ -66,7 +64,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        token = NULL,
                        in_reply_to_status_id = NULL,
                        destroy_id = NULL,
-                       retweet_id = NULL) {
+                       retweet_id = NULL,
+                       auto_populate_reply_metadata = FALSE) {
 
   ## check token
   token <- check_token(token)
@@ -123,8 +122,22 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## update statuses query
   query <- "statuses/update"
-  ## validate status text
-  if (all(nchar(status) > 280, !grepl("http", status))) {
+
+  ## make sure encoding is utf-8
+  enc <- getOption("encoding")
+  on.exit(options(encoding = enc), add = TRUE)
+  options(encoding = "UTF-8")
+
+  ## validate status text – IF
+  ##   (Part 1) status text is > 280 characters
+  ##            ***AND***
+  ##   (Part 2) status text does not include hyperlink
+  ## ––––––––––logic:
+  ##   Twitter will shorten long URLs (so the characters in any supplied URL may
+  ##   not count 1:1 toward the 280 character limit); i'm not sure when and how
+  ##   this works (we'd need to know exactly *when* and *to what extent* URLs
+  ##   get shorted), so this is an inexact solution
+  if (all(!is_tweet_length(status), !grepl("https?://\\S+", status))) {
     stop("cannot exceed 280 characters.", call. = FALSE)
   }
   if (length(status) > 1) {
@@ -159,6 +172,10 @@ post_tweet <- function(status = "my first rtweet #rstats",
     params[["in_reply_to_status_id"]] <- in_reply_to_status_id
   }
 
+  if (auto_populate_reply_metadata) {
+    params[["auto_populate_reply_metadata"]] <- "true"
+  }
+
   url <- make_url(query = query, param = params)
 
   r <- TWIT(get = FALSE, url, token)
@@ -168,6 +185,14 @@ post_tweet <- function(status = "my first rtweet #rstats",
   }
   message("your tweet has been posted!")
   invisible(r)
+}
+
+is_tweet_length <- function(.x, n = 280) {
+  .x <- gsub("https?://[[:graph:]]+\\s?", "", .x)
+  while (grepl("^@\\S+\\s+", .x)) {
+    .x <- sub("^@\\S+\\s+", "", .x)
+  }
+  nchar(.x) <= n
 }
 
 #' Checks status of chunked media upload`
@@ -397,7 +422,6 @@ check_status_code <- function(x) {
 }
 
 
-#' @inheritParams post_follow
 #' @aliases unfollow_user
 #' @rdname post_follow
 #' @export
@@ -405,7 +429,6 @@ post_unfollow_user <- function(user, token = NULL) {
   post_follow(user, destroy = TRUE, token = token)
 }
 
-#' @inheritParams post_follow
 #' @aliases unfollow_user
 #' @rdname post_follow
 #' @aliases mute_user

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Collecting Twitter Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Collecting Twitter Data
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;rtweet&rsquo; version 0.6.9</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="rtweet-package.html">rtweet-package</a></td>
+<td>rtweet: Collecting Twitter data</td></tr>
+<tr><td style="width: 25%;"><a href="as_screenname.html">as_screenname</a></td>
+<td>Coerces user identifier(s) to be evaluated as a screen name(s).</td></tr>
+<tr><td style="width: 25%;"><a href="as_screenname.html">as_userid</a></td>
+<td>Coerces user identifier(s) to be evaluated as a screen name(s).</td></tr>
+<tr><td style="width: 25%;"><a href="bearer_token.html">bearer_token</a></td>
+<td>Bearer token</td></tr>
+<tr><td style="width: 25%;"><a href="create_token.html">create_token</a></td>
+<td>Creating Twitter authorization token(s).</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">data_tweet</a></td>
+<td>Extracts tweets data from users data object.</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">data_tweets</a></td>
+<td>Extracts tweets data from users data object.</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">data_user</a></td>
+<td>Extracts users data from tweets data object.</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">data_users</a></td>
+<td>Extracts users data from tweets data object.</td></tr>
+<tr><td style="width: 25%;"><a href="direct_messages.html">direct_messages</a></td>
+<td>Get direct messages sent to and received by the authenticating user from the past 30 days</td></tr>
+<tr><td style="width: 25%;"><a href="direct_messages_received.html">direct_messages_received</a></td>
+<td>(DEPRECATED) Get the most recent direct messages sent to the authenticating user.</td></tr>
+<tr><td style="width: 25%;"><a href="direct_messages.html">direct_messages_sent</a></td>
+<td>Get direct messages sent to and received by the authenticating user from the past 30 days</td></tr>
+<tr><td style="width: 25%;"><a href="do_call_rbind.html">do_call_rbind</a></td>
+<td>Binds list of data frames while preserving attribute (tweets or users) data.</td></tr>
+<tr><td style="width: 25%;"><a href="emojis.html">emojis</a></td>
+<td>Emojis codes and descriptions data.</td></tr>
+<tr><td style="width: 25%;"><a href="post_favorite.html">favorite_tweet</a></td>
+<td>Favorites target status id.</td></tr>
+<tr><td style="width: 25%;"><a href="flatten.html">flatten</a></td>
+<td>flatten/unflatten data frame</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">follow_user</a></td>
+<td>Follows target twitter user.</td></tr>
+<tr><td style="width: 25%;"><a href="post_friendship.html">friendship_update</a></td>
+<td>Updates friendship notifications and retweet abilities.</td></tr>
+<tr><td style="width: 25%;"><a href="get_collections.html">get_collections</a></td>
+<td>Get collections by user or status id.</td></tr>
+<tr><td style="width: 25%;"><a href="get_favorites.html">get_favorites</a></td>
+<td>Get tweets data for statuses favorited by one or more target users.</td></tr>
+<tr><td style="width: 25%;"><a href="get_followers.html">get_followers</a></td>
+<td>Get user IDs for accounts following target user.</td></tr>
+<tr><td style="width: 25%;"><a href="get_friends.html">get_friends</a></td>
+<td>Get user IDs of accounts followed by target user(s).</td></tr>
+<tr><td style="width: 25%;"><a href="get_mentions.html">get_mentions</a></td>
+<td>Get mentions for the authenticating user.</td></tr>
+<tr><td style="width: 25%;"><a href="get_my_timeline.html">get_my_timeline</a></td>
+<td>Get _your_ timeline</td></tr>
+<tr><td style="width: 25%;"><a href="get_retweeters.html">get_retweeters</a></td>
+<td>Get user IDs of users who retweeted a given status.</td></tr>
+<tr><td style="width: 25%;"><a href="get_retweets.html">get_retweets</a></td>
+<td>Get the most recent retweets of a specific Twitter status</td></tr>
+<tr><td style="width: 25%;"><a href="get_timeline.html">get_timeline</a></td>
+<td>Get one or more user timelines (tweets posted by target user(s)).</td></tr>
+<tr><td style="width: 25%;"><a href="get_timeline.html">get_timelines</a></td>
+<td>Get one or more user timelines (tweets posted by target user(s)).</td></tr>
+<tr><td style="width: 25%;"><a href="get_tokens.html">get_token</a></td>
+<td>Fetching Twitter authorization token(s).</td></tr>
+<tr><td style="width: 25%;"><a href="get_tokens.html">get_tokens</a></td>
+<td>Fetching Twitter authorization token(s).</td></tr>
+<tr><td style="width: 25%;"><a href="get_trends.html">get_trends</a></td>
+<td>Get Twitter trends data.</td></tr>
+<tr><td style="width: 25%;"><a href="invalidate_bearer.html">invalidate_bearer</a></td>
+<td>Invalidate bearer token</td></tr>
+<tr><td style="width: 25%;"><a href="langs.html">langs</a></td>
+<td>Language codes recognized by Twitter data.</td></tr>
+<tr><td style="width: 25%;"><a href="lat_lng.html">lat_lng</a></td>
+<td>Adds single-point latitude and longitude variables to tweets data.</td></tr>
+<tr><td style="width: 25%;"><a href="lists_members.html">lists_members</a></td>
+<td>Get Twitter list members (users on a given list).</td></tr>
+<tr><td style="width: 25%;"><a href="lists_members.html">lists_memberships</a></td>
+<td>Get Twitter list members (users on a given list).</td></tr>
+<tr><td style="width: 25%;"><a href="lists_statuses.html">lists_statuses</a></td>
+<td>Get a timeline of tweets authored by members of a specified list.</td></tr>
+<tr><td style="width: 25%;"><a href="lists_subscribers.html">lists_subscribers</a></td>
+<td>Get subscribers of a specified list.</td></tr>
+<tr><td style="width: 25%;"><a href="lists_subscriptions.html">lists_subscriptions</a></td>
+<td>Get list subscriptions of a given user.</td></tr>
+<tr><td style="width: 25%;"><a href="lists_users.html">lists_users</a></td>
+<td>Get all lists a specified user subscribes to, including their own.</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_collections.html">lookup_collections</a></td>
+<td>Get collections by user or status id.</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_coords.html">lookup_coords</a></td>
+<td>Get coordinates of specified location.</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_friendships.html">lookup_friendships</a></td>
+<td>Lookup friendship information between two specified users.</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_statuses.html">lookup_statuses</a></td>
+<td>Get tweets data for given statuses (status IDs).</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_statuses.html">lookup_tweets</a></td>
+<td>Get tweets data for given statuses (status IDs).</td></tr>
+<tr><td style="width: 25%;"><a href="lookup_users.html">lookup_users</a></td>
+<td>Get Twitter users data for given users (user IDs or screen names).</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">max_id</a></td>
+<td>next_cursor/previous_cursor/max_id</td></tr>
+<tr><td style="width: 25%;"><a href="my_friendships.html">my_friendships</a></td>
+<td>Lookup friendship information between users.</td></tr>
+<tr><td style="width: 25%;"><a href="network_graph.html">network_data</a></td>
+<td>Network data</td></tr>
+<tr><td style="width: 25%;"><a href="network_graph.html">network_graph</a></td>
+<td>Network data</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">next_cursor</a></td>
+<td>next_cursor/previous_cursor/max_id</td></tr>
+<tr><td style="width: 25%;"><a href="parse_stream.html">parse_stream</a></td>
+<td>Converts Twitter stream data (JSON file) into parsed data frame.</td></tr>
+<tr><td style="width: 25%;"><a href="plain_tweets.html">plain_tweets</a></td>
+<td>Clean up character vector (tweets) to more of a plain text.</td></tr>
+<tr><td style="width: 25%;"><a href="post_favorite.html">post_favorite</a></td>
+<td>Favorites target status id.</td></tr>
+<tr><td style="width: 25%;"><a href="post_favorite.html">post_favourite</a></td>
+<td>Favorites target status id.</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">post_follow</a></td>
+<td>Follows target twitter user.</td></tr>
+<tr><td style="width: 25%;"><a href="post_friendship.html">post_friendship</a></td>
+<td>Updates friendship notifications and retweet abilities.</td></tr>
+<tr><td style="width: 25%;"><a href="post_list.html">post_list</a></td>
+<td>Manage Twitter lists</td></tr>
+<tr><td style="width: 25%;"><a href="post_message.html">post_message</a></td>
+<td>Posts direct message from user's Twitter account</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">post_mute</a></td>
+<td>Follows target twitter user.</td></tr>
+<tr><td style="width: 25%;"><a href="post_tweet.html">post_status</a></td>
+<td>Posts status update to user's Twitter account</td></tr>
+<tr><td style="width: 25%;"><a href="post_tweet.html">post_tweet</a></td>
+<td>Posts status update to user's Twitter account</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">post_unfollow_user</a></td>
+<td>Follows target twitter user.</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">previous_cursor</a></td>
+<td>next_cursor/previous_cursor/max_id</td></tr>
+<tr><td style="width: 25%;"><a href="rate_limit.html">rate_limit</a></td>
+<td>Get rate limit data for given Twitter access tokens.</td></tr>
+<tr><td style="width: 25%;"><a href="rate_limit.html">rate_limits</a></td>
+<td>Get rate limit data for given Twitter access tokens.</td></tr>
+<tr><td style="width: 25%;"><a href="read_twitter_csv.html">read_twitter_csv</a></td>
+<td>Read comma separated value Twitter data.</td></tr>
+<tr><td style="width: 25%;"><a href="round_time.html">round_time</a></td>
+<td>A generic function for rounding date and time values</td></tr>
+<tr><td style="width: 25%;"><a href="rtweet-package.html">rtweet</a></td>
+<td>rtweet: Collecting Twitter data</td></tr>
+<tr><td style="width: 25%;"><a href="write_as_csv.html">save_as_csv</a></td>
+<td>Save Twitter data as a comma separated value file.</td></tr>
+<tr><td style="width: 25%;"><a href="search_30day.html">search_30day</a></td>
+<td>Search last 30day (PREMIUM)</td></tr>
+<tr><td style="width: 25%;"><a href="search_fullarchive.html">search_fullarchive</a></td>
+<td>Search fullarchive (PREMIUM)</td></tr>
+<tr><td style="width: 25%;"><a href="search_tweets.html">search_tweets</a></td>
+<td>Get tweets data on statuses identified via search query.</td></tr>
+<tr><td style="width: 25%;"><a href="search_tweets.html">search_tweets2</a></td>
+<td>Get tweets data on statuses identified via search query.</td></tr>
+<tr><td style="width: 25%;"><a href="search_users.html">search_users</a></td>
+<td>Get users data on accounts identified via search query.</td></tr>
+<tr><td style="width: 25%;"><a href="next_cursor.html">since_id</a></td>
+<td>next_cursor/previous_cursor/max_id</td></tr>
+<tr><td style="width: 25%;"><a href="stopwordslangs.html">stopwordslangs</a></td>
+<td>Twitter stop words in multiple languages data.</td></tr>
+<tr><td style="width: 25%;"><a href="stream_tweets.html">stream_tweets</a></td>
+<td>Collect a live stream of Twitter data.</td></tr>
+<tr><td style="width: 25%;"><a href="stream_tweets.html">stream_tweets2</a></td>
+<td>Collect a live stream of Twitter data.</td></tr>
+<tr><td style="width: 25%;"><a href="suggested_users.html">suggested_slugs</a></td>
+<td>Get user [account] suggestions for authenticating user</td></tr>
+<tr><td style="width: 25%;"><a href="suggested_users.html">suggested_users</a></td>
+<td>Get user [account] suggestions for authenticating user</td></tr>
+<tr><td style="width: 25%;"><a href="suggested.html">suggested_users_all</a></td>
+<td>Get all user [account] suggestions for authenticating user</td></tr>
+<tr><td style="width: 25%;"><a href="trends_available.html">trends_available</a></td>
+<td>Available Twitter trends along with associated WOEID.</td></tr>
+<tr><td style="width: 25%;"><a href="ts_data.html">ts_data</a></td>
+<td>Converts tweets data into time series-like data object.</td></tr>
+<tr><td style="width: 25%;"><a href="ts_plot.html">ts_plot</a></td>
+<td>Plots tweets data as a time series-like data object.</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">tweets_data</a></td>
+<td>Extracts tweets data from users data object.</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_with_users.html">tweets_with_users</a></td>
+<td>Parsing data into tweets/users data tibbles</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_data.html">tweet_data</a></td>
+<td>Extracts tweets data from users data object.</td></tr>
+<tr><td style="width: 25%;"><a href="tweet_shot.html">tweet_shot</a></td>
+<td>Capture an image of a tweet/thread</td></tr>
+<tr><td style="width: 25%;"><a href="flatten.html">unflatten</a></td>
+<td>flatten/unflatten data frame</td></tr>
+<tr><td style="width: 25%;"><a href="post_follow.html">unfollow_user</a></td>
+<td>Follows target twitter user.</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">users_data</a></td>
+<td>Extracts users data from tweets data object.</td></tr>
+<tr><td style="width: 25%;"><a href="tweets_with_users.html">users_with_tweets</a></td>
+<td>Parsing data into tweets/users data tibbles</td></tr>
+<tr><td style="width: 25%;"><a href="users_data.html">user_data</a></td>
+<td>Extracts users data from tweets data object.</td></tr>
+<tr><td style="width: 25%;"><a href="write_as_csv.html">write_as_csv</a></td>
+<td>Save Twitter data as a comma separated value file.</td></tr>
+</table>
+</body></html>

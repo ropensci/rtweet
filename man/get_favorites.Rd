@@ -4,8 +4,14 @@
 \alias{get_favorites}
 \title{Get tweets data for statuses favorited by one or more target users.}
 \usage{
-get_favorites(user, n = 200, since_id = NULL, max_id = NULL,
-  parse = TRUE, token = NULL)
+get_favorites(
+  user,
+  n = 200,
+  since_id = NULL,
+  max_id = NULL,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
@@ -62,11 +68,14 @@ favs
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}
 
-Other tweets: \code{\link{get_mentions}},
-  \code{\link{get_my_timeline}},
-  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
-  \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{tweets_data}},
-  \code{\link{tweets_with_users}}
+Other tweets: 
+\code{\link{get_mentions}()},
+\code{\link{get_my_timeline}()},
+\code{\link{get_timeline}()},
+\code{\link{lists_statuses}()},
+\code{\link{lookup_statuses}()},
+\code{\link{search_tweets}()},
+\code{\link{tweets_data}()},
+\code{\link{tweets_with_users}()}
 }
 \concept{tweets}

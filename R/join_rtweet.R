@@ -8,7 +8,7 @@ join_rtweet <- function(x) {
   if ("users" %in% names(attributes(x))) {
     tw <- as_tbl(x)
     ## get users data
-    us <- as_tbl(attr(tw, "users"))
+    us <- as_tbl(attr(x, "users"))
     ## they should be same length; if so fill in user rows w/o tweets
     if (NROW(tw) == NROW(us)) {
       tw$user_id[is.na(tw$user_id)] <- us$user_id[is.na(tw$user_id)]
@@ -54,7 +54,7 @@ join_rtweet <- function(x) {
   } else if ("tweets" %in% names(attributes(x))) {
     us <- as_tbl(x)
     ## get tweets data
-    tw <- as_tbl(attr(us, "tweets"))
+    tw <- as_tbl(attr(x, "tweets"))
     ## they should be same length; if so fill in user rows w/o tweets
     if (NROW(tw) == NROW(us)) {
       tw$user_id[is.na(tw$user_id)] <- us$user_id[is.na(tw$user_id)]

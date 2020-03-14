@@ -31,11 +31,17 @@ vignette("rtweet")
 Useful links:
 \itemize{
   \item \url{https://CRAN.R-project.org/package=rtweet}
-  \item Report bugs at \url{https://github.com/mkearney/rtweet/issues}
+  \item Report bugs at \url{https://github.com/ropensci/rtweet/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (0000-0002-0730-4694)
+\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (\href{https://orcid.org/0000-0002-0730-4694}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Andrew Heiss (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [reviewer]
+  \item Francois Briatte [reviewer]
+}
 
 }

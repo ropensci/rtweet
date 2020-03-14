@@ -584,3 +584,15 @@ rstats2twitter_client <- function() {
 }
 
 
+rtweet_find_access_key <- function() {
+  if ((key <- Sys.getenv("TWITTER_ACCESS_KEY")) != "") {
+    return(key)
+  }
+  system(paste0("echo $TWITTER_ACCESS_KEY"), intern = TRUE)
+}
+rtweet_find_access_secret <- function() {
+  if ((key <- Sys.getenv("TWITTER_ACCESS_SECRET")) != "") {
+    return(key)
+  }
+  system(paste0("echo $TWITTER_ACCESS_SECRET"), intern = TRUE)
+}

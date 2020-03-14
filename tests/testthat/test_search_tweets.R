@@ -5,9 +5,9 @@ test_that("search_tweets returns tweets data and latlng", {
 
   n <- 50
   token <- readRDS("twitter_tokens")
-  x <- search_tweets("tweet tweet", n = n, type = "recent",
-                     token = token, lang = "en")
-
+  x <- search_tweets("test", n = n, type = "recent",
+    token = token, lang = "en")
+  
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true(all(x$lang == "en"))

@@ -1,6 +1,6 @@
 
-R version 3.5.1 (2018-07-02) -- "Feather Spray"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 3.5.3 (2019-03-11) -- "Great Truth"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -91,9 +91,6 @@ NULL
 > 
 > 
 > cleanEx()
-
-detaching ‘package:bindrcpp’
-
 > nameEx("graphTweets")
 > ### * graphTweets
 > 
@@ -223,7 +220,7 @@ detaching ‘package:bindrcpp’
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.484 0.028 0.528 0 0 
+Time elapsed:  0.426 0.027 0.52 0.001 0.001 
 > grDevices::dev.off()
 null device 
           1 

@@ -2,7 +2,6 @@
 #'
 #' @param user The user id or screen_name of the user for whom to
 #'   return results for.
-#' @inheritParams lists_members
 #' @param filter_to_owned_lists When set to true . t or 1 , will
 #'   return just lists the authenticating user owns, and the user
 #'   represented by user_id or screen_name is a member of.

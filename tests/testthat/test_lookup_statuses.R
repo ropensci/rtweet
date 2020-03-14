@@ -3,7 +3,7 @@ context("lookup_statuses")
 test_that("lookup_statuses returns users data", {
   skip_on_cran()
 
-  n <- 3
+  n <- 2
   token <- readRDS("twitter_tokens")
   x <- lookup_statuses(c("558115838503690243",
                          "760182486005583872",

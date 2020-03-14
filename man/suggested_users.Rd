@@ -3,11 +3,14 @@
 \name{suggested_slugs}
 \alias{suggested_slugs}
 \alias{suggested_users}
+\alias{suggested_users_all}
 \title{Get user [account] suggestions for authenticating user}
 \usage{
 suggested_slugs(lang = NULL, token = NULL)
 
 suggested_users(slug, lang = NULL, parse = TRUE, token = NULL)
+
+suggested_users_all(slugs = NULL, parse = TRUE, token = NULL)
 }
 \arguments{
 \item{lang}{optional Restricts the suggested categories to the
@@ -25,6 +28,10 @@ to create a Twitter token see the tokens vignette, i.e.,
 
 \item{parse}{Logical indicating whether to parse the returned data into
 a tibble data frame. See details for more on the returned users data.}
+
+\item{slugs}{Optional, one or more slugs returned by
+\code{\link{suggested_slugs}}. API rate limits this to 15 max (function
+will return warnings for slugs provided beyond the remaining limit).}
 }
 \value{
 List of recommended categories which can be passed along as
@@ -34,6 +41,8 @@ Recommended users
 }
 \description{
 Returns Twitter's list of suggested user categories.
+
+Returns users data for all users in Twitter's suggested categories.
 }
 \details{
 Currently, this parsing process drops all
@@ -67,3 +76,4 @@ sugs_usr
 }
 
 }
+\concept{suggested}

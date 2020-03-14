@@ -6,8 +6,12 @@
 \alias{favorite_tweet}
 \title{Favorites target status id.}
 \usage{
-post_favorite(status_id, destroy = FALSE, include_entities = FALSE,
-  token = NULL)
+post_favorite(
+  status_id,
+  destroy = FALSE,
+  include_entities = FALSE,
+  token = NULL
+)
 }
 \arguments{
 \item{status_id}{Status id of target tweet.}
@@ -32,7 +36,9 @@ r <- lapply(rt$user_id, post_favorite)
 }
 }
 \seealso{
-Other post: \code{\link{post_follow}},
-  \code{\link{post_friendship}}, \code{\link{post_tweet}}
+Other post: 
+\code{\link{post_follow}()},
+\code{\link{post_friendship}()},
+\code{\link{post_tweet}()}
 }
 \concept{post}

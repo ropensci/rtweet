@@ -29,7 +29,8 @@ rt <- read_twitter_csv("data.csv")
 }
 }
 \seealso{
-Other datafiles: \code{\link{flatten}},
-  \code{\link{write_as_csv}}
+Other datafiles: 
+\code{\link{flatten}()},
+\code{\link{write_as_csv}()}
 }
 \concept{datafiles}

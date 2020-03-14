@@ -1,13 +1,13 @@
 Package: rtweet
 Type: Package
-Version: 0.6.7
+Version: 0.6.8
 Title: Collecting Twitter Data
 Authors@R: c(
-    person("Michael W.", "Kearney", , 
+    person("Michael W.", "Kearney", ,
     email = "kearneymw@missouri.edu", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-0730-4694"))
     ## add contributor template (middle name/initial optional)
-    #person("First Middle", "Last", , 
+    #person("First Middle", "Last", ,
     #email = "email@address.com", role = c("ctb"))
     )
 Description: An implementation of calls designed to collect and
@@ -25,11 +25,11 @@ Suggests: ggplot2, knitr, magick, openssl, readr, rmarkdown, testthat,
         webshot, covr
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0.9000
 NeedsCompilation: no
-Packaged: 2018-06-20 01:39:54 UTC; mwk
+Packaged: 2018-09-28 20:20:01 UTC; kearneymw
 Author: Michael W. Kearney [aut, cre] (<https://orcid.org/0000-0002-0730-4694>)
 Maintainer: Michael W. Kearney <kearneymw@missouri.edu>
 Repository: CRAN
-Date/Publication: 2018-06-20 04:38:02 UTC
-Built: R 3.5.0; ; 2018-06-21 09:29:04 UTC; unix
+Date/Publication: 2018-09-28 20:40:03 UTC
+Built: R 3.5.0; ; 2018-09-29 16:31:31 UTC; unix

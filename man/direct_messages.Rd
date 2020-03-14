@@ -6,11 +6,15 @@
 \title{Get direct messages sent to and received by the authenticating user from the
 past 30 days}
 \usage{
-direct_messages(n = 50, next_cursor = NULL, parse = TRUE,
-  token = NULL)
+direct_messages(n = 50, next_cursor = NULL, parse = TRUE, token = NULL)
 
-direct_messages_sent(since_id = NULL, max_id = NULL, n = 200,
-  parse = TRUE, token = NULL)
+direct_messages_sent(
+  since_id = NULL,
+  max_id = NULL,
+  n = 200,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{n}{optional Specifies the number of direct messages to try
@@ -53,10 +57,9 @@ Includes detailed information about the sender and
   available using this endpoint.
 
   Important: This method requires an access token with read,
-  write, and direct message permissions. To change your application's
-  permissions, navigate to \url{apps.twitter.com}, select the
-  appropriate application, click the "permissions" tab. Once you' have made
-  changes to the application permission settings, you will need to
+  write, and direct message permissions. If you own the Twitter application,
+  you can change permissions through Twitter's developer portal. Once you
+  have made changes to the application permission settings, you will need to
   regenerate your token before those effect of those changes can
   take effect.
 }

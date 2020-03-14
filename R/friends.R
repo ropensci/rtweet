@@ -67,6 +67,11 @@
 #'   for a second time) until the next rate limit reset. Users should monitor
 #'   and test this before making especially large calls as any systematic issues
 #'   could create sizable inefficiencies.
+#'
+#'   At this time, results are ordered with the most recent following first —
+#'   however, this ordering is subject to unannounced change and eventual
+#'   consistency issues. While this remains true it is possible to iteratively build
+#'   friends lists for a user over time.
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.
 #' @family ids
@@ -112,6 +117,12 @@ get_friends_ <- function(users,
   ## build URL
   query <- "friends/ids"
   token <- check_token(token)
+  
+  ## set scipen to ensure IDs are not rounded
+  op <- getOption("scipen")
+  on.exit(options(scipen = op), add = TRUE)
+  options(scipen = 14)
+  
   ## for larger requests implement Sys.sleep
   if (n > 1) {
     ## initialize output object
@@ -121,7 +132,7 @@ get_friends_ <- function(users,
     i <- 0L
     ## until friends of n users have been retrieved
     while (more) {
-      rl <- rate_limit(token, query)
+      rl <- rate_limit2(token, query)
       n.times <- rl[["remaining"]]
       i <- i + 1L
       params <- list(
@@ -148,13 +159,13 @@ get_friends_ <- function(users,
             )
           }
           Sys.sleep(as.numeric(rl$reset, "secs") + 2)
-          rl <- rate_limit(token, query)
+          rl <- rate_limit2(token, query)
           n.times <- rl$remaining
           rate_limited <- isTRUE(n.times == 0)
         }
       }
       ## make call
-      f[[i]] <- get_friend(url, token = token)
+      f[[i]] <- get_friend_nosp(url, token = token)
       if (has_name_(f[[i]], "errors")) {
         warning(f[[i]]$errors[["message"]], call. = FALSE)
         return(list(data.frame()))
@@ -162,7 +173,7 @@ get_friends_ <- function(users,
         if (length(f[[i]][["ids"]]) == 0) {
           f[[i]] <- tibble::as_tibble()
         } else {
-          nextcursor <- f[["next_cursor"]]
+          nextcursor <- next_cursor(f)
           f[[i]] <- tibble::as_tibble(
             list(user = users[[i]], user_id = f[[i]][["ids"]]))
           attr(f[[i]], "next_cursor") <- nextcursor
@@ -198,27 +209,59 @@ get_friends_ <- function(users,
       param = params
     )
     ## if !retryonratelimit then if necessary exhaust what can with token
-    f <- get_friend(url, token = token)
-      if (has_name_(f, "errors")) {
-        warning(f$errors[["message"]], call. = FALSE)
-        return(list(data.frame()))
-      } else if (parse) {
-        nextcursor <- f[["next_cursor"]]
-        if (length(f[["ids"]]) == 0) {
-          f <- tibble::as_tibble()
-        } else {
-          f <- tibble::as_tibble(
-            list(user = users, user_id = f[["ids"]]))
-          attr(f, "next_cursor") <- nextcursor
-        }
+    f <- get_friend_nosp(url, token = token)
+    if (has_name_(f, "errors")) {
+      warning(f$errors[["message"]], call. = FALSE)
+      return(list(data.frame()))
+    } else if (parse) {
+      nextcursor <- f[["next_cursor"]]
+      if (length(f[["ids"]]) == 0) {
+        f <- tibble::as_tibble()
+      } else {
+        f <- tibble::as_tibble(
+          list(user = users, user_id = f[["ids"]]))
+        attr(f, "next_cursor") <- nextcursor
       }
+    }
   }
   f
 }
 
+run_it_back <- function(fun, secs = 0.25) {
+  eval(parse(text = paste0("function(...) {
+    tryCatch(", fun, "(...), error = function(e) {
+      Sys.sleep(", secs, ")
+      ", fun, "(...)
+    })
+  }")))
+}
+
+rate_limit2 <- run_it_back("rate_limit")
+
+TWIT2 <- run_it_back("TWIT")
+
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET
 get_friend <- function(url, token = NULL) {
+  ## set scipen to ensure IDs are not rounded
+  op <- getOption("scipen")
+  on.exit(options(scipen = op), add = TRUE)
+  options(scipen = 14)
+  
+  r <- httr::GET(url, token)
+  if (!warn_for_twitter_status(r)) {
+    if (has_name_(url, "query") &&
+        any(grepl("user_id|screen_name", names(url$query)))) {
+      warning("^^ warning regarding user: ",
+        url$query[[grep("screen_name|user_id", names(url$query))]],
+        call. = FALSE, immediate. = TRUE)
+    }
+    return(list(ids = character()))
+  }
+  from_js(r)
+}
+
+get_friend_nosp <- function(url, token = NULL) {
   r <- httr::GET(url, token)
   if (!warn_for_twitter_status(r)) {
     if (has_name_(url, "query") &&
@@ -253,9 +296,11 @@ my_friendships <- function(user,
                            parse = TRUE,
                            token = NULL) {
   ## gotta have ut8-encoding for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
+  ## set scipen to ensure IDs are not rounded
+  op_enc <- getOption("encoding")
+  op_sci <- getOption("scipen")
+  on.exit(options(scipen = op_sci, encoding = op_enc), add = TRUE)
+  options(scipen = 14, encoding = "UTF-8")
 
   stopifnot(is.atomic(user))
   token <- check_token(token)
@@ -280,9 +325,9 @@ my_friendships <- function(user,
 
 
 lookup_friendships_ <- function(source,
-                              target,
-                              parse = TRUE,
-                              token = NULL) {
+                                target,
+                                parse = TRUE,
+                                token = NULL) {
   stopifnot(is.atomic(source), is.atomic(target))
   token <- check_token(token)
   query <- "friendships/show"
@@ -327,6 +372,12 @@ lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
   if (length(source) > 1L && length(target) > 1L) {
     stopifnot(length(source) == length(target))
   }
+
+  ## set scipen to ensure IDs are not rounded
+  op_sci <- getOption("scipen")
+  on.exit(options(scipen = op_sci), add = TRUE)
+  options(scipen = 14)
+  
   fds <- Map(
     "lookup_friendships_", source, target,
     MoreArgs = list(parse = parse, token = token)
@@ -346,7 +397,7 @@ parse_showfriendships <- function(x, source_user, target_user) {
   }
   if (has_name_(x, "source")) {
     src <- unlist(x$source)
-    src <- tibble::data_frame(
+    src <- tibble::tibble(
       relationship = "source",
       user = target_user,
       variable = names(src),
@@ -357,7 +408,7 @@ parse_showfriendships <- function(x, source_user, target_user) {
   }
   if (has_name_(x, "target")) {
     trg <- unlist(x$target)
-    trg <- tibble::data_frame(
+    trg <- tibble::tibble(
       relationship = "target",
       user = source_user,
       variable = names(trg),

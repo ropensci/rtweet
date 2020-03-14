@@ -1,0 +1,132 @@
+
+R version 3.5.3 (2019-03-11) -- "Great Truth"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "carbonate"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('carbonate')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("browse")
+> ### * browse
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: .browse
+> ### Title: open $uri to in browser window
+> ### Aliases: .browse carbon-browse
+> 
+> ### ** Examples
+> 
+> x <- carbon$new('x <- 1')
+> if(interactive())
++  x$browse()
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("carbonate")
+> ### * carbonate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: .carbonate
+> ### Title: Carbonate script lines to a carbon image
+> ### Aliases: .carbonate carbon-carbonate carbonate
+> 
+> ### ** Examples
+> 
+> if(interactive()){
++  x <- carbon$new('x <- 1')
++  x$carbonate()
++  }
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rtweet")
+> ### * rtweet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: .rtweet
+> ### Title: send tweets using carbonate outputs
+> ### Aliases: .rtweet carbon-rtweet
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- carbonate::carbon$new()
+> ##D x$carbonate(code = readLines(system.file('DESCRIPTION',package='carbonate')))
+> ##D x$carbonate(code = 'x+2')
+> ##D 
+> ##D # using default status value (x$tweet_status)
+> ##D x$rtweet(system.file('figures/hex_black_small.png',package='carbonate'))
+> ##D 
+> ##D x$rtweet(status = 'these are two pngs',media = x$carbons,media_format='png')
+> ##D x$rtweet(status = 'this is a gif', media = x$carbons,media_format='gif')
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("uri")
+> ### * uri
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: .uri
+> ### Title: URI constructor
+> ### Aliases: .uri carbon-uri
+> 
+> ### ** Examples
+> 
+> if(interactive()){
++ 
++ x <- carbon$new('x <- 1')
++ 
++ # populate from self$code
++ x$uri()
++ 
++ # enter manually
++ x$uri(code = 'x <- y + 3')
++ 
++ }
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.362 0.027 1.226 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

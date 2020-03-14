@@ -4,9 +4,17 @@
 \alias{lists_statuses}
 \title{Get a timeline of tweets authored by members of a specified list.}
 \usage{
-lists_statuses(list_id = NULL, slug = NULL, owner_user = NULL,
-  since_id = NULL, max_id = NULL, n = 200, include_rts = TRUE,
-  parse = TRUE, token = NULL)
+lists_statuses(
+  list_id = NULL,
+  slug = NULL,
+  owner_user = NULL,
+  since_id = NULL,
+  max_id = NULL,
+  n = 200,
+  include_rts = TRUE,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -53,18 +61,21 @@ data
 Get a timeline of tweets authored by members of a specified list.
 }
 \seealso{
-Other lists: \code{\link{lists_members}},
-  \code{\link{lists_subscribers}},
-  \code{\link{lists_subscriptions}},
-  \code{\link{lists_users}}
+Other lists: 
+\code{\link{lists_members}()},
+\code{\link{lists_subscribers}()},
+\code{\link{lists_subscriptions}()},
+\code{\link{lists_users}()}
 
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_mentions}},
-  \code{\link{get_my_timeline}},
-  \code{\link{get_timeline}},
-  \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{tweets_data}},
-  \code{\link{tweets_with_users}}
+Other tweets: 
+\code{\link{get_favorites}()},
+\code{\link{get_mentions}()},
+\code{\link{get_my_timeline}()},
+\code{\link{get_timeline}()},
+\code{\link{lookup_statuses}()},
+\code{\link{search_tweets}()},
+\code{\link{tweets_data}()},
+\code{\link{tweets_with_users}()}
 }
 \concept{lists}
 \concept{tweets}

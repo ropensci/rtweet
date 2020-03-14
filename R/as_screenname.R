@@ -65,7 +65,6 @@ is_screen_name <- function(x) {
 }
 
 
-#' @inheritParams as_screenname
 #' @rdname as_screenname
 #' @export
 as_userid <- function(x) {
