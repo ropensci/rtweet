@@ -170,17 +170,75 @@ post_tweet <- function(status = "my first rtweet #rstats",
   invisible(r)
 }
 
-
+#' Checks status of chunked media upload`
+#'
+#' @param media Path to media file (image or movie) to upload. 
+#' @param token OAuth token. By default \code{token = NULL}
+#'   fetches a non-exhausted token from an environment
+#'   variable tokens.
 upload_media_to_twitter <- function(media, token) {
   media2upload <- httr::upload_file(media)
+  file_ext = function(x) {
+    pos <- regexpr("\\.([[:alnum:]]+)$", x)
+    ifelse(pos > -1L, substring(x, pos + 1L), "")
+  }
+  mediatype <- file_ext(media)
   query <- "media/upload"
-  rurl <- paste0(
-    "https://upload.twitter.com/1.1/media/upload.json"
-  )
-  r <- httr::POST(rurl, body = list(media = media2upload), token)
-  httr::content(r)
+  rurl <- paste0("https://upload.twitter.com/1.1/media/upload.json")
+  if(mediatype %in% c("jpg","jpeg", "png")) {
+    rpost <- httr::POST(rurl, body = list(media = media2upload), token)
+    r <- httr::content(rpost)
+    return(r)
+  }
+  if(mediatype %in% c("gif", "mp4")) {
+    filesize <- file.size(media)
+    init_r <- httr::POST(rurl, body = list(command = "INIT", 
+                                           media_type = mediatype, 
+                                           total_bytes = filesize,
+                                           media_category = "tweet_video"), token)
+    init_r_parsed <- httr::content(init_r)
+    media_id <- init_r_parsed$media_id_string
+    bytes_sent <- 0
+    videofile <- file(media, open = "rb") 
+    segment_id <- 0
+    while (bytes_sent < filesize) {
+      chunk <- readBin(videofile, 4*1024*1024, what = "raw")
+      bytes_sent <- bytes_sent + 4*1024*1024
+      request_data <- list(command = "APPEND", media_id = media_id, 
+                           segment_index = segment_id, media = chunk)
+      r <- httr::POST(rurl, body = request_data, token)
+      segment_id <- segment_id + 1
+    }
+    close(videofile)
+    finalize_data <- httr::POST(rurl, body = list(command = "FINALIZE", media_id = media_id),  token)
+    status_final = check_chunked_media_status(httr::content(finalize_data), token, rurl)
+    return(status_final)
+  } else {
+    stop("Media file `", media, "` extension not png, jpeg, jpg, gif, or mp4")
+  }
 }
 
+#' Checks status of chunked media upload`
+#'
+#' @param finalize_data Output of FINALIZE or STATUS command.
+#' @param token OAuth token. By default \code{token = NULL}
+#'   fetches a non-exhausted token from an environment
+#'   variable tokens.
+#' @param rurl Upload address for media.
+#' @importFrom httr GET content
+#' @export
+check_chunked_media_status = function(finalize_data, token, rurl) {
+  if(finalize_data$processing_info$state == "succeeded") {
+    return(finalize_data)
+  } 
+  if(finalize_data$processing_info$state %in% c("pending", "in_progress")) {
+    Sys.sleep(finalize_data$processing_info$check_after_secs)
+    status <- httr::GET(rurl, query = list(command = "STATUS",
+                                           media_id = finalize_data$media_id_string),  token)
+    status <- check_chunked_media_status(httr::content(status),token, rurl)
+    return(status)
+  }
+}
 
 #' Posts direct message from user's Twitter account
 #'
