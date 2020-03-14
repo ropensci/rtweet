@@ -195,7 +195,7 @@ is_tweet_length <- function(.x, n = 280) {
   nchar(.x) <= n
 }
 
-#' Checks status of chunked media upload`
+#' Uploads media using chunked media endpoint
 #'
 #' @param media Path to media file (image or movie) to upload. 
 #' @param token OAuth token. By default \code{token = NULL}
