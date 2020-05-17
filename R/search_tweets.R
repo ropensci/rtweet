@@ -394,6 +394,7 @@ search_tweets_ <- function(q = "",
     count = count,
     max_id = max_id,
     tweet_mode = "extended",
+    include_ext_alt_text = "true",
     geocode = geocode,
     ...)
   if (grepl("fullarchive|30day", query)) {
