@@ -17,6 +17,10 @@
 #' @param auto_populate_reply_metadata If set to TRUE and used with
 #'   in_reply_to_status_id, leading @mentions will be looked up from the
 #'   original Tweet, and added to the new Tweet from there. Defaults to FALSE.
+#' @param media_alt_text attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
+#'        metadata to the `media` you are uploading. See
+#'        [the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
+#'        for more information.
 #' @examples
 #' \dontrun{
 #' ## generate data to make/save plot (as a .png file)
@@ -65,7 +69,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        in_reply_to_status_id = NULL,
                        destroy_id = NULL,
                        retweet_id = NULL,
-                       auto_populate_reply_metadata = FALSE) {
+                       auto_populate_reply_metadata = FALSE,
+                       media_alt_text = NULL) {
 
   ## check token
   token <- check_token(token)
@@ -150,7 +155,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     r <- vector("list", length(media))
     media_id_string <- vector("list", length(media))
     for (i in seq_along(media)) {
-      r[[i]] <- upload_media_to_twitter(media[[i]], token)
+      r[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text)
       if (has_name_(r[[i]], "media_id_string")) {
         media_id_string[[i]] <- r[[i]]$media_id_string
       } else {
@@ -195,14 +200,39 @@ is_tweet_length <- function(.x, n = 280) {
   nchar(.x) <= n
 }
 
-upload_media_to_twitter <- function(media, token) {
+upload_media_to_twitter <- function(media, token, alt_text=NULL) {
+  
   media2upload <- httr::upload_file(media)
   query <- "media/upload"
   rurl <- paste0(
     "https://upload.twitter.com/1.1/media/upload.json"
   )
+  
   r <- httr::POST(rurl, body = list(media = media2upload), token)
-  httr::content(r)
+  
+  out <- httr::content(r)
+
+  if (!is.null(alt_text)) {
+    if ("media_id_string" %in% names(out)) {
+      rurl <- paste0(
+        "https://upload.twitter.com/1.1/media/metadata/create.json"
+      )
+      r <- httr::POST(
+        rurl, 
+        body = list(
+          media_id = out[["media_id_string"]][1],
+          alt_text = list(
+            text = substr(as.character(alt_text[1]), 1, 1000)
+          )
+        ), 
+        token,
+        encode = "json"
+      )
+    }
+  }
+  
+  out
+  
 }
 
 
