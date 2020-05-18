@@ -1,7 +1,9 @@
 #' Posts status update to user's Twitter account
 #'
 #' @param status Character, tweet status. Must be 280 characters or less.
-#' @param media File path to image or video media to be included in tweet.
+#' @param media Length 1 character vector with a file path to video media **OR** 
+#'     up-to length 4 character vector with file paths to static images to be included in tweet.
+#'     **The caller is responsible for managing this.**
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like to reply.
@@ -18,7 +20,8 @@
 #'   in_reply_to_status_id, leading @mentions will be looked up from the
 #'   original Tweet, and added to the new Tweet from there. Defaults to FALSE.
 #' @param media_alt_text attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
-#'        metadata to the `media` you are uploading. See
+#'        metadata to the `media` you are uploading. Should be same length as
+#'        `media` (i.e. as many alt text entries as there are `media` entries). See
 #'        [the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
 #'        for more information.
 #' @examples
@@ -155,7 +158,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     r <- vector("list", length(media))
     media_id_string <- vector("list", length(media))
     for (i in seq_along(media)) {
-      r[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text)
+      r[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text[[i]])
       if (has_name_(r[[i]], "media_id_string")) {
         media_id_string[[i]] <- r[[i]]$media_id_string
       } else {
