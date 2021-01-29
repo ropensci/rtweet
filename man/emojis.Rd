@@ -4,7 +4,9 @@
 \name{emojis}
 \alias{emojis}
 \title{Emojis codes and descriptions data.}
-\format{A tibble with two variables and 2,623 observations.}
+\format{
+A tibble with two variables and 2,623 observations.
+}
 \usage{
 emojis
 }

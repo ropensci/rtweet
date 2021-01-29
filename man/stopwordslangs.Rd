@@ -4,7 +4,9 @@
 \name{stopwordslangs}
 \alias{stopwordslangs}
 \title{Twitter stop words in multiple languages data.}
-\format{A tibble with three variables and 24,000 observations}
+\format{
+A tibble with three variables and 24,000 observations
+}
 \usage{
 stopwordslangs
 }
