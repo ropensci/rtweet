@@ -12,3 +12,4 @@ invalidate_bearer(token = NULL)
 \description{
 Invalidate bearer token
 }
+\keyword{internal}

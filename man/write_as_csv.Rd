@@ -5,11 +5,9 @@
 \alias{save_as_csv}
 \title{Save Twitter data as a comma separated value file.}
 \usage{
-write_as_csv(x, file_name, prepend_ids = TRUE, na = "",
-  fileEncoding = "UTF-8")
+write_as_csv(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8")
 
-save_as_csv(x, file_name, prepend_ids = TRUE, na = "",
-  fileEncoding = "UTF-8")
+save_as_csv(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8")
 }
 \arguments{
 \item{x}{Data frame returned by an rtweet function.}
@@ -37,10 +35,12 @@ Saved CSV files in current working directory.
 Saves as flattened CSV file of Twitter data.
 }
 \seealso{
-Other datafiles: \code{\link{flatten}},
-  \code{\link{read_twitter_csv}}
+Other datafiles: 
+\code{\link{flatten}()},
+\code{\link{read_twitter_csv}()}
 
-Other datafiles: \code{\link{flatten}},
-  \code{\link{read_twitter_csv}}
+Other datafiles: 
+\code{\link{flatten}()},
+\code{\link{read_twitter_csv}()}
 }
 \concept{datafiles}

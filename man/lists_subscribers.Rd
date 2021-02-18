@@ -4,8 +4,15 @@
 \alias{lists_subscribers}
 \title{Get subscribers of a specified list.}
 \usage{
-lists_subscribers(list_id = NULL, slug = NULL, owner_user = NULL,
-  n = 20, cursor = "-1", parse = TRUE, token = NULL)
+lists_subscribers(
+  list_id = NULL,
+  slug = NULL,
+  owner_user = NULL,
+  n = 20,
+  cursor = "-1",
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -58,14 +65,18 @@ rstats <- lists_subscribers(
 
 }
 \seealso{
-Other lists: \code{\link{lists_members}},
-  \code{\link{lists_statuses}},
-  \code{\link{lists_subscriptions}},
-  \code{\link{lists_users}}
+Other lists: 
+\code{\link{lists_members}()},
+\code{\link{lists_statuses}()},
+\code{\link{lists_subscriptions}()},
+\code{\link{lists_users}()}
 
-Other users: \code{\link{as_screenname}},
-  \code{\link{lookup_users}}, \code{\link{search_users}},
-  \code{\link{tweets_with_users}}, \code{\link{users_data}}
+Other users: 
+\code{\link{as_screenname}()},
+\code{\link{lookup_users}()},
+\code{\link{search_users}()},
+\code{\link{tweets_with_users}()},
+\code{\link{users_data}()}
 }
 \concept{lists}
 \concept{users}

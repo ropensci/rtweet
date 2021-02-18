@@ -1,8 +1,9 @@
 ---
 title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
-output:
-  rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    self_contained: false
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,14 +11,13 @@ vignette: >
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
 ## Installing and loading package
 
 Prior to streaming, make sure to install and load rtweet. This
-vignette assumes users have already setup user access tokens (see: [obtaining and using access tokens](https://mkearney.github.io/rtweet/articles/auth.html)).
+vignette assumes users have already setup user access tokens (see: the "auth" vignette).
 
 ```{r}
 ## Install rtweet

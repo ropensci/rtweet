@@ -5,11 +5,27 @@
 \alias{get_timelines}
 \title{Get one or more user timelines (tweets posted by target user(s)).}
 \usage{
-get_timeline(user, n = 100, max_id = NULL, home = FALSE,
-  parse = TRUE, check = TRUE, token = NULL, ...)
+get_timeline(
+  user,
+  n = 100,
+  max_id = NULL,
+  home = FALSE,
+  parse = TRUE,
+  check = TRUE,
+  token = NULL,
+  ...
+)
 
-get_timelines(user, n = 100, max_id = NULL, home = FALSE,
-  parse = TRUE, check = TRUE, token = NULL, ...)
+get_timelines(
+  user,
+  n = 100,
+  max_id = NULL,
+  home = FALSE,
+  parse = TRUE,
+  check = TRUE,
+  token = NULL,
+  ...
+)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
@@ -26,7 +42,7 @@ older than) or equal to `max_id`.}
 or home-timeline. By default, home is set to FALSE, which means
 \code{get_timeline} returns tweets posted by the given user. To
 return a user's home timeline feed, that is, the tweets posted by
-accounts followed by a user, set the home to false.}
+accounts followed by a user, set home to TRUE.}
 
 \item{parse}{Logical, indicating whether to return parsed
 (data.frames) or nested list object. By default, \code{parse =
@@ -40,7 +56,7 @@ remaining number of calls.  Defaults to TRUE.}
 \item{token}{Every user should have their own Oauth (Twitter API) token. By
 default \code{token = NULL} this function looks for the path to a saved
 Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
+sets up by default during initial token creation). For instructions on how
 to create a Twitter token see the tokens vignette, i.e.,
 `vignettes("auth", "rtweet")` or see \code{?tokens}.}
 
@@ -81,12 +97,14 @@ table(tmls$screen_name)
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
 
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_mentions}},
-  \code{\link{get_my_timeline}},
-  \code{\link{lists_statuses}},
-  \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{tweets_data}},
-  \code{\link{tweets_with_users}}
+Other tweets: 
+\code{\link{get_favorites}()},
+\code{\link{get_mentions}()},
+\code{\link{get_my_timeline}()},
+\code{\link{lists_statuses}()},
+\code{\link{lookup_statuses}()},
+\code{\link{search_tweets}()},
+\code{\link{tweets_data}()},
+\code{\link{tweets_with_users}()}
 }
 \concept{tweets}

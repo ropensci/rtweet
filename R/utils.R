@@ -76,8 +76,29 @@ make_url <- function(restapi = TRUE, query, param = NULL) {
 ##----------------------------------------------------------------------------##
 ##                                   scroll                                   ##
 ##----------------------------------------------------------------------------##
+add_next_page_attr <- function(x) {
+  if (length(x) == 0) return(x)
+  if (inherits(x, "response")) {
+    np <- httr::content(x)[["next"]]
+  } else if (isTRUE("next" %in% names(x))) {
+    np <- x[["next"]]
+  }
+  attr(x, "next_page") <- c(attr(x, "next_page"), np)
+  x
+}
+get_next_page <- function(x) {
+  if (inherits(x, "response") || isTRUE("response" %in% names(attributes(x)))) {
+    attr(x, "next_page")
+  } else if (length(x) > 0 && isTRUE(inherits(x[[1]], "response"))) {
+    lapply(x, attr, "next_page")
+  } else if (is.null(names(x))) {
+    lapply(x, "[[", "next")
+  } else {
+    x[["next"]]
+  }
+}
 
-scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
+scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE, safedir = NULL) {
   ## check args
   stopifnot(is_n(n), is_url(url))
 
@@ -101,12 +122,24 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
     )
     pb$tick(0)
   }
-
   for (i in seq_along(x)) {
     if (verbose) pb$tick()
-    ## send GET request
+
     x[[i]] <- httr::GET(url, ...)
     warn_for_twitter_status(x[[i]])
+    ## send GET request
+    if (type %in% c("premium", "fullarchive", "30day") && !is.null(safedir)) {
+      if (!dir.exists(safedir)) {
+        dir.create(safedir)
+      }
+      saveas <- paste0(format(Sys.time(), "%Y%m%d%H%M%S"), "-", i, ".rds")
+      saveRDS(x[[i]], file.path(safedir, saveas))
+    }
+
+    # if (type %in% c("premium", "fullarchive", "30days")) {
+    #   x[[i]] <- add_next_page_attr(x[[i]])
+    # }
+
     ## if NULL (error) break
     if (is.null(x[[i]])) break
     ## convert from json to R list
@@ -131,6 +164,8 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
     ## if cursor in URL then update otherwise use max id
     if ("cursor" %in% names(url$query)) {
       url$query$cursor <- get_max_id(x[[i]])
+    } else if (has_name_(x[[i]], "next")) {
+      url$query[["next"]] <- x[[i]][["next"]]
     } else {
       url$query$max_id <- get_max_id(x[[i]])
     }
@@ -146,6 +181,9 @@ scroller <- function(url, n, n.times, type = NULL, ..., verbose = TRUE) {
 unique_id_count <- function(x, type = NULL) {
   if (!is.null(type)) {
     if (type == "search") return(100)
+    if (type == "full") return(100)
+    if (type == "premium") return(100)
+    if (type == "30day") return(100)
     if (type == "timeline") return(200)
     if (type == "followers") return(5000)
   }
@@ -169,7 +207,10 @@ unique_id_count <- function(x, type = NULL) {
 unique_id <- function(x) {
   if ("statuses" %in% tolower(names(x))) {
     x <- x[["statuses"]]
+  } else if ("results" %in% names(x)) {
+    x <- x[["results"]]
   }
+
   if ("id_str" %in% names(x)) {
     x[["id_str"]]
   } else if ("ids" %in% names(x)) {
@@ -190,7 +231,11 @@ break_check <- function(r, url, count = NULL) {
     if (as.numeric(count) <= 0) return(TRUE)
   }
   if (is.null(r)) return(TRUE)
-  x <- get_max_id(r)
+  if (has_name_(r, "next")) {
+    x <- r[["next"]]
+  } else {
+    x <- get_max_id(r)
+  }
   if (is.null(x)) return(TRUE)
   if (any(identical(x, 0), identical(x, "0"))) return(TRUE)
   if ("max_id" %in% names(url$query)) {
@@ -429,19 +474,24 @@ TUMjWsOrkFQhVwe <- function() sysdat$DYKcJfBkgMnGveI[[1]]
 ##                                require pkgs                                ##
 ##----------------------------------------------------------------------------##
 
-try_require <- function(pkg, f) {
+try_require <- function(pkg, f = NULL) {
+  if (is.null(f)) {
+    f <- "this action"
+  } else {
+    f <- paste0("`", f, "`")
+  }
 
   if (requireNamespace(pkg, quietly = TRUE)) {
     library(pkg, character.only = TRUE)
     return(invisible())
   }
 
-  stop("Package `", pkg, "` required for `", f , "`.\n",
-    "Please install and try again.", call. = FALSE)
+  stop(paste0("Package `", pkg, "` required for ", f , ".\n",
+    "Please install and try again."), call. = FALSE)
 }
 
 is.valid.username <- function(username) {
-  !grepl(' ', username);
+  !grepl("\\s", username)
 }
 
 
@@ -465,4 +515,8 @@ decript_secret <- function() {
 
 decript_key <- function() {
   rawToChar(openssl::rsa_decrypt(AuDedjvWyZTQBnS(), TUMjWsOrkFQhVwe()))
+}
+
+r_t_c <- function(x) {
+  httpuv::rawToBase64(x)
 }

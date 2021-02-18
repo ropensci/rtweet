@@ -103,6 +103,9 @@
     <loc>https://rtweet.info/reference/my_friendships.html</loc>
   </url>
   <url>
+    <loc>https://rtweet.info/reference/network_graph.html</loc>
+  </url>
+  <url>
     <loc>https://rtweet.info/reference/next_cursor.html</loc>
   </url>
   <url>
@@ -145,6 +148,12 @@
     <loc>https://rtweet.info/reference/rtweet-package.html</loc>
   </url>
   <url>
+    <loc>https://rtweet.info/reference/search_30day.html</loc>
+  </url>
+  <url>
+    <loc>https://rtweet.info/reference/search_fullarchive.html</loc>
+  </url>
+  <url>
     <loc>https://rtweet.info/reference/search_tweets.html</loc>
   </url>
   <url>
@@ -155,9 +164,6 @@
   </url>
   <url>
     <loc>https://rtweet.info/reference/stream_tweets.html</loc>
-  </url>
-  <url>
-    <loc>https://rtweet.info/reference/suggested.html</loc>
   </url>
   <url>
     <loc>https://rtweet.info/reference/suggested_users.html</loc>

@@ -4,8 +4,14 @@
 \alias{get_mentions}
 \title{Get mentions for the authenticating user.}
 \usage{
-get_mentions(n = 200, since_id = NULL, max_id = NULL, parse = TRUE,
-  token = NULL, ...)
+get_mentions(
+  n = 200,
+  since_id = NULL,
+  max_id = NULL,
+  parse = TRUE,
+  token = NULL,
+  ...
+)
 }
 \arguments{
 \item{n}{Specifies the number of Tweets to try and retrieve, up to
@@ -64,11 +70,14 @@ mymentions
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
 
-Other tweets: \code{\link{get_favorites}},
-  \code{\link{get_my_timeline}},
-  \code{\link{get_timeline}}, \code{\link{lists_statuses}},
-  \code{\link{lookup_statuses}},
-  \code{\link{search_tweets}}, \code{\link{tweets_data}},
-  \code{\link{tweets_with_users}}
+Other tweets: 
+\code{\link{get_favorites}()},
+\code{\link{get_my_timeline}()},
+\code{\link{get_timeline}()},
+\code{\link{lists_statuses}()},
+\code{\link{lookup_statuses}()},
+\code{\link{search_tweets}()},
+\code{\link{tweets_data}()},
+\code{\link{tweets_with_users}()}
 }
 \concept{tweets}

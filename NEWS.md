@@ -1,4 +1,23 @@
-# rtweet 0.6.8.9000
+# rtweet 0.7.0
+
+- More robust handling of token path on Windows (#380, @jonthegeek).
+
+# rtweet 0.7.0
+
+- Added paper.md as part of ROpenSci submission.
+- Added contributing template.
+- Added explanation of requirements and usage to `bearer_token()` docs.
+- Transferred repo to ropensci
+- Fixed numerous typos and grammatical mistakes (thank you several pull requests)
+- More robust testing setup with encrypted keys entered via travis-ci web UI
+- Data parsing: various bug fixes and stability improvements
+- Added extended tweet mode to `list_statuses()` endpoint
+
+# rtweet 0.6.9
+- Better tweet-validating in streaming data–interrupted statuses/broken lines 
+  are now returned
+- Added network-graph convenience functions `network_data()` and `network_graph()`
+- Added experimental support for premium APIs
 
 # rtweet 0.6.8
 - Users can now create read-only using the built-in rtweet client!
@@ -43,7 +62,7 @@
   suggested users data.
 - Various bug fixes and stability improvements.
 - Significant upgrades to `save_as_csv()`, including addition of new 
-  `prep_as_csv()` as convience function for flattening Twitter data frames.
+  `prep_as_csv()` as convenience function for flattening Twitter data frames.
 - Tokens have been retooled. For at least the time being, users must 
   create a Twitter app in order to be authorized to interact with the 
   REST and stream APIs.
@@ -54,7 +73,7 @@
   This means functions now return a more consistent and intuitive 
   data object where one row is always equal to one tweet. 
 - Overhauled `save_as_csv()` with improved flattening and ID-preserving 
-  saving methods. THe function now saves a single [joined] data set as 
+  saving methods. The function now saves a single [joined] data set as 
   well.
 - Fixed major bugs in `get_favorites()` and in several `lists_*()` 
   functions.
@@ -70,13 +89,13 @@
 - Added `stream_tweets2()` function for more robust streaming
   method. Streams JSON files to directory and reconnects following
   premature disruptions.
-- Various bug fixes nad numerous documentation improvements.
+- Various bug fixes and numerous documentation improvements.
 
 # rtweet 0.5.0
 - Added access to direct messages, mentions, list subscriptions, list
   users, list members, and list memberships
 - Various fixes to parsing, integrating tibble for output, and
-  streamling geolocation-related functions and data.
+  streaming geolocation-related functions and data.
 - Fixed issues with streaming and parsing streamed data.
 
 # rtweet 0.4.9
@@ -165,7 +184,7 @@
 * More bug fixes and various improvements.
 * The `ts_plot()` function is now more robust with more adaptive
   characteristics for variations in the number of filters, the method
-  of distiguishing lines, the position of the legend, and the
+  of distinguishing lines, the position of the legend, and the
   aesthetics of the themes.
 * Added `ts_filter()` function which allows users to convert Twitter
   data into a time series-like data frame. Users may also provide
@@ -187,7 +206,7 @@ assisting functions.
 * Major improvements to ts_plot including SIX different
 themes from which users may choose
 * More parsing fixes and misc stability improvements
-* Minor renamig of variables along with returning more
+* Minor renaming of variables along with returning more
 variables overall
 
 # rtweet 0.3.9
@@ -318,7 +337,7 @@ printing entire data frames quickly becomes headache-inducing.
 
 * Added new trends functions. Find what trending locations are
 available with `trends_available()` and/or search for trends
-worldwide or by geogaphical location using `get_trends()`.
+worldwide or by geographical location using `get_trends()`.
 
 * Stability improvements including integration with Travis CI and
 code analysis via codecov. Token encryption method also means API
@@ -339,8 +358,8 @@ attribute.
 tweets data attribute.
 
 * To access users data from a tweets object or vice-versa, use
-`users_data()` and `tweets_data()` functions on objects outputed
-by major rtweet retrieval functions.
+`users_data()` and `tweets_data()` functions on objects output by major 
+rtweet retrieval functions.
 
 * Updated testthat tests
 

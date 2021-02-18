@@ -29,6 +29,7 @@ Data frame converted form returned JSON object. If parse is
 Gets information on friendship between two Twitter users.
 }
 \seealso{
-Other friends: \code{\link{my_friendships}}
+Other friends: 
+\code{\link{my_friendships}()}
 }
 \concept{friends}

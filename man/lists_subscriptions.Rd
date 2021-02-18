@@ -4,8 +4,7 @@
 \alias{lists_subscriptions}
 \title{Get list subscriptions of a given user.}
 \usage{
-lists_subscriptions(user, n = 20, cursor = "-1", parse = TRUE,
-  token = NULL)
+lists_subscriptions(user, n = 20, cursor = "-1", parse = TRUE, token = NULL)
 }
 \arguments{
 \item{user}{Either the user ID or screen name of user.}
@@ -49,9 +48,10 @@ rstats <- lists_subscriptions(
 
 }
 \seealso{
-Other lists: \code{\link{lists_members}},
-  \code{\link{lists_statuses}},
-  \code{\link{lists_subscribers}},
-  \code{\link{lists_users}}
+Other lists: 
+\code{\link{lists_members}()},
+\code{\link{lists_statuses}()},
+\code{\link{lists_subscribers}()},
+\code{\link{lists_users}()}
 }
 \concept{lists}

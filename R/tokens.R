@@ -225,31 +225,10 @@ create_token_ <- function(app = "mytwitterapp",
   token
 }
 
-
-has_ext <- function(x) {
-  stopifnot(length(x) == 1L)
-  x <- basename(x)
-  grepl("[[:alnum:]]{1,}\\.[[:alpha:]]{1,}$", x)
-}
-
-only_ext <- function(x) {
-  if (has_ext(x)) {
-    gsub(".*(?=\\.)", "", x, perl = TRUE)
-  } else {
-    ""
-  }
-}
-
-no_ext <- function(x) {
-  if (has_ext(x)) {
-    gsub("(?<=[[:alnum:]]{1})\\..*(?!=\\.)", "", x, perl = TRUE)
-  } else {
-    x
-  }
-}
-
 paste_before_ext <- function(x, p) {
-  paste0(no_ext(x), p, only_ext(x))
+  ext = tools::file_ext(x)
+  pre = substring(x, 1L, nchar(x) - nchar(ext))
+  paste0(pre, p, ext)
 }
 
 
@@ -584,3 +563,15 @@ rstats2twitter_client <- function() {
 }
 
 
+rtweet_find_access_key <- function() {
+  if ((key <- Sys.getenv("TWITTER_ACCESS_KEY")) != "") {
+    return(key)
+  }
+  system(paste0("echo $TWITTER_ACCESS_KEY"), intern = TRUE)
+}
+rtweet_find_access_secret <- function() {
+  if ((key <- Sys.getenv("TWITTER_ACCESS_SECRET")) != "") {
+    return(key)
+  }
+  system(paste0("echo $TWITTER_ACCESS_SECRET"), intern = TRUE)
+}

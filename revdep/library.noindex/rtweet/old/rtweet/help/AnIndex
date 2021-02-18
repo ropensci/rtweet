@@ -60,6 +60,7 @@ post_mute	post_follow
 post_status	post_tweet
 post_tweet	post_tweet
 post_unfollow_user	post_follow
+previous_cursor	next_cursor
 rate_limit	rate_limit
 rate_limits	rate_limit
 read_twitter_csv	read_twitter_csv
@@ -70,6 +71,7 @@ save_as_csv	write_as_csv
 search_tweets	search_tweets
 search_tweets2	search_tweets
 search_users	search_users
+since_id	next_cursor
 stopwordslangs	stopwordslangs
 stream_tweets	stream_tweets
 stream_tweets2	stream_tweets

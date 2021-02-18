@@ -21,7 +21,7 @@
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -34,13 +34,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,6 +80,8 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+
 </style>
 
 
@@ -286,21 +286,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="search-tweets" class="section level3">
 <h3>Search tweets</h3>
 <p>Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">## search for 18000 tweets using the rstats hashtag</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## search for 18000 tweets using the rstats hashtag</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="st">&quot;#rstats&quot;</span>, <span class="dt">n =</span> <span class="dv">18000</span>, <span class="dt">include_rts =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">)</a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">## preview tweets data</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## preview tweets data</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">rt</a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">## preview users data</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">## preview users data</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">users_data</span>(rt)</a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">## plot time series (if ggplot2 is installed)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">## plot time series (if ggplot2 is installed)</span></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">ts_plot</span>(rt)</a></code></pre></div>
 <p>Quickly visualize frequency of tweets over time using <code>ts_plot()</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## plot time series of tweets</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## plot time series of tweets</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">ts_plot</span>(rt, <span class="st">&quot;3 hours&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">theme</span>(<span class="dt">plot.title =</span> ggplot2<span class="op">::</span><span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="op">+</span></a>
@@ -311,36 +311,36 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb2-9" data-line-number="9">    <span class="dt">caption =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">Source: Data collected from Twitter's REST API via rtweet&quot;</span></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10">  )</a></code></pre></div>
 <p>Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, simply set <code>retryonratelimit = TRUE</code> and rtweet will wait for rate limit resets for you.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## search for 250,000 tweets containing the word data</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## search for 250,000 tweets containing the word data</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="st">&quot;data&quot;</span>, <span class="dt">n =</span> <span class="dv">250000</span>, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">)</a></code></pre></div>
 <p>Search by geo-location—for example, find 10,000 tweets in the English language sent from the United States.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## search for 10,000 tweets sent from the US</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">## search for 10,000 tweets sent from the US</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="st">&quot;lang:en&quot;</span>, <span class="dt">geocode =</span> <span class="kw">lookup_coords</span>(<span class="st">&quot;usa&quot;</span>), <span class="dt">n =</span> <span class="dv">10000</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">## create lat/lng variables using all available tweet and profile geo-location data</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">## create lat/lng variables using all available tweet and profile geo-location data</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">rt &lt;-<span class="st"> </span><span class="kw">lat_lng</span>(rt)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">## plot state boundaries</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">## plot state boundaries</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
 <a class="sourceLine" id="cb4-11" data-line-number="11">maps<span class="op">::</span><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>, <span class="dt">lwd =</span> <span class="fl">.25</span>)</a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">## plot lat and lng points onto state map</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">## plot lat and lng points onto state map</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw">with</span>(rt, <span class="kw">points</span>(lng, lat, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">.75</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="fl">.75</span>)))</a></code></pre></div>
 </div>
 <div id="stream-tweets" class="section level3">
 <h3>Stream tweets</h3>
 <p>Randomly sample (approximately 1%) from the live stream of all tweets.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">## random sample for 30 seconds (default)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## random sample for 30 seconds (default)</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <p>Stream all geo enabled tweets from London for 60 seconds.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">## stream tweets from london for 60 seconds</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">## stream tweets from london for 60 seconds</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">rt &lt;-<span class="st"> </span><span class="kw">stream_tweets</span>(<span class="kw">lookup_coords</span>(<span class="st">&quot;london, uk&quot;</span>), <span class="dt">timeout =</span> <span class="dv">60</span>)</a></code></pre></div>
 <p>Stream all tweets mentioning realDonaldTrump or Trump for a week.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">stream_tweets</span>(</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="st">&quot;realdonaldtrump,trump&quot;</span>,</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="dt">timeout =</span> <span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">24</span> <span class="op">*</span><span class="st"> </span><span class="dv">7</span>,</a>
@@ -348,31 +348,31 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">parse =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7">)</a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">## read in the data as a tidy tbl data frame</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## read in the data as a tidy tbl data frame</span></a>
 <a class="sourceLine" id="cb7-10" data-line-number="10">djt &lt;-<span class="st"> </span><span class="kw">parse_stream</span>(<span class="st">&quot;tweetsabouttrump.json&quot;</span>)</a></code></pre></div>
 </div>
 <div id="get-friends" class="section level3">
 <h3>Get friends</h3>
 <p>Retrieve a list of all the accounts a <strong>user follows</strong>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">## get user IDs of accounts followed by CNN</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">## get user IDs of accounts followed by CNN</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">cnn_fds &lt;-<span class="st"> </span><span class="kw">get_friends</span>(<span class="st">&quot;cnn&quot;</span>)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">## lookup data on those accounts</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">## lookup data on those accounts</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">cnn_fds_data &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(cnn_fds<span class="op">$</span>user_id)</a></code></pre></div>
 </div>
 <div id="get-followers" class="section level3">
 <h3>Get followers</h3>
 <p>Retrieve a list of the <strong>accounts following</strong> a user.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">## get user IDs of accounts following CNN</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">## get user IDs of accounts following CNN</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">cnn_flw &lt;-<span class="st"> </span><span class="kw">get_followers</span>(<span class="st">&quot;cnn&quot;</span>, <span class="dt">n =</span> <span class="dv">75000</span>)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">## lookup data on those accounts</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">## lookup data on those accounts</span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5">cnn_flw_data &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(cnn_flw<span class="op">$</span>user_id)</a></code></pre></div>
 <p>Or if you really want ALL of their followers:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">## how many total follows does cnn have?</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co">## how many total follows does cnn have?</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">cnn &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(<span class="st">&quot;cnn&quot;</span>)</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">## get them all (this would take a little over 5 days)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">## get them all (this would take a little over 5 days)</span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5">cnn_flw &lt;-<span class="st"> </span><span class="kw">get_followers</span>(</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="st">&quot;cnn&quot;</span>, <span class="dt">n =</span> cnn<span class="op">$</span>followers_count, <span class="dt">retryonratelimit =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7">)</a></code></pre></div>
@@ -380,10 +380,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="get-timelines" class="section level3">
 <h3>Get timelines</h3>
 <p>Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">## get user IDs of accounts followed by CNN</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">## get user IDs of accounts followed by CNN</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">tmls &lt;-<span class="st"> </span><span class="kw">get_timelines</span>(<span class="kw">c</span>(<span class="st">&quot;cnn&quot;</span>, <span class="st">&quot;BBCWorld&quot;</span>, <span class="st">&quot;foxnews&quot;</span>), <span class="dt">n =</span> <span class="dv">3200</span>)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">## plot the frequency of tweets for each user over time</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">## plot the frequency of tweets for each user over time</span></a>
 <a class="sourceLine" id="cb11-5" data-line-number="5">tmls <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(created_at <span class="op">&gt;</span><span class="st"> &quot;2017-10-29&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">group_by</span>(screen_name) <span class="op">%&gt;%</span></a>
@@ -409,7 +409,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="search-users" class="section level3">
 <h3>Search users</h3>
 <p>Search for 1,000 users with the rstats hashtag in their profile bios.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">## search for users with #rstats in their profiles</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">## search for users with #rstats in their profiles</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">usrs &lt;-<span class="st"> </span><span class="kw">search_users</span>(<span class="st">&quot;#rstats&quot;</span>, <span class="dt">n =</span> <span class="dv">1000</span>)</a></code></pre></div>
 </div>
 <div id="get-trends" class="section level3">
@@ -419,7 +419,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="lookup-users" class="section level3">
 <h3>Lookup users</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">## lookup users by screen_name or user_id</a>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">## lookup users by screen_name or user_id</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">users &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;KimKardashian&quot;</span>, <span class="st">&quot;justinbieber&quot;</span>, <span class="st">&quot;taylorswift13&quot;</span>,</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">           <span class="st">&quot;espn&quot;</span>, <span class="st">&quot;JoelEmbiid&quot;</span>, <span class="st">&quot;cstonehoops&quot;</span>, <span class="st">&quot;KUHoops&quot;</span>,</a>
 <a class="sourceLine" id="cb15-4" data-line-number="4">           <span class="st">&quot;upshotnyt&quot;</span>, <span class="st">&quot;fivethirtyeight&quot;</span>, <span class="st">&quot;hadleywickham&quot;</span>,</a>
@@ -428,7 +428,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb15-7" data-line-number="7">           <span class="st">&quot;natesilver538&quot;</span>, <span class="st">&quot;ezraklein&quot;</span>, <span class="st">&quot;annecoulter&quot;</span>)</a>
 <a class="sourceLine" id="cb15-8" data-line-number="8">famous_tweeters &lt;-<span class="st"> </span><span class="kw">lookup_users</span>(users)</a>
 <a class="sourceLine" id="cb15-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">## preview users data</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">## preview users data</span></a>
 <a class="sourceLine" id="cb15-11" data-line-number="11">famous_tweeters</a>
 <a class="sourceLine" id="cb15-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co"># extract most recent tweets data from the famous tweeters</span></a>
@@ -440,7 +440,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="following-users" class="section level3">
 <h3>Following users</h3>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">## ty for the follow ;)</a>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">## ty for the follow ;)</span></a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">post_follow</span>(<span class="st">&quot;kearneymw&quot;</span>)</a></code></pre></div>
 </div>
 

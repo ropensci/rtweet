@@ -33,9 +33,9 @@ Occurs when attempting to create a token
 
 1. Make sure you have **at least** rtweet version `0.6.6`
 1. Check callback URL
-1. Make sure `Callback URL` option in "Settings" tab at https://apps.twitter.com **match exactly** the following: `http://127.0.0.1:1410`
-1. Make sure API keys **match exactly** the values for your Twitter app (found under the `Keys and Access Tokens` tab at https://apps.twitter.com)
-1. In your app page at https://apps.twitter.com/ under the `Keys and Access Tokens` tab, click `Regenerate Consumer Key and Secret`. Create a new token using the new key and secret.
+1. Make sure `Callback URL` option in your app settings at https://developer.twitter.com/en/apps **match exactly** the following: `http://127.0.0.1:1410`
+1. Make sure API keys **match exactly** the values for your Twitter app (found under the `Keys and Tokens` tab at https://developer.twitter.com/en/apps)
+1. In your app page at https://developer.twitter.com/en/apps/ under the `Keys and Tokens` tab, click to regenerate your access keys. Create a new token using the new key and secret.
 1. Update the **{httr}** package
 1. Update R
 
@@ -75,8 +75,8 @@ Occurs when sending request to Twitter API. It means you have invalid or expired
 ```
 
 #### Solutions
-1. Create new token using the keys from your previously created Twitter application found at https://apps.twitter.com
-1. In your app page at https://apps.twitter.com/ under the `Keys and Access Tokens` tab, click `Regenerate Consumer Key and Secret`. Create a new token using the new key and secret.
+1. Create new token using the keys from your previously created Twitter application found at https://developer.twitter.com/en/apps
+1. In your app page at https://developer.twitter.com/en/apps/ under the `Keys and Tokens` tab, click to regenerate your access keys. Create a new token using the new key and secret.
 
 ```{r}
 ## these are fake keys

@@ -4,9 +4,16 @@
 \alias{post_list}
 \title{Manage Twitter lists}
 \usage{
-post_list(users = NULL, name = NULL, description = NULL,
-  private = FALSE, destroy = FALSE, list_id = NULL, slug = NULL,
-  token = NULL)
+post_list(
+  users = NULL,
+  name = NULL,
+  description = NULL,
+  private = FALSE,
+  destroy = FALSE,
+  list_id = NULL,
+  slug = NULL,
+  token = NULL
+)
 }
 \arguments{
 \item{users}{Character vectors of users to be added to list.}

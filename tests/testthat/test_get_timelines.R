@@ -17,11 +17,10 @@ test_that("get_timeline", {
   #expect_true(inherits(p, "ggplot"))
   #if (requireNamespace("ggplot2", quietly = TRUE)) {
   g <- readRDS("g.rds")
-    #g <- structure(g, class = c("grouped_df", "data.frame"))
   p <- ts_plot(g, "hours", trim = 1)
     expect_true(inherits(p, "ggplot"))
   d <- ts_data(g, "hours", trim = 1)
-  expect_true(is.data.frame(d), TRUE)
+  expect_true(is.data.frame(d))
   #expect_equal(ncol(d), 4)
   unlink("Rplots.pdf")
 })

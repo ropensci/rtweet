@@ -49,7 +49,7 @@ page <- next_cursor(f1)
 ##   next batch of ids
 sys.Sleep(15 * 60) ## Suspend execution of R expressions for 15 mins
 
-## Use the page value returned from \\code{next_cursor} to continue
+## Use the page value returned from \code{next_cursor} to continue
 ##   where you left off.
 f2 <- get_followers("potus", n = 75000, page = page)
 
@@ -63,17 +63,21 @@ nrow(f)
 
 }
 \seealso{
-Other ids: \code{\link{get_followers}},
-  \code{\link{get_friends}}
+Other ids: 
+\code{\link{get_followers}()},
+\code{\link{get_friends}()}
 
-Other extractors: \code{\link{tweets_data}},
-  \code{\link{users_data}}
+Other extractors: 
+\code{\link{tweets_data}()},
+\code{\link{users_data}()}
 
-Other ids: \code{\link{get_followers}},
-  \code{\link{get_friends}}
+Other ids: 
+\code{\link{get_followers}()},
+\code{\link{get_friends}()}
 
-Other extractors: \code{\link{tweets_data}},
-  \code{\link{users_data}}
+Other extractors: 
+\code{\link{tweets_data}()},
+\code{\link{users_data}()}
 }
 \concept{extractors}
 \concept{ids}

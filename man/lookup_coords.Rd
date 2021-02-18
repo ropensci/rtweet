@@ -34,6 +34,20 @@ information for a given location. Returns data as a special
 smoothly with other relevant package functions. NOTE: USE OF THIS FUNCTION
 REQUIRES A VALID GOOGLE MAPS API KEY.
 }
+\details{
+Since Google Maps implemented stricter API requirements, sending 
+  requests to Google's API isn't very convenient. To enable basic uses
+  without requiring a Google Maps API key, a number of the major cities
+  throughout the word and the following two larger locations are 
+  baked into this function: 'world' and 'usa'. If 'world' is supplied then
+  a bounding box of maximum latitutde/longitude values, i.e.,
+  \code{c(-180, -90, 180, 90)}, and a center point \code{c(0, 0)} are 
+  returned. If 'usa' is supplied then estimates of the United States' 
+  bounding box and mid-point are returned. To specify a city, provide the
+  city name followed by a space and then the US state abbreviation or 
+  country name. To see a list of all included cities, enter
+  \code{rtweet:::citycoords} in the R console to see coordinates data.
+}
 \examples{
 
 \dontrun{
@@ -54,6 +68,7 @@ ustw <- stream_tweets(usa, timeout = 10)
 
 }
 \seealso{
-Other geo: \code{\link{lat_lng}}
+Other geo: 
+\code{\link{lat_lng}()}
 }
 \concept{geo}

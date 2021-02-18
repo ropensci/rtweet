@@ -1,6 +1,6 @@
-pandoc: 2.2.3.2
-pkgdown: 1.1.0.9000
-pkgdown_sha: be03b4b7b3d5203ba67423ff6888ab92f1420b76
+pandoc: 2.7.3
+pkgdown: 1.4.1.9000
+pkgdown_sha: 90572181f1ac83b56089ab14c16f4d9e063f216b
 articles:
   FAQ: FAQ.html
   auth: auth.html

@@ -8,9 +8,9 @@ tweet_shot(statusid_or_url, zoom = 3, scale = TRUE)
 }
 \arguments{
 \item{statusid_or_url}{a valid Twitter status id (e.g. "\code{947082036019388416}") or
-a valid Twitter status URL (e.g. "\code{https://twitter.com/jhollist/status/947082036019388416}").}
+a valid Twitter status URL (e.g. "\verb{https://twitter.com/jhollist/status/947082036019388416}").}
 
-\item{zoom}{a positive number >= 1. See the help for \code{[webshot::webshot()]} for more information.}
+\item{zoom}{a positive number >= 1. See the help for \verb{[webshot::webshot()]} for more information.}
 
 \item{scale}{auto-scale the image back to 1:1? Default it \code{TRUE}, which means \code{magick}
 will be used to return a "normal" sized tweet. Set it to \code{FALSE} to perform your
@@ -25,7 +25,7 @@ will capture an image of the tweet --- or tweet + thread (if there are
 Twitter-linked replies) --- from the mobile version of said tweet/thread.
 }
 \details{
-For this to work, you will need to ensure the packages in \code{Suggests:} are
+For this to work, you will need to ensure the packages in \verb{Suggests:} are
 installed as they will be loaded upon the first invocation of this function.
 
 Use the \code{zoom} factor to get more pixels which may improve the text rendering

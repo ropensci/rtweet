@@ -48,7 +48,7 @@
 #'   processing/retrieval messages.
 #' @param \dots Insert magical parameters, spell, or potion here. Or
 #'   filter for tweets by language, e.g., \code{language = "en"}.
-#' @seealso \url{https://stream.twitter.com/1.1/statuses/filter.json}
+#' @seealso \url{https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose}
 #' @examples
 #' \dontrun{
 #' ## stream tweets mentioning "election" for 90 seconds
@@ -279,7 +279,24 @@ stream_params <- function(stream, ...) {
 good_lines <- function(x) {
   grep("^\\{\"created.*ms\":\"\\d+\"\\}$", x, value = TRUE)
 }
-
+good_lines2 <- function(x) {
+  x <- x[nchar(x) > 0]
+  x <- grep("{\"delete", x, fixed = TRUE, invert = TRUE, value = TRUE)
+  x <- grep("{\"limit", x, fixed = TRUE, invert = TRUE, value = TRUE)
+  co <- grep("\\d+\"\\}$", x, invert = TRUE)
+  if (length(co) > 0) {
+    for (i in seq_along(co)) {
+      if (co[i] + 1 > length(x)) break
+      x[co[i]] <- paste0(x[co[i]], x[co[i] + 1])
+    }
+    x <- x[-c(co + 1)]
+    while (!grepl("\\d+\"\\}$", x[length(x)])) {
+      x <- x[-length(x)]
+      if (length(x) == 0) break
+    }
+  }
+  x
+}
 
 limits_data <- function(x) {
   if (has_name_(attributes(x), "limit")) {
@@ -292,6 +309,14 @@ limits_data <- function(x) {
 stream_data <- function(file_name, ...) {
   .parse_stream(file_name, ...)
 }
+
+
+.parse_stream_two <- function(d) {
+  d <- paste0("[", paste0(d, collapse = ","), "]")
+  d <- jsonlite::fromJSON(d)
+  tweets_with_users(d)
+}
+
 
 #' @importFrom jsonlite stream_in
 .parse_stream <- function(file_name, ...) {
@@ -307,7 +332,7 @@ stream_data <- function(file_name, ...) {
     if (length(d) > 0) {
       tmp <- tempfile()
       on.exit(file.remove(tmp), add = TRUE)
-      d <- good_lines(d)
+      d <- good_lines2(d)
     }
     if (length(d) > 0) {
       dd <- sapply(d, function(x) {
@@ -351,10 +376,45 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
     if (length(d) == 0) break
     skip <- length(d) + skip
     tmp <- tempfile()
-    d <- good_lines(d)
+    d <- good_lines2(d)
     if (length(d) == 0) break
     readr::write_lines(d, tmp)
     data[[length(data) + 1L]] <- stream_data(tmp, ...)
+    if (NROW(data[[length(data)]]) == 0L) break
+  }
+  do.call("rbind", data)
+}
+
+
+
+data_from_stream2 <- function(x, n = 10000L, n_max = -1L, ...) {
+  if (!inherits(x, "connection") && !file.exists(x)) {
+    stop("No such file exists", call. = FALSE)
+  }
+  if (!requireNamespace("readr", quietly = TRUE)) {
+    warning("For better performance when reading large twitter .json files, ",
+      "try installing the readr package before using this function.")
+    return(stream_data(x, ...))
+  }
+  ## initalize counters and output vector
+  d <- NA_character_
+  skip <- 0L
+  data <- list()
+  ## read in chunks until completion
+  if (identical(n_max, -1L)) {
+    n_max2 <- Inf
+  } else {
+    n_max2 <- n_max
+  }
+  while (length(d) > 0L && skip < n_max2) {
+    if (n_max > 0L && (skip + n) > n_max2) {
+      n <- n_max - skip
+    }
+    d <- readr::read_lines(x, skip = skip, n_max = n)
+    skip <- length(d) + skip
+    d <- good_lines2(d)
+    if (length(d) == 0) break
+    data[[length(data) + 1L]] <- .parse_stream_two(d)
     if (NROW(data[[length(data)]]) == 0L) break
   }
   do.call("rbind", data)
@@ -385,9 +445,9 @@ data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
 parse_stream <- function(path, ...) {
   dots <- list(...)
   if (length(dots) > 0L) {
-    do.call("data_from_stream", c(path, dots))
+    do.call("data_from_stream2", c(path, dots))
   } else {
-    eval(call("data_from_stream", path))
+    eval(call("data_from_stream2", path))
   }
 }
 
@@ -396,7 +456,6 @@ parse_stream <- function(path, ...) {
 #'
 #' Stream with hardwired reconnection method to ensure timeout integrity.
 #'
-#' @inheritParams stream_tweets
 #' @param dir Name of directory in which json files should be written.
 #'   The default, NULL, will create a timestamped "stream" folder in the
 #'   current working directory. If a dir name is provided that does not
@@ -489,7 +548,6 @@ new_dir <- function(dir, force = TRUE) {
 
 match_fun <- function(dots, fun) {
   rfuns <- names(formals(fun))
-  #[!names(formals(fun)) %in% names(dots)]
   nms <- match(names(dots), rfuns)
   nms[names(dots) != ""] <- names(dots)[names(dots) != ""]
   is_na <- function(x) is.na(x) | x == "NA"
@@ -509,7 +567,7 @@ parse_streamlimit <- function(x) {
   x <- grep("^\\{\"limit", x, value = TRUE)
   x <- strsplit(x, ":|,|\"")
   x <- x[lengths(x) >= 7L]
-  tibble::data_frame(
+  tibble::tibble(
     track = unlist(lapply(x, "[[", 7L)),
     timestamp = as.POSIXct(
       as.numeric(unlist(lapply(x, "[[", 12L))) / 1000, origin = "1970-01-01")

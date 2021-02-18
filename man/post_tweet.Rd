@@ -5,35 +5,40 @@
 \alias{post_status}
 \title{Posts status update to user's Twitter account}
 \usage{
-post_tweet(status = "my first rtweet #rstats", media = NULL,
-  token = NULL, in_reply_to_status_id = NULL, destroy_id = NULL,
-  retweet_id = NULL)
+post_tweet(
+  status = "my first rtweet #rstats",
+  media = NULL,
+  token = NULL,
+  in_reply_to_status_id = NULL,
+  destroy_id = NULL,
+  retweet_id = NULL,
+  auto_populate_reply_metadata = FALSE
+)
 }
 \arguments{
-\item{status}{Character, tweet status. Must be 140
-characters or less.}
+\item{status}{Character, tweet status. Must be 280 characters or less.}
 
-\item{media}{File path to image or video media to be
-included in tweet.}
+\item{media}{File path to image or video media to be included in tweet.}
 
-\item{token}{OAuth token. By default \code{token = NULL}
-fetches a non-exhausted token from an environment
-variable tokens.}
+\item{token}{OAuth token. By default \code{token = NULL} fetches a
+non-exhausted token from an environment variable tokens.}
 
 \item{in_reply_to_status_id}{Status ID of tweet to which you'd like to reply.
 Note: in line with the Twitter API, this parameter is ignored unless the
 author of the tweet this parameter references is mentioned within the
 status text.}
 
-\item{destroy_id}{To delete a status, supply the single status ID here.
-If a character string is supplied, overriding the default (NULL),
-then a destroy request is made (and the status text and media attachments)
-are irrelevant.}
+\item{destroy_id}{To delete a status, supply the single status ID here. If a
+character string is supplied, overriding the default (NULL), then a destroy
+request is made (and the status text and media attachments) are irrelevant.}
 
-\item{retweet_id}{To retweet a status, supply the single status ID here.
-If a character string is supplied, overriding the default (NULL),
-then a retweet request is made (and the status text and media attachments)
-are irrelevant.}
+\item{retweet_id}{To retweet a status, supply the single status ID here. If a
+character string is supplied, overriding the default (NULL), then a retweet
+request is made (and the status text and media attachments) are irrelevant.}
+
+\item{auto_populate_reply_metadata}{If set to TRUE and used with
+in_reply_to_status_id, leading @mentions will be looked up from the
+original Tweet, and added to the new Tweet from there. Defaults to FALSE.}
 }
 \description{
 Posts status update to user's Twitter account
@@ -79,7 +84,9 @@ post_tweet("second in the thread",
 }
 }
 \seealso{
-Other post: \code{\link{post_favorite}},
-  \code{\link{post_follow}}, \code{\link{post_friendship}}
+Other post: 
+\code{\link{post_favorite}()},
+\code{\link{post_follow}()},
+\code{\link{post_friendship}()}
 }
 \concept{post}

@@ -1,11 +1,11 @@
-* using log directory '/Users/kearneymw/R/rtweet/revdep/checks.noindex/graphTweets/old/graphTweets.Rcheck'
-* using R version 3.5.1 (2018-07-02)
+* using log directory ‘/Users/kearneymw/R/rtweet/revdep/checks.noindex/graphTweets/old/graphTweets.Rcheck’
+* using R version 3.5.3 (2019-03-11)
 * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 * using session charset: UTF-8
-* checking for file 'graphTweets/DESCRIPTION' ... OK
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘graphTweets/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package 'graphTweets' version '0.5.0'
-* package encoding: UTF-8
+* this is package ‘graphTweets’ version ‘0.5.1’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -14,7 +14,7 @@
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
-* checking whether package 'graphTweets' can be installed ... OK
+* checking whether package ‘graphTweets’ can be installed ... OK
 * checking installed package size ... OK
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
@@ -46,9 +46,8 @@ Namespace in Imports field not imported from: ‘utils’
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
 * checking examples ... OK
-* checking for unstated dependencies in 'tests' ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ... OK
   Running ‘testthat.R’
-* checking PDF version of manual ... OK
 * DONE
 Status: 1 NOTE

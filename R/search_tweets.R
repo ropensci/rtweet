@@ -12,8 +12,8 @@
 #'   multiple possible terms, separate each search term with spaces
 #'   and "OR" (in caps). For example, the search \code{q =
 #'   "data science"} looks for tweets containing both "data" and
-#'   "science" anywhere located anywhere in the tweets and in any
-#'   order. When "OR" is entered between search terms, \code{query =
+#'   "science" located anywhere in the tweets and in any order.
+#'   When "OR" is entered between search terms, \code{query =
 #'   "data OR science"}, Twitter's REST API should return any tweet
 #'   that contains either "data" or "science." It is also possible to
 #'   search for exact phrases using double quotes. To do this, either
@@ -337,6 +337,19 @@ search_tweets_ <- function(q = "",
 
   ## path name
   query <- "search/tweets"
+  safedir <- NULL
+  if ("premium" %in% names(list(...)) &&
+      all(c("env_name", "path") %in% names(list(...)$premium))) {
+    premium <- list(...)$premium
+    premium$path <- sub("tweets/search/?|search/tweets/?", "", premium$path)
+    query <- gsub("/+", "/",
+      paste0("tweets/search/", premium$path, "/", premium$env_name))
+    cat(query, "***")
+
+    if ("safedir" %in% names(list(...))) {
+      safedir <- list(...)$safedir
+    }
+  }
   ## validate
   stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
   ## number of loops
@@ -346,8 +359,9 @@ search_tweets_ <- function(q = "",
   } else {
     count <- 100
   }
-  ## validate query length
-  if (nchar(q) > 500) {
+  ## validate query length–char count might not always be same here as with 
+  ## Twitter, so set this to 600 and let Twitter reject others
+  if (nchar(q) > 600) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
   ## only select one type
@@ -382,16 +396,48 @@ search_tweets_ <- function(q = "",
     tweet_mode = "extended",
     geocode = geocode,
     ...)
-  ## make url
-  url <- make_url(
-    query = query,
-    param = params)
+  if (grepl("fullarchive|30day", query)) {
+    params[["premium"]] <- NULL
+    params$result_type <- NULL
+    if (grepl("full", query)) {
+      params$maxResults <- 500 # The Twitter premium API allows up to 500 tweets per request 
+    } else {
+      params$maxResults <- 100
+    }
+    names(params)[1] <- "query"
+    params$tweet_mode <- NULL
+    params$safedir <- NULL
+    # m <- regexpr("(?<=since:)\\S+", params$q, perl = TRUE)
+    # if (m[1] > 0) {
+    #   params$fromDate <- regmatches(params$q, m)
+    #   params$q <- sub("since:\\S+\\s?", "", params$q)
+    # }
+    # m <- regexpr("(?<=until:)\\S+", params$q, perl = TRUE)
+    # if (m[1] > 0) {
+    #   params$toDate <- regmatches(params$q, m)
+    #   params$q <- sub("until:\\S+\\s?", "", params$q)
+    # }
+    params$count <- NULL
+    type <- "premium"
+    ## make url
+    url <- make_url(
+      query = query,
+      param = params)
+  } else {
+    type <- "search"
+    ## make url
+    url <- make_url(
+      query = query,
+      param = params)
+  }
 
   #if (verbose) {
   #  message("Searching for tweets...")
   #  if (n > 10000) message("This may take a few seconds...")
   #}
-  tw <- scroller(url, n, n.times, type = "search", token, verbose = verbose)
+  tw <- scroller(url, n, n.times, type = type, token, verbose = verbose,
+    safedir = safedir)
+
   if (parse) {
     tw <- tweets_with_users(tw)
   }
@@ -408,7 +454,6 @@ search_tweets_ <- function(q = "",
 #' search_tweets2 Passes all arguments to search_tweets. Returns data from
 #' one OR MORE search queries.
 #'
-#' @inheritParams search_tweets.
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
 #' @examples

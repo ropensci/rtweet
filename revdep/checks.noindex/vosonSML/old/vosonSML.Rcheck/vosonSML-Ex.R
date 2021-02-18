@@ -1,0 +1,308 @@
+pkgname <- "vosonSML"
+source(file.path(R.home("share"), "R", "examples-header.R"))
+options(warn = 1)
+library('vosonSML')
+
+base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+cleanEx()
+nameEx("Authenticate.reddit")
+### * Authenticate.reddit
+
+flush(stderr()); flush(stdout())
+
+### Name: Authenticate.reddit
+### Title: Reddit API authentication
+### Aliases: Authenticate.reddit
+
+### ** Examples
+
+## Not run: 
+##D # reddit authentication
+##D redditAuth <- Authenticate("reddit")
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Authenticate.twitter")
+### * Authenticate.twitter
+
+flush(stderr()); flush(stdout())
+
+### Name: Authenticate.twitter
+### Title: Twitter API authentication
+### Aliases: Authenticate.twitter
+
+### ** Examples
+
+## Not run: 
+##D # twitter authentication with api keys
+##D myKeys <- list(appName = "vosonSML", apiKey = "xxxxxxxxxxxx",
+##D   apiSecret = "xxxxxxxxxxxx", accessToken = "xxxxxxxxxxxx",
+##D   accessTokenSecret = "xxxxxxxxxxxx")
+##D 
+##D twitterAuth <- Authenticate("twitter", appName = myKeys$appName, 
+##D   apiKey = myKeys$apiKey, apiSecret = myKeys$apiSecret, accessToken = myKeys$accessToken, 
+##D   accessTokenSecret = myKeys$accessTokenSecret, useCachedToken = TRUE)
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Authenticate.youtube")
+### * Authenticate.youtube
+
+flush(stderr()); flush(stdout())
+
+### Name: Authenticate.youtube
+### Title: Youtube API authentication
+### Aliases: Authenticate.youtube
+
+### ** Examples
+
+## Not run: 
+##D # youtube authentication with google developer api key
+##D myAPIKey <- "xxxxxxxxxxxx"
+##D 
+##D youtubeAuth <- Authenticate("youtube", apiKey = myAPIKey)
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Collect.reddit")
+### * Collect.reddit
+
+flush(stderr()); flush(stdout())
+
+### Name: Collect.reddit
+### Title: Collect comments data from reddit threads
+### Aliases: Collect.reddit
+
+### ** Examples
+
+## Not run: 
+##D # subreddit url to collect threads from
+##D threadUrls <- c("https://www.reddit.com/r/xxxxxx/comments/xxxxxx/x_xxxx_xxxxxxxxx/")
+##D 
+##D redditData <- redditAuth %>%
+##D   Collect(threadUrls = threadUrls, waitTime = 3, writeToFile = TRUE)
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Collect.twitter")
+### * Collect.twitter
+
+flush(stderr()); flush(stdout())
+
+### Name: Collect.twitter
+### Title: Collect tweet data from twitter search
+### Aliases: Collect.twitter
+
+### ** Examples
+
+## Not run: 
+##D # search and collect 100 recent tweets for the hashtag #auspol
+##D myTwitterData <- twitterAuth %>% 
+##D   Collect(searchTerm = "#auspol", searchType = "recent", numTweets = 100, verbose = TRUE, 
+##D           includeRetweets = FALSE, retryOnRateLimit = TRUE, writeToFile = TRUE)
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Collect.youtube")
+### * Collect.youtube
+
+flush(stderr()); flush(stdout())
+
+### Name: Collect.youtube
+### Title: Collect comments data for youtube videos
+### Aliases: Collect.youtube
+
+### ** Examples
+
+## Not run: 
+##D # create a list of youtube video ids to collect on
+##D videoIDs <- GetYoutubeVideoIDs(c("https://www.youtube.com/watch?v=xxxxxxxx", 
+##D                                  "https://youtu.be/xxxxxxxx"))
+##D 
+##D # collect approximately 200 threads/comments for each youtube video
+##D youtubeData <- youtubeAuth %>% 
+##D   Collect(videoIDs = videoIDs, writeToFile = TRUE, verbose = FALSE, maxComments = 200)
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Create.actor.reddit")
+### * Create.actor.reddit
+
+flush(stderr()); flush(stdout())
+
+### Name: Create.actor.reddit
+### Title: Create reddit actor network
+### Aliases: Create.actor.reddit
+
+### ** Examples
+
+## Not run: 
+##D # create a reddit actor network graph with comment text as edge attributes
+##D actorNetwork <- redditData %>% 
+##D   Create("actor", includeTextData = TRUE, writeToFile = TRUE)
+##D 
+##D # igraph object
+##D # actorNetwork$graph
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Create.actor.twitter")
+### * Create.actor.twitter
+
+flush(stderr()); flush(stdout())
+
+### Name: Create.actor.twitter
+### Title: Create twitter actor network
+### Aliases: Create.actor.twitter
+
+### ** Examples
+
+## Not run: 
+##D # create a twitter actor network graph and output to console additional information 
+##D # during network creation (verbose)
+##D actorNetwork <- twitterData %>% Create("actor", writeToFile = TRUE, verbose = TRUE)
+##D 
+##D # igraph object
+##D # actorNetwork$graph
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Create.actor.youtube")
+### * Create.actor.youtube
+
+flush(stderr()); flush(stdout())
+
+### Name: Create.actor.youtube
+### Title: Create youtube actor network
+### Aliases: Create.actor.youtube
+
+### ** Examples
+
+## Not run: 
+##D # create a youtube actor network graph
+##D actorNetwork <- youtubeData %>% Create("actor", writeToFile = TRUE)
+##D 
+##D # igraph object
+##D # actorNetwork$graph
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Create.bimodal.twitter")
+### * Create.bimodal.twitter
+
+flush(stderr()); flush(stdout())
+
+### Name: Create.bimodal.twitter
+### Title: Create twitter bimodal network
+### Aliases: Create.bimodal.twitter
+
+### ** Examples
+
+## Not run: 
+##D # create a twitter bimodal network graph removing the hashtag '#auspol' as it was used in 
+##D # the twitter search query
+##D bimodalNetwork <- twitterData %>% 
+##D                   Create("bimodal", removeTermsOrHashtags = c("#auspol"), writeToFile = TRUE, 
+##D                          verbose = TRUE)
+##D 
+##D # igraph object
+##D # bimodalNetwork$graph
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("Create.semantic.twitter")
+### * Create.semantic.twitter
+
+flush(stderr()); flush(stdout())
+
+### Name: Create.semantic.twitter
+### Title: Create twitter semantic network
+### Aliases: Create.semantic.twitter
+
+### ** Examples
+
+## Not run: 
+##D # create a twitter semantic network graph removing the hashtag '#auspol' and using the
+##D # top 2% frequently occurring terms and 10% frequently occurring hashtags as additional 
+##D # concepts or nodes
+##D semanticNetwork <- twitterData %>% 
+##D                    Create("semantic", removeTermsOrHashtags = c("#auspol"), termFreq = 2,
+##D                           hashtagFreq = 10, writeToFile = TRUE, verbose = TRUE)
+##D 
+##D # igraph object
+##D # semanticNetwork$graph
+## End(Not run)
+
+
+
+
+cleanEx()
+nameEx("vosonSML-colon-colon-AddUserData.twitter")
+### * vosonSML-colon-colon-AddUserData.twitter
+
+flush(stderr()); flush(stdout())
+
+### Name: vosonSML::AddUserData.twitter
+### Title: Enhances twitter actor network graph by adding user attributes
+###   to nodes
+### Aliases: vosonSML::AddUserData.twitter AddUserData.twitter
+
+### ** Examples
+
+## Not run: 
+##D # add additional twitter user profile information to actor network graph as node attributes 
+##D # requires twitterAuth from Authenticate, twitterData from Collect and actorNetwork from 
+##D # Create actor network
+##D actorNetWithUserAttr <- AddUserData.twitter(twitterData, actorNetwork,
+##D                                             lookupUsers = TRUE, 
+##D                                             twitterAuth = twitterAuth, writeToFile = TRUE)
+##D # igraph object
+##D # actorNetWithUserAttr$graph
+## End(Not run)
+
+
+
+
+### * <FOOTER>
+###
+cleanEx()
+options(digits = 7L)
+base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+grDevices::dev.off()
+###
+### Local variables: ***
+### mode: outline-minor ***
+### outline-regexp: "\\(> \\)?### [*]+" ***
+### End: ***
+quit('no')

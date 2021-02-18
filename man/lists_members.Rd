@@ -5,12 +5,26 @@
 \alias{lists_memberships}
 \title{Get Twitter list members (users on a given list).}
 \usage{
-lists_members(list_id = NULL, slug = NULL, owner_user = NULL,
-  n = 5000, cursor = "-1", token = NULL, parse = TRUE, ...)
+lists_members(
+  list_id = NULL,
+  slug = NULL,
+  owner_user = NULL,
+  n = 5000,
+  cursor = "-1",
+  token = NULL,
+  parse = TRUE,
+  ...
+)
 
-lists_memberships(user = NULL, n = 200, cursor = "-1",
-  filter_to_owned_lists = FALSE, token = NULL, parse = TRUE,
-  previous_cursor = NULL)
+lists_memberships(
+  user = NULL,
+  n = 200,
+  cursor = "-1",
+  filter_to_owned_lists = FALSE,
+  token = NULL,
+  parse = TRUE,
+  previous_cursor = NULL
+)
 }
 \arguments{
 \item{list_id}{required The numerical id of the list.}
@@ -99,9 +113,10 @@ ns538
 
 }
 \seealso{
-Other lists: \code{\link{lists_statuses}},
-  \code{\link{lists_subscribers}},
-  \code{\link{lists_subscriptions}},
-  \code{\link{lists_users}}
+Other lists: 
+\code{\link{lists_statuses}()},
+\code{\link{lists_subscribers}()},
+\code{\link{lists_subscriptions}()},
+\code{\link{lists_users}()}
 }
 \concept{lists}
