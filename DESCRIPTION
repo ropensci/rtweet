@@ -1,6 +1,6 @@
 Package: rtweet
 Type: Package
-Version: 0.7.0
+Version: 0.7.0.9000
 Title: Collecting Twitter Data
 Authors@R: c(
     person("Michael W.", "Kearney", ,
