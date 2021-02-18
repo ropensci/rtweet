@@ -2,6 +2,7 @@ context("network_data")
 
 test_that("graphing functions work", {
   skip_on_cran()
+  skip_if_offline()
 
   token <- readRDS("twitter_tokens")
   x <- search_tweets("twitter filter:verified", n = 200, token = token)

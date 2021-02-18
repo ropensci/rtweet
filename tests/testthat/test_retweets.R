@@ -3,6 +3,8 @@ context("retweets")
 
 test_that("get_retweets returns tweets data", {
   skip_on_cran()
+  skip_if_offline()
+  
   token <- readRDS("twitter_tokens")
   x <- get_retweets("929511061954297857", token = token)
   expect_equal(is.data.frame(x), TRUE)
@@ -12,6 +14,8 @@ test_that("get_retweets returns tweets data", {
 
 test_that("get_retweeters returns users", {
   skip_on_cran()
+  skip_if_offline()
+  
   token <- readRDS("twitter_tokens")
   x <- get_retweeters("929511061954297857", token = token)
   expect_equal(is.data.frame(x), TRUE)
