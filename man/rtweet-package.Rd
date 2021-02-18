@@ -44,4 +44,9 @@ Other contributors:
   \item Francois Briatte [reviewer]
 }
 
+Other contributors:
+\itemize{
+  \item Jonathan Sidi \email{yonicd@gmail.com} (0000-0002-4222-1819) [contributor]
+}
+
 }
