@@ -26,7 +26,6 @@ Imports:
     tibble (>= 1.3.4),
     utils,
     progress,
-    Rcpp,
     httpuv
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
@@ -45,4 +44,4 @@ Suggests:
     igraph
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

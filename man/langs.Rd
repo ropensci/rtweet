@@ -4,7 +4,9 @@
 \name{langs}
 \alias{langs}
 \title{Language codes recognized by Twitter data.}
-\format{A tibble with five variables and 486 observations.}
+\format{
+A tibble with five variables and 486 observations.
+}
 \usage{
 langs
 }
