@@ -32,7 +32,7 @@
 #' col <- c(rep("#002244aa", 50), rep("#440000aa", 50))
 #' bg <- c(rep("#6699ffaa", 50), rep("#dd6666aa", 50))
 #'
-#' ## crate temporary file name
+#' ## create temporary file name
 #' tmp <- tempfile(fileext = ".png")
 #'
 #' ## save as png
