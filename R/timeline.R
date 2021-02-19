@@ -177,6 +177,7 @@ get_timeline_call <- function(user,
     count = count,
     max_id = max_id,
     tweet_mode = "extended",
+    include_ext_alt_text = "true",
     ...)
   names(params)[1] <- .id_type(user)
   url <- make_url(

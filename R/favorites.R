@@ -167,6 +167,7 @@ get_favorites_ <- function(user,
     user_type = user,
     count = count,
     tweet_mode = "extended",
+    include_ext_alt_text = "true",
     max_id = max_id,
     since_id = since_id
   )

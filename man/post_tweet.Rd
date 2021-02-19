@@ -12,13 +12,16 @@ post_tweet(
   in_reply_to_status_id = NULL,
   destroy_id = NULL,
   retweet_id = NULL,
-  auto_populate_reply_metadata = FALSE
+  auto_populate_reply_metadata = FALSE,
+  media_alt_text = NULL
 )
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 280 characters or less.}
 
-\item{media}{File path to image or video media to be included in tweet.}
+\item{media}{Length 1 character vector with a file path to video media **OR** 
+up-to length 4 character vector with file paths to static images to be included in tweet.
+**The caller is responsible for managing this.**}
 
 \item{token}{OAuth token. By default \code{token = NULL} fetches a
 non-exhausted token from an environment variable tokens.}
@@ -39,6 +42,12 @@ request is made (and the status text and media attachments) are irrelevant.}
 \item{auto_populate_reply_metadata}{If set to TRUE and used with
 in_reply_to_status_id, leading @mentions will be looked up from the
 original Tweet, and added to the new Tweet from there. Defaults to FALSE.}
+
+\item{media_alt_text}{attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
+metadata to the `media` you are uploading. Should be same length as
+`media` (i.e. as many alt text entries as there are `media` entries). See
+[the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
+for more information.}
 }
 \description{
 Posts status update to user's Twitter account
