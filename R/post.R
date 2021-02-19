@@ -201,6 +201,7 @@ is_tweet_length <- function(.x, n = 280) {
 #' @param token OAuth token. By default \code{token = NULL}
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
+#' @noRd 
 upload_media_to_twitter <- function(media, token) {
   media2upload <- httr::upload_file(media)
   file_ext = function(x) {
@@ -251,7 +252,7 @@ upload_media_to_twitter <- function(media, token) {
 #'   variable tokens.
 #' @param rurl Upload address for media.
 #' @importFrom httr GET content
-#' @export
+#' @noRd 
 check_chunked_media_status = function(finalize_data, token, rurl) {
   if(finalize_data$processing_info$state == "succeeded") {
     return(finalize_data)
