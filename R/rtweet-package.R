@@ -18,6 +18,7 @@
 #' ## for a quick demo check the rtweet vignette
 #' vignette("intro", package = "rtweet")
 #' }
+#' @keywords internal
 "_PACKAGE"
 
 .state <- new.env(parent = emptyenv())

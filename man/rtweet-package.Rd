@@ -24,29 +24,15 @@ It has three main goals:
 vignette("auth")
 
 ## for a quick demo check the rtweet vignette
-vignette("rtweet")
+vignette("intro", package = "rtweet")
 }
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://CRAN.R-project.org/package=rtweet}
+  \item \url{https://docs.ropensci.org/rtweet}
   \item Report bugs at \url{https://github.com/ropensci/rtweet/issues}
 }
 
 }
-\author{
-\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (\href{https://orcid.org/0000-0002-0730-4694}{ORCID})
-
-Other contributors:
-\itemize{
-  \item Andrew Heiss (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [reviewer]
-  \item Francois Briatte [reviewer]
-}
-
-Other contributors:
-\itemize{
-  \item Jonathan Sidi \email{yonicd@gmail.com} (0000-0002-4222-1819) [contributor]
-}
-
-}
+\keyword{internal}
