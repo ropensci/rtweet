@@ -16,7 +16,7 @@
 #' vignette("auth")
 #'
 #' ## for a quick demo check the rtweet vignette
-#' vignette("rtweet")
+#' vignette("intro", package = "rtweet")
 #' }
 "_PACKAGE"
 

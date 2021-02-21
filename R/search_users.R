@@ -101,7 +101,8 @@ search_users_call <- function(q, n = 20,
       q = q,
       count = count,
       page = i,
-      tweet_mode = "extended"
+      tweet_mode = "extended",
+      include_ext_alt_text = "true"
     )
     url <- make_url(
       query = query,
