@@ -26,8 +26,8 @@ test_that("lookup_coords returns coords data", {
     expect_named(x)
     expect_true("box" %in% names(x))
   }
-  rtweet:::set_renv(GOOGLE_KEY = gmk)
-  rtweet:::set_renv(GOOGLE_MAPS_KEY = "")
+  Sys.setenv(GOOGLE_KEY = gmk)
+  Sys.setenv(GOOGLE_MAPS_KEY = "")
   if (!is.null(gmk) && !identical(gmk, "")) {
     x <- lookup_coords("New York, NY")
     expect_equal(is.list(x), TRUE)
