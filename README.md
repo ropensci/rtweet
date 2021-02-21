@@ -24,7 +24,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 <!-- badges: end -->
 
 R client for accessing Twitter’s REST and stream APIs. Check out the
-[rtweet package documentation website](https://rtweet.info).
+[rtweet package documentation
+website](https://docs.ropensci.org/rtweet).
 
 ### Package Functionality
 
@@ -135,7 +136,7 @@ of R and (b) you have installed the
 -   If you still want to apply for a developer account and create your
     own application, see the `auth` vignette (or the API authorization
     section below) for additional instructions:
-    <https://rtweet.info/articles/auth.html>.
+    <https://docs.ropensci.org/rtweet/articles/auth.html>.
 
 | Task                       | rstats2twitter | user-app |
 |----------------------------|----------------|----------|
@@ -152,7 +153,7 @@ of R and (b) you have installed the
 ### Vignettes
 
 [Obtaining and using Twitter API
-tokens](https://rtweet.info/articles/auth.html)
+tokens](https://docs.ropensci.org/rtweet/articles/auth.html)
 
 ``` r
 ## quick overview of rtweet functions
@@ -160,14 +161,15 @@ vignette("auth", package = "rtweet")
 ```
 
 [Quick overview of rtweet
-package](https://rtweet.info/articles/intro.html)
+package](https://docs.ropensci.org/rtweet/articles/intro.html)
 
 ``` r
 ## quick overview of rtweet functions
 vignette("intro", package = "rtweet")
 ```
 
-[Live streaming tweets data](https://rtweet.info/articles/stream.html)
+[Live streaming tweets
+data](https://docs.ropensci.org/rtweet/articles/stream.html)
 
 ``` r
 ## working with the stream
@@ -175,7 +177,7 @@ vignette("stream", package = "rtweet")
 ```
 
 [Troubleshooting common rtweet
-problems](https://rtweet.info/articles/FAQ.html)
+problems](https://docs.ropensci.org/rtweet/articles/FAQ.html)
 
 ``` r
 ## working with the stream
@@ -380,7 +382,7 @@ sf <- get_trends("san francisco")
     Twitter app
 -   To create your own Twitter app, follow the instructions in the
     authorization vignette on [obtaining and using access
-    tokens](https://rtweet.info/articles/auth.html)
+    tokens](https://docs.ropensci.org/rtweet/articles/auth.html)
 
 ## Contact
 
