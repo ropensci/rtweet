@@ -3,10 +3,9 @@ context("get_friends")
 test_that("get_friends returns data frame with ids", {
     skip_on_cran()
 
-    token <- readRDS("twitter_tokens")
-    rl <- rate_limit(token, "get_followers")
+    rl <- rate_limit(NULL, "get_followers")
     if (rl$remaining > 1) {
-        f <- get_friends("kearneymw", token = token)
+        f <- get_friends("kearneymw")
     
         expect_true(is.data.frame(f))
         ##expect_true(is.character(f[["ids"]]))

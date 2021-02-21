@@ -3,8 +3,7 @@ context("rate_limit")
 test_that("rate_limit returns rate_limit data", {
   skip_on_cran()
 
-  token <- readRDS("twitter_tokens")
-  x <- rate_limit(list(token, token))
+  x <- rate_limit()
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

@@ -3,8 +3,7 @@ context("trends_available")
 test_that("get_trends_closest returns data frame with correct city name", {
   skip_on_cran()
 
-  token <- readRDS("twitter_tokens")
-  x <- get_trends(lat = 40.7, lng = -74.0, token = token)
+  x <- get_trends(lat = 40.7, lng = -74.0)
 
   expect_true(is.data.frame(x))
   expect_named(x)

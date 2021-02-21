@@ -3,8 +3,6 @@ context("get_my_timeline")
 test_that("get_my_timeline", {
   skip_on_cran()
 
-  expect_equal(rtweet:::home_user(), "kearneymw")
-  token <- readRDS("twitter_tokens")
   x <- get_my_timeline()
   expect_true(is.data.frame(x), TRUE)
   expect_named(x)

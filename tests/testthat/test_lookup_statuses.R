@@ -4,11 +4,10 @@ test_that("lookup_statuses returns users data", {
   skip_on_cran()
 
   n <- 2
-  token <- readRDS("twitter_tokens")
   x <- lookup_statuses(c("558115838503690243",
                          "760182486005583872",
                          "776053079540166657"),
-                       token = token)
+                       )
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

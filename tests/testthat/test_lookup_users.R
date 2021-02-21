@@ -4,9 +4,7 @@ test_that("lookup_users returns users data", {
   skip_on_cran()
 
   n <- 4
-  token <- readRDS("twitter_tokens")
-  x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"),
-                    token = token)
+  x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

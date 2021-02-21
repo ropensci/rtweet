@@ -3,8 +3,7 @@ context("network_data")
 test_that("graphing functions work", {
   skip_on_cran()
 
-  token <- readRDS("twitter_tokens")
-  x <- search_tweets("twitter filter:verified", n = 200, token = token)
+  x <- search_tweets("twitter filter:verified", n = 200)
   d <- network_data(x)
   expect_true(
     is.data.frame(d)

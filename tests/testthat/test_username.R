@@ -2,7 +2,7 @@ context("test-test_username-r")
 
 test_that("test authenticating user name", {
   skip_on_cran()
-  token <- readRDS("twitter_tokens")
-  sn <- rtweet:::authenticating_user_name(token)
-  expect_equal(sn, "kearneymw")
+  sn <- authenticating_user_name()
+  expect_type(sn, "character")
+  expect_length(sn, 1)
 })
