@@ -20,4 +20,5 @@
 #' }
 "_PACKAGE"
 
+# The internal environment where state of the app is stored.
 .state <- new.env(parent = emptyenv())
