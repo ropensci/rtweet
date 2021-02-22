@@ -461,54 +461,5 @@ home_user_ <- function() {
 }
 
 rtweet_token <- function() {
-  if (exists(".rtweet_token") &&
-        exists("token", envir = get(".rtweet_token"))) {
-    token <- get("token", envir = get(".rtweet_token"))
-  } else {
-    message("Requesting token on behalf of user...")
-    ## ensure correct callback
-    token <- rstats2twitter_client()
-
-    ## stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
-  }
-  if (identical(Sys.getenv("TWITTER_PAT"), "")) {
-    pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
-    saveRDS(token, file = pathtotoken)
-    set_renv("TWITTER_PAT" = pathtotoken)
-  }
-  token
-}
-
-rstats2twitter_client <- function() {
-  if (!interactive()) {
-    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions",
-      call. = FALSE)
-  }
-  is_installed("httpuv",
-    stop = "Please install the {httpuv} package to authorize via web browser.")
-  ## ensure correct callback
-  ## use app token to generate user token
-  
-  app <- httr::oauth_app("rstats2twitter", decript_key(), decript_secret())
-  
-  token <- TwitterToken1.0$new(
-    app = app,
-    endpoint = httr::oauth_endpoints("twitter"),
-    cache_path = FALSE
-  )
-  token
-}
-
-
-rtweet_find_access_key <- function() {
-  if ((key <- Sys.getenv("TWITTER_ACCESS_KEY")) != "") {
-    return(key)
-  }
-  system(paste0("echo $TWITTER_ACCESS_KEY"), intern = TRUE)
-}
-rtweet_find_access_secret <- function() {
-  if ((key <- Sys.getenv("TWITTER_ACCESS_SECRET")) != "") {
-    return(key)
-  }
-  system(paste0("echo $TWITTER_ACCESS_SECRET"), intern = TRUE)
+  create_token("rstats2twitter", decript_key(), decript_secret())
 }
