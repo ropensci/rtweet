@@ -2,6 +2,7 @@ context("stream_tweets")
 
 test_that("stream_tweets returns tweets data", {
   skip_on_cran()
+  skip_if_offline()
 
   token <- readRDS("twitter_tokens")
   x <- suppressMessages(

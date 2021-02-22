@@ -207,7 +207,7 @@ create_token_ <- function(app = "mytwitterapp",
     params <- list(as_header = TRUE)
     token <- httr::Token1.0$new(app = app,
       endpoint = httr::oauth_endpoints("twitter"),
-      params = params, credentials = credentials, cache = FALSE)
+      params = params, credentials = credentials, cache_path = FALSE)
   } else {
     ##token <- twitter_init_oauth1.0(httr::oauth_endpoints("twitter"), app)
     token <- twitter_Token1.0$new(app = app,

@@ -2,6 +2,7 @@ context("system_token")
 
 test_that("system_token functions", {
   skip_on_cran()
+  skip_if_offline()
 
   tokens <- get_tokens()
   x <- search_tweets(

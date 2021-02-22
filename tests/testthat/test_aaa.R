@@ -2,6 +2,7 @@ context("setup token")
 
 test_that("create token", {
   skip_on_cran()
+  skip_if_offline()
   
   token <- rtweet::create_token(
     "rstats2twitter",
