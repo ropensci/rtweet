@@ -108,16 +108,7 @@ create_token <- function(app = "mytwitterapp",
                          access_token = NULL,
                          access_secret = NULL,
                          set_renv = TRUE) {
-  create_token_(app, consumer_key, consumer_secret, access_token,
-    access_secret, set_renv)
-}
 
-create_token_ <- function(app = "mytwitterapp",
-                          consumer_key,
-                          consumer_secret,
-                          access_token = NULL,
-                          access_secret = NULL,
-                          set_renv = TRUE) {
   ## validate app name
   stopifnot(is.character(app))
   ## validate consumer key
