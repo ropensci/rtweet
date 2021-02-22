@@ -1,6 +1,7 @@
 
 test_that("unique_id returns correct counts", {
   skip_on_cran()
+  skip_if_offline()
 
   x <- list(data.frame(user_id = "123"), data.frame(user_id = "234"))
 

@@ -16,8 +16,9 @@ Twitter OAuth token(s) (Token1.0).
 Call function used to fetch and load Twitter OAuth tokens.
 Since Twitter application key should be stored privately, users should save
 the path to token(s) as an environment variable. This allows Tokens
-to be instantly [re]loaded in future sessions. See the "tokens"
-vignette for instructions on obtaining and using access tokens.
+to be instantly [re]loaded in future sessions. See the tokens
+vignette i.e.,`vignettes("auth", "rtweet")` for instructions on 
+obtaining and using access tokens.
 }
 \details{
 This function will search for tokens using R, internal,

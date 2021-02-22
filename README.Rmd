@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
 ```
 
 # rtweet <img src="man/figures/logo.png" width="160px" align="right" />
-
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/ropensci/rtweet/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rtweet/actions)
 [![Build Status](https://travis-ci.org/ropensci/rtweet.svg?branch=master)](https://travis-ci.org/ropensci/rtweet)
 [![CRAN status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
 [![Coverage Status](https://codecov.io/gh/ropensci/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/rtweet?branch=master)
@@ -25,6 +26,7 @@ knitr::opts_chunk$set(
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01829/status.svg)](https://doi.org/10.21105/joss.01829)
+<!-- badges: end -->
 
 R client for accessing Twitter's REST and stream APIs. Check out the [rtweet package documentation website](https://rtweet.info).
 

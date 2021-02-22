@@ -2,7 +2,8 @@ context("get_followers")
 
 test_that("get_followers returns data frame with user_id", {
   skip_on_cran()
-
+  skip_if_offline()
+  
   token <- readRDS("twitter_tokens")
   rl <- rate_limit(token, "get_followers")
   if (rl$remaining > 1) {

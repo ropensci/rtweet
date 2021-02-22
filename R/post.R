@@ -1,7 +1,9 @@
 #' Posts status update to user's Twitter account
 #'
 #' @param status Character, tweet status. Must be 280 characters or less.
-#' @param media File path to image or video media to be included in tweet.
+#' @param media Length 1 character vector with a file path to video media **OR** 
+#'     up-to length 4 character vector with file paths to static images to be included in tweet.
+#'     **The caller is responsible for managing this.**
 #' @param token OAuth token. By default \code{token = NULL} fetches a
 #'   non-exhausted token from an environment variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like to reply.
@@ -17,6 +19,11 @@
 #' @param auto_populate_reply_metadata If set to TRUE and used with
 #'   in_reply_to_status_id, leading @mentions will be looked up from the
 #'   original Tweet, and added to the new Tweet from there. Defaults to FALSE.
+#' @param media_alt_text attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
+#'        metadata to the `media` you are uploading. Should be same length as
+#'        `media` (i.e. as many alt text entries as there are `media` entries). See
+#'        [the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
+#'        for more information.
 #' @examples
 #' \dontrun{
 #' ## generate data to make/save plot (as a .png file)
@@ -25,7 +32,7 @@
 #' col <- c(rep("#002244aa", 50), rep("#440000aa", 50))
 #' bg <- c(rep("#6699ffaa", 50), rep("#dd6666aa", 50))
 #'
-#' ## crate temporary file name
+#' ## create temporary file name
 #' tmp <- tempfile(fileext = ".png")
 #'
 #' ## save as png
@@ -65,7 +72,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        in_reply_to_status_id = NULL,
                        destroy_id = NULL,
                        retweet_id = NULL,
-                       auto_populate_reply_metadata = FALSE) {
+                       auto_populate_reply_metadata = FALSE,
+                       media_alt_text = NULL) {
 
   ## check token
   token <- check_token(token)
@@ -150,7 +158,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     r <- vector("list", length(media))
     media_id_string <- vector("list", length(media))
     for (i in seq_along(media)) {
-      r[[i]] <- upload_media_to_twitter(media[[i]], token)
+      r[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text[[i]])
       if (has_name_(r[[i]], "media_id_string")) {
         media_id_string[[i]] <- r[[i]]$media_id_string
       } else {

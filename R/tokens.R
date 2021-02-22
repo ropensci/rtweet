@@ -92,8 +92,9 @@ request <- function (method = NULL, url = NULL, headers = NULL, fields = NULL,
 #' Call function used to fetch and load Twitter OAuth tokens.
 #' Since Twitter application key should be stored privately, users should save
 #' the path to token(s) as an environment variable. This allows Tokens
-#' to be instantly [re]loaded in future sessions. See the "tokens"
-#' vignette for instructions on obtaining and using access tokens.
+#' to be instantly [re]loaded in future sessions. See the tokens
+#' vignette i.e.,`vignettes("auth", "rtweet")` for instructions on 
+#' obtaining and using access tokens.
 #'
 #' @return Twitter OAuth token(s) (Token1.0).
 #' @details This function will search for tokens using R, internal,
@@ -206,7 +207,7 @@ create_token_ <- function(app = "mytwitterapp",
     params <- list(as_header = TRUE)
     token <- httr::Token1.0$new(app = app,
       endpoint = httr::oauth_endpoints("twitter"),
-      params = params, credentials = credentials, cache = FALSE)
+      params = params, credentials = credentials, cache_path = FALSE)
   } else {
     ##token <- twitter_init_oauth1.0(httr::oauth_endpoints("twitter"), app)
     token <- twitter_Token1.0$new(app = app,
@@ -225,31 +226,10 @@ create_token_ <- function(app = "mytwitterapp",
   token
 }
 
-
-has_ext <- function(x) {
-  stopifnot(length(x) == 1L)
-  x <- basename(x)
-  grepl("[[:alnum:]]{1,}\\.[[:alpha:]]{1,}$", x)
-}
-
-only_ext <- function(x) {
-  if (has_ext(x)) {
-    gsub(".*(?=\\.)", "", x, perl = TRUE)
-  } else {
-    ""
-  }
-}
-
-no_ext <- function(x) {
-  if (has_ext(x)) {
-    gsub("(?<=[[:alnum:]]{1})\\..*(?!=\\.)", "", x, perl = TRUE)
-  } else {
-    x
-  }
-}
-
 paste_before_ext <- function(x, p) {
-  paste0(no_ext(x), p, only_ext(x))
+  ext = tools::file_ext(x)
+  pre = substring(x, 1L, nchar(x) - nchar(ext))
+  paste0(pre, p, ext)
 }
 
 
