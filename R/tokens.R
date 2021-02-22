@@ -1,90 +1,29 @@
-twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
-                                   is_interactive = interactive(),
-                                   private_key = NULL) {
-    oauth_sig <- function(url, method,
-                          token = NULL,
-                          token_secret = NULL,
-                          private_key = NULL, ...) {
-        httr::oauth_header(httr::oauth_signature(url, method, app, token,
-            token_secret, private_key, other_params = c(list(...),
-                oauth_callback = "http://127.0.0.1:1410")))
-    }
-    response <- httr::POST(endpoint$request, oauth_sig(endpoint$request,
-        "POST", private_key = private_key))
-    httr::stop_for_status(response)
-    params <- httr::content(response, type = "application/x-www-form-urlencoded")
-    token <- params$oauth_token
-    secret <- params$oauth_token_secret
-    authorize_url <- httr::modify_url(endpoint$authorize,
-      query = list(oauth_token = token, permission = "read"))
-    verifier <- httr::oauth_listener(authorize_url, is_interactive)
-    verifier <- verifier$oauth_verifier %||% verifier[[1]]
-    response <- httr::POST(endpoint$access, oauth_sig(endpoint$access,
-        "POST", token, secret, oauth_verifier = verifier, private_key = private_key),
-        body = "")
-    httr::stop_for_status(response)
-    httr::content(response, type = "application/x-www-form-urlencoded")
-}
+# Twitter requires a callback url that uses 127.0.0.1 rather than localhost
+# so we temporarily override HTTR_SERVER during initialisation.
 
-`%||%` <- function(a, b) {
-  if (length(a) > 0) a else b
-}
-
-twitter_Token1.0 <- R6::R6Class("Token1.0", inherit = httr::Token, list(
+TwitterToken1.0 <- R6::R6Class("TwitterToken1.0", inherit = httr::Token1.0, list(
   init_credentials = function(force = FALSE) {
     self$credentials <- twitter_init_oauth1.0(
-      self$endpoint, self$app,
+      self$endpoint, 
+      self$app,
       permission = self$params$permission,
       private_key = self$private_key
     )
-  },
-  can_refresh = function() {
-    FALSE
-  },
-  refresh = function() {
-    stop("Not implemented")
-  },
-  sign = function(method, url) {
-    oauth <- httr::oauth_signature(url, method, self$app,
-      self$credentials$oauth_token, self$credentials$oauth_token_secret,
-      self$private_key)
-    if (isTRUE(self$params$as_header)) {
-      c(request(url = url), httr::oauth_header(oauth))
-    } else {
-      url <- httr::parse_url(url)
-      url$query <- c(url$query, oauth)
-      request(url = httr::build_url(url))
-    }
   }
 ))
 
-keep_last <- function (...) {
-  x <- c(...)
-  x[!duplicated(names(x), fromLast = TRUE)]
-}
-
-is_empty <- function (x) length(x) == 0
-
-compact <- function (x) {
-  empty <- vapply(x, is_empty, logical(1))
-  x[!empty]
-}
-
-request <- function (method = NULL, url = NULL, headers = NULL, fields = NULL,
-  options = NULL, auth_token = NULL, output = NULL) {
-  if (!is.null(method))
-    stopifnot(is.character(method), length(method) == 1)
-  if (!is.null(url))
-    stopifnot(is.character(url), length(url) == 1)
-  if (!is.null(headers))
-    stopifnot(is.character(headers))
-  if (!is.null(fields))
-    stopifnot(is.list(fields))
-  if (!is.null(output))
-    stopifnot(inherits(output, "write_function"))
-  structure(list(method = method, url = url, headers = keep_last(headers),
-    fields = fields, options = compact(keep_last(options)),
-    auth_token = auth_token, output = output), class = "request")
+twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
+                                   is_interactive = interactive(),
+                                   private_key = NULL) {
+  
+  withr::local_envvar("HTTR_SERVER" = "127.0.0.1")
+  httr::init_oauth1.0(
+    endpoint, 
+    app, 
+    permission = permission, 
+    is_interactive = is_interactive, 
+    private_key = private_key
+  )
 }
 
 #' Fetching Twitter authorization token(s).
@@ -202,19 +141,24 @@ create_token_ <- function(app = "mytwitterapp",
   ## if access token/secret use sign method otherwise browser
   if (!is.null(access_token) && !is.null(access_secret)) {
     stopifnot(is.character(access_token), is.character(access_secret))
-    credentials <- list(oauth_token = access_token,
-      oauth_token_secret = access_secret)
+    credentials <- list(
+      oauth_token = access_token,
+      oauth_token_secret = access_secret
+    )
     params <- list(as_header = TRUE)
-    token <- httr::Token1.0$new(app = app,
+    token <- httr::Token1.0$new(
+      app = app,
       endpoint = httr::oauth_endpoints("twitter"),
-      params = params, credentials = credentials, cache = FALSE)
+      params = params, 
+      credentials = credentials, 
+      cache = FALSE
+    )
   } else {
-    ##token <- twitter_init_oauth1.0(httr::oauth_endpoints("twitter"), app)
-    token <- twitter_Token1.0$new(app = app,
+    token <- TwitterToken1.0$new(
+      app = app,
       endpoint = httr::oauth_endpoints("twitter"),
-      cache = FALSE)
-    #token <- httr::oauth1.0_token(
-    #  httr::oauth_endpoints("twitter"), app, cache = FALSE)
+      cache = FALSE
+    )
   }
   ## save token and set as environment variable
   if (set_renv) {
@@ -544,9 +488,6 @@ rtweet_token <- function() {
   token
 }
 
-
-
-
 rstats2twitter_client <- function() {
   if (!interactive()) {
     stop("API user token required. see http://rtweet.info/articles/auth.html for instructions",
@@ -556,10 +497,14 @@ rstats2twitter_client <- function() {
     stop = "Please install the {httpuv} package to authorize via web browser.")
   ## ensure correct callback
   ## use app token to generate user token
+  
   app <- httr::oauth_app("rstats2twitter", decript_key(), decript_secret())
-  token <- twitter_Token1.0$new(app = app,
+  
+  token <- TwitterToken1.0$new(
+    app = app,
     endpoint = httr::oauth_endpoints("twitter"),
-    cache = FALSE)
+    cache_path = FALSE
+  )
   token
 }
 
