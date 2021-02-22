@@ -25,7 +25,9 @@ Imports:
     tibble (>= 1.3.4),
     utils,
     progress,
-    httpuv
+    httpuv,
+    rappdirs,
+    withr
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
 BugReports: https://github.com/ropensci/rtweet/issues
