@@ -202,23 +202,24 @@ is_tweet_length <- function(.x, n = 280) {
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
 #' @noRd 
-upload_media_to_twitter <- function(media, token) {
+upload_media_to_twitter <- function(media, token, alt_text = NULL) {
   media2upload <- httr::upload_file(media)
-  file_ext = function(x) {
+  # equivalent to tools::file_ext
+  file_ext <- function(x) {
     pos <- regexpr("\\.([[:alnum:]]+)$", x)
     ifelse(pos > -1L, substring(x, pos + 1L), "")
   }
   mediatype <- file_ext(media)
+  stopifnot(mediatype %in% c("jpg", "jpeg", "png", "gif", "mp4"))
   query <- "media/upload"
   rurl <- paste0("https://upload.twitter.com/1.1/media/upload.json")
   filesize <- file.size(media)
   gif_no_chunked <- mediatype == "gif" & filesize <= 5*1024*1024
-  if(mediatype %in% c("jpg","jpeg", "png") | gif_no_chunked) {
+  if (mediatype %in% c("jpg","jpeg", "png") | gif_no_chunked) {
     rpost <- httr::POST(rurl, body = list(media = media2upload), token)
-    r <- httr::content(rpost)
-    return(r)
+    status_final <- httr::content(rpost)
   }
-  else if(mediatype %in% c("gif", "mp4")) {
+  if (mediatype %in% c("gif", "mp4")) {
     if (mediatype == "gif") {
       category <- "tweet_gif"
     } else {
@@ -243,11 +244,28 @@ upload_media_to_twitter <- function(media, token) {
     }
     close(videofile)
     finalize_data <- httr::POST(rurl, body = list(command = "FINALIZE", media_id = media_id),  token)
-    status_final = check_chunked_media_status(httr::content(finalize_data), token, rurl)
-    return(status_final)
-  } else {
-    stop("Media file `", media, "` extension not png, jpeg, jpg, gif, or mp4")
+    status_final <- check_chunked_media_status(httr::content(finalize_data), token, rurl)
   }
+  if (!is.null(alt_text)) {
+    if ("media_id_string" %in% names(status_final)) {
+      rurl <- paste0(
+        "https://upload.twitter.com/1.1/media/metadata/create.json"
+      )
+      r <- httr::POST(
+        rurl, 
+        body = list(
+          media_id = status_final[["media_id_string"]][1],
+          alt_text = list(
+            text = substr(as.character(alt_text[1]), 1, 1000)
+          )
+        ), 
+        token,
+        encode = "json"
+      )
+    }
+  }
+  
+  return(status_final)
 }
 
 #' Checks status of chunked media upload`
@@ -260,10 +278,10 @@ upload_media_to_twitter <- function(media, token) {
 #' @importFrom httr GET content
 #' @noRd 
 check_chunked_media_status = function(finalize_data, token, rurl) {
-  if(finalize_data$processing_info$state == "succeeded") {
+  if (finalize_data$processing_info$state == "succeeded") {
     return(finalize_data)
   } 
-  if(finalize_data$processing_info$state %in% c("pending", "in_progress")) {
+  if (finalize_data$processing_info$state %in% c("pending", "in_progress")) {
     Sys.sleep(finalize_data$processing_info$check_after_secs)
     status <- httr::GET(rurl, query = list(command = "STATUS",
                                            media_id = finalize_data$media_id_string),  token)
