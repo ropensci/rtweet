@@ -1,8 +1,5 @@
 url: https://docs.ropensci.org/rtweet
 
-template:
-  ganalytics: "UA-124886828-1"
-
 authors:
   Michael W. Kearney:
     href: https://mikewk.com
