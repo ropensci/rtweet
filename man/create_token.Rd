@@ -26,13 +26,7 @@ application must have \code{Read and write} access level and
 
 \item{access_secret}{Access secret as supplied by Twitter (apps.twitter.com)}
 
-\item{set_renv}{Logical indicating whether to save the created token
-as the default environment twitter token variable. Defaults to TRUE,
-meaning the token is saved to user's home directory as
-".rtweet_token.rds" (or, if that already exists, then
-.rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
-token to said token is then set in the user's .Renviron file and re-
-read to start being used in current active session.}
+\item{set_renv}{Should the token be cached?}
 }
 \value{
 Twitter OAuth token(s) (Token1.0).
@@ -53,7 +47,7 @@ Sends request to generate OAuth 1.0 tokens. Twitter
 \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 
 Other tokens: 
-\code{\link{get_tokens}()},
+\code{\link{get_token}()},
 \code{\link{rate_limit}()}
 }
 \concept{tokens}

@@ -1,3 +1,177 @@
+check_token <- function(token = NULL) {
+  token <- token %||% get_token()
+  
+  if (inherits(token, "bearer") || inherits(token, "Token1.0")) {
+    return(token)
+  }
+  
+  stop("`token` is not a valid access token", call. = FALSE)
+}
+
+#' Fetch Twitter authorization token
+#' 
+#' @description 
+#' Call function used to fetch and load Twitter OAuth tokens.
+#' Since Twitter application key should be stored privately, users should save
+#' the path to token(s) as an environment variable. This allows Tokens
+#' to be instantly [re]loaded in future sessions. See the tokens
+#' vignette i.e.,`vignettes("auth", "rtweet")` for instructions on 
+#' obtaining and using access tokens.
+#'
+#' @return Twitter OAuth token(s) (Token1.0).
+#' @examples
+#' \dontrun{
+#' token <- get_token()
+#' token
+#' }
+#' @family tokens
+#' @export
+get_token <- function() {
+  if (is.null(.state$token)) {
+    .state$token <<- load_cached_token() %||% default_token() %||% no_token()
+  }
+
+  .state$token
+}
+
+#' @export
+#' @rdname get_token
+get_tokens <- function() {
+  # TODO: deprecate this function since there's only ever one token
+  get_token()
+}
+
+load_cached_token <- function() {
+  path <- token_cache_path()
+  if (!file.exists(path)) {
+    return()
+  }
+  
+  message("Reading token from ", path)
+  readRDS(path)
+}
+save_cached_token <- function(token) {
+  path <- token_cache_path()
+  dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
+  
+  .state$token <- token # also save to memory cache
+  message("Saving token to ", path)
+  saveRDS(token, path)
+}
+delete_cached_token <- function() {
+  unlink(token_cache_path())
+}
+token_cache_path <- function() {
+  file.path(rappdirs::user_cache_dir("rtweet", "R"), "auth.rds")
+}
+
+default_token <- function() {
+  # Requires user interaction
+  if (!interactive()) {
+    return(NULL)
+  }
+  
+  key <- rawToChar(openssl::rsa_decrypt(sysdat$DYKcJfBkgMnGveI[[2]], sysdat$DYKcJfBkgMnGveI[[1]]))
+  secret <- rawToChar(openssl::rsa_decrypt(sysdat$MRsnZtaKXqGYHju[[2]], sysdat$MRsnZtaKXqGYHju[[1]]))
+  create_token("rstats2twitter", key, secret)
+}
+
+no_token <- function() {
+  if (identical(Sys.getenv("TESTTHAT"), "true")) {
+    skip("Auth not available")
+  } else {
+    stop("Could not authenticate", call. = FALSE)
+  }
+}
+
+#' Create custom Twitter authorization token
+#'
+#' @description Sends request to generate OAuth 1.0 tokens. Twitter
+#'   also allows users to create user-only (OAuth 2.0) access token.
+#'   Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
+#'   on a host user. Which means these tokens cannot be used to send
+#'   information (follow requests, Twitter statuses, etc.).  If you
+#'   have no interest in those capabilities, then 2.0 OAuth tokens do
+#'   offer some higher rate limits. At the current time, the
+#'   difference given the functions in this package is trivial, so I
+#'   have yet to verified OAuth 2.0 token method.  Consequently, I
+#'   encourage you to use 1.0 tokens.
+#' @param app Name of user created Twitter application
+#' @param consumer_key Application API key
+#' @param consumer_secret Application API secret User-owned
+#'   application must have \code{Read and write} access level and
+#'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
+#' @param access_token Access token as supplied by Twitter (apps.twitter.com)
+#' @param access_secret Access secret as supplied by Twitter (apps.twitter.com)
+#' @param set_renv Should the token be cached? 
+#' @seealso
+#'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
+#'
+#' @return Twitter OAuth token(s) (Token1.0).
+#' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
+#' @family tokens
+#' @export
+create_token <- function(app = "mytwitterapp",
+                         consumer_key,
+                         consumer_secret,
+                         access_token = NULL,
+                         access_secret = NULL,
+                         set_renv = TRUE) {
+
+  stopifnot(is.character(app))
+  check_key(consumer_key, "`consumer_key`")
+  check_key(consumer_secret, "`consumer_secret`")
+
+  app <- httr::oauth_app(
+    appname = app,
+    key = consumer_key,
+    secret = consumer_secret
+  )
+  
+  ## if access token/secret use sign method otherwise browser
+  if (!is.null(access_token) && !is.null(access_secret)) {
+    stopifnot(is.character(access_token), is.character(access_secret))
+    credentials <- list(
+      oauth_token = access_token,
+      oauth_token_secret = access_secret
+    )
+    token <- httr::Token1.0$new(
+      app = app,
+      endpoint = httr::oauth_endpoints("twitter"),
+      params = list(as_header = TRUE), 
+      credentials = credentials, 
+      cache_path = FALSE
+    )
+  } else {
+    token <- TwitterToken1.0$new(
+      app = app,
+      endpoint = httr::oauth_endpoints("twitter"),
+      cache_path = FALSE
+    )
+  }
+  
+  if (set_renv) {
+    save_cached_token(token)
+  }
+  
+  token
+}
+
+check_key <- function(x, name) {
+  if (!is.character(x) || length(x) != 1) {
+    stop(name, " must be a string", call. = FALSE)
+  } 
+  
+  x <- trimws(x)  
+  if (grepl("[^[:alnum:]]", x)) {
+    stop(name, " must only contain numbers and letters", call. = FALSE)
+  }
+
+  x
+}
+
+# Twitter Token -----------------------------------------------------------
+
 # Twitter requires a callback url that uses 127.0.0.1 rather than localhost
 # so we temporarily override HTTR_SERVER during initialisation.
 
@@ -25,451 +199,3 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
     private_key = private_key
   )
 }
-
-#' Fetching Twitter authorization token(s).
-#'
-#' Call function used to fetch and load Twitter OAuth tokens.
-#' Since Twitter application key should be stored privately, users should save
-#' the path to token(s) as an environment variable. This allows Tokens
-#' to be instantly [re]loaded in future sessions. See the tokens
-#' vignette i.e.,`vignettes("auth", "rtweet")` for instructions on 
-#' obtaining and using access tokens.
-#'
-#' @return Twitter OAuth token(s) (Token1.0).
-#' @details This function will search for tokens using R, internal,
-#'   and global environment variables (in that order).
-#' @examples
-#'
-#' \dontrun{
-#' ## fetch default token(s)
-#' token <- get_tokens()
-#'
-#' ## print token
-#' token
-#'
-#' }
-#'
-#' @family tokens
-#' @export
-get_tokens <- function() {
-  if (all(is.null(.state$twitter_tokens),
-    !is.null(.state$twitter_token))) {
-    .state$twitter_tokens <- .state$twitter_token
-  }
-  if (is.null(.state$twitter_tokens)) {
-    .state$twitter_tokens <- load_tokens(twitter_pat())
-  }
-  if (is.null(.state$twitter_tokens)) {
-    .state$twitter_tokens <- rtweet_token()
-  }
-  .state$twitter_tokens
-}
-
-#' @export
-#' @rdname get_tokens
-get_token <- function() get_tokens()
-
-#' Creating Twitter authorization token(s).
-#'
-#' @description Sends request to generate OAuth 1.0 tokens. Twitter
-#'   also allows users to create user-only (OAuth 2.0) access token.
-#'   Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
-#'   on a host user. Which means these tokens cannot be used to send
-#'   information (follow requests, Twitter statuses, etc.).  If you
-#'   have no interest in those capabilities, then 2.0 OAuth tokens do
-#'   offer some higher rate limits. At the current time, the
-#'   difference given the functions in this package is trivial, so I
-#'   have yet to verified OAuth 2.0 token method.  Consequently, I
-#'   encourage you to use 1.0 tokens.
-#' @param app Name of user created Twitter application
-#' @param consumer_key Application API key
-#' @param consumer_secret Application API secret User-owned
-#'   application must have \code{Read and write} access level and
-#'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
-#' @param access_token Access token as supplied by Twitter (apps.twitter.com)
-#' @param access_secret Access secret as supplied by Twitter (apps.twitter.com)
-#' @param set_renv Logical indicating whether to save the created token
-#'   as the default environment twitter token variable. Defaults to TRUE,
-#'   meaning the token is saved to user's home directory as
-#'   ".rtweet_token.rds" (or, if that already exists, then
-#'   .rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
-#'   token to said token is then set in the user's .Renviron file and re-
-#'   read to start being used in current active session.
-#' @seealso
-#'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
-#'
-#' @return Twitter OAuth token(s) (Token1.0).
-#' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
-#' @family tokens
-#' @export
-create_token <- function(app = "mytwitterapp",
-                         consumer_key,
-                         consumer_secret,
-                         access_token = NULL,
-                         access_secret = NULL,
-                         set_renv = TRUE) {
-
-  ## validate app name
-  stopifnot(is.character(app))
-  ## validate consumer key
-  stopifnot(is.character(consumer_key), length(consumer_key) == 1L)
-  consumer_key <- gsub("\\s+", "", consumer_key)
-  if (grepl("[^[:alnum:]]", consumer_key)) {
-    stop("consumer key must be alpha numeric (e.g., a98ds0879fa", call. = FALSE)
-  }
-  ## validate consumer secret
-  stopifnot(is.character(consumer_secret), length(consumer_secret) == 1L)
-  consumer_secret <- gsub("\\s+", "", consumer_secret)
-  if (grepl("[^[:alnum:]]", consumer_secret)) {
-    stop("consumer_secret must be alpha numeric (e.g., a98ds087", call. = FALSE)
-  }
-  ## create app object
-  app <- httr::oauth_app(
-    appname = app,
-    key = consumer_key,
-    secret = consumer_secret
-  )
-  ## if access token/secret use sign method otherwise browser
-  if (!is.null(access_token) && !is.null(access_secret)) {
-    stopifnot(is.character(access_token), is.character(access_secret))
-    credentials <- list(
-      oauth_token = access_token,
-      oauth_token_secret = access_secret
-    )
-    params <- list(as_header = TRUE)
-    token <- httr::Token1.0$new(
-      app = app,
-      endpoint = httr::oauth_endpoints("twitter"),
-      params = params, 
-      credentials = credentials, 
-      cache = FALSE
-    )
-  } else {
-    token <- TwitterToken1.0$new(
-      app = app,
-      endpoint = httr::oauth_endpoints("twitter"),
-      cache = FALSE
-    )
-  }
-  ## save token and set as environment variable
-  if (set_renv) {
-    pathtotoken <- uq_filename(file.path(home(), ".rtweet_token.rds"))
-    saveRDS(token, file = pathtotoken, compress = FALSE)
-    set_renv("TWITTER_PAT" = pathtotoken)
-  }
-  ## return token
-  token
-}
-
-paste_before_ext <- function(x, p) {
-  ext = tools::file_ext(x)
-  pre = substring(x, 1L, nchar(x) - nchar(ext))
-  paste0(pre, p, ext)
-}
-
-
-uq_filename <- function(file_name) {
-  stopifnot(is.character(file_name) && length(file_name) == 1L)
-  if (file.exists(file_name)) {
-    files <- list.files(dirname(file_name), all.files = TRUE, full.names = TRUE)
-    file_name <- paste_before_ext(file_name, 1:1000)
-    file_name <- file_name[!file_name %in% files][1]
-  }
-  file_name
-}
-
-
-is.token <- function(x) {
-  if (length(x) == 0) return(FALSE)
-  if (inherits(x, "bearer")) return(TRUE)
-  ## if it doesn't have request endpoint return FALSE
-  if (!"endpoint" %in% names(x) || !"request" %in% names(x$endpoint)) {
-    return(FALSE)
-  }
-  ## check if inherits token class and uses a twitter api endpoint
-  any(c("token", "token1.0") %in% tolower(class(x))) &&
-    (any(grepl("api.twitter", x[['endpoint']][['request']], ignore.case = TRUE)) ||
-        (is.null(x[['endpoint']][['request']]) &&
-            !is.null(x[['credentials']][['oauth_token']])))
-}
-
-rate_limit_used <- function(x) {
-  x$used <- x$limit - x$remaining
-  x <- x[, c("query", "limit", "remaining", "used", "reset", "reset_at")]
-  x[order(x$used, decreasing = TRUE), ]
-}
-
-
-check_token <- function(token) {
-  if (is.null(token)) {
-    token <- get_tokens()
-  } else if (inherits(token, "bearer")) {
-    return(token)
-  }
-  ## if valid token, then return
-  if (is.token(token)) {
-    return(token)
-  }
-  ## if list then extract first
-  if (is.list(token)) {
-    token <- token[[1]]
-  }
-  ## if class OAuth, use values to create token
-  if (identical(class(token), "OAuth") &&
-    has_oauth_token_creds(token)) {
-    token <- create_token(
-      sample(letters, 8),
-      token$app$key,
-      token$app$secret,
-      token$credentials$oauth_token,
-      token$credentials$oauth_token_secret
-    )
-  } else if (identical(class(token), "OAuth")) {
-    token <- create_token(
-      sample(letters, 8),
-      token$consumerKey,
-      token$consumerSecret
-    )
-  }
-  ## final check
-  if (!is.token(token)) {
-    stop("Not a valid access token.", call. = FALSE)
-  }
-  token
-}
-
-has_oauth_token_creds <- function(token) {
-  has_name_(token, "app") &&
-  has_name_(token$app, "secret") &&
-  length(token$app$secret) == 1 &&
-  !identical(token$app$secret, "") &&
-  has_name_(token, "credentials") &&
-  has_name_(token$credentials, "oauth_token") &&
-  length(token$credentials$oauth_token) == 1 &&
-  !identical(token$credentials$oauth_token, "")
-}
-
-is_ttoken <- function(x) {
-  if (is.token(x)) return(TRUE)
-  if (is.list(x) && is.token(x[[1]])) return(TRUE)
-  FALSE
-}
-
-is_tokenfile <- function(x) {
-  if (is_ttoken(x)) return(TRUE)
-  if (!file.exists(x)) return(FALSE)
-  if (identical(x, ".httr-oauth") || if_rds(x)) {
-    token <- readRDS(x)
-    if (is_ttoken(token)) return(TRUE)
-  }
-  ## if it can be read/loaded
-  if (if_load(x)) {
-    ## load in new environment and then get it
-    e <- new.env()
-    load(x, envir = e)
-    token <- ls(envir = e, all.names = TRUE)
-    if (length(token) > 0) {
-      token <- get(x, envir = e)
-      if (is_ttoken(token)) return(TRUE)
-    }
-  }
-  ## else look for .*token.* in GlobalEnv
-  if (any(grepl("token",
-    ls(envir = .GlobalEnv), ignore.case = TRUE))) {
-    token <- global_token_finder()
-    if (is_ttoken(token)) return(TRUE)
-  }
-  FALSE
-}
-
-twitter_pat <- function() {
-  pat <- Sys.getenv("TWITTER_PAT")
-  if (identical(pat, "")) {
-    if (file.exists(".httr-oauth") && is_tokenfile(".httr-oauth")) {
-      pat <- ".httr-oauth"
-    } else if (file.exists("twitter_tokens") && is_tokenfile("twitter_tokens")) {
-      pat <- "twitter_tokens"
-    } else if (file.exists("twitter_token") && is_tokenfile("twitter_token")) {
-      pat <- "twitter_token"
-    } else if (file.exists("tokens") && is_tokenfile("tokens")) {
-      pat <- "tokens"
-    } else if (file.exists("token") && is_tokenfile("token")) {
-      pat <- "token"
-    } else {
-      pat <- "system"
-      #stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
-    }
-  }
-  pat
-}
-
-if_load <- function(x) {
-  lgl <- FALSE
-  lgl <- suppressWarnings(
-    tryCatch(load(x),
-      error = function(e) return(NULL)))
-  if (is.null(lgl) || length(lgl) == 0L) return(FALSE)
-  if (identical(lgl, FALSE)) return(FALSE)
-  TRUE
-}
-
-if_rds <- function(x) {
-  lgl <- FALSE
-  lgl <- suppressWarnings(
-    tryCatch(readRDS(x),
-      error = function(e) return(NULL)))
-  if (is.null(lgl) || length(lgl) == 0L) return(FALSE)
-  if (identical(lgl, FALSE)) return(FALSE)
-  TRUE
-}
-
-global_token_finder <- function(env = globalenv()) {
-  x <- NULL
-  objs <- ls(envir = env)
-  if ("twitter_tokens" %in% objs) {
-    x <- get_tokens_global("twitter_tokens")
-  } else if ("twitter_token" %in% objs) {
-    x <- get_tokens_global("twitter_token")
-  } else if ("tokens" %in% objs) {
-    x <- get_tokens_global("tokens")
-  } else if ("token" %in% objs) {
-    x <- get_tokens_global("token")
-  } else if (any(grepl("token", objs, ignore.case = TRUE))) {
-    tkn <- grep("token", objs, ignore.case = TRUE, value = TRUE)
-    if (identical(length(tkn), 1L)) {
-      x <- get_tokens_global(tkn)
-    } else if ("twitter_tokens" %in% tolower(tkn)) {
-      x <- get_tokens_global(tkn[tolower(tkn) == "twitter_tokens"])
-    } else if ("twitter_token" %in% tolower(tkn)) {
-      x <- get_tokens_global(tkn[tolower(tkn) == "twitter_tokens"])
-    } else if ("tokens" %in% tolower(tkn)) {
-      x <- get_tokens_global(tkn[tolower(tkn) == "tokens"])
-    } else if ("token" %in% tolower(tkn)) {
-      x <- get_tokens_global(tkn[tolower(tkn) == "token"])
-    }
-  }
-  x
-}
-
-get_tokens_global <- function(x, env = globalenv()) {
-  if (is.character(x)) {
-    eval(parse(text = x), envir = env)
-  } else {
-    eval(x, envir = env)
-  }
-}
-
-load_tokens <- function(pat, env = globalenv()) {
-  pat <- strsplit(pat, "\\,|\\;")[[1]]
-  x <- Map("load_tokens_", pat = pat, MoreArgs = list(env = env))
-  if (is.list(x) && length(x) == 1L) {
-    x <- x[[1]]
-  }
-  .state$twitter_tokens <- x
-  .state$twitter_tokens
-}
-
-load_tokens_ <- function(pat, env = globalenv()) {
-  if (identical(pat, ".httr-oauth")) {
-    readRDS(pat)
-  } else if (identical(pat, "system")) {
-    rtweet_token()
-    #stop("API user token required. see http://rtweet.info/articles/auth.html for instructions", call. = FALSE)
-  } else if (if_load(pat)) {
-    x <- load(pat)
-    get(x)
-  } else if (if_rds(pat)) {
-    readRDS(pat)
-  } else if (any(grepl("token",
-    ls(envir = env), ignore.case = TRUE))) {
-    global_token_finder()
-  } else {
-    rtweet_token()
-  }
-}
-
-## home user
-home_user <- function() {
-  eval(call("home_user_"))
-}
-
-
-
-authenticating_user_name <- function(token = NULL) {
-  ## check token
-  token <- check_token(token)
-  ## API path
-  query <- "account/verify_credentials"
-  ## set params
-  params <- list(
-    include_entities = FALSE,
-    skip_status = TRUE,
-    include_email = FALSE
-  )
-  ## build req
-  url <- make_url(query = query, param = params)
-  ## send request
-  r <- TWIT(get = TRUE, url = url, token)
-  ## if not 200 then return NULL
-  if (r$status_code != 200L) {
-    return(NULL)
-  }
-  httr::content(r)$screen_name
-}
-
-home_user_ <- function() {
-  ## environment
-  if (!exists(".state")) {
-    .state <- new.env()
-  }
-  ## if user name has already been established
-  if (exists(".user", envir = .state)) {
-    return(get(".user", envir = .state))
-  }
-  ## look in environment vars
-  user <- Sys.getenv("TWITTER_SCREEN_NAME")
-  if (!identical(user, "")) {
-    assign(".user", user, envir = .state)
-    return(user)
-  }
-  ## look up via creds request
-  user <- authenticating_user_name()
-
-  ## if that returned a valid screen name, set it and return
-  if (length(user) > 0 && !identical(user, "")) {
-    assign(".user", user, envir = .state)
-    set_renv(TWITTER_SCREEN_NAME = user)
-    return(user)
-  }
-
-  ## if interactive: ask user for screen name
-  if (interactive()) {
-    user <- readline("What is your screen name on Twitter?")
-    ## remove at sign, spaces, or quotes
-    user <- gsub("@|\\s|\"|'", "", user)
-    ## save as environment variable
-    message("Saving your Twitter screen name as environment variable")
-    set_renv(TWITTER_SCREEN_NAME = user)
-    ## store in pkg environment
-    assign(".user", user, envir = .state)
-    ## return screen name
-    return(user)
-  }
-  stop(paste0("cannot determine authenticating user.\nTo set manually, ",
-    "enter {screen_name} and append this to your .Renviron file:",
-    "\nTWITTER_SCREEN_NAME={screen_name} "))
-}
-
-rtweet_token <- function() {
-  create_token("rstats2twitter", decrypt_key(), decrypt_secret())
-}
-decrypt_key <- function() {
-  rawToChar(openssl::rsa_decrypt(AuDedjvWyZTQBnS(), TUMjWsOrkFQhVwe()))
-}
-decrypt_secret <- function() {
-  rawToChar(openssl::rsa_decrypt(ZhlUjTSegJLGdwk(), vngPpXCiELeuIds()))
-}
-ZhlUjTSegJLGdwk <- function() sysdat$MRsnZtaKXqGYHju[[2]]
-vngPpXCiELeuIds <- function() sysdat$MRsnZtaKXqGYHju[[1]]
-AuDedjvWyZTQBnS <- function() sysdat$DYKcJfBkgMnGveI[[2]]
-TUMjWsOrkFQhVwe <- function() sysdat$DYKcJfBkgMnGveI[[1]]
