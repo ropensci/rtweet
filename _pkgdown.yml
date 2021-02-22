@@ -1,7 +1,4 @@
-url: https://rtweet.info
-
-template:
-  ganalytics: "UA-124886828-1"
+url: https://docs.ropensci.org/rtweet
 
 authors:
   Michael W. Kearney:
@@ -11,3 +8,48 @@ navbar:
   - icon: fa-github fa-lg
     href: https://github.com/ropensci/rtweet
 
+
+reference:
+- title: API functions
+  contents:
+  - direct_messages
+  - starts_with("get")
+  - starts_with("lists")
+  - starts_with("lookup")
+  - my_friendships
+  - starts_with("post")
+  - starts_with("search")
+  - stream_tweets
+  - suggested_users
+  - trends_available
+  - starts_with("tweet")
+  
+- title: Authentication, rate-limits, and pagination
+  contents:
+  - bearer_token
+  - create_token
+  - rate_limit
+  - next_cursor
+
+- title: Data
+  contents:
+  - emojis
+  - langs
+  - stopwordslangs
+  
+- title: Data manipulation
+  contents:
+  - as_screenname
+  - do_call_rbind
+  - flatten
+  - lat_lng
+  - network_data
+  - round_time
+  - parse_stream
+  - plain_tweets
+  - read_twitter_csv
+  - ts_data
+  - ts_plot
+  - users_data
+  - write_as_csv
+  

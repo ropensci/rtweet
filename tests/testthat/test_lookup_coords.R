@@ -3,6 +3,7 @@ context("lookup_coords")
 
 test_that("lookup_coords returns coords data", {
   skip_on_cran()
+  skip_if_offline()
   
   kcmo <- lookup_coords("kansas city, mo")
   expect_gt(cor(kcmo$point, c(39.0997, 94.5786)), 0.9)

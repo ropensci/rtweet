@@ -2,6 +2,7 @@ context("get_friends")
 
 test_that("get_friends returns data frame with ids", {
     skip_on_cran()
+    skip_if_offline()
 
     rl <- rate_limit(NULL, "get_followers")
     if (rl$remaining > 1) {

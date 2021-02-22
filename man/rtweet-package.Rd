@@ -30,7 +30,7 @@ vignette("intro", package = "rtweet")
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://CRAN.R-project.org/package=rtweet}
+  \item \url{https://docs.ropensci.org/rtweet}
   \item Report bugs at \url{https://github.com/ropensci/rtweet/issues}
 }
 
@@ -46,3 +46,4 @@ Other contributors:
 }
 
 }
+\keyword{internal}

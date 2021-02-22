@@ -29,7 +29,7 @@ Imports:
     rappdirs,
     withr
 License: MIT + file LICENSE
-URL: https://CRAN.R-project.org/package=rtweet
+URL: https://docs.ropensci.org/rtweet
 BugReports: https://github.com/ropensci/rtweet/issues
 Encoding: UTF-8
 Suggests:

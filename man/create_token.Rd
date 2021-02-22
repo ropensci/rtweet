@@ -33,7 +33,10 @@ Twitter OAuth token(s) (Token1.0).
 }
 \description{
 This function allows you to use your own Twitter app, rather than the 
-one built-in into rtweet.
+one built-in into rtweet. You will need to do this if you want to create
+tweets or send/receive direct messages.
+
+See `vignette("auth")` for more details.
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}

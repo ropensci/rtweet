@@ -2,6 +2,7 @@ context("trends_available")
 
 test_that("trends_available returns data frame", {
 	skip_on_cran()
+  skip_if_offline()
 
 	x <- trends_available()
 

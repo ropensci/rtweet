@@ -13,3 +13,4 @@ make.R
 vignettes/*.R
 rtweet.sublime-project
 rtweet.sublime-workspace
+docs

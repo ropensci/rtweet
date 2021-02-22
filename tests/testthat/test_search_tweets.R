@@ -2,6 +2,7 @@ context("search_tweets")
 
 test_that("search_tweets returns tweets data and latlng", {
   skip_on_cran()
+  skip_if_offline()
 
   n <- 50
   x <- search_tweets("test", n = n, type = "recent", lang = "en")

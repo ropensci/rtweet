@@ -122,6 +122,7 @@ direct_messages <- function(n = 50,
 #'   regenerate your token before those effect of those changes can
 #'   take effect.
 #' @export
+#' @keywords internal
 direct_messages_received <- function(since_id = NULL,
                                      max_id = NULL,
                                      n = 200,
