@@ -121,33 +121,13 @@ you!
 All users must be authorized to interact with Twitter’s APIs. To become
 authorized, simply use a function like `search_tweets()`,
 `get_timeline()`, `get_followers()`, or `get_favorites()` in an
-interactive session an authorize via web browser popup on behalf of your
-Twitter account!
+interactive session — you’ll be presented with a browser popup to
+authenticate on behalf of your Twitter account!
 
-**It is no longer necessary to obtain a developer account and create
-your own Twitter application to use Twitter’s API.** You may still
-choose to do this (gives you more stability and permissions; see the
-table at the bottom of this section), but **{rtweet}** should work out
-of the box assuming (a) you are working in an interactive/live session
-of R and (b) you have installed the
-[**{httpuv}**](https://github.com/rstudio/httpuv) package.
-
--   If you still want to apply for a developer account and create your
-    own application, see the `auth` vignette (or the API authorization
-    section below) for additional instructions:
-    <https://rtweet.info/articles/auth.html>.
-
-| Task                       | rstats2twitter | user-app |
-|----------------------------|----------------|----------|
-| Work interactively         | ✅              | ✅        |
-| Search/lookup tweets/users | ✅              | ✅        |
-| Get friends/followers      | ✅              | ✅        |
-| Get timelines/favorites    | ✅              | ✅        |
-| Get lists/collections      | ✅              | ✅        |
-| Post tweets                | ❌              | ✅        |
-| Run package tests          | ❌              | ✅        |
-| Use Bearer token           | ❌              | ✅        |
-| Read/Write Direct Messages | ❌              | ✅        |
+This uses the Twitter developer app baked into the package. If you want
+to post tweets, use a bearer token, or read/write direct messages, or
+work non-interactively, you will need to create your own app. See the
+details in `vignette("auth")`.
 
 ### Vignettes
 

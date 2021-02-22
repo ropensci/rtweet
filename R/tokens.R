@@ -95,8 +95,12 @@ no_token <- function() {
 
 #' Create custom Twitter OAuth token
 #'
+#' @description 
 #' This function allows you to use your own Twitter app, rather than the 
-#' one built-in into rtweet.
+#' one built-in into rtweet. You will need to do this if you want to create
+#' tweets or send/receive direct messages.
+#' 
+#' See `vignette("auth")` for more details.
 #' 
 #' @param app Name of user created Twitter application
 #' @param consumer_key Application API key
