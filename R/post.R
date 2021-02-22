@@ -211,17 +211,23 @@ upload_media_to_twitter <- function(media, token) {
   mediatype <- file_ext(media)
   query <- "media/upload"
   rurl <- paste0("https://upload.twitter.com/1.1/media/upload.json")
-  if(mediatype %in% c("jpg","jpeg", "png")) {
+  filesize <- file.size(media)
+  gif_no_chunked <- mediatype == "gif" & filesize <= 5*1024*1024
+  if(mediatype %in% c("jpg","jpeg", "png") | gif_no_chunked) {
     rpost <- httr::POST(rurl, body = list(media = media2upload), token)
     r <- httr::content(rpost)
     return(r)
   }
-  if(mediatype %in% c("gif", "mp4")) {
-    filesize <- file.size(media)
+  else if(mediatype %in% c("gif", "mp4")) {
+    if (mediatype == "gif") {
+      category <- "tweet_gif"
+    } else {
+      category <- "tweet_video"
+    }
     init_r <- httr::POST(rurl, body = list(command = "INIT", 
                                            media_type = mediatype, 
                                            total_bytes = filesize,
-                                           media_category = "tweet_video"), token)
+                                           media_category = category), token)
     init_r_parsed <- httr::content(init_r)
     media_id <- init_r_parsed$media_id_string
     bytes_sent <- 0
