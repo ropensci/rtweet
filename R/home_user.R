@@ -50,7 +50,7 @@ home_user_ <- function() {
   ## if that returned a valid screen name, set it and return
   if (length(user) > 0 && !identical(user, "")) {
     assign(".user", user, envir = .state)
-    set_renv(TWITTER_SCREEN_NAME = user)
+    Sys.setenv(TWITTER_SCREEN_NAME = user)
     return(user)
   }
 
@@ -61,7 +61,7 @@ home_user_ <- function() {
     user <- gsub("@|\\s|\"|'", "", user)
     ## save as environment variable
     message("Saving your Twitter screen name as environment variable")
-    set_renv(TWITTER_SCREEN_NAME = user)
+    Sys.setenv(TWITTER_SCREEN_NAME = user)
     ## store in pkg environment
     assign(".user", user, envir = .state)
     ## return screen name
