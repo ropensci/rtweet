@@ -4,8 +4,12 @@
 \alias{tweet_threading}
 \title{Collect statuses contained in a thread}
 \usage{
-tweet_threading(tw, traverse = c("backwards", "forwards"), n = 10,
-  verbose = FALSE)
+tweet_threading(
+  tw,
+  traverse = c("backwards", "forwards"),
+  n = 10,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{tw}{\code{\link[rtweet]{lookup_statuses}} output containing

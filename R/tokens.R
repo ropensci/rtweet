@@ -549,7 +549,7 @@ rtweet_token <- function() {
 
 rstats2twitter_client <- function() {
   if (!interactive()) {
-    stop("API user token required. see http://rtweet.info/articles/auth.html for instructions",
+    stop("API user token required. see https://docs.ropensci.org/rtweet/articles/auth.html for instructions",
       call. = FALSE)
   }
   is_installed("httpuv",
