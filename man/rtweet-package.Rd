@@ -24,7 +24,7 @@ It has three main goals:
 vignette("auth")
 
 ## for a quick demo check the rtweet vignette
-vignette("rtweet")
+vignette("intro", package = "rtweet")
 }
 }
 \seealso{
@@ -42,11 +42,7 @@ Other contributors:
 \itemize{
   \item Andrew Heiss (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [reviewer]
   \item Francois Briatte [reviewer]
-}
-
-Other contributors:
-\itemize{
-  \item Jonathan Sidi \email{yonicd@gmail.com} (0000-0002-4222-1819) [contributor]
+  \item Jonathan Sidi \email{yonicd@gmail.com} (\href{https://orcid.org/0000-0002-4222-1819}{ORCID}) [contributor]
 }
 
 }

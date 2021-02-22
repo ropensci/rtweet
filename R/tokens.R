@@ -8,21 +8,21 @@ check_token <- function(token = NULL) {
   stop("`token` is not a valid access token", call. = FALSE)
 }
 
-#' Fetch Twitter authorization token
+#' Fetch Twitter OAuth token
 #' 
 #' @description 
-#' Call function used to fetch and load Twitter OAuth tokens.
-#' Since Twitter application key should be stored privately, users should save
-#' the path to token(s) as an environment variable. This allows Tokens
-#' to be instantly [re]loaded in future sessions. See the tokens
-#' vignette i.e.,`vignettes("auth", "rtweet")` for instructions on 
-#' obtaining and using access tokens.
+#' This function retrieves a cached OAuth token. This can be set to your
+#' own custom app with \code{\link{create_token}}, but in most cases you
+#' can use the built-in app, which this function will use by default. 
+#' This function will error if no usable tokens are found.
+#' 
+#' See `vignettes("auth")` for more details. 
 #'
 #' @return Twitter OAuth token(s) (Token1.0).
+#' @keywords internal
 #' @examples
 #' \dontrun{
-#' token <- get_token()
-#' token
+#' get_token()
 #' }
 #' @family tokens
 #' @export
@@ -66,14 +66,23 @@ token_cache_path <- function() {
 }
 
 default_token <- function() {
-  # Requires user interaction
-  if (!interactive()) {
-    return(NULL)
-  }
+  access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
+  access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
   
   key <- rawToChar(openssl::rsa_decrypt(sysdat$DYKcJfBkgMnGveI[[2]], sysdat$DYKcJfBkgMnGveI[[1]]))
   secret <- rawToChar(openssl::rsa_decrypt(sysdat$MRsnZtaKXqGYHju[[2]], sysdat$MRsnZtaKXqGYHju[[1]]))
-  create_token("rstats2twitter", key, secret)
+  
+  if (identical(key, "") || identical(access_secret, "")) {
+    # Requires user interaction
+    if (!interactive()) {
+      return(NULL)
+    }
+    
+    create_token("rstats2twitter", key, secret)
+  } else {
+    message("Using auth via TWITTER_ACCESS_TOKEN/TWITTER_ACCESS_SECRET")
+    create_token("rstats2twitter", key, secret, access_token = access_token, access_secret = access_secret)
+  }
 }
 
 no_token <- function() {
@@ -84,18 +93,11 @@ no_token <- function() {
   }
 }
 
-#' Create custom Twitter authorization token
+#' Create custom Twitter OAuth token
 #'
-#' @description Sends request to generate OAuth 1.0 tokens. Twitter
-#'   also allows users to create user-only (OAuth 2.0) access token.
-#'   Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
-#'   on a host user. Which means these tokens cannot be used to send
-#'   information (follow requests, Twitter statuses, etc.).  If you
-#'   have no interest in those capabilities, then 2.0 OAuth tokens do
-#'   offer some higher rate limits. At the current time, the
-#'   difference given the functions in this package is trivial, so I
-#'   have yet to verified OAuth 2.0 token method.  Consequently, I
-#'   encourage you to use 1.0 tokens.
+#' This function allows you to use your own Twitter app, rather than the 
+#' one built-in into rtweet.
+#' 
 #' @param app Name of user created Twitter application
 #' @param consumer_key Application API key
 #' @param consumer_secret Application API secret User-owned
@@ -108,7 +110,6 @@ no_token <- function() {
 #'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 #'
 #' @return Twitter OAuth token(s) (Token1.0).
-#' @importFrom httr oauth_app oauth1.0_token oauth_endpoints
 #' @family tokens
 #' @export
 create_token <- function(app = "mytwitterapp",

@@ -2,25 +2,27 @@
 % Please edit documentation in R/tokens.R
 \name{get_token}
 \alias{get_token}
-\title{Fetch Twitter authorization token}
+\alias{get_tokens}
+\title{Fetch Twitter OAuth token}
 \usage{
 get_token()
+
+get_tokens()
 }
 \value{
 Twitter OAuth token(s) (Token1.0).
 }
 \description{
-Call function used to fetch and load Twitter OAuth tokens.
-Since Twitter application key should be stored privately, users should save
-the path to token(s) as an environment variable. This allows Tokens
-to be instantly [re]loaded in future sessions. See the tokens
-vignette i.e.,`vignettes("auth", "rtweet")` for instructions on 
-obtaining and using access tokens.
+This function retrieves a cached OAuth token. This can be set to your
+own custom app with \code{\link{create_token}}, but in most cases you
+can use the built-in app, which this function will use by default. 
+This function will error if no usable tokens are found.
+
+See `vignettes("auth")` for more details.
 }
 \examples{
 \dontrun{
-token <- get_token()
-token
+get_token()
 }
 }
 \seealso{
@@ -29,3 +31,4 @@ Other tokens:
 \code{\link{rate_limit}()}
 }
 \concept{tokens}
+\keyword{internal}
