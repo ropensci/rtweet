@@ -461,5 +461,15 @@ home_user_ <- function() {
 }
 
 rtweet_token <- function() {
-  create_token("rstats2twitter", decript_key(), decript_secret())
+  create_token("rstats2twitter", decrypt_key(), decrypt_secret())
 }
+decrypt_key <- function() {
+  rawToChar(openssl::rsa_decrypt(AuDedjvWyZTQBnS(), TUMjWsOrkFQhVwe()))
+}
+decrypt_secret <- function() {
+  rawToChar(openssl::rsa_decrypt(ZhlUjTSegJLGdwk(), vngPpXCiELeuIds()))
+}
+ZhlUjTSegJLGdwk <- function() sysdat$MRsnZtaKXqGYHju[[2]]
+vngPpXCiELeuIds <- function() sysdat$MRsnZtaKXqGYHju[[1]]
+AuDedjvWyZTQBnS <- function() sysdat$DYKcJfBkgMnGveI[[2]]
+TUMjWsOrkFQhVwe <- function() sysdat$DYKcJfBkgMnGveI[[1]]
