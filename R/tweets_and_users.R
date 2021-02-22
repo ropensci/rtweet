@@ -167,9 +167,10 @@ status_object_ <- function(x) {
 
 
 tweets_to_tbl_ <- function(dat) {
+  saveRDS(dat, "/tmp/temp.rds")
   if (NROW(dat) == 0L) return(data.frame())
   dat$display_text_width <- display_text_range(dat)
-  ## extended entitites > media
+  ## extended entities > media
   if (has_name_(dat, "extended_entities") &&
       has_name_(dat[['extended_entities']], "media")) {
     dat$ext_media_url <- lapply(
@@ -178,11 +179,13 @@ tweets_to_tbl_ <- function(dat) {
       dat$extended_entities$media, "[[[", "expanded_url")
     dat$ext_media_t.co <- lapply(dat$extended_entities$media, "[[[", "url")
     dat$ext_media_type <- lapply(dat$extended_entities$media, "[[[", "type")
+    dat$ext_alt_text <- lapply(dat$extended_entities$media, "[[[", "ext_alt_text")
   } else {
     dat$ext_media_url <- as.list(NA_character_)
     dat$ext_media_expanded_url <- as.list(NA_character_)
     dat$ext_media_t.co <- as.list(NA_character_)
     dat$ext_media_type <- as.list(NA_character_)
+    dat$ext_alt_text <- as.list(NA_character_)
   }
   ## entities > urls
   if (has_name_(dat, "entities") && has_name_(dat[['entities']], "urls")) {
@@ -468,6 +471,7 @@ statuscols_ <- function() {
     ext_media_t.co = "ext_media_t.co",
     ext_media_expanded_url = "ext_media_expanded_url",
     ext_media_type = "ext_media_expanded_type",
+    ext_alt_text = "ext_alt_text",
     mentions_user_id = "mentions_user_id",
     mentions_screen_name = "mentions_screen_name",
     lang = "lang",

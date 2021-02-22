@@ -1,3 +1,11 @@
+# rtweet ...
+
+- Added support for posting alt-text metadata with images tweeted with status updated via `post_tweet()`. (@hrbrmstr)
+
+# rtweet 0.7.0
+
+- More robust handling of token path on Windows (#380, @jonthegeek).
+
 # rtweet 0.7.0
 
 - Added paper.md as part of ROpenSci submission.

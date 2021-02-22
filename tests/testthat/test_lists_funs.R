@@ -4,6 +4,7 @@ context("lists")
 
 test_that("lists_users returns data frame with nrow > 1", {
     skip_on_cran()
+    skip_if_offline()
 
     sns <- "kearneymw"
     token <- readRDS("twitter_tokens")
@@ -21,6 +22,7 @@ test_that("lists_users returns data frame with nrow > 1", {
 
 test_that("lists_memberships returns data frame with nrow > 1", {
     skip_on_cran()
+    skip_if_offline()
 
     sns <- "kearneymw"
     token <- readRDS("twitter_tokens")
@@ -44,6 +46,7 @@ test_that("lists_memberships returns data frame with nrow > 1", {
 
 test_that("lists_members returns data frame with nrow > 1", {
     skip_on_cran()
+    skip_if_offline()
 
     lst_id <- "849721680402333696"
     token <- readRDS("twitter_tokens")
@@ -55,6 +58,7 @@ test_that("lists_members returns data frame with nrow > 1", {
 
 test_that("lists_statuses returns data frame with nrow > 1", {
     skip_on_cran()
+    skip_if_offline()
 
     lst_id <- "849721680402333696"
     token <- readRDS("twitter_tokens")
@@ -67,6 +71,7 @@ test_that("lists_statuses returns data frame with nrow > 1", {
 
 test_that("lists_subscribers returns users data frame", {
   skip_on_cran()
+  skip_if_offline()
   token <- readRDS("twitter_tokens")
 
   x <- lists_subscribers(
@@ -84,6 +89,7 @@ test_that("lists_subscribers returns users data frame", {
 
 test_that("lists_subscriptions returns lists data frame", {
   skip_on_cran()
+  skip_if_offline()
   token <- readRDS("twitter_tokens")
 
   x <- lists_subscriptions(

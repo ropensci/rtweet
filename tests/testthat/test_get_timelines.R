@@ -2,6 +2,7 @@ context("get_timeline")
 
 test_that("get_timeline", {
   skip_on_cran()
+  skip_if_offline()
 
   n <- 400
   token <- readRDS("twitter_tokens")
