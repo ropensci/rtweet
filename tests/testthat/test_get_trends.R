@@ -3,6 +3,7 @@ context("get_trends")
 
 test_that("get_trends returns trends data", {
   skip_on_cran()
+  skip_if_offline()
 
   token <- readRDS("twitter_tokens")
   x <- get_trends(token = token)

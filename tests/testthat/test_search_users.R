@@ -2,6 +2,7 @@ context("search_users")
 
 test_that("search_users returns users data", {
   skip_on_cran()
+  skip_if_offline()
 
   n <- 3
   token <- readRDS("twitter_tokens")

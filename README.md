@@ -3,6 +3,9 @@
 
 # rtweet <img src="man/figures/logo.png" width="160px" align="right" />
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ropensci/rtweet/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rtweet/actions)
 [![Build
 Status](https://travis-ci.org/ropensci/rtweet.svg?branch=master)](https://travis-ci.org/ropensci/rtweet)
 [![CRAN
@@ -18,6 +21,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rtweet)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01829/status.svg)](https://doi.org/10.21105/joss.01829)
+<!-- badges: end -->
 
 R client for accessing Twitter’s REST and stream APIs. Check out the
 [rtweet package documentation website](https://rtweet.info).
@@ -28,7 +32,7 @@ There are several R packages for interacting with Twitter’s APIs. See
 how {rtweet} compares to these others in the chart below.
 
 | Task                        | [rtweet](https://github.com/ropensci/rtweet) | [twitteR](https://github.com/geoffjentry/twitteR) | [streamR](https://github.com/pablobarbera/streamR) | [RTwitterAPI](https://github.com/joyofdata/RTwitterAPI) |
-| --------------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- |
+|-----------------------------|----------------------------------------------|---------------------------------------------------|----------------------------------------------------|---------------------------------------------------------|
 | Available on CRAN           | ✅                                            | ✅                                                 | ✅                                                  | ❌                                                       |
 | Updated since 2016          | ✅                                            | ❌                                                 | ✅                                                  | ❌                                                       |
 | Non-‘developer’ access      | ✅                                            | ❌                                                 | ❌                                                  | ❌                                                       |
@@ -103,14 +107,14 @@ library(rtweet)
 ## Usage
 
 All you need is a **Twitter account** (user name and password) and you
-can be up in running in minutes\!
+can be up in running in minutes!
 
 Simply send a request to Twitter’s API (with a function like
 `search_tweets()`, `get_timeline()`, `get_followers()`,
 `get_favorites()`, etc.) during an interactive session of R, authorize
 the embedded **`rstats2twitter`** app (approve the browser popup), and
 your token will be created and saved/stored (for future sessions) for
-you\!
+you!
 
 ### API authorization
 
@@ -118,7 +122,7 @@ All users must be authorized to interact with Twitter’s APIs. To become
 authorized, simply use a function like `search_tweets()`,
 `get_timeline()`, `get_followers()`, or `get_favorites()` in an
 interactive session an authorize via web browser popup on behalf of your
-Twitter account\!
+Twitter account!
 
 **It is no longer necessary to obtain a developer account and create
 your own Twitter application to use Twitter’s API.** You may still
@@ -128,13 +132,13 @@ of the box assuming (a) you are working in an interactive/live session
 of R and (b) you have installed the
 [**{httpuv}**](https://github.com/rstudio/httpuv) package.
 
-  - If you still want to apply for a developer account and create your
+-   If you still want to apply for a developer account and create your
     own application, see the `auth` vignette (or the API authorization
     section below) for additional instructions:
     <https://rtweet.info/articles/auth.html>.
 
 | Task                       | rstats2twitter | user-app |
-| -------------------------- | -------------- | -------- |
+|----------------------------|----------------|----------|
 | Work interactively         | ✅              | ✅        |
 | Search/lookup tweets/users | ✅              | ✅        |
 | Get friends/followers      | ✅              | ✅        |
@@ -369,12 +373,12 @@ sf <- get_trends("san francisco")
 
 #### Post actions
 
-  - Posting (tweeting from R console) or reading direct messages require
+-   Posting (tweeting from R console) or reading direct messages require
     additional permissions
-  - If you’d like to post Twitter statuses, follow or unfollow accounts,
+-   If you’d like to post Twitter statuses, follow or unfollow accounts,
     and/or read your direct messages, you’ll need to create your own
     Twitter app
-  - To create your own Twitter app, follow the instructions in the
+-   To create your own Twitter app, follow the instructions in the
     authorization vignette on [obtaining and using access
     tokens](https://rtweet.info/articles/auth.html)
 

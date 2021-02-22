@@ -2,7 +2,7 @@ context("bearer_token")
 
 test_that("bearer_token functions", {
   skip_on_cran()
-
+  skip_if_offline()
   token <- readRDS("twitter_tokens")
   x <- search_tweets("lang:en", n = 300, token = bearer_token(token))
   expect_true(is.data.frame(x))

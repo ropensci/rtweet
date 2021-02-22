@@ -1,24 +1,23 @@
 Package: rtweet
 Type: Package
-Version: 0.7.0
+Version: 0.7.0.9000
 Title: Collecting Twitter Data
 Authors@R: c(
     person("Michael W.", "Kearney", ,
-      email = "kearneymw@missouri.edu", role = c("aut", "cre"),
-      comment = c(ORCID = "0000-0002-0730-4694")),
+    email = "kearneymw@missouri.edu", role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-0730-4694")),
     person("Andrew", "Heiss", ,
       role = c("rev"),
       comment = c(ORCID = "0000-0002-3948-3914")),
     person("Francois", "Briatte", ,
-      role = c("rev"))
-    ## add contributor template (middle name/initial optional)
-    #person("First Middle", "Last", ,
-    #email = "email@address.com", role = c("ctb"))
+      role = c("rev")),
+        person("Jonathan", "Sidi",
+     email = "yonicd@gmail.com", role = c("ctb"),
+     comment = c(ORCID = "0000-0002-4222-1819"))
     )
 Description: An implementation of calls designed to collect and organize Twitter data via Twitter's REST and stream Application Program Interfaces (API), which can be found at the following URL: <https://developer.twitter.com/en/docs>.
- This package has been peer-reviewed by rOpenSci (v. 0.6.9).
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.5.0)
 Imports:
     httr (>= 1.3.0),
     jsonlite (>= 0.9.22),
@@ -26,7 +25,6 @@ Imports:
     tibble (>= 1.3.4),
     utils,
     progress,
-    Rcpp,
     httpuv
 License: MIT + file LICENSE
 URL: https://CRAN.R-project.org/package=rtweet
@@ -45,4 +43,4 @@ Suggests:
     igraph
 VignetteBuilder: knitr
 LazyData: yes
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
