@@ -12,7 +12,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-This vignette covers how create your own Twitter developer app if you want towant to post tweets, use a bearer token, or read/write direct messages, or work non-interactively. 
+This vignette covers how create your own Twitter developer app if you want to post tweets, use a bearer token, or read/write direct messages, or work non-interactively. 
 
 ## Creating a Twitter App
 
@@ -39,7 +39,7 @@ Users can create their personal Twitter token in two different ways. The first m
 
 ### 1. Browser-based authentication
 
-- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/) and select your Twitter app
 - Click the tab labeled `Keys and tokens` to retrieve your keys.
 - Locate the `Consumer API keys` (aka "API Secret").
 
@@ -75,7 +75,7 @@ Users can create their personal Twitter token in two different ways. The first m
 
 This method is appropriate if you want your app to 
 
-- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/) and select your Twitter app
 - Click the tab labeled `Keys and tokens` to retrieve your keys.
 - Locate the `Consumer API keys` (aka "API Secret").
 
@@ -106,7 +106,7 @@ This method is appropriate if you want your app to
 
 ## Authorization in future R sessions
 
-`create_token()` will automatically cache the token for you, so the next time you start an R session [on the same machine], rtweet should automatically find your token. To double check it works, restart your R session, run the following code, and check that the app name and `api_key` match.
+`create_token()` will automatically cache the token for you, so the next time you start an R session on the same machine, rtweet should automatically find your token. To double check it works, restart your R session, run the following code, and check that the app name and `api_key` match.
 
 ```{r}
 rtweet::get_token()
