@@ -2,7 +2,7 @@ context("get_favorites")
 
 test_that("get_favorites returns tweets data", {
   skip_on_cran()
-
+  skip_if_offline()
   n <- 100
   x <- get_favorites("kearneymw", n = n)
 
@@ -19,6 +19,8 @@ test_that("get_favorites returns tweets data", {
 
 test_that("get_favorites throws an error if usernames have spaces in them", {
   skip_on_cran()
+  skip_if_offline()
+
   n <- 2
-  expect_error(get_favorites(c("elonmusk","elon musk"), n=n))
+  expect_error(get_favorites(c("elonmusk","elon musk"), n = n))
 })

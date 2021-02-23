@@ -3,6 +3,7 @@ context("friendships")
 
 test_that("friendships returns data", {
   skip_on_cran()
+  skip_if_offline()
 
   x <- my_friendships("kearneymw")
   expect_equal(is.data.frame(x), TRUE)

@@ -2,6 +2,7 @@ context("lookup_statuses")
 
 test_that("lookup_statuses returns users data", {
   skip_on_cran()
+  skip_if_offline()
 
   n <- 2
   x <- lookup_statuses(c("558115838503690243",

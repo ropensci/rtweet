@@ -18,6 +18,7 @@
 #' ## for a quick demo check the rtweet vignette
 #' vignette("intro", package = "rtweet")
 #' }
+#' @keywords internal
 "_PACKAGE"
 
 # The internal environment where state of the app is stored.

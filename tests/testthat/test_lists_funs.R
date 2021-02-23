@@ -4,6 +4,7 @@ context("lists")
 
 test_that("lists_users returns data frame with nrow > 1", {
     skip_on_cran()
+    skip_if_offline()
 
     sns <- "kearneymw"
     x <- lists_users(sns)
@@ -20,6 +21,7 @@ test_that("lists_users returns data frame with nrow > 1", {
 
 test_that("lists_memberships returns data frame with nrow > 1", {
     skip_on_cran()
+    skip_if_offline()
 
     sns <- "kearneymw"
     x <- lists_memberships(sns)

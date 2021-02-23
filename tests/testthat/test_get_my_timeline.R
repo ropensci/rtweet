@@ -2,6 +2,7 @@ context("get_my_timeline")
 
 test_that("get_my_timeline", {
   skip_on_cran()
+  skip_if_offline()
 
   x <- get_my_timeline()
   expect_true(is.data.frame(x), TRUE)

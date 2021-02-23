@@ -526,7 +526,7 @@ stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   pat <- paste0(file_name, "\\-[[:digit:]]{1,}\\.json$")
   jsons <- list.files(dir, pattern = pat, full.names = TRUE)
   file_name <- paste0(dir, ".json")
-  unlink(dir, recursive = TRUE)
+  #unlink(dir, recursive = TRUE)
   if (!parse) {
     return(invisible())
   }
