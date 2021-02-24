@@ -53,7 +53,7 @@
 #' post_tweet(status="first in a thread")
 #'
 #' ## lookup status_id
-#' my_timeline <- get_timeline(rtweet:::home_user())
+#' my_timeline <- get_timeline()
 #'
 #' ## ID for reply
 #' reply_id <- my_timeline$status_id[1]
@@ -609,7 +609,7 @@ post_list_add_one <- function(user,
       call. = FALSE)
     user <- user[1]
   }
-  users_param_name <- .ids_type(user)
+  users_param_name <- user
 
   ## check token
   token <- check_token(token)
@@ -630,7 +630,7 @@ post_list_add_one <- function(user,
     stopifnot(is.atomic(slug), length(slug) == 1)
     params <- list(
       slug = slug,
-      owner_screen_name = home_user(),
+      owner_screen_name = NULL,
       user = user
     )
   }
@@ -662,7 +662,7 @@ post_list_destroy <- function(list_id = NULL,
   } else if (!is.null(slug)) {
 
     stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(slug = slug, owner_screen_name = home_user())
+    params <- list(slug = slug, owner_screen_name = NULL)
 
   } else {
     stop("must supply list_id or slug")
@@ -719,7 +719,7 @@ post_list_create_all <- function(users,
     stopifnot(is.atomic(slug), length(slug) == 1)
     params <- list(
       slug = slug,
-      owner_screen_name = home_user(),
+      owner_screen_name = NULL,
       users = users
     )
   }
@@ -777,7 +777,7 @@ post_list_destroy_all <- function(users,
     stopifnot(is.atomic(slug), length(slug) == 1)
     params <- list(
       slug = slug,
-      owner_screen_name = home_user(),
+      owner_screen_name = NULL,
       users = users
     )
   }
@@ -826,10 +826,6 @@ post_list_destroy_all <- function(users,
 #' (cnn_lst <- post_list(users,
 #'   "cnn-accounts", description = "Official CNN accounts"))
 #'
-#' ## view list in browser
-#' browseURL(sprintf("https://twitter.com/%s/lists/cnn-accounts",
-#'   rtweet:::home_user()))
-#'
 #' ## search for more CNN users
 #' cnn_users <- search_users("CNN", n = 200)
 #'
@@ -842,10 +838,6 @@ post_list_destroy_all <- function(users,
 #' ## add more users to list- note: can only add up to 100 at a time
 #' post_list(users = more_users, slug = "cnn-accounts")
 #'
-#' ## view updated list in browser (should be around 100 users)
-#' browseURL(sprintf("https://twitter.com/%s/lists/cnn-accounts",
-#'   rtweet:::home_user()))
-#'
 #' ## select users on list without "cnn" in their name field
 #' drop_users <- cnn_users %>%
 #'   subset(screen_name %in% more_users & !grepl("cnn", name, ignore.case = TRUE)) %>%
@@ -854,10 +846,6 @@ post_list_destroy_all <- function(users,
 #' ## drop these users from the cnn list
 #' post_list(users = drop_users, slug = "cnn-accounts",
 #'   destroy = TRUE)
-#'
-#' ## view updated list in browser (should be around 100 users)
-#' browseURL(sprintf("https://twitter.com/%s/lists/cnn-accounts",
-#'   rtweet:::home_user()))
 #'
 #' ## delete list entirely
 #' post_list(slug = "cnn-accounts", destroy = TRUE)
