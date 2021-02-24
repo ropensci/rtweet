@@ -1,6 +1,9 @@
 #' Collect statuses contained in a thread
 #' 
-#' Return all statuses that are part of a thread
+#' Return all statuses that are part of a thread. By default the function 
+#' traverses first backwards from the origin status_id of the thread up to the 
+#' root, then checks if there are any child statuses that were posted after 
+#' the origin status.
 #' 
 #' @param tw [rtweet::lookup_statuses()] output containing
 #'  at least the last status in the thread
@@ -9,8 +12,6 @@
 #' @param n numeric, timeline to fetch to start forwards traversing, Default: 10
 #' @param verbose logical, Output to console status of traverse, Default: FALSE
 #' @return [rtweet::lookup_statuses()] tibble
-#' @details By default the function traverses first backwards from the origin status_id of the thread up to the root, 
-#'  then checks if there are any child statuses that were posted after the origin status.
 #' @examples 
 #' tw <- lookup_statuses('1084143184664510470')
 #' tw_thread <- tw%>%tweet_threading()

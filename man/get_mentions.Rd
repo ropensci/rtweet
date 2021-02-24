@@ -50,11 +50,8 @@ Tibble of mentions data.
 \description{
 Returns data on up to 200 of the most recent mentions (Tweets
 containing a users's screen_name) of the authenticating user.
-}
-\details{
-The timeline returned is the equivalent of the one seen
-when you view your mentions on twitter.com. This method can only
-return up to 800 tweets.
+The timeline returned is the equivalent of the one seen when you view
+your mentions on twitter.com.
 }
 \examples{
 

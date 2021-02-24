@@ -77,11 +77,6 @@ input value here to override next cursor.}
 Either a nested list (if parsed) or an HTTP response object.
 }
 \description{
-Get Twitter list members (users on a given list).
-
-Get Twitter list memberships (lists containing a given user)
-}
-\details{
 Due to deleted or removed lists, the returned number of memberships
 is often less than the provided n value. This is a reflection of the API and
 not a unique quirk of rtweet.

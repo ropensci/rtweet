@@ -29,26 +29,28 @@ create_bearer_token <- function(token = NULL) {
 
 #' Bearer token
 #'
+#' @description 
 #' Convert default token into bearer token for application only (user-free)
 #' authentication method
+#' 
+#' `bearer_token()` will only work on valid tokens generated from
+#' a user-created Twitter app (requires a Twitter developer account; see
+#' [create_token()] for more information). Unlike the default token
+#' returned by `create_token`, bearer tokens operate without any
+#' knowledge/information about the user context–meaning, bearer token requests
+#' cannot engage in user actions (e.g., posting tweets, reading DMs), and the
+#' information returned by Twitter will not include user-specific variables
+#' (e.g., if the user is following a certain account). 
+#' 
+#' The upside to this authentication method is that it can provides more 
+#' generous rate limits. For example, the rate limit for the standard search 
+#' API is 18,000 tweets per fifteen minutes. With a bearer token, the rate 
+#' limit is 45,000 tweets per fifteen minutes. However, this is not true for 
+#' all endpoints. For a breakdown/comparison of rate limits, see
+#' <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
 #'
 #' @inheritParams lookup_users
 #' @return A bearer token
-#' @details `bearer_token()` will only work on valid tokens generated from
-#'   a user-created Twitter app (requires a Twitter developer account; see
-#'   [create_token()] for more information). Unlike the default token
-#'   returned by `create_token`, bearer tokens operate without any
-#'   knowledge/information about the user context–meaning, bearer token requests
-#'   cannot engage in user actions (e.g., posting tweets, reading DMs), and the
-#'   information returned by Twitter will not include user-specific variables
-#'   (e.g., if the user is following a certain account). The upside to this
-#'   authentication method is that it can afford users with more generous rate
-#'   limits. For example, the rate limit for the standard search API is 18,000
-#'   tweets per fifteen minutes. With a bearer token, the rate limit is 45,000
-#'   tweets per fifteen minutes. However, this is not true for all endpoints.
-#'   For a breakdown/comparison of rate limits, see
-#'   <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
-#'
 #' @examples
 #' \dontrun{
 #' ## use bearer token to search for >18k tweets (up to 45k) w/o hitting rate limit

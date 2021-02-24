@@ -35,10 +35,6 @@ Returns a collection of the 100 most recent retweets of a given
 status.  NOTE: Twitter's API is currently limited to 100 or fewer
 retweeters.
 }
-\details{
-NOTE: Twitter's API is currently limited to 100 or fewer
-retweeters.
-}
 \seealso{
 Other retweets: 
 \code{\link{get_retweeters}()}

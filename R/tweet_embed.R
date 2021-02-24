@@ -1,12 +1,13 @@
 #' Create a Tweet Embed 
 #' 
-#' Twitter API GET call to retieve the tweet in embedded form
+#' Twitter API GET call to retieve the tweet in embedded form.
 #' 
 #' @param screen_name character, screen name of the user
 #' @param status_id character, status id
-#' @param ... parameters to pass to the GET call
+#' @param ... parameters to pass to the GET call. See
+#'   <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed>
+#'   for details.
 #' @return character
-#' @details Arguments to pass to the API call can be found [here](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed)
 #' @examples 
 #' name   <- 'kearneymw'
 #' status <- '1087047171306856451'

@@ -26,11 +26,10 @@ Default: c('backwards','forwards')}
 \code{\link[=lookup_statuses]{lookup_statuses()}} tibble
 }
 \description{
-Return all statuses that are part of a thread
-}
-\details{
-By default the function traverses first backwards from the origin status_id of the thread up to the root,
-then checks if there are any child statuses that were posted after the origin status.
+Return all statuses that are part of a thread. By default the function
+traverses first backwards from the origin status_id of the thread up to the
+root, then checks if there are any child statuses that were posted after
+the origin status.
 }
 \examples{
 tw <- lookup_statuses('1084143184664510470')

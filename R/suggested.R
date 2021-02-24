@@ -19,16 +19,17 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 
 #' Returns users from a specific, suggested category
 #'
+#' Currently, this parsing process drops all
+#' recursive (list) columns, which mostly means you are shorted some
+#' entities data. To maximize users data, however, it is recommended to
+#' make an additional [lookup_users()] call using the user IDs
+#' returned by this function.
+#' 
 #' @inheritParams lookup_users
 #' @param slug required The short name of list or a category
 #' @param lang optional Restricts the suggested categories to the
 #'   requested language. The language must be specified by the
 #'   appropriate two letter ISO 639-1 representation.
-#' @details Currently, this parsing process drops all
-#'   recursive (list) columns, which mostly means you are shorted some
-#'   entities data. To maximize users data, however, it is recommended to
-#'   make an additional [lookup_users()] call using the user IDs
-#'   returned by this function.
 #' @return Recommended users
 #' @export
 #' @rdname suggested_users
@@ -83,9 +84,8 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #' @param slugs Optional, one or more slugs returned by
 #'   [suggested_slugs()]. API rate limits this to 15 max (function
 #'   will return warnings for slugs provided beyond the remaining limit).
-#' @inheritParams lookup_users
-#' @export
 #' @rdname suggested_users
+#' @export
 suggested_users_all <- function(slugs = NULL, parse = TRUE, token = NULL) {
   if (is.null(slugs)) {
     slugs <- suggested_slugs(token = token)

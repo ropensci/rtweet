@@ -17,9 +17,6 @@ identifiers (i.e., screen names or user IDs).}
 A vector of class screen_name or class user_id
 }
 \description{
-Coerces user identifier(s) to be evaluated as a screen name(s).
-}
-\details{
 Default rtweet function behaviors will treat "1234" as a
 user ID, but the inverse (i.e., treating "2973406683" as a screen
 name) should rarely be an issue. However, in those cases, users

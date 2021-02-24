@@ -11,16 +11,15 @@ tweet_embed(screen_name, status_id, ...)
 
 \item{status_id}{character, status id}
 
-\item{...}{parameters to pass to the GET call}
+\item{...}{parameters to pass to the GET call. See
+\url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed}
+for details.}
 }
 \value{
 character
 }
 \description{
-Twitter API GET call to retieve the tweet in embedded form
-}
-\details{
-Arguments to pass to the API call can be found \href{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed}{here}
+Twitter API GET call to retieve the tweet in embedded form.
 }
 \examples{
 name   <- 'kearneymw'

@@ -32,10 +32,6 @@ Returns user IDs of users who retweeted a given status. At the
 current time, this function is limited in returning a maximum of
 100 users for a given status.
 }
-\details{
-At time of writing, pagination offers no additional
-data.
-}
 \seealso{
 Other retweets: 
 \code{\link{get_retweets}()}

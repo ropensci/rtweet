@@ -44,14 +44,13 @@ Recommended users
 \description{
 Returns Twitter's list of suggested user categories.
 
-Returns users data for all users in Twitter's suggested categories.
-}
-\details{
 Currently, this parsing process drops all
 recursive (list) columns, which mostly means you are shorted some
 entities data. To maximize users data, however, it is recommended to
 make an additional \code{\link[=lookup_users]{lookup_users()}} call using the user IDs
 returned by this function.
+
+Returns users data for all users in Twitter's suggested categories.
 }
 \examples{
 
