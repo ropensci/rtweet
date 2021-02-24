@@ -80,23 +80,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## if delete
   if (!is.null(destroy_id)) {
-    ## validate destroy_id
-    stopifnot(is.character(destroy_id) && length(destroy_id) == 1)
-    ## build query
-    query <- sprintf("statuses/destroy/%s", destroy_id)
-    ## make URL
-    url <- make_url(query = query)
-
-    ## send request
-    r <- TWIT(get = FALSE, url, token)
-
-    ## if it didn't work return message
-    if (r$status_code != 200) {
-      return(httr::content(r))
-    }
-    ## if it did, print message and silently return response object
-    message("your tweet has been deleted!")
-    return(invisible(r))
+    return(post_destroy(destroy_id))
   }
 
   ## if retweet
@@ -110,7 +94,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
     ## send request
     r <- TWIT(get = FALSE, url, token)
-
+    httr::stop_for_status(r)
     ## wait for status
     warn_for_twitter_status(r)
 
@@ -126,7 +110,10 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## validate
   stopifnot(is.character(status))
-  stopifnot(length(status) == 1)
+  if (length(status) > 1) {
+    stop("can only post one status at a time",
+         call. = FALSE)
+  }
 
   ## update statuses query
   query <- "statuses/update"
@@ -148,13 +135,28 @@ post_tweet <- function(status = "my first rtweet #rstats",
   if (all(!is_tweet_length(status), !grepl("https?://\\S+", status))) {
     stop("cannot exceed 280 characters.", call. = FALSE)
   }
-  if (length(status) > 1) {
-    stop("can only post one status at a time",
-         call. = FALSE)
-  }
+
 
   ## media if provided
   if (!is.null(media)) {
+    if (length(media) > 4) {
+      stop("At most 4 images per plot can be uploaded.", call. = FALSE)
+    }
+    
+    if (!is.null(media_alt_text) && length(media_alt_text) != length(media)) {
+      stop("Alt text for media isn't provided for each image.", call. = TRUE)
+    }
+    if (!any(file_ext(mediatype) %in% c("jpg", "jpeg", "png", "gif", "mp4"))) {
+      stop("Media type format not recognized.", call. = TRUE)
+    }
+    
+    if (file_ext(mediatype) %in% c("gif", "mp4") && length(mediatype) > 1) {
+      stop("Cannot upload more than one gif or video per tweet.", call. = TRUE)
+    }
+    
+    if (any(nchar(media_alt_text) > 1000)) {
+      stop("Alt text cannot be bigger than 1000 characters.", call. = TRUE)
+    }
     r <- vector("list", length(media))
     media_id_string <- vector("list", length(media))
     for (i in seq_along(media)) {
@@ -175,7 +177,6 @@ post_tweet <- function(status = "my first rtweet #rstats",
       status = status
     )
   }
-  query <- "statuses/update"
   if (!is.null(in_reply_to_status_id)) {
     params[["in_reply_to_status_id"]] <- in_reply_to_status_id
   }
@@ -187,7 +188,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   url <- make_url(query = query, param = params)
 
   r <- TWIT(get = FALSE, url, token)
-
+  httr::stop_for_status(r)
   if (r$status_code != 200) {
     return(httr::content(r))
   }
@@ -203,6 +204,38 @@ is_tweet_length <- function(.x, n = 280) {
   nchar(.x) <= n
 }
 
+# equivalent to tools::file_ext
+file_ext <- function(x) {
+  pos <- regexpr("\\.([[:alnum:]]+)$", x)
+  ifelse(pos > -1L, substring(x, pos + 1L), "")
+}
+
+
+#' @export
+#' @rdname post_tweet
+post_destroy <- function(destroy_id, token = NULL) {
+  
+  token <- check_token(token)
+  
+  ## validate destroy_id
+  stopifnot(is.character(destroy_id) && length(destroy_id) == 1)
+  ## build query
+  query <- sprintf("statuses/destroy/%s", destroy_id)
+  ## make URL
+  url <- make_url(query = query)
+  
+  ## send request
+  r <- TWIT(get = FALSE, url, token)
+  
+  ## if it didn't work return message
+  if (r$status_code != 200) {
+    return(httr::content(r))
+  }
+  ## if it did, print message and silently return response object
+  message("your tweet has been deleted!")
+  return(invisible(r))
+}
+
 #' Uploads media using chunked media endpoint
 #'
 #' @param media Path to media file (image or movie) to upload. 
@@ -214,14 +247,8 @@ upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
   media2upload <- httr::upload_file(media)
   token <- check_token(token)
   
-  # equivalent to tools::file_ext
-  file_ext <- function(x) {
-    pos <- regexpr("\\.([[:alnum:]]+)$", x)
-    ifelse(pos > -1L, substring(x, pos + 1L), "")
-  }
   mediatype <- file_ext(media)
-  stopifnot(mediatype %in% c("jpg", "jpeg", "png", "gif", "mp4"))
-  query <- "media/upload"
+
   rurl <- "https://upload.twitter.com/1.1/media/upload.json"
   filesize <- file.size(media)
   gif_no_chunked <- mediatype == "gif" && filesize <= 5*1024*1024
@@ -261,7 +288,7 @@ upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
     httr::stop_for_status(finalize_data)
     status_final <- check_chunked_media_status(httr::content(finalize_data), token, rurl)
   }
-  if (!is.null(alt_text)) {
+  if (!is.null(alt_text) && nzchar(alt_text)) {
     if ("media_id_string" %in% names(status_final)) {
       rurl <- "https://upload.twitter.com/1.1/media/metadata/create.json"
       r <- httr::POST(
