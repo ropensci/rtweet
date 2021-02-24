@@ -1,5 +1,7 @@
-#' @title Collect statuses contained in a thread
-#' @description Return all statuses that are part of a thread
+#' Collect statuses contained in a thread
+#' 
+#' Return all statuses that are part of a thread
+#' 
 #' @param tw [rtweet::lookup_statuses()] output containing
 #'  at least the last status in the thread
 #' @param traverse character, direction to traverse from origin status in tw, 

@@ -1,5 +1,7 @@
-#' @title Create a Tweet Embed 
-#' @description Twitter API GET call to retieve the tweet in embedded form
+#' Create a Tweet Embed 
+#' 
+#' Twitter API GET call to retieve the tweet in embedded form
+#' 
 #' @param screen_name character, screen name of the user
 #' @param status_id character, status id
 #' @param ... parameters to pass to the GET call
