@@ -3,6 +3,7 @@
 \name{post_tweet}
 \alias{post_tweet}
 \alias{post_status}
+\alias{post_destroy}
 \title{Posts status update to user's Twitter account}
 \usage{
 post_tweet(
@@ -15,6 +16,8 @@ post_tweet(
   auto_populate_reply_metadata = FALSE,
   media_alt_text = NULL
 )
+
+post_destroy(destroy_id)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 280 characters or less.}
