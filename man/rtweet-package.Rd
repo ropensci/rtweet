@@ -35,4 +35,15 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (\href{https://orcid.org/0000-0002-0730-4694}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Andrew Heiss (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [reviewer]
+  \item Francois Briatte [reviewer]
+  \item Jonathan Sidi \email{yonicd@gmail.com} (\href{https://orcid.org/0000-0002-4222-1819}{ORCID}) [contributor]
+}
+
+}
 \keyword{internal}

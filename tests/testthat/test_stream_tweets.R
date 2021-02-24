@@ -4,16 +4,15 @@ test_that("stream_tweets returns tweets data", {
   skip_on_cran()
   skip_if_offline()
 
-  token <- readRDS("twitter_tokens")
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
-                  timeout = 4, verbose = TRUE, token = token))
+                  timeout = 4, verbose = TRUE))
 
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
                   verbose = FALSE,
                   file_name = "tmp.json", parse = FALSE,
-                  timeout = 4, token = token))
+                  timeout = 4))
   x <- parse_stream("tmp.json")
   expect_true(is.data.frame(x))
   expect_named(x)

@@ -5,8 +5,7 @@ test_that("search_users returns users data", {
   skip_if_offline()
 
   n <- 3
-  token <- readRDS("twitter_tokens")
-  x <- search_users("twitter", n = n, verbose = FALSE, token = token)
+  x <- search_users("twitter", n = n, verbose = FALSE)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

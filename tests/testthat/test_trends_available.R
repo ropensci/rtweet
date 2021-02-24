@@ -4,8 +4,7 @@ test_that("trends_available returns data frame", {
 	skip_on_cran()
   skip_if_offline()
 
-	token <- readRDS("twitter_tokens")
-	x <- trends_available(token = token)
+	x <- trends_available()
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)

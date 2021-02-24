@@ -462,13 +462,7 @@ na_omit <- function(x) {
   }
 }
 
-ZhlUjTSegJLGdwk <- function() sysdat$MRsnZtaKXqGYHju[[2]]
-
-vngPpXCiELeuIds <- function() sysdat$MRsnZtaKXqGYHju[[1]]
-
-AuDedjvWyZTQBnS <- function() sysdat$DYKcJfBkgMnGveI[[2]]
-
-TUMjWsOrkFQhVwe <- function() sysdat$DYKcJfBkgMnGveI[[1]]
+`%||%` <- function(a, b) if (is.null(a)) b else a
 
 ##----------------------------------------------------------------------------##
 ##                                require pkgs                                ##
@@ -509,13 +503,6 @@ is_installed <- function(pkg, warn = NULL, stop = NULL) {
 }
 
 
-decript_secret <- function() {
-  rawToChar(openssl::rsa_decrypt(ZhlUjTSegJLGdwk(), vngPpXCiELeuIds()))
-}
-
-decript_key <- function() {
-  rawToChar(openssl::rsa_decrypt(AuDedjvWyZTQBnS(), TUMjWsOrkFQhVwe()))
-}
 
 r_t_c <- function(x) {
   httpuv::rawToBase64(x)

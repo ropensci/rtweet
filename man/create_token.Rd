@@ -2,7 +2,7 @@
 % Please edit documentation in R/tokens.R
 \name{create_token}
 \alias{create_token}
-\title{Creating Twitter authorization token(s).}
+\title{Create custom Twitter OAuth token}
 \usage{
 create_token(
   app = "mytwitterapp",
@@ -26,34 +26,23 @@ application must have \code{Read and write} access level and
 
 \item{access_secret}{Access secret as supplied by Twitter (apps.twitter.com)}
 
-\item{set_renv}{Logical indicating whether to save the created token
-as the default environment twitter token variable. Defaults to TRUE,
-meaning the token is saved to user's home directory as
-".rtweet_token.rds" (or, if that already exists, then
-.rtweet_token1.rds or .rtweet_token2.rds, etc.) and the path to the
-token to said token is then set in the user's .Renviron file and re-
-read to start being used in current active session.}
+\item{set_renv}{Should the token be cached?}
 }
 \value{
 Twitter OAuth token(s) (Token1.0).
 }
 \description{
-Sends request to generate OAuth 1.0 tokens. Twitter
-  also allows users to create user-only (OAuth 2.0) access token.
-  Unlike the 1.0 tokens, OAuth 2.0 tokens are not at all centered
-  on a host user. Which means these tokens cannot be used to send
-  information (follow requests, Twitter statuses, etc.).  If you
-  have no interest in those capabilities, then 2.0 OAuth tokens do
-  offer some higher rate limits. At the current time, the
-  difference given the functions in this package is trivial, so I
-  have yet to verified OAuth 2.0 token method.  Consequently, I
-  encourage you to use 1.0 tokens.
+This function allows you to use your own Twitter app, rather than the 
+one built-in into rtweet. You will need to do this if you want to create
+tweets or send/receive direct messages.
+
+See `vignette("auth")` for more details.
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
 
 Other tokens: 
-\code{\link{get_tokens}()},
+\code{\link{get_token}()},
 \code{\link{rate_limit}()}
 }
 \concept{tokens}

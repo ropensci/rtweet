@@ -150,7 +150,7 @@ find_google_geocode_key <- function() {
     }
     key <- readline("Please enter your Google Maps API key:")
     key <- gsub("\\s+|\"|'", "", key)
-    set_renv(GOOGLE_MAPS_KEY = key)
+    Sys.setenv(GOOGLE_MAPS_KEY = key)
   } else {
     key <- ""
   }

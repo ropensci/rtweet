@@ -4,8 +4,7 @@ test_that("get_favorites returns tweets data", {
   skip_on_cran()
   skip_if_offline()
   n <- 100
-  token <- readRDS("twitter_tokens")
-  x <- get_favorites("kearneymw", n = n, token = token)
+  x <- get_favorites("kearneymw", n = n)
 
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
@@ -23,6 +22,5 @@ test_that("get_favorites throws an error if usernames have spaces in them", {
   skip_if_offline()
 
   n <- 2
-  token <- readRDS("twitter_tokens")
   expect_error(get_favorites(c("elonmusk","elon musk"), n = n))
 })

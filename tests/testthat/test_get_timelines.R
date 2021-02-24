@@ -5,8 +5,7 @@ test_that("get_timeline", {
   skip_if_offline()
 
   n <- 400
-  token <- readRDS("twitter_tokens")
-  x <- get_timeline(c("cnnbrk", "cnn"), n = n, token = token)
+  x <- get_timeline(c("cnnbrk", "cnn"), n = n)
   expect_true(is.data.frame(x))
   expect_named(x)
   expect_true("status_id" %in% names(x))

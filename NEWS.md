@@ -1,5 +1,8 @@
 # rtweet ...
 
+- rtweet no longer touches your `~/.Renviron`. Instead, it now caches the last
+  used token in a system specific cache directory.
+
 - Added support for posting alt-text metadata with images tweeted with status updated via `post_tweet()`. (@hrbrmstr)
 
 # rtweet 0.7.0

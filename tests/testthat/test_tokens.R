@@ -26,11 +26,3 @@ test_that("system_token functions", {
   expect_error(search_tweets("tweet", token = "token"))
   expect_error(search_tweets("stats", type = "all"))
 })
-
-test_that("file paths don't have mix of / and \\", {
-  filename <- uq_filename(file.path(home(), ".rtweet_token.rds"))
-  expect_true(
-    (grepl("/", filename) || grepl("\\\\", filename)) &&
-      !all(grepl("/", filename), grepl("\\\\", filename))
-  )
-})

@@ -210,8 +210,10 @@ is_tweet_length <- function(.x, n = 280) {
 #'   fetches a non-exhausted token from an environment
 #'   variable tokens.
 #' @noRd 
-upload_media_to_twitter <- function(media, token, alt_text = NULL) {
+upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
   media2upload <- httr::upload_file(media)
+  token <- check_token(token)
+  
   # equivalent to tools::file_ext
   file_ext <- function(x) {
     pos <- regexpr("\\.([[:alnum:]]+)$", x)
