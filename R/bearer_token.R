@@ -32,8 +32,7 @@ create_bearer_token <- function(token = NULL) {
 #' Convert default token into bearer token for application only (user-free)
 #' authentication method
 #'
-#' @param token Oauth token created via \code{\link{create_token}}. See details
-#'   for more information on valid tokens.
+#' @inheritParams lookup_users
 #' @return A bearer token
 #' @details \code{bearer_token()} will only work on valid tokens generated from
 #'   a user-created Twitter app (requires a Twitter developer account; see
@@ -121,7 +120,7 @@ print.bearer <- function(bearer) {
 
 #' Invalidate bearer token
 #'
-#' @param token Oauth token created via \code{\link{create_token}}.
+#' @inheritParams lookup_users
 #' @keywords internal
 #' @export
 invalidate_bearer <- function(token = NULL) {

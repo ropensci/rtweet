@@ -36,11 +36,17 @@ saved. If the directory doesn't exist, it will be created. If NULL (the
 default) then a dir will be created in the current working directory. To
 override/deactivate safedir set this to FALSE.}
 
-\item{parse}{Logical indicating whether to convert data into data frame.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame. 
+This protects you from the vagaries of the twitter API. Use \code{FALSE} 
+to return the "raw" list produced by the JSON returned from the twitter 
+API.}
 
-\item{token}{A token associated with a user-created APP (requires a developer
-account), which is converted to a bearer token in order to make premium
-API requests}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 A tibble data frame of Twitter data

@@ -88,26 +88,17 @@ leverage \code{retryonratelimit} for sets of tweets and
 \code{max_id} to allow results to continue where previous efforts
 left off.}
 
-\item{parse}{Logical, indicating whether to return parsed
-data.frame, if true, or nested list, if false. By default,
-\code{parse = TRUE} saves users from the wreck of time and
-frustration associated with disentangling the nasty nested list
-returned from Twitter's API. As Twitter's APIs are subject to
-change, this argument would be especially useful when changes to
-Twitter's APIs affect performance of internal parsers. Setting
-\code{parse = FALSE} also ensures the maximum amount of possible
-information is returned. By default, the rtweet parse process
-returns nearly all bits of information returned from
-Twitter. However, users may occasionally encounter new or
-omitted variables. In these rare cases, the nested list object
-will be the only way to access these variables.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame. 
+This protects you from the vagaries of the twitter API. Use \code{FALSE} 
+to return the "raw" list produced by the JSON returned from the twitter 
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 
 \item{retryonratelimit}{Logical indicating whether to wait and
 retry when rate limited. This argument is only relevant if the

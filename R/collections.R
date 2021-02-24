@@ -8,14 +8,7 @@
 #'   e.g., "custom-539487832448843776"
 #' @param n Specifies the maximum number of results to include in
 #'   the response. Specify count between 1 and 200.
-#' @param parse Logical indicating whether to convert response object into
-#'   nested list. Defaults to true.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @param ... Other arguments passed along to composed request query.
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.
@@ -68,14 +61,7 @@ lookup_collections <- function(id, n = 200,
 #' @param cursor Page identifier of results to retrieve. If parse = TRUE,
 #'   the next cursor value for any given request--if available--is stored
 #'   as an attribute, accessible via \code{\link{next_cursor}}
-#' @param parse Logical indicating whether to convert response object
-#'   into nested list. Defaults to true.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.
 #' @examples

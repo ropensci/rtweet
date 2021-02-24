@@ -22,9 +22,11 @@ remove (delete) target tweet as favorite.}
 \item{include_entities}{Logical indicating whether to
 include entities object in return.}
 
-\item{token}{OAuth token. By default \code{token = NULL}
-fetches a non-exhausted token from an environment
-variable tokens.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 }
 \description{
 Favorites target status id.

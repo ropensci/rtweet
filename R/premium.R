@@ -47,14 +47,11 @@ format_from_to_date <- function(x = NULL) {
 #' @param toDate Newest date-time (YYYYMMDDHHMM) from which tweets should be
 #'   searched for.
 #' @param env_name Name/label of developer environment to use for the search.
-#' @param parse Logical indicating whether to convert data into data frame.
 #' @param safedir Name of directory to which each response object should be
 #'   saved. If the directory doesn't exist, it will be created. If NULL (the
 #'   default) then a dir will be created in the current working directory. To
 #'   override/deactivate safedir set this to FALSE.
-#' @param token A token associated with a user-created APP (requires a developer
-#'   account), which is converted to a bearer token in order to make premium
-#'   API requests
+#' @inheritParams lookup_users
 #'
 #' @section Developer Account:
 #' Users must have an approved developer account and an active/labeled

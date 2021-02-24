@@ -20,14 +20,7 @@
 #'   addition to the standard stream of tweets. The output format of
 #'   retweeted tweets is identical to the representation you see in
 #'   home_timeline.
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @family lists
 #' @family tweets
 #' @return data

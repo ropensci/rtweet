@@ -4,11 +4,7 @@
 #' optionally filtered by rtweet function or specific Twitter API
 #' path(s)
 #'
-#' @param token One or more OAuth tokens. By default token = NULL
-#'   fetches a non-exhausted token from an environment variable. Find
-#'   instructions on how to create tokens and setup an environment
-#'   variable in the tokens vignette (in r, send \code{?tokens} to
-#'   console).
+#' @inheritParams lookup_users
 #' @param query Specific API (path) or a character function name,
 #'   e.g., query = "get_timeline", used to subset the returned data.
 #'   If null, this function returns entire rate limit request object
@@ -18,8 +14,6 @@
 #'   "followers/ids" returns remaining limit for follower id requests;
 #'   type = "friends/ids" returns remaining limit for friend id
 #'   requests.
-#' @param parse Logical indicating whether to parse response object
-#'   into a data frame.
 #' @seealso
 #'   \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
 #' @details If multiple tokens are provided, this function will return

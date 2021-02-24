@@ -3,6 +3,7 @@
 #' Returns up to 3,200 statuses posted to the timelines of each of one
 #' or more specified Twitter users.
 #'
+#' @inheritParams lookup_users
 #' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user. This number should
@@ -15,19 +16,9 @@
 #'   \code{get_timeline} returns tweets posted by the given user. To
 #'   return a user's home timeline feed, that is, the tweets posted by
 #'   accounts followed by a user, set home to TRUE.
-#' @param parse Logical, indicating whether to return parsed
-#'   (data.frames) or nested list object. By default, \code{parse =
-#'   TRUE} saves users from the time [and frustrations] associated
-#'   with disentangling the Twitter API return objects.
 #' @param check Logical indicating whether to remove check available
 #'   rate limit. Ensures the request does not exceed the maximum
 #'   remaining number of calls.  Defaults to TRUE.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instructions on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso

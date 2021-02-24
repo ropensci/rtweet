@@ -1,11 +1,10 @@
 #' Posts status update to user's Twitter account
 #'
+#' @inheritParams lookup_users
 #' @param status Character, tweet status. Must be 280 characters or less.
 #' @param media Length 1 character vector with a file path to video media **OR** 
 #'     up-to length 4 character vector with file paths to static images to be included in tweet.
 #'     **The caller is responsible for managing this.**
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like to reply.
 #'   Note: in line with the Twitter API, this parameter is ignored unless the
 #'   author of the tweet this parameter references is mentioned within the
@@ -206,9 +205,7 @@ is_tweet_length <- function(.x, n = 280) {
 #' Uploads media using chunked media endpoint
 #'
 #' @param media Path to media file (image or movie) to upload. 
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
+#' @inheritParams lookup_users
 #' @noRd 
 upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
   media2upload <- httr::upload_file(media)
@@ -284,10 +281,8 @@ upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
 
 #' Checks status of chunked media upload`
 #'
+#' @inheritParams lookup_users
 #' @param finalize_data Output of FINALIZE or STATUS command.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @param rurl Upload address for media.
 #' @importFrom httr GET content
 #' @noRd 
@@ -309,13 +304,11 @@ check_chunked_media_status = function(finalize_data, token, rurl) {
 
 #' Posts direct message from user's Twitter account
 #'
+#' @inheritParams lookup_users
 #' @param text Character, text of message.
 #' @param user Screen name or user ID of message target.
 #' @param media File path to image or video media to be
 #'   included in tweet.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @importFrom httr POST upload_file content
 #' @export
 post_message <- function(text, user, media = NULL, token = NULL) {
@@ -364,6 +357,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
 
 #' Follows target twitter user.
 #'
+#' @inheritParams lookup_users
 #' @param user Screen name or user id of target user.
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
@@ -374,9 +368,6 @@ post_message <- function(text, user, media = NULL, token = NULL) {
 #'   for target user. Defaults to false.
 #' @param retweets Logical indicating whether to enable retweets
 #'   for target user. Defaults to true.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @aliases follow_user
 #' @examples
 #' \dontrun{
@@ -483,14 +474,12 @@ post_mute <- function(user, token = NULL) {
 
 #' Favorites target status id.
 #'
+#' @inheritParams lookup_users
 #' @param status_id Status id of target tweet.
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
 #' @param include_entities Logical indicating whether to
 #'   include entities object in return.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @aliases post_favourite favorite_tweet
 #' @examples
 #' \dontrun{
@@ -530,15 +519,13 @@ post_favorite <- function(status_id,
 
 #' Updates friendship notifications and retweet abilities.
 #'
+#' @inheritParams lookup_users
 #' @param user Screen name or user id of target user.
 #' @param device Logical indicating whether to enable or disable
 #'    device notifications from target user behaviors. Defaults
 #'    to false.
 #' @param retweets Logical indicating whether to enable or disable
 #'    retweets from target user behaviors. Defaults to false.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @aliases friendship_update
 #' @family post
 #' @export
@@ -815,6 +802,7 @@ post_list_destroy_all <- function(users,
 #'
 #' Create, add users, and destroy Twitter lists
 #'
+#' @inheritParams lookup_users
 #' @param users Character vectors of users to be added to list.
 #' @param name Name of new list to create.
 #' @param description Optional, description of list (single character string).
@@ -825,8 +813,6 @@ post_list_destroy_all <- function(users,
 #'   `slug` must be provided if `destroy = TRUE`.
 #' @param list_id Optional, numeric ID of list.
 #' @param slug Optional, list slug.
-#' @param token OAuth token associated with user who owns [or will own] the list
-#'   of interest. Token must have write permissions!
 #' @return Response object from HTTP request.
 #' @examples
 #' \dontrun{

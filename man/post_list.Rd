@@ -33,8 +33,11 @@ already exists.}
 
 \item{slug}{Optional, list slug.}
 
-\item{token}{OAuth token associated with user who owns [or will own] the list
-of interest. Token must have write permissions!}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 Response object from HTTP request.
