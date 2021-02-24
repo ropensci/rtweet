@@ -39,10 +39,11 @@ Suggests:
     openssl,
     readr,
     rmarkdown,
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     webshot,
     covr,
     igraph
 VignetteBuilder: knitr
 LazyData: yes
 RoxygenNote: 7.1.1
+Config/testthat/edition: 3

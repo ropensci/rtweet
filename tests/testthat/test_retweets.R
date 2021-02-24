@@ -1,6 +1,3 @@
-
-context("retweets")
-
 test_that("get_retweets returns tweets data", {
   skip_on_cran()
   skip("requires kearneymw as twitter auth")

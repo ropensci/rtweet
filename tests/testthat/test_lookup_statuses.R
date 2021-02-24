@@ -1,5 +1,3 @@
-context("lookup_statuses")
-
 test_that("lookup_statuses returns users data", {
   skip_on_cran()
   skip_if_offline()

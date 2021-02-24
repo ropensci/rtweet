@@ -1,5 +1,3 @@
-context("get_favorites")
-
 test_that("get_favorites returns tweets data", {
   skip_on_cran()
   skip_if_offline()

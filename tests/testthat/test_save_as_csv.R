@@ -1,5 +1,3 @@
-context("save_as_csv")
-
 test_that("save_as_csv saves tweets data", {
   skip_on_cran()
   skip_if_offline()

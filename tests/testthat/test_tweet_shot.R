@@ -1,5 +1,3 @@
-context("tweet_shot")
-
 test_that("tweet_shot", {
   skip_on_cran()
   skip_if_offline()
