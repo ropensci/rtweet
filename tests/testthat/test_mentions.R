@@ -1,5 +1,3 @@
-context("mentions")
-
 test_that("mentions returns tweets data", {
   skip_on_cran()
   skip_if_offline()

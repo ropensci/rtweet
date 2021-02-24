@@ -1,5 +1,3 @@
-context("get_timeline")
-
 test_that("get_timeline", {
   skip_on_cran()
   skip_if_offline()

@@ -1,6 +1,3 @@
-
-context("lookup_coords")
-
 test_that("lookup_coords returns coords data", {
   skip_on_cran()
   skip_if_offline()

@@ -1,6 +1,3 @@
-
-context("lookup_collections")
-
 test_that("lookup_collections returns tweets data", {
   skip_on_cran()
   skip_if_offline()

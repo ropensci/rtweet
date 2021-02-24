@@ -1,7 +1,3 @@
-## TEST LISTS FUNCTIONS
-
-context("lists")
-
 test_that("lists_users returns data frame with nrow > 1", {
     skip_on_cran()
     skip_if_offline()

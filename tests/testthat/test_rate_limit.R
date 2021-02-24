@@ -1,5 +1,3 @@
-context("rate_limit")
-
 test_that("rate_limit returns rate_limit data", {
   skip_on_cran()
   skip_if_offline()

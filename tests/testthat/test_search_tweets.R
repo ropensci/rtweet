@@ -1,5 +1,3 @@
-context("search_tweets")
-
 test_that("search_tweets returns tweets data and latlng", {
   skip_on_cran()
   skip_if_offline()

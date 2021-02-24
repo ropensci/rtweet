@@ -1,5 +1,3 @@
-context("get_friends")
-
 test_that("get_friends returns data frame with ids", {
     skip_on_cran()
     skip_if_offline()

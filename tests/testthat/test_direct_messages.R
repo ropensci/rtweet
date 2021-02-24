@@ -1,5 +1,3 @@
-context("direct_messages")
-
 test_that("direct_messages functions", {
   skip_on_cran()
   skip_if_offline()
