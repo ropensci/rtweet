@@ -476,7 +476,6 @@ try_require <- function(pkg, f = NULL) {
   }
 
   if (requireNamespace(pkg, quietly = TRUE)) {
-    library(pkg, character.only = TRUE)
     return(invisible())
   }
 
