@@ -4,7 +4,6 @@
 #' or more specified Twitter users.
 #'
 #' @inheritParams lookup_users
-#' @param user Vector of user names, user IDs, or a mixture of both.
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user. This number should
 #'   not exceed 3200 as Twitter limits returns to the most recent 3,200
@@ -36,148 +35,81 @@
 #' ## users data for realDonaldTrump is also retrieved
 #' users_data(djt)
 #'
-#' ## retrieve timelines of mulitple users
-#' tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
-#'
-#' ## it's returned as one data frame
-#' tmls
-#'
-#' ## count observations for each timeline
-#' table(tmls$screen_name)
-#'
 #' }
 #'
 #' @family tweets
 #' @export
-get_timeline <- function(user,
+get_timeline <- function(user = NULL,
                          n = 100,
                          max_id = NULL,
-                         home = FALSE,
                          parse = TRUE,
                          check = TRUE,
                          token = NULL,
                          ...) {
-  args <- list(
-    user = user,
-    n = n,
-    home = home,
-    max_id = max_id,
-    parse = parse,
-    check = check,
-    token = token,
-    ...
-  )
-  do.call("get_timeline_", args)
+  stopifnot(
+    is_n(n),
+    is.atomic(user),
+    is.atomic(max_id),
+    is.logical(check))
+ token <- check_token(token)
+
+ if (is.null(user)) {
+   query <- "statuses/home_timeline"
+ } else {
+   query <- "statuses/user_timeline"
+ }
+ if (length(user) > 1) {
+   stop("can only return tweets for one user at a time.",
+        call. = FALSE)
+ }
+ if (check) {
+   rl <- rate_limit(token, query)
+   n.times <- rl[["remaining"]]
+   if (length(n.times) == 0 || !is.numeric(n.times)) {
+     n.times <- 0
+   }
+   n.times <- n.times[1]
+   if (n %/% 200 < n.times) {
+     n.times <- ceiling(n / 200L)
+   }
+ } else {
+   rl <- NULL
+   n.times <- ceiling(n / 200L)
+ }
+ if (n.times == 0L) {
+   if (!is.null(rl)) {
+     reset <- round(as.numeric(rl[["reset"]], "mins"), 2)
+   } else {
+     reset <- "An unknown number of"
+   }
+   warning("rate limit exceeded. ",
+           round(reset, 2), " mins until rate limit resets.",
+           call. = FALSE)
+   return(data.frame())
+ }
+ if (n < 200) {
+   count <- n
+ } else {
+   count <- 200
+ }
+ params <- list(
+   user_type = user,
+   count = count,
+   max_id = max_id,
+   tweet_mode = "extended",
+   include_ext_alt_text = "true",
+   ...)
+ url <- make_url(
+   query = query,
+   param = params)
+ tm <- scroller(url, n, n.times, type = "timeline", token)
+ if (parse) {
+   tm <- tweets_with_users(tm)
+ }
+ tm
 }
 
 
 #' @export
 #' @rdname get_timeline
-get_timelines <- function(user,
-                          n = 100,
-                          max_id = NULL,
-                          home = FALSE,
-                          parse = TRUE,
-                          check = TRUE,
-                          token = NULL,
-                          ...) {
-  get_timeline(user, n, max_id = max_id, home = home, parse = parse, check = check, token = token, ...)
-}
-
-
-get_timeline_ <- function(user, n = 100, home = FALSE, ...) {
-  ## check inputs
-  stopifnot(is.atomic(user), is.numeric(n))
-  if (length(user) == 0L) {
-    stop("No query found", call. = FALSE)
-  }
-  ## search for each string in column of queries
-  dots <- list(...)
-
-  if (length(dots) > 0L) {
-    rt <- Map(get_timeline_call, user = user, n = n, home = home, MoreArgs = dots)
-  } else {
-    rt <- Map(get_timeline_call, user = user, n = n, home = home)
-  }
-  if (has_name_(dots, "parse") && isFALSE(dots[["parse"]])) {
-    return(rt)
-  }
-  ## merge tweets data into one data frame
-  rt <- do.call("rbind", rt)
-  ## return tibble (validate = FALSE makes it a bit faster)
-  as_tbl(rt)
-}
-
-
-get_timeline_call <- function(user,
-                              n = 200,
-                              max_id = NULL,
-                              home = FALSE,
-                              parse = TRUE,
-                              check = TRUE,
-                              token = NULL,
-                              ...) {
-  stopifnot(
-    is_n(n),
-    is.atomic(user),
-    is.atomic(max_id),
-    is.logical(home)
-  )
-  if (home) {
-    query <- "statuses/home_timeline"
-  } else {
-    query <- "statuses/user_timeline"
-  }
-  if (length(user) > 1) {
-    stop("can only return tweets for one user at a time.",
-      call. = FALSE)
-  }
-  token <- check_token(token)
-  if (check) {
-    rl <- rate_limit(token, query)
-    n.times <- rl[["remaining"]]
-    if (length(n.times) == 0 || !is.numeric(n.times)) {
-      n.times <- 0
-    }
-    n.times <- n.times[1]
-    if (n %/% 200 < n.times) {
-      n.times <- ceiling(n / 200L)
-    }
-  } else {
-    rl <- NULL
-    n.times <- ceiling(n / 200L)
-  }
-  if (n.times == 0L) {
-    if (!is.null(rl)) {
-      reset <- round(as.numeric(rl[["reset"]], "mins"), 2)
-    } else {
-      reset <- "An unknown number of"
-    }
-    warning("rate limit exceeded. ",
-            round(reset, 2), " mins until rate limit resets.",
-            call. = FALSE)
-    return(data.frame())
-  }
-  if (n < 200) {
-    count <- n
-  } else {
-    count <- 200
-  }
-  params <- list(
-    user_type = user,
-    count = count,
-    max_id = max_id,
-    tweet_mode = "extended",
-    include_ext_alt_text = "true",
-    ...)
-  names(params)[1] <- .id_type(user)
-  url <- make_url(
-    query = query,
-    param = params)
-  tm <- scroller(url, n, n.times, type = "timeline", token)
-  if (parse) {
-    tm <- tweets_with_users(tm)
-  }
-  tm
-}
-
+get_timelines <- get_timeline

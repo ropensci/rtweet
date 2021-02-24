@@ -31,20 +31,9 @@
 get_my_timeline <- function(n = 100,
                             max_id = NULL,
                             parse = TRUE,
-                            check = TRUE,
                             token = NULL,
                             ...) {
 
-  user <- home_user()
-
-  args <- list(
-    user = user,
-    n = n,
-    home = TRUE,
-    max_id = max_id,
-    parse = parse,
-    check = check,
-    token = token
-  )
-  do.call("get_timeline_", args)
+  get_timeline(user = NULL, n = n, max_id = max_id, parse = parse, 
+               token = token, ... = ...)
 }
