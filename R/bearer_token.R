@@ -34,10 +34,10 @@ create_bearer_token <- function(token = NULL) {
 #'
 #' @inheritParams lookup_users
 #' @return A bearer token
-#' @details \code{bearer_token()} will only work on valid tokens generated from
+#' @details `bearer_token()` will only work on valid tokens generated from
 #'   a user-created Twitter app (requires a Twitter developer account; see
-#'   \code{\link{create_token}} for more information). Unlike the default token
-#'   returned by \code{create_token}, bearer tokens operate without any
+#'   [create_token()] for more information). Unlike the default token
+#'   returned by `create_token`, bearer tokens operate without any
 #'   knowledge/information about the user context–meaning, bearer token requests
 #'   cannot engage in user actions (e.g., posting tweets, reading DMs), and the
 #'   information returned by Twitter will not include user-specific variables
@@ -47,7 +47,7 @@ create_bearer_token <- function(token = NULL) {
 #'   tweets per fifteen minutes. With a bearer token, the rate limit is 45,000
 #'   tweets per fifteen minutes. However, this is not true for all endpoints.
 #'   For a breakdown/comparison of rate limits, see
-#'   \url{https://developer.twitter.com/en/docs/basics/rate-limits.html}.
+#'   <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
 #'
 #' @examples
 #' \dontrun{

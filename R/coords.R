@@ -24,12 +24,12 @@
 #'   throughout the word and the following two larger locations are 
 #'   baked into this function: 'world' and 'usa'. If 'world' is supplied then
 #'   a bounding box of maximum latitutde/longitude values, i.e.,
-#'   \code{c(-180, -90, 180, 90)}, and a center point \code{c(0, 0)} are 
+#'   `c(-180, -90, 180, 90)`, and a center point `c(0, 0)` are 
 #'   returned. If 'usa' is supplied then estimates of the United States' 
 #'   bounding box and mid-point are returned. To specify a city, provide the
 #'   city name followed by a space and then the US state abbreviation or 
 #'   country name. To see a list of all included cities, enter
-#'   \code{rtweet:::citycoords} in the R console to see coordinates data.
+#'   `rtweet:::citycoords` in the R console to see coordinates data.
 #' @param ... Additional arguments passed as parameters in the HTTP
 #'   request
 #' @return Object of class coords.

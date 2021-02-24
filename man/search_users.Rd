@@ -12,8 +12,7 @@ return from Twitter's REST API. Should be a character string not
 to exceed 500 characters maximum. Spaces are assumed to function
 like boolean "AND" operators. To search for tweets including one
 of multiple possible terms, separate search terms with spaces and
-the word "OR". For example, the search \code{query =
-"data science"} searches for tweets using both "data" and
+the word "OR". For example, the search \code{query = "data science"} searches for tweets using both "data" and
 "science" though the words can appear anywhere and in any order
 in the tweet. However, when OR is added between search terms,
 \code{query = "data OR science"}, Twitter's REST API should
@@ -27,14 +26,14 @@ return. Defaults to 100. Maximum number of users returned from a
 single search is 1,000.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame. 
-This protects you from the vagaries of the twitter API. Use \code{FALSE} 
-to return the "raw" list produced by the JSON returned from the twitter 
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 

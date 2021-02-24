@@ -4,7 +4,7 @@
 #' @param status_id character, status id
 #' @param ... parameters to pass to the GET call
 #' @return character
-#' @details Arguments to pass to the API call can be found \href{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed}{here}
+#' @details Arguments to pass to the API call can be found [here](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed)
 #' @examples 
 #' name   <- 'kearneymw'
 #' status <- '1087047171306856451'
@@ -20,7 +20,7 @@
 #' )
 #' 
 #' @seealso 
-#'  \code{\link[httr]{GET}},\code{\link[httr]{content}}
+#'  [httr::GET()],[httr::content()]
 #' @rdname tweet_embed
 #' @export 
 #' @importFrom httr GET content

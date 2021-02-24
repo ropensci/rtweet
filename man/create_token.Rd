@@ -19,8 +19,8 @@ create_token(
 \item{consumer_key}{Application API key}
 
 \item{consumer_secret}{Application API secret User-owned
-application must have \code{Read and write} access level and
-\code{Callback URL} of \code{http://127.0.0.1:1410}.}
+application must have \verb{Read and write} access level and
+\verb{Callback URL} of \verb{http://127.0.0.1:1410}.}
 
 \item{access_token}{Access token as supplied by Twitter (apps.twitter.com)}
 
@@ -32,11 +32,11 @@ application must have \code{Read and write} access level and
 Twitter OAuth token(s) (Token1.0).
 }
 \description{
-This function allows you to use your own Twitter app, rather than the 
+This function allows you to use your own Twitter app, rather than the
 one built-in into rtweet. You will need to do this if you want to create
 tweets or send/receive direct messages.
 
-See `vignette("auth")` for more details.
+See \code{vignette("auth")} for more details.
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}

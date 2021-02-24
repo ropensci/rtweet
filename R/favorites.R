@@ -34,7 +34,7 @@
 #'
 #' @family tweets
 #' @seealso
-#' \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}
+#' <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list>
 #' @export
 get_favorites <- function(user,
                           n = 200,

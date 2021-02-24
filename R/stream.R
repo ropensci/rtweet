@@ -14,7 +14,7 @@
 #' @inheritParams lookup_users
 #' @param q Query used to select and customize streaming collection
 #'   method.  There are four possible methods. (1) The default,
-#'   \code{q = ""}, returns a small random sample of all publicly
+#'   `q = ""`, returns a small random sample of all publicly
 #'   available Twitter statuses. (2) To filter by keyword, provide a
 #'   comma separated character string with the desired phrase(s) and
 #'   keyword(s). (3) Track users by providing a comma separated list
@@ -24,16 +24,16 @@
 #' @param timeout Numeric scalar specifying amount of time, in
 #'   seconds, to leave connection open while streaming/capturing
 #'   tweets.  By default, this is set to 30 seconds. To stream
-#'   indefinitely, use \code{timeout = FALSE} to ensure JSON file is
-#'   not deleted upon completion or \code{timeout = Inf}.
+#'   indefinitely, use `timeout = FALSE` to ensure JSON file is
+#'   not deleted upon completion or `timeout = Inf`.
 #' @param file_name Character with name of file. By default, a
 #'   temporary file is created, tweets are parsed and returned to
 #'   parent environment, and the temporary file is deleted.
 #' @param verbose Logical, indicating whether or not to include output
 #'   processing/retrieval messages.
 #' @param \dots Insert magical parameters, spell, or potion here. Or
-#'   filter for tweets by language, e.g., \code{language = "en"}.
-#' @seealso \url{https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose}
+#'   filter for tweets by language, e.g., `language = "en"`.
+#' @seealso <https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose>
 #' @examples
 #' \dontrun{
 #' ## stream tweets mentioning "election" for 90 seconds
@@ -409,7 +409,7 @@ data_from_stream2 <- function(x, n = 10000L, n_max = -1L, ...) {
 #' Converts Twitter stream data (JSON file) into parsed data frame.
 #'
 #' @param path Character, name of JSON file with data collected by
-#'   \code{\link{stream_tweets}}.
+#'   [stream_tweets()].
 #' @param ... Other arguments passed on to internal data_from_stream
 #'   function.
 #' @return A tbl of tweets data with attribute of users data

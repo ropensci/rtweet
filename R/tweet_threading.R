@@ -1,12 +1,12 @@
 #' @title Collect statuses contained in a thread
 #' @description Return all statuses that are part of a thread
-#' @param tw \code{\link[rtweet]{lookup_statuses}} output containing
+#' @param tw [rtweet::lookup_statuses()] output containing
 #'  at least the last status in the thread
 #' @param traverse character, direction to traverse from origin status in tw, 
 #'  Default: c('backwards','forwards')
 #' @param n numeric, timeline to fetch to start forwards traversing, Default: 10
 #' @param verbose logical, Output to console status of traverse, Default: FALSE
-#' @return \code{\link[rtweet]{lookup_statuses}} tibble
+#' @return [rtweet::lookup_statuses()] tibble
 #' @details By default the function traverses first backwards from the origin status_id of the thread up to the root, 
 #'  then checks if there are any child statuses that were posted after the origin status.
 #' @examples 
@@ -14,7 +14,7 @@
 #' tw_thread <- tw%>%tweet_threading()
 #' tw_thread
 #' @seealso 
-#'  \code{\link[rtweet]{lookup_statuses}}
+#'  [rtweet::lookup_statuses()]
 #' @rdname tweet_threading
 #' @export 
 tweet_threading <- function(tw, traverse = c('backwards','forwards'), n = 10, verbose = FALSE){

@@ -36,7 +36,7 @@ not exceed 3200 as Twitter limits returns to the most recent 3,200
 statuses posted or retweeted by each user.}
 
 \item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to `max_id`.}
+older than) or equal to \code{max_id}.}
 
 \item{home}{Logical, indicating whether to return a user-timeline
 or home-timeline. By default, home is set to FALSE, which means
@@ -45,9 +45,9 @@ return a user's home timeline feed, that is, the tweets posted by
 accounts followed by a user, set home to TRUE.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame. 
-This protects you from the vagaries of the twitter API. Use \code{FALSE} 
-to return the "raw" list produced by the JSON returned from the twitter 
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{check}{Logical indicating whether to remove check available
@@ -55,8 +55,8 @@ rate limit. Ensures the request does not exceed the maximum
 remaining number of calls.  Defaults to TRUE.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 

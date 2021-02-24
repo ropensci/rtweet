@@ -10,7 +10,7 @@
 #' @return A single merged (by row) data frame (tbl) of tweets or
 #'   users data that also contains as an attribute a merged (by row)
 #'   data frame (tbl) of its counterpart, making it accessible via the
-#'   \code{\link{users_data}} or \code{\link{tweets_data}} extractor
+#'   [users_data()] or [tweets_data()] extractor
 #'   functions.
 #' @family parsing
 #' @examples

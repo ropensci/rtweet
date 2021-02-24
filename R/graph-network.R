@@ -65,9 +65,9 @@ prep_from_to <- function(x, from, to) {
 #' Convert Twitter data into a network-friendly data frame
 #'
 #' @return A from/to data edge data frame
-#' @details \code{network_data} returns a data frame that can easily be converted to
+#' @details `network_data` returns a data frame that can easily be converted to
 #'   various network classes. For direct conversion to a network object, see
-#'  \code{\link{network_graph}}.
+#'  [network_graph()].
 #' @seealso network_graph
 #' @examples
 #'
@@ -146,10 +146,10 @@ network_data_one <- function(.e, .x) {
 #'   split on punctuation and space (so you can include multiple types in the
 #'   same string separated by a comma or space). The values "all" and
 #'   "semantic" are assumed to mean all edge types, which is equivalent to the
-#'   default value of \code{c("mention,retweet,reply,quote")}
+#'   default value of `c("mention,retweet,reply,quote")`
 #' @return An igraph object
-#' @details \code{network_graph} requires previous installation of the igraph package.
-#'   To return a network-friendly data frame, see \code{\link{network_data}}
+#' @details `network_graph` requires previous installation of the igraph package.
+#'   To return a network-friendly data frame, see [network_data()]
 #' @seealso network_data
 #' @export
 network_graph <- function(.x, .e = c("mention,retweet,reply,quote")) {

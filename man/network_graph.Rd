@@ -31,11 +31,11 @@ Convert Twitter data into network graph object (igraph)
 }
 \details{
 \code{network_data} returns a data frame that can easily be converted to
-  various network classes. For direct conversion to a network object, see
- \code{\link{network_graph}}.
+various network classes. For direct conversion to a network object, see
+\code{\link[=network_graph]{network_graph()}}.
 
 \code{network_graph} requires previous installation of the igraph package.
-  To return a network-friendly data frame, see \code{\link{network_data}}
+To return a network-friendly data frame, see \code{\link[=network_data]{network_data()}}
 }
 \examples{
 

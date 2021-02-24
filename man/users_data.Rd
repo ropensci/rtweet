@@ -11,8 +11,8 @@ users_data(tweets)
 }
 \arguments{
 \item{tweets}{Parsed data object of tweets data as returned via
-\code{\link{get_timeline}}, \code{\link{search_tweets}},
-\code{\link{stream_tweets}}, etc..}
+\code{\link[=get_timeline]{get_timeline()}}, \code{\link[=search_tweets]{search_tweets()}},
+\code{\link[=stream_tweets]{stream_tweets()}}, etc..}
 }
 \value{
 Users data frame from tweets returned in a tweets data object.

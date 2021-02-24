@@ -36,7 +36,7 @@
 #' }
 #'
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
+#'   <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline>
 #' @export
 get_mentions <- function(n = 200,
                          since_id = NULL,

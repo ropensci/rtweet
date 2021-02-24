@@ -11,7 +11,7 @@ tweets_data(users)
 }
 \arguments{
 \item{users}{Parsed data object of users data as returned via
-\code{\link{search_users}}, \code{\link{lookup_users}}, etc.}
+\code{\link[=search_users]{search_users()}}, \code{\link[=lookup_users]{lookup_users()}}, etc.}
 }
 \value{
 Tweets data frame.

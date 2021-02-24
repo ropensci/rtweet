@@ -15,9 +15,9 @@
 #'   type = "friends/ids" returns remaining limit for friend id
 #'   requests.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
+#'   <https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
 #' @details If multiple tokens are provided, this function will return
-#'   the names of the associated [token] applications as new variable
+#'   the names of the associated token applications as new variable
 #'   (column) or as a named element (if parse = FALSE).
 #' @return Tibble data frame with rate limit information pertaining to
 #'   the limit (max allowed), remaining (specific to token), reset

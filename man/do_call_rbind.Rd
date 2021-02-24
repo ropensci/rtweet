@@ -13,10 +13,10 @@ contains tweets attribute; tweets data contains users attribute).}
 }
 \value{
 A single merged (by row) data frame (tbl) of tweets or
-  users data that also contains as an attribute a merged (by row)
-  data frame (tbl) of its counterpart, making it accessible via the
-  \code{\link{users_data}} or \code{\link{tweets_data}} extractor
-  functions.
+users data that also contains as an attribute a merged (by row)
+data frame (tbl) of its counterpart, making it accessible via the
+\code{\link[=users_data]{users_data()}} or \code{\link[=tweets_data]{tweets_data()}} extractor
+functions.
 }
 \description{
 Row bind lists of tweets/users data whilst also preserving and binding

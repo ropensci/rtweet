@@ -37,14 +37,14 @@ default) then a dir will be created in the current working directory. To
 override/deactivate safedir set this to FALSE.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame. 
-This protects you from the vagaries of the twitter API. Use \code{FALSE} 
-to return the "raw" list produced by the JSON returned from the twitter 
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 }
@@ -71,49 +71,49 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 \section{Keyword}{
 
 \itemize{
-  \item \strong{""}           ~~ match exact phrase
-  \item \strong{#}               ~~ hashtag
-  \item \strong{@}               ~~ at mentions)
-  \item \strong{url:}            ~~ found in URL
-  \item \strong{lang:}           ~~ language of tweet
+\item \strong{""}           ~~ match exact phrase
+\item \strong{#}               ~~ hashtag
+\item \strong{@}               ~~ at mentions)
+\item \strong{url:}            ~~ found in URL
+\item \strong{lang:}           ~~ language of tweet
 }
 }
 
 \section{Accounts of interest}{
 
 \itemize{
-  \item \strong{from:}           ~~ authored by
-  \item \strong{to:}             ~~ sent to
-  \item \strong{retweets_of:}    ~~ retweet author
+\item \strong{from:}           ~~ authored by
+\item \strong{to:}             ~~ sent to
+\item \strong{retweets_of:}    ~~ retweet author
 }
 }
 
 \section{Tweet attributes}{
 
 \itemize{
-  \item \strong{is:retweet}      ~~ only retweets
-  \item \strong{has:mentions}    ~~ uses mention(s)
-  \item \strong{has:hashtags}    ~~ uses hashtags(s)
-  \item \strong{has:media}       ~~ includes media(s)
-  \item \strong{has:videos}      ~~ includes video(s)
-  \item \strong{has:images}      ~~ includes image(s)
-  \item \strong{has:links}       ~~ includes URL(s)
-  \item \strong{is:verified}     ~~ from verified accounts
+\item \strong{is:retweet}      ~~ only retweets
+\item \strong{has:mentions}    ~~ uses mention(s)
+\item \strong{has:hashtags}    ~~ uses hashtags(s)
+\item \strong{has:media}       ~~ includes media(s)
+\item \strong{has:videos}      ~~ includes video(s)
+\item \strong{has:images}      ~~ includes image(s)
+\item \strong{has:links}       ~~ includes URL(s)
+\item \strong{is:verified}     ~~ from verified accounts
 }
 }
 
 \section{Geospatial}{
 
 \itemize{
-  \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
-  \item \strong{point_radius:[lon lat radius]} ~~ center of search radius
-  \item \strong{has:geo}           ~~ uses geotagging
-  \item \strong{place:}            ~~ by place
-  \item \strong{place_country:}    ~~ by country
-  \item \strong{has:profile_geo}   ~~ geo associated with profile
-  \item \strong{profile_country:}  ~~ country associated with profile
-  \item \strong{profile_region:}   ~~ region associated with profile
-  \item \strong{profile_locality:} ~~ locality associated with profile
+\item \strong{bounding_box: [west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
+\item \strong{point_radius: [lon lat radius]} ~~ center of search radius
+\item \strong{has:geo}           ~~ uses geotagging
+\item \strong{place:}            ~~ by place
+\item \strong{place_country:}    ~~ by country
+\item \strong{has:profile_geo}   ~~ geo associated with profile
+\item \strong{profile_country:}  ~~ country associated with profile
+\item \strong{profile_region:}   ~~ region associated with profile
+\item \strong{profile_locality:} ~~ locality associated with profile
 }
 }
 

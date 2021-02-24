@@ -13,7 +13,7 @@
 #'   older than) or equal to `max_id`.
 #' @param home Logical, indicating whether to return a user-timeline
 #'   or home-timeline. By default, home is set to FALSE, which means
-#'   \code{get_timeline} returns tweets posted by the given user. To
+#'   `get_timeline` returns tweets posted by the given user. To
 #'   return a user's home timeline feed, that is, the tweets posted by
 #'   accounts followed by a user, set home to TRUE.
 #' @param check Logical indicating whether to remove check available
@@ -22,7 +22,7 @@
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
+#'   <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline>
 #' @examples
 #'
 #' \dontrun{

@@ -1,12 +1,12 @@
 #' Get _your_ timeline
 #'
+#' @description
 #' Returns a collection of the most recent Tweets and Retweets posted by the
 #' authenticating user and the users they follow. The home timeline is central to how
-#' most users interact with the Twitter service.\cr
-#' \cr
+#' most users interact with the Twitter service.
+#' 
 #' The _authenticating user_ is determined from the `token`.
 #'
-#' @md
 #' @inheritParams lookup_users
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user.
@@ -18,7 +18,7 @@
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline}
+#'   <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline>
 #' @examples
 #'
 #' \dontrun{

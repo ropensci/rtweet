@@ -11,8 +11,8 @@ rate_limits(token = NULL, query = NULL, parse = TRUE)
 }
 \arguments{
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
@@ -27,16 +27,16 @@ type = "friends/ids" returns remaining limit for friend id
 requests.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame. 
-This protects you from the vagaries of the twitter API. Use \code{FALSE} 
-to return the "raw" list produced by the JSON returned from the twitter 
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
 API.}
 }
 \value{
 Tibble data frame with rate limit information pertaining to
-  the limit (max allowed), remaining (specific to token), reset
-  (minutes until reset), and reset_at (time of rate limit
-  reset). If query is specified, only relevant rows are returned.
+the limit (max allowed), remaining (specific to token), reset
+(minutes until reset), and reset_at (time of rate limit
+reset). If query is specified, only relevant rows are returned.
 }
 \description{
 Returns rate limit information for one or more Twitter tokens,
@@ -45,8 +45,8 @@ path(s)
 }
 \details{
 If multiple tokens are provided, this function will return
-  the names of the associated [token] applications as new variable
-  (column) or as a named element (if parse = FALSE).
+the names of the associated token applications as new variable
+(column) or as a named element (if parse = FALSE).
 }
 \examples{
 

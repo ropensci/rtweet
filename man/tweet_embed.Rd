@@ -38,5 +38,5 @@ tweet_embed(
 
 }
 \seealso{
-\code{\link[httr]{GET}},\code{\link[httr]{content}}
+\code{\link[httr:GET]{httr::GET()}},\code{\link[httr:content]{httr::content()}}
 }
