@@ -3,6 +3,7 @@
 #' Returns data for up to 1,000 users matched by user provided search
 #' query.
 #'
+#' @inheritParams lookup_users
 #' @param q Query to be searched, used in filtering relevant tweets to
 #'   return from Twitter's REST API. Should be a character string not
 #'   to exceed 500 characters maximum. Spaces are assumed to function
@@ -20,16 +21,6 @@
 #' @param n Numeric, specifying the total number of desired users to
 #'   return. Defaults to 100. Maximum number of users returned from a
 #'   single search is 1,000.
-#' @param parse Logical, indicating whether to return parsed
-#'   (data.frames) or nested list object. By default,
-#'   \code{parse = TRUE} saves users from the time [and frustrations]
-#'   associated with disentangling the Twitter API return objects.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
 #' @seealso \url{https://dev.twitter.com/overview/documentation}

@@ -7,23 +7,14 @@
 #' The _authenticating user_ is determined from the `token`.
 #'
 #' @md
+#' @inheritParams lookup_users
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user.
 #' @param max_id Character, returns results with an ID less than (that is,
 #'   older than) or equal to `max_id`.
-#' @param parse Logical, indicating whether to return parsed
-#'   (data.frames) or nested list object. By default, \code{parse =
-#'   TRUE} saves users from the time (and frustrations) associated
-#'   with disentangling the Twitter API return objects.
 #' @param check Logical indicating whether to remove check available
 #'   rate limit. Ensures the request does not exceed the maximum
 #'   remaining number of calls.  Defaults to TRUE.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso

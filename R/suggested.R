@@ -19,18 +19,11 @@ suggested_slugs <- function(lang = NULL, token = NULL) {
 
 #' Returns users from a specific, suggested category
 #'
+#' @inheritParams lookup_users
 #' @param slug required The short name of list or a category
 #' @param lang optional Restricts the suggested categories to the
 #'   requested language. The language must be specified by the
 #'   appropriate two letter ISO 639-1 representation.
-#' @param parse Logical indicating whether to parse the returned data into
-#'   a tibble data frame. See details for more on the returned users data.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @details Currently, this parsing process drops all
 #'   recursive (list) columns, which mostly means you are shorted some
 #'   entities data. To maximize users data, however, it is recommended to
@@ -90,12 +83,7 @@ suggested_users <- function(slug, lang = NULL, parse = TRUE, token = NULL) {
 #' @param slugs Optional, one or more slugs returned by
 #'   \code{\link{suggested_slugs}}. API rate limits this to 15 max (function
 #'   will return warnings for slugs provided beyond the remaining limit).
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @export
 #' @rdname suggested_users
 suggested_users_all <- function(slugs = NULL, parse = TRUE, token = NULL) {

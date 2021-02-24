@@ -23,8 +23,11 @@ post_tweet(
 up-to length 4 character vector with file paths to static images to be included in tweet.
 **The caller is responsible for managing this.**}
 
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable tokens.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 
 \item{in_reply_to_status_id}{Status ID of tweet to which you'd like to reply.
 Note: in line with the Twitter API, this parameter is ignored unless the

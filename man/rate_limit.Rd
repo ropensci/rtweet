@@ -10,11 +10,11 @@ rate_limit(token = NULL, query = NULL, parse = TRUE)
 rate_limits(token = NULL, query = NULL, parse = TRUE)
 }
 \arguments{
-\item{token}{One or more OAuth tokens. By default token = NULL
-fetches a non-exhausted token from an environment variable. Find
-instructions on how to create tokens and setup an environment
-variable in the tokens vignette (in r, send \code{?tokens} to
-console).}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 
 \item{query}{Specific API (path) or a character function name,
 e.g., query = "get_timeline", used to subset the returned data.
@@ -26,8 +26,11 @@ returns remaining limit for user lookup requests; type =
 type = "friends/ids" returns remaining limit for friend id
 requests.}
 
-\item{parse}{Logical indicating whether to parse response object
-into a data frame.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame. 
+This protects you from the vagaries of the twitter API. Use \code{FALSE} 
+to return the "raw" list produced by the JSON returned from the twitter 
+API.}
 }
 \value{
 Tibble data frame with rate limit information pertaining to

@@ -7,8 +7,11 @@
 bearer_token(token = NULL)
 }
 \arguments{
-\item{token}{Oauth token created via \code{\link{create_token}}. See details
-for more information on valid tokens.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 A bearer token

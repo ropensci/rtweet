@@ -38,9 +38,11 @@ for target user. Defaults to false.}
 \item{retweets}{Logical indicating whether to enable retweets
 for target user. Defaults to true.}
 
-\item{token}{OAuth token. By default \code{token = NULL}
-fetches a non-exhausted token from an environment
-variable tokens.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link{get_token}()}. You should only need to 
+use this argument if you are wrapping rtweet in a package. 
+
+See \code{vignette("auth")} for more details.}
 }
 \description{
 Follows target twitter user.

@@ -11,6 +11,7 @@
 #'     \item 4. Location via geo coordinates (1-360 degree
 #'              location boxes)
 #'   }
+#' @inheritParams lookup_users
 #' @param q Query used to select and customize streaming collection
 #'   method.  There are four possible methods. (1) The default,
 #'   \code{q = ""}, returns a small random sample of all publicly
@@ -25,22 +26,6 @@
 #'   tweets.  By default, this is set to 30 seconds. To stream
 #'   indefinitely, use \code{timeout = FALSE} to ensure JSON file is
 #'   not deleted upon completion or \code{timeout = Inf}.
-#' @param parse Logical, indicating whether to return parsed data.  By
-#'   default, \code{parse = TRUE}, this function does the parsing for
-#'   you. However, for larger streams, or for automated scripts
-#'   designed to continuously collect data, this should be set to
-#'   false as the parsing process can eat up processing resources and
-#'   time. For other uses, setting parse to TRUE saves you from having
-#'   to sort and parse the messy list structure returned by
-#'   Twitter. (Note: if you set parse to false, you can use the
-#'   \code{\link{parse_stream}} function to parse the JSON file at a
-#'   later point in time.)
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param file_name Character with name of file. By default, a
 #'   temporary file is created, tweets are parsed and returned to
 #'   parent environment, and the temporary file is deleted.

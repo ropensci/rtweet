@@ -4,15 +4,8 @@
 #' more than 90,000 statuses, users must iterate through status IDs
 #' whilst avoiding rate limits, which reset every 15 minutes.
 #'
+#' @inheritParams lookup_users
 #' @param statuses User id or screen name of target user.
-#' @param parse Logical, indicating whether or not to parse
-#'   return object into data frame(s).
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @seealso \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
 #' @examples
 #'

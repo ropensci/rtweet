@@ -15,14 +15,7 @@
 #'   will be forced to the oldest ID available.
 #' @param max_id Character, returns results with an ID less than (that is,
 #'   older than) or equal to `max_id`.
-#' @param parse Logical indicating whether to convert the response
-#'   object into an R list. Defaults to TRUE.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @param ... Other arguments passed as parameters in composed API
 #'   query.
 #' @return Tibble of mentions data.

@@ -4,6 +4,7 @@
 #' user. To return more than 75,000 user IDs in a single call (the
 #' rate limit maximum), set "retryonratelimit" to TRUE.
 #'
+#' @inheritParams lookup_users
 #' @param user Screen name or user ID of target user from which the
 #'   user IDs of followers will be retrieved.
 #' @param n Number of followers to return. Defaults to 5000, which is
@@ -29,16 +30,6 @@
 #' @param verbose Logical indicating whether or not to print messages.
 #'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
 #'   prints sleep times and followers gathered counts.
-#' @param parse Logical, indicating whether to return parsed vector or
-#'   nested list object. By default, \code{parse = TRUE}
-#'   saves you the time [and frustrations] associated with
-#'   disentangling the Twitter API return objects.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @details When \code{retryonratelimit = TRUE} this function
 #'   internally makes a rate limit API call to get information on (a)
 #'   the number of requests remaining and (b) the amount of time until

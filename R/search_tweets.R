@@ -5,6 +5,7 @@
 #' than 18,000 statuses in a single call, set "retryonratelimit" to
 #' TRUE.
 #'
+#' @inheritParams lookup_users
 #' @param q Query to be searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
 #'   exceed maximum of 500 characters. Spaces behave like boolean
@@ -66,25 +67,6 @@
 #'   leverage \code{retryonratelimit} for sets of tweets and
 #'   \code{max_id} to allow results to continue where previous efforts
 #'   left off.
-#' @param parse Logical, indicating whether to return parsed
-#'   data.frame, if true, or nested list, if false. By default,
-#'   \code{parse = TRUE} saves users from the wreck of time and
-#'   frustration associated with disentangling the nasty nested list
-#'   returned from Twitter's API. As Twitter's APIs are subject to
-#'   change, this argument would be especially useful when changes to
-#'   Twitter's APIs affect performance of internal parsers. Setting
-#'   \code{parse = FALSE} also ensures the maximum amount of possible
-#'   information is returned. By default, the rtweet parse process
-#'   returns nearly all bits of information returned from
-#'   Twitter. However, users may occasionally encounter new or
-#'   omitted variables. In these rare cases, the nested list object
-#'   will be the only way to access these variables.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param retryonratelimit Logical indicating whether to wait and
 #'   retry when rate limited. This argument is only relevant if the
 #'   desired return (n) exceeds the remaining limit of available
