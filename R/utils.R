@@ -444,6 +444,9 @@ na_omit <- function(x) {
 }
 
 .id_type <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   if (is_screen_name(x)) {
     return("screen_name")
   }

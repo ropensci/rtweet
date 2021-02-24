@@ -16,10 +16,8 @@
 #'
 #' @family lists
 #' @export
-lists_users <- function(user, reverse = FALSE, token = NULL, parse = TRUE) {
-  if (missing(user)) {
-    user <- home_user()
-  }
+lists_users <- function(user = NULL, reverse = FALSE, token = NULL, parse = TRUE) {
+
   query <- "lists/list"
   params <- list(
     user = user,
