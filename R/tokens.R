@@ -28,7 +28,7 @@ check_token <- function(token = NULL) {
 #' @export
 get_token <- function() {
   if (is.null(.state$token)) {
-    .state$token <<- load_cached_token() %||% default_token() %||% no_token()
+    .state$token <- load_cached_token() %||% default_token() %||% no_token()
   }
 
   .state$token
@@ -87,7 +87,7 @@ default_token <- function() {
 
 no_token <- function() {
   if (identical(Sys.getenv("TESTTHAT"), "true")) {
-    skip("Auth not available")
+    testthat::skip("Auth not available")
   } else {
     stop("Could not authenticate", call. = FALSE)
   }
