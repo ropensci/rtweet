@@ -57,10 +57,6 @@ users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
 (cnn_lst <- post_list(users,
   "cnn-accounts", description = "Official CNN accounts"))
 
-## view list in browser
-browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
-  rtweet:::home_user()))
-
 ## search for more CNN users
 cnn_users <- search_users("CNN", n = 200)
 
@@ -73,10 +69,6 @@ more_users <- cnn_users \%>\%
 ## add more users to list- note: can only add up to 100 at a time
 post_list(users = more_users, slug = "cnn-accounts")
 
-## view updated list in browser (should be around 100 users)
-browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
-  rtweet:::home_user()))
-
 ## select users on list without "cnn" in their name field
 drop_users <- cnn_users \%>\%
   subset(screen_name \%in\% more_users & !grepl("cnn", name, ignore.case = TRUE)) \%>\%
@@ -85,10 +77,6 @@ drop_users <- cnn_users \%>\%
 ## drop these users from the cnn list
 post_list(users = drop_users, slug = "cnn-accounts",
   destroy = TRUE)
-
-## view updated list in browser (should be around 100 users)
-browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
-  rtweet:::home_user()))
 
 ## delete list entirely
 post_list(slug = "cnn-accounts", destroy = TRUE)

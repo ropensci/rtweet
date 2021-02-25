@@ -6,10 +6,9 @@
 \title{Get one or more user timelines (tweets posted by target user(s)).}
 \usage{
 get_timeline(
-  user,
+  user = NULL,
   n = 100,
   max_id = NULL,
-  home = FALSE,
   parse = TRUE,
   check = TRUE,
   token = NULL,
@@ -17,10 +16,9 @@ get_timeline(
 )
 
 get_timelines(
-  user,
+  user = NULL,
   n = 100,
   max_id = NULL,
-  home = FALSE,
   parse = TRUE,
   check = TRUE,
   token = NULL,
@@ -28,8 +26,6 @@ get_timelines(
 )
 }
 \arguments{
-\item{user}{Vector of user names, user IDs, or a mixture of both.}
-
 \item{n}{Number of tweets to return per timeline. Defaults to 100.
 Must be of length 1 or equal to length of user. This number should
 not exceed 3200 as Twitter limits returns to the most recent 3,200
@@ -37,12 +33,6 @@ statuses posted or retweeted by each user.}
 
 \item{max_id}{Character, returns results with an ID less than (that is,
 older than) or equal to `max_id`.}
-
-\item{home}{Logical, indicating whether to return a user-timeline
-or home-timeline. By default, home is set to FALSE, which means
-\code{get_timeline} returns tweets posted by the given user. To
-return a user's home timeline feed, that is, the tweets posted by
-accounts followed by a user, set home to TRUE.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame. 
@@ -61,6 +51,12 @@ use this argument if you are wrapping rtweet in a package.
 See \code{vignette("auth")} for more details.}
 
 \item{...}{Further arguments passed on as parameters in API query.}
+
+\item{home}{Logical, indicating whether to return a user-timeline
+or home-timeline. By default, home is set to FALSE, which means
+\code{get_timeline} returns tweets posted by the given user. To
+return a user's home timeline feed, that is, the tweets posted by
+accounts followed by a user, set home to TRUE.}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.
@@ -81,15 +77,6 @@ djt
 
 ## users data for realDonaldTrump is also retrieved
 users_data(djt)
-
-## retrieve timelines of mulitple users
-tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
-
-## it's returned as one data frame
-tmls
-
-## count observations for each timeline
-table(tmls$screen_name)
 
 }
 

@@ -609,7 +609,7 @@ post_list_add_one <- function(user,
       call. = FALSE)
     user <- user[1]
   }
-  users_param_name <- user
+  users_param_name <- .ids_type(user)
 
   ## check token
   token <- check_token(token)
@@ -630,7 +630,8 @@ post_list_add_one <- function(user,
     stopifnot(is.atomic(slug), length(slug) == 1)
     params <- list(
       slug = slug,
-      owner_screen_name = NULL,
+      owner_screen_name = token$credentials$screen_name,
+      owner_id = token$credentials$user_id,
       user = user
     )
   }
@@ -654,21 +655,23 @@ post_list_add_one <- function(user,
 post_list_destroy <- function(list_id = NULL,
                               slug = NULL,
                               token = NULL) {
+  token <- check_token(token)
+  
   if (!is.null(list_id)) {
-
     stopifnot(is.atomic(list_id), length(list_id) == 1)
     params <- list(list_id = list_id)
 
   } else if (!is.null(slug)) {
 
     stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(slug = slug, owner_screen_name = NULL)
+    params <- list(slug = slug, 
+                   owner_screen_name = token$credentials$screen_name, 
+                   owner_id = token$credentials$user_id)
 
   } else {
     stop("must supply list_id or slug")
   }
 
-  token <- check_token(token)
 
   query <- "lists/destroy"
 
@@ -889,15 +892,16 @@ post_list <- function(users = NULL,
 
   ## add users to list one at a time
   #post_list_create_all(users, list_id, slug, token)
-  r <- list()
+  r <- vector("list", length(users))
   for (i in seq_along(users)) {
-    r[[length(r) + 1]] <- post_list_add_one(users[i], list_id = list_id, slug = slug, token = token)
+    r[[i]] <- post_list_add_one(users[i], list_id = list_id, slug = slug, token = token)
   }
-  if (r[[length(r)]]$status_code == 200) {
+  status <- vapply(r, getElement, name = "status_code", numeric(1L))
+  if (all(status == 200)) {
     message("Successfully added users to list!")
     invisible(r)
-  } else {
-    message(httr::content(r))
-    r
-  }
+  } else if (any(status != 200)) {
+    warning("Couldn't add user ", users[status != 200], ".")
+  } 
+  r
 }

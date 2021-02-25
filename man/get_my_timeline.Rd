@@ -4,14 +4,7 @@
 \alias{get_my_timeline}
 \title{Get \emph{your} timeline}
 \usage{
-get_my_timeline(
-  n = 100,
-  max_id = NULL,
-  parse = TRUE,
-  check = TRUE,
-  token = NULL,
-  ...
-)
+get_my_timeline(n = 100, max_id = NULL, parse = TRUE, token = NULL, ...)
 }
 \arguments{
 \item{n}{Number of tweets to return per timeline. Defaults to 100.
@@ -26,10 +19,6 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter 
 API.}
 
-\item{check}{Logical indicating whether to remove check available
-rate limit. Ensures the request does not exceed the maximum
-remaining number of calls.  Defaults to TRUE.}
-
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
 a default token with \code{\link{get_token}()}. You should only need to 
 use this argument if you are wrapping rtweet in a package. 
@@ -37,6 +26,10 @@ use this argument if you are wrapping rtweet in a package.
 See \code{vignette("auth")} for more details.}
 
 \item{...}{Further arguments passed on as parameters in API query.}
+
+\item{check}{Logical indicating whether to remove check available
+rate limit. Ensures the request does not exceed the maximum
+remaining number of calls.  Defaults to TRUE.}
 }
 \value{
 A tbl data frame of tweets data with users data attribute.
