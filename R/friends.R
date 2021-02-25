@@ -260,7 +260,8 @@ get_friend_nosp <- function(url, token = NULL) {
 my_friendships <- function(user,
                            parse = TRUE,
                            token = NULL) {
-  params <- twit_params(user = user)
+  params <- list()
+  params[[.id_type(user)]] <- paste0(user, collapse = ",")
   TWIT_get(token, "friendships/lookup", params, parse = parse)
 }
 

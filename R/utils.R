@@ -70,16 +70,6 @@ check_status <- function(x) {
   )
 }
 
-twit_params <- function(..., user = NULL) {
-  params <- list(...)
-  
-  if (!is.null(user)) {
-    params[[.id_type(user)]] <- paste(user, collapse = ",")
-  }
-  params
-}
-
-
 #' make_url
 #'
 #' @param restapi logical Default \code{restapi = TRUE}
