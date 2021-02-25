@@ -8,7 +8,7 @@
 #'   should be provided as WOEID value consisting of 2 numeric values
 #'   or via one latitude value and one longitude value (to the
 #'   appropriately named parameters).  To browse all available trend
-#'   places, see \code{\link{trends_available}}
+#'   places, see [trends_available()]
 #' @param lat Optional alternative to WOEID. Numeric, latitude in
 #'   degrees.  If two coordinates are provided for WOEID, this
 #'   function will coerce the first value to latitude.

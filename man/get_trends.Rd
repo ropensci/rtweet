@@ -21,7 +21,7 @@ data given the provided location. Latitude/longitude coordinates
 should be provided as WOEID value consisting of 2 numeric values
 or via one latitude value and one longitude value (to the
 appropriately named parameters).  To browse all available trend
-places, see \code{\link{trends_available}}}
+places, see \code{\link[=trends_available]{trends_available()}}}
 
 \item{lat}{Optional alternative to WOEID. Numeric, latitude in
 degrees.  If two coordinates are provided for WOEID, this
@@ -36,15 +36,15 @@ exclude hashtags. Defaults to FALSE--meaning, hashtags are
 included in returned trends.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame. 
-This protects you from the vagaries of the twitter API. Use \code{FALSE} 
-to return the "raw" list produced by the JSON returned from the twitter 
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
 API.}
 }
 \value{

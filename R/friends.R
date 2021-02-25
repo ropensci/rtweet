@@ -20,22 +20,22 @@
 #'   oriented accordingly (i.e., it assumes the maximum value of n is
 #'   5000). To return more than 5,000 friends for a single user, call
 #'   this function multiple times with requests after the first using
-#'   the \code{page} parameter.
+#'   the `page` parameter.
 #' @param retryonratelimit If you'd like to retrieve 5,000 or fewer
 #'   friends for more than 15 target users, then set
-#'   \code{retryonratelimit = TRUE} and this function will use
-#'   base \code{Sys.sleep} until rate limits reset and the desired
+#'   `retryonratelimit = TRUE` and this function will use
+#'   base `Sys.sleep` until rate limits reset and the desired
 #'   number of friend networks is retrieved. This defaults to
 #'   FALSE. See details for more info regarding possible issues with
 #'   timing misfires.
-#' @param page Default \code{page = -1} specifies first page of JSON
+#' @param page Default `page = -1` specifies first page of JSON
 #'   results. Other pages specified via cursor values supplied by
 #'   Twitter API response object. This is only relevant if a user has
 #'   over 5000 friends (follows more than 5000 accounts).
 #' @param verbose Logical indicating whether or not to include output
 #'   messages. Defaults to TRUE, which includes printing a success message
 #'   for each inputted user.
-#' @seealso \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
+#' @seealso <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
 #'
 #' \dontrun{
@@ -48,7 +48,7 @@
 #'
 #' }
 #'
-#' @details When \code{retryonratelimit = TRUE} this function internally
+#' @details When `retryonratelimit = TRUE` this function internally
 #'   makes a rate limit API call to get information on (a) the number of requests
 #'   remaining and (b) the amount of time until the rate limit resets. So, in
 #'   theory, the sleep call should only be called once between waves of data

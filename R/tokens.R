@@ -12,7 +12,7 @@ check_token <- function(token = NULL) {
 #' 
 #' @description 
 #' This function retrieves a cached OAuth token. This can be set to your
-#' own custom app with \code{\link{create_token}}, but in most cases you
+#' own custom app with [create_token()], but in most cases you
 #' can use the built-in app, which this function will use by default. 
 #' This function will error if no usable tokens are found.
 #' 
@@ -105,13 +105,13 @@ no_token <- function() {
 #' @param app Name of user created Twitter application
 #' @param consumer_key Application API key
 #' @param consumer_secret Application API secret User-owned
-#'   application must have \code{Read and write} access level and
-#'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
+#'   application must have `Read and write` access level and
+#'   `Callback URL` of `http://127.0.0.1:1410`.
 #' @param access_token Access token as supplied by Twitter (apps.twitter.com)
 #' @param access_secret Access secret as supplied by Twitter (apps.twitter.com)
 #' @param set_renv Should the token be cached? 
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
+#'   <https://developer.twitter.com/en/docs/basics/authentication/overview/oauth>
 #'
 #' @return Twitter OAuth token(s) (Token1.0).
 #' @family tokens

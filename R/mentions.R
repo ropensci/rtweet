@@ -2,6 +2,8 @@
 #'
 #' Returns data on up to 200 of the most recent mentions (Tweets
 #' containing a users's screen_name) of the authenticating user.
+#' The timeline returned is the equivalent of the one seen when you view 
+#' your mentions on twitter.com.
 #'
 #' @param n Specifies the number of Tweets to try and retrieve, up to
 #'   a maximum of 200 (the default). The value of count is best
@@ -19,9 +21,6 @@
 #' @param ... Other arguments passed as parameters in composed API
 #'   query.
 #' @return Tibble of mentions data.
-#' @details The timeline returned is the equivalent of the one seen
-#'   when you view your mentions on twitter.com. This method can only
-#'   return up to 800 tweets.
 #' @family tweets
 #' @examples
 #'
@@ -36,7 +35,7 @@
 #' }
 #'
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
+#'   <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline>
 #' @export
 get_mentions <- function(n = 200,
                          since_id = NULL,

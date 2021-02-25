@@ -10,7 +10,6 @@
 #' Use the `zoom` factor to get more pixels which may improve the text rendering
 #' of the tweet/thread.
 #'
-#' @md
 #' @param statusid_or_url a valid Twitter status id (e.g. "`947082036019388416`") or
 #'     a valid Twitter status URL (e.g. "`https://twitter.com/jhollist/status/947082036019388416`").
 #' @param zoom a positive number >= 1. See the help for `[webshot::webshot()]` for more information.

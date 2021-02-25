@@ -12,10 +12,10 @@
 #'   and end of the time series.
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @param ... Other arguments passed to
-#'   \code{\link[ggplot2]{geom_line}}.
+#'   [ggplot2::geom_line()].
 #' @return If
-#'   \href{https://cran.r-project.org/package=ggplot2}{ggplot2} is
-#'   installed then a \code{\link[ggplot2]{ggplot}} plot object.
+#'   [ggplot2](https://cran.r-project.org/package=ggplot2) is
+#'   installed then a [ggplot2::ggplot()] plot object.
 #' @examples
 #'
 #' \dontrun{
