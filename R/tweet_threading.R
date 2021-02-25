@@ -13,9 +13,11 @@
 #' @param verbose logical, Output to console status of traverse, Default: FALSE
 #' @return [rtweet::lookup_statuses()] tibble
 #' @examples 
+#' \dontrun{
 #' tw <- lookup_statuses('1084143184664510470')
 #' tw_thread <- tw%>%tweet_threading()
 #' tw_thread
+#' }
 #' @seealso 
 #'  [rtweet::lookup_statuses()]
 #' @rdname tweet_threading

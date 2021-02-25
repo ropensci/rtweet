@@ -32,9 +32,11 @@ root, then checks if there are any child statuses that were posted after
 the origin status.
 }
 \examples{
+\dontrun{
 tw <- lookup_statuses('1084143184664510470')
 tw_thread <- tw\%>\%tweet_threading()
 tw_thread
+}
 }
 \seealso{
 \code{\link[=lookup_statuses]{lookup_statuses()}}
