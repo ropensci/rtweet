@@ -245,7 +245,6 @@ upload_media_to_twitter <- function(media,
 
     segment_id <- 0
     while (bytes_sent < file_size) {
-      print(segment_id)
       chunk <- readBin(videofile, chunk_size, what = "raw")
       params <- list(
         command = "APPEND", 
@@ -269,7 +268,7 @@ upload_media_to_twitter <- function(media,
       token
     )
     httr::stop_for_status(resp)
-    wait_for_chunked_media(media_id, token)
+    wait_for_chunked_media(resp, media_id, token)
   }
   
   if (!is.null(alt_text)) {
@@ -289,25 +288,26 @@ upload_media_to_twitter <- function(media,
   media_id
 }
 
-wait_for_chunked_media <- function(media_id, token) {
+wait_for_chunked_media <- function(resp, media_id, token = NULL) {
+  json <- from_js(resp)
+  if (is.null(json$process_info)) {
+    return()
+  }
+
   url <- "https://upload.twitter.com/1.1/media/upload.json"
   query <- list(
     command = "STATUS",
     media_id = media_id
   )
-  resp <- httr::GET(url, query = query, token)
-  browser()
-  httr::stop_for_status(resp)
-  json <- from_js(resp)
-  
+
   while (!json$processing_info$state %in% c("pending", "in_progress")) {
     Sys.sleep(json$processing_info$check_after_secs)
     resp <- httr::GET(url, query = query, token)
     httr::stop_for_status(resp)
     json <- from_js(resp)
   }
-  
-  json$processing_info$state
+
+  invisible()
 }
 
 #' Posts direct message from user's Twitter account
