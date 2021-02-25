@@ -9,3 +9,11 @@ test_that("upload_media_to_twitter() can handle small file", {
   id <- upload_media_to_twitter(test_path("tweet.gif"), chunk_size = 1024)
   expect_type(id, "character")
 })
+
+
+test_that("can set alt text", {
+  skip_on_cran()
+  
+  id <- upload_media_to_twitter(test_path("tweet.gif"), alt_text = "A bird tweeting")
+  expect_type(id, "character")
+})
