@@ -1,7 +1,5 @@
 # Tests from https://gist.github.com/dieghernan/824425b814bbb9527db5085d6dacb157
 
-skip("Too slow")
-
 test_that("mp4 10MG works", {
   skip_if_offline()
   skip_on_cran()
