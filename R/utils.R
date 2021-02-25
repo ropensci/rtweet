@@ -47,13 +47,28 @@ TWIT_get <- function(token, query, param = NULL, parse = TRUE, restapi = TRUE) {
   url <- make_url(query, param = param, restapi = restapi)
   resp <- httr::GET(url, token)
   
-  warn_for_twitter_status(resp)
+  check_status(resp)
   
   if (parse) {
     from_js(resp)
   } else {
     resp
   }
+}
+
+# https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
+check_status <- function(x) {
+  if (x$status_code == 200L) {
+    return()
+  }
+
+  parsed <- from_js(x)
+  
+  stop(
+    "Twitter API failed [", x$status_code, "]\n",
+    paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
+    call. = FALSE
+  )
 }
 
 twit_params <- function(..., user = NULL) {
