@@ -97,7 +97,6 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
     ## send request
     r <- TWIT(get = FALSE, url, token)
-    httr::stop_for_status(r)
     ## wait for status
     warn_for_twitter_status(r)
 
