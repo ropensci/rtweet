@@ -17,7 +17,7 @@ post_tweet(
   media_alt_text = NULL
 )
 
-post_destroy(destroy_id)
+post_destroy(destroy_id, token = NULL)
 }
 \arguments{
 \item{status}{Character, tweet status. Must be 280 characters or less.}

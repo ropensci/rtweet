@@ -80,7 +80,9 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## if delete
   if (!is.null(destroy_id)) {
-    .Deprecated("post_destroy")
+    msg <- "destroy_id argument is deprecated use post_destroy() instead"
+    .Deprecated("post_destroy", 
+                msg = msg)
     return(post_destroy(destroy_id))
   }
 
