@@ -37,7 +37,11 @@ TWIT <- function(get = TRUE, url, ...) {
   }
 }
 
-TWIT_get <- function(token, query, param = NULL, restapi = TRUE) {
+TWIT_get <- function(token, query, param = NULL, parse = TRUE, restapi = TRUE) {
+  # need scipen to ensure large IDs are not displayed in scientific notation
+  # need ut8-encoding for the comma separated IDs
+  withr::local_options(scipen = 14, encoding = "UTF-8")
+
   token <- check_token(token)
 
   url <- make_url(query, param = param, restapi = restapi)
@@ -45,7 +49,20 @@ TWIT_get <- function(token, query, param = NULL, restapi = TRUE) {
   
   warn_for_twitter_status(resp)
   
-  resp
+  if (parse) {
+    from_js(resp)
+  } else {
+    resp
+  }
+}
+
+twit_params <- function(..., user = NULL) {
+  params <- list(...)
+  
+  if (!is.null(user)) {
+    params[[.id_type(user)]] <- paste(user, collapse = ",")
+  }
+  params
 }
 
 
