@@ -54,17 +54,13 @@ lists_members <- function(list_id = NULL,
     n <- 5000
   }
   
-  params <- list(
+  params <- lists_params(
+    list_id = list_id,
+    slug = slug,
+    owner_user = owner_user,
     count = n,
     cursor = cursor
   )
-  if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
-    params$slug <- slug
-    params[[paste0("owner_", .id_type(owner_user))]] <- owner_user
-  } else {
-    params$list_id <- list_id
-  }
-
   r <- TWIT_get(token, "lists/members", params, parse = parse)
   
   if (parse) {

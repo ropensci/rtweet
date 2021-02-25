@@ -71,20 +71,16 @@ lists_statuses_ <- function(list_id = NULL,
                             include_rts = TRUE,
                             token = NULL) {
 
-  params <- list(
+  params <- lists_params(
+    list_id = list_id,
+    slug = slug,
+    owner_user = owner_user,
     since_id = since_id,
     max_id = max_id,
     count = n,
     include_rts = include_rts,
     tweet_mode = "extended"
   )
-  
-  if (is.null(list_id) && !is.null(slug) && !is.null(owner_user)) {
-    params$slug <- slug
-    params[[paste0("owner_", .id_type(owner_user))]] <- owner_user
-  } else {
-    params$list_id <- list_id
-  }
-  
+
   TWIT_get(token, "lists/statuses", params)
 }

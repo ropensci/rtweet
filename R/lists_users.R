@@ -16,21 +16,14 @@
 #'
 #' @family lists
 #' @export
-lists_users <- function(user, reverse = FALSE, token = NULL, parse = TRUE) {
-  if (missing(user)) {
-    user <- home_user()
-  }
-  query <- "lists/list"
+lists_users <- function(user = NULL, reverse = FALSE, token = NULL, parse = TRUE) {
   params <- list(
-    user = user,
     reverse = reverse
   )
-  names(params)[1] <- .id_type(user)
-  token <- check_token(token)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
+  params[[.id_type(user)]] <- user
+
+  r <- TWIT_get(token, "lists/list", params, parse = parse)
   if (parse) {
-    r <- from_js(r)
     r <- as_lists_users(r)
     r <- as.data.frame(r)
   }

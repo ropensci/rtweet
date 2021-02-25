@@ -31,20 +31,6 @@ lists_subscriptions <- function(user,
                                 cursor = "-1",
                                 parse = TRUE,
                                 token = NULL) {
-  lists_subscriptions_(
-    user = user,
-    n = n,
-    cursor = cursor,
-    parse = parse,
-    token = token
-  )
-}
-
-lists_subscriptions_ <- function(user,
-                                 n = 20,
-                                 cursor = "-1",
-                                 parse = TRUE,
-                                 token = NULL) {
   if (n > 1000) {
     n <- ceiling(n / 1000)
     count <- 1000
@@ -79,31 +65,13 @@ lists_subscriptions_call <- function(user,
                                      cursor = "-1",
                                      parse = TRUE,
                                      token = NULL) {
-  ## api path
-  query <- "lists/subscriptions"
-
-  ## build params
   params <- list(
-    user = user,
     count = n,
     cursor = cursor
   )
-  names(params)[1] <- .id_type(user)
+  params[[.id_type(user)]] <- user
 
-  ## validate token
-  token <- check_token(token)
-
-  ## build URL
-  url <- make_url(query = query, param = params)
-
-  ## request
-  r <- httr::GET(url, token)
-
-  ## check status
-  warn_for_twitter_status(r)
-
-  ## read content
-  r <- from_js(r)
+  r <- TWIT_get(token, "lists/subscriptions", params)
 
   ## get/set next_cursor value
   if (has_name_(r, "next_cursor_str")) {
