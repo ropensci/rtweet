@@ -12,13 +12,3 @@ is_read_write_directmessages <- function(token = NULL) {
   a <- api_access_level(token)
   identical("read-write-directmessages", a)
 }
-
-is_read_write <- function(token = NULL) {
-  a <- api_access_level(token)
-  identical("read-write", a)
-}
-
-is_read_only <- function(token = NULL) {
-  a <- api_access_level(token)
-  identical("read", a)
-}
