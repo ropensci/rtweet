@@ -205,8 +205,6 @@ upload_media_to_twitter <- function(media,
                                     token = NULL, 
                                     alt_text = NULL, 
                                     chunk_size = 5 * 1024 * 1024) {
-  token <- check_token(token)
-  
   media_type <- switch(tools::file_ext(media),
     jpg = ,
     jpeg = "image/jpeg",
@@ -215,27 +213,20 @@ upload_media_to_twitter <- function(media,
     mp4 = "video/mp4",
     stop("Unsupported file extension", call. = FALSE)
   )
-
-  url <- "https://upload.twitter.com/1.1/media/upload.json"
   file_size <- file.size(media)
   
-  if (file_size < chunk_size) {
-    resp <- httr::POST(url, body = list(media = httr::upload_file(media)), token)
-    httr::stop_for_status(resp)
+  if (file_size <= chunk_size) {
+    resp <- TWIT_upload(token, NULL, list(media = httr::upload_file(media)))
     media_id <- from_js(resp)$media_id_string
   } else {
     # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/uploading-media/chunked-media-upload
 
     # Initialize upload
-    resp <- httr::POST(url, 
-      body = list(
-        command = "INIT", 
-        media_type = media_type, 
-        total_bytes = file_size
-      ), 
-      token
-    )
-    httr::stop_for_status(resp)
+    resp <- TWIT_upload(token, "media/upload", list(
+      command = "INIT", 
+      media_type = media_type, 
+      total_bytes = file_size
+    ))
     media_id <- from_js(resp)$media_id_string
     
     # Send chunks
@@ -246,47 +237,41 @@ upload_media_to_twitter <- function(media,
     segment_id <- 0
     while (bytes_sent < file_size) {
       chunk <- readBin(videofile, chunk_size, what = "raw")
-      params <- list(
-        command = "APPEND", 
+      resp <- TWIT_upload(token, "media/upload", list(
+        command = "APPEND",
         media_id = media_id, 
         segment_index = segment_id, 
         media = chunk
-      )
-      resp <- httr::POST(url, body = params, token)
-      httr::stop_for_status(resp)
-      
+      ))
+
       segment_id <- segment_id + 1
       bytes_sent <- bytes_sent + chunk_size
     }
     
     # Finalize
-    resp <- httr::POST(url, 
-      body = list(
-        command = "FINALIZE", 
-        media_id = media_id
-      ), 
-      token
-    )
-    httr::stop_for_status(resp)
+    resp <- twit_upload(token, "media/upload", list(
+      command = "FINALIZE", 
+      media_id = media_id
+      ))
     wait_for_chunked_media(resp, media_id, token)
   }
   
   if (!is.null(alt_text)) {
-    url <- "https://upload.twitter.com/1.1/media/metadata/create.json"
-    r <- httr::POST(
-      url, 
-      body = list(
-        media_id = media_id,
-        alt_text = list(text = substr(as.character(alt_text), 1, 1000))
-      ), 
-      token,
-      encode = "json"
-    )
-    httr::stop_for_status(r)
+    # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create
+    TWIT_upload(token, "media/metadata/create", list(
+      media_id = media_id,
+      alt_text = list(text = substr(as.character(alt_text), 1, 1000))
+    ))
   }
   
   media_id
 }
+
+TWIT_upload <- function(token, api, params) {
+  TWIT_post(token, api, params, host = "upload.twitter.com")
+}
+
+
 
 wait_for_chunked_media <- function(resp, media_id, token = NULL) {
   json <- from_js(resp)
