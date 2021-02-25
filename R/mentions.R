@@ -43,39 +43,19 @@ get_mentions <- function(n = 200,
                          parse = TRUE,
                          token = NULL,
                          ...) {
-  args <- list(
-    n = n,
-    since_id = since_id,
-    max_id = max_id,
-    parse = parse,
-    token = token,
-    ...
-  )
-  do.call("get_mentions_", args)
-}
-
-get_mentions_ <- function(n = 100,
-                          since_id = NULL,
-                          max_id = NULL,
-                          parse = TRUE,
-                          token = NULL,
-                          ...) {
-  query <- "statuses/mentions_timeline"
+  
+  message("Getting mentions for ", token_home_user(token))
+  
   params <- list(
     count = n,
     since_id = since_id,
     max_id = max_id,
     ...
   )
-  token <- check_token(token)
-  message("Getting mentions for ", token_home_user(token))
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
+  r <- TWIT_get(token, "statuses/mentions_timeline", params)
+  
   if (parse) {
-    r <- from_js(r)
-    r <- as_mentions(r)
-    r <- as.data.frame(r)
+    r <- parse_mentions(r)
     if (has_name_(r, "created_at")) {
       r$created_at <- format_date(r$created_at)
     }
@@ -84,25 +64,14 @@ get_mentions_ <- function(n = 100,
 }
 
 token_home_user <- function(token) {
-  if (is.list(token)) {
-    lapply(token, go_get_var, "credentials", "screen_name")
-  } else {
-    go_get_var(token, "credentials", "screen_name")
-  }
+  token <- check_token(token)
+  token$credentials$screen_name
 }
 
-
-
-as_mentions <- function(x) {
-  structure(x, class = "mentions")
-}
-
-as.data.frame.mentions <- function(x) {
-  out <- tibble::as_tibble(
-    wrangle_into_clean_data(x, "status"))
+parse_mentions <- function(x) {
+  out <- tibble::as_tibble(wrangle_into_clean_data(x, "status"))
   if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(
-      wrangle_into_clean_data(x, "user"))
+    users <- tibble::as_tibble(wrangle_into_clean_data(x, "user"))
     attr(out, "users") <- users
   }
   out
