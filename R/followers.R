@@ -17,20 +17,20 @@
 #'   return what it can (less than n) unless retryonratelimit is set
 #'   to true.
 #' @param retryonratelimit If you'd like to retrieve more than 75,000
-#'   followers in a single call, then set \code{retryonratelimit =
-#'   TRUE} and this function will use base \code{Sys.sleep} until rate
+#'   followers in a single call, then set `retryonratelimit =
+#'   TRUE` and this function will use base `Sys.sleep` until rate
 #'   limits reset and the desired n is achieved or the number of total
 #'   followers is exhausted. This defaults to FALSE. See details for
 #'   more info regarding possible issues with timing misfires.
-#' @param page Default \code{page = -1} specifies first page of JSON
+#' @param page Default `page = -1` specifies first page of JSON
 #'   results. Other pages specified via cursor values supplied by
-#'   Twitter API response object. If \code{parse = TRUE} then the
+#'   Twitter API response object. If `parse = TRUE` then the
 #'   cursor value can be extracted from the return object by using the
-#'   \code{next_cursor} function.
+#'   `next_cursor` function.
 #' @param verbose Logical indicating whether or not to print messages.
 #'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
 #'   prints sleep times and followers gathered counts.
-#' @details When \code{retryonratelimit = TRUE} this function
+#' @details When `retryonratelimit = TRUE` this function
 #'   internally makes a rate limit API call to get information on (a)
 #'   the number of requests remaining and (b) the amount of time until
 #'   the rate limit resets. So, in theory, the sleep call should only
@@ -48,7 +48,7 @@
 #'   consistency issues. While this remains true it is possible to iteratively build
 #'   follower lists for a user over time.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
+#'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
 #'
 #' \dontrun{

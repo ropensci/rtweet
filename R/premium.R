@@ -57,51 +57,51 @@ format_from_to_date <- function(x = NULL) {
 #' Users must have an approved developer account and an active/labeled
 #' environment to access Twitter's premium APIs. For more information, to check
 #' your current Subscriptions and Dev Environments, or to apply for a developer
-#' account visit \url{https://developer.twitter.com}.
+#' account visit <https://developer.twitter.com>.
 #'
 #' @section Search operators:
-#' \emph{Note: Bolded operators ending with a colon should be immediately
-#' followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
+#' *Note: Bolded operators ending with a colon should be immediately
+#' followed by a word or quoted phrase (if appropriate)–e.g.,* `lang:en`
 #'
 #' @section Keyword:
 #' \itemize{
-#'   \item \strong{""}           ~~ match exact phrase
-#'   \item \strong{#}               ~~ hashtag
-#'   \item \strong{@@}               ~~ at mentions)
-#'   \item \strong{url:}            ~~ found in URL
-#'   \item \strong{lang:}           ~~ language of tweet
+#'   \item **""**           ~~ match exact phrase
+#'   \item **#**               ~~ hashtag
+#'   \item **@@**               ~~ at mentions)
+#'   \item **url:**            ~~ found in URL
+#'   \item **lang:**           ~~ language of tweet
 #' }
 #'
 #' @section Accounts of interest:
 #' \itemize{
-#'   \item \strong{from:}           ~~ authored by
-#'   \item \strong{to:}             ~~ sent to
-#'   \item \strong{retweets_of:}    ~~ retweet author
+#'   \item **from:**           ~~ authored by
+#'   \item **to:**             ~~ sent to
+#'   \item **retweets_of:**    ~~ retweet author
 #' }
 #'
 #' @section Tweet attributes:
 #' \itemize{
-#'   \item \strong{is:retweet}      ~~ only retweets
-#'   \item \strong{has:mentions}    ~~ uses mention(s)
-#'   \item \strong{has:hashtags}    ~~ uses hashtags(s)
-#'   \item \strong{has:media}       ~~ includes media(s)
-#'   \item \strong{has:videos}      ~~ includes video(s)
-#'   \item \strong{has:images}      ~~ includes image(s)
-#'   \item \strong{has:links}       ~~ includes URL(s)
-#'   \item \strong{is:verified}     ~~ from verified accounts
+#'   \item **is:retweet**      ~~ only retweets
+#'   \item **has:mentions**    ~~ uses mention(s)
+#'   \item **has:hashtags**    ~~ uses hashtags(s)
+#'   \item **has:media**       ~~ includes media(s)
+#'   \item **has:videos**      ~~ includes video(s)
+#'   \item **has:images**      ~~ includes image(s)
+#'   \item **has:links**       ~~ includes URL(s)
+#'   \item **is:verified**     ~~ from verified accounts
 #' }
 #'
 #' @section Geospatial:
 #' \itemize{
-#'   \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
-#'   \item \strong{point_radius:[lon lat radius]} ~~ center of search radius
-#'   \item \strong{has:geo}           ~~ uses geotagging
-#'   \item \strong{place:}            ~~ by place
-#'   \item \strong{place_country:}    ~~ by country
-#'   \item \strong{has:profile_geo}   ~~ geo associated with profile
-#'   \item \strong{profile_country:}  ~~ country associated with profile
-#'   \item \strong{profile_region:}   ~~ region associated with profile
-#'   \item \strong{profile_locality:} ~~ locality associated with profile
+#'   \item **bounding_box:\[west_long south_lat east_long north_lat\]** ~~ lat/long coordinates box
+#'   \item **point_radius:\[lon lat radius\]** ~~ center of search radius
+#'   \item **has:geo**           ~~ uses geotagging
+#'   \item **place:**            ~~ by place
+#'   \item **place_country:**    ~~ by country
+#'   \item **has:profile_geo**   ~~ geo associated with profile
+#'   \item **profile_country:**  ~~ country associated with profile
+#'   \item **profile_region:**   ~~ region associated with profile
+#'   \item **profile_locality:** ~~ locality associated with profile
 #' }
 #'
 #' @return A tibble data frame of Twitter data
@@ -159,51 +159,51 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #' Users must have an approved developer account and an active/labeled
 #' environment to access Twitter's premium APIs. For more information, to check
 #' your current Subscriptions and Dev Environments, or to apply for a developer
-#' account visit \url{https://developer.twitter.com}.
+#' account visit <https://developer.twitter.com>.
 #'
 #' @section Search operators:
-#' \emph{Note: Bolded operators ending with a colon should be immediately
-#' followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
+#' *Note: Bolded operators ending with a colon should be immediately
+#' followed by a word or quoted phrase (if appropriate)–e.g.,* `lang:en`
 #'
 #' @section Keyword:
 #' \itemize{
-#'   \item \strong{""}           ~~ match exact phrase
-#'   \item \strong{#}               ~~ hashtag
-#'   \item \strong{@@}               ~~ at mentions)
-#'   \item \strong{url:}            ~~ found in URL
-#'   \item \strong{lang:}           ~~ language of tweet
+#'   \item **""**           ~~ match exact phrase
+#'   \item **#**               ~~ hashtag
+#'   \item **@@**               ~~ at mentions)
+#'   \item **url:**            ~~ found in URL
+#'   \item **lang:**           ~~ language of tweet
 #' }
 #'
 #' @section Accounts of interest:
 #' \itemize{
-#'   \item \strong{from:}           ~~ authored by
-#'   \item \strong{to:}             ~~ sent to
-#'   \item \strong{retweets_of:}    ~~ retweet author
+#'   \item **from:**           ~~ authored by
+#'   \item **to:**             ~~ sent to
+#'   \item **retweets_of:**    ~~ retweet author
 #' }
 #'
 #' @section Tweet attributes:
 #' \itemize{
-#'   \item \strong{is:retweet}      ~~ only retweets
-#'   \item \strong{has:mentions}    ~~ uses mention(s)
-#'   \item \strong{has:hashtags}    ~~ uses hashtags(s)
-#'   \item \strong{has:media}       ~~ includes media(s)
-#'   \item \strong{has:videos}      ~~ includes video(s)
-#'   \item \strong{has:images}      ~~ includes image(s)
-#'   \item \strong{has:links}       ~~ includes URL(s)
-#'   \item \strong{is:verified}     ~~ from verified accounts
+#'   \item **is:retweet**      ~~ only retweets
+#'   \item **has:mentions**    ~~ uses mention(s)
+#'   \item **has:hashtags**    ~~ uses hashtags(s)
+#'   \item **has:media**       ~~ includes media(s)
+#'   \item **has:videos**      ~~ includes video(s)
+#'   \item **has:images**      ~~ includes image(s)
+#'   \item **has:links**       ~~ includes URL(s)
+#'   \item **is:verified**     ~~ from verified accounts
 #' }
 #'
 #' @section Geospatial:
 #' \itemize{
-#'   \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
-#'   \item \strong{point_radius:[lon lat radius]} ~~ center of search radius
-#'   \item \strong{has:geo}           ~~ uses geotagging
-#'   \item \strong{place:}            ~~ by place
-#'   \item \strong{place_country:}    ~~ by country
-#'   \item \strong{has:profile_geo}   ~~ geo associated with profile
-#'   \item \strong{profile_country:}  ~~ country associated with profile
-#'   \item \strong{profile_region:}   ~~ region associated with profile
-#'   \item \strong{profile_locality:} ~~ locality associated with profile
+#'   \item **bounding_box: \[west_long south_lat east_long north_lat\]** ~~ lat/long coordinates box
+#'   \item **point_radius: \[lon lat radius\]** ~~ center of search radius
+#'   \item **has:geo**           ~~ uses geotagging
+#'   \item **place:**            ~~ by place
+#'   \item **place_country:**    ~~ by country
+#'   \item **has:profile_geo**   ~~ geo associated with profile
+#'   \item **profile_country:**  ~~ country associated with profile
+#'   \item **profile_region:**   ~~ region associated with profile
+#'   \item **profile_locality:** ~~ locality associated with profile
 #' }
 #'
 #' @return A tibble data frame of Twitter data

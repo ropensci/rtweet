@@ -12,7 +12,7 @@ save_as_csv(x, file_name, prepend_ids = TRUE, na = "", fileEncoding = "UTF-8")
 \arguments{
 \item{x}{Data frame returned by an rtweet function.}
 
-\item{file_name}{Desired name to save file as. If `file_name` does not
+\item{file_name}{Desired name to save file as. If \code{file_name} does not
 include the extension ".csv" it will be added automatically.}
 
 \item{prepend_ids}{Logical indicating whether to prepend an "x"

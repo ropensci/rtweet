@@ -9,10 +9,8 @@
 #' @param n optional Specifies the number of records to retrieve.
 #'   Must be less than or equal to 100.
 #' @param ... Other arguments used as parameters in the query sent to
-#'   Twitter's rest API, for example, \code{trim_user = TRUE}.
+#'   Twitter's rest API, for example, `trim_user = TRUE`.
 #' @return Tweets data of the most recent retweets of a given status
-#' @details NOTE: Twitter's API is currently limited to 100 or fewer
-#'   retweeters.
 #' @export
 #' @family retweets
 get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
@@ -45,8 +43,6 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
 #' @param n Specifies the number of records to retrieve.  Best if
 #'   intervals of 100.
 #' @return data
-#' @details At time of writing, pagination offers no additional
-#'   data.
 #' @family retweets
 #' @export
 get_retweeters <- function(status_id,

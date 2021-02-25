@@ -25,17 +25,11 @@ A from/to data edge data frame
 An igraph object
 }
 \description{
-Convert Twitter data into a network-friendly data frame
-
-Convert Twitter data into network graph object (igraph)
+\itemize{
+\item \code{network_data()} returns a data frame that can easily be converted to
+various network classes.
+\item \code{network_graph()} returns a igraph object
 }
-\details{
-\code{network_data} returns a data frame that can easily be converted to
-  various network classes. For direct conversion to a network object, see
- \code{\link{network_graph}}.
-
-\code{network_graph} requires previous installation of the igraph package.
-  To return a network-friendly data frame, see \code{\link{network_data}}
 }
 \examples{
 
@@ -65,6 +59,4 @@ Convert Twitter data into network graph object (igraph)
 }
 \seealso{
 network_graph
-
-network_data
 }

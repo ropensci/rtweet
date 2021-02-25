@@ -4,19 +4,19 @@
 #' than 90,000 users, code must be written to iterate through user IDs
 #' whilst avoiding rate limits, which reset every 15 minutes.
 #'
-#' @param token An OAuth token object. The default, \code{NULL}, will retrieve
-#'   a default token with \code{\link{get_token}()}. You should only need to 
+#' @param token An OAuth token object. The default, `NULL`, will retrieve
+#'   a default token with [get_token()]. You should only need to 
 #'   use this argument if you are wrapping rtweet in a package. 
 #'   
-#'   See \code{vignette("auth")} for more details.
-#' @param parse The default, \code{TRUE}, indicates that the result should
+#'   See `vignette("auth")` for more details.
+#' @param parse The default, `TRUE`, indicates that the result should
 #'   be parsed into a convenient R data structure like a list or data frame. 
-#'   This protects you from the vagaries of the twitter API. Use \code{FALSE} 
+#'   This protects you from the vagaries of the twitter API. Use `FALSE` 
 #'   to return the "raw" list produced by the JSON returned from the twitter 
 #'   API.
 #'   
 #' @param users User id or screen name of target user.
-#' @seealso \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
+#' @seealso <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
 #' 
 #' @examples
 #'

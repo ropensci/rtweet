@@ -1,5 +1,9 @@
 #' Get Twitter list memberships (lists containing a given user)
 #'
+#' Due to deleted or removed lists, the returned number of memberships
+#' is often less than the provided n value. This is a reflection of the API and
+#' not a unique quirk of rtweet.
+#' 
 #' @param user The user id or screen_name of the user for whom to
 #'   return results for.
 #' @param filter_to_owned_lists When set to true . t or 1 , will
@@ -7,9 +11,6 @@
 #'   represented by user_id or screen_name is a member of.
 #' @param previous_cursor If you wish to use previous cursor instead of next,
 #'   input value here to override next cursor.
-#' @details Due to deleted or removed lists, the returned number of memberships
-#'   is often less than the provided n value. This is a reflection of the API and
-#'   not a unique quirk of rtweet.
 #' @examples
 #' \dontrun{
 #'

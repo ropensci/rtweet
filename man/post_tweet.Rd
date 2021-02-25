@@ -19,13 +19,13 @@ post_tweet(
 \arguments{
 \item{status}{Character, tweet status. Must be 280 characters or less.}
 
-\item{media}{Length 1 character vector with a file path to video media **OR** 
+\item{media}{Length 1 character vector with a file path to video media \strong{OR}
 up-to length 4 character vector with file paths to static images to be included in tweet.
-**The caller is responsible for managing this.**}
+\strong{The caller is responsible for managing this.}}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
@@ -46,10 +46,10 @@ request is made (and the status text and media attachments) are irrelevant.}
 in_reply_to_status_id, leading @mentions will be looked up from the
 original Tweet, and added to the new Tweet from there. Defaults to FALSE.}
 
-\item{media_alt_text}{attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
-metadata to the `media` you are uploading. Should be same length as
-`media` (i.e. as many alt text entries as there are `media` entries). See
-[the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
+\item{media_alt_text}{attach additional \href{https://en.wikipedia.org/wiki/Alt_attribute}{alt text}
+metadata to the \code{media} you are uploading. Should be same length as
+\code{media} (i.e. as many alt text entries as there are \code{media} entries). See
+\href{https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create}{the official API documentation}
 for more information.}
 }
 \description{
