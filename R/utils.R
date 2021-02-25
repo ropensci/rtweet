@@ -37,16 +37,15 @@ TWIT <- function(get = TRUE, url, ...) {
   }
 }
 
-TWIT_get <- function(token, query, param = NULL, parse = TRUE, restapi = TRUE) {
+TWIT_get <- function(token, api, query = NULL, parse = TRUE, host = "api.twitter.com") {
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
   withr::local_options(scipen = 14, encoding = "UTF-8")
 
   token <- check_token(token)
-
-  url <- make_url(query, param = param, restapi = restapi)
-  resp <- httr::GET(url, token)
+  url <- paste0("https://", host, "/1.1/", api, ".json")
   
+  resp <- httr::GET(url, query = query, token)
   check_status(resp)
   
   if (parse) {

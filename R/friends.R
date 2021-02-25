@@ -261,7 +261,7 @@ my_friendships <- function(user,
                            parse = TRUE,
                            token = NULL) {
   params <- twit_params(user = user)
-  TWIT_get(token, query = "friendships/lookup", param = params, parse = parse)
+  TWIT_get(token, "friendships/lookup", params, parse = parse)
 }
 
 #' Lookup friendship information between two specified users.
