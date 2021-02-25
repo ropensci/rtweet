@@ -48,36 +48,25 @@ lists_members <- function(list_id = NULL,
                           token = NULL,
                           parse = TRUE,
                           ...) {
-  query <- "lists/members"
   stopifnot(is.numeric(n))
   if (n > 5000) {
     warning("maximum number of list users it 5,000")
     n <- 5000
   }
+  
+  params <- list(
+    count = n,
+    cursor = cursor
+  )
   if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
-    params <- list(
-      slug = slug,
-      owner_user = owner_user,
-      count = n,
-      cursor = cursor,
-      ...
-    )
-    names(params)[2] <- paste0("owner_", .id_type(owner_user))
+    params$slug <- slug
+    params[[paste0("owner_", .id_type(owner_user))]] <- owner_user
   } else {
-    params <- list(
-      list_id = list_id,
-      count = n,
-      cursor = cursor
-    )
+    params$list_id <- list_id
   }
-  token <- check_token(token)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code != 200L) {
-    return(data.frame())
-  }
-  r <- from_js(r)
+
+  r <- TWIT_get(token, "lists/members", params, parse = parse)
+  
   if (parse) {
     r <- as_lists_members(r)
     r <- as.data.frame(r)
