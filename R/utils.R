@@ -37,6 +37,18 @@ TWIT <- function(get = TRUE, url, ...) {
   }
 }
 
+TWIT_get <- function(token, query, param = NULL, restapi = TRUE) {
+  token <- check_token(token)
+
+  url <- make_url(query, param = param, restapi = restapi)
+  resp <- httr::GET(url, token)
+  
+  warn_for_twitter_status(resp)
+  
+  resp
+}
+
+
 #' make_url
 #'
 #' @param restapi logical Default \code{restapi = TRUE}
