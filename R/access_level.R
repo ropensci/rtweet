@@ -7,8 +7,3 @@ api_access_level <- function(token = NULL) {
     r
   }
 }
-
-is_read_write_directmessages <- function(token = NULL) {
-  a <- api_access_level(token)
-  identical("read-write-directmessages", a)
-}
