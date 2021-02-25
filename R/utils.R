@@ -42,7 +42,6 @@ TWIT_get <- function(token, api, params = NULL, parse = TRUE, host = "api.twitte
     token = token, 
     api = api,
     params = params,
-    parse = parse,
     host = host
   )
   
@@ -58,7 +57,6 @@ TWIT_post <- function(token, api, params = NULL, host = "api.twitter.com") {
     token = token, 
     api = api,
     params = params,
-    parse = parse,
     host = host
   )
 }
