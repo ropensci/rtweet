@@ -30,20 +30,13 @@ lookup_collections <- function(id, n = 200,
                                token = NULL,
                                ...) {
   stopifnot(is.character(id), is_n(n))
-  query <- "collections/entries"
+  
   params <- list(
     id = id,
     count = n,
     ...
   )
-  url <- make_url(query = query, param = params)
-  token <- check_token(token)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
+  TWIT_get(token, "collections/entries", params, parse = parse)
 }
 
 
@@ -89,32 +82,26 @@ get_collections <- function(user,
                             cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  query <- "collections/list"
   stopifnot(is_n(n))
+  
+  params <- list(
+    count = n,
+    cursor = cursor
+  )
+  
   if (missing(user) && !is.null(status_id) ||
       is.null(user) && !is.null(status_id)) {
     stopifnot(is.atomic(status_id))
-    params <- list(
-      tweet_id = status_id,
-      count = n,
-      cursor = cursor
-    )
+    
+    params$tweet_id <- status_id
   } else {
     stopifnot(is.atomic(user))
-    params <- list(
-      user = user,
-      tweet_id = status_id,
-      count = n,
-      cursor = cursor
-    )
-    names(params)[1] <- .ids_type(params[[1]])
+    
+    params[[.ids_type(user)]] <- user
   }
-  url <- make_url(query = query, param = params)
-  token <- check_token(token)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
+  
+  r <- TWIT_get(token, "collections/list", params, parse = parse)
+  if (parse) {
     attr(r, "next_cursor") <- r[["response"]][["cursors"]][["next_cursor"]]
   }
   r
