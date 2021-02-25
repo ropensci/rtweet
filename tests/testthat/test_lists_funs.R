@@ -35,19 +35,6 @@ test_that("lists_memberships returns data frame with nrow > 1", {
     expect_true(is.null(since_id(x)))
 })
 
-
-test_that("lists_statuses returns data frame with nrow > 1", {
-    skip_on_cran()
-    skip("requires kearneymw as twitter auth")
-
-    lst_id <- "849721680402333696"
-    x <- lists_statuses(lst_id)
-
-    expect_true(is.data.frame(x))
-    expect_gt(nrow(x), 0)
-})
-
-
 test_that("lists_subscribers returns users data frame", {
   skip_on_cran()
 
