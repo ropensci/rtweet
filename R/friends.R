@@ -295,12 +295,9 @@ my_friendships <- function(user,
     user_type = paste(user, collapse = ",")
   )
   names(params)[1] <- .id_type(user)
-  url <- make_url(
-    query = query,
-    param = params)
-  f <- tryCatch(
-    TWIT(get = TRUE, url, token),
-    error = function(e) return(NULL))
+  
+  f <- TWIT_get(token, query = query, param = params)
+  
   if (parse) {
     from_js(f)
   } else {
