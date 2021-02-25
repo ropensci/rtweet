@@ -231,27 +231,6 @@ rate_limit2 <- run_it_back("rate_limit")
 
 TWIT2 <- run_it_back("TWIT")
 
-#' @importFrom jsonlite fromJSON
-#' @importFrom httr GET
-get_friend <- function(url, token = NULL) {
-  ## set scipen to ensure IDs are not rounded
-  op <- getOption("scipen")
-  on.exit(options(scipen = op), add = TRUE)
-  options(scipen = 14)
-  
-  r <- httr::GET(url, token)
-  if (!warn_for_twitter_status(r)) {
-    if (has_name_(url, "query") &&
-        any(grepl("user_id|screen_name", names(url$query)))) {
-      warning("^^ warning regarding user: ",
-        url$query[[grep("screen_name|user_id", names(url$query))]],
-        call. = FALSE, immediate. = TRUE)
-    }
-    return(list(ids = character()))
-  }
-  from_js(r)
-}
-
 get_friend_nosp <- function(url, token = NULL) {
   r <- httr::GET(url, token)
   if (!warn_for_twitter_status(r)) {
@@ -281,59 +260,9 @@ get_friend_nosp <- function(url, token = NULL) {
 my_friendships <- function(user,
                            parse = TRUE,
                            token = NULL) {
-  ## gotta have ut8-encoding for the comma separated IDs
-  ## set scipen to ensure IDs are not rounded
-  op_enc <- getOption("encoding")
-  op_sci <- getOption("scipen")
-  on.exit(options(scipen = op_sci, encoding = op_enc), add = TRUE)
-  options(scipen = 14, encoding = "UTF-8")
-
-  stopifnot(is.atomic(user))
-  token <- check_token(token)
-  query <- "friendships/lookup"
-  params <- list(
-    user_type = paste(user, collapse = ",")
-  )
-  names(params)[1] <- .id_type(user)
-  url <- make_url(
-    query = query,
-    param = params)
-  f <- tryCatch(
-    TWIT(get = TRUE, url, token),
-    error = function(e) return(NULL))
-  if (parse) {
-    from_js(f)
-  } else {
-    f
-  }
-}
-
-
-
-lookup_friendships_ <- function(source,
-                                target,
-                                parse = TRUE,
-                                token = NULL) {
-  stopifnot(is.atomic(source), is.atomic(target))
-  token <- check_token(token)
-  query <- "friendships/show"
-  params <- list(
-    source = source,
-    target = target
-  )
-  names(params)[1] <- paste0("source_", .id_type(source))
-  names(params)[2] <- paste0("target_", .id_type(target))
-  url <- make_url(
-    query = query,
-    param = params)
-  f <- tryCatch(
-    TWIT(get = TRUE, url, token),
-    error = function(e) return(NULL))
-  f <- from_js(f)
-  if (parse) {
-    f <- parse_showfriendships(f, source, target)
-  }
-  f
+  params <- list()
+  params[[.id_type(user)]] <- paste0(user, collapse = ",")
+  TWIT_get(token, "friendships/lookup", params, parse = parse)
 }
 
 #' Lookup friendship information between two specified users.
@@ -352,11 +281,6 @@ lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
     stopifnot(length(source) == length(target))
   }
 
-  ## set scipen to ensure IDs are not rounded
-  op_sci <- getOption("scipen")
-  on.exit(options(scipen = op_sci), add = TRUE)
-  options(scipen = 14)
-  
   fds <- Map(
     "lookup_friendships_", source, target,
     MoreArgs = list(parse = parse, token = token)
@@ -368,7 +292,22 @@ lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
   fds
 }
 
+lookup_friendships_ <- function(source,
+                                target,
+                                parse = TRUE,
+                                token = NULL) {
+  stopifnot(is.atomic(source), is.atomic(target))
 
+  params <- list()
+  params[[paste0("source_", .id_type(source))]] <- source
+  params[[paste0("target_", .id_type(target))]] <- target
+
+  f <- TWIT_get(token, "friendships/show", params, parse = parse)
+  if (parse) {
+    f <- parse_showfriendships(f, source, target)
+  }
+  f
+}
 
 parse_showfriendships <- function(x, source_user, target_user) {
   if (has_name_(x, "relationship")) {
