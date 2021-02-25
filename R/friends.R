@@ -231,27 +231,6 @@ rate_limit2 <- run_it_back("rate_limit")
 
 TWIT2 <- run_it_back("TWIT")
 
-#' @importFrom jsonlite fromJSON
-#' @importFrom httr GET
-get_friend <- function(url, token = NULL) {
-  ## set scipen to ensure IDs are not rounded
-  op <- getOption("scipen")
-  on.exit(options(scipen = op), add = TRUE)
-  options(scipen = 14)
-  
-  r <- httr::GET(url, token)
-  if (!warn_for_twitter_status(r)) {
-    if (has_name_(url, "query") &&
-        any(grepl("user_id|screen_name", names(url$query)))) {
-      warning("^^ warning regarding user: ",
-        url$query[[grep("screen_name|user_id", names(url$query))]],
-        call. = FALSE, immediate. = TRUE)
-    }
-    return(list(ids = character()))
-  }
-  from_js(r)
-}
-
 get_friend_nosp <- function(url, token = NULL) {
   r <- httr::GET(url, token)
   if (!warn_for_twitter_status(r)) {
