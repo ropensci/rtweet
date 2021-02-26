@@ -541,10 +541,6 @@ try_require <- function(pkg, f = NULL) {
     "Please install and try again."), call. = FALSE)
 }
 
-is.valid.username <- function(username) {
-  !grepl("\\s", username)
-}
-
 
 is_installed <- function(pkg, warn = NULL, stop = NULL) {
   if (requireNamespace(pkg, quietly = TRUE)) {

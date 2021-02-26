@@ -43,10 +43,7 @@ get_favorites <- function(user,
                           parse = TRUE,
                           token = NULL) {
   token <- check_token(token)
-  stopifnot(is.atomic(user), is.numeric(n), sapply(user, is.valid.username))
-  if (length(user) == 0L) {
-    stop("No user found", call. = FALSE)
-  }
+  stopifnot(is.atomic(user), is.numeric(n))
 
   rt <- lapply(user, get_favorites_, 
     n = n,
@@ -91,10 +88,9 @@ get_favorites_ <- function(user,
     since_id = since_id
   )
   names(params)[1] <- .id_type(user)
-  url <- make_url(
-    query = query,
-    param = params)
+  url <- make_url(query = query, param = params)
   fav <- scroller(url, n, n.times, type = "timeline", token)
+  
   if (parse) {
     fav <- tweets_with_users(fav)
     fav$favorited_by <- user
