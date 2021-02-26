@@ -1,5 +1,7 @@
 # rtweet ...
 
+- The `rate_limit()` interface has been drastically simplified.
+
 - httpuv is now only suggested (since it's only needed for interactive auth);
   you'll be prompted to install it when needed.
 

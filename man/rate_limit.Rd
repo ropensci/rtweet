@@ -2,12 +2,15 @@
 % Please edit documentation in R/rate_limit.R
 \name{rate_limit}
 \alias{rate_limit}
-\alias{rate_limits}
+\alias{rate_limit_reset}
+\alias{rate_limit_wait}
 \title{Get rate limit data for given Twitter access tokens.}
 \usage{
-rate_limit(token = NULL, query = NULL, parse = TRUE)
+rate_limit(resources = NULL, token = NULL)
 
-rate_limits(token = NULL, query = NULL, parse = TRUE)
+rate_limit_reset(endpoint, token = NULL)
+
+rate_limit_wait(endpoint, token = NULL)
 }
 \arguments{
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
@@ -25,28 +28,11 @@ returns remaining limit for user lookup requests; type =
 "followers/ids" returns remaining limit for follower id requests;
 type = "friends/ids" returns remaining limit for friend id
 requests.}
-
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
-}
-\value{
-Tibble data frame with rate limit information pertaining to
-the limit (max allowed), remaining (specific to token), reset
-(minutes until reset), and reset_at (time of rate limit
-reset). If query is specified, only relevant rows are returned.
 }
 \description{
 Returns rate limit information for one or more Twitter tokens,
 optionally filtered by rtweet function or specific Twitter API
 path(s)
-}
-\details{
-If multiple tokens are provided, this function will return
-the names of the associated token applications as new variable
-(column) or as a named element (if parse = FALSE).
 }
 \examples{
 
