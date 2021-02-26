@@ -136,13 +136,9 @@ search_premium <- function(product, q, n = 100, fromDate = NULL, toDate = NULL,
   token <- bearer_token(token)
   params <- search_params(q, 
     n = n,
-    type = type,
-    include_rts = include_rts,
-    geocode = geocode,
     fromDate = format_from_to_date(fromDate),
     toDate = format_from_to_date(toDate),
     max_id = max_id,
-    ...
   )
   
   api <- paste0("search/tweets/", product, "/", env_name)
