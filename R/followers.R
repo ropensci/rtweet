@@ -86,42 +86,46 @@ get_followers <- function(user, n = 5000,
                           verbose = TRUE,
                           token = NULL) {
 
+  stopifnot(is_n(n), is.atomic(user), is.atomic(page), isTRUE(length(user) == 1))
+  
   ## if n == all or Inf then lookup followers count
   if (identical(n, "all") || identical(n, Inf)) {
     usr <- lookup_users(user)
     n <- usr$followers_count
   }
-  
-  ## check params
-  stopifnot(is_n(n),
-            is.atomic(user),
-            is.atomic(page),
-            isTRUE(length(user) == 1))
 
-  params <- list(
-    count = 5000,
-    stringify_ids = TRUE
-  )
+  params <- list(stringify_ids = TRUE)
   params[[.id_type(user)]] <- user
 
+  results <- TWIT_paginate_cursor(token, "followers/ids", params, 
+    page_size = 5000, 
+    n = n
+  )
+  
+  if (parse) {
+    results <- lapply(results, parse.piper.fs, n = n)
+    results <- do.call("rbind", results)
+  }
+
+  results
+}
+
+TWIT_paginate_cursor <- function(token, query, params, n = 5000, page_size = 5000) {
+  params$count <- page_size
+  
   # TODO: consider if its worth using fastmap::faststack() here
   results <- list()
   i <- 1
-  results[[i]] <- TWIT_get(token, "followers/ids", params)
+  results[[i]] <- TWIT_get(token, query, params)
   next_cursor <- results[[i]]$next_cursor_str
   n_seen <- length(results[[i]]$ids)
   
   while (!identical(next_cursor, "0") && n_seen < n) {
     i <- i + 1
     params$cursor <- next_cursor
-    results[[i]] <- TWIT_get(token, "followers/ids", params)
+    results[[i]] <- TWIT_get(token, query, params)
     next_cursor <- results[[i]]$next_cursor_str
     n_seen <- n_seen + length(results[[i]]$ids)
-  }
-
-  if (parse) {
-    results <- lapply(results, parse.piper.fs, n = n)
-    results <- do.call("rbind", results)
   }
   
   results
