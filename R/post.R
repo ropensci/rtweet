@@ -681,7 +681,7 @@ post_list_destroy <- function(list_id = NULL,
 
   warn_for_twitter_status(r)
 
-  r
+  return(TRUE)
 }
 
 post_list_create_all <- function(users,
@@ -797,7 +797,7 @@ post_list_destroy_all <- function(users,
   warn_for_twitter_status(r)
 
   ## return response object
-  r
+  TRUE
 }
 
 
@@ -816,30 +816,24 @@ post_list_destroy_all <- function(users,
 #'   `slug` must be provided if `destroy = TRUE`.
 #' @param list_id Optional, numeric ID of list.
 #' @param slug Optional, list slug.
-#' @return Response object from HTTP request.
+#' @return TRUE if a list or a user is deleted and the list id if you create or
+#'  add a user to a list. 
 #' @examples
 #' \dontrun{
 #'
 #' ## CNN twitter accounts
 #' users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
-#'   "cnnnewsroom", "cnnspecreport", "CNNNewsource",
-#'   "CNNNSdigital", "CNNTonight")
+#'   "cnnnewsroom", "cnnspecreport", "CNNNewsource", "CNNTonight")
 #'
 #' ## create CNN-accounts list with 9 total users
 #' cnn_lst <- post_list(users,
 #'   "cnn-accounts", description = "Official CNN accounts")
 #'
 #' ## search for more CNN users
-#' cnn_users <- search_users("CNN", n = 200)
-#'
-#' ## filter and select more users to add to list
-#' more_users <- cnn_users %>%
-#'   subset(verified & !tolower(screen_name) %in% tolower(users)) %>%
-#'   .$screen_name %>%
-#'   grep("cnn", ., ignore.case = TRUE, value = TRUE)
+#' cnn_users <- search_users("CNN", n = 20)
 #'
 #' ## add more users to list- note: can only add up to 100 at a time
-#' post_list(users = more_users, slug = "cnn-accounts")
+#' post_list(users = cnn_users$screen_name, list_id = cnn_lst, slug = "cnn-accounts")
 #'
 #' ## select users on list without "cnn" in their name field
 #' drop_users <- cnn_users %>%
@@ -847,11 +841,11 @@ post_list_destroy_all <- function(users,
 #'   .$screen_name
 #'
 #' ## drop these users from the cnn list
-#' post_list(users = drop_users, slug = "cnn-accounts",
+#' post_list(users = drop_users, list_id = cnn_lst, slug = "cnn-accounts",
 #'   destroy = TRUE)
 #'
 #' ## delete list entirely
-#' post_list(slug = "cnn-accounts", destroy = TRUE)
+#' post_list(slug = "cnn-accounts", list_id = cnn_lst, destroy = TRUE)
 #'
 #' }
 #' @export
@@ -901,7 +895,7 @@ post_list <- function(users = NULL,
     message("Successfully added users to list!")
     invisible(r)
   } else if (any(status != 200)) {
-    warning("Couldn't add user ", users[status != 200], ".")
+    warning("Couldn't add user ", paste(users[status != 200], collapse = ", "), ".")
   } 
-  r
+  return(list_id)
 }
