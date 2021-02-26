@@ -76,122 +76,37 @@ get_friends <- function(users,
                         token = NULL) {
 
   stopifnot(is.vector(users), is_n(n))
-  if (any(is.na(unlist(users)))) {
-    warning("Missing users omitted", call. = FALSE)
-    users <- na_omit(users)
-  }
-  if (n < 5000) {
-    count <- n
-  } else {
-    count <- 5000
-  }
-  ## number of users to return
-  n <- length(users)
-  ## build URL
 
-  ## for larger requests implement Sys.sleep
-  if (n > 1) {
-    ## initialize output object
-    f <- vector("list", n)
-    ## default (counter) values
-    more <- TRUE
-    i <- 0L
-    ## until friends of n users have been retrieved
-    while (more) {
-      rl <- rate_limit2(token, "friends/ids")
-      n.times <- rl[["remaining"]]
-      i <- i + 1L
-      params <- list(
-        user_type = users[[i]],
-        count = count,
-        cursor = page,
-        stringify_ids = TRUE
-      )
-      names(params)[1] <- .id_type(users[[i]])
-      
-      if (retryonratelimit) {
-        ## if no calls remaining then sleep until no longer rate limited
-        rate_limited <- isTRUE(n.times == 0)
-        while (rate_limited) {
-          if (verbose) {
-            message(
-              paste("Waiting about",
-                    round(as.numeric(rl$reset, "secs") / 60, 1),
-                    "minutes",
-                    "for rate limit reset...")
-            )
-          }
-          Sys.sleep(as.numeric(rl$reset, "secs") + 2)
-          rl <- rate_limit2(token, "friends/ids")
-          n.times <- rl$remaining
-          rate_limited <- isTRUE(n.times == 0)
-        }
-      }
-      ## make call
-      f[[i]] <- TWIT_get(token, "friends/ids", params, parse = parse)
-      if (parse) {
-        if (length(f[[i]][["ids"]]) == 0) {
-          f[[i]] <- tibble::as_tibble()
-        } else {
-          nextcursor <- next_cursor(f)
-          f[[i]] <- tibble::as_tibble(
-            list(user = users[[i]], user_id = f[[i]][["ids"]]))
-          attr(f[[i]], "next_cursor") <- nextcursor
-        }
-      }
-      if (verbose) {
-        message(paste(i, "friend networks collected!"))
-      }
-      ## update more (logical)
-      more <- isTRUE(i < n)
-    }
-    ## i don't think this line is needed anymore but just in case
-    f <- f[!vapply(f, is.null, logical(1))]
-    ## parse into data frame
-    if (parse) {
-      nextcursors <- lapply(f, attr, "next_cursor")
-      f <- do.call("rbind", f)
-      attr(f, "next_cursor") <- nextcursors
-    }
-  } else {
-    users <- unlist(users)
-    stopifnot(length(users) == 1L)
-    
-    params <- list(
-      count = count,
-      cursor = page,
-      stringify_ids = TRUE
+  results <- lapply(users, get_friends_user, 
+    n = n, 
+    parse = parse,
+    token = token
+  )
+  
+  if (parse) {
+    results <- do.call("rbind", results)
+  }
+  
+  results
+}
+
+get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
+  params <- list(stringify_ids = TRUE)
+  params[[.id_type(user)]] <- user
+  
+  results <- TWIT_paginate_cursor(token, "friends/ids", params, 
+    page_size = 5000,
+    n = n
+  )
+  
+  if (parse) {
+    results <- tibble::tibble(
+      user = user,
+      ids = unlist(lapply(results, function(x) x$ids))
     )
-    params[[.id_type(users)]] <- users
-    ## if !retryonratelimit then if necessary exhaust what can with token
-    f <- TWIT_get(token, "friends/ids", params, parse = parse)
-
-    if (parse) {
-      nextcursor <- f[["next_cursor"]]
-      if (length(f[["ids"]]) == 0) {
-        f <- tibble::as_tibble()
-      } else {
-        f <- tibble::as_tibble(
-          list(user = users, user_id = f[["ids"]]))
-        attr(f, "next_cursor") <- nextcursor
-      }
-    }
   }
-  f
+  results
 }
-
-run_it_back <- function(fun, secs = 0.25) {
-  eval(parse(text = paste0("function(...) {
-    tryCatch(", fun, "(...), error = function(e) {
-      Sys.sleep(", secs, ")
-      ", fun, "(...)
-    })
-  }")))
-}
-
-rate_limit2 <- run_it_back("rate_limit")
-
-TWIT2 <- run_it_back("TWIT")
 
 
 #' Lookup friendship information between users.
