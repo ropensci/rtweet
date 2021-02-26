@@ -1,5 +1,7 @@
 # rtweet ...
 
+- The `rate_limit()` interface has been drastically simplified.
+
 - `max_id()` and `since_id()` have been deprecated; tweetr now handles 
   pagination for you.
 
