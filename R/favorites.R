@@ -42,93 +42,21 @@ get_favorites <- function(user,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL) {
-  args <- list(
-    user = user,
+  token <- check_token(token)
+  stopifnot(is.atomic(user), is.numeric(n), sapply(user, is.valid.username))
+  if (length(user) == 0L) {
+    stop("No user found", call. = FALSE)
+  }
+
+  rt <- lapply(user, get_favorites_, 
     n = n,
     since_id = since_id,
     max_id = max_id,
     parse = parse,
     token = token
   )
-  do.call("get_favorites_call", args)
-}
 
-get_favorites_call <- function(user,
-                               n = 200,
-                               since_id = NULL,
-                               max_id = NULL,
-                               parse = TRUE,
-                               token = NULL) {
-  if (is.null(token)) {
-    token <- check_token(token)
-  }
-  ## check inputs
-  stopifnot(is.atomic(user), is.numeric(n), sapply(user, is.valid.username))
-  if (length(user) == 0L) {
-    stop("No user found", call. = FALSE)
-  }
-
-  if (!is.null(max_id) && !is.null(since_id)) {
-    rt <- Map(
-      get_favorites_,
-      user = user,
-      n = n,
-      since_id = since_id,
-      max_id = max_id,
-      parse = parse,
-      token = list(token)
-    )
-  } else if (!is.null(since_id)) {
-    rt <- Map(
-      get_favorites_,
-      user = user,
-      n = n,
-      since_id = since_id,
-      parse = parse,
-      token = list(token)
-    )
-  } else if (!is.null(max_id)) {
-    rt <- Map(
-      get_favorites_,
-      user = user,
-      n = n,
-      max_id = max_id,
-      parse = parse,
-      token = list(token)
-    )
-  } else {
-    rt <- Map(
-      get_favorites_,
-      user = user,
-      n = n,
-      parse = parse,
-      token = list(token)
-    )
-  }
   if (parse) {
-    nms <- all_uq_names(rt)
-    for (i in seq_along(rt)) {
-      for (j in nms) {
-        if (!has_name_(rt[[i]], j) && nrow(rt[[i]]) > 0L) {
-          rt[[i]][[j]] <- NA
-          if (j == "created_at") {
-            rt[[i]][[j]] <- as.POSIXct(rt[[i]][[j]])
-          }
-        } else if (!has_name_(rt[[i]], j) && nrow(rt[[i]]) == 0L) {
-          rt[[i]] <- tibble::as_tibble(data.frame(j = NA))
-          names(rt[[i]]) <- j
-          if (j == "created_at") {
-            rt[[i]][[j]] <- as.POSIXct(rt[[i]][[j]])
-          }
-        }
-      }
-    }
-    ## add favoriter variable to data frames
-    for (i in seq_along(user)) {
-      if (nrow(rt[[i]]) > 0) {
-        rt[[i]]$favorited_by <- user[i]
-      }
-    }
     rt <- do_call_rbind(rt)
   }
   rt
@@ -169,6 +97,7 @@ get_favorites_ <- function(user,
   fav <- scroller(url, n, n.times, type = "timeline", token)
   if (parse) {
     fav <- tweets_with_users(fav)
+    fav$favorited_by <- user
   }
   fav
 }
