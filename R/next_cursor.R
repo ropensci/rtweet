@@ -244,29 +244,8 @@ max_id.response <- function(.x) {
 
 
 id_minus_one <- function(x) {
-  if (gregexpr("[0]{1,}$", x)[[1]] != -1) {
-    m <- gregexpr("[0]{1,}$", x)
-    m <- regmatches(x, m)[[1]]
-    nines <- paste(rep("9", nchar(m)), collapse = "")
-    x <- gsub("[0]{1,}$", "", x)
-    if (nchar(x) == 0) {
-      x <- paste0("1", nines)
-    } else {
-      ln <- substr(x, nchar(x), nchar(x))
-      ln <- as.character(as.integer(ln) - 1L)
-      x <- gsub("[0-9]{1}$", "", x)
-      x <- paste0(x, ln, nines)
-    }
-    return(x)
-  }
-  ln <- substr(x, nchar(x), nchar(x))
-  ln <- as.character(as.integer(ln) - 1L)
-  x <- gsub("[0-9]{1}$", "", x)
-  paste0(x, ln)
+  as.character(bit64::as.integer64(x) - 1L)
 }
-
-
-
 
 is_emptylist <- function(x) {
   inherits(x, "list") && length(x) == 1L && is.null(names(x))
