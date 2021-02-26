@@ -27,7 +27,8 @@ Imports:
     progress,
     httpuv,
     rappdirs,
-    withr
+    withr,
+    lifecycle
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/rtweet
 BugReports: https://github.com/ropensci/rtweet/issues
