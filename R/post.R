@@ -276,25 +276,24 @@ TWIT_upload <- function(token, api, params, ...) {
   TWIT_post(token, api, params, ..., host = "upload.twitter.com")
 }
 
-
-
 wait_for_chunked_media <- function(resp, media_id, token = NULL) {
   json <- from_js(resp)
   if (is.null(json$process_info)) {
     return()
   }
 
-  url <- "https://upload.twitter.com/1.1/media/upload.json"
-  query <- list(
+  params <- list(
     command = "STATUS",
     media_id = media_id
   )
-
+  
   while (!json$processing_info$state %in% c("pending", "in_progress")) {
     Sys.sleep(json$processing_info$check_after_secs)
-    resp <- httr::GET(url, query = query, token)
-    httr::stop_for_status(resp)
-    json <- from_js(resp)
+    
+    json <- TWIT_get(token, "media/upload", 
+      params = params, 
+      host = "upload.twitter.com"
+    )
   }
 
   invisible()
