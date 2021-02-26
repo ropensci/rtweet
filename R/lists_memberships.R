@@ -88,7 +88,7 @@ lists_memberships_call <- function(user,
                                    filter_to_owned_lists = FALSE,
                                    token = NULL,
                                    parse = TRUE, previous_cursor = NULL) {
-  query <- "lists/memberships"
+
   stopifnot(is.atomic(user), is_n(n))
   if (n > 1000) {
     warning("n is too large. set to max (1000) instead", call. = FALSE)
@@ -103,23 +103,15 @@ lists_memberships_call <- function(user,
     user = user,
     count = n,
     cursor = cursor,
-    filter_to_owned_lists = filter_to_owned_lists,
     previous_cursor = previous_cursor
   )
-  if (!filter_to_owned_lists) {
-    names(params)[1] <- .id_type(user)
-    params$filter_to_owned_lists <- NULL
-  } else {
-    params$user <- NULL
+  if (filter_to_owned_lists) {
+    params$filter_to_owned_lists <- TRUE
+    params[[.id_type(user)]] <- user
   }
-  token <- check_token(token)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code != 200L) {
-    return(data.frame())
-  }
-  r <- from_js(r)
+  
+  r <- TWIT_get(token, "lists/memberships", params)
+  
   if (is.recursive(r) && "next_cursor_str" %in% names(r)) {
     cursor <- r$next_cursor_str
     previous_cursor <- r$previous_cursor_str

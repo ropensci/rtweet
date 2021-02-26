@@ -39,20 +39,16 @@ direct_messages <- function(n = 50,
                             next_cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  query <- "direct_messages/events/list"
-  token <- check_token(token)
-  if (!is_read_write_directmessages(token)) {
+  if (!identical(api_access_level(token), "read-write-directmessages")) {
     stop("Token does not have `read-write-directmessages` access level. ",
       "For DM permissions, users must create their own app at developer.twitter.com")
   }
-  params <- list(count = n, next_cursor = next_cursor)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
+  
+  params <- list(
+    count = n, 
+    next_cursor = next_cursor
+  )
+  TWIT_get(token, "direct_messages/events/list", params, parse = parse)
 }
 
 
@@ -116,17 +112,6 @@ direct_messages_received <- function(since_id = NULL,
                                      token = NULL) {
   stop("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
-  query <- "direct_messages"
-  token <- check_token(token)
-  params <- list(include_entities = TRUE, count = n,
-    since_id = since_id, max_id = max_id)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
 }
 
 #' @inheritParams direct_messages_received
@@ -139,17 +124,6 @@ direct_messages_sent <- function(since_id = NULL,
                                  token = NULL) {
   stop("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
-  query <- "direct_messages/events/list"
-  token <- check_token(token)
-  params <- list(include_entities = TRUE, count = n,
-    since_id = since_id, max_id = max_id)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
 }
 
 warn_for_twitter_status <- function(x) {

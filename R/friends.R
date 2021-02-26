@@ -74,25 +74,7 @@ get_friends <- function(users,
                         parse = TRUE,
                         verbose = TRUE,
                         token = NULL) {
-  args <- list(
-    users = users,
-    n = n,
-    retryonratelimit = retryonratelimit,
-    page = page,
-    parse = parse,
-    verbose = verbose,
-    token = token
-  )
-  do.call("get_friends_", args)
-}
 
-get_friends_ <- function(users,
-                         n = 5000,
-                         retryonratelimit = FALSE,
-                         page = "-1",
-                         parse = TRUE,
-                         verbose = TRUE,
-                         token = NULL) {
   stopifnot(is.vector(users), is_n(n))
   if (any(is.na(unlist(users)))) {
     warning("Missing users omitted", call. = FALSE)
@@ -106,14 +88,7 @@ get_friends_ <- function(users,
   ## number of users to return
   n <- length(users)
   ## build URL
-  query <- "friends/ids"
-  token <- check_token(token)
-  
-  ## set scipen to ensure IDs are not rounded
-  op <- getOption("scipen")
-  on.exit(options(scipen = op), add = TRUE)
-  options(scipen = 14)
-  
+
   ## for larger requests implement Sys.sleep
   if (n > 1) {
     ## initialize output object
@@ -123,7 +98,7 @@ get_friends_ <- function(users,
     i <- 0L
     ## until friends of n users have been retrieved
     while (more) {
-      rl <- rate_limit2(token, query)
+      rl <- rate_limit2(token, "friends/ids")
       n.times <- rl[["remaining"]]
       i <- i + 1L
       params <- list(
@@ -133,10 +108,7 @@ get_friends_ <- function(users,
         stringify_ids = TRUE
       )
       names(params)[1] <- .id_type(users[[i]])
-      url <- make_url(
-        query = query,
-        param = params
-      )
+      
       if (retryonratelimit) {
         ## if no calls remaining then sleep until no longer rate limited
         rate_limited <- isTRUE(n.times == 0)
@@ -150,17 +122,14 @@ get_friends_ <- function(users,
             )
           }
           Sys.sleep(as.numeric(rl$reset, "secs") + 2)
-          rl <- rate_limit2(token, query)
+          rl <- rate_limit2(token, "friends/ids")
           n.times <- rl$remaining
           rate_limited <- isTRUE(n.times == 0)
         }
       }
       ## make call
-      f[[i]] <- get_friend_nosp(url, token = token)
-      if (has_name_(f[[i]], "errors")) {
-        warning(f[[i]]$errors[["message"]], call. = FALSE)
-        return(list(data.frame()))
-      } else if (parse) {
+      f[[i]] <- TWIT_get(token, "friends/ids", params, parse = parse)
+      if (parse) {
         if (length(f[[i]][["ids"]]) == 0) {
           f[[i]] <- tibble::as_tibble()
         } else {
@@ -187,24 +156,17 @@ get_friends_ <- function(users,
   } else {
     users <- unlist(users)
     stopifnot(length(users) == 1L)
-    ## compose query
+    
     params <- list(
-      user_type = users,
       count = count,
       cursor = page,
       stringify_ids = TRUE
     )
-    names(params)[1] <- .id_type(users)
-    url <- make_url(
-      query = query,
-      param = params
-    )
+    params[[.id_type(users)]] <- users
     ## if !retryonratelimit then if necessary exhaust what can with token
-    f <- get_friend_nosp(url, token = token)
-    if (has_name_(f, "errors")) {
-      warning(f$errors[["message"]], call. = FALSE)
-      return(list(data.frame()))
-    } else if (parse) {
+    f <- TWIT_get(token, "friends/ids", params, parse = parse)
+
+    if (parse) {
       nextcursor <- f[["next_cursor"]]
       if (length(f[["ids"]]) == 0) {
         f <- tibble::as_tibble()
@@ -230,20 +192,6 @@ run_it_back <- function(fun, secs = 0.25) {
 rate_limit2 <- run_it_back("rate_limit")
 
 TWIT2 <- run_it_back("TWIT")
-
-get_friend_nosp <- function(url, token = NULL) {
-  r <- httr::GET(url, token)
-  if (!warn_for_twitter_status(r)) {
-    if (has_name_(url, "query") &&
-        any(grepl("user_id|screen_name", names(url$query)))) {
-      warning("^^ warning regarding user: ",
-        url$query[[grep("screen_name|user_id", names(url$query))]],
-        call. = FALSE, immediate. = TRUE)
-    }
-    return(list(ids = character()))
-  }
-  from_js(r)
-}
 
 
 #' Lookup friendship information between users.

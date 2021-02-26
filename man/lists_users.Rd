@@ -4,7 +4,7 @@
 \alias{lists_users}
 \title{Get all lists a specified user subscribes to, including their own.}
 \usage{
-lists_users(user, reverse = FALSE, token = NULL, parse = TRUE)
+lists_users(user = NULL, reverse = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
 \item{user}{The ID of the user or screen name for whom to return results.}
