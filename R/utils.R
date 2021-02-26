@@ -37,11 +37,12 @@ TWIT <- function(get = TRUE, url, ...) {
   }
 }
 
-TWIT_get <- function(token, api, params = NULL, parse = TRUE, host = "api.twitter.com") {
+TWIT_get <- function(token, api, params = NULL, parse = TRUE, ..., host = "api.twitter.com") {
   resp <- TWIT_method("GET", 
     token = token, 
     api = api,
     params = params,
+    ...,
     host = host
   )
   
@@ -52,18 +53,20 @@ TWIT_get <- function(token, api, params = NULL, parse = TRUE, host = "api.twitte
   }
 }
 
-TWIT_post <- function(token, api, params = NULL, host = "api.twitter.com") {
+TWIT_post <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
   TWIT_method("POST", 
     token = token, 
     api = api,
     params = params,
+    ...,
     host = host
   )
 }
 
 TWIT_method <- function(method, token, api, 
                         params = NULL, 
-                        host = "api.twiter.com") {
+                        host = "api.twiter.com",
+                        ...) {
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
   withr::local_options(scipen = 14, encoding = "UTF-8")
@@ -72,8 +75,8 @@ TWIT_method <- function(method, token, api,
   url <- paste0("https://", host, "/1.1/", api, ".json")
   
   resp <- switch(method,
-    GET = httr::GET(url, query = params, token),
-    POST = httr::POST(url, body = params, token),
+    GET = httr::GET(url, query = params, token, ...),
+    POST = httr::POST(url, body = params, token, ...),
     stop("Unsupported method", call. = FALSE)
   )
   check_status(resp)
@@ -82,10 +85,10 @@ TWIT_method <- function(method, token, api,
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 check_status <- function(x) {
-  if (x$status_code == 200L) {
+  if (!httr::http_error(x)) {
     return()
   }
-
+  
   parsed <- from_js(x)
   
   stop(
