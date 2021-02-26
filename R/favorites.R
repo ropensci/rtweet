@@ -4,22 +4,18 @@
 #' specific Twitter users.
 #'
 #' @param user Vector of user names, user IDs, or a mixture of both.
-#' @param n Specifies the number of records to retrieve. Defaults to
-#'   200. 3000 is the max number of favorites returned per token. Due
-#'   to suspended or deleted content, this function may return fewer
-#'   tweets than the desired (n) number. Must be of length 1 or of
-#'   length equal to the provided number of users.
-#' @param since_id Returns results with an status_id greater than
-#'   (that is, more recent than) the specified status_id.  There are
-#'   limits to the number of tweets returned by the REST API. If the
-#'   limit is hit, since_id is adjusted (by Twitter) to the oldest ID
-#'   available.
-#' @param max_id Character, returns results with an ID less than (that is,
-#'   older than) or equal to `max_id`.
+#' @param n Specifies the number of records to retrieve. Defaults to 200,
+#'   which is the maximum number of records that can be retrieved in a single
+#'   request. Higher numbers will require multiple requests.
+#'   
+#'   `n` is applied before removing any tweets that have been suspended or 
+#'    deleted. 
+#' @param since_id,max_id Limit tweets to ids in `(since_id, max_id]`.
+#'   If `since_id` is smaller than the earliest tweet available to the API,
+#'   it will be forced to the oldest tweet available.
 #' @inheritParams lookup_users
-#' @return A tbl data frame of tweets data with users data attribute.
+#' @return A tibble with one row for each tweet.
 #' @examples
-#'
 #' \dontrun{
 #'
 #' ## get max number of statuses favorited by KFC
@@ -31,7 +27,6 @@
 #' favs
 #'
 #' }
-#'
 #' @family tweets
 #' @seealso
 #' <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list>
@@ -45,7 +40,7 @@ get_favorites <- function(user,
   token <- check_token(token)
   stopifnot(is.atomic(user), is.numeric(n))
 
-  rt <- lapply(user, get_favorites_, 
+  rt <- lapply(user, get_favorites_user, 
     n = n,
     since_id = since_id,
     max_id = max_id,
@@ -59,41 +54,45 @@ get_favorites <- function(user,
   rt
 }
 
-get_favorites_ <- function(user,
+get_favorites_user <- function(user,
                            n = 200,
                            since_id = NULL,
                            max_id = NULL,
                            parse = TRUE,
                            token = NULL) {
-  query <- "favorites/list"
-  if (n > 3000) {
-    warning(paste0("n exceeds max favs returned per ",
-      "token. Setting n to 3000..."),
-      call. = FALSE)
-    n <- 3000
-    count <- 200
-  } else if (n < 200) {
-    count <- n
-  } else {
-    count <- 200
-  }
-  n.times <- rate_limit(token, query)[["remaining"]]
-  if (n.times == 0L) stop("rate limit exceeded", call. = FALSE)
+
+  page_size <- 200
   params <- list(
-    user_type = user,
-    count = count,
+    count = page_size,
     tweet_mode = "extended",
     include_ext_alt_text = "true",
     max_id = max_id,
     since_id = since_id
   )
-  names(params)[1] <- .id_type(user)
-  url <- make_url(query = query, param = params)
-  fav <- scroller(url, n, n.times, type = "timeline", token)
+  params[[.id_type(user)]] <- user
+  
+  pages <- ceiling(n / page_size)
+  results <- vector("list", pages)
+  for (i in seq_len(pages)) {
+    if (i == pages) {
+       params$count <- n - (pages - 1) * page_size
+    }
+    
+    resp <- TWIT_get(token, "favorites/list", params, parse = FALSE)
+    json <- from_js(resp)
+    results[[i]] <- if (parse) json else resp
+    
+    if (length(json) == 0) {
+      # no more tweets to return
+      break
+    }
+    params$max_id <- id_minus_one(last(json$id_str))
+  }
   
   if (parse) {
-    fav <- tweets_with_users(fav)
-    fav$favorited_by <- user
+    results <- tweets_with_users(results)
+    results$favorited_by <- user
   }
-  fav
+  
+  results
 }
