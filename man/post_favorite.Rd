@@ -23,8 +23,8 @@ remove (delete) target tweet as favorite.}
 include entities object in return.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 }

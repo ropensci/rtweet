@@ -9,21 +9,21 @@
 #'   to exceed 500 characters maximum. Spaces are assumed to function
 #'   like boolean "AND" operators. To search for tweets including one
 #'   of multiple possible terms, separate search terms with spaces and
-#'   the word "OR". For example, the search \code{query =
-#'   "data science"} searches for tweets using both "data" and
+#'   the word "OR". For example, the search `query =
+#'   "data science"` searches for tweets using both "data" and
 #'   "science" though the words can appear anywhere and in any order
 #'   in the tweet. However, when OR is added between search terms,
-#'   \code{query = "data OR science"}, Twitter's REST API should
+#'   `query = "data OR science"`, Twitter's REST API should
 #'   return any tweet that includes either "data" or "science"
 #'   appearing in the tweets. At this time, Twitter's users/search API
 #'   does not allow complex searches or queries targeting exact
-#'   phrases as is allowed by \code{search_tweets}.
+#'   phrases as is allowed by `search_tweets`.
 #' @param n Numeric, specifying the total number of desired users to
 #'   return. Defaults to 100. Maximum number of users returned from a
 #'   single search is 1,000.
 #' @param verbose Logical, indicating whether or not to output
 #'   processing/retrieval messages.
-#' @seealso \url{https://dev.twitter.com/overview/documentation}
+#' @seealso <https://dev.twitter.com/overview/documentation>
 #' @examples
 #'
 #' \dontrun{

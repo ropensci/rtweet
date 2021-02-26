@@ -2,8 +2,8 @@
 #' Extracts users data from tweets data object.
 #'
 #' @param tweets Parsed data object of tweets data as returned via
-#'   \code{\link{get_timeline}}, \code{\link{search_tweets}},
-#'   \code{\link{stream_tweets}}, etc..
+#'   [get_timeline()], [search_tweets()],
+#'   [stream_tweets()], etc..
 #'
 #' @examples
 #'
@@ -40,7 +40,7 @@ users_data <- function(tweets) {
 #' Extracts tweets data from users data object.
 #'
 #' @param users Parsed data object of users data as returned via
-#'   \code{\link{search_users}}, \code{\link{lookup_users}}, etc.
+#'   [search_users()], [lookup_users()], etc.
 #'
 #' @examples
 #' \dontrun{

@@ -60,7 +60,7 @@ lookup_collections <- function(id, n = 200,
 #' @param n Maximum number of results to return. Defaults to 200.
 #' @param cursor Page identifier of results to retrieve. If parse = TRUE,
 #'   the next cursor value for any given request--if available--is stored
-#'   as an attribute, accessible via \code{\link{next_cursor}}
+#'   as an attribute, accessible via [next_cursor()]
 #' @inheritParams lookup_users
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.

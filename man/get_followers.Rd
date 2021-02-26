@@ -35,16 +35,15 @@ cursor value can be extracted from the return object by using the
 \code{next_cursor} function.}
 
 \item{retryonratelimit}{If you'd like to retrieve more than 75,000
-followers in a single call, then set \code{retryonratelimit =
-TRUE} and this function will use base \code{Sys.sleep} until rate
+followers in a single call, then set \code{retryonratelimit = TRUE} and this function will use base \code{Sys.sleep} until rate
 limits reset and the desired n is achieved or the number of total
 followers is exhausted. This defaults to FALSE. See details for
 more info regarding possible issues with timing misfires.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame. 
-This protects you from the vagaries of the twitter API. Use \code{FALSE} 
-to return the "raw" list produced by the JSON returned from the twitter 
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{verbose}{Logical indicating whether or not to print messages.
@@ -52,8 +51,8 @@ Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
 prints sleep times and followers gathered counts.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link{get_token}()}. You should only need to 
-use this argument if you are wrapping rtweet in a package. 
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 }
@@ -67,22 +66,22 @@ rate limit maximum), set "retryonratelimit" to TRUE.
 }
 \details{
 When \code{retryonratelimit = TRUE} this function
-  internally makes a rate limit API call to get information on (a)
-  the number of requests remaining and (b) the amount of time until
-  the rate limit resets. So, in theory, the sleep call should only
-  be called once between waves of data collection. However, as a
-  fail safe, if a system's time is calibrated such that it expires
-  before the rate limit reset, or if, in another session, the user
-  dips into the rate limit, then this function will wait (use
-  Sys.sleep for a second time) until the next rate limit
-  reset. Users should monitor and test this before making
-  especially large calls as any systematic issues could create
-  sizable inefficiencies.
+internally makes a rate limit API call to get information on (a)
+the number of requests remaining and (b) the amount of time until
+the rate limit resets. So, in theory, the sleep call should only
+be called once between waves of data collection. However, as a
+fail safe, if a system's time is calibrated such that it expires
+before the rate limit reset, or if, in another session, the user
+dips into the rate limit, then this function will wait (use
+Sys.sleep for a second time) until the next rate limit
+reset. Users should monitor and test this before making
+especially large calls as any systematic issues could create
+sizable inefficiencies.
 
-  At this time, results are ordered with the most recent following first —
-  however, this ordering is subject to unannounced change and eventual
-  consistency issues. While this remains true it is possible to iteratively build
-  follower lists for a user over time.
+At this time, results are ordered with the most recent following first —
+however, this ordering is subject to unannounced change and eventual
+consistency issues. While this remains true it is possible to iteratively build
+follower lists for a user over time.
 }
 \examples{
 

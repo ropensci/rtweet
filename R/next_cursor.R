@@ -19,7 +19,7 @@
 #' ##   next batch of ids
 #' sys.Sleep(15 * 60) ## Suspend execution of R expressions for 15 mins
 #'
-#' ## Use the page value returned from \code{next_cursor} to continue
+#' ## Use the page value returned from `next_cursor` to continue
 #' ##   where you left off.
 #' f2 <- get_followers("potus", n = 75000, page = page)
 #'
@@ -35,7 +35,7 @@
 #'   the next page of results. This should be used to resume data
 #'   collection efforts that were interrupted by API rate limits.
 #'   Modify previous data request function by entering the returned
-#'   value from \code{next_cursor} for the \code{page} argument.
+#'   value from `next_cursor` for the `page` argument.
 #' @family ids
 #' @family extractors
 #' @rdname next_cursor

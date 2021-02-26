@@ -21,7 +21,7 @@ names of data returned by most status-oriented rtweet functions).}
 }
 \value{
 Returns updated data object with full information latitude
-  and longitude vars.
+and longitude vars.
 }
 \description{
 Appends parsed Twitter data with latitude and longitude variables
@@ -29,12 +29,12 @@ using all available geolocation information.
 }
 \details{
 On occasion values may appear to be outliers given a
-  previously used query filter (e.g., when searching for tweets
-  sent from the continental US).  This is typically because those
-  tweets returned a large bounding box that overlapped with the
-  area of interest. This function converts boxes into their
-  geographical midpoints, which works well in the vast majority of
-  cases, but sometimes includes an otherwise puzzling result.
+previously used query filter (e.g., when searching for tweets
+sent from the continental US).  This is typically because those
+tweets returned a large bounding box that overlapped with the
+area of interest. This function converts boxes into their
+geographical midpoints, which works well in the vast majority of
+cases, but sometimes includes an otherwise puzzling result.
 }
 \examples{
 

@@ -8,7 +8,7 @@ parse_stream(path, ...)
 }
 \arguments{
 \item{path}{Character, name of JSON file with data collected by
-\code{\link{stream_tweets}}.}
+\code{\link[=stream_tweets]{stream_tweets()}}.}
 
 \item{...}{Other arguments passed on to internal data_from_stream
 function.}

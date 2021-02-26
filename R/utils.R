@@ -8,7 +8,7 @@
 #' @description Base function responsible for formulating GET and
 #'   POST requests to Twitter API's.
 #'
-#' @param get Logical with the default, \code{get = TRUE},
+#' @param get Logical with the default, `get = TRUE`,
 #'   indicating whether the provided url should be passed along via
 #'   a GET or POST request.
 #' @param url Character vector designed to operate like
@@ -17,14 +17,14 @@
 #'   the call-specific functions as they are designed to simplify
 #'   the process. However, if one were interested in reverse-
 #'   engingeering such a thing, I would recommend checking out
-#'   \code{make_url}.
+#'   `make_url`.
 #' @param \dots Further named parameters, such as config, token,
 #'   etc, passed on to modify_url in the httr package.
 #' @note Occasionally Twitter does recommend using POST requests
 #'   for data retrieval calls. This is usually the case when requests
 #'   can involve long strings (containing up to 100 user_ids). For
 #'   the most part, or at least for any function-specific requests
-#'   (e.g., \code{get_friends}, take reflect these changes.
+#'   (e.g., `get_friends`, take reflect these changes.
 #' @return json response object
 #' @importFrom httr GET POST timeout write_disk progress
 #' @keywords internal
@@ -37,9 +37,67 @@ TWIT <- function(get = TRUE, url, ...) {
   }
 }
 
+TWIT_get <- function(token, api, params = NULL, parse = TRUE, host = "api.twitter.com") {
+  resp <- TWIT_method("GET", 
+    token = token, 
+    api = api,
+    params = params,
+    host = host
+  )
+  
+  if (parse) {
+    from_js(resp)
+  } else {
+    resp
+  }
+}
+
+TWIT_post <- function(token, api, params = NULL, host = "api.twitter.com") {
+  TWIT_method("POST", 
+    token = token, 
+    api = api,
+    params = params,
+    host = host
+  )
+}
+
+TWIT_method <- function(method, token, api, 
+                        params = NULL, 
+                        host = "api.twiter.com") {
+  # need scipen to ensure large IDs are not displayed in scientific notation
+  # need ut8-encoding for the comma separated IDs
+  withr::local_options(scipen = 14, encoding = "UTF-8")
+
+  token <- check_token(token)
+  url <- paste0("https://", host, "/1.1/", api, ".json")
+  
+  resp <- switch(method,
+    GET = httr::GET(url, query = params, token),
+    POST = httr::POST(url, body = params, token),
+    stop("Unsupported method", call. = FALSE)
+  )
+  check_status(resp)
+  resp
+}
+
+# https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
+check_status <- function(x) {
+  if (x$status_code == 200L) {
+    return()
+  }
+
+  parsed <- from_js(x)
+  
+  stop(
+    "Twitter API failed [", x$status_code, "]\n",
+    paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
+    call. = FALSE
+  )
+}
+
 #' make_url
 #'
-#' @param restapi logical Default \code{restapi = TRUE}
+#' @param restapi logical Default `restapi = TRUE`
 #'   indicates the provided URL components should be
 #'   specify Twitter's REST API. Set this to FALSE if you wish
 #'   to make a request URL designed for Twitter's streaming api.

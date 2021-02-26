@@ -8,7 +8,7 @@
 #'   should be provided as WOEID value consisting of 2 numeric values
 #'   or via one latitude value and one longitude value (to the
 #'   appropriately named parameters).  To browse all available trend
-#'   places, see \code{\link{trends_available}}
+#'   places, see [trends_available()]
 #' @param lat Optional alternative to WOEID. Numeric, latitude in
 #'   degrees.  If two coordinates are provided for WOEID, this
 #'   function will coerce the first value to latitude.
@@ -59,27 +59,7 @@ get_trends <- function(woeid = 1,
                        exclude_hashtags = FALSE,
                        token = NULL,
                        parse = TRUE) {
-  args <- list(
-    woeid = woeid,
-    lat = lat,
-    lng = lng,
-    exclude = exclude_hashtags,
-    token = token,
-    parse = parse)
-  do.call("get_trends_", args)
-}
-
-is_latlng <- function(x) {
-  if (!is.numeric(x) || length(x) != 2L) return(FALSE)
-  x[1] <= 90 && x[1] >= -90 && x[2] <= 180 && x[2] >= -180
-}
-
-get_trends_ <- function(woeid = 1,
-                        lat = NULL,
-                        lng = NULL,
-                        exclude = FALSE,
-                        token = NULL,
-                        parse = TRUE) {
+  
   if (inherits(woeid, "coords")) {
     lat <- woeid$point[1]
     lng <- woeid$point[2]
@@ -87,6 +67,7 @@ get_trends_ <- function(woeid = 1,
     lat <- woeid[1]
     lng <- woeid[2]
   }
+  
   if (!is.null(lat) && !is.null(lng)) {
     stopifnot(maybe_n(lat), maybe_n(lng))
     woeid <- trends_closest(lat, lng, token = token)
@@ -105,21 +86,13 @@ get_trends_ <- function(woeid = 1,
     }
     woeid <- check_woeid(woeid)
   }
-  query <- "trends/place"
-  token <- check_token(token)
-  if (exclude) {
-    exclude <- "hashtags"
-  } else {
-    exclude <- NULL
-  }
+  
   params <- list(
     id = woeid,
-    exclude = exclude)
-  url <- make_url(
-    query = query,
-    param = params)
-  gt <- TWIT(get = TRUE, url, token)
-  gt <- from_js(gt)
+    exclude = if (exclude_hashtags) "hashtags"
+  )
+  
+  gt <- TWIT_get(token, "trends/place", params, parse = parse)
   if (parse) {
     gt <- parse_trends(gt)
   }
@@ -127,13 +100,14 @@ get_trends_ <- function(woeid = 1,
 }
 
 
+is_latlng <- function(x) {
+  if (!is.numeric(x) || length(x) != 2L) return(FALSE)
+  x[1] <= 90 && x[1] >= -90 && x[2] <= 180 && x[2] >= -180
+}
+
 trends_closest <- function(lat, long, token = NULL) {
-  query <- "trends/closest"
-  token <- check_token(token)
-  url <- make_url(query = query,
-                  param = list(lat = lat, long = long))
-  trd <- TWIT(get = TRUE, url, token)
-  from_js(trd)
+  params <- list(lat = lat, long = long)
+  TWIT_get(token, "trends/closest", params)
 }
 
 parse_trends <- function(x) {
@@ -185,13 +159,10 @@ format_trend_date <- function(x) {
 #' @family trends
 #' @export
 trends_available <- function(token = NULL, parse = TRUE) {
-  query <- "trends/available"
-  token <- check_token(token)
-  url <- make_url(query = query,
-                  param = NULL)
-  trd <- TWIT(get = TRUE, url, token)
-  trd <- from_js(trd)
-  if (parse) trd <- parse_trends_available(trd)
+  trd <- TWIT_get(token, "trends/available", parse = parse)
+  if (parse) {
+    trd <- parse_trends_available(trd)
+  }
   trd
 }
 

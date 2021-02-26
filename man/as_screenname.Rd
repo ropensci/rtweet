@@ -17,18 +17,15 @@ identifiers (i.e., screen names or user IDs).}
 A vector of class screen_name or class user_id
 }
 \description{
-Coerces user identifier(s) to be evaluated as a screen name(s).
-}
-\details{
 Default rtweet function behaviors will treat "1234" as a
-  user ID, but the inverse (i.e., treating "2973406683" as a screen
-  name) should rarely be an issue. However, in those cases, users
-  may need to mix both screen names and user IDs. To do so, make
-  sure to combine them as a list (and not a character vector, which
-  will override conflicting user identifier classes). See examples
-  code for example of mixing user IDs with screen names. Note: this
-  only works with certain functions, e.g., get_friends,
-  get_followers.
+user ID, but the inverse (i.e., treating "2973406683" as a screen
+name) should rarely be an issue. However, in those cases, users
+may need to mix both screen names and user IDs. To do so, make
+sure to combine them as a list (and not a character vector, which
+will override conflicting user identifier classes). See examples
+code for example of mixing user IDs with screen names. Note: this
+only works with certain functions, e.g., get_friends,
+get_followers.
 }
 \examples{
 \dontrun{

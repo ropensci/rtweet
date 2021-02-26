@@ -11,43 +11,43 @@
 #'   exceed maximum of 500 characters. Spaces behave like boolean
 #'   "AND" operator. To search for tweets containing at least one of
 #'   multiple possible terms, separate each search term with spaces
-#'   and "OR" (in caps). For example, the search \code{q =
-#'   "data science"} looks for tweets containing both "data" and
+#'   and "OR" (in caps). For example, the search `q =
+#'   "data science"` looks for tweets containing both "data" and
 #'   "science" located anywhere in the tweets and in any order.
-#'   When "OR" is entered between search terms, \code{query =
-#'   "data OR science"}, Twitter's REST API should return any tweet
+#'   When "OR" is entered between search terms, `query =
+#'   "data OR science"`, Twitter's REST API should return any tweet
 #'   that contains either "data" or "science." It is also possible to
 #'   search for exact phrases using double quotes. To do this, either
 #'   wrap single quotes around a search query using double quotes,
-#'   e.g., \code{q = '"data science"'} or escape each internal double
-#'   quote with a single backslash, e.g., \code{q =
-#'   "\"data science\""}.
+#'   e.g., `q = '"data science"'` or escape each internal double
+#'   quote with a single backslash, e.g., `q =
+#'   "\"data science\""`.
 #'
 #' Some other useful query tips:
 #'
 #' \itemize{
-#'   \item Exclude retweets via \code{"-filter:retweets"}
-#'   \item Exclude quotes via \code{"-filter:quote"}
-#'   \item Exclude replies via \code{"-filter:replies"}
-#'   \item Filter (return only) verified via \code{"filter:verified"}
-#'   \item Exclude verified via \code{"-filter:verified"}
-#'   \item Get everything (firehose for free) via \code{"-filter:verified OR filter:verified"}
-#'   \item Filter (return only) tweets with links to news articles via \code{"filter:news"}
-#'   \item Filter (return only) tweets with media \code{"filter:media"}
+#'   \item Exclude retweets via `"-filter:retweets"`
+#'   \item Exclude quotes via `"-filter:quote"`
+#'   \item Exclude replies via `"-filter:replies"`
+#'   \item Filter (return only) verified via `"filter:verified"`
+#'   \item Exclude verified via `"-filter:verified"`
+#'   \item Get everything (firehose for free) via `"-filter:verified OR filter:verified"`
+#'   \item Filter (return only) tweets with links to news articles via `"filter:news"`
+#'   \item Filter (return only) tweets with media `"filter:media"`
 #' }
 #'
 #' @param n Integer, specifying the total number of desired tweets to
 #'   return. Defaults to 100. Maximum number of tweets returned from a
 #'   single token is 18,000. To return more than 18,000 tweets, users
-#'   are encouraged to set \code{retryonratelimit} to TRUE. See
+#'   are encouraged to set `retryonratelimit` to TRUE. See
 #'   details for more information.
 #' @param type Character string specifying which type of search
 #'   results to return from Twitter's REST API. The current default is
-#'   \code{type = "recent"}, other valid types include \code{type =
-#'   "mixed"} and \code{type = "popular"}.
+#'   `type = "recent"`, other valid types include `type =
+#'   "mixed"` and `type = "popular"`.
 #' @param geocode Geographical limiter of the template
-#'   "latitude,longitude,radius" e.g., \code{geocode =
-#'   "37.78,-122.40,1mi"}.
+#'   "latitude,longitude,radius" e.g., `geocode =
+#'   "37.78,-122.40,1mi"`.
 #' @param include_rts Logical, indicating whether to include retweets
 #'   in search results. Retweets are classified as any tweet generated
 #'   by Twitter's built-in "retweet" (recycle arrows) function. These
@@ -60,12 +60,12 @@
 #'   interrupted by user time constraints. For searches exceeding
 #'   18,000 tweets, users are encouraged to take advantage of rtweet's
 #'   internal automation procedures for waiting on rate limits by
-#'   setting \code{retryonratelimit} argument to TRUE.  It some cases,
+#'   setting `retryonratelimit` argument to TRUE.  It some cases,
 #'   it is possible that due to processing time and rate limits,
 #'   retrieving several million tweets can take several hours or even
 #'   multiple days. In these cases, it would likely be useful to
-#'   leverage \code{retryonratelimit} for sets of tweets and
-#'   \code{max_id} to allow results to continue where previous efforts
+#'   leverage `retryonratelimit` for sets of tweets and
+#'   `max_id` to allow results to continue where previous efforts
 #'   left off.
 #' @param retryonratelimit Logical indicating whether to wait and
 #'   retry when rate limited. This argument is only relevant if the
@@ -84,16 +84,16 @@
 #'   between searches. It should be noted, however, that these time
 #'   estimates only describe the amount of time between searches and
 #'   not the total time remaining. For large searches conducted with
-#'   \code{retryonratelimit} set to TRUE, the estimated retrieval time
+#'   `retryonratelimit` set to TRUE, the estimated retrieval time
 #'   can be estimated by dividing the number of requested tweets by
 #'   18,000 and then multiplying the quotient by 15 (token reset
 #'   time, in minutes).
 #' @param ... Further arguments passed as query parameters in request
 #'   sent to Twitter's REST API. To return only English language
-#'   tweets, for example, use \code{lang = "en"}. For more options see
+#'   tweets, for example, use `lang = "en"`. For more options see
 #'   Twitter's API documentation.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
+#'   <https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets>
 #' @details Twitter API documentation recommends limiting searches to
 #'   10 keywords and operators. Complex queries may also produce API
 #'   errors preventing recovery of information related to the query.
@@ -110,15 +110,15 @@
 #'   of recent activity (either more tweets, which affect pagination
 #'   in returned results or deletion of tweets). To return more than
 #'   18,000 tweets in a single call, users must set
-#'   \code{retryonratelimit} argument to true. This method relies on
-#'   updating the \code{max_id} parameter and waiting for token rate
+#'   `retryonratelimit` argument to true. This method relies on
+#'   updating the `max_id` parameter and waiting for token rate
 #'   limits to refresh between searches. As a result, it is possible
 #'   to search for 50,000, 100,000, or even 10,000,000 tweets, but
 #'   these searches can take hours or even days. At these durations,
 #'   it would not be uncommon for connections to timeout. Users are
 #'   instead encouraged to breakup data retrieval into smaller chunks
-#'   by leveraging \code{retryonratelimit} and then using the
-#'   status_id of the oldest tweet as the \code{max_id} to resume
+#'   by leveraging `retryonratelimit` and then using the
+#'   status_id of the oldest tweet as the `max_id` to resume
 #'   searching where the previous efforts left off.
 #'
 #' @examples
