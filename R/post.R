@@ -826,8 +826,8 @@ post_list_destroy_all <- function(users,
 #'   "CNNNSdigital", "CNNTonight")
 #'
 #' ## create CNN-accounts list with 9 total users
-#' (cnn_lst <- post_list(users,
-#'   "cnn-accounts", description = "Official CNN accounts"))
+#' cnn_lst <- post_list(users,
+#'   "cnn-accounts", description = "Official CNN accounts")
 #'
 #' ## search for more CNN users
 #' cnn_users <- search_users("CNN", n = 200)
