@@ -70,30 +70,17 @@ lists_statuses_ <- function(list_id = NULL,
                             n = 200,
                             include_rts = TRUE,
                             token = NULL) {
-  query <- "lists/statuses"
-  if (is.null(list_id) && !is.null(slug) && !is.null(owner_user)) {
-    params <- list(
-      slug = slug,
-      owner_user = owner_user,
-      since_id = since_id,
-      max_id = max_id,
-      count = n,
-      include_rts = include_rts,
-      tweet_mode = "extended"
-    )
-    names(params)[2] <- paste0("owner_", .id_type(owner_user))
-  } else {
-    params <- list(
-      list_id = list_id,
-      since_id = since_id,
-      max_id = max_id,
-      count = n,
-      include_rts = include_rts,
-      tweet_mode = "extended"
-    )
-  }
-  token <- check_token(token)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  from_js(r)
+
+  params <- lists_params(
+    list_id = list_id,
+    slug = slug,
+    owner_user = owner_user,
+    since_id = since_id,
+    max_id = max_id,
+    count = n,
+    include_rts = include_rts,
+    tweet_mode = "extended"
+  )
+
+  TWIT_get(token, "lists/statuses", params)
 }

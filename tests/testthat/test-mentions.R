@@ -4,8 +4,7 @@ test_that("mentions returns tweets data", {
 
   x <- get_mentions()
 
-  expect_equal(is.data.frame(x), TRUE)
-  expect_named(x)
+  expect_s3_class(x, "data.frame")
   expect_true("status_id" %in% names(x))
   expect_gt(nrow(x), 2)
   expect_gt(ncol(x), 2)
