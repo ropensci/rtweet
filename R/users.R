@@ -93,31 +93,6 @@ check_for_errors <- function(x) {
   x
 }
 
-
-has_read_access <- function(x) {
-  al <- get_access_level(x)
-  identical(al, "read")
-}
-
-
-get_access_level <- function(token) {
-  if ("access_level" %in% names(attributes(token))) {
-    return(attr(token, "access_level"))
-  }
-  r <- httr::GET(
-    "https://api.twitter.com/1.1/account/verify_credentials.json",
-    token)
-  headers <- r$all_headers[[1]]$headers
-  if (has_name_(headers, "x-access-level")) {
-    access_level <- headers$`x-access-level`
-  } else {
-    access_level <- ""
-  }
-  attr(token, "access_level") <- access_level
-  access_level
-}
-
-
 .user_lookup <- function(users, token = NULL) {
   ## gotta have ut8-encoding for the comma separated IDs
   ## set scipen to ensure IDs are not rounded
@@ -146,6 +121,6 @@ get_access_level <- function(token) {
 }
 
 has_write_access <- function(x) {
-  al <- get_access_level(x)
+  al <- api_access_level(x)
   length(al) == 1 && grepl("write", al)
 }
