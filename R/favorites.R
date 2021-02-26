@@ -61,9 +61,7 @@ get_favorites_user <- function(user,
                            parse = TRUE,
                            token = NULL) {
 
-  page_size <- 200
   params <- list(
-    count = page_size,
     tweet_mode = "extended",
     include_ext_alt_text = "true",
     max_id = max_id,
@@ -71,14 +69,37 @@ get_favorites_user <- function(user,
   )
   params[[.id_type(user)]] <- user
   
+  results <- TWIT_paginate_max_id(token, "favorites/list", params,
+    get_max_id = function(x) x$id_str,
+    page_size = 200,
+    n = n,
+    parse = parse
+  )
+
+  if (parse) {
+    results <- tweets_with_users(results)
+    results$favorited_by <- user
+  }
+  
+  results
+}
+
+TWIT_paginate_max_id <- function(token, query, params, 
+                                 get_max_id, 
+                                 n = 1000, 
+                                 page_size = 200, 
+                                 parse = TRUE) {
+  
+  params$count <- page_size  
   pages <- ceiling(n / page_size)
   results <- vector("list", pages)
+  
   for (i in seq_len(pages)) {
     if (i == pages) {
        params$count <- n - (pages - 1) * page_size
     }
     
-    resp <- TWIT_get(token, "favorites/list", params, parse = FALSE)
+    resp <- TWIT_get(token, query, params, parse = FALSE)
     json <- from_js(resp)
     results[[i]] <- if (parse) json else resp
     
@@ -86,13 +107,8 @@ get_favorites_user <- function(user,
       # no more tweets to return
       break
     }
-    params$max_id <- id_minus_one(last(json$id_str))
+    params$max_id <- id_minus_one(last(get_max_id(json)))
   }
-  
-  if (parse) {
-    results <- tweets_with_users(results)
-    results$favorited_by <- user
-  }
-  
+
   results
 }
