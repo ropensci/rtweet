@@ -101,21 +101,12 @@ TWIT_paginate_cursor <- function(token, query, params, n = 5000, page_size = 500
 # helpers -----------------------------------------------------------------
 
 #' @importFrom jsonlite fromJSON
-from_js <- function(rsp) {
-  stopifnot(is_response(rsp))
-  if (!is_json(rsp)) {
+from_js <- function(resp) {
+  if (!grepl("application/json", resp$headers[["content-type"]])) {
     stop("API did not return json", call. = FALSE)
   }
-  rsp <- httr::content(rsp, as = "text", encoding = "UTF-8")
-  jsonlite::fromJSON(rsp)
-}
-
-is_response <- function(x) {
-  inherits(x, "response")
-}
-
-is_json <- function(x) {
-  grepl("application/json", x$headers[["content-type"]])
+  resp <- httr::content(resp, as = "text", encoding = "UTF-8")
+  jsonlite::fromJSON(resp)
 }
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
