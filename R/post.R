@@ -81,7 +81,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## if delete
   if (!is.null(destroy_id)) {
-    lifecycle::deprecate_warn("1.0.0", "post_tweet(destroy_id)", "post_destroy()")
+    deprecate_warn("1.0.0", "post_tweet(destroy_id)", "post_destroy()")
     return(post_destroy(destroy_id))
   }
 
@@ -199,7 +199,7 @@ upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
   media2upload <- httr::upload_file(media)
   token <- check_token(token)
   
-  mediatype <- tools::file_ext(media)
+  mediatype <- file_ext(media)
   
   rurl <- "https://upload.twitter.com/1.1/media/upload.json"
   filesize <- file.size(media)
@@ -287,7 +287,6 @@ check_chunked_media_status = function(finalize_data, token, rurl) {
 }
 
 
-#' @importFrom tools file_ext
 check_media <- function(media, alt_text) {
   media_type <- file_ext(media)
   if (length(media) > 4) {
