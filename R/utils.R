@@ -567,3 +567,10 @@ is_installed <- function(pkg, warn = NULL, stop = NULL) {
 r_t_c <- function(x) {
   httpuv::rawToBase64(x)
 }
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")  
+}
+is_dev_mode <- function() {
+  exists(".__DEVTOOLS__", .getNamespace("rtweet"))
+}
