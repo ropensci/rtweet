@@ -37,8 +37,7 @@ use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
-\item{verbose}{Logical, indicating whether or not to output
-processing/retrieval messages.}
+\item{verbose}{If \code{TRUE}, will display a progress bar while downloading.}
 }
 \value{
 Data frame of users returned by query.
