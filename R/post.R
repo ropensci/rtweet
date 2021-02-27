@@ -215,7 +215,7 @@ upload_media_to_twitter <- function(media,
   )
   file_size <- file.size(media)
   
-  if (file_size <= chunk_size) {
+  if (file_size <= chunk_size && media_type != "video/mp4") {
     resp <- TWIT_upload(token, "media/upload", list(
       media = httr::upload_file(media)
     ))

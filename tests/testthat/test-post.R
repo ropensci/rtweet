@@ -1,38 +1,43 @@
 test_that("upload_media_to_twitter() can handle small file", {
   skip_on_cran()
-  
-  id <- upload_media_to_twitter(test_path("tweet.gif"))
+
+  # gif
+  path <- test_path("tweet.gif")
+  fs <- file.size(path)
+
+  ## test-unchunked
+  id <- upload_media_to_twitter(path, chunk_size = fs + 3)
   expect_type(id, "character")
   # doesn't appear to be any way to get info about a media object
   # after it's been uploaded
-  
-  id <- upload_media_to_twitter(test_path("tweet.gif"), chunk_size = 1024)
+
+  ## test-chunked
+  id <- upload_media_to_twitter(path, chunk_size = fs - 3)
   expect_type(id, "character")
-  
+
   # png
   path <- test_path("tweet.gif")
   fs <- file.size(path)
-  
-  # test-unchunked
-  id <- upload_media_to_twitter(path, chunk_size = fs+3)
+
+  ## test-unchunked
+  id <- upload_media_to_twitter(path, chunk_size = fs + 3)
   expect_type(id, "character")
-  
-  # test-chunked
-  id <- upload_media_to_twitter(path, chunk_size = fs-3)
+
+  ## test-chunked
+  id <- upload_media_to_twitter(path, chunk_size = fs - 3)
   expect_type(id, "character")
-  
+
   # mp4
   path <- test_path("tweet.mp4")
   fs <- file.size(path)
-  
-  # test-unchunked
-  id <- upload_media_to_twitter(path, chunk_size = fs+3)
+
+  ## test-unchunked
+  id <- upload_media_to_twitter(path, chunk_size = fs + 3)
   expect_type(id, "character")
-  
-  # test-chunked
-  id <- upload_media_to_twitter(path, chunk_size = fs-3)
+
+  ## test-chunked
+  id <- upload_media_to_twitter(path, chunk_size = fs - 3)
   expect_type(id, "character")
-  
 })
 
 
