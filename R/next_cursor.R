@@ -43,7 +43,7 @@
 next_cursor <- function(x) UseMethod("next_cursor")
 
 #' @export
-next_cursor.default <- function(x) return_last(x)
+next_cursor.default <- function(x) last(x)
 
 #' @export
 next_cursor.numeric <- function(x) {
@@ -56,7 +56,7 @@ next_cursor.numeric <- function(x) {
 
 #' @export
 next_cursor.character <- function(x) {
-  return_last(x)
+  last(x)
 }
 
 #' @export
@@ -78,7 +78,7 @@ next_cursor.list <- function(x) {
   }
   x <- lapply(x, function(x) x[[grep("id$", names(x))[1]]])
   x <- unlist(lapply(x, next_cursor))
-  return_last(x)
+  last(x)
 }
 
 #' @export
@@ -126,7 +126,7 @@ is_emptylist <- function(x) {
 previous_cursor <- function(x) UseMethod("previous_cursor")
 
 #' @export
-previous_cursor.default <- function(x) return_last(x)
+previous_cursor.default <- function(x) last(x)
 
 #' @export
 previous_cursor.numeric <- function(x) {
@@ -139,7 +139,7 @@ previous_cursor.numeric <- function(x) {
 
 #' @export
 previous_cursor.character <- function(x) {
-  return_last(x)
+  last(x)
 }
 
 #' @export
@@ -161,7 +161,7 @@ previous_cursor.list <- function(x) {
   }
   x <- lapply(x, function(x) x[[grep("id$", names(x))[1]]])
   x <- unlist(lapply(x, previous_cursor))
-  return_last(x)
+  last(x)
 }
 
 #' @export

@@ -94,14 +94,6 @@ go_get_var <- function(x, ..., expect_n = NULL) {
   x
 }
 
-all_uq_names <- function(x) {
-  unique(unlist(lapply(x, names)))
-}
-
-return_last <- function(x, n = 1) {
-  x[length(x) - seq_len(n) + 1]
-}
-
 last <- function(x) {
   x[[length(x)]]
 }
@@ -135,33 +127,6 @@ maybe_n <- function(x) {
     x <- suppressWarnings(as.numeric(x))
   }
   length(x) == 1L && is.numeric(x) && !is.na(x)
-}
-
-is_url <- function(url) {
-  url_names <- c("scheme", "hostname",
-    "port", "path", "query")
-  if (all(length(url) > 1, is.list(url),
-    url_names %in% names(url))) {
-    return(TRUE)
-  } else {
-    return(FALSE)
-  }
-}
-
-
-##----------------------------------------------------------------------------##
-##                                  wranglers                                 ##
-##----------------------------------------------------------------------------##
-
-
-
-
-na_omit <- function(x) {
-  if (is.atomic(x)) {
-    x[!is.na(x)]
-  } else {
-    x[!vapply(x, function(x) isTRUE(is.na(x)), FUN.VALUE = logical(1))]
-  }
 }
 
 
@@ -230,12 +195,6 @@ is_installed <- function(pkg, warn = NULL, stop = NULL) {
     stop(stop, call. = FALSE)
   }
   invisible(FALSE)
-}
-
-
-
-r_t_c <- function(x) {
-  httpuv::rawToBase64(x)
 }
 
 is_testing <- function() {
