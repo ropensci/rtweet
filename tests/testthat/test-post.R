@@ -16,7 +16,7 @@ test_that("upload_media_to_twitter() can handle small file", {
   expect_type(id, "character")
 
   # png
-  path <- test_path("tweet.gif")
+  path <- test_path("tweet.png")
   fs <- file.size(path)
 
   ## test-unchunked
