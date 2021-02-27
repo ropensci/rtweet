@@ -32,8 +32,6 @@ Method for returning next value (used to request next page or results)
 object returned from Twitter APIs.
 
 Paginate in reverse (limited integration)
-
-Get the newest ID collected to date.
 }
 \examples{
 \dontrun{

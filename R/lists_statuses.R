@@ -38,39 +38,7 @@ lists_statuses <- function(list_id = NULL,
   if (n > 200) {
     n <- 200
   }
-  for (i in seq_along(out)) {
-    out[[i]] <- tryCatch(lists_statuses_(
-      list_id = list_id,
-      slug = slug,
-      owner_user = owner_user,
-      since_id = since_id,
-      max_id = max_id,
-      n = n,
-      include_rts = include_rts,
-      token = token
-    ), error = function(e) return(NULL))
-    if (is.null(out[[i]])) break
-    maxid <- max_id(out[[i]])
-    if (is.null(maxid) || length(maxid) == 0L) break
-    if (identical(maxid, max_id)) break
-    max_id <- maxid
-  }
-  out <- out[!vapply(out, is.null, logical(1))]
-  if (parse) {
-    out <- tweets_with_users(out)
-  }
-  out
-}
-
-lists_statuses_ <- function(list_id = NULL,
-                            slug = NULL,
-                            owner_user = NULL,
-                            since_id = NULL,
-                            max_id = NULL,
-                            n = 200,
-                            include_rts = TRUE,
-                            token = NULL) {
-
+  
   params <- lists_params(
     list_id = list_id,
     slug = slug,
@@ -82,5 +50,15 @@ lists_statuses_ <- function(list_id = NULL,
     tweet_mode = "extended"
   )
 
-  TWIT_get(token, "lists/statuses", params)
+  results <- TWIT_paginate_max_id(token, "lists/statuses", params,
+    get_max_id = function(x) x$id_str,
+    page_size = 200,
+    n = n,
+    parse = parse
+  )
+  
+  if (parse) {
+    results <- tweets_with_users(results)
+  }
+  results
 }

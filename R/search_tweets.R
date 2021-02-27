@@ -178,7 +178,7 @@
 #' @family tweets
 #' @export
 search_tweets <- function(q, n = 100,
-                          type = "recent",
+                          type = c("mixed", "recent", "popular"),
                           include_rts = TRUE,
                           geocode = NULL,
                           max_id = NULL,
@@ -187,247 +187,68 @@ search_tweets <- function(q, n = 100,
                           retryonratelimit = FALSE,
                           verbose = TRUE,
                           ...) {
-  if (missing(q) && !is.null(geocode)) {
-    q <- ""
-  }
-  args <- list(
-    q = q,
+  
+  params <- search_params(q, 
     n = n,
     type = type,
     include_rts = include_rts,
     geocode = geocode,
     max_id = max_id,
-    parse = parse,
-    token = token,
-    retryonratelimit = retryonratelimit,
-    verbose = verbose,
     ...
   )
-  do.call("search_tweets_", args)
+  
+  result <- TWIT_paginate_max_id(token, "search/tweets", params,
+    get_max_id = function(x) x$statuses$id_str,
+    n = n,
+    page_size = 100,
+    parse = parse
+  )
+
+  if (parse) {
+    result <- tweets_with_users(result)
+  }
+  result
 }
 
-
-search_tweets_ <- function(q = "",
-                           n = 100,
-                           type = "recent",
-                           max_id = NULL,
-                           geocode = NULL,
-                           include_rts = TRUE,
-                           parse = TRUE,
-                           token = NULL,
-                           retryonratelimit = FALSE,
-                           verbose = TRUE,
-                           ...) {
-
-  ## check token and get rate limit data
-  token <- check_token(token)
-
-  if (!retryonratelimit) {
-    rt <- .search_tweets(
-      q = q, n = n,
-      type = type,
-      geocode = geocode,
-      max_id = max_id,
-      include_rts = include_rts,
-      parse = parse,
-      token = token,
-      verbose = verbose,
-      ...)
-  } else {
-    rtlimit <- rate_limit(token, "search/tweets")
-    remaining <- rtlimit[["remaining"]] * 100
-    reset <- rtlimit[["reset"]]
-    reset <- as.numeric(reset, "secs")
-
-    if (identical(remaining, 0)) {
-      ntimes <- ceiling((n - remaining) / 18000)
-    } else {
-      ntimes <- ceiling((n - remaining) / 18000) + 1
-    }
-    rt <- vector("list", ntimes)
-    maxid <- max_id
-    for (i in seq_len(ntimes)) {
-      ## if rate limited (exhausted token)
-      if (any(identical(remaining, 0), isTRUE(remaining < 10))) {
-        message(paste0(
-          "retry on rate limit...\n",
-          "waiting about ",
-          round(reset / 60, 0),
-          " minutes..."))
-        Sys.sleep(reset + 2)
-        remaining <- 180 * 100
-      }
-      rt[[i]] <- tryCatch(
-        .search_tweets(
-          q = q, n = remaining,
-          check = FALSE,
-          type = type,
-          geocode = geocode,
-          max_id = maxid,
-          include_rts = include_rts,
-          parse = parse,
-          token = token,
-          verbose = verbose,
-          ...),
-        error = function(e) return(NULL))
-      ## break if error
-      if (is.null(rt[[i]])) break
-      ## break if final i
-      if (i == ntimes) break
-      if (parse) {
-        ## get next maxid
-        maxid.new <- rt[[i]][["status_id"]][[NROW(rt[[i]])]]
-      } else {
-        maxid.new <- return_last(unlist(go_get_var(rt[[1]], "statuses", "id")))
-      }
-      ## break if new maxid is null, empty, or unchanged
-      if (any(is.null(maxid.new),
-        identical(length(maxid.new), 0L),
-        identical(maxid, maxid.new))) break
-      ## update maxid value
-      maxid <- maxid.new
-      ## refresh rate limit data
-      rtlimit <- rate_limit(token, "search/tweets")
-      remaining <- rtlimit[["remaining"]] * 100
-      reset <- rtlimit[["reset"]]
-      reset <- as.numeric(reset, "secs")
-    }
-    ## get users data if applicable
-    users <- do.call("rbind", lapply(rt, users_data))
-    rt <- do.call("rbind", rt)
-    attr(rt, "users") <- users
+search_params <- function(q, n, 
+                          type = c("mixed", "recent", "popular"),
+                          include_rts = TRUE,
+                          geocode = NULL,
+                          max_id = NULL,
+                          ...) {
+  if (missing(q) && !is.null(geocode)) {
+    q <- ""
   }
-  rt
-}
-
-
-.search_tweets <- function(q,
-                           n = 100,
-                           check = FALSE,
-                           geocode = NULL,
-                           type = "recent",
-                           max_id = NULL,
-                           include_rts = TRUE,
-                           parse = TRUE,
-                           token = NULL,
-                           verbose = TRUE,
-                           ...) {
-  ## gotta have ut8-encoding for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
-
-  ## path name
-  query <- "search/tweets"
-  safedir <- NULL
-  if ("premium" %in% names(list(...)) &&
-      all(c("env_name", "path") %in% names(list(...)$premium))) {
-    premium <- list(...)$premium
-    premium$path <- sub("tweets/search/?|search/tweets/?", "", premium$path)
-    query <- gsub("/+", "/",
-      paste0("tweets/search/", premium$path, "/", premium$env_name))
-    cat(query, "***")
-
-    if ("safedir" %in% names(list(...))) {
-      safedir <- list(...)$safedir
-    }
-  }
-  ## validate
   stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
-  ## number of loops
-  n.times <- ceiling(n / 100)
-  if (n < 100) {
-    count <- n
-  } else {
-    count <- 100
-  }
+  type <- match.arg(type)
+  
   ## validate query length–char count might not always be same here as with 
   ## Twitter, so set this to 600 and let Twitter reject others
   if (nchar(q) > 600) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
-  ## only select one type
-  if (length(type) > 1) {
-    stop("can only select one search type. Try type = 'recent'.",
-         call. = FALSE)
+  if (!include_rts) {
+    q <- paste0(q, " -filter:retweets")
   }
-  if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
-    stop("invalid search type - must be mixed, recent, or popular.",
-         call. = FALSE)
-  }
-  ## if no retweets add filter to query
-  if (!include_rts) q <- paste0(q, " -filter:retweets")
-  ## geocode prep
-  if (!is.null(geocode)) {
 
-    if (inherits(geocode, "coords")) {
-      mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
-      mls2 <- abs(
-        geocode$box[1] - geocode$box[3]) * (69 - abs(.093 * geocode$point[1])^2)
-      mls <- (mls1/1.8 + mls2/1.8) / 1.8
-      mls <- round(mls, 3)
-      geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
-    }
+  if (!is.null(geocode) && inherits(geocode, "coords")) {
+    mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
+    mls2 <- abs(geocode$box[1] - geocode$box[3]) * 
+      (69 - abs(.093 * geocode$point[1])^2)
+    mls <- (mls1/1.8 + mls2/1.8) / 1.8
+    mls <- round(mls, 3)
+    geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
   }
-  ## make params list
-  params <- list(
+  
+  list(
     q = q,
     result_type = type,
-    count = count,
     max_id = max_id,
     tweet_mode = "extended",
     include_ext_alt_text = "true",
     geocode = geocode,
-    ...)
-  if (grepl("fullarchive|30day", query)) {
-    params[["premium"]] <- NULL
-    params$result_type <- NULL
-    if (grepl("full", query)) {
-      params$maxResults <- 500 # The Twitter premium API allows up to 500 tweets per request 
-    } else {
-      params$maxResults <- 100
-    }
-    names(params)[1] <- "query"
-    params$tweet_mode <- NULL
-    params$safedir <- NULL
-    # m <- regexpr("(?<=since:)\\S+", params$q, perl = TRUE)
-    # if (m[1] > 0) {
-    #   params$fromDate <- regmatches(params$q, m)
-    #   params$q <- sub("since:\\S+\\s?", "", params$q)
-    # }
-    # m <- regexpr("(?<=until:)\\S+", params$q, perl = TRUE)
-    # if (m[1] > 0) {
-    #   params$toDate <- regmatches(params$q, m)
-    #   params$q <- sub("until:\\S+\\s?", "", params$q)
-    # }
-    params$count <- NULL
-    type <- "premium"
-    ## make url
-    url <- make_url(
-      query = query,
-      param = params)
-  } else {
-    type <- "search"
-    ## make url
-    url <- make_url(
-      query = query,
-      param = params)
-  }
-
-  #if (verbose) {
-  #  message("Searching for tweets...")
-  #  if (n > 10000) message("This may take a few seconds...")
-  #}
-  tw <- scroller(url, n, n.times, type = type, token, verbose = verbose,
-    safedir = safedir)
-
-  if (parse) {
-    tw <- tweets_with_users(tw)
-  }
-  #if (verbose) {
-  #  message("Finished collecting tweets!")
-  #}
-  tw
+    ...
+  )
 }
 
 

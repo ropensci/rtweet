@@ -8,7 +8,7 @@
 search_tweets(
   q,
   n = 100,
-  type = "recent",
+  type = c("mixed", "recent", "popular"),
   include_rts = TRUE,
   geocode = NULL,
   max_id = NULL,
