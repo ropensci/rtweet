@@ -125,19 +125,3 @@ direct_messages_sent <- function(since_id = NULL,
   stop("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
 }
-
-warn_for_twitter_status <- function(x) {
-  if (x$status_code != 200L) {
-    w <- from_js(x)
-    if (has_name_(w, "errors")) {
-      warning(paste(w$errors, collapse = " - "), call. = FALSE,
-        immediate. = TRUE)
-    } else {
-      warning(paste(w, collapse = " - "), call. = FALSE,
-        immediate. = TRUE)
-    }
-    invisible(FALSE)
-  } else {
-    invisible(TRUE)
-  }
-}

@@ -80,19 +80,6 @@ lookup_users_ <- function(users,
   usr
 }
 
-
-check_for_errors <- function(x) {
-  if (identical(c("code", "message"), names(x))) {
-    message("Error code: ", x$code)
-    message(x$message)
-    return(tibble::as_tibble())
-  } else if (is.character(x)) {
-    message(x)
-    return(tibble::as_tibble())
-  }
-  x
-}
-
 .user_lookup <- function(users, token = NULL) {
   ## gotta have ut8-encoding for the comma separated IDs
   ## set scipen to ensure IDs are not rounded

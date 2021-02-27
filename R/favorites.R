@@ -83,35 +83,3 @@ get_favorites_user <- function(user,
   
   results
 }
-
-# Different endpoints return the ids in different parts of the response,
-# so `get_max_id()` lets the caller declare where.
-TWIT_paginate_max_id <- function(token, query, params, 
-                                 get_max_id, 
-                                 n = 1000, 
-                                 page_size = 200, 
-                                 parse = TRUE,
-                                 count_param = "count") {
-  
-  params[[count_param]] <- page_size  
-  pages <- ceiling(n / page_size)
-  results <- vector("list", pages)
-  
-  for (i in seq_len(pages)) {
-    if (i == pages) {
-       params[[count_param]] <- n - (pages - 1) * page_size
-    }
-    
-    resp <- TWIT_get(token, query, params, parse = FALSE)
-    json <- from_js(resp)
-    results[[i]] <- if (parse) json else resp
-    
-    if (length(json) == 0) {
-      # no more tweets to return
-      break
-    }
-    params$max_id <- id_minus_one(last(get_max_id(json)))
-  }
-
-  results
-}
