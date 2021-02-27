@@ -96,7 +96,7 @@ next_cursor.response <- function(x) {
 #' @param .x id
 #' @export
 max_id <- function(.x) {
-  stop("max_id() is deprecated; rtweet now handles pagination for you")
+  lifecycle::deprecate_stop("1.0.0", "max_id()")
 }
 
 id_minus_one <- function(x) {
@@ -178,12 +178,8 @@ previous_cursor.response <- function(x) {
 ##                                  SINCE_ID                                  ##
 ##----------------------------------------------------------------------------##
 
-#' since_id
-#'
-#' Get the newest ID collected to date.
-#'
 #' @rdname next_cursor
 #' @export
 since_id <- function(.x) {
-  stop("since_id() is deprecated; rtweet now handles pagination for you")
+  lifecycle::deprecate_stop("1.0.0", "max_id()")
 }

@@ -84,6 +84,8 @@ get_favorites_user <- function(user,
   results
 }
 
+# Different endpoints return the ids in different parts of the response,
+# so `get_max_id()` lets the caller declare where.
 TWIT_paginate_max_id <- function(token, query, params, 
                                  get_max_id, 
                                  n = 1000, 
