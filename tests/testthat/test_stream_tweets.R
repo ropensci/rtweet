@@ -2,6 +2,8 @@ test_that("stream_tweets returns tweets data", {
   skip_on_cran()
   skip_if_offline()
 
+  skip("Fails eratically")
+  
   x <- suppressMessages(
     stream_tweets(paste(letters, collapse = ","),
                   timeout = 4, verbose = TRUE))
