@@ -65,9 +65,7 @@ search_users_call <- function(q, n = 20,
   stopifnot(is_n(n), is.atomic(q))
   token <- check_token(token)
   if (n > 1000) {
-    warning(
-      paste0("search only returns up to 1,000 users per ",
-        "unique search. Setting n to 1000..."))
+    warning("n is set to 1000 instead, which is the maximum")
     n <- 1000
   }
   n.times <- ceiling(n / 20)
