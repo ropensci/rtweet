@@ -50,7 +50,7 @@ lists_members <- function(list_id = NULL,
                           ...) {
   stopifnot(is.numeric(n))
   if (n > 5000) {
-    warning("maximum number of list users it 5,000")
+    warning("n is set to 5000 instead, which is the maximum")
     n <- 5000
   }
   
