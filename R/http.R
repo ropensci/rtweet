@@ -117,7 +117,7 @@ check_status <- function(x) {
   
   parsed <- from_js(x)
   
-  if (is_testing() && identical(x$status_code, 429)) {
+  if (is_testing() && identical(x$status_code, 429L)) {
     testthat::skip("Rate limit exceeded")
   }
   
