@@ -142,9 +142,7 @@ get_favorites_ <- function(user,
                            token = NULL) {
   query <- "favorites/list"
   if (n > 3000) {
-    warning(paste0("n exceeds max favs returned per ",
-      "token. Setting n to 3000..."),
-      call. = FALSE)
+    warning("n is set to 3000 instead, which is the maximum"))
     n <- 3000
     count <- 200
   } else if (n < 200) {
