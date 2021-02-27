@@ -28,10 +28,16 @@ check_token <- function(token = NULL) {
 #' @export
 get_token <- function() {
   if (is.null(.state$token)) {
-    .state$token <- load_cached_token() %||% default_token() %||% no_token()
+    if (is_testing()) {
+      .state$token <- test_token()
+    } else if (is_dev_mode()) {
+      .state$token <- test_token() %||% load_cached_token() %||% default_token() 
+    } else{
+      .state$token <- load_cached_token() %||% default_token()
+    }
   }
 
-  .state$token
+  .state$token %||% no_token()
 }
 
 #' @export
@@ -39,6 +45,24 @@ get_token <- function() {
 get_tokens <- function() {
   # TODO: deprecate this function since there's only ever one token
   get_token()
+}
+
+test_token <- function() {
+  access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
+  access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
+  
+  if (identical(access_token, "") || identical(access_secret, "")) {
+    return()
+  }
+
+  create_token(
+    app = "rtweet_test_ci",
+    consumer_key = "7rX1CfEYOjrtZenmBhjljPzO3",
+    consumer_secret = "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
+    access_token = access_token,
+    access_secret = access_secret,
+    set_renv = FALSE
+  )
 }
 
 load_cached_token <- function() {
@@ -66,23 +90,15 @@ token_cache_path <- function() {
 }
 
 default_token <- function() {
-  access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
-  access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
+  # Requires user interaction
+  if (!interactive()) {
+    return(NULL)
+  }
   
   key <- rawToChar(openssl::rsa_decrypt(sysdat$DYKcJfBkgMnGveI[[2]], sysdat$DYKcJfBkgMnGveI[[1]]))
   secret <- rawToChar(openssl::rsa_decrypt(sysdat$MRsnZtaKXqGYHju[[2]], sysdat$MRsnZtaKXqGYHju[[1]]))
   
-  if (identical(key, "") || identical(access_secret, "")) {
-    # Requires user interaction
-    if (!interactive()) {
-      return(NULL)
-    }
-    
-    create_token("rstats2twitter", key, secret)
-  } else {
-    message("Using auth via TWITTER_ACCESS_TOKEN/TWITTER_ACCESS_SECRET")
-    create_token("rstats2twitter", key, secret, access_token = access_token, access_secret = access_secret)
-  }
+  create_token("rstats2twitter", key, secret)
 }
 
 no_token <- function() {

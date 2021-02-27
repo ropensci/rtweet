@@ -91,6 +91,10 @@ check_status <- function(x) {
   
   parsed <- from_js(x)
   
+  if (is_testing() && identical(x$status_code, 429)) {
+    testthat::skip("Rate limit exceeded")
+  }
+  
   stop(
     "Twitter API failed [", x$status_code, "]\n",
     paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
@@ -388,4 +392,11 @@ is_installed <- function(pkg, warn = NULL, stop = NULL) {
 
 r_t_c <- function(x) {
   httpuv::rawToBase64(x)
+}
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")  
+}
+is_dev_mode <- function() {
+  exists(".__DEVTOOLS__", .getNamespace("rtweet"))
 }
