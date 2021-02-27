@@ -91,6 +91,10 @@ check_status <- function(x) {
   
   parsed <- from_js(x)
   
+  if (is_testing() && identical(x$status_code, 429)) {
+    testthat::skip("Rate limit exceeded")
+  }
+  
   stop(
     "Twitter API failed [", x$status_code, "]\n",
     paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
