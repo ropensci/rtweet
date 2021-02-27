@@ -16,20 +16,16 @@ get_favorites(
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
 
-\item{n}{Specifies the number of records to retrieve. Defaults to
-200. 3000 is the max number of favorites returned per token. Due
-to suspended or deleted content, this function may return fewer
-tweets than the desired (n) number. Must be of length 1 or of
-length equal to the provided number of users.}
+\item{n}{Specifies the number of records to retrieve. Defaults to 200,
+which is the maximum number of records that can be retrieved in a single
+request. Higher numbers will require multiple requests.
 
-\item{since_id}{Returns results with an status_id greater than
-(that is, more recent than) the specified status_id.  There are
-limits to the number of tweets returned by the REST API. If the
-limit is hit, since_id is adjusted (by Twitter) to the oldest ID
-available.}
+\code{n} is applied before removing any tweets that have been suspended or
+deleted.}
 
-\item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to \code{max_id}.}
+\item{since_id, max_id}{Limit tweets to ids in \verb{(since_id, max_id]}.
+If \code{since_id} is smaller than the earliest tweet available to the API,
+it will be forced to the oldest tweet available.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -44,14 +40,13 @@ use this argument if you are wrapping rtweet in a package.
 See \code{vignette("auth")} for more details.}
 }
 \value{
-A tbl data frame of tweets data with users data attribute.
+A tibble with one row for each tweet.
 }
 \description{
 Returns up to 3,000 statuses favorited by each of one or more
 specific Twitter users.
 }
 \examples{
-
 \dontrun{
 
 ## get max number of statuses favorited by KFC
@@ -63,7 +58,6 @@ favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
 favs
 
 }
-
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}

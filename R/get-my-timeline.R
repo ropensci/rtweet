@@ -35,10 +35,8 @@ get_my_timeline <- function(n = 100,
                             token = NULL,
                             ...) {
 
-  user <- home_user()
-
-  args <- list(
-    user = user,
+  get_timeline(
+    user = home_user(),
     n = n,
     home = TRUE,
     max_id = max_id,
@@ -46,5 +44,5 @@ get_my_timeline <- function(n = 100,
     check = check,
     token = token
   )
-  do.call("get_timeline_", args)
+
 }

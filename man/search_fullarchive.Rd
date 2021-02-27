@@ -2,9 +2,21 @@
 % Please edit documentation in R/premium.R
 \name{search_fullarchive}
 \alias{search_fullarchive}
-\title{Search fullarchive (PREMIUM)}
+\alias{search_30day}
+\title{Premium twitter searches}
 \usage{
 search_fullarchive(
+  q,
+  n = 100,
+  fromDate = NULL,
+  toDate = NULL,
+  env_name = NULL,
+  safedir = NULL,
+  parse = TRUE,
+  token = NULL
+)
+
+search_30day(
   q,
   n = 100,
   fromDate = NULL,
@@ -52,7 +64,7 @@ See \code{vignette("auth")} for more details.}
 A tibble data frame of Twitter data
 }
 \description{
-Search Twitter's 'fullarchive' (PREMIUM) API
+Search 30day or fullarchive products
 }
 \section{Developer Account}{
 
@@ -123,6 +135,12 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 ## search fullarchive for up to 300 rstats tweets sent in Jan 2014
 rt <- search_fullarchive("#rstats", n = 300, env_name = "research",
   fromDate = "201401010000", toDate = "201401312359")
+
+toDate <- format(Sys.time() - 60 * 60 * 24 * 7, "\%Y\%m\%d\%H\%M")
+
+## search 30day for up to 300 rstats tweets sent before the last week
+rt <- search_30day("#rstats", n = 300,
+  env_name = "research", toDate = toDate)
 }
 
 }

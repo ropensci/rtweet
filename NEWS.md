@@ -1,5 +1,8 @@
 # rtweet ...
 
+- `max_id()` and `since_id()` have been deprecated; tweetr now handles 
+  pagination for you.
+
 - `suggested_slugs()`, `suggested_users()`, `suggested_users_all()` have been
   removed as they stopped working when Twitter remove the suggested users
   endpoint in June 2019 (https://twittercommunity.com/t/124732).
