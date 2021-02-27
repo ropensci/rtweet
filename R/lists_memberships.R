@@ -91,7 +91,7 @@ lists_memberships_call <- function(user,
 
   stopifnot(is.atomic(user), is_n(n))
   if (n > 1000) {
-    warning("n is too large. set to max (1000) instead", call. = FALSE)
+    warning("n is set to 1000 instead, which is the maximum")
     n <- 1000
   }
   if (!filter_to_owned_lists && identical(user, "")) {
