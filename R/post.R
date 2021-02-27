@@ -272,8 +272,8 @@ upload_media_to_twitter <- function(media,
   media_id
 }
 
-TWIT_upload <- function(token, api, params, ...) {
-  TWIT_post(token, api, params, ..., host = "upload.twitter.com")
+TWIT_upload <- function(token, api, body, ...) {
+  TWIT_post(token, api, body = body, ..., host = "upload.twitter.com")
 }
 
 wait_for_chunked_media <- function(resp, media_id, token = NULL) {
