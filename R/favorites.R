@@ -90,15 +90,16 @@ TWIT_paginate_max_id <- function(token, query, params,
                                  get_max_id, 
                                  n = 1000, 
                                  page_size = 200, 
-                                 parse = TRUE) {
+                                 parse = TRUE,
+                                 count_param = "count") {
   
-  params$count <- page_size  
+  params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
   results <- vector("list", pages)
   
   for (i in seq_len(pages)) {
     if (i == pages) {
-       params$count <- n - (pages - 1) * page_size
+       params[[count_param]] <- n - (pages - 1) * page_size
     }
     
     resp <- TWIT_get(token, query, params, parse = FALSE)
