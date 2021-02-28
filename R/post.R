@@ -436,10 +436,6 @@ post_list_add_one <- function(user,
                               list_id = NULL,
                               slug = NULL,
                               token = NULL) {
-  ## must id list via numeric ID or slug
-  if (is.null(list_id) && is.null(slug)) {
-    stop("must supply either list_id or slug to identify pre-existing list")
-  }
 
   ## check and reformat users
   stopifnot(is.character(user))
@@ -448,28 +444,12 @@ post_list_add_one <- function(user,
       call. = FALSE)
     user <- user[1]
   }
-  users_param_name <- .ids_type(user)
-
-  ## if list id
-  if (!is.null(list_id)) {
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(
-      list_id = list_id,
-      user = user
-    )
-
-  ## if slug
-  } else {
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug,
-      owner_screen_name = api_screen_name(token),
-      user = user
-    )
-  }
-  ## rename last param
-  names(params)[length(params)] <- users_param_name
-
+  
+  params <- my_list_params(token,
+    users = user,
+    list_id = list_id,
+    slug = slug
+  )
   TWIT_post(token, "lists/members/create", params)
 }
 
@@ -477,23 +457,11 @@ post_list_add_one <- function(user,
 post_list_destroy <- function(list_id = NULL,
                               slug = NULL,
                               token = NULL) {
-  if (!is.null(list_id)) {
-
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(list_id = list_id)
-
-  } else if (!is.null(slug)) {
-
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug, 
-      owner_screen_name = api_screen_name(token)
-    )
-
-  } else {
-    stop("must supply list_id or slug")
-  }
-
+  
+  params <- my_list_params(token,
+    list_id = list_id,
+    slug = slug
+  )
   TWIT_post(token, "lists/destroy", params)
 }
 
@@ -501,40 +469,18 @@ post_list_create_all <- function(users,
                                  list_id = NULL,
                                  slug = NULL,
                                  token = NULL) {
-  ## must id list via numeric ID or slug
-  if (is.null(list_id) && is.null(slug)) {
-    stop("must supply either list_id or slug to identify pre-existing list")
-  }
-
-  ## check and reformat users
   stopifnot(is.character(users))
   if (length(users) > 100) {
     warning("Can only add 100 users at a time. Adding users[1:100]...",
       call. = FALSE)
     users <- users[1:100]
   }
-  users_param_name <- .ids_type(users)
-  users <- paste0(users, collapse = ",")
-
-  ## if list id
-  if (!is.null(list_id)) {
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(
-      list_id = list_id,
-      users = users
-    )
-
-  ## if slug
-  } else {
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug,
-      users = users
-    )
-  }
-  ## rename last param
-  names(params)[length(params)] <- users_param_name
-
+  
+  params <- my_list_params(token,
+    users = users,
+    list_id = list_id,
+    slug = slug
+  )
   TWIT_post(token, "lists/members/create_all", params)
 }
 
@@ -542,41 +488,42 @@ post_list_destroy_all <- function(users,
                                   list_id = NULL,
                                   slug = NULL,
                                   token = NULL) {
-  ## must id list via numeric ID or slug
-  if (is.null(list_id) && is.null(slug)) {
-    stop("must supply either list_id or slug to identify pre-existing list")
-  }
-
-  ## check and reformat users
+  
   stopifnot(is.character(users))
   if (length(users) > 100) {
     warning("Can only drop 100 users at a time. Dropping users[1:100]...",
       call. = FALSE)
     users <- users[1:100]
   }
-  users_param_name <- .ids_type(users)
-  users <- paste0(users, collapse = ",")
 
-  ## if list id
-  if (!is.null(list_id)) {
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(
-      list_id = list_id,
-      users = users
-    )
-
-  ## if slug
-  } else {
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug,
-      users = users
-    )
-  }
-  ## rename last param
-  names(params)[length(params)] <- users_param_name
-
+  params <- my_list_params(token,
+    users = users,
+    list_id = list_id,
+    slug = slug
+  )
   TWIT_post(token, "lists/members/destroy_all", params = params)
+}
+
+my_list_params <- function(token, slug = NULL, list_id = NULL, ..., users = NULL) {
+  params <- list(...)
+  
+  if (!is.null(list_id) && is.null(slug)) {
+    stopifnot(is.atomic(list_id), length(list_id) == 1)
+    
+    params$list_id <- list_id
+  } else if (is.null(slug) && !is.null(list_id)) {
+    stopifnot(is.atomic(slug), length(slug) == 1)
+    
+    params$slug <- slug
+    params$owner_screen_name = api_screen_name(token)
+  } else {
+    abort("Must supply exactly one of `list_id` or `slug` to identify a list")
+  } 
+  
+  if (!is.null(users)) {
+    params[[.ids_type(users)]] <- paste0(users, collapse = ",")
+  }
+  
 }
 
 
