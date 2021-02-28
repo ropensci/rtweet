@@ -6,7 +6,7 @@
 \title{Get one or more user timelines (tweets posted by target user(s)).}
 \usage{
 get_timeline(
-  user,
+  user = NULL,
   n = 100,
   max_id = NULL,
   home = FALSE,

@@ -36,7 +36,6 @@ get_my_timeline <- function(n = 100,
                             ...) {
 
   get_timeline(
-    user = home_user(),
     n = n,
     home = TRUE,
     max_id = max_id,
