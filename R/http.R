@@ -14,11 +14,12 @@ TWIT_get <- function(token, api, params = NULL, parse = TRUE, ..., host = "api.t
   }
 }
 
-TWIT_post <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
+TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.twitter.com") {
   TWIT_method("POST", 
     token = token, 
     api = api,
     params = params,
+    body = body,
     ...,
     host = host
   )
@@ -37,7 +38,7 @@ TWIT_method <- function(method, token, api,
   
   resp <- switch(method,
     GET = httr::GET(url, query = params, token, ...),
-    POST = httr::POST(url, body = params, token, ...),
+    POST = httr::POST(url, query = params, token, ...),
     stop("Unsupported method", call. = FALSE)
   )
   check_status(resp)
