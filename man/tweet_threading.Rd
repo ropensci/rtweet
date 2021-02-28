@@ -12,10 +12,10 @@ tweet_threading(
 )
 }
 \arguments{
-\item{tw}{\code{\link[rtweet]{lookup_statuses}} output containing
+\item{tw}{\code{\link[=lookup_statuses]{lookup_statuses()}} output containing
 at least the last status in the thread}
 
-\item{traverse}{character, direction to traverse from origin status in tw, 
+\item{traverse}{character, direction to traverse from origin status in tw,
 Default: c('backwards','forwards')}
 
 \item{n}{numeric, timeline to fetch to start forwards traversing, Default: 10}
@@ -23,20 +23,21 @@ Default: c('backwards','forwards')}
 \item{verbose}{logical, Output to console status of traverse, Default: FALSE}
 }
 \value{
-\code{\link[rtweet]{lookup_statuses}} tibble
+\code{\link[=lookup_statuses]{lookup_statuses()}} tibble
 }
 \description{
-Return all statuses that are part of a thread
-}
-\details{
-By default the function traverses first backwards from the origin status_id of the thread up to the root, 
- then checks if there are any child statuses that were posted after the origin status.
+Return all statuses that are part of a thread. By default the function
+traverses first backwards from the origin status_id of the thread up to the
+root, then checks if there are any child statuses that were posted after
+the origin status.
 }
 \examples{
+\dontrun{
 tw <- lookup_statuses('1084143184664510470')
 tw_thread <- tw\%>\%tweet_threading()
 tw_thread
 }
+}
 \seealso{
-\code{\link[rtweet]{lookup_statuses}}
+\code{\link[=lookup_statuses]{lookup_statuses()}}
 }

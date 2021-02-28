@@ -22,18 +22,16 @@ since_id(.x)
 }
 \value{
 Character string of next cursor value used to retrieved
-  the next page of results. This should be used to resume data
-  collection efforts that were interrupted by API rate limits.
-  Modify previous data request function by entering the returned
-  value from \code{next_cursor} for the \code{page} argument.
+the next page of results. This should be used to resume data
+collection efforts that were interrupted by API rate limits.
+Modify previous data request function by entering the returned
+value from \code{next_cursor} for the \code{page} argument.
 }
 \description{
 Method for returning next value (used to request next page or results)
 object returned from Twitter APIs.
 
 Paginate in reverse (limited integration)
-
-Get the newest ID collected to date.
 }
 \examples{
 \dontrun{
@@ -49,7 +47,7 @@ page <- next_cursor(f1)
 ##   next batch of ids
 sys.Sleep(15 * 60) ## Suspend execution of R expressions for 15 mins
 
-## Use the page value returned from \code{next_cursor} to continue
+## Use the page value returned from `next_cursor` to continue
 ##   where you left off.
 f2 <- get_followers("potus", n = 75000, page = page)
 

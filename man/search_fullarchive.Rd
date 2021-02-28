@@ -2,9 +2,21 @@
 % Please edit documentation in R/premium.R
 \name{search_fullarchive}
 \alias{search_fullarchive}
-\title{Search fullarchive (PREMIUM)}
+\alias{search_30day}
+\title{Premium twitter searches}
 \usage{
 search_fullarchive(
+  q,
+  n = 100,
+  fromDate = NULL,
+  toDate = NULL,
+  env_name = NULL,
+  safedir = NULL,
+  parse = TRUE,
+  token = NULL
+)
+
+search_30day(
   q,
   n = 100,
   fromDate = NULL,
@@ -36,17 +48,23 @@ saved. If the directory doesn't exist, it will be created. If NULL (the
 default) then a dir will be created in the current working directory. To
 override/deactivate safedir set this to FALSE.}
 
-\item{parse}{Logical indicating whether to convert data into data frame.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{A token associated with a user-created APP (requires a developer
-account), which is converted to a bearer token in order to make premium
-API requests}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 A tibble data frame of Twitter data
 }
 \description{
-Search Twitter's 'fullarchive' (PREMIUM) API
+Search 30day or fullarchive products
 }
 \section{Developer Account}{
 
@@ -65,49 +83,49 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 \section{Keyword}{
 
 \itemize{
-  \item \strong{""}           ~~ match exact phrase
-  \item \strong{#}               ~~ hashtag
-  \item \strong{@}               ~~ at mentions)
-  \item \strong{url:}            ~~ found in URL
-  \item \strong{lang:}           ~~ language of tweet
+\item \strong{""}           ~~ match exact phrase
+\item \strong{#}               ~~ hashtag
+\item \strong{@}               ~~ at mentions)
+\item \strong{url:}            ~~ found in URL
+\item \strong{lang:}           ~~ language of tweet
 }
 }
 
 \section{Accounts of interest}{
 
 \itemize{
-  \item \strong{from:}           ~~ authored by
-  \item \strong{to:}             ~~ sent to
-  \item \strong{retweets_of:}    ~~ retweet author
+\item \strong{from:}           ~~ authored by
+\item \strong{to:}             ~~ sent to
+\item \strong{retweets_of:}    ~~ retweet author
 }
 }
 
 \section{Tweet attributes}{
 
 \itemize{
-  \item \strong{is:retweet}      ~~ only retweets
-  \item \strong{has:mentions}    ~~ uses mention(s)
-  \item \strong{has:hashtags}    ~~ uses hashtags(s)
-  \item \strong{has:media}       ~~ includes media(s)
-  \item \strong{has:videos}      ~~ includes video(s)
-  \item \strong{has:images}      ~~ includes image(s)
-  \item \strong{has:links}       ~~ includes URL(s)
-  \item \strong{is:verified}     ~~ from verified accounts
+\item \strong{is:retweet}      ~~ only retweets
+\item \strong{has:mentions}    ~~ uses mention(s)
+\item \strong{has:hashtags}    ~~ uses hashtags(s)
+\item \strong{has:media}       ~~ includes media(s)
+\item \strong{has:videos}      ~~ includes video(s)
+\item \strong{has:images}      ~~ includes image(s)
+\item \strong{has:links}       ~~ includes URL(s)
+\item \strong{is:verified}     ~~ from verified accounts
 }
 }
 
 \section{Geospatial}{
 
 \itemize{
-  \item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
-  \item \strong{point_radius:[lon lat radius]} ~~ center of search radius
-  \item \strong{has:geo}           ~~ uses geotagging
-  \item \strong{place:}            ~~ by place
-  \item \strong{place_country:}    ~~ by country
-  \item \strong{has:profile_geo}   ~~ geo associated with profile
-  \item \strong{profile_country:}  ~~ country associated with profile
-  \item \strong{profile_region:}   ~~ region associated with profile
-  \item \strong{profile_locality:} ~~ locality associated with profile
+\item \strong{bounding_box:[west_long south_lat east_long north_lat]} ~~ lat/long coordinates box
+\item \strong{point_radius:[lon lat radius]} ~~ center of search radius
+\item \strong{has:geo}           ~~ uses geotagging
+\item \strong{place:}            ~~ by place
+\item \strong{place_country:}    ~~ by country
+\item \strong{has:profile_geo}   ~~ geo associated with profile
+\item \strong{profile_country:}  ~~ country associated with profile
+\item \strong{profile_region:}   ~~ region associated with profile
+\item \strong{profile_locality:} ~~ locality associated with profile
 }
 }
 
@@ -117,6 +135,12 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 ## search fullarchive for up to 300 rstats tweets sent in Jan 2014
 rt <- search_fullarchive("#rstats", n = 300, env_name = "research",
   fromDate = "201401010000", toDate = "201401312359")
+
+toDate <- format(Sys.time() - 60 * 60 * 24 * 7, "\%Y\%m\%d\%H\%M")
+
+## search 30day for up to 300 rstats tweets sent before the last week
+rt <- search_30day("#rstats", n = 300,
+  env_name = "research", toDate = toDate)
 }
 
 }

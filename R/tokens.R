@@ -12,7 +12,7 @@ check_token <- function(token = NULL) {
 #' 
 #' @description 
 #' This function retrieves a cached OAuth token. This can be set to your
-#' own custom app with \code{\link{create_token}}, but in most cases you
+#' own custom app with [create_token()], but in most cases you
 #' can use the built-in app, which this function will use by default. 
 #' This function will error if no usable tokens are found.
 #' 
@@ -28,10 +28,16 @@ check_token <- function(token = NULL) {
 #' @export
 get_token <- function() {
   if (is.null(.state$token)) {
-    .state$token <- load_cached_token() %||% default_token() %||% no_token()
+    if (is_testing()) {
+      .state$token <- test_token()
+    } else if (is_dev_mode()) {
+      .state$token <- test_token() %||% load_cached_token() %||% default_token() 
+    } else{
+      .state$token <- load_cached_token() %||% default_token()
+    }
   }
 
-  .state$token
+  .state$token %||% no_token()
 }
 
 #' @export
@@ -39,6 +45,24 @@ get_token <- function() {
 get_tokens <- function() {
   # TODO: deprecate this function since there's only ever one token
   get_token()
+}
+
+test_token <- function() {
+  access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
+  access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
+  
+  if (identical(access_token, "") || identical(access_secret, "")) {
+    return()
+  }
+
+  create_token(
+    app = "rtweet_test_ci",
+    consumer_key = "7rX1CfEYOjrtZenmBhjljPzO3",
+    consumer_secret = "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
+    access_token = access_token,
+    access_secret = access_secret,
+    set_renv = FALSE
+  )
 }
 
 load_cached_token <- function() {
@@ -66,23 +90,17 @@ token_cache_path <- function() {
 }
 
 default_token <- function() {
-  access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
-  access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
+  # Requires user interaction
+  if (!interactive()) {
+    return(NULL)
+  }
+  
+  check_installed("httpuv")
   
   key <- rawToChar(openssl::rsa_decrypt(sysdat$DYKcJfBkgMnGveI[[2]], sysdat$DYKcJfBkgMnGveI[[1]]))
   secret <- rawToChar(openssl::rsa_decrypt(sysdat$MRsnZtaKXqGYHju[[2]], sysdat$MRsnZtaKXqGYHju[[1]]))
   
-  if (identical(key, "") || identical(access_secret, "")) {
-    # Requires user interaction
-    if (!interactive()) {
-      return(NULL)
-    }
-    
-    create_token("rstats2twitter", key, secret)
-  } else {
-    message("Using auth via TWITTER_ACCESS_TOKEN/TWITTER_ACCESS_SECRET")
-    create_token("rstats2twitter", key, secret, access_token = access_token, access_secret = access_secret)
-  }
+  create_token("rstats2twitter", key, secret)
 }
 
 no_token <- function() {
@@ -105,13 +123,13 @@ no_token <- function() {
 #' @param app Name of user created Twitter application
 #' @param consumer_key Application API key
 #' @param consumer_secret Application API secret User-owned
-#'   application must have \code{Read and write} access level and
-#'   \code{Callback URL} of \code{http://127.0.0.1:1410}.
+#'   application must have `Read and write` access level and
+#'   `Callback URL` of `http://127.0.0.1:1410`.
 #' @param access_token Access token as supplied by Twitter (apps.twitter.com)
 #' @param access_secret Access secret as supplied by Twitter (apps.twitter.com)
 #' @param set_renv Should the token be cached? 
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
+#'   <https://developer.twitter.com/en/docs/basics/authentication/overview/oauth>
 #'
 #' @return Twitter OAuth token(s) (Token1.0).
 #' @family tokens

@@ -20,12 +20,12 @@ and end of the time series.}
 \item{tz}{Time zone to be used, defaults to "UTC" (Twitter default)}
 
 \item{...}{Other arguments passed to
-\code{\link[ggplot2]{geom_line}}.}
+\code{\link[ggplot2:geom_path]{ggplot2::geom_line()}}.}
 }
 \value{
 If
-  \href{https://cran.r-project.org/package=ggplot2}{ggplot2} is
-  installed then a \code{\link[ggplot2]{ggplot}} plot object.
+\href{https://cran.r-project.org/package=ggplot2}{ggplot2} is
+installed then a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} plot object.
 }
 \description{
 Creates a ggplot2 plot of the frequency of tweets over a specified

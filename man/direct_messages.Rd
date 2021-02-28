@@ -24,15 +24,17 @@ and retrieve, up to a maximum of 50.}
 responses will include a next_cursor value, which can be supplied in
 additional requests to scroll through pages of results.}
 
-\item{parse}{Logical indicating whether to convert response object
-into nested list. Defaults to true.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 
 \item{since_id}{optional Returns results with an ID greater than
 (that is, more recent than) the specified ID. There are limits to
@@ -41,7 +43,7 @@ the limit of Tweets has occurred since the since_id, the since_id
 will be forced to the oldest ID available.}
 
 \item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to `max_id`.}
+older than) or equal to \code{max_id}.}
 }
 \value{
 Return parsed or non-parsed response object.
@@ -52,16 +54,16 @@ days. Sorted in reverse-chronological order.
 }
 \details{
 Includes detailed information about the sender and
-  recipient user. You can request up to 50 direct messages per
-  call, and only direct messages from the last 30 days will be
-  available using this endpoint.
+recipient user. You can request up to 50 direct messages per
+call, and only direct messages from the last 30 days will be
+available using this endpoint.
 
-  Important: This method requires an access token with read,
-  write, and direct message permissions. If you own the Twitter application,
-  you can change permissions through Twitter's developer portal. Once you
-  have made changes to the application permission settings, you will need to
-  regenerate your token before those effect of those changes can
-  take effect.
+Important: This method requires an access token with read,
+write, and direct message permissions. If you own the Twitter application,
+you can change permissions through Twitter's developer portal. Once you
+have made changes to the application permission settings, you will need to
+regenerate your token before those effect of those changes can
+take effect.
 }
 \examples{
 

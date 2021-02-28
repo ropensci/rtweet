@@ -11,14 +11,7 @@
 #'   The response from the API will include a previous_cursor
 #'   and next_cursor to allow paging back and forth. See Using
 #'   cursors to navigate collections for more information.
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @examples
 #'
 #' \dontrun{
@@ -38,20 +31,6 @@ lists_subscriptions <- function(user,
                                 cursor = "-1",
                                 parse = TRUE,
                                 token = NULL) {
-  lists_subscriptions_(
-    user = user,
-    n = n,
-    cursor = cursor,
-    parse = parse,
-    token = token
-  )
-}
-
-lists_subscriptions_ <- function(user,
-                                 n = 20,
-                                 cursor = "-1",
-                                 parse = TRUE,
-                                 token = NULL) {
   if (n > 1000) {
     n <- ceiling(n / 1000)
     count <- 1000
@@ -86,31 +65,13 @@ lists_subscriptions_call <- function(user,
                                      cursor = "-1",
                                      parse = TRUE,
                                      token = NULL) {
-  ## api path
-  query <- "lists/subscriptions"
-
-  ## build params
   params <- list(
-    user = user,
     count = n,
     cursor = cursor
   )
-  names(params)[1] <- .id_type(user)
+  params[[.id_type(user)]] <- user
 
-  ## validate token
-  token <- check_token(token)
-
-  ## build URL
-  url <- make_url(query = query, param = params)
-
-  ## request
-  r <- httr::GET(url, token)
-
-  ## check status
-  warn_for_twitter_status(r)
-
-  ## read content
-  r <- from_js(r)
+  r <- TWIT_get(token, "lists/subscriptions", params)
 
   ## get/set next_cursor value
   if (has_name_(r, "next_cursor_str")) {

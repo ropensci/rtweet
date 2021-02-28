@@ -1,11 +1,10 @@
 #' Posts status update to user's Twitter account
 #'
+#' @inheritParams lookup_users
 #' @param status Character, tweet status. Must be 280 characters or less.
 #' @param media Length 1 character vector with a file path to video media **OR** 
 #'     up-to length 4 character vector with file paths to static images to be included in tweet.
 #'     **The caller is responsible for managing this.**
-#' @param token OAuth token. By default \code{token = NULL} fetches a
-#'   non-exhausted token from an environment variable tokens.
 #' @param in_reply_to_status_id Status ID of tweet to which you'd like to reply.
 #'   Note: in line with the Twitter API, this parameter is ignored unless the
 #'   author of the tweet this parameter references is mentioned within the
@@ -140,16 +139,9 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## media if provided
   if (!is.null(media)) {
-    check_media(media, media_alt_text)
-    r <- vector("list", length(media))
-    media_id_string <- vector("list", length(media))
+    media_id_string <- character(length(media))
     for (i in seq_along(media)) {
-      r[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text[[i]])
-      if (has_name_(r[[i]], "media_id_string")) {
-        media_id_string[[i]] <- r[[i]]$media_id_string
-      } else {
-        stop(paste("media file number", i, "failed to upload"), call. = FALSE)
-      }
+      media_id_string[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text[[i]])
     }
     media_id_string <- paste(media_id_string, collapse = ",")
     params <- list(
@@ -191,99 +183,104 @@ is_tweet_length <- function(.x, n = 280) {
 #' Uploads media using chunked media endpoint
 #'
 #' @param media Path to media file (image or movie) to upload. 
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
+#' @inheritParams lookup_users
 #' @noRd 
-upload_media_to_twitter <- function(media, token = NULL, alt_text = NULL) {
-  media2upload <- httr::upload_file(media)
-  token <- check_token(token)
+upload_media_to_twitter <- function(media, 
+                                    token = NULL, 
+                                    alt_text = NULL, 
+                                    chunk_size = 5 * 1024 * 1024) {
+  media_type <- switch(tools::file_ext(media),
+    jpg = ,
+    jpeg = "image/jpeg",
+    png = "image/png",
+    gif = "image/gif",
+    mp4 = "video/mp4",
+    stop("Unsupported file extension", call. = FALSE)
+  )
+  file_size <- file.size(media)
   
-  mediatype <- file_ext(media)
-  
-  rurl <- "https://upload.twitter.com/1.1/media/upload.json"
-  filesize <- file.size(media)
-  gif_no_chunked <- mediatype == "gif" && filesize <= 5*1024*1024
-  if (mediatype %in% c("jpg","jpeg", "png") || gif_no_chunked) {
-    rpost <- httr::POST(rurl, body = list(media = media2upload), token)
-    httr::stop_for_status(rpost)
-    status_final <- httr::content(rpost)
-  }
-  if (mediatype %in% c("gif", "mp4")) {
-    if (mediatype == "gif") {
-      category <- "tweet_gif"
-    } else {
-      category <- "tweet_video"
-    }
-    init_r <- httr::POST(rurl, body = list(command = "INIT", 
-                                           media_type = mediatype, 
-                                           total_bytes = filesize,
-                                           media_category = category), token)
-    httr::stop_for_status(init_r)
-    init_r_parsed <- httr::content(init_r)
-    media_id <- init_r_parsed$media_id_string
+  if (file_size <= chunk_size && media_type != "video/mp4") {
+    resp <- TWIT_upload(token, "media/upload", list(
+      media = httr::upload_file(media)
+    ))
+    media_id <- from_js(resp)$media_id_string
+  } else {
+    # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/uploading-media/chunked-media-upload
+
+    # Initialize upload
+    resp <- TWIT_upload(token, "media/upload", list(
+      command = "INIT", 
+      media_type = media_type, 
+      total_bytes = file_size
+    ))
+    media_id <- from_js(resp)$media_id_string
+    
+    # Send chunks
     bytes_sent <- 0
     videofile <- file(media, open = "rb") 
+    withr::defer(close(videofile))
+
     segment_id <- 0
-    while (bytes_sent < filesize) {
-      chunk <- readBin(videofile, 4*1024*1024, what = "raw")
-      bytes_sent <- bytes_sent + 4*1024*1024
-      request_data <- list(command = "APPEND", media_id = media_id, 
-                           segment_index = segment_id, media = chunk)
-      r <- httr::POST(rurl, body = request_data, token)
-      httr::stop_for_status(r)
+    while (bytes_sent < file_size) {
+      chunk <- readBin(videofile, chunk_size, what = "raw")
+      resp <- TWIT_upload(token, "media/upload", list(
+        command = "APPEND",
+        media_id = media_id, 
+        segment_index = segment_id, 
+        media = chunk
+      ))
+
       segment_id <- segment_id + 1
+      bytes_sent <- bytes_sent + chunk_size
     }
-    close(videofile)
-    finalize_data <- httr::POST(rurl, body = list(command = "FINALIZE", 
-                                                  media_id = media_id),  token)
-    httr::stop_for_status(finalize_data)
-    status_final <- check_chunked_media_status(httr::content(finalize_data), token, rurl)
-  }
-  if (!is.null(alt_text) && nzchar(alt_text)) {
-    if ("media_id_string" %in% names(status_final)) {
-      rurl <- "https://upload.twitter.com/1.1/media/metadata/create.json"
-      r <- httr::POST(
-        rurl, 
-        body = list(
-          media_id = status_final[["media_id_string"]][1],
-          alt_text = list(
-            text = substr(as.character(alt_text[1]), 1, 1000)
-          )
-        ), 
-        token,
-        encode = "json"
-      )
-      httr::stop_for_status(r)
-    }
+    
+    # Finalize
+    resp <- TWIT_upload(token, "media/upload", list(
+      command = "FINALIZE", 
+      media_id = media_id
+    ))
+    wait_for_chunked_media(resp, media_id, token)
   }
   
-  return(status_final)
+  if (!is.null(alt_text)) {
+    # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create
+    TWIT_upload(token, "media/metadata/create", 
+      list(
+        media_id = media_id,
+        alt_text = list(text = substr(as.character(alt_text), 1, 1000))
+      ), 
+      encode = "json"
+    )
+  }
+  
+  media_id
 }
 
-#' Checks status of chunked media upload`
-#'
-#' @param finalize_data Output of FINALIZE or STATUS command.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
-#' @param rurl Upload address for media.
-#' @importFrom httr GET content
-#' @noRd 
-check_chunked_media_status = function(finalize_data, token, rurl) {
-  if (finalize_data$processing_info$state == "succeeded") {
-    return(finalize_data)
-  } 
-  if (finalize_data$processing_info$state %in% c("pending", "in_progress")) {
-    Sys.sleep(finalize_data$processing_info$check_after_secs)
-    status <- httr::GET(rurl, 
-                        query = list(command = "STATUS",
-                                     media_id = finalize_data$media_id_string),  
-                        token)
-    httr::stop_for_status(status)
-    status <- check_chunked_media_status(httr::content(status), token, rurl)
-    return(status)
+TWIT_upload <- function(token, api, body, ...) {
+  TWIT_post(token, api, body = body, ..., host = "upload.twitter.com")
+}
+
+wait_for_chunked_media <- function(resp, media_id, token = NULL) {
+  json <- from_js(resp)
+  if (is.null(json$process_info)) {
+    return()
   }
+
+  params <- list(
+    command = "STATUS",
+    media_id = media_id
+  )
+  
+  while (!json$processing_info$state %in% c("pending", "in_progress")) {
+    Sys.sleep(json$processing_info$check_after_secs)
+    
+    json <- TWIT_get(token, "media/upload", 
+      params = params, 
+      host = "upload.twitter.com"
+    )
+  }
+
+  invisible()
 }
 
 
@@ -339,14 +336,11 @@ post_destroy <- function(destroy_id, token = NULL) {
 
 #' Posts direct message from user's Twitter account
 #'
+#' @inheritParams lookup_users
 #' @param text Character, text of message.
 #' @param user Screen name or user ID of message target.
 #' @param media File path to image or video media to be
 #'   included in tweet.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
-#' @importFrom httr POST upload_file content
 #' @export
 post_message <- function(text, user, media = NULL, token = NULL) {
   ## get user id
@@ -394,6 +388,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
 
 #' Follows target twitter user.
 #'
+#' @inheritParams lookup_users
 #' @param user Screen name or user id of target user.
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
@@ -404,9 +399,6 @@ post_message <- function(text, user, media = NULL, token = NULL) {
 #'   for target user. Defaults to false.
 #' @param retweets Logical indicating whether to enable retweets
 #'   for target user. Defaults to true.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @aliases follow_user
 #' @examples
 #' \dontrun{
@@ -457,42 +449,6 @@ post_follow <- function(user,
   r
 }
 
-check_status_code <- function(x) {
-  if (has_name_(x, "status_code") && is.integer(x$status_code)) {
-    status <- x$status_code
-  } else if (has_name_(x, "status") && is.integer(x$status)) {
-    status <- x$status
-  } else if (any(grepl("status", names(x)))) {
-    int <- sapply(
-      x[grep("status", names(x))],
-      is.integer
-    )
-    if (sum(int) > 0L) {
-      status <- x[grep("status", names(x))][int][1]
-    } else {
-      return(FALSE)
-    }
-  } else if (any(grepl("code", names(x)))) {
-    int <- sapply(
-      x[grep("code", names(x))],
-      is.integer
-    )
-    if (sum(int) > 0L) {
-      status <- x[grep("code", names(x))][int][1]
-    } else {
-      return(FALSE)
-    }
-  } else {
-    return(FALSE)
-  }
-  if (!is.integer(status)) {
-    return(FALSE)
-  }
-  if (status == 200) {
-    return(TRUE)
-  }
-  FALSE
-}
 
 
 #' @aliases unfollow_user
@@ -513,14 +469,12 @@ post_mute <- function(user, token = NULL) {
 
 #' Favorites target status id.
 #'
+#' @inheritParams lookup_users
 #' @param status_id Status id of target tweet.
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
 #' @param include_entities Logical indicating whether to
 #'   include entities object in return.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @aliases post_favourite favorite_tweet
 #' @examples
 #' \dontrun{
@@ -560,15 +514,13 @@ post_favorite <- function(status_id,
 
 #' Updates friendship notifications and retweet abilities.
 #'
+#' @inheritParams lookup_users
 #' @param user Screen name or user id of target user.
 #' @param device Logical indicating whether to enable or disable
 #'    device notifications from target user behaviors. Defaults
 #'    to false.
 #' @param retweets Logical indicating whether to enable or disable
 #'    retweets from target user behaviors. Defaults to false.
-#' @param token OAuth token. By default \code{token = NULL}
-#'   fetches a non-exhausted token from an environment
-#'   variable tokens.
 #' @aliases friendship_update
 #' @family post
 #' @export
@@ -845,6 +797,7 @@ post_list_destroy_all <- function(users,
 #'
 #' Create, add users, and destroy Twitter lists
 #'
+#' @inheritParams lookup_users
 #' @param users Character vectors of users to be added to list.
 #' @param name Name of new list to create.
 #' @param description Optional, description of list (single character string).
@@ -855,8 +808,6 @@ post_list_destroy_all <- function(users,
 #'   `slug` must be provided if `destroy = TRUE`.
 #' @param list_id Optional, numeric ID of list.
 #' @param slug Optional, list slug.
-#' @param token OAuth token associated with user who owns [or will own] the list
-#'   of interest. Token must have write permissions!
 #' @return Response object from HTTP request.
 #' @examples
 #' \dontrun{

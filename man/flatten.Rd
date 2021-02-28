@@ -15,10 +15,10 @@ columns.}
 }
 \value{
 If flattened, then data frame where non-recursive list
-  columns---that is, list columns that contain only atomic, or non-list,
-  elements---have been converted to character vectors. If unflattened,
-  this function splits on spaces columns originally returned as lists
-  by functions in rtweet package. See details for more information.
+columns---that is, list columns that contain only atomic, or non-list,
+elements---have been converted to character vectors. If unflattened,
+this function splits on spaces columns originally returned as lists
+by functions in rtweet package. See details for more information.
 }
 \description{
 Converts list columns that containing all atomic elements into
@@ -27,20 +27,20 @@ according to the rtweet package)
 }
 \details{
 If recursive list columns are contained within the data frame,
-  relevant columns will still be converted to atomic types but output
-  will also be accompanied with a warning message.
+relevant columns will still be converted to atomic types but output
+will also be accompanied with a warning message.
 
-`flatten` flattens list columns by pasting them into a single string for
-  each observations. For example, a tweet that mentions four other users,
-  for the mentions_user_id variable, it will include the four user IDs
-  separated by a space.
+\code{flatten} flattens list columns by pasting them into a single string for
+each observations. For example, a tweet that mentions four other users,
+for the mentions_user_id variable, it will include the four user IDs
+separated by a space.
 
 `unflatten`` splits on spaces to convert into list columns any
-  columns with the following names: hashtags, symbols, urls_url,
-  urls_t.co, urls_expanded_url, media_url, media_t.co,
-  media_expanded_url, media_type, ext_media_url, ext_media_t.co,
-  ext_media_expanded_url, mentions_user_id, mentions_screen_name,
-  geo_coords, coords_coords, bbox_coords, mentions_screen_name
+columns with the following names: hashtags, symbols, urls_url,
+urls_t.co, urls_expanded_url, media_url, media_t.co,
+media_expanded_url, media_type, ext_media_url, ext_media_t.co,
+ext_media_expanded_url, mentions_user_id, mentions_screen_name,
+geo_coords, coords_coords, bbox_coords, mentions_screen_name
 }
 \seealso{
 Other datafiles: 

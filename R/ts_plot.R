@@ -12,10 +12,10 @@
 #'   and end of the time series.
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @param ... Other arguments passed to
-#'   \code{\link[ggplot2]{geom_line}}.
+#'   [ggplot2::geom_line()].
 #' @return If
-#'   \href{https://cran.r-project.org/package=ggplot2}{ggplot2} is
-#'   installed then a \code{\link[ggplot2]{ggplot}} plot object.
+#'   [ggplot2](https://cran.r-project.org/package=ggplot2) is
+#'   installed then a [ggplot2::ggplot()] plot object.
 #' @examples
 #'
 #' \dontrun{
@@ -56,10 +56,9 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 }
 
 
-#' @importFrom graphics legend
 ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
-  try_require("ggplot2")
+  check_installed("ggplot2")
   if (ncol(data) == 3L) {
     ggplot2::ggplot(
       data, ggplot2::aes_string(

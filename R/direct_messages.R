@@ -9,14 +9,7 @@
 #' @param next_cursor If there are more than 200 DMs in the last 30 days,
 #'   responses will include a next_cursor value, which can be supplied in
 #'   additional requests to scroll through pages of results.
-#' @param parse Logical indicating whether to convert response object
-#'   into nested list. Defaults to true.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @return Return parsed or non-parsed response object.
 #' @examples
 #'
@@ -46,20 +39,16 @@ direct_messages <- function(n = 50,
                             next_cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  query <- "direct_messages/events/list"
-  token <- check_token(token)
-  if (!is_read_write_directmessages(token)) {
+  if (!identical(api_access_level(token), "read-write-directmessages")) {
     stop("Token does not have `read-write-directmessages` access level. ",
       "For DM permissions, users must create their own app at developer.twitter.com")
   }
-  params <- list(count = n, next_cursor = next_cursor)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
+  
+  params <- list(
+    count = n, 
+    next_cursor = next_cursor
+  )
+  TWIT_get(token, "direct_messages/events/list", params, parse = parse)
 }
 
 
@@ -81,14 +70,7 @@ direct_messages <- function(n = 50,
 #'   thought of as a limit to the number of Tweets to return because
 #'   suspended or deleted content is removed after the count has been
 #'   applied.
-#' @param parse Logical indicating whether to convert response object
-#'   into nested list. Defaults to true.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @return Return object converted to nested list. If status code of
 #'   response object is not 200, the response object is returned
 #'   directly.
@@ -130,17 +112,6 @@ direct_messages_received <- function(since_id = NULL,
                                      token = NULL) {
   stop("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
-  query <- "direct_messages"
-  token <- check_token(token)
-  params <- list(include_entities = TRUE, count = n,
-    since_id = since_id, max_id = max_id)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
 }
 
 #' @inheritParams direct_messages_received
@@ -153,31 +124,4 @@ direct_messages_sent <- function(since_id = NULL,
                                  token = NULL) {
   stop("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
-  query <- "direct_messages/events/list"
-  token <- check_token(token)
-  params <- list(include_entities = TRUE, count = n,
-    since_id = since_id, max_id = max_id)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
-}
-
-warn_for_twitter_status <- function(x) {
-  if (x$status_code != 200L) {
-    w <- from_js(x)
-    if (has_name_(w, "errors")) {
-      warning(paste(w$errors, collapse = " - "), call. = FALSE,
-        immediate. = TRUE)
-    } else {
-      warning(paste(w, collapse = " - "), call. = FALSE,
-        immediate. = TRUE)
-    }
-    invisible(FALSE)
-  } else {
-    invisible(TRUE)
-  }
 }

@@ -9,15 +9,17 @@ lookup_users(users, parse = TRUE, token = NULL)
 \arguments{
 \item{users}{User id or screen name of target user.}
 
-\item{parse}{Logical, indicating whether or not to parse
-return object into data frame(s).}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 A tibble of users data.
@@ -36,16 +38,15 @@ users <- c(
   "potus", "hillaryclinton", "realdonaldtrump",
   "fivethirtyeight", "cnn", "espn", "twitter"
 )
-
-## get users data
 usr_df <- lookup_users(users)
-
-## view users data
-usr_df
 
 ## view tweet data for these users via tweets_data()
 tweets_data(usr_df)
 
+# Find user data for the recent posters to #rstats
+rs <- search_tweets("#rstats", n = 500)
+user_ids <- unique(rs$user_id)
+lookup_users(user_ids)
 }
 
 }

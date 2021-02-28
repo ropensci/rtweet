@@ -34,23 +34,17 @@ tweets.  By default, this is set to 30 seconds. To stream
 indefinitely, use \code{timeout = FALSE} to ensure JSON file is
 not deleted upon completion or \code{timeout = Inf}.}
 
-\item{parse}{Logical, indicating whether to return parsed data.  By
-default, \code{parse = TRUE}, this function does the parsing for
-you. However, for larger streams, or for automated scripts
-designed to continuously collect data, this should be set to
-false as the parsing process can eat up processing resources and
-time. For other uses, setting parse to TRUE saves you from having
-to sort and parse the messy list structure returned by
-Twitter. (Note: if you set parse to false, you can use the
-\code{\link{parse_stream}} function to parse the JSON file at a
-later point in time.)}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 
 \item{file_name}{Character with name of file. By default, a
 temporary file is created, tweets are parsed and returned to
@@ -78,20 +72,20 @@ pre-existing.}
 Tweets data returned as data frame with users data as attribute.
 
 Returns data as expected using original search_tweets
-  function.
+function.
 }
 \description{
 Returns public statuses via one of the following four methods:
-  \itemize{
-    \item 1. Sampling a small random sample of all publicly
-             available tweets
-    \item 2. Filtering via a search-like query (up to 400
-             keywords)
-    \item 3. Tracking via vector of user ids (up to 5000
-             user_ids)
-    \item 4. Location via geo coordinates (1-360 degree
-             location boxes)
-  }
+\itemize{
+\item 1. Sampling a small random sample of all publicly
+available tweets
+\item 2. Filtering via a search-like query (up to 400
+keywords)
+\item 3. Tracking via vector of user ids (up to 5000
+user_ids)
+\item 4. Location via geo coordinates (1-360 degree
+location boxes)
+}
 
 Stream with hardwired reconnection method to ensure timeout integrity.
 }

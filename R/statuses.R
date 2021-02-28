@@ -4,16 +4,9 @@
 #' more than 90,000 statuses, users must iterate through status IDs
 #' whilst avoiding rate limits, which reset every 15 minutes.
 #'
+#' @inheritParams lookup_users
 #' @param statuses User id or screen name of target user.
-#' @param parse Logical, indicating whether or not to parse
-#'   return object into data frame(s).
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
-#' @seealso \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
+#' @seealso <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @examples
 #'
 #' \dontrun{
@@ -35,68 +28,37 @@
 #' @family tweets
 #' @export
 lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
-  args <- list(statuses = statuses, parse = parse, token = token)
-  do.call("lookup_statuses_", args)
+  lookup_tweets(statuses = statuses, parse = parse, token = token)
 }
 
 #' @rdname lookup_statuses
 #' @export
 lookup_tweets <- function(statuses, parse = TRUE, token = NULL) {
-  lookup_statuses(statuses, parse = parse, token = token)
-}
-
-lookup_statuses_ <- function(statuses,
-                             token = NULL,
-                             parse = TRUE) {
   stopifnot(is.atomic(statuses))
   if (length(statuses) > 90000) {
     warning("number of statuses exceed max per token",
       "collecting data for first 90,000 ids")
     statuses <- statuses[1:90000]
   }
-  n.times <- ceiling(length(statuses) / 100)
-  from <- 1
-  twt <- vector("list", n.times)
-  for (i in seq_len(n.times)) {
-    to <- from + 99
-    if (to > length(statuses)) {
-      to <- length(statuses)
-    }
-    twt[[i]] <- .status_lookup(statuses[from:to], token = token)
-    from <- to + 1
-    if (from > length(statuses)) break
-  }
+  
+  chunks <- unname(split(statuses, (seq_along(statuses) - 1) %/% 100))
+  results <- lapply(chunks, status_lookup_100, token = token)
+  
   if (parse) {
-    twt <- tweets_with_users(twt)
+    results <- tweets_with_users(results)
   }
-  twt
+  results
 }
 
-.status_lookup <- function(statuses, token = NULL) {
-  ## gotta have ut8-encoding for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
+status_lookup_100 <- function(id, token = NULL) {
+  stopifnot(length(id) <= 100)
 
-  query <- "statuses/lookup"
-  if (length(statuses) > 100) {
-    statuses <- statuses[1:100]
-  }
   params <- list(
-    id = paste(statuses, collapse = ","),
+    id = paste(id, collapse = ","),
     tweet_mode = "extended",
     include_ext_alt_text = "true"
   )
-  
-  url <- make_url(
-    query = query,
-    param = params)
-  token <- check_token(token)
-  if (length(statuses) > 20L) {
-    get <- FALSE
-  } else {
-    get <- TRUE
-  }
-  resp <- TWIT(get = get, url, token)
+
+  resp <- TWIT_post(token, "statuses/lookup", params = params)
   from_js(resp)
 }

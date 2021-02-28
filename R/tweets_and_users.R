@@ -167,7 +167,6 @@ status_object_ <- function(x) {
 
 
 tweets_to_tbl_ <- function(dat) {
-  saveRDS(dat, "/tmp/temp.rds")
   if (NROW(dat) == 0L) return(data.frame())
   dat$display_text_width <- display_text_range(dat)
   ## extended entities > media

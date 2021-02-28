@@ -12,15 +12,17 @@ get_retweets(status_id, n = 100, parse = TRUE, token = NULL, ...)
 \item{n}{optional Specifies the number of records to retrieve.
 Must be less than or equal to 100.}
 
-\item{parse}{Logical indicating whether to convert the response
-object into an R list. Defaults to TRUE.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 
 \item{...}{Other arguments used as parameters in the query sent to
 Twitter's rest API, for example, \code{trim_user = TRUE}.}
@@ -32,10 +34,6 @@ Tweets data of the most recent retweets of a given status
 Returns a collection of the 100 most recent retweets of a given
 status.  NOTE: Twitter's API is currently limited to 100 or fewer
 retweeters.
-}
-\details{
-NOTE: Twitter's API is currently limited to 100 or fewer
-  retweeters.
 }
 \seealso{
 Other retweets: 

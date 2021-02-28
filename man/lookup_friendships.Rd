@@ -11,19 +11,21 @@ lookup_friendships(source, target, parse = TRUE, token = NULL)
 
 \item{target}{Screen name or user id of target user.}
 
-\item{parse}{Logical indicating whether to return parsed data frame.
-Defaults to true.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 Data frame converted form returned JSON object. If parse is
-  not true, the HTTP response object is returned instead.
+not true, the HTTP response object is returned instead.
 }
 \description{
 Gets information on friendship between two Twitter users.

@@ -5,48 +5,49 @@
 #' than 18,000 statuses in a single call, set "retryonratelimit" to
 #' TRUE.
 #'
+#' @inheritParams lookup_users
 #' @param q Query to be searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
 #'   exceed maximum of 500 characters. Spaces behave like boolean
 #'   "AND" operator. To search for tweets containing at least one of
 #'   multiple possible terms, separate each search term with spaces
-#'   and "OR" (in caps). For example, the search \code{q =
-#'   "data science"} looks for tweets containing both "data" and
+#'   and "OR" (in caps). For example, the search `q =
+#'   "data science"` looks for tweets containing both "data" and
 #'   "science" located anywhere in the tweets and in any order.
-#'   When "OR" is entered between search terms, \code{query =
-#'   "data OR science"}, Twitter's REST API should return any tweet
+#'   When "OR" is entered between search terms, `query =
+#'   "data OR science"`, Twitter's REST API should return any tweet
 #'   that contains either "data" or "science." It is also possible to
 #'   search for exact phrases using double quotes. To do this, either
 #'   wrap single quotes around a search query using double quotes,
-#'   e.g., \code{q = '"data science"'} or escape each internal double
-#'   quote with a single backslash, e.g., \code{q =
-#'   "\"data science\""}.
+#'   e.g., `q = '"data science"'` or escape each internal double
+#'   quote with a single backslash, e.g., `q =
+#'   "\"data science\""`.
 #'
 #' Some other useful query tips:
 #'
 #' \itemize{
-#'   \item Exclude retweets via \code{"-filter:retweets"}
-#'   \item Exclude quotes via \code{"-filter:quote"}
-#'   \item Exclude replies via \code{"-filter:replies"}
-#'   \item Filter (return only) verified via \code{"filter:verified"}
-#'   \item Exclude verified via \code{"-filter:verified"}
-#'   \item Get everything (firehose for free) via \code{"-filter:verified OR filter:verified"}
-#'   \item Filter (return only) tweets with links to news articles via \code{"filter:news"}
-#'   \item Filter (return only) tweets with media \code{"filter:media"}
+#'   \item Exclude retweets via `"-filter:retweets"`
+#'   \item Exclude quotes via `"-filter:quote"`
+#'   \item Exclude replies via `"-filter:replies"`
+#'   \item Filter (return only) verified via `"filter:verified"`
+#'   \item Exclude verified via `"-filter:verified"`
+#'   \item Get everything (firehose for free) via `"-filter:verified OR filter:verified"`
+#'   \item Filter (return only) tweets with links to news articles via `"filter:news"`
+#'   \item Filter (return only) tweets with media `"filter:media"`
 #' }
 #'
 #' @param n Integer, specifying the total number of desired tweets to
 #'   return. Defaults to 100. Maximum number of tweets returned from a
 #'   single token is 18,000. To return more than 18,000 tweets, users
-#'   are encouraged to set \code{retryonratelimit} to TRUE. See
+#'   are encouraged to set `retryonratelimit` to TRUE. See
 #'   details for more information.
 #' @param type Character string specifying which type of search
 #'   results to return from Twitter's REST API. The current default is
-#'   \code{type = "recent"}, other valid types include \code{type =
-#'   "mixed"} and \code{type = "popular"}.
+#'   `type = "recent"`, other valid types include `type =
+#'   "mixed"` and `type = "popular"`.
 #' @param geocode Geographical limiter of the template
-#'   "latitude,longitude,radius" e.g., \code{geocode =
-#'   "37.78,-122.40,1mi"}.
+#'   "latitude,longitude,radius" e.g., `geocode =
+#'   "37.78,-122.40,1mi"`.
 #' @param include_rts Logical, indicating whether to include retweets
 #'   in search results. Retweets are classified as any tweet generated
 #'   by Twitter's built-in "retweet" (recycle arrows) function. These
@@ -59,32 +60,13 @@
 #'   interrupted by user time constraints. For searches exceeding
 #'   18,000 tweets, users are encouraged to take advantage of rtweet's
 #'   internal automation procedures for waiting on rate limits by
-#'   setting \code{retryonratelimit} argument to TRUE.  It some cases,
+#'   setting `retryonratelimit` argument to TRUE.  It some cases,
 #'   it is possible that due to processing time and rate limits,
 #'   retrieving several million tweets can take several hours or even
 #'   multiple days. In these cases, it would likely be useful to
-#'   leverage \code{retryonratelimit} for sets of tweets and
-#'   \code{max_id} to allow results to continue where previous efforts
+#'   leverage `retryonratelimit` for sets of tweets and
+#'   `max_id` to allow results to continue where previous efforts
 #'   left off.
-#' @param parse Logical, indicating whether to return parsed
-#'   data.frame, if true, or nested list, if false. By default,
-#'   \code{parse = TRUE} saves users from the wreck of time and
-#'   frustration associated with disentangling the nasty nested list
-#'   returned from Twitter's API. As Twitter's APIs are subject to
-#'   change, this argument would be especially useful when changes to
-#'   Twitter's APIs affect performance of internal parsers. Setting
-#'   \code{parse = FALSE} also ensures the maximum amount of possible
-#'   information is returned. By default, the rtweet parse process
-#'   returns nearly all bits of information returned from
-#'   Twitter. However, users may occasionally encounter new or
-#'   omitted variables. In these rare cases, the nested list object
-#'   will be the only way to access these variables.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
 #' @param retryonratelimit Logical indicating whether to wait and
 #'   retry when rate limited. This argument is only relevant if the
 #'   desired return (n) exceeds the remaining limit of available
@@ -102,16 +84,16 @@
 #'   between searches. It should be noted, however, that these time
 #'   estimates only describe the amount of time between searches and
 #'   not the total time remaining. For large searches conducted with
-#'   \code{retryonratelimit} set to TRUE, the estimated retrieval time
+#'   `retryonratelimit` set to TRUE, the estimated retrieval time
 #'   can be estimated by dividing the number of requested tweets by
 #'   18,000 and then multiplying the quotient by 15 (token reset
 #'   time, in minutes).
 #' @param ... Further arguments passed as query parameters in request
 #'   sent to Twitter's REST API. To return only English language
-#'   tweets, for example, use \code{lang = "en"}. For more options see
+#'   tweets, for example, use `lang = "en"`. For more options see
 #'   Twitter's API documentation.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
+#'   <https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets>
 #' @details Twitter API documentation recommends limiting searches to
 #'   10 keywords and operators. Complex queries may also produce API
 #'   errors preventing recovery of information related to the query.
@@ -128,15 +110,15 @@
 #'   of recent activity (either more tweets, which affect pagination
 #'   in returned results or deletion of tweets). To return more than
 #'   18,000 tweets in a single call, users must set
-#'   \code{retryonratelimit} argument to true. This method relies on
-#'   updating the \code{max_id} parameter and waiting for token rate
+#'   `retryonratelimit` argument to true. This method relies on
+#'   updating the `max_id` parameter and waiting for token rate
 #'   limits to refresh between searches. As a result, it is possible
 #'   to search for 50,000, 100,000, or even 10,000,000 tweets, but
 #'   these searches can take hours or even days. At these durations,
 #'   it would not be uncommon for connections to timeout. Users are
 #'   instead encouraged to breakup data retrieval into smaller chunks
-#'   by leveraging \code{retryonratelimit} and then using the
-#'   status_id of the oldest tweet as the \code{max_id} to resume
+#'   by leveraging `retryonratelimit` and then using the
+#'   status_id of the oldest tweet as the `max_id` to resume
 #'   searching where the previous efforts left off.
 #'
 #' @examples
@@ -196,7 +178,7 @@
 #' @family tweets
 #' @export
 search_tweets <- function(q, n = 100,
-                          type = "recent",
+                          type = c("mixed", "recent", "popular"),
                           include_rts = TRUE,
                           geocode = NULL,
                           max_id = NULL,
@@ -205,247 +187,68 @@ search_tweets <- function(q, n = 100,
                           retryonratelimit = FALSE,
                           verbose = TRUE,
                           ...) {
-  if (missing(q) && !is.null(geocode)) {
-    q <- ""
-  }
-  args <- list(
-    q = q,
+  
+  params <- search_params(q, 
     n = n,
     type = type,
     include_rts = include_rts,
     geocode = geocode,
     max_id = max_id,
-    parse = parse,
-    token = token,
-    retryonratelimit = retryonratelimit,
-    verbose = verbose,
     ...
   )
-  do.call("search_tweets_", args)
+  
+  result <- TWIT_paginate_max_id(token, "search/tweets", params,
+    get_max_id = function(x) x$statuses$id_str,
+    n = n,
+    page_size = 100,
+    parse = parse
+  )
+
+  if (parse) {
+    result <- tweets_with_users(result)
+  }
+  result
 }
 
-
-search_tweets_ <- function(q = "",
-                           n = 100,
-                           type = "recent",
-                           max_id = NULL,
-                           geocode = NULL,
-                           include_rts = TRUE,
-                           parse = TRUE,
-                           token = NULL,
-                           retryonratelimit = FALSE,
-                           verbose = TRUE,
-                           ...) {
-
-  ## check token and get rate limit data
-  token <- check_token(token)
-
-  if (!retryonratelimit) {
-    rt <- .search_tweets(
-      q = q, n = n,
-      type = type,
-      geocode = geocode,
-      max_id = max_id,
-      include_rts = include_rts,
-      parse = parse,
-      token = token,
-      verbose = verbose,
-      ...)
-  } else {
-    rtlimit <- rate_limit(token, "search/tweets")
-    remaining <- rtlimit[["remaining"]] * 100
-    reset <- rtlimit[["reset"]]
-    reset <- as.numeric(reset, "secs")
-
-    if (identical(remaining, 0)) {
-      ntimes <- ceiling((n - remaining) / 18000)
-    } else {
-      ntimes <- ceiling((n - remaining) / 18000) + 1
-    }
-    rt <- vector("list", ntimes)
-    maxid <- max_id
-    for (i in seq_len(ntimes)) {
-      ## if rate limited (exhausted token)
-      if (any(identical(remaining, 0), isTRUE(remaining < 10))) {
-        message(paste0(
-          "retry on rate limit...\n",
-          "waiting about ",
-          round(reset / 60, 0),
-          " minutes..."))
-        Sys.sleep(reset + 2)
-        remaining <- 180 * 100
-      }
-      rt[[i]] <- tryCatch(
-        .search_tweets(
-          q = q, n = remaining,
-          check = FALSE,
-          type = type,
-          geocode = geocode,
-          max_id = maxid,
-          include_rts = include_rts,
-          parse = parse,
-          token = token,
-          verbose = verbose,
-          ...),
-        error = function(e) return(NULL))
-      ## break if error
-      if (is.null(rt[[i]])) break
-      ## break if final i
-      if (i == ntimes) break
-      if (parse) {
-        ## get next maxid
-        maxid.new <- rt[[i]][["status_id"]][[NROW(rt[[i]])]]
-      } else {
-        maxid.new <- return_last(unlist(go_get_var(rt[[1]], "statuses", "id")))
-      }
-      ## break if new maxid is null, empty, or unchanged
-      if (any(is.null(maxid.new),
-        identical(length(maxid.new), 0L),
-        identical(maxid, maxid.new))) break
-      ## update maxid value
-      maxid <- maxid.new
-      ## refresh rate limit data
-      rtlimit <- rate_limit(token, "search/tweets")
-      remaining <- rtlimit[["remaining"]] * 100
-      reset <- rtlimit[["reset"]]
-      reset <- as.numeric(reset, "secs")
-    }
-    ## get users data if applicable
-    users <- do.call("rbind", lapply(rt, users_data))
-    rt <- do.call("rbind", rt)
-    attr(rt, "users") <- users
+search_params <- function(q, n, 
+                          type = c("mixed", "recent", "popular"),
+                          include_rts = TRUE,
+                          geocode = NULL,
+                          max_id = NULL,
+                          ...) {
+  if (missing(q) && !is.null(geocode)) {
+    q <- ""
   }
-  rt
-}
-
-
-.search_tweets <- function(q,
-                           n = 100,
-                           check = FALSE,
-                           geocode = NULL,
-                           type = "recent",
-                           max_id = NULL,
-                           include_rts = TRUE,
-                           parse = TRUE,
-                           token = NULL,
-                           verbose = TRUE,
-                           ...) {
-  ## gotta have ut8-encoding for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
-
-  ## path name
-  query <- "search/tweets"
-  safedir <- NULL
-  if ("premium" %in% names(list(...)) &&
-      all(c("env_name", "path") %in% names(list(...)$premium))) {
-    premium <- list(...)$premium
-    premium$path <- sub("tweets/search/?|search/tweets/?", "", premium$path)
-    query <- gsub("/+", "/",
-      paste0("tweets/search/", premium$path, "/", premium$env_name))
-    cat(query, "***")
-
-    if ("safedir" %in% names(list(...))) {
-      safedir <- list(...)$safedir
-    }
-  }
-  ## validate
   stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
-  ## number of loops
-  n.times <- ceiling(n / 100)
-  if (n < 100) {
-    count <- n
-  } else {
-    count <- 100
-  }
+  type <- arg_match(type)
+  
   ## validate query length–char count might not always be same here as with 
   ## Twitter, so set this to 600 and let Twitter reject others
   if (nchar(q) > 600) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
-  ## only select one type
-  if (length(type) > 1) {
-    stop("can only select one search type. Try type = 'recent'.",
-         call. = FALSE)
+  if (!include_rts) {
+    q <- paste0(q, " -filter:retweets")
   }
-  if (!isTRUE(tolower(type) %in% c("mixed", "recent", "popular"))) {
-    stop("invalid search type - must be mixed, recent, or popular.",
-         call. = FALSE)
-  }
-  ## if no retweets add filter to query
-  if (!include_rts) q <- paste0(q, " -filter:retweets")
-  ## geocode prep
-  if (!is.null(geocode)) {
 
-    if (inherits(geocode, "coords")) {
-      mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
-      mls2 <- abs(
-        geocode$box[1] - geocode$box[3]) * (69 - abs(.093 * geocode$point[1])^2)
-      mls <- (mls1/1.8 + mls2/1.8) / 1.8
-      mls <- round(mls, 3)
-      geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
-    }
+  if (!is.null(geocode) && inherits(geocode, "coords")) {
+    mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
+    mls2 <- abs(geocode$box[1] - geocode$box[3]) * 
+      (69 - abs(.093 * geocode$point[1])^2)
+    mls <- (mls1/1.8 + mls2/1.8) / 1.8
+    mls <- round(mls, 3)
+    geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
   }
-  ## make params list
-  params <- list(
+  
+  list(
     q = q,
     result_type = type,
-    count = count,
     max_id = max_id,
     tweet_mode = "extended",
     include_ext_alt_text = "true",
     geocode = geocode,
-    ...)
-  if (grepl("fullarchive|30day", query)) {
-    params[["premium"]] <- NULL
-    params$result_type <- NULL
-    if (grepl("full", query)) {
-      params$maxResults <- 500 # The Twitter premium API allows up to 500 tweets per request 
-    } else {
-      params$maxResults <- 100
-    }
-    names(params)[1] <- "query"
-    params$tweet_mode <- NULL
-    params$safedir <- NULL
-    # m <- regexpr("(?<=since:)\\S+", params$q, perl = TRUE)
-    # if (m[1] > 0) {
-    #   params$fromDate <- regmatches(params$q, m)
-    #   params$q <- sub("since:\\S+\\s?", "", params$q)
-    # }
-    # m <- regexpr("(?<=until:)\\S+", params$q, perl = TRUE)
-    # if (m[1] > 0) {
-    #   params$toDate <- regmatches(params$q, m)
-    #   params$q <- sub("until:\\S+\\s?", "", params$q)
-    # }
-    params$count <- NULL
-    type <- "premium"
-    ## make url
-    url <- make_url(
-      query = query,
-      param = params)
-  } else {
-    type <- "search"
-    ## make url
-    url <- make_url(
-      query = query,
-      param = params)
-  }
-
-  #if (verbose) {
-  #  message("Searching for tweets...")
-  #  if (n > 10000) message("This may take a few seconds...")
-  #}
-  tw <- scroller(url, n, n.times, type = type, token, verbose = verbose,
-    safedir = safedir)
-
-  if (parse) {
-    tw <- tweets_with_users(tw)
-  }
-  #if (verbose) {
-  #  message("Finished collecting tweets!")
-  #}
-  tw
+    ...
+  )
 }
 
 

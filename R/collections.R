@@ -8,14 +8,7 @@
 #'   e.g., "custom-539487832448843776"
 #' @param n Specifies the maximum number of results to include in
 #'   the response. Specify count between 1 and 200.
-#' @param parse Logical indicating whether to convert response object into
-#'   nested list. Defaults to true.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @param ... Other arguments passed along to composed request query.
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.
@@ -37,20 +30,13 @@ lookup_collections <- function(id, n = 200,
                                token = NULL,
                                ...) {
   stopifnot(is.character(id), is_n(n))
-  query <- "collections/entries"
+  
   params <- list(
     id = id,
     count = n,
     ...
   )
-  url <- make_url(query = query, param = params)
-  token <- check_token(token)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
-  }
-  r
+  TWIT_get(token, "collections/entries", params, parse = parse)
 }
 
 
@@ -67,15 +53,8 @@ lookup_collections <- function(id, n = 200,
 #' @param n Maximum number of results to return. Defaults to 200.
 #' @param cursor Page identifier of results to retrieve. If parse = TRUE,
 #'   the next cursor value for any given request--if available--is stored
-#'   as an attribute, accessible via \code{\link{next_cursor}}
-#' @param parse Logical indicating whether to convert response object
-#'   into nested list. Defaults to true.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#'   as an attribute, accessible via [next_cursor()]
+#' @inheritParams lookup_users
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.
 #' @examples
@@ -103,32 +82,26 @@ get_collections <- function(user,
                             cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  query <- "collections/list"
   stopifnot(is_n(n))
+  
+  params <- list(
+    count = n,
+    cursor = cursor
+  )
+  
   if (missing(user) && !is.null(status_id) ||
       is.null(user) && !is.null(status_id)) {
     stopifnot(is.atomic(status_id))
-    params <- list(
-      tweet_id = status_id,
-      count = n,
-      cursor = cursor
-    )
+    
+    params$tweet_id <- status_id
   } else {
     stopifnot(is.atomic(user))
-    params <- list(
-      user = user,
-      tweet_id = status_id,
-      count = n,
-      cursor = cursor
-    )
-    names(params)[1] <- .ids_type(params[[1]])
+    
+    params[[.ids_type(user)]] <- user
   }
-  url <- make_url(query = query, param = params)
-  token <- check_token(token)
-  r <- httr::GET(url, token)
-  warn_for_twitter_status(r)
-  if (r$status_code == 200L && parse) {
-    r <- from_js(r)
+  
+  r <- TWIT_get(token, "collections/list", params, parse = parse)
+  if (parse) {
     attr(r, "next_cursor") <- r[["response"]][["cursors"]][["next_cursor"]]
   }
   r

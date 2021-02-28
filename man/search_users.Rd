@@ -12,8 +12,7 @@ return from Twitter's REST API. Should be a character string not
 to exceed 500 characters maximum. Spaces are assumed to function
 like boolean "AND" operators. To search for tweets including one
 of multiple possible terms, separate search terms with spaces and
-the word "OR". For example, the search \code{query =
-"data science"} searches for tweets using both "data" and
+the word "OR". For example, the search \code{query = "data science"} searches for tweets using both "data" and
 "science" though the words can appear anywhere and in any order
 in the tweet. However, when OR is added between search terms,
 \code{query = "data OR science"}, Twitter's REST API should
@@ -26,20 +25,19 @@ phrases as is allowed by \code{search_tweets}.}
 return. Defaults to 100. Maximum number of users returned from a
 single search is 1,000.}
 
-\item{parse}{Logical, indicating whether to return parsed
-(data.frames) or nested list object. By default,
-\code{parse = TRUE} saves users from the time [and frustrations]
-associated with disentangling the Twitter API return objects.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
-\item{verbose}{Logical, indicating whether or not to output
-processing/retrieval messages.}
+See \code{vignette("auth")} for more details.}
+
+\item{verbose}{If \code{TRUE}, will display a progress bar while downloading.}
 }
 \value{
 Data frame of users returned by query.

@@ -7,20 +7,21 @@
 trends_available(token = NULL, parse = TRUE)
 }
 \arguments{
-\item{token}{OAuth token. By default \code{token = NULL} fetches a
-non-exhausted token from an environment variable. Find instructions
-on how to create tokens and setup an environment variable in the
-tokens vignette (in r, send \code{?tokens} to console).}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
-\item{parse}{Logical, indicating whether to return parsed
-(data.frames) or nested list object. By default,
-\code{parse = TRUE} saves users from the time
-[and frustrations] associated with disentangling the Twitter
-API return objects.}
+See \code{vignette("auth")} for more details.}
+
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 }
 \value{
 Data frame with WOEID column. WOEID is a Yahoo! Where On
-  Earth ID.
+Earth ID.
 }
 \description{
 Available Twitter trends along with associated WOEID.

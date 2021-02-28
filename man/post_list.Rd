@@ -26,15 +26,18 @@ post_list(
 Defaults to false, meaning the list would be public. Not applicable if list
 already exists.}
 
-\item{destroy}{Logical indicating whether to delete a list. Either `list_id` or
-`slug` must be provided if `destroy = TRUE`.}
+\item{destroy}{Logical indicating whether to delete a list. Either \code{list_id} or
+\code{slug} must be provided if \code{destroy = TRUE}.}
 
 \item{list_id}{Optional, numeric ID of list.}
 
 \item{slug}{Optional, list slug.}
 
-\item{token}{OAuth token associated with user who owns [or will own] the list
-of interest. Token must have write permissions!}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 Response object from HTTP request.

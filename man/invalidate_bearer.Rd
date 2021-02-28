@@ -7,7 +7,11 @@
 invalidate_bearer(token = NULL)
 }
 \arguments{
-\item{token}{Oauth token created via \code{\link{create_token}}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 }
 \description{
 Invalidate bearer token

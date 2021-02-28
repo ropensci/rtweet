@@ -4,6 +4,7 @@
 #' user. To return more than 75,000 user IDs in a single call (the
 #' rate limit maximum), set "retryonratelimit" to TRUE.
 #'
+#' @inheritParams lookup_users
 #' @param user Screen name or user ID of target user from which the
 #'   user IDs of followers will be retrieved.
 #' @param n Number of followers to return. Defaults to 5000, which is
@@ -16,30 +17,20 @@
 #'   return what it can (less than n) unless retryonratelimit is set
 #'   to true.
 #' @param retryonratelimit If you'd like to retrieve more than 75,000
-#'   followers in a single call, then set \code{retryonratelimit =
-#'   TRUE} and this function will use base \code{Sys.sleep} until rate
+#'   followers in a single call, then set `retryonratelimit =
+#'   TRUE` and this function will use base `Sys.sleep` until rate
 #'   limits reset and the desired n is achieved or the number of total
 #'   followers is exhausted. This defaults to FALSE. See details for
 #'   more info regarding possible issues with timing misfires.
-#' @param page Default \code{page = -1} specifies first page of JSON
+#' @param page Default `page = -1` specifies first page of JSON
 #'   results. Other pages specified via cursor values supplied by
-#'   Twitter API response object. If \code{parse = TRUE} then the
+#'   Twitter API response object. If `parse = TRUE` then the
 #'   cursor value can be extracted from the return object by using the
-#'   \code{next_cursor} function.
+#'   `next_cursor` function.
 #' @param verbose Logical indicating whether or not to print messages.
 #'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
 #'   prints sleep times and followers gathered counts.
-#' @param parse Logical, indicating whether to return parsed vector or
-#'   nested list object. By default, \code{parse = TRUE}
-#'   saves you the time [and frustrations] associated with
-#'   disentangling the Twitter API return objects.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
-#' @details When \code{retryonratelimit = TRUE} this function
+#' @details When `retryonratelimit = TRUE` this function
 #'   internally makes a rate limit API call to get information on (a)
 #'   the number of requests remaining and (b) the amount of time until
 #'   the rate limit resets. So, in theory, the sleep call should only
@@ -57,7 +48,7 @@
 #'   consistency issues. While this remains true it is possible to iteratively build
 #'   follower lists for a user over time.
 #' @seealso
-#'   \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
+#'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
 #'
 #' \dontrun{
@@ -94,155 +85,30 @@ get_followers <- function(user, n = 5000,
                           parse = TRUE,
                           verbose = TRUE,
                           token = NULL) {
-  args <- list(
-    user = user,
-    n = n,
-    page = page,
-    retryonratelimit = retryonratelimit,
-    parse = parse,
-    verbose = verbose,
-    token = token
-  )
-  do.call("get_followers_", args)
-}
 
-
-get_followers_ <- function(user,
-                           n = 5000,
-                           retryonratelimit = FALSE,
-                           page = "-1",
-                           parse = TRUE,
-                           verbose = TRUE,
-                           token = NULL) {
-  ## set scipen to ensure IDs are not rounded
-  op_sci <- getOption("scipen")
-  on.exit(options(scipen = op_sci), add = TRUE)
-  options(scipen = 14)
+  stopifnot(is_n(n), is.atomic(user), is.atomic(page), isTRUE(length(user) == 1))
   
   ## if n == all or Inf then lookup followers count
   if (identical(n, "all") || identical(n, Inf)) {
     usr <- lookup_users(user)
     n <- usr$followers_count
   }
-  ## check params
-  stopifnot(is_n(n),
-            is.atomic(user),
-            is.atomic(page),
-            isTRUE(length(user) == 1))
-  ## if n < 5000, set count to n otherwise seet to 5k
-  if (n < 5000) {
-    count <- n
-  } else {
-    count <- 5000
-  }
-  ## build URL
-  query <- "followers/ids"
-  token <- check_token(token)
-  params <- list(
-    user_type = user,
-    count = count,
-    cursor = page,
-    stringify_ids = TRUE
+
+  params <- list(stringify_ids = TRUE)
+  params[[.id_type(user)]] <- user
+
+  results <- TWIT_paginate_cursor(token, "followers/ids", params, 
+    page_size = 5000, 
+    n = n
   )
-  names(params)[1] <- .id_type(user)
-  url <- make_url(
-    query = query,
-    param = params
-  )
-  ## for larger requests implement Sys.sleep
-  if (retryonratelimit) {
-    ## total N
-    n5k <- ceiling(n / 5000)
-    f <- vector("list", n5k)
-    ## default (counter) values
-    more <- TRUE
-    i <- 0L
-    ctr <- 0L
-    ## until n followers have been retrieved
-    while (more) {
-      rl <- rate_limit2(token, query)
-      n.times <- rl[["remaining"]]
-      i <- i + 1L
-      ## if no calls remaining then sleep until no longer rate limited
-      rate_limited <- isTRUE(n.times == 0)
-      while (rate_limited) {
-        if (verbose) {
-          message(
-            paste("Waiting about",
-                  round(as.numeric(rl$reset, "secs") / 60, 1),
-                  "minutes",
-                  "for rate limit reset...")
-          )
-        }
-        Sys.sleep(as.numeric(rl$reset, "secs") + 2)
-        rl <- rate_limit2(token, query)
-        n.times <- rl$remaining
-        rate_limited <- isTRUE(n.times == 0)
-      }
-      ## exhaust rate limit
-      f[[i]] <- scroller(url, n, n.times, type = "followers", token)
-      url$query$cursor <- ncs_(f[[i]])
-      ## counter
-      ctr <- ctr + n.times * 5000
-      if (verbose) {
-        message(paste(ctr, "followers!"))
-      }
-      ## update more (logical)
-      more <- more_followers(f[[i]], i, n, ctr)
-    }
-    ## i don't think this line is needed anymore but just in case
-    f <- f[!vapply(f, is.null, logical(1))]
-    ## parse into data frame
-    if (parse) {
-      f <- lapply(f, parse.piper.fs, n = n)
-      f <- do.call("rbind", f)
-    }
-  } else {
-    ## if !retryonratelimit then if necessary exhaust what can with token
-    rl <- rate_limit2(token, query)
-    n.times <- rl[["remaining"]]
-    if (n < (n.times * 5000)) {
-      n.times <- ceiling(n / 5000)
-    }
-    f <- scroller(url, n, n.times, type = "followers", token)
-    ## drop NULL and parse into data frame
-    f <- f[!vapply(f, is.null, logical(1))]
-    if (parse) f <- parse.piper.fs(f, n)
+  
+  if (parse) {
+    results <- lapply(results, parse.piper.fs, n = n)
+    results <- do.call("rbind", results)
   }
-  f
+
+  results
 }
-
-
-
-more_followers <- function(f, i, n, ctr) {
-  ## if null then return FALSE to prevent error
-  if (length(f) == 0L) return(FALSE)
-  ## only interested in value of last 'next_cursor'
-  f <- f[[length(f)]]
-  ## if n > obs, f has nex_cursor, next_cursor != 0
-  ##   then yes, TRUE, there are more followers to get
-  all(
-    n > ctr,
-    has_name_(f, "next_cursor_str"),
-    !isTRUE(identical(`[[`(f, "next_cursor_str"), "0"))
-  )
-}
-
-ncs_ <- function(f) {
-  if (length(f) == 0) return("0")
-  if (!has_name_(f, "next_cursor_str")) {
-    f <- f[[length(f)]]
-  }
-  if (has_name_(f, "next_cursor_str")) {
-    ## next cursor
-    nc <- f[["next_cursor_str"]]
-    if (is.null(nc)) return("0")
-    return(nc)
-  }
-  "0"
-}
-
-
 
 parse.piper.fs <- function(f, n = NULL) {
   if (!is.list(f)) {
@@ -255,11 +121,8 @@ parse.piper.fs <- function(f, n = NULL) {
   if (length(df) == 0L) {
     return(data.frame())
   }
-  nextcursor <- unlist(lapply(f, "[[[", "next_cursor_str"), use.names = FALSE)
-  nextcursor <- na_omit(nextcursor)
-  nextcursor <- nextcursor[length(nextcursor)]
+
   df <- as_tbl(list(user_id = df))
-  attr(df, "next_cursor") <- nextcursor
   if (!is.null(n)) {
     if (n < nrow(df)) {
       df <- df[seq_len(n), ]

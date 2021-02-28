@@ -38,10 +38,10 @@ owner_user parameters.}
 who owns the list being requested by a slug.}
 
 \item{n}{Specifies the number of results to return
-per page (see cursor below). For `list_memberships()`, the default and
+per page (see cursor below). For \code{list_memberships()}, the default and
 max is 200 per page. Twitter technically allows up to 1,000 per page,
 but above 200 frequently results in an over capacity error.
-For `lists_members()`, the default, and max number
+For \code{lists_members()}, the default, and max number
 of users per list, is 5,000.}
 
 \item{cursor}{optional Breaks the results into pages. Provide a
@@ -49,15 +49,17 @@ value of -1 to begin paging. Provide values as returned in the
 response body's next_cursor and previous_cursor attributes to
 page back and forth in the list.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
 
-\item{parse}{Logical indicating whether to convert the response object into
-an R list. Defaults to TRUE.}
+See \code{vignette("auth")} for more details.}
+
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
 \item{...}{Other arguments used as parameters in query composition.}
 
@@ -75,14 +77,9 @@ input value here to override next cursor.}
 Either a nested list (if parsed) or an HTTP response object.
 }
 \description{
-Get Twitter list members (users on a given list).
-
-Get Twitter list memberships (lists containing a given user)
-}
-\details{
 Due to deleted or removed lists, the returned number of memberships
-  is often less than the provided n value. This is a reflection of the API and
-  not a unique quirk of rtweet.
+is often less than the provided n value. This is a reflection of the API and
+not a unique quirk of rtweet.
 }
 \examples{
 \dontrun{

@@ -8,7 +8,7 @@
 search_tweets(
   q,
   n = 100,
-  type = "recent",
+  type = c("mixed", "recent", "popular"),
   include_rts = TRUE,
   geocode = NULL,
   max_id = NULL,
@@ -23,33 +23,30 @@ search_tweets2(...)
 }
 \arguments{
 \item{q}{Query to be searched, used to filter and select tweets to
-  return from Twitter's REST API. Must be a character string not to
-  exceed maximum of 500 characters. Spaces behave like boolean
-  "AND" operator. To search for tweets containing at least one of
-  multiple possible terms, separate each search term with spaces
-  and "OR" (in caps). For example, the search \code{q =
-  "data science"} looks for tweets containing both "data" and
-  "science" located anywhere in the tweets and in any order.
-  When "OR" is entered between search terms, \code{query =
-  "data OR science"}, Twitter's REST API should return any tweet
-  that contains either "data" or "science." It is also possible to
-  search for exact phrases using double quotes. To do this, either
-  wrap single quotes around a search query using double quotes,
-  e.g., \code{q = '"data science"'} or escape each internal double
-  quote with a single backslash, e.g., \code{q =
-  "\"data science\""}.
+return from Twitter's REST API. Must be a character string not to
+exceed maximum of 500 characters. Spaces behave like boolean
+"AND" operator. To search for tweets containing at least one of
+multiple possible terms, separate each search term with spaces
+and "OR" (in caps). For example, the search \code{q = "data science"} looks for tweets containing both "data" and
+"science" located anywhere in the tweets and in any order.
+When "OR" is entered between search terms, \code{query = "data OR science"}, Twitter's REST API should return any tweet
+that contains either "data" or "science." It is also possible to
+search for exact phrases using double quotes. To do this, either
+wrap single quotes around a search query using double quotes,
+e.g., \code{q = '"data science"'} or escape each internal double
+quote with a single backslash, e.g., \verb{q = "\\"data science\\""}.
 
 Some other useful query tips:
 
 \itemize{
-  \item Exclude retweets via \code{"-filter:retweets"}
-  \item Exclude quotes via \code{"-filter:quote"}
-  \item Exclude replies via \code{"-filter:replies"}
-  \item Filter (return only) verified via \code{"filter:verified"}
-  \item Exclude verified via \code{"-filter:verified"}
-  \item Get everything (firehose for free) via \code{"-filter:verified OR filter:verified"}
-  \item Filter (return only) tweets with links to news articles via \code{"filter:news"}
-  \item Filter (return only) tweets with media \code{"filter:media"}
+\item Exclude retweets via \code{"-filter:retweets"}
+\item Exclude quotes via \code{"-filter:quote"}
+\item Exclude replies via \code{"-filter:replies"}
+\item Filter (return only) verified via \code{"filter:verified"}
+\item Exclude verified via \code{"-filter:verified"}
+\item Get everything (firehose for free) via \code{"-filter:verified OR filter:verified"}
+\item Filter (return only) tweets with links to news articles via \code{"filter:news"}
+\item Filter (return only) tweets with media \code{"filter:media"}
 }}
 
 \item{n}{Integer, specifying the total number of desired tweets to
@@ -60,8 +57,7 @@ details for more information.}
 
 \item{type}{Character string specifying which type of search
 results to return from Twitter's REST API. The current default is
-\code{type = "recent"}, other valid types include \code{type =
-"mixed"} and \code{type = "popular"}.}
+\code{type = "recent"}, other valid types include \code{type = "mixed"} and \code{type = "popular"}.}
 
 \item{include_rts}{Logical, indicating whether to include retweets
 in search results. Retweets are classified as any tweet generated
@@ -71,11 +67,10 @@ from sender) or manual retweets (old school method of manually
 entering "RT" into the text of one's tweets).}
 
 \item{geocode}{Geographical limiter of the template
-"latitude,longitude,radius" e.g., \code{geocode =
-"37.78,-122.40,1mi"}.}
+"latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
 
 \item{max_id}{Character, returns results with an ID less
-than (that is, older than) or equal to `max_id`.  Especially
+than (that is, older than) or equal to \code{max_id}.  Especially
 useful for large data returns that require multiple iterations
 interrupted by user time constraints. For searches exceeding
 18,000 tweets, users are encouraged to take advantage of rtweet's
@@ -88,26 +83,17 @@ leverage \code{retryonratelimit} for sets of tweets and
 \code{max_id} to allow results to continue where previous efforts
 left off.}
 
-\item{parse}{Logical, indicating whether to return parsed
-data.frame, if true, or nested list, if false. By default,
-\code{parse = TRUE} saves users from the wreck of time and
-frustration associated with disentangling the nasty nested list
-returned from Twitter's API. As Twitter's APIs are subject to
-change, this argument would be especially useful when changes to
-Twitter's APIs affect performance of internal parsers. Setting
-\code{parse = FALSE} also ensures the maximum amount of possible
-information is returned. By default, the rtweet parse process
-returns nearly all bits of information returned from
-Twitter. However, users may occasionally encounter new or
-omitted variables. In these rare cases, the nested list object
-will be the only way to access these variables.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 
 \item{retryonratelimit}{Logical indicating whether to wait and
 retry when rate limited. This argument is only relevant if the
@@ -139,7 +125,7 @@ Twitter's API documentation.}
 }
 \value{
 List object with tweets and users each returned as a
-  data frame.
+data frame.
 
 A tbl data frame with additional "query" column.
 }
@@ -154,31 +140,30 @@ one OR MORE search queries.
 }
 \details{
 Twitter API documentation recommends limiting searches to
-  10 keywords and operators. Complex queries may also produce API
-  errors preventing recovery of information related to the query.
-  It should also be noted Twitter's search API does not consist of
-  an index of all Tweets. At the time of searching, the search API
-  index includes between only 6-9 days of Tweets.
+10 keywords and operators. Complex queries may also produce API
+errors preventing recovery of information related to the query.
+It should also be noted Twitter's search API does not consist of
+an index of all Tweets. At the time of searching, the search API
+index includes between only 6-9 days of Tweets.
 
-
-  Number of tweets returned will often be less than what was
-  specified by the user. This can happen because (a) the search
-  query did not return many results (the search pool is already
-  thinned out from the population of tweets to begin with),
-  (b) because user hitting rate limit for a given token, or (c)
-  of recent activity (either more tweets, which affect pagination
-  in returned results or deletion of tweets). To return more than
-  18,000 tweets in a single call, users must set
-  \code{retryonratelimit} argument to true. This method relies on
-  updating the \code{max_id} parameter and waiting for token rate
-  limits to refresh between searches. As a result, it is possible
-  to search for 50,000, 100,000, or even 10,000,000 tweets, but
-  these searches can take hours or even days. At these durations,
-  it would not be uncommon for connections to timeout. Users are
-  instead encouraged to breakup data retrieval into smaller chunks
-  by leveraging \code{retryonratelimit} and then using the
-  status_id of the oldest tweet as the \code{max_id} to resume
-  searching where the previous efforts left off.
+Number of tweets returned will often be less than what was
+specified by the user. This can happen because (a) the search
+query did not return many results (the search pool is already
+thinned out from the population of tweets to begin with),
+(b) because user hitting rate limit for a given token, or (c)
+of recent activity (either more tweets, which affect pagination
+in returned results or deletion of tweets). To return more than
+18,000 tweets in a single call, users must set
+\code{retryonratelimit} argument to true. This method relies on
+updating the \code{max_id} parameter and waiting for token rate
+limits to refresh between searches. As a result, it is possible
+to search for 50,000, 100,000, or even 10,000,000 tweets, but
+these searches can take hours or even days. At these durations,
+it would not be uncommon for connections to timeout. Users are
+instead encouraged to breakup data retrieval into smaller chunks
+by leveraging \code{retryonratelimit} and then using the
+status_id of the oldest tweet as the \code{max_id} to resume
+searching where the previous efforts left off.
 }
 \examples{
 

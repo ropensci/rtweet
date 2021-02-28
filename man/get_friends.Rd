@@ -45,25 +45,25 @@ results. Other pages specified via cursor values supplied by
 Twitter API response object. This is only relevant if a user has
 over 5000 friends (follows more than 5000 accounts).}
 
-\item{parse}{Logical, indicating whether to return parsed vector or
-nested list object. By default, \code{parse = TRUE}
-saves you the time [and frustrations] associated with
-disentangling the Twitter API return objects.}
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
 
 \item{verbose}{Logical indicating whether or not to include output
 messages. Defaults to TRUE, which includes printing a success message
 for each inputted user.}
 
-\item{token}{Every user should have their own Oauth (Twitter API) token. By
-default \code{token = NULL} this function looks for the path to a saved
-Twitter token via environment variables (which is what `create_token()`
-sets up by default during initial token creation). For instruction on how
-to create a Twitter token see the tokens vignette, i.e.,
-`vignettes("auth", "rtweet")` or see \code{?tokens}.}
+\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
+a default token with \code{\link[=get_token]{get_token()}}. You should only need to
+use this argument if you are wrapping rtweet in a package.
+
+See \code{vignette("auth")} for more details.}
 }
 \value{
 A tibble data frame with two columns, "user" for name or ID of target
-  user and "user_id" for follower IDs.
+user and "user_id" for follower IDs.
 }
 \description{
 Returns a list of user IDs for the accounts following BY one or
@@ -73,20 +73,20 @@ to TRUE.
 }
 \details{
 When \code{retryonratelimit = TRUE} this function internally
-  makes a rate limit API call to get information on (a) the number of requests
-  remaining and (b) the amount of time until the rate limit resets. So, in
-  theory, the sleep call should only be called once between waves of data
-  collection. However, as a fail safe, if a system's time is calibrated such
-  that it expires before the rate limit reset, or if, in another session, the
-  user dips into the rate limit, then this function will wait (use Sys.sleep
-  for a second time) until the next rate limit reset. Users should monitor
-  and test this before making especially large calls as any systematic issues
-  could create sizable inefficiencies.
+makes a rate limit API call to get information on (a) the number of requests
+remaining and (b) the amount of time until the rate limit resets. So, in
+theory, the sleep call should only be called once between waves of data
+collection. However, as a fail safe, if a system's time is calibrated such
+that it expires before the rate limit reset, or if, in another session, the
+user dips into the rate limit, then this function will wait (use Sys.sleep
+for a second time) until the next rate limit reset. Users should monitor
+and test this before making especially large calls as any systematic issues
+could create sizable inefficiencies.
 
-  At this time, results are ordered with the most recent following first —
-  however, this ordering is subject to unannounced change and eventual
-  consistency issues. While this remains true it is possible to iteratively build
-  friends lists for a user over time.
+At this time, results are ordered with the most recent following first —
+however, this ordering is subject to unannounced change and eventual
+consistency issues. While this remains true it is possible to iteratively build
+friends lists for a user over time.
 }
 \examples{
 

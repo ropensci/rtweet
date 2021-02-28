@@ -1,3 +1,14 @@
+test_that("get_friends returns data frame with ids", {
+  skip_on_cran()
+  skip_if_offline()
+
+  f <- get_friends("kearneymw")
+
+  expect_true(is.data.frame(f))
+  ##expect_true(is.character(f[["ids"]]))
+  expect_gt(nrow(f), 200)
+})
+
 test_that("friendships returns data", {
   skip_on_cran()
   skip_if_offline()

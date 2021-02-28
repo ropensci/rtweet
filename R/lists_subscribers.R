@@ -17,14 +17,7 @@
 #'   The response from the API will include a previous_cursor
 #'   and next_cursor to allow paging back and forth. See Using
 #'   cursors to navigate collections for more information.
-#' @param parse Logical indicating whether to convert the response object into
-#'   an R list. Defaults to TRUE.
-#' @param token Every user should have their own Oauth (Twitter API) token. By
-#'   default \code{token = NULL} this function looks for the path to a saved
-#'   Twitter token via environment variables (which is what `create_token()`
-#'   sets up by default during initial token creation). For instruction on how
-#'   to create a Twitter token see the tokens vignette, i.e.,
-#'   `vignettes("auth", "rtweet")` or see \code{?tokens}.
+#' @inheritParams lookup_users
 #' @examples
 #'
 #' \dontrun{
@@ -48,24 +41,7 @@ lists_subscribers <- function(list_id = NULL,
                               cursor = "-1",
                               parse = TRUE,
                               token = NULL) {
-  lists_subscribers_(
-    list_id = list_id,
-    slug = slug,
-    owner_user = owner_user,
-    n = n,
-    cursor = cursor,
-    parse = parse,
-    token = token
-  )
-}
 
-lists_subscribers_ <- function(list_id = NULL,
-                               slug = NULL,
-                               owner_user = NULL,
-                               n = 20,
-                               cursor = "-1",
-                               parse = TRUE,
-                               token = NULL) {
   if (n > 5000) {
     n <- ceiling(n / 5000)
     count <- 5000
@@ -104,26 +80,17 @@ lists_subscribers_call <- function(list_id = NULL,
                                    cursor = "-1",
                                    parse = TRUE,
                                    token = NULL) {
-  query <- "lists/subscribers"
-  if (is.null(list_id) && !is.null(slug) & !is.null(owner_user)) {
-    params <- list(
-      slug = slug,
-      owner_user = owner_user,
-      count = n,
-      cursor = cursor
-    )
-    names(params)[2] <- paste0("owner_", .id_type(owner_user))
-  } else {
-    params <- list(
-      list_id = list_id,
-      count = n,
-      cursor = cursor
-    )
-  }
-  token <- check_token(token)
-  url <- make_url(query = query, param = params)
-  r <- httr::GET(url, token)
-  r <- from_js(r)
+  
+  params <- lists_params(
+    list_id = list_id,
+    slug = slug,
+    owner_user = owner_user,
+    count = n,
+    cursor = cursor
+  )
+  
+  r <- TWIT_get(token, "lists/subscribers", params)
+  
   if (has_name_(r, "next_cursor_str")) {
     next_cursor <- r[["next_cursor_str"]]
   } else {

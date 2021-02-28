@@ -10,7 +10,6 @@
 #' Use the `zoom` factor to get more pixels which may improve the text rendering
 #' of the tweet/thread.
 #'
-#' @md
 #' @param statusid_or_url a valid Twitter status id (e.g. "`947082036019388416`") or
 #'     a valid Twitter status URL (e.g. "`https://twitter.com/jhollist/status/947082036019388416`").
 #' @param zoom a positive number >= 1. See the help for `[webshot::webshot()]` for more information.
@@ -24,9 +23,7 @@
 #' tweet_shot("https://twitter.com/jhollist/status/947082036019388416")
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
-  ## check for required packages
-  try_require("magick", "tweet_shot")
-  try_require("webshot", "tweet_shot")
+  check_installed(c("magick", "webshot"))
 
   statusid_or_url <- statusid_or_url[1]
   zoom <- zoom[1]
