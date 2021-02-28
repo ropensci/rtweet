@@ -1,5 +1,12 @@
 # rtweet ...
 
+- rtweet 1.0.0 implements a consistent strategy for handling rate limits. 
+  By default, if a paginated function (i.e. a rtweet function that performs 
+  multiple calls to the twitter API) is rate-limited it will return all results 
+  recieved up to that point, along with a warning telling you how to get more
+  results. Alternatively, if you want to automatically wait until the 
+  rate-limit is reset, you can set `retryratelimit = TRUE`.
+
 - The `rate_limit()` interface has been drastically simplified.
 
 - httpuv is now only suggested (since it's only needed for interactive auth);

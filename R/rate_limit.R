@@ -1,8 +1,13 @@
 #' Rate limit helpers
 #'
+#' @description 
 #' * `rate_limit()` returns a tibble of info about all rate limits
 #' * `rate_limit_reset()` returns the next reset for a endpoint
 #' * `rate_limit_wait()` waits for the next reset for an endpoint
+#' 
+#' You should not need to use these function in the usual operation of rtweet
+#' because all paginated functions will wait on your behalf if you set 
+#' `retryonratelimit = TRUE`.
 #'
 #' @inheritParams lookup_users
 #' @param resources Constraint results to specific set of resources.
@@ -63,23 +68,31 @@ rate_limit_reset <- function(endpoint, token = NULL) {
 #' @rdname rate_limit
 rate_limit_wait <- function(endpoint, token = NULL) {
   reset <- unclass(rate_limit_reset(endpoint, token))
-  now <- unclass(Sys.time())
-  seconds <- reset - now
-  
+  wait_until(reset, endpoint)
+
+  invisible()
+}
+
+wait_until <- function(until, api, fps = 8) {
+  until <- unclass(until)
+  seconds <- until - unclass(Sys.time())
+
   if (seconds < 0) {
     return(invisible())
   }
   
-  fps <- 4
   pb <- progress::progress_bar$new(
     total = seconds * fps,
-    format = paste0("Waiting for '", endpoint, "' refresh :spin :bar in :mins mins")
+    format = paste0(
+      "Rate limit exceeded for Twitter endpoint '", api, "'. ",
+      "Waiting for refresh in :mins mins :spin"
+    )
   )
   withr::defer(pb$terminate())
   
-  while(Sys.time() < reset) {
+  while(Sys.time() < until) {
     Sys.sleep(1 / fps)
-    mins <- round((reset - unclass(Sys.time())) / 60)
+    mins <- round((until - unclass(Sys.time())) / 60)
     pb$tick(tokens = list(mins = mins))
   }
 

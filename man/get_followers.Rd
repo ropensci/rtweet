@@ -7,38 +7,38 @@
 get_followers(
   user,
   n = 5000,
-  page = "-1",
+  cursor = "-1",
   retryonratelimit = FALSE,
   parse = TRUE,
   verbose = TRUE,
-  token = NULL
+  token = NULL,
+  page = lifecycle::deprecated()
 )
 }
 \arguments{
 \item{user}{Screen name or user ID of target user from which the
 user IDs of followers will be retrieved.}
 
-\item{n}{Number of followers to return. Defaults to 5000, which is
-the max number of followers returned by a single API
-request. Twitter allows up to 15 of these requests every 15
-minutes, which means 75,000 is the max number of followers to
-return without waiting for the rate limit to reset.  If this
-number exceeds either 75,000 or the remaining number of possible
-requests for a given token, then the returned object will only
-return what it can (less than n) unless retryonratelimit is set
-to true.}
+\item{n}{Number of followers to return.
 
-\item{page}{Default \code{page = -1} specifies first page of JSON
-results. Other pages specified via cursor values supplied by
-Twitter API response object. If \code{parse = TRUE} then the
-cursor value can be extracted from the return object by using the
-\code{next_cursor} function.}
+Results are downloaded in pages of 5000, and you can download 15 pages
+(i.e. 75,000 tweets) in each 15 minute period. The easiest way to download
+more than that is to set \code{retryonratelimit = TRUE}.}
 
-\item{retryonratelimit}{If you'd like to retrieve more than 75,000
-followers in a single call, then set \code{retryonratelimit = TRUE} and this function will use base \code{Sys.sleep} until rate
-limits reset and the desired n is achieved or the number of total
-followers is exhausted. This defaults to FALSE. See details for
-more info regarding possible issues with timing misfires.}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+In general, if you expect a query to take hours or days to perform,
+you should not rely \code{retryonratelimit} because it does not handle other
+HTTP failure modes that commonly arise (i.e. you temporarily lose your
+internet connection). Instead, you'll need implementing paging yourself
+using \code{max_id} or \code{cursor}.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -47,14 +47,15 @@ to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{verbose}{Logical indicating whether or not to print messages.
-Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
-prints sleep times and followers gathered counts.}
+Only relevant if retryonratelimit = TRUE. Defaults to TRUE,}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
 a default token with \code{\link[=get_token]{get_token()}}. You should only need to
 use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
+
+\item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}
 }
 \value{
 A tibble data frame of follower IDs (one column named "user_id").
@@ -63,25 +64,6 @@ A tibble data frame of follower IDs (one column named "user_id").
 Returns a list of user IDs for the accounts following specified
 user. To return more than 75,000 user IDs in a single call (the
 rate limit maximum), set "retryonratelimit" to TRUE.
-}
-\details{
-When \code{retryonratelimit = TRUE} this function
-internally makes a rate limit API call to get information on (a)
-the number of requests remaining and (b) the amount of time until
-the rate limit resets. So, in theory, the sleep call should only
-be called once between waves of data collection. However, as a
-fail safe, if a system's time is calibrated such that it expires
-before the rate limit reset, or if, in another session, the user
-dips into the rate limit, then this function will wait (use
-Sys.sleep for a second time) until the next rate limit
-reset. Users should monitor and test this before making
-especially large calls as any systematic issues could create
-sizable inefficiencies.
-
-At this time, results are ordered with the most recent following first —
-however, this ordering is subject to unannounced change and eventual
-consistency issues. While this remains true it is possible to iteratively build
-follower lists for a user over time.
 }
 \examples{
 

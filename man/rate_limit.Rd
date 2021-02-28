@@ -4,7 +4,7 @@
 \alias{rate_limit}
 \alias{rate_limit_reset}
 \alias{rate_limit_wait}
-\title{Get rate limit data for given Twitter access tokens.}
+\title{Rate limit helpers}
 \usage{
 rate_limit(resources = NULL, token = NULL)
 
@@ -13,44 +13,33 @@ rate_limit_reset(endpoint, token = NULL)
 rate_limit_wait(endpoint, token = NULL)
 }
 \arguments{
+\item{resources}{Constraint results to specific set of resources.}
+
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
 a default token with \code{\link[=get_token]{get_token()}}. You should only need to
 use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
-\item{query}{Specific API (path) or a character function name,
-e.g., query = "get_timeline", used to subset the returned data.
-If null, this function returns entire rate limit request object
-as a tibble data frame. Otherwise, query returns specific values
-matching the query of interest; e.g., query = "lookup/users"
-returns remaining limit for user lookup requests; type =
-"followers/ids" returns remaining limit for follower id requests;
-type = "friends/ids" returns remaining limit for friend id
-requests.}
+\item{endpoint}{Name of twitter endpoint like \code{"lookup/users"},
+\code{"/media/upload"}, or \code{"/feedback/show/:id"}.}
 }
 \description{
-Returns rate limit information for one or more Twitter tokens,
-optionally filtered by rtweet function or specific Twitter API
-path(s)
+\itemize{
+\item \code{rate_limit()} returns a tibble of info about all rate limits
+\item \code{rate_limit_reset()} returns the next reset for a endpoint
+\item \code{rate_limit_wait()} waits for the next reset for an endpoint
+}
+
+You should not need to use these function in the usual operation of rtweet
+because all paginated functions will wait on your behalf if you set
+\code{retryonratelimit = TRUE}.
 }
 \examples{
 
 \dontrun{
-
-## get all rate_limit information for default token
 rate_limit()
-
-## get rate limit info for API used in lookup_statuses
-rate_limit("lookup_statuses")
-
-## get rate limit info for specific token
-token <- get_tokens()
-rate_limit(token)
-rate_limit(token, "search_tweets")
-
 }
-
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
