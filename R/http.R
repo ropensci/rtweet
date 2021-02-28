@@ -111,11 +111,10 @@ TWIT_paginate_max_id <- function(token, query, params,
       )
     )
     if (is_rate_limit(resp)) {
-      warn(c(
-        "Terminating paginate early due to rate limit.",
-        resp$message,
-        if (!is.null(max_id)) paste0("Set `max_id = '", max_id, "' to continue.")
-      ))
+      warn_early_term(json, 
+        hint = paste0("Set `max_id = '", max_id, "' to continue."),
+        hint_if = !is.null(max_id),
+      )
       break
     }
     
@@ -160,11 +159,10 @@ TWIT_paginate_cursor <- function(token, query, params,
       )
     )
     if (is_rate_limit(json)) {
-      warn(c(
-        "Terminating paginate early due to rate limit.",
-        json$message,
-        paste0("Set `cursor = '", cursor, "' to continue.")
-      ))
+      warn_early_term(json, 
+        hint = paste0("Set `cursor = '", cursor, "' to continue."),
+        hint_if = !identical(cursor, "-1")
+      )
       break
     }
 
@@ -234,6 +232,15 @@ catch_rate_limit <- function(code) {
 }
 
 is_rate_limit <- function(x) inherits(x, "rtweet_rate_limit")
+
+warn_early_term <- function(cnd, hint, hint_if) {
+  warn(c(
+    "Terminating paginate early due to rate limit.",
+    cnd$message,
+    i = if (hint_if) hint,
+    i = "Set `retryonratelimit = TRUE` to automatically wait for reset"
+  ))
+}
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 handle_error <- function(x) {
