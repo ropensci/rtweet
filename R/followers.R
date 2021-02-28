@@ -8,7 +8,7 @@
 #' @inheritParams TWIT_paginate_cursor
 #' @param user Screen name or user ID of target user from which the
 #'   user IDs of followers will be retrieved.
-#' @param n Number of followers to return. 
+#' @param n Number of followers to return. Use `Inf` to download all followers.
 #' 
 #'   Results are downloaded in pages of 5000, and you can download 15 pages
 #'   (i.e. 75,000 tweets) in each 15 minute period. The easiest way to download 
@@ -61,8 +61,7 @@ get_followers <- function(user, n = 5000,
 
   stopifnot(is_n(n), is.atomic(user), isTRUE(length(user) == 1))
   
-  ## if n == all or Inf then lookup followers count
-  if (identical(n, "all") || identical(n, Inf)) {
+  if (identical(n, Inf)) {
     usr <- lookup_users(user)
     n <- usr$followers_count
   }

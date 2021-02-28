@@ -19,7 +19,7 @@ get_followers(
 \item{user}{Screen name or user ID of target user from which the
 user IDs of followers will be retrieved.}
 
-\item{n}{Number of followers to return.
+\item{n}{Number of followers to return. Use \code{Inf} to download all followers.
 
 Results are downloaded in pages of 5000, and you can download 15 pages
 (i.e. 75,000 tweets) in each 15 minute period. The easiest way to download
