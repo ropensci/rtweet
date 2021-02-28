@@ -120,15 +120,3 @@ check_status_code <- function(x) {
   }
   FALSE
 }
-
-check_for_errors <- function(x) {
-  if (identical(c("code", "message"), names(x))) {
-    message("Error code: ", x$code)
-    message(x$message)
-    return(tibble::as_tibble())
-  } else if (is.character(x)) {
-    message(x)
-    return(tibble::as_tibble())
-  }
-  x
-}

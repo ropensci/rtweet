@@ -38,16 +38,15 @@ users <- c(
   "potus", "hillaryclinton", "realdonaldtrump",
   "fivethirtyeight", "cnn", "espn", "twitter"
 )
-
-## get users data
 usr_df <- lookup_users(users)
-
-## view users data
-usr_df
 
 ## view tweet data for these users via tweets_data()
 tweets_data(usr_df)
 
+# Find user data for the recent posters to #rstats
+rs <- search_tweets("#rstats", n = 500)
+user_ids <- unique(rs$user_id)
+lookup_users(user_ids)
 }
 
 }

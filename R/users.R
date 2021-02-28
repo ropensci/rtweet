@@ -27,87 +27,41 @@
 #'   "potus", "hillaryclinton", "realdonaldtrump",
 #'   "fivethirtyeight", "cnn", "espn", "twitter"
 #' )
-#'
-#' ## get users data
 #' usr_df <- lookup_users(users)
-#'
-#' ## view users data
-#' usr_df
 #'
 #' ## view tweet data for these users via tweets_data()
 #' tweets_data(usr_df)
-#'
+#' 
+#' # Find user data for the recent posters to #rstats
+#' rs <- search_tweets("#rstats", n = 500)
+#' user_ids <- unique(rs$user_id)
+#' lookup_users(user_ids)
 #' }
 #'
 #' @return A tibble of users data.
 #' @family users
 #' @export
 lookup_users <- function(users, parse = TRUE, token = NULL) {
-  args <- list(users = users, parse = parse, token = token)
-  do.call("lookup_users_", args)
-}
-
-lookup_users_ <- function(users,
-                          token = NULL,
-                          parse = TRUE) {
   stopifnot(is.atomic(users))
-  if (length(users) < 101L) {
-    usr <- .user_lookup(users, token)
-  } else {
-    if (length(users) > 90000L) {
-      message("max number of users exceeded; looking up first 90,000")
-      users <- users[1:90000]
-    }
-    n.times <- ceiling(length(users) / 100)
-    from.id <- 1L
-    usr <- vector("list", n.times)
-    for (i in seq_len(n.times)) {
-      to.id <- from.id + 99L
-      if (to.id > length(users)) {
-        to.id <- length(users)
-      }
-      usr[[i]] <- .user_lookup(users[from.id:to.id], token)
-      if (parse) {
-        usr[[i]] <- check_for_errors(usr[[i]])
-      }
-      from.id <- to.id + 1L
-      if (from.id > length(users)) break
-    }
+  
+  if (length(users) > 90000L) {
+    message("max number of users exceeded; looking up first 90,000")
+    users <- users[1:90000]
   }
+  
+  chunks <-  unname(split(users, (seq_along(users) - 1) %/% 100))
+  results <- lapply(chunks, user_lookup_100, token = token)
+  
   if (parse) {
-    usr <- users_with_tweets(usr)
+    results <- users_with_tweets(results)
   }
-  usr
+  results
 }
 
-.user_lookup <- function(users, token = NULL) {
-  ## gotta have ut8-encoding for the comma separated IDs
-  ## set scipen to ensure IDs are not rounded
-  op_enc <- getOption("encoding")
-  op_sci <- getOption("scipen")
-  on.exit(options(scipen = op_sci, encoding = op_enc), add = TRUE)
-  options(scipen = 14, encoding = "UTF-8")
-
-  query <- "users/lookup"
-  get <- TRUE
-  if (length(users) > 100) {
-    users <- users[1:100]
-  }
-  token <- check_token(token)
-  if (length(users) > 80 && has_write_access(token)) {
-    get <- FALSE
-  }
-  params <- list(id_type = paste0(users, collapse = ","))
-  names(params)[1] <- .ids_type(users)
-  url <- make_url(
-    query = query,
-    param = params
-  )
-  resp <- TWIT(get = get, url, token)
-  from_js(resp)
-}
-
-has_write_access <- function(x) {
-  al <- api_access_level(x)
-  length(al) == 1 && grepl("write", al)
+user_lookup_100 <- function(users, token = NULL) {
+  stopifnot(length(users) <= 100)
+  
+  params <- list()
+  params[[.id_type(users)]] <- paste0(users, collapse = ",")
+  TWIT_get(token, "users/lookup", params)
 }
