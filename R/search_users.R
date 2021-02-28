@@ -21,8 +21,7 @@
 #' @param n Numeric, specifying the total number of desired users to
 #'   return. Defaults to 100. Maximum number of users returned from a
 #'   single search is 1,000.
-#' @param verbose Logical, indicating whether or not to output
-#'   processing/retrieval messages.
+#' @param verbose If `TRUE`, will display a progress bar while downloading.
 #' @seealso <https://dev.twitter.com/overview/documentation>
 #' @examples
 #'
@@ -46,89 +45,43 @@ search_users <- function(q, n = 100,
                          parse = TRUE,
                          token = NULL,
                          verbose = TRUE) {
-  args <- list(
-    q = q,
-    n = n,
-    parse = parse,
-    token = token,
-    verbose = verbose
-  )
-  do.call("search_users_call", args)
-}
-
-
-search_users_call <- function(q, n = 20,
-                              parse = TRUE,
-                              token = NULL,
-                              verbose = TRUE) {
-  query <- "users/search"
+  
   stopifnot(is_n(n), is.atomic(q))
-  token <- check_token(token)
   if (n > 1000) {
     warning(
-      paste0("search only returns up to 1,000 users per ",
-        "unique search. Setting n to 1000..."))
+      "search only returns up to 1,000 users per ",
+      "unique search. Setting n to 1000..."
+    )
     n <- 1000
-  }
-  n.times <- ceiling(n / 20)
-  if (n.times > 50) n.times <- 50
-  if (n < 20) {
-    count <- n
-  } else {
-    count <- 20
   }
 
   if (nchar(q) > 500) {
     stop("q cannot exceed 500 characters.", call. = FALSE)
   }
-  if (verbose) message("Searching for users...")
 
-  usr <- vector("list", n.times)
-  k <- 0
-  nrows <- NULL
+  pages <- ceiling(n / 20)
+  results <- vector("list", pages)
 
-  for (i in seq_len(n.times)) {
-    params <- list(
-      q = q,
-      count = count,
-      page = i,
-      tweet_mode = "extended",
-      include_ext_alt_text = "true"
-    )
-    url <- make_url(
-      query = query,
-      param = params
-    )
-    r <- tryCatch(
-      TWIT(get = TRUE, url, token),
-      error = function(e) return(NULL))
-
-    if (is.null(r)) break
-
-    usr[[i]] <- from_js(r)
-
-    if (i > 1L) {
-      if (identical(usr[[i]], usr[[i - 1L]])) {
-        usr <- usr[-i]
-        break
-      }
-    }
-
-    if (identical(length(usr[[i]]), 0)) break
-    if (isTRUE(is.numeric(NROW(usr[[i]])))) {
-      nrows <- NROW(usr[[i]])
-    } else {
-      if (identical(nrows, 0)) break
-      nrows <- 0
-    }
-    k <- k + nrows
-    if (k >= n * 20) break
-  }
-  if (parse) {
-    usr <- tweets_with_users(usr)
-  }
   if (verbose) {
-    message("Finished collecting users!")
+    pb <- progress::progress_bar$new(
+      format = "Searching for users :bar",
+      total = pages
+    ) 
+    withr::defer(pb$terminate())
   }
-  usr
+  
+  params <- list(q = q, count = 20)
+  for (i in seq_len(pages)) {
+    if (verbose) {
+      pb$tick()
+    }  
+    params$page <- i
+    results[[i]] <- TWIT_get(token, "users/search", params)
+  }
+  
+  if (parse) {
+    results <- tweets_with_users(results)
+  }
+  
+  results
 }
