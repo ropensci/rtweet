@@ -1,9 +1,7 @@
 #' Get tweets data on statuses identified via search query.
 #'
 #' Returns Twitter statuses matching a user provided search
-#' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
-#' than 18,000 statuses in a single call, set "retryonratelimit" to
-#' TRUE.
+#' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. 
 #'
 #' @inheritParams lookup_users
 #' @param q Query to be searched, used to filter and select tweets to
@@ -36,11 +34,18 @@
 #'   \item Filter (return only) tweets with media `"filter:media"`
 #' }
 #'
-#' @param n Integer, specifying the total number of desired tweets to
-#'   return. Defaults to 100. Maximum number of tweets returned from a
-#'   single token is 18,000. To return more than 18,000 tweets, users
-#'   are encouraged to set `retryonratelimit` to TRUE. See
-#'   details for more information.
+#' @inheritParams TWIT_paginate_max_id
+#' @param n Integer giving the total number of tweets to download.
+#' 
+#'   Results are downloaded in pages of 100, and you can download 180 pages
+#'   (e.g. 18,000 tweets) in each 15 minute period. The easiest way to download 
+#'   more than that is to use `retryonratelimit = TRUE`.
+#'   
+#'   You are not guaranteed to get exactly `n` results back. You will get
+#'   fewer results when tweets have been deleted or if you hit a rate limit. 
+#'   You will get more results if you ask for a number of tweets that's not
+#'   a multiple of page size, e.g. if you request `n = 150` you'll get 200 
+#'   tweets back.
 #' @param type Character string specifying which type of search
 #'   results to return from Twitter's REST API. The current default is
 #'   `type = "recent"`, other valid types include `type =
@@ -54,40 +59,6 @@
 #'   are distinct from quotes (retweets with additional text provided
 #'   from sender) or manual retweets (old school method of manually
 #'   entering "RT" into the text of one's tweets).
-#' @param max_id Character, returns results with an ID less
-#'   than (that is, older than) or equal to `max_id`.  Especially
-#'   useful for large data returns that require multiple iterations
-#'   interrupted by user time constraints. For searches exceeding
-#'   18,000 tweets, users are encouraged to take advantage of rtweet's
-#'   internal automation procedures for waiting on rate limits by
-#'   setting `retryonratelimit` argument to TRUE.  It some cases,
-#'   it is possible that due to processing time and rate limits,
-#'   retrieving several million tweets can take several hours or even
-#'   multiple days. In these cases, it would likely be useful to
-#'   leverage `retryonratelimit` for sets of tweets and
-#'   `max_id` to allow results to continue where previous efforts
-#'   left off.
-#' @param retryonratelimit Logical indicating whether to wait and
-#'   retry when rate limited. This argument is only relevant if the
-#'   desired return (n) exceeds the remaining limit of available
-#'   requests (assuming no other searches have been conducted in the
-#'   past 15 minutes, this limit is 18,000 tweets). Defaults to false.
-#'   Set to TRUE to automate process of conducting big searches (i.e.,
-#'   n > 18000). For many search queries, esp. specific or specialized
-#'   searches, there won't be more than 18,000 tweets to return. But
-#'   for broad, generic, or popular topics, the total number of tweets
-#'   within the REST window of time (7-10 days) can easily reach the
-#'   millions.
-#' @param verbose Logical, indicating whether or not to include output
-#'   processing/retrieval messages. Defaults to TRUE. For larger
-#'   searches, messages include rough estimates for time remaining
-#'   between searches. It should be noted, however, that these time
-#'   estimates only describe the amount of time between searches and
-#'   not the total time remaining. For large searches conducted with
-#'   `retryonratelimit` set to TRUE, the estimated retrieval time
-#'   can be estimated by dividing the number of requested tweets by
-#'   18,000 and then multiplying the quotient by 15 (token reset
-#'   time, in minutes).
 #' @param ... Further arguments passed as query parameters in request
 #'   sent to Twitter's REST API. To return only English language
 #'   tweets, for example, use `lang = "en"`. For more options see
@@ -100,27 +71,6 @@
 #'   It should also be noted Twitter's search API does not consist of
 #'   an index of all Tweets. At the time of searching, the search API
 #'   index includes between only 6-9 days of Tweets.
-#'
-#'
-#'   Number of tweets returned will often be less than what was
-#'   specified by the user. This can happen because (a) the search
-#'   query did not return many results (the search pool is already
-#'   thinned out from the population of tweets to begin with),
-#'   (b) because user hitting rate limit for a given token, or (c)
-#'   of recent activity (either more tweets, which affect pagination
-#'   in returned results or deletion of tweets). To return more than
-#'   18,000 tweets in a single call, users must set
-#'   `retryonratelimit` argument to true. This method relies on
-#'   updating the `max_id` parameter and waiting for token rate
-#'   limits to refresh between searches. As a result, it is possible
-#'   to search for 50,000, 100,000, or even 10,000,000 tweets, but
-#'   these searches can take hours or even days. At these durations,
-#'   it would not be uncommon for connections to timeout. Users are
-#'   instead encouraged to breakup data retrieval into smaller chunks
-#'   by leveraging `retryonratelimit` and then using the
-#'   status_id of the oldest tweet as the `max_id` to resume
-#'   searching where the previous efforts left off.
-#'
 #' @examples
 #'
 #' \dontrun{
@@ -201,7 +151,10 @@ search_tweets <- function(q, n = 100,
     get_max_id = function(x) x$statuses$id_str,
     n = n,
     page_size = 100,
-    parse = parse
+    retryonratelimit = retryonratelimit,
+    max_id = max_id,
+    parse = parse,
+    verbose = verbose
   )
 
   if (parse) {

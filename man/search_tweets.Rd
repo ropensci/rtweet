@@ -49,11 +49,17 @@ Some other useful query tips:
 \item Filter (return only) tweets with media \code{"filter:media"}
 }}
 
-\item{n}{Integer, specifying the total number of desired tweets to
-return. Defaults to 100. Maximum number of tweets returned from a
-single token is 18,000. To return more than 18,000 tweets, users
-are encouraged to set \code{retryonratelimit} to TRUE. See
-details for more information.}
+\item{n}{Integer giving the total number of tweets to download.
+
+Results are downloaded in pages of 100, and you can download 180 pages
+(e.g. 18,000 tweets) in each 15 minute period. The easiest way to download
+more than that is to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} you'll get 200
+tweets back.}
 
 \item{type}{Character string specifying which type of search
 results to return from Twitter's REST API. The current default is
@@ -69,19 +75,8 @@ entering "RT" into the text of one's tweets).}
 \item{geocode}{Geographical limiter of the template
 "latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
 
-\item{max_id}{Character, returns results with an ID less
-than (that is, older than) or equal to \code{max_id}.  Especially
-useful for large data returns that require multiple iterations
-interrupted by user time constraints. For searches exceeding
-18,000 tweets, users are encouraged to take advantage of rtweet's
-internal automation procedures for waiting on rate limits by
-setting \code{retryonratelimit} argument to TRUE.  It some cases,
-it is possible that due to processing time and rate limits,
-retrieving several million tweets can take several hours or even
-multiple days. In these cases, it would likely be useful to
-leverage \code{retryonratelimit} for sets of tweets and
-\code{max_id} to allow results to continue where previous efforts
-left off.}
+\item{max_id}{String giving id of most recent tweet to return.
+Can be used for manual pagination.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -95,28 +90,20 @@ use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
-\item{retryonratelimit}{Logical indicating whether to wait and
-retry when rate limited. This argument is only relevant if the
-desired return (n) exceeds the remaining limit of available
-requests (assuming no other searches have been conducted in the
-past 15 minutes, this limit is 18,000 tweets). Defaults to false.
-Set to TRUE to automate process of conducting big searches (i.e.,
-n > 18000). For many search queries, esp. specific or specialized
-searches, there won't be more than 18,000 tweets to return. But
-for broad, generic, or popular topics, the total number of tweets
-within the REST window of time (7-10 days) can easily reach the
-millions.}
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
 
-\item{verbose}{Logical, indicating whether or not to include output
-processing/retrieval messages. Defaults to TRUE. For larger
-searches, messages include rough estimates for time remaining
-between searches. It should be noted, however, that these time
-estimates only describe the amount of time between searches and
-not the total time remaining. For large searches conducted with
-\code{retryonratelimit} set to TRUE, the estimated retrieval time
-can be estimated by dividing the number of requested tweets by
-18,000 and then multiplying the quotient by 15 (token reset
-time, in minutes).}
+In general, if you expect a query to take hours or days to perform,
+you should not rely \code{retryonratelimit} because it does not handle other
+HTTP failure modes that commonly arise (i.e. you temporarily lose your
+internet connection). Instead, you'll need implementing paging yourself
+using \code{max_id} or \code{cursor}.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{...}{Further arguments passed as query parameters in request
 sent to Twitter's REST API. To return only English language
@@ -131,9 +118,7 @@ A tbl data frame with additional "query" column.
 }
 \description{
 Returns Twitter statuses matching a user provided search
-query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. To return more
-than 18,000 statuses in a single call, set "retryonratelimit" to
-TRUE.
+query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS.
 
 search_tweets2 Passes all arguments to search_tweets. Returns data from
 one OR MORE search queries.
@@ -145,25 +130,6 @@ errors preventing recovery of information related to the query.
 It should also be noted Twitter's search API does not consist of
 an index of all Tweets. At the time of searching, the search API
 index includes between only 6-9 days of Tweets.
-
-Number of tweets returned will often be less than what was
-specified by the user. This can happen because (a) the search
-query did not return many results (the search pool is already
-thinned out from the population of tweets to begin with),
-(b) because user hitting rate limit for a given token, or (c)
-of recent activity (either more tweets, which affect pagination
-in returned results or deletion of tweets). To return more than
-18,000 tweets in a single call, users must set
-\code{retryonratelimit} argument to true. This method relies on
-updating the \code{max_id} parameter and waiting for token rate
-limits to refresh between searches. As a result, it is possible
-to search for 50,000, 100,000, or even 10,000,000 tweets, but
-these searches can take hours or even days. At these durations,
-it would not be uncommon for connections to timeout. Users are
-instead encouraged to breakup data retrieval into smaller chunks
-by leveraging \code{retryonratelimit} and then using the
-status_id of the oldest tweet as the \code{max_id} to resume
-searching where the previous efforts left off.
 }
 \examples{
 

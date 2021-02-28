@@ -34,9 +34,9 @@ tweet_embed <- function(screen_name,status_id,...){
     ...
   )
   resp <- httr::GET("https://publish.twitter.com/oembed", query = params)
-  check_status(resp)
+  check_status(resp, "oembed")
   
   json <- from_js(resp)
-  json$html  
+  json$html
 }
 
