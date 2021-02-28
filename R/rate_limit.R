@@ -11,6 +11,8 @@
 #'
 #' @inheritParams lookup_users
 #' @param resources Constraint results to specific set of resources.
+#' @param resource_match An optional regular expression used to filter the 
+#'   resources listed in returned rate limit data.
 #' @param endpoint Name of twitter endpoint like `"lookup/users"`,
 #'   `"/media/upload"`, or `"/feedback/show/:id"`.
 #' @seealso
@@ -22,15 +24,10 @@
 #' }
 #' @family tokens
 #' @export
-rate_limit <- function(resources = NULL, token = NULL) {
-  if (length(resources) > 0) {
-    resources <- paste0(resources, collapse = ",") 
-  }
-  params <- list(resources = resources)
-  json <- TWIT_get(token, "application/rate_limit_status", params)
+rate_limit <- function(resource_match = NULL, token = NULL) {
+  json <- TWIT_get(token, "application/rate_limit_status")
   
   resources <- unlist(unname(json$resources), recursive = FALSE)
-  
   df <- tibble::tibble(
     resource = names(resources),
     limit = unlist(lapply(resources, "[[", "limit"), use.names = FALSE),
@@ -39,6 +36,10 @@ rate_limit <- function(resources = NULL, token = NULL) {
   )
   df$reset_at <- .POSIXct(df$reset_at)
   df$reset <- round(difftime(df$reset_at, Sys.time(), units = "mins"))
+  
+  if (!is.null(resource_match)) {
+    df <- df[grepl(resource_match, df$resource), ]
+  }
   
   df
 }

@@ -6,14 +6,15 @@
 \alias{rate_limit_wait}
 \title{Rate limit helpers}
 \usage{
-rate_limit(resources = NULL, token = NULL)
+rate_limit(resource_match = NULL, token = NULL)
 
 rate_limit_reset(endpoint, token = NULL)
 
 rate_limit_wait(endpoint, token = NULL)
 }
 \arguments{
-\item{resources}{Constraint results to specific set of resources.}
+\item{resource_match}{An optional regular expression used to filter the
+resources listed in returned rate limit data.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
 a default token with \code{\link[=get_token]{get_token()}}. You should only need to
@@ -23,6 +24,8 @@ See \code{vignette("auth")} for more details.}
 
 \item{endpoint}{Name of twitter endpoint like \code{"lookup/users"},
 \code{"/media/upload"}, or \code{"/feedback/show/:id"}.}
+
+\item{resources}{Constraint results to specific set of resources.}
 }
 \description{
 \itemize{
