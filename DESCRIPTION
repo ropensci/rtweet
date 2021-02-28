@@ -39,6 +39,7 @@ Imports:
     progress,
     rappdirs,
     tibble (>= 1.3.4),
+    rlang (>= 0.4.10),
     utils,
     withr
 Suggests:

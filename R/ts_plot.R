@@ -58,7 +58,7 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 
 ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
-  try_require("ggplot2")
+  check_installed("ggplot2")
   if (ncol(data) == 3L) {
     ggplot2::ggplot(
       data, ggplot2::aes_string(

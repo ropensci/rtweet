@@ -162,41 +162,6 @@ maybe_n <- function(x) {
   }
 }
 
-`%||%` <- function(a, b) if (is.null(a)) b else a
-
-##----------------------------------------------------------------------------##
-##                                require pkgs                                ##
-##----------------------------------------------------------------------------##
-
-try_require <- function(pkg, f = NULL) {
-  if (is.null(f)) {
-    f <- "this action"
-  } else {
-    f <- paste0("`", f, "`")
-  }
-
-  if (requireNamespace(pkg, quietly = TRUE)) {
-    return(invisible())
-  }
-
-  stop(paste0("Package `", pkg, "` required for ", f , ".\n",
-    "Please install and try again."), call. = FALSE)
-}
-
-
-is_installed <- function(pkg, warn = NULL, stop = NULL) {
-  if (requireNamespace(pkg, quietly = TRUE)) {
-    return(invisible(TRUE))
-  }
-  if (!is.null(warn)) {
-    warning(warn, immediate. = TRUE, call. = FALSE)
-  }
-  if (!is.null(stop)) {
-    stop(stop, call. = FALSE)
-  }
-  invisible(FALSE)
-}
-
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")  
 }

@@ -1,7 +1,7 @@
 
 
 encode_keys <- function(key, secret) {
-  try_require("openssl")
+  check_installed("openssl")
   openssl::base64_encode(paste0(key, ":", secret))
 }
 

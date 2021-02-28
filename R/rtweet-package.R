@@ -21,5 +21,8 @@
 #' @keywords internal
 "_PACKAGE"
 
+#' @import rlang
+NULL
+
 # The internal environment where state of the app is stored.
 .state <- new.env(parent = emptyenv())
