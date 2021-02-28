@@ -10,7 +10,6 @@
 #' `retryonratelimit = TRUE`.
 #'
 #' @inheritParams lookup_users
-#' @param resources Constraint results to specific set of resources.
 #' @param resource_match An optional regular expression used to filter the 
 #'   resources listed in returned rate limit data.
 #' @param endpoint Name of twitter endpoint like `"lookup/users"`,

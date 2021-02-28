@@ -24,8 +24,6 @@ See \code{vignette("auth")} for more details.}
 
 \item{endpoint}{Name of twitter endpoint like \code{"lookup/users"},
 \code{"/media/upload"}, or \code{"/feedback/show/:id"}.}
-
-\item{resources}{Constraint results to specific set of resources.}
 }
 \description{
 \itemize{
