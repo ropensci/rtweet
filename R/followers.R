@@ -5,48 +5,15 @@
 #' rate limit maximum), set "retryonratelimit" to TRUE.
 #'
 #' @inheritParams lookup_users
+#' @inheritParams TWIT_paginate_cursor
 #' @param user Screen name or user ID of target user from which the
 #'   user IDs of followers will be retrieved.
-#' @param n Number of followers to return. Defaults to 5000, which is
-#'   the max number of followers returned by a single API
-#'   request. Twitter allows up to 15 of these requests every 15
-#'   minutes, which means 75,000 is the max number of followers to
-#'   return without waiting for the rate limit to reset.  If this
-#'   number exceeds either 75,000 or the remaining number of possible
-#'   requests for a given token, then the returned object will only
-#'   return what it can (less than n) unless retryonratelimit is set
-#'   to true.
-#' @param retryonratelimit If you'd like to retrieve more than 75,000
-#'   followers in a single call, then set `retryonratelimit =
-#'   TRUE` and this function will use base `Sys.sleep` until rate
-#'   limits reset and the desired n is achieved or the number of total
-#'   followers is exhausted. This defaults to FALSE. See details for
-#'   more info regarding possible issues with timing misfires.
-#' @param page Default `page = -1` specifies first page of JSON
-#'   results. Other pages specified via cursor values supplied by
-#'   Twitter API response object. If `parse = TRUE` then the
-#'   cursor value can be extracted from the return object by using the
-#'   `next_cursor` function.
-#' @param verbose Logical indicating whether or not to print messages.
-#'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
-#'   prints sleep times and followers gathered counts.
-#' @details When `retryonratelimit = TRUE` this function
-#'   internally makes a rate limit API call to get information on (a)
-#'   the number of requests remaining and (b) the amount of time until
-#'   the rate limit resets. So, in theory, the sleep call should only
-#'   be called once between waves of data collection. However, as a
-#'   fail safe, if a system's time is calibrated such that it expires
-#'   before the rate limit reset, or if, in another session, the user
-#'   dips into the rate limit, then this function will wait (use
-#'   Sys.sleep for a second time) until the next rate limit
-#'   reset. Users should monitor and test this before making
-#'   especially large calls as any systematic issues could create
-#'   sizable inefficiencies.
-#'
-#'   At this time, results are ordered with the most recent following first —
-#'   however, this ordering is subject to unannounced change and eventual
-#'   consistency issues. While this remains true it is possible to iteratively build
-#'   follower lists for a user over time.
+#' @param n Number of followers to return. Use `Inf` to download all followers.
+#' 
+#'   Results are downloaded in pages of 5000, and you can download 15 pages
+#'   (i.e. 75,000 tweets) in each 15 minute period. The easiest way to download 
+#'   more than that is to set `retryonratelimit = TRUE`.
+#' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
@@ -80,16 +47,21 @@
 #' @family ids
 #' @export
 get_followers <- function(user, n = 5000,
-                          page = "-1",
+                          cursor = "-1",
                           retryonratelimit = FALSE,
                           parse = TRUE,
                           verbose = TRUE,
-                          token = NULL) {
-
-  stopifnot(is_n(n), is.atomic(user), is.atomic(page), isTRUE(length(user) == 1))
+                          token = NULL,
+                          page = lifecycle::deprecated()) {
   
-  ## if n == all or Inf then lookup followers count
-  if (identical(n, "all") || identical(n, Inf)) {
+  if (lifecycle::is_present(page)) {
+    lifecycle::deprecate_warn("1.0.0", "get_followers(page)", "get_followers(cursor)")
+    cursor <- page
+  }
+
+  stopifnot(is_n(n), is.atomic(user), isTRUE(length(user) == 1))
+  
+  if (identical(n, Inf)) {
     usr <- lookup_users(user)
     n <- usr$followers_count
   }
@@ -99,7 +71,10 @@ get_followers <- function(user, n = 5000,
 
   results <- TWIT_paginate_cursor(token, "followers/ids", params, 
     page_size = 5000, 
-    n = n
+    n = n,
+    retryonratelimit = retryonratelimit,
+    cursor = cursor,
+    verbose = verbose
   )
   
   if (parse) {

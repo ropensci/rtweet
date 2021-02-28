@@ -28,6 +28,8 @@ TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.t
 TWIT_method <- function(method, token, api, 
                         params = NULL, 
                         host = "api.twiter.com",
+                        retryonratelimit = FALSE,
+                        verbose = TRUE,
                         ...) {
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
@@ -36,68 +38,146 @@ TWIT_method <- function(method, token, api,
   token <- check_token(token)
   url <- paste0("https://", host, "/1.1/", api, ".json")
   
-  resp <- switch(method,
-    GET = httr::GET(url, query = params, token, ...),
-    POST = httr::POST(url, query = params, token, ...),
-    stop("Unsupported method", call. = FALSE)
-  )
-  check_status(resp)
+  repeat({
+    resp <- switch(method,
+      GET = httr::GET(url, query = params, token, ...),
+      POST = httr::POST(url, query = params, token, ...),
+      stop("Unsupported method", call. = FALSE)
+    )
+    
+    switch(resp_type(resp),
+      ok = break,
+      rate_limit = handle_rate_limit(
+        resp, api, 
+        retryonratelimit = retryonratelimit,
+        verbose = verbose
+      ),
+      error = handle_error(resp)
+    )
+  })
+
   resp
 }
 
-# Different endpoints return the ids in different parts of the response,
-# so `get_max_id()` lets the caller declare where.
+#' Pagination
+#' 
+#' @keywords internal
+#' @param get_max_id A single argument function that returns a vector of 
+#'   string ids. This is needed because different endpoints store that 
+#'   information in different places.
+#' @param max_id String giving id of most recent tweet to return. 
+#'   Can be used for manual pagination.
+#' @param retryonratelimit If `TRUE`, and a rate limit is exhausted, will wait
+#'   until it refreshes. Most twitter rate limits refresh every 15 minutes.
+#'   If `FALSE`, and the rate limit is exceeded, the function will terminate
+#'   early with a warning; you'll still get back all results received up to 
+#'   that point.
+#'   
+#'   In general, if you expect a query to take hours or days to perform,
+#'   you should not rely `retryonratelimit` because it does not handle other
+#'   HTTP failure modes that commonly arise (i.e. you temporarily lose your
+#'   internet connection). Instead, you'll need implementing paging yourself
+#'   using `max_id` or `cursor`.
+#' @param verbose Show progress bars and other messages indicating current 
+#'   progress?
 TWIT_paginate_max_id <- function(token, query, params, 
                                  get_max_id, 
                                  n = 1000, 
                                  page_size = 200, 
                                  parse = TRUE,
-                                 count_param = "count") {
+                                 max_id = NULL,
+                                 count_param = "count", 
+                                 retryonratelimit = FALSE,
+                                 verbose = TRUE) {
   
   params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
   results <- vector("list", pages)
   
+  rate_limit <- NULL
+  
   for (i in seq_len(pages)) {
+    params$max_id <- max_id
     if (i == pages) {
-       params[[count_param]] <- n - (pages - 1) * page_size
+      params[[count_param]] <- n - (pages - 1) * page_size
     }
     
-    resp <- TWIT_get(token, query, params, parse = FALSE)
-    json <- from_js(resp)
-    results[[i]] <- if (parse) json else resp
-    
-    if (length(json) == 0) {
-      # no more tweets to return
+    resp <- catch_rate_limit(
+      TWIT_get(
+        token, query, params, 
+        retryonratelimit = retryonratelimit,
+        parse = FALSE,
+        verbose = verbose
+      )
+    )
+    if (is_rate_limit(resp)) {
+      warn_early_term(json, 
+        hint = paste0("Set `max_id = '", max_id, "' to continue."),
+        hint_if = !is.null(max_id)
+      )
       break
     }
-    params$max_id <- id_minus_one(last(get_max_id(json)))
+    
+    json <- from_js(resp)
+    # no more tweets to return
+    if (length(json) == 0) {
+      break
+    }
+    
+    max_id <- id_minus_one(last(get_max_id(json)))
+    results[[i]] <- if (parse) json else resp
   }
 
   results
 }
 
-TWIT_paginate_cursor <- function(token, query, params, n = 5000, page_size = 5000) {
+# https://developer.twitter.com/en/docs/pagination
+#' @rdname TWIT_paginate_max_id
+#'  
+#' @param cursor Which page of results to return. The default will return 
+#'   the first page; can be used for manual pagination. 
+TWIT_paginate_cursor <- function(token, query, params, 
+                                 n = 5000, 
+                                 page_size = 5000, 
+                                 cursor = "-1", 
+                                 retryonratelimit = FALSE,
+                                 verbose = TRUE) {
   params$count <- page_size
   
   # TODO: consider if its worth using fastmap::faststack() here
   results <- list()
   i <- 1
-  results[[i]] <- TWIT_get(token, query, params)
-  next_cursor <- results[[i]]$next_cursor_str
-  n_seen <- length(results[[i]]$ids)
-  
-  while (!identical(next_cursor, "0") && n_seen < n) {
+  n_seen <- 0
+
+  repeat({
+    params$cursor <- cursor
+    json <- catch_rate_limit(
+      TWIT_get(
+        token, query, params, 
+        retryonratelimit = retryonratelimit,
+        verbose = verbose
+      )
+    )
+    if (is_rate_limit(json)) {
+      warn_early_term(json, 
+        hint = paste0("Set `cursor = '", cursor, "' to continue."),
+        hint_if = !identical(cursor, "-1")
+      )
+      break
+    }
+
+    results[[i]] <- json
+    cursor <- json$next_cursor_str
+    n_seen <- n_seen + length(json$ids)
     i <- i + 1
-    params$cursor <- next_cursor
-    results[[i]] <- TWIT_get(token, query, params)
-    next_cursor <- results[[i]]$next_cursor_str
-    n_seen <- n_seen + length(results[[i]]$ids)
-  }
-  
+
+    if (identical(cursor, "0") || n_seen >= n) {
+      break
+    }
+  })
+
   results
 }
-
 
 # helpers -----------------------------------------------------------------
 
@@ -109,21 +189,73 @@ from_js <- function(resp) {
   jsonlite::fromJSON(resp)
 }
 
-# https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
-check_status <- function(x) {
-  if (!httr::http_error(x)) {
-    return()
+resp_type <- function(resp) {
+  x <- resp$status_code
+  if (x == 429) {
+    "rate_limit"
+  } else if (x >= 400) {
+    "error"
+  } else {
+    "ok"
   }
-  
-  parsed <- from_js(x)
-  
-  if (is_testing() && identical(x$status_code, 429L)) {
+}
+
+# Three possible exits:
+# * skip, if testing
+# * return, if retryonratelimit is TRUE
+# * error, otherwise
+handle_rate_limit <- function(x, api, retryonratelimit = FALSE, verbose = TRUE) {
+  if (is_testing()) {
     testthat::skip("Rate limit exceeded")
   }
+
+  headers <- httr::headers(x)
+  n <- headers$`x-rate-limit-limit`
+  when <- .POSIXct(as.numeric(headers$`x-rate-limit-reset`))
   
+  if (retryonratelimit) {
+    wait_until(when, api, verbose = verbose)
+  } else {
+    message <- c(
+      paste0("Rate limit exceeded for Twitter endpoint '", api, "'"), 
+      paste0("Will receive ", n, " more requests at ", format(when, "%H:%M"))
+    )
+    abort(message, class = "rtweet_rate_limit", when = when)
+  }
+}
+
+# I don't love this interface because it returns either a httr response object
+# or a condition object, but it's easy to understand and avoids having to do
+# anything exotic to break from the correct frame.
+catch_rate_limit <- function(code) {
+  tryCatch(code, rtweet_rate_limit = function(e) e)
+}
+
+is_rate_limit <- function(x) inherits(x, "rtweet_rate_limit")
+
+warn_early_term <- function(cnd, hint, hint_if) {
+  warn(c(
+    "Terminating paginate early due to rate limit.",
+    cnd$message,
+    i = if (hint_if) hint,
+    i = "Set `retryonratelimit = TRUE` to automatically wait for reset"
+  ))
+}
+
+# https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
+handle_error <- function(x) {
+  parsed <- from_js(x)
   stop(
     "Twitter API failed [", x$status_code, "]\n",
     paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
     call. = FALSE
+  )
+}
+
+check_status <- function(x, api) {
+  switch(resp_type(x),
+    ok = NULL,
+    rate_limit = ,
+    error = handle_error(x)
   )
 }
