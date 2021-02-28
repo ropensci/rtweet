@@ -263,23 +263,6 @@ post_message <- function(text, user, media = NULL, token = NULL) {
   stopifnot(is.character(text))
   stopifnot(length(text) == 1)
 
-  ## media if provided
-  if (!is.null(media)) {
-    media2upload <- httr::upload_file(media)
-    rurl <- paste0(
-      "https://upload.twitter.com/1.1/media/upload.json"
-    )
-    r <- httr::POST(rurl, body = list(media = media2upload), token)
-    httr::stop_for_status(r)
-    r <- httr::content(r, "parsed")
-    params <- list(
-      media_ids = r$media_id_string
-    )
-  } else {
-    params <- NULL
-  }
-  #names(params)[2] <- .id_type(user)
-
   body <- list(
     event = list(
       type = "message_create",
@@ -289,13 +272,20 @@ post_message <- function(text, user, media = NULL, token = NULL) {
       )
     )
   )
+  
+  if (!is.null(media)) {
+    media_id <- upload_media_to_twitter(media, token = token)
+    body$event$message_create$message_data$attachment <- list(
+      type = "media",
+      media = list(id = media_id)
+    )
+  }
 
   r <- TWIT_post(token, "direct_messages/events/new", 
-    params = params,
     body = body, 
     encode = "json"
   )
-  message("your tweet has been posted!")
+  message("your DM has been posted!")
   invisible(r)
 }
 
