@@ -29,6 +29,7 @@ TWIT_method <- function(method, token, api,
                         params = NULL, 
                         host = "api.twiter.com",
                         retryonratelimit = FALSE,
+                        verbose = TRUE,
                         ...) {
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
@@ -46,7 +47,11 @@ TWIT_method <- function(method, token, api,
     
     switch(resp_type(resp),
       ok = break,
-      rate_limit = handle_rate_limit(resp, api, retryonratelimit),
+      rate_limit = handle_rate_limit(
+        resp, api, 
+        retryonratelimit = retryonratelimit,
+        verbose = verbose
+      ),
       error = handle_error(resp)
     )
   })
@@ -73,6 +78,8 @@ TWIT_method <- function(method, token, api,
 #'   HTTP failure modes that commonly arise (i.e. you temporarily lose your
 #'   internet connection). Instead, you'll need implementing paging yourself
 #'   using `max_id` or `cursor`.
+#' @param verbose Show progress bars and other messages indicating current 
+#'   progress?
 TWIT_paginate_max_id <- function(token, query, params, 
                                  get_max_id, 
                                  n = 1000, 
@@ -80,7 +87,8 @@ TWIT_paginate_max_id <- function(token, query, params,
                                  parse = TRUE,
                                  max_id = NULL,
                                  count_param = "count", 
-                                 retryonratelimit = FALSE) {
+                                 retryonratelimit = FALSE,
+                                 verbose = TRUE) {
   
   params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
@@ -98,7 +106,8 @@ TWIT_paginate_max_id <- function(token, query, params,
       TWIT_get(
         token, query, params, 
         retryonratelimit = retryonratelimit,
-        parse = FALSE
+        parse = FALSE,
+        verbose = verbose
       )
     )
     if (is_rate_limit(resp)) {
@@ -132,7 +141,8 @@ TWIT_paginate_cursor <- function(token, query, params,
                                  n = 5000, 
                                  page_size = 5000, 
                                  cursor = "-1", 
-                                 retryonratelimit = FALSE) {
+                                 retryonratelimit = FALSE,
+                                 verbose = TRUE) {
   params$count <- page_size
   
   # TODO: consider if its worth using fastmap::faststack() here
@@ -145,7 +155,8 @@ TWIT_paginate_cursor <- function(token, query, params,
     json <- catch_rate_limit(
       TWIT_get(
         token, query, params, 
-        retryonratelimit = retryonratelimit
+        retryonratelimit = retryonratelimit,
+        verbose = verbose
       )
     )
     if (is_rate_limit(json)) {
@@ -195,7 +206,7 @@ resp_type <- function(resp) {
 # * skip, if testing
 # * return, if retryonratelimit is TRUE
 # * error, otherwise
-handle_rate_limit <- function(x, api, retryonratelimit = FALSE) {
+handle_rate_limit <- function(x, api, retryonratelimit = FALSE, verbose = TRUE) {
   if (is_testing()) {
     testthat::skip("Rate limit exceeded")
   }
@@ -205,7 +216,7 @@ handle_rate_limit <- function(x, api, retryonratelimit = FALSE) {
   when <- .POSIXct(as.numeric(headers$`x-rate-limit-reset`))
   
   if (retryonratelimit) {
-    wait_until(when, api)
+    wait_until(when, api, verbose = verbose)
   } else {
     message <- c(
       paste0("Rate limit exceeded for Twitter endpoint '", api, "'"), 

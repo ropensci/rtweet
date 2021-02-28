@@ -15,7 +15,8 @@ TWIT_paginate_max_id(
   parse = TRUE,
   max_id = NULL,
   count_param = "count",
-  retryonratelimit = FALSE
+  retryonratelimit = FALSE,
+  verbose = TRUE
 )
 
 TWIT_paginate_cursor(
@@ -25,7 +26,8 @@ TWIT_paginate_cursor(
   n = 5000,
   page_size = 5000,
   cursor = "-1",
-  retryonratelimit = FALSE
+  retryonratelimit = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -47,6 +49,9 @@ you should not rely \code{retryonratelimit} because it does not handle other
 HTTP failure modes that commonly arise (i.e. you temporarily lose your
 internet connection). Instead, you'll need implementing paging yourself
 using \code{max_id} or \code{cursor}.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}

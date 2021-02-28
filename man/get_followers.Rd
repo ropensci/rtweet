@@ -46,8 +46,8 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
-\item{verbose}{Logical indicating whether or not to print messages.
-Only relevant if retryonratelimit = TRUE. Defaults to TRUE,}
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
 a default token with \code{\link[=get_token]{get_token()}}. You should only need to

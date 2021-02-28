@@ -73,10 +73,15 @@ rate_limit_wait <- function(endpoint, token = NULL) {
   invisible()
 }
 
-wait_until <- function(until, api, fps = 8) {
+wait_until <- function(until, api, fps = 8, verbose = TRUE) {
   until <- unclass(until)
   seconds <- until - unclass(Sys.time())
 
+  if (!verbose) {
+    Sys.sleep(ceiling(seconds))
+    return()
+  }
+  
   if (seconds < 0) {
     return(invisible())
   }

@@ -14,8 +14,6 @@
 #'   (i.e. 75,000 tweets) in each 15 minute period. The easiest way to download 
 #'   more than that is to set `retryonratelimit = TRUE`.
 #' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
-#' @param verbose Logical indicating whether or not to print messages.
-#'   Only relevant if retryonratelimit = TRUE. Defaults to TRUE,
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
@@ -76,7 +74,8 @@ get_followers <- function(user, n = 5000,
     page_size = 5000, 
     n = n,
     retryonratelimit = retryonratelimit,
-    cursor = cursor
+    cursor = cursor,
+    verbose = verbose
   )
   
   if (parse) {

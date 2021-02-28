@@ -102,16 +102,8 @@ HTTP failure modes that commonly arise (i.e. you temporarily lose your
 internet connection). Instead, you'll need implementing paging yourself
 using \code{max_id} or \code{cursor}.}
 
-\item{verbose}{Logical, indicating whether or not to include output
-processing/retrieval messages. Defaults to TRUE. For larger
-searches, messages include rough estimates for time remaining
-between searches. It should be noted, however, that these time
-estimates only describe the amount of time between searches and
-not the total time remaining. For large searches conducted with
-\code{retryonratelimit} set to TRUE, the estimated retrieval time
-can be estimated by dividing the number of requested tweets by
-18,000 and then multiplying the quotient by 15 (token reset
-time, in minutes).}
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{...}{Further arguments passed as query parameters in request
 sent to Twitter's REST API. To return only English language

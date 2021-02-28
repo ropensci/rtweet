@@ -59,16 +59,6 @@
 #'   are distinct from quotes (retweets with additional text provided
 #'   from sender) or manual retweets (old school method of manually
 #'   entering "RT" into the text of one's tweets).
-#' @param verbose Logical, indicating whether or not to include output
-#'   processing/retrieval messages. Defaults to TRUE. For larger
-#'   searches, messages include rough estimates for time remaining
-#'   between searches. It should be noted, however, that these time
-#'   estimates only describe the amount of time between searches and
-#'   not the total time remaining. For large searches conducted with
-#'   `retryonratelimit` set to TRUE, the estimated retrieval time
-#'   can be estimated by dividing the number of requested tweets by
-#'   18,000 and then multiplying the quotient by 15 (token reset
-#'   time, in minutes).
 #' @param ... Further arguments passed as query parameters in request
 #'   sent to Twitter's REST API. To return only English language
 #'   tweets, for example, use `lang = "en"`. For more options see
@@ -163,7 +153,8 @@ search_tweets <- function(q, n = 100,
     page_size = 100,
     retryonratelimit = retryonratelimit,
     max_id = max_id,
-    parse = parse
+    parse = parse,
+    verbose = verbose
   )
 
   if (parse) {
