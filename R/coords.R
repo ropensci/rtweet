@@ -52,7 +52,6 @@
 #'
 #' }
 #'
-#' @importFrom jsonlite fromJSON
 #' @family geo
 #' @export
 lookup_coords <- function(address, components = NULL, apikey = NULL, ...) {

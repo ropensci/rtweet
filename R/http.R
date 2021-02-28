@@ -101,7 +101,6 @@ TWIT_paginate_cursor <- function(token, query, params, n = 5000, page_size = 500
 
 # helpers -----------------------------------------------------------------
 
-#' @importFrom jsonlite fromJSON
 from_js <- function(resp) {
   if (!grepl("application/json", resp$headers[["content-type"]])) {
     stop("API did not return json", call. = FALSE)

@@ -26,7 +26,6 @@
 #'  [httr::GET()],[httr::content()]
 #' @rdname tweet_embed
 #' @export 
-#' @importFrom httr GET content
 tweet_embed <- function(screen_name,status_id,...){
   # https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/oembed-api
   

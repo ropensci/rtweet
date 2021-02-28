@@ -306,7 +306,6 @@ wait_for_chunked_media <- function(resp, media_id, token = NULL) {
 #' @param user Screen name or user ID of message target.
 #' @param media File path to image or video media to be
 #'   included in tweet.
-#' @importFrom httr POST upload_file content
 #' @export
 post_message <- function(text, user, media = NULL, token = NULL) {
   ## get user id

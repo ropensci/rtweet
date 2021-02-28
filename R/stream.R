@@ -114,7 +114,6 @@
 #'
 #' @return Tweets data returned as data frame with users data as attribute.
 #' @family stream tweets
-#' @importFrom httr POST write_disk add_headers progress timeout
 #' @export
 stream_tweets <- function(q = "",
                           timeout = 30,
@@ -303,7 +302,6 @@ stream_data <- function(file_name, ...) {
 }
 
 
-#' @importFrom jsonlite stream_in
 .parse_stream <- function(file_name, ...) {
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")

@@ -56,7 +56,6 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 }
 
 
-#' @importFrom graphics legend
 ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
   try_require("ggplot2")

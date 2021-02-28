@@ -16,7 +16,6 @@
 #' @param fileEncoding Encoding to be used when saving to
 #'   CSV. defaults to "UTF-8".
 #' @return Saved CSV files in current working directory.
-#' @importFrom utils write.csv
 #' @family datafiles
 #' @export
 write_as_csv <- function(x, file_name,
@@ -183,7 +182,6 @@ unx_ids <- function(x) {
 #'   and mentions columns on space, converting characters to lists), defaults
 #'   to FALSE.
 #' @return A tbl data frame of Twitter data
-#' @importFrom utils read.csv
 #' @examples
 #'
 #' \dontrun{
