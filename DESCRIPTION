@@ -31,7 +31,6 @@ Depends:
     R (>= 3.5.0)
 Imports:
     bit64,
-    httpuv,
     httr (>= 1.3.0),
     jsonlite (>= 0.9.22),
     lifecycle,
@@ -45,6 +44,7 @@ Imports:
 Suggests:
     covr,
     ggplot2,
+    httpuv,
     igraph,
     knitr,
     magick,

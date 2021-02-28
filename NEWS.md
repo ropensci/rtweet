@@ -1,5 +1,8 @@
 # rtweet ...
 
+- httpuv is now only suggested (since it's only needed for interactive auth);
+  you'll be prompted to install it when needed.
+
 - `max_id()` and `since_id()` have been deprecated; tweetr now handles 
   pagination for you.
 
