@@ -113,7 +113,7 @@ TWIT_paginate_max_id <- function(token, query, params,
     if (is_rate_limit(resp)) {
       warn_early_term(json, 
         hint = paste0("Set `max_id = '", max_id, "' to continue."),
-        hint_if = !is.null(max_id),
+        hint_if = !is.null(max_id)
       )
       break
     }
