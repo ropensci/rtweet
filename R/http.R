@@ -41,7 +41,7 @@ TWIT_method <- function(method, token, api,
     POST = httr::POST(url, query = params, token, ...),
     stop("Unsupported method", call. = FALSE)
   )
-  check_status(resp)
+  check_status(resp, api)
   resp
 }
 
@@ -110,17 +110,27 @@ from_js <- function(resp) {
 }
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
-check_status <- function(x) {
+check_status <- function(x, api) {
   if (!httr::http_error(x)) {
     return()
   }
   
-  parsed <- from_js(x)
-  
-  if (is_testing() && identical(x$status_code, 429L)) {
-    testthat::skip("Rate limit exceeded")
+  if (identical(x$status_code, 429L)) {
+    if (is_testing()) {
+      testthat::skip("Rate limit exceeded")
+    }
+
+    headers <- httr::headers(x)
+    n <- headers$`x-rate-limit-limit`
+    when <- .POSIXct(as.numeric(headers$`x-rate-limit-reset`))
+    message <- c(
+      paste0("Rate limit exceeded for Twitter endpoint '", api, "'"), 
+      paste0("Will receive ", n, " more requests at ", format(when, "%H:%M"))
+    )
+    abort(message, class = "rtweet_rate_limit", when = when)
   }
   
+  parsed <- from_js(x)
   stop(
     "Twitter API failed [", x$status_code, "]\n",
     paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
