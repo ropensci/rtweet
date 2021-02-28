@@ -248,7 +248,7 @@ handle_error <- function(x) {
 check_status <- function(x, api) {
   switch(resp_type(x),
     ok = NULL,
-    rate_limit = handle_rate_limit(resp, api, FALSE),
+    rate_limit = ,
     error = handle_error(x)
   )
 }
