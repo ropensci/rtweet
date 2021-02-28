@@ -74,83 +74,27 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        auto_populate_reply_metadata = FALSE,
                        media_alt_text = NULL) {
 
-  ## check token
-  token <- check_token(token)
-
   ## if delete
   if (!is.null(destroy_id)) {
-    ## validate destroy_id
     stopifnot(is.character(destroy_id) && length(destroy_id) == 1)
-    ## build query
+    
     query <- sprintf("statuses/destroy/%s", destroy_id)
-    ## make URL
-    url <- make_url(query = query)
-
-    ## send request
-    r <- TWIT(get = FALSE, url, token)
-
-    ## if it didn't work return message
-    if (r$status_code != 200) {
-      return(httr::content(r))
-    }
-    ## if it did, print message and silently return response object
+    r <- TWIT_post(token, query)
     message("your tweet has been deleted!")
     return(invisible(r))
   }
 
   ## if retweet
   if (!is.null(retweet_id)) {
-    ## validate destroy_id
     stopifnot(is.character(retweet_id) && length(retweet_id) == 1)
-    ## build query
+
     query <- sprintf("statuses/retweet/%s", retweet_id)
-    ## make URL
-    url <- make_url(query = query)
-
-    ## send request
-    r <- TWIT(get = FALSE, url, token)
-
-    ## wait for status
-    warn_for_twitter_status(r)
-
-    ## if it didn't work return message
-    if (r$status_code != 200) {
-      return(r)
-    }
-
-    ## if it did, print message and silently return response object
+    r <- TWIT_post(token, query)
     message("the tweet has been retweeted!")
     return(invisible(r))
   }
 
-  ## validate
-  stopifnot(is.character(status))
-  stopifnot(length(status) == 1)
-
-  ## update statuses query
-  query <- "statuses/update"
-
-  ## make sure encoding is utf-8
-  enc <- getOption("encoding")
-  on.exit(options(encoding = enc), add = TRUE)
-  options(encoding = "UTF-8")
-
-  ## validate status text – IF
-  ##   (Part 1) status text is > 280 characters
-  ##            ***AND***
-  ##   (Part 2) status text does not include hyperlink
-  ## ––––––––––logic:
-  ##   Twitter will shorten long URLs (so the characters in any supplied URL may
-  ##   not count 1:1 toward the 280 character limit); i'm not sure when and how
-  ##   this works (we'd need to know exactly *when* and *to what extent* URLs
-  ##   get shorted), so this is an inexact solution
-  if (all(!is_tweet_length(status), !grepl("https?://\\S+", status))) {
-    stop("cannot exceed 280 characters.", call. = FALSE)
-  }
-  if (length(status) > 1) {
-    stop("can only post one status at a time",
-         call. = FALSE)
-  }
+  stopifnot(is.character(status), length(status) == 1)
 
   ## media if provided
   if (!is.null(media)) {
@@ -168,32 +112,17 @@ post_tweet <- function(status = "my first rtweet #rstats",
       status = status
     )
   }
-  query <- "statuses/update"
+
   if (!is.null(in_reply_to_status_id)) {
     params[["in_reply_to_status_id"]] <- in_reply_to_status_id
   }
-
   if (auto_populate_reply_metadata) {
     params[["auto_populate_reply_metadata"]] <- "true"
   }
 
-  url <- make_url(query = query, param = params)
-
-  r <- TWIT(get = FALSE, url, token)
-
-  if (r$status_code != 200) {
-    return(httr::content(r))
-  }
+  r <- TWIT_post(token, "statuses/update", params)
   message("your tweet has been posted!")
   invisible(r)
-}
-
-is_tweet_length <- function(.x, n = 280) {
-  .x <- gsub("https?://[[:graph:]]+\\s?", "", .x)
-  while (grepl("^@\\S+\\s+", .x)) {
-    .x <- sub("^@\\S+\\s+", "", .x)
-  }
-  nchar(.x) <= n
 }
 
 #' Uploads media using chunked media endpoint
@@ -313,41 +242,30 @@ post_message <- function(text, user, media = NULL, token = NULL) {
   user_id <- user_id$user_id[1]
   stopifnot(is.character(text))
   stopifnot(length(text) == 1)
-  query <- "direct_messages/events/new"
-  body <- list(
-    event = list(type = "message_create",
-      message_create = list(target = list(recipient_id = user_id),
-    message_data = list(text = text))))
-  body <- jsonlite::toJSON(body, auto_unbox = TRUE)
-  if (length(text) > 1) {
-    stop("can only post one message at a time",
-         call. = FALSE)
-  }
-  token <- check_token(token)
-  ## media if provided
-  if (!is.null(media)) {
-    media2upload <- httr::upload_file(media)
-    rurl <- paste0(
-      "https://upload.twitter.com/1.1/media/upload.json"
-    )
-    r <- httr::POST(rurl, body = list(media = media2upload), token)
-    httr::stop_for_status(r)
-    r <- httr::content(r, "parsed")
-    params <- list(
-      media_ids = r$media_id_string
-    )
-  } else {
-    params <- NULL
-  }
-  #names(params)[2] <- .id_type(user)
-  query <- "direct_messages/events/new"
-  url <- make_url(query = query, param = params)
 
-  r <- TWIT(get = FALSE, url, token, body = body)
-  if (r$status_code != 200) {
-    return(httr::content(r))
+  body <- list(
+    event = list(
+      type = "message_create",
+      message_create = list(
+        target = list(recipient_id = user_id),
+        message_data = list(text = text)
+      )
+    )
+  )
+  
+  if (!is.null(media)) {
+    media_id <- upload_media_to_twitter(media, token = token)
+    body$event$message_create$message_data$attachment <- list(
+      type = "media",
+      media = list(id = media_id)
+    )
   }
-  message("your tweet has been posted!")
+
+  r <- TWIT_post(token, "direct_messages/events/new", 
+    body = body, 
+    encode = "json"
+  )
+  message("your DM has been posted!")
   invisible(r)
 }
 
@@ -380,8 +298,6 @@ post_follow <- function(user,
 
   stopifnot(is.atomic(user), is.logical(notify))
 
-  token <- check_token(token)
-
   if (all(!destroy, !retweets)) {
     query <- "friendships/update"
     params <- list(
@@ -404,14 +320,9 @@ post_follow <- function(user,
       notify = notify
     )
   }
-
   names(params)[1] <- .id_type(user)
-  url <- make_url(query = query, param = params)
-  r <- TWIT(get = FALSE, url, token)
-  if (!check_status_code(r)) {
-    return(httr::content(r))
-  }
-  r
+  
+  TWIT_post(token, query, params)
 }
 
 
@@ -455,25 +366,14 @@ post_favorite <- function(status_id,
 
   stopifnot(is.atomic(status_id))
 
-  token <- check_token(token)
-
   if (destroy) {
     query <- "favorites/destroy"
   } else {
     query <- "favorites/create"
   }
 
-  params <- list(
-    id = status_id)
-
-  url <- make_url(query = query, param = params)
-
-  r <- TWIT(get = FALSE, url, token)
-
-  if (!check_status_code(r)) {
-    return(httr::content(r))
-  }
-  invisible(r)
+  params <- list(id = status_id)
+  TWIT_post(token, query, params)
 }
 
 
@@ -497,10 +397,6 @@ post_friendship <- function(user,
   stopifnot(is.atomic(user), is.logical(device),
             is.logical(retweets))
 
-  token <- check_token(token)
-
-  query <- "friendships/update"
-
   params <- list(
     user_type = user,
     device = device,
@@ -508,14 +404,7 @@ post_friendship <- function(user,
 
   names(params)[1] <- .id_type(user)
 
-  url <- make_url(query = query, param = params)
-
-  r <- TWIT(get = FALSE, url, token)
-
-  if (!check_status_code(r)) {
-    return(httr::content(r))
-  }
-  invisible(r)
+  TWIT_post(token, "friendships/update", params)
 }
 
 
@@ -527,10 +416,6 @@ post_list_create <- function(name,
 
   stopifnot(is.atomic(name), length(name) == 1, is.logical(private))
 
-  token <- check_token(token)
-
-  query <- "lists/create"
-
   if (private) {
     mode <- "private"
   } else {
@@ -540,15 +425,9 @@ post_list_create <- function(name,
   params <- list(
     name = name,
     mode = mode,
-    description = description)
-
-  url <- make_url(query = query, param = params)
-
-  r <- TWIT(get = FALSE, url, token)
-
-  warn_for_twitter_status(r)
-
-  r
+    description = description
+  )
+  TWIT_post(token, "lists/create", params)
 }
 
 
@@ -557,10 +436,6 @@ post_list_add_one <- function(user,
                               list_id = NULL,
                               slug = NULL,
                               token = NULL) {
-  ## must id list via numeric ID or slug
-  if (is.null(list_id) && is.null(slug)) {
-    stop("must supply either list_id or slug to identify pre-existing list")
-  }
 
   ## check and reformat users
   stopifnot(is.character(user))
@@ -569,193 +444,86 @@ post_list_add_one <- function(user,
       call. = FALSE)
     user <- user[1]
   }
-  users_param_name <- .ids_type(user)
-
-  ## check token
-  token <- check_token(token)
-
-  ## specify API path
-  query <- "lists/members/create"
-
-  ## if list id
-  if (!is.null(list_id)) {
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(
-      list_id = list_id,
-      user = user
-    )
-
-  ## if slug
-  } else {
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug,
-      owner_screen_name = api_screen_name(token),
-      user = user
-    )
-  }
-  ## rename last param
-  names(params)[length(params)] <- users_param_name
-
-  ## build URL
-  url <- make_url(query = query, param = params)
-
-  ## send request
-  r <- TWIT(get = FALSE, url, token)
-
-  ## check status
-  warn_for_twitter_status(r)
-
-  ## return response object
-  r
+  
+  params <- my_list_params(token,
+    users = user,
+    list_id = list_id,
+    slug = slug
+  )
+  TWIT_post(token, "lists/members/create", params)
 }
 
 
 post_list_destroy <- function(list_id = NULL,
                               slug = NULL,
                               token = NULL) {
-  if (!is.null(list_id)) {
-
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(list_id = list_id)
-
-  } else if (!is.null(slug)) {
-
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug, 
-      owner_screen_name = api_screen_name(token)
-    )
-
-  } else {
-    stop("must supply list_id or slug")
-  }
-
-  token <- check_token(token)
-
-  query <- "lists/destroy"
-
-  url <- make_url(query = query, param = params)
-
-  r <- TWIT(get = FALSE, url, token)
-
-  warn_for_twitter_status(r)
-
-  r
+  
+  params <- my_list_params(token,
+    list_id = list_id,
+    slug = slug
+  )
+  TWIT_post(token, "lists/destroy", params)
 }
 
 post_list_create_all <- function(users,
                                  list_id = NULL,
                                  slug = NULL,
                                  token = NULL) {
-  ## must id list via numeric ID or slug
-  if (is.null(list_id) && is.null(slug)) {
-    stop("must supply either list_id or slug to identify pre-existing list")
-  }
-
-  ## check and reformat users
   stopifnot(is.character(users))
   if (length(users) > 100) {
     warning("Can only add 100 users at a time. Adding users[1:100]...",
       call. = FALSE)
     users <- users[1:100]
   }
-  users_param_name <- .ids_type(users)
-  users <- paste0(users, collapse = ",")
-
-  ## check token
-  token <- check_token(token)
-
-  ## specify API path
-  query <- "lists/members/create_all"
-
-  ## if list id
-  if (!is.null(list_id)) {
-    stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(
-      list_id = list_id,
-      users = users
-    )
-
-  ## if slug
-  } else {
-    stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug,
-      users = users
-    )
-  }
-  ## rename last param
-  names(params)[length(params)] <- users_param_name
-
-  ## build URL
-  url <- make_url(query = query, param = params)
-
-  ## send request
-  r <- TWIT(get = FALSE, url, token)
-
-  ## check status
-  warn_for_twitter_status(r)
-
-  ## return response object
-  r
+  
+  params <- my_list_params(token,
+    users = users,
+    list_id = list_id,
+    slug = slug
+  )
+  TWIT_post(token, "lists/members/create_all", params)
 }
 
 post_list_destroy_all <- function(users,
                                   list_id = NULL,
                                   slug = NULL,
                                   token = NULL) {
-  ## must id list via numeric ID or slug
-  if (is.null(list_id) && is.null(slug)) {
-    stop("must supply either list_id or slug to identify pre-existing list")
-  }
-
-  ## check and reformat users
+  
   stopifnot(is.character(users))
   if (length(users) > 100) {
     warning("Can only drop 100 users at a time. Dropping users[1:100]...",
       call. = FALSE)
     users <- users[1:100]
   }
-  users_param_name <- .ids_type(users)
-  users <- paste0(users, collapse = ",")
 
-  ## check token
-  token <- check_token(token)
+  params <- my_list_params(token,
+    users = users,
+    list_id = list_id,
+    slug = slug
+  )
+  TWIT_post(token, "lists/members/destroy_all", params = params)
+}
 
-  ## specify API path
-  query <- "lists/members/destroy_all"
-
-  ## if list id
-  if (!is.null(list_id)) {
+my_list_params <- function(token, slug = NULL, list_id = NULL, ..., users = NULL) {
+  params <- list(...)
+  
+  if (!is.null(list_id) && is.null(slug)) {
     stopifnot(is.atomic(list_id), length(list_id) == 1)
-    params <- list(
-      list_id = list_id,
-      users = users
-    )
-
-  ## if slug
-  } else {
+    
+    params$list_id <- list_id
+  } else if (is.null(slug) && !is.null(list_id)) {
     stopifnot(is.atomic(slug), length(slug) == 1)
-    params <- list(
-      slug = slug,
-      users = users
-    )
+    
+    params$slug <- slug
+    params$owner_screen_name = api_screen_name(token)
+  } else {
+    abort("Must supply exactly one of `list_id` or `slug` to identify a list")
+  } 
+  
+  if (!is.null(users)) {
+    params[[.ids_type(users)]] <- paste0(users, collapse = ",")
   }
-  ## rename last param
-  names(params)[length(params)] <- users_param_name
-
-  ## build URL
-  url <- make_url(query = query, param = params)
-
-  ## send request
-  r <- TWIT(get = FALSE, url, token)
-
-  ## check status
-  warn_for_twitter_status(r)
-
-  ## return response object
-  r
+  
 }
 
 
@@ -833,12 +601,6 @@ post_list <- function(users = NULL,
                       list_id = NULL,
                       slug = NULL,
                       token = NULL) {
-  ## this took me forever to figure out but gotta have ut8-encoding
-  ## for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
-
   ## destroy list
   if (destroy && is.null(users)) {
     return(post_list_destroy(list_id, slug, token))
@@ -852,10 +614,6 @@ post_list <- function(users = NULL,
   ## create list
   if (is.null(list_id) && is.null(slug)) {
     r <- post_list_create(name, description, private, token)
-    if (r$status_code != 200) {
-      stop("failed to create list")
-    }
-    ## use returned list ID to add users
     tl <- from_js(r)
     list_id <- tl$id_str
   }
@@ -866,11 +624,6 @@ post_list <- function(users = NULL,
   for (i in seq_along(users)) {
     r[[length(r) + 1]] <- post_list_add_one(users[i], list_id = list_id, slug = slug, token = token)
   }
-  if (r[[length(r)]]$status_code == 200) {
-    message("Successfully added users to list!")
-    invisible(r)
-  } else {
-    message(httr::content(r))
-    r
-  }
+
+  invisible(r)
 }
