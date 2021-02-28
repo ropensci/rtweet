@@ -94,19 +94,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     return(invisible(r))
   }
 
-  ## validate status text – IF
-  ##   (Part 1) status text is > 280 characters
-  ##            ***AND***
-  ##   (Part 2) status text does not include hyperlink
-  ## ––––––––––logic:
-  ##   Twitter will shorten long URLs (so the characters in any supplied URL may
-  ##   not count 1:1 toward the 280 character limit); i'm not sure when and how
-  ##   this works (we'd need to know exactly *when* and *to what extent* URLs
-  ##   get shorted), so this is an inexact solution
   stopifnot(is.character(status), length(status) == 1)
-  if (all(!is_tweet_length(status), !grepl("https?://\\S+", status))) {
-    stop("cannot exceed 280 characters.", call. = FALSE)
-  }
 
   ## media if provided
   if (!is.null(media)) {
@@ -135,14 +123,6 @@ post_tweet <- function(status = "my first rtweet #rstats",
   r <- TWIT_post(token, "statuses/update", params)
   message("your tweet has been posted!")
   invisible(r)
-}
-
-is_tweet_length <- function(.x, n = 280) {
-  .x <- gsub("https?://[[:graph:]]+\\s?", "", .x)
-  while (grepl("^@\\S+\\s+", .x)) {
-    .x <- sub("^@\\S+\\s+", "", .x)
-  }
-  nchar(.x) <= n
 }
 
 #' Uploads media using chunked media endpoint
