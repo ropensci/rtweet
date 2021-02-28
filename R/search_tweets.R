@@ -220,7 +220,7 @@ search_params <- function(q, n,
     q <- ""
   }
   stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
-  type <- match.arg(type)
+  type <- arg_match(type)
   
   ## validate query length–char count might not always be same here as with 
   ## Twitter, so set this to 600 and let Twitter reject others
