@@ -85,7 +85,7 @@ post_tweet("a tweet with media attachment", media = tmp)
 post_tweet(status="first in a thread")
 
 ## lookup status_id
-my_timeline <- get_timeline(rtweet:::home_user())
+my_timeline <- get_my_timeline()
 
 ## ID for reply
 reply_id <- my_timeline$status_id[1]

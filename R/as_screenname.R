@@ -90,3 +90,13 @@ print.user_id <- function(x, ...) {
 is_user_id <- function(x) {
   inherits(x, "user_id")
 }
+
+api_screen_name <- function(token = NULL) {
+  params <- list(
+    include_entities = FALSE,
+    skip_status = TRUE,
+    include_email = FALSE
+  )
+  r <- TWIT_get(token, "account/verify_credentials", params)
+  r$screen_name
+}

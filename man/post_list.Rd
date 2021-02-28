@@ -59,7 +59,7 @@ users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
 
 ## view list in browser
 browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
-  rtweet:::home_user()))
+  rtweet:::api_screen_name()))
 
 ## search for more CNN users
 cnn_users <- search_users("CNN", n = 200)
@@ -75,7 +75,7 @@ post_list(users = more_users, slug = "cnn-accounts")
 
 ## view updated list in browser (should be around 100 users)
 browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
-  rtweet:::home_user()))
+  rtweet:::api_screen_name()))
 
 ## select users on list without "cnn" in their name field
 drop_users <- cnn_users \%>\%
@@ -88,7 +88,7 @@ post_list(users = drop_users, slug = "cnn-accounts",
 
 ## view updated list in browser (should be around 100 users)
 browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
-  rtweet:::home_user()))
+  rtweet:::api_screen_name()))
 
 ## delete list entirely
 post_list(slug = "cnn-accounts", destroy = TRUE)

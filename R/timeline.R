@@ -49,7 +49,7 @@
 #'
 #' @family tweets
 #' @export
-get_timeline <- function(user,
+get_timeline <- function(user = NULL,
                          n = 100,
                          max_id = NULL,
                          home = FALSE,
@@ -59,10 +59,8 @@ get_timeline <- function(user,
                          ...) {
 
   stopifnot(is.atomic(user), is.numeric(n))
-  if (length(user) == 0L) {
-    stop("No query found", call. = FALSE)
-  }
-  
+  user <- user %||% api_screen_name()
+
   dots <- list(parse = parse, ...)
   rt <- lapply(user, get_timeline_user, 
     n = n, 
