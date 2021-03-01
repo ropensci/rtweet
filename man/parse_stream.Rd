@@ -13,27 +13,8 @@ parse_stream(path, ...)
 \item{...}{Other arguments passed on to internal data_from_stream
 function.}
 }
-\value{
-A tbl of tweets data with attribute of users data
-}
 \description{
-Converts Twitter stream data (JSON file) into parsed data frame.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Please use \code{jsonlite::stream_in()} instead.
 }
-\examples{
-\dontrun{
-## run and save stream to JSON file
-stream_tweets(
-  "the,a,an,and", timeout = 60,
-  file_name = "theaanand.json",
-  parse = FALSE
-)
-
-## parse stream file into tibble data frame
-rt <- parse_stream("theaanand.json")
-}
-}
-\seealso{
-Other stream tweets: 
-\code{\link{stream_tweets}()}
-}
-\concept{stream tweets}
+\keyword{internal}
