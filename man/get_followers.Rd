@@ -55,7 +55,7 @@ use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
-\item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}
+\item{page}{\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}} Please use \code{cursor} instead.}
 }
 \value{
 A tibble data frame of follower IDs (one column named "user_id").
@@ -74,21 +74,7 @@ rate limit maximum), set "retryonratelimit" to TRUE.
 
 ## get max number [per fresh token] of POTUS follower IDs
 (pres <- get_followers("potus", n = 75000))
-
-## resume data collection (warning: rate limits reset every 15 minutes)
-pres2 <- get_followers("potus", n = 75000, page = next_cursor(pres))
-
-## store next cursor in object before merging data
-nextpage <- next_cursor(pres2)
-
-## merge data frames
-pres <- rbind(pres, pres2)
-
-## store next cursor as an attribute in the merged data frame
-attr(pres, "next_cursor") <- next_page
-
-## view merged ddata
-pres
+## You might use retryonratelimit = TRUE to obtain exactly 750000
 
 }
 

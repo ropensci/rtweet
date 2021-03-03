@@ -25,21 +25,7 @@
 #'
 #' ## get max number [per fresh token] of POTUS follower IDs
 #' (pres <- get_followers("potus", n = 75000))
-#'
-#' ## resume data collection (warning: rate limits reset every 15 minutes)
-#' pres2 <- get_followers("potus", n = 75000, page = next_cursor(pres))
-#'
-#' ## store next cursor in object before merging data
-#' nextpage <- next_cursor(pres2)
-#'
-#' ## merge data frames
-#' pres <- rbind(pres, pres2)
-#'
-#' ## store next cursor as an attribute in the merged data frame
-#' attr(pres, "next_cursor") <- next_page
-#'
-#' ## view merged ddata
-#' pres
+#' ## You might use retryonratelimit = TRUE to obtain exactly 750000
 #'
 #' }
 #'
@@ -55,7 +41,7 @@ get_followers <- function(user, n = 5000,
                           page = lifecycle::deprecated()) {
   
   if (lifecycle::is_present(page)) {
-    lifecycle::deprecate_warn("1.0.0", "get_followers(page)", "get_followers(cursor)")
+    lifecycle::deprecate_warn("1.0.0", "get_followers(page = )", "get_followers(cursor = )")
     cursor <- page
   }
 
