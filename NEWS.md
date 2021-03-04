@@ -3,6 +3,12 @@
 - The `set_renv` argument to `create_token()` has been deprecated in favour
   of a new `cache` argument that defaults to `FALSE`.
 
+- `stream_tweets()` has been overhauled to only write valid data. This obsoletes
+  all previous strategy to cleen up bad data after the fact (#350, #356).
+
+- `stream_tweets2()` and `parse_stream()` have been deprecated in favour of
+  `stream_tweets()` and `jsonlite::stream_in()`.
+
 - rtweet 1.0.0 implements a consistent strategy for handling rate limits. 
   By default, if a paginated function (i.e. a rtweet function that performs 
   multiple calls to the twitter API) is rate-limited it will return all results 

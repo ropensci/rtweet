@@ -1,119 +1,54 @@
-#' Collect a live stream of Twitter data.
-#'
-#' Returns public statuses via one of the following four methods:
-#'   \itemize{
-#'     \item 1. Sampling a small random sample of all publicly
-#'              available tweets
-#'     \item 2. Filtering via a search-like query (up to 400
-#'              keywords)
-#'     \item 3. Tracking via vector of user ids (up to 5000
-#'              user_ids)
-#'     \item 4. Location via geo coordinates (1-360 degree
-#'              location boxes)
-#'   }
+#' Collect a live stream of Twitter data
+#' 
+#' @description 
+#' Streams public statuses to a file via one of the following four methods:
+#' 
+#' 1. Sampling a small random sample of all publicly available tweets
+#' 2. Filtering via a search-like query (up to 400 keywords)
+#' 3. Tracking via vector of user ids (up to 5000 user_ids)
+#' 4. Location via geo coordinates (1-360 degree location boxes)
+#' 
 #' @inheritParams lookup_users
 #' @param q Query used to select and customize streaming collection
-#'   method.  There are four possible methods. (1) The default,
-#'   `q = ""`, returns a small random sample of all publicly
-#'   available Twitter statuses. (2) To filter by keyword, provide a
-#'   comma separated character string with the desired phrase(s) and
-#'   keyword(s). (3) Track users by providing a comma separated list
-#'   of user IDs or screen names. (4) Use four latitude/longitude
-#'   bounding box points to stream by geo location. This must be
-#'   provided via a vector of length 4, e.g., c(-125, 26, -65, 49).
-#' @param timeout Numeric scalar specifying amount of time, in
-#'   seconds, to leave connection open while streaming/capturing
-#'   tweets.  By default, this is set to 30 seconds. To stream
-#'   indefinitely, use `timeout = FALSE` to ensure JSON file is
-#'   not deleted upon completion or `timeout = Inf`.
-#' @param file_name Character with name of file. By default, a
-#'   temporary file is created, tweets are parsed and returned to
-#'   parent environment, and the temporary file is deleted.
-#' @param verbose Logical, indicating whether or not to include output
-#'   processing/retrieval messages.
-#' @param \dots Insert magical parameters, spell, or potion here. Or
-#'   filter for tweets by language, e.g., `language = "en"`.
-#' @seealso <https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose>
+#'   method.  There are four possible methods:
+#'   
+#'   1. The default, `q = ""`, returns a small random sample of all 
+#'      publicly available Twitter statuses. 
+#'   2. To filter by keyword, provide a comma separated character string with 
+#'      the desired phrase(s) and keyword(s). 
+#'   3. Track users by providing a comma separated list of user IDs or 
+#'      screen names. 
+#'   4. Use four latitude/longitude bounding box points to stream by geo 
+#'      location. This must be provided via a vector of length 4, e.g., 
+#'      `c(-125, 26, -65, 49)`.
+#' @param timeout Integer specifying number of seconds to stream tweets for.
+#'   Stream indefinitely with `timeout = Inf`.
+#'    
+#'   The stream can be interrupted at any time, and `file_name` will still be
+#'   valid file.
+#' @param file_name Character with name of file. If not specified,
+#'   will write to `stream_tweets.json` in the current working directory.
+#' @param append If `TRUE`, will append to the end of `file_name`; if
+#'   `FALSE`, will overwrite.
+#' @param verbose If `TRUE`, display a progress bar.
+#' @param parse Use `FALSE` to opt-out of parsing the tweets.
+#' @param ... Other arguments passed in to query parameters.
+#' @seealso <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
+#'  <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview>
 #' @examples
 #' \dontrun{
-#' ## stream tweets mentioning "election" for 90 seconds
-#' e <- stream_tweets("election", timeout = 90)
-#'
-#' ## data frame where each observation (row) is a different tweet
+#' # stream tweets mentioning "election" for 10 seconds
+#' e <- stream_tweets("election", timeout = 10)
 #' e
 #'
-#' ## plot tweet frequency
-#' ts_plot(e, "secs")
+#' # Download another 10s worth of data to the same file
+#' e <- stream_tweets("election", timeout = 10)
 #'
-#' ## stream tweets mentioning Obama for 30 seconds
-#' djt <- stream_tweets("realdonaldtrump", timeout = 30)
-#'
-#' ## preview tweets data
-#' djt
-#'
-#' ## get user IDs of people who mentioned trump
-#' usrs <- users_data(djt)
-#'
-#' ## lookup users data
-#' usrdat <- lookup_users(unique(usrs$user_id))
-#'
-#' ## preview users data
-#' usrdat
-#'
-#' ## store large amount of tweets in files using continuous streams
-#' ## by default, stream_tweets() returns a random sample of all tweets
-#' ## leave the query field blank for the random sample of all tweets.
-#' stream_tweets(
-#'   timeout = (60 * 10),
-#'   parse = FALSE,
-#'   file_name = "tweets1"
-#' )
-#' stream_tweets(
-#'   timeout = (60 * 10),
-#'   parse = FALSE,
-#'   file_name = "tweets2"
-#' )
-#'
-#' ## parse tweets at a later time using parse_stream function
-#' tw1 <- parse_stream("tweets1.json")
-#' tw1
-#'
-#' tw2 <- parse_stream("tweets2.json")
-#' tw2
-#'
-#' ## streaming tweets by specifying lat/long coordinates
-#'
-#' ## stream continental US tweets for 5 minutes
-#' usa <- stream_tweets(
-#'   c(-125, 26, -65, 49),
-#'   timeout = 300
-#' )
-#'
-#' ## use lookup_coords() for a shortcut verson of the above code
-#' usa <- stream_tweets(
-#'   lookup_coords("usa"),
-#'   timeout = 300
-#' )
-#'
-#' ## stream world tweets for 5 mins, save to JSON file
-#' ## shortcut coords note: lookup_coords("world")
-#' world.old <- stream_tweets(
-#'   c(-180, -90, 180, 90),
-#'   timeout = (60 * 5),
-#'   parse = FALSE,
-#'   file_name = "world-tweets.json"
-#' )
-#'
-#' ## read in JSON file
-#' rtworld <- parse_stream("word-tweets.json")
-#'
-#' ## world data set with with lat lng coords variables
-#' x <- lat_lng(rtworld)
-#'
+#' # stream tweets about continential USA for 5 minutes
+#' usa <- stream_tweets(lookup_coords("usa"), file_name = "usa.json", timeout = 300)
+#' 
 #' }
-#'
-#' @return Tweets data returned as data frame with users data as attribute.
-#' @family stream tweets
+#' @return A tibble with one row per tweet
 #' @export
 stream_tweets <- function(q = "",
                           timeout = 30,
@@ -121,107 +56,145 @@ stream_tweets <- function(q = "",
                           token = NULL,
                           file_name = NULL,
                           verbose = TRUE,
+                          append = TRUE,
                           ...) {
-  if ("append" %in% names(list(...))) {
-    stop("append should only be used with stream_tweets2() (which is in development)",
-         call. = FALSE)
+  if (is.null(file_name)) {
+    file_name <- "stream_tweets.json"
+    inform(paste0("Writing to '", file_name, "'"))
   }
-  ## set encoding
-  if (!identical(getOption("encoding"), "UTF-8")) {
-    op <- getOption("encoding")
-    options(encoding = "UTF-8")
-    on.exit(options(encoding = op), add = TRUE)
+  output <- file(file_name)
+  
+  prep <- stream_prep(token, q, ...)
+  stream <- curl::curl(prep$url, handle = prep$handle)
+
+  quiet_interrupt(download_from_stream(stream, output, 
+    timeout = timeout,
+    verbose = verbose
+  ))
+  
+  if (parse) {
+    df <- jsonlite::stream_in(file(file_name), verbose = FALSE)
+    tibble::as_tibble(df)
+  } else {
+    invisible(NULL)
   }
-  token <- check_token(token)
+}
+
+download_from_stream <- function(stream, output, append = TRUE, timeout = 10, verbose = TRUE) {
   if (!timeout) {
     timeout <- Inf
   }
-  ## setp q to blank for sample stream
-  if (missing(q) || is.null(q)) q <- ""
-  stopifnot(
-    is.numeric(timeout),
-    timeout > 0,
-    any(is.atomic(q), inherits(q, "coords")),
-    is.atomic(file_name)
-  )
-  ## select stream API
-  if (identical(q, "")) {
-    query <- "statuses/sample"
-    params <- NULL
-  } else {
-    query <- "statuses/filter"
-    params <- stream_params(q, ...)
-  }
-  url <- make_url(
-    restapi = FALSE,
-    query,
-    param = params
-  )
-  ## temp file if none provided
-  if (is.null(file_name)) {
-    tmp <- TRUE
-    file_name <- tmp_json()
-  } else {
-    tmp <- FALSE
-  }
-  if (is.infinite(timeout)) tmp <- FALSE
-  if (!grepl("\\.json$", file_name)) {
-    file_name <- paste0(file_name, ".json")
-  }
-  if (!file.exists(file_name)) file.create(file_name)
+  stopifnot(is.numeric(timeout), timeout > 0)
+  stop_time <- Sys.time() + timeout
+  
+  n_seen <- 0
   if (verbose) {
-    message(
-      paste0("Streaming tweets for ", timeout, " seconds...")
+    pb <- progress::progress_bar$new(
+      total = NA,
+      show_after = 0,
+      format = "Streaming tweets: :n tweets written / :bytes / :rate / :elapsedfull"
     )
   }
-  r <- NULL
-  con <- file(file_name, "wt")
-  on.exit({sh <- tryCatch(close(con), error = function(e) return(NULL),
-    warning = function(w) return(NULL))}, add = TRUE)
 
-  start_time <- Sys.time()
-  stop_time <- Sys.time() + timeout
-  ctr <- 0
-  while (timeout > 0) {
-    r <- tryCatch(httr::POST(
-      url = url,
-      httr::config(token = token, timeout = timeout),
-      httr::write_stream(write_fun(con)),
-      httr::add_headers(Accept = "application/json"),
-      httr::add_headers(`Accept-Encoding` = "gzip, deflate")),
-      error = function(e) return(e))
-    timeout <- as.numeric(difftime(stop_time, Sys.time(), units = "secs"))
-    if (timeout > 0) {
-      ctr <- ctr + 1
-      if (ctr == 1 && verbose) message(
-        "The stream disconnected prematurely. Reconnecting...")
-      if (ctr == 2 && verbose) message("Reconnecting again...")
-      if (ctr == 5) break
-    } else if (verbose) {
-      message("Finished streaming tweets!")
+  open(stream, "rb") 
+  withr::defer(close(stream))
+  
+  open(output, if (append) "ab" else "b")
+  withr::defer(close(output))
+
+  lines <- list(lines = character(), fragment = "")
+  while (isIncomplete(stream) && Sys.time() < stop_time) {
+    buf <- readBin(stream, raw(), 64 * 1024)
+    if (length(buf) == 0) {
+      if (verbose()) {
+        pb$tick()
+      }
+      Sys.sleep(0.25)
+      next
     }
-  }
-  close(con)
-  if (parse) {
-    out <- parse_stream(file_name, verbose = verbose)
-    if (tmp) {
-      file.remove(file_name)
+  
+    text <- rawToChar(buf)
+    lines <- whole_lines(text, lines$fragment)
+    
+    # only keep tweets
+    # TODO: process more messages from 
+    # https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview
+    json <- lapply(lines$lines, jsonlite::fromJSON)
+    is_tweet <- vapply(json, function(x) has_name(x, "created_at"), logical(1))
+
+    n_seen <- n_seen + sum(is_tweet)
+    if (verbose) {
+      pb$tick(length(buf), tokens = list(n = n_seen))
     }
-    return(out)
+  
+    writeLines(lines$lines[is_tweet], output, useBytes = TRUE)
   }
-  if (verbose) message("streaming data saved as ", file_name)
-  invisible(r)
+  
+  if (verbose) {
+    cat("\n")
+  }
+
+  invisible()
 }
 
-write_fun <- function(con) {
-  function(x) {
-    writeLines(rawToChar(x), con)
-  }
+quiet_interrupt <- function(code) {
+  tryCatch(code, interrupt = function(e) NULL)
 }
 
-tmp_json <- function() {
-  timestamp <- gsub("[^[:digit:]_]", "", Sys.time())
-  paste0("stream-", timestamp, ".json")
+whole_lines <- function(text, fragment = "") {
+  lines <- strsplit(text, "\r\n")[[1]]
+  lines[[1]] <- paste0(fragment, lines[[1]])
+    
+  n <- length(lines)
+  complete <- grepl("\r\n$", text)
+  if (!complete) {
+    fragment <- lines[[n]]
+    lines <- lines[-n]
+  } else {
+    fragment <- ""
+  }
+  
+  # Drop empty keep-alive lines
+  lines <- lines[lines != ""]
+
+  list(lines = lines, fragment = fragment)
+}
+
+stream_prep <- function(token, q = "", ..., filter_level = "none") {
+  token <- check_token(token)
+  stopifnot(is.atomic(q) || inherits(q, "coords"))
+  
+  if (identical(q, "")) {
+    path <- "1.1/statuses/sample.json"
+    params <- NULL
+  } else {
+    path <- "1.1/statuses/filter.json"
+    params <- stream_params(q, ..., filter_level = filter_level)
+  }
+
+  url <- httr::modify_url("https://stream.twitter.com", 
+    path = path, 
+    query = params
+  )
+    
+  handle <- curl::new_handle()
+  curl::handle_setheaders(handle, .list = token$sign("GET", url)$headers)
+
+  list(url = url, handle = handle)
+}
+
+stream_params <- function(stream, ...) {
+  if (inherits(stream, "coords")) {
+    params <- list(locations = paste(stream$box, collapse = ","))
+  } else if ((length(stream) %% 4 == 0) && is.numeric(stream)) {
+    params <- list(locations = paste(stream, collapse = ","))
+  } else if (is_user_ids(stream)) {
+    params <- list(follow = stream, ...)
+  } else {
+    params <- list(track = stream, ...)
+  }
+  
+  params
 }
 
 is_user_ids <- function(x) {
@@ -231,213 +204,30 @@ is_user_ids <- function(x) {
   isTRUE(all(!is.na(suppressWarnings(as.numeric(x)))))
 }
 
-stream_params <- function(stream, ...) {
-  ## gotta have ut8-encoding for the comma separated IDs
-  op <- getOption("encoding")
-  on.exit(options(encoding = op), add = TRUE)
-  options(encoding = "UTF-8")
 
-  if (inherits(stream, "coords")) {
-    stream <- stream$box
-  }
-  ## if [coordinates] vector is > 1 then locations
-  ## if comma separated stream of IDs then follow
-  ## otherwise use query string to track
-  if ((length(stream) %% 4 == 0) && is.numeric(stream)) {
-    params <- list(locations = paste(stream, collapse = ","))
-  } else if (is_user_ids(stream)) {
-    params <- list(follow = stream, ...)
-  } else {
-    params <- list(track = stream, ...)
-  }
-  ## if filter level not provided, set to low
-  if (!has_name_(params, "filter_level")) {
-    ## filter level
-    params[["filter_level"]] <- "none"
-  }
-  params
-}
-
-
-
-good_lines <- function(x) {
-  grep("^\\{\"created.*ms\":\"\\d+\"\\}$", x, value = TRUE)
-}
-good_lines2 <- function(x) {
-  x <- x[nchar(x) > 0]
-  x <- grep("{\"delete", x, fixed = TRUE, invert = TRUE, value = TRUE)
-  x <- grep("{\"limit", x, fixed = TRUE, invert = TRUE, value = TRUE)
-  co <- grep("\\d+\"\\}$", x, invert = TRUE)
-  if (length(co) > 0) {
-    for (i in seq_along(co)) {
-      if (co[i] + 1 > length(x)) break
-      x[co[i]] <- paste0(x[co[i]], x[co[i] + 1])
-    }
-    x <- x[-c(co + 1)]
-    while (!grepl("\\d+\"\\}$", x[length(x)])) {
-      x <- x[-length(x)]
-      if (length(x) == 0) break
-    }
-  }
-  x
-}
-
-limits_data <- function(x) {
-  if (has_name_(attributes(x), "limit")) {
-    attr(x, "limit")
-  } else {
-    data.frame()
-  }
-}
-
-stream_data <- function(file_name, ...) {
-  .parse_stream(file_name, ...)
-}
-
-
-.parse_stream_two <- function(d) {
-  d <- paste0("[", paste0(d, collapse = ","), "]")
-  d <- jsonlite::fromJSON(d)
-  tweets_with_users(d)
-}
-
-
-.parse_stream <- function(file_name, ...) {
-  if (!identical(getOption("encoding"), "UTF-8")) {
-    op <- getOption("encoding")
-    options(encoding = "UTF-8")
-    on.exit(options(encoding = op), add = TRUE)
-  }
-  s <- tryCatch(jsonlite::stream_in(file(file_name), ...), error = function(e)
-    return(NULL))
-  if (is.null(s)) {
-    d <- readr::read_lines(file_name)
-    if (length(d) > 0) {
-      tmp <- tempfile()
-      on.exit(file.remove(tmp), add = TRUE)
-      d <- good_lines2(d)
-    }
-    if (length(d) > 0) {
-      dd <- sapply(d, function(x) {
-        o <- tryCatch(jsonlite::fromJSON(x),
-          error = function(e) return(FALSE))
-        if (identical(o, FALSE)) return(FALSE)
-        return(TRUE)
-      }, USE.NAMES = FALSE)
-      writeLines(d[dd], tmp)
-      s <- jsonlite::stream_in(file(tmp, "rb"))
-    }
-  }
-  if (length(s) == 0L) s <- NULL
-  tweets_with_users(s)
-}
-
-data_from_stream <- function(x, n = 10000L, n_max = -1L, ...) {
-  if (!file.exists(x)) {
-    stop("No such file exists", call. = FALSE)
-  }
-  if (!requireNamespace("readr", quietly = TRUE)) {
-    warning("For better performance when reading large twitter .json files, ",
-      "try installing the readr package before using this function.")
-    return(stream_data(x, ...))
-  }
-  ## initalize counters and output vector
-  d <- NA_character_
-  skip <- 0L
-  data <- list()
-  ## read in chunks until completion
-  if (identical(n_max, -1L)) {
-    n_max2 <- Inf
-  } else {
-    n_max2 <- n_max
-  }
-  while (length(d) > 0L && skip < n_max2) {
-    if (n_max > 0L && (skip + n) > n_max2) {
-      n <- n_max - skip
-    }
-    d <- readr::read_lines(x, skip = skip, n_max = n)
-    if (length(d) == 0) break
-    skip <- length(d) + skip
-    tmp <- tempfile()
-    d <- good_lines2(d)
-    if (length(d) == 0) break
-    readr::write_lines(d, tmp)
-    data[[length(data) + 1L]] <- stream_data(tmp, ...)
-    if (NROW(data[[length(data)]]) == 0L) break
-  }
-  do.call("rbind", data)
-}
-
-
-
-data_from_stream2 <- function(x, n = 10000L, n_max = -1L, ...) {
-  if (!inherits(x, "connection") && !file.exists(x)) {
-    stop("No such file exists", call. = FALSE)
-  }
-  if (!requireNamespace("readr", quietly = TRUE)) {
-    warning("For better performance when reading large twitter .json files, ",
-      "try installing the readr package before using this function.")
-    return(stream_data(x, ...))
-  }
-  ## initalize counters and output vector
-  d <- NA_character_
-  skip <- 0L
-  data <- list()
-  ## read in chunks until completion
-  if (identical(n_max, -1L)) {
-    n_max2 <- Inf
-  } else {
-    n_max2 <- n_max
-  }
-  while (length(d) > 0L && skip < n_max2) {
-    if (n_max > 0L && (skip + n) > n_max2) {
-      n <- n_max - skip
-    }
-    d <- readr::read_lines(x, skip = skip, n_max = n)
-    skip <- length(d) + skip
-    d <- good_lines2(d)
-    if (length(d) == 0) break
-    data[[length(data) + 1L]] <- .parse_stream_two(d)
-    if (NROW(data[[length(data)]]) == 0L) break
-  }
-  do.call("rbind", data)
-}
-
+# Deprecated -----------------------------------------------------------------
 
 #' Converts Twitter stream data (JSON file) into parsed data frame.
+#'
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' Please use `jsonlite::stream_in()` instead.
 #'
 #' @param path Character, name of JSON file with data collected by
 #'   [stream_tweets()].
 #' @param ... Other arguments passed on to internal data_from_stream
 #'   function.
-#' @return A tbl of tweets data with attribute of users data
-#' @examples
-#' \dontrun{
-#' ## run and save stream to JSON file
-#' stream_tweets(
-#'   "the,a,an,and", timeout = 60,
-#'   file_name = "theaanand.json",
-#'   parse = FALSE
-#' )
-#'
-#' ## parse stream file into tibble data frame
-#' rt <- parse_stream("theaanand.json")
-#' }
 #' @export
-#' @family stream tweets
+#' @keywords internal
 parse_stream <- function(path, ...) {
-  dots <- list(...)
-  if (length(dots) > 0L) {
-    do.call("data_from_stream2", c(path, dots))
-  } else {
-    eval(call("data_from_stream2", path))
-  }
+  lifecycle::deprecate_stop("1.0.0", "parse_stream()", "jsonlite::stream_in()")
 }
-
 
 #' A more robust version of stream_tweets
 #'
-#' Stream with hardwired reconnection method to ensure timeout integrity.
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' Please use [stream_tweets()] instead.
 #'
 #' @param dir Name of directory in which json files should be written.
 #'   The default, NULL, will create a timestamped "stream" folder in the
@@ -452,114 +242,7 @@ parse_stream <- function(path, ...) {
 #' @return Returns data as expected using original search_tweets
 #'   function.
 #' @export
-#' @rdname stream_tweets
+#' @keywords internal
 stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
-  if (!requireNamespace("readr", quietly = TRUE)) {
-    stop("this function requires the readr package. please install it first")
-  }
-  if (is.null(dir)) {
-    dir <- stream_dir()
-  }
-  if (!dir.exists(dir)) {
-    new_dir(dir)
-  }
-
-  ## capture and match dots
-  dots <- match_fun(list(...), "stream_tweets")
-  ## start time
-  start <- Sys.time()
-  ## finish time (given requested timeout)
-  reqtime <- start + dots[["timeout"]]
-
-  ## save file name for final file
-  file_name <- dots[["file_name"]]
-  if (is.null(file_name)) {
-    file_name <- "stream"
-  } else if (grepl("\\.json$", file_name)) {
-    file_name <- gsub("\\.json$", "", file_name)
-  }
-  ## store parse value, then override to FALSE
-  parse <- dots[["parse"]]
-  dots[["parse"]] <- FALSE
-  ## store verbose value, then override to FALSE
-  verbose <- dots[["verbose"]]
-  dots[["verbose"]] <- FALSE
-
-  ## display message if verbose
-  if (verbose) {
-    message(paste0("Streaming tweets for ", dots[["timeout"]], " seconds..."))
-  }
-
-  ## initialize output vector
-  rt <- list()
-  ## start counter
-  i <- 1L
-
-  ## restart and continue stream until reqtime
-  while (Sys.time() <= reqtime) {
-    dots[["file_name"]] <- file.path(dir, paste0(file_name, "-", i, ".json"))
-    rt[[length(rt) + 1L]] <- do.call("stream_tweets", dots)
-    i <- i + 1L
-    dots[["timeout"]] <- ceiling(as.numeric(reqtime - Sys.time(), "secs"))
-  }
-  if (verbose) {
-    message("Finished streaming tweets!")
-  }
-  ## merge JSON files into single file (named file_name)
-  pat <- paste0(file_name, "\\-[[:digit:]]{1,}\\.json$")
-  jsons <- list.files(dir, pattern = pat, full.names = TRUE)
-  file_name <- paste0(dir, ".json")
-  #unlink(dir, recursive = TRUE)
-  if (!parse) {
-    return(invisible())
-  }
-  ## return parsed data
-  parse_stream(file_name)
+  lifecycle::deprecate_stop("1.0.0", "stream_tweets2()","stream_tweets()")
 }
-
-new_dir <- function(dir, force = TRUE) {
-  stopifnot(is.character(dir) && length(dir) == 1L)
-  if (force && dir.exists(dir)) {
-    dirs <- list.dirs(recursive = FALSE)
-    old_dir <- dir
-    dir <- paste0(dir, "-", 1:1000)
-    dir <- dir[!dir %in% dirs][1]
-    message(old_dir, " already exists. creating ", dir, "...")
-  }
-  dir.create(dir)
-}
-
-match_fun <- function(dots, fun) {
-  rfuns <- names(formals(fun))
-  nms <- match(names(dots), rfuns)
-  nms[names(dots) != ""] <- names(dots)[names(dots) != ""]
-  is_na <- function(x) is.na(x) | x == "NA"
-  nms[is_na(nms) & names(dots) == ""] <- names(
-    formals(fun))[which(is_na(nms) & names(dots) == "")]
-  names(dots) <- nms
-  names(dots)[is.na(names(dots))] <- ""
-  fmls <- formals(fun)
-  dotsdots <- dots[!names(dots) %in% names(fmls)]
-  dots <- dots[names(dots) %in% names(fmls)]
-  fmls <- fmls[!names(fmls) %in% names(dots) & names(fmls) != "..."]
-  c(dots, fmls, dotsdots)
-}
-
-
-parse_streamlimit <- function(x) {
-  x <- grep("^\\{\"limit", x, value = TRUE)
-  x <- strsplit(x, ":|,|\"")
-  x <- x[lengths(x) >= 7L]
-  tibble::tibble(
-    track = unlist(lapply(x, "[[", 7L)),
-    timestamp = as.POSIXct(
-      as.numeric(unlist(lapply(x, "[[", 12L))) / 1000, origin = "1970-01-01")
-  )
-}
-
-stream_dir <- function() {
-  timestamp <- gsub("\\s|\\:|\\-", "", substr(Sys.time(), 1, 19))
-  paste0("stream-", timestamp)
-}
-
-
