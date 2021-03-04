@@ -96,7 +96,7 @@ get_timeline_user <- function(user,
     is.logical(home)
   )
   
-  api <- if (home) "statuses/home_timeline" else "statuses/user_timeline"
+  api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
 
   params <- list(
     max_id = max_id,
