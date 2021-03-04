@@ -95,7 +95,7 @@ get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
   params <- list(stringify_ids = TRUE)
   params[[.id_type(user)]] <- user
   
-  results <- TWIT_paginate_cursor(token, "friends/ids", params, 
+  results <- TWIT_paginate_cursor(token, "/1.1/friends/ids", params, 
     page_size = 5000,
     n = n
   )
