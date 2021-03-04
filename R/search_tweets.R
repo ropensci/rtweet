@@ -268,3 +268,20 @@ add_var <- function(x, ...) {
   x[[varname]] <- unlist(dots, use.names = FALSE)
   x
 }
+
+
+match_fun <- function(dots, fun) {
+  rfuns <- names(formals(fun))
+  nms <- match(names(dots), rfuns)
+  nms[names(dots) != ""] <- names(dots)[names(dots) != ""]
+  is_na <- function(x) is.na(x) | x == "NA"
+  nms[is_na(nms) & names(dots) == ""] <- names(
+    formals(fun))[which(is_na(nms) & names(dots) == "")]
+  names(dots) <- nms
+  names(dots)[is.na(names(dots))] <- ""
+  fmls <- formals(fun)
+  dotsdots <- dots[!names(dots) %in% names(fmls)]
+  dots <- dots[names(dots) %in% names(fmls)]
+  fmls <- fmls[!names(fmls) %in% names(dots) & names(fmls) != "..."]
+  c(dots, fmls, dotsdots)
+}

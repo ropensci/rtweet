@@ -2,8 +2,7 @@
 % Please edit documentation in R/stream.R
 \name{stream_tweets}
 \alias{stream_tweets}
-\alias{stream_tweets2}
-\title{Collect a live stream of Twitter data.}
+\title{Collect a live stream of Twitter data}
 \usage{
 stream_tweets(
   q = "",
@@ -12,33 +11,32 @@ stream_tweets(
   token = NULL,
   file_name = NULL,
   verbose = TRUE,
+  append = TRUE,
   ...
 )
-
-stream_tweets2(..., dir = NULL, append = FALSE)
 }
 \arguments{
 \item{q}{Query used to select and customize streaming collection
-method.  There are four possible methods. (1) The default,
-\code{q = ""}, returns a small random sample of all publicly
-available Twitter statuses. (2) To filter by keyword, provide a
-comma separated character string with the desired phrase(s) and
-keyword(s). (3) Track users by providing a comma separated list
-of user IDs or screen names. (4) Use four latitude/longitude
-bounding box points to stream by geo location. This must be
-provided via a vector of length 4, e.g., c(-125, 26, -65, 49).}
+method.  There are four possible methods:
+\enumerate{
+\item The default, \code{q = ""}, returns a small random sample of all
+publicly available Twitter statuses.
+\item To filter by keyword, provide a comma separated character string with
+the desired phrase(s) and keyword(s).
+\item Track users by providing a comma separated list of user IDs or
+screen names.
+\item Use four latitude/longitude bounding box points to stream by geo
+location. This must be provided via a vector of length 4, e.g.,
+\code{c(-125, 26, -65, 49)}.
+}}
 
-\item{timeout}{Numeric scalar specifying amount of time, in
-seconds, to leave connection open while streaming/capturing
-tweets.  By default, this is set to 30 seconds. To stream
-indefinitely, use \code{timeout = FALSE} to ensure JSON file is
-not deleted upon completion or \code{timeout = Inf}.}
+\item{timeout}{Integer specifying number of seconds to stream tweets for.
+Stream indefinitely with \code{timeout = Inf}.
 
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
+The stream can be interrupted at any time, and \code{file_name} will still be
+valid file.}
+
+\item{parse}{Use \code{FALSE} to opt-out of parsing the tweets.}
 
 \item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
 a default token with \code{\link[=get_token]{get_token()}}. You should only need to
@@ -46,132 +44,43 @@ use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
-\item{file_name}{Character with name of file. By default, a
-temporary file is created, tweets are parsed and returned to
-parent environment, and the temporary file is deleted.}
+\item{file_name}{Character with name of file. If not specified,
+will write to \code{stream_tweets.json} in the current working directory.}
 
-\item{verbose}{Logical, indicating whether or not to include output
-processing/retrieval messages.}
+\item{verbose}{If \code{TRUE}, display a progress bar.}
 
-\item{\dots}{Insert magical parameters, spell, or potion here. Or
-filter for tweets by language, e.g., \code{language = "en"}.}
+\item{append}{If \code{TRUE}, will append to the end of \code{file_name}; if
+\code{FALSE}, will overwrite.}
 
-\item{dir}{Name of directory in which json files should be written.
-The default, NULL, will create a timestamped "stream" folder in the
-current working directory. If a dir name is provided that does not
-already exist, one will be created.}
-
-\item{append}{Logical indicating whether to append or overwrite
-file_name if the file already exists. Defaults to FALSE, meaning
-this function will overwrite the preexisting file_name (in other
-words, it will delete any old file with the same name as
-file_name) meaning the data will be added as new lines to file if
-pre-existing.}
+\item{...}{Other arguments passed in to query parameters.}
 }
 \value{
-Tweets data returned as data frame with users data as attribute.
-
-Returns data as expected using original search_tweets
-function.
+A tibble with one row per tweet
 }
 \description{
-Returns public statuses via one of the following four methods:
-\itemize{
-\item 1. Sampling a small random sample of all publicly
-available tweets
-\item 2. Filtering via a search-like query (up to 400
-keywords)
-\item 3. Tracking via vector of user ids (up to 5000
-user_ids)
-\item 4. Location via geo coordinates (1-360 degree
-location boxes)
+Streams public statuses to a file via one of the following four methods:
+\enumerate{
+\item Sampling a small random sample of all publicly available tweets
+\item Filtering via a search-like query (up to 400 keywords)
+\item Tracking via vector of user ids (up to 5000 user_ids)
+\item Location via geo coordinates (1-360 degree location boxes)
 }
-
-Stream with hardwired reconnection method to ensure timeout integrity.
 }
 \examples{
 \dontrun{
-## stream tweets mentioning "election" for 90 seconds
-e <- stream_tweets("election", timeout = 90)
-
-## data frame where each observation (row) is a different tweet
+# stream tweets mentioning "election" for 10 seconds
+e <- stream_tweets("election", timeout = 10)
 e
 
-## plot tweet frequency
-ts_plot(e, "secs")
+# Download another 10s worth of data to the same file
+e <- stream_tweets("election", timeout = 10)
 
-## stream tweets mentioning Obama for 30 seconds
-djt <- stream_tweets("realdonaldtrump", timeout = 30)
-
-## preview tweets data
-djt
-
-## get user IDs of people who mentioned trump
-usrs <- users_data(djt)
-
-## lookup users data
-usrdat <- lookup_users(unique(usrs$user_id))
-
-## preview users data
-usrdat
-
-## store large amount of tweets in files using continuous streams
-## by default, stream_tweets() returns a random sample of all tweets
-## leave the query field blank for the random sample of all tweets.
-stream_tweets(
-  timeout = (60 * 10),
-  parse = FALSE,
-  file_name = "tweets1"
-)
-stream_tweets(
-  timeout = (60 * 10),
-  parse = FALSE,
-  file_name = "tweets2"
-)
-
-## parse tweets at a later time using parse_stream function
-tw1 <- parse_stream("tweets1.json")
-tw1
-
-tw2 <- parse_stream("tweets2.json")
-tw2
-
-## streaming tweets by specifying lat/long coordinates
-
-## stream continental US tweets for 5 minutes
-usa <- stream_tweets(
-  c(-125, 26, -65, 49),
-  timeout = 300
-)
-
-## use lookup_coords() for a shortcut verson of the above code
-usa <- stream_tweets(
-  lookup_coords("usa"),
-  timeout = 300
-)
-
-## stream world tweets for 5 mins, save to JSON file
-## shortcut coords note: lookup_coords("world")
-world.old <- stream_tweets(
-  c(-180, -90, 180, 90),
-  timeout = (60 * 5),
-  parse = FALSE,
-  file_name = "world-tweets.json"
-)
-
-## read in JSON file
-rtworld <- parse_stream("word-tweets.json")
-
-## world data set with with lat lng coords variables
-x <- lat_lng(rtworld)
+# stream tweets about continential USA for 5 minutes
+usa <- stream_tweets(lookup_coords("usa"), file_name = "usa.json", timeout = 300)
 
 }
-
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/tweets/sample-realtime/api-reference/decahose}
-
-Other stream tweets: 
-\code{\link{parse_stream}()}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample},
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview}
 }
-\concept{stream tweets}
