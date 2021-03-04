@@ -98,5 +98,5 @@ post_friendship <- function(user,
 
   names(params)[1] <- .id_type(user)
 
-  TWIT_post(token, "friendships/update", params)
+  TWIT_post(token, "/1.1/friendships/update", params)
 }

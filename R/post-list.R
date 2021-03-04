@@ -117,7 +117,7 @@ post_list_create <- function(name,
     mode = mode,
     description = description
   )
-  TWIT_post(token, "lists/create", params)
+  TWIT_post(token, "/1.1/lists/create", params)
 }
 
 
@@ -140,7 +140,7 @@ post_list_add_one <- function(user,
     list_id = list_id,
     slug = slug
   )
-  TWIT_post(token, "lists/members/create", params)
+  TWIT_post(token, "/1.1/lists/members/create", params)
 }
 
 
@@ -152,7 +152,7 @@ post_list_destroy <- function(list_id = NULL,
     list_id = list_id,
     slug = slug
   )
-  TWIT_post(token, "lists/destroy", params)
+  TWIT_post(token, "/1.1/lists/destroy", params)
 }
 
 post_list_create_all <- function(users,
@@ -171,7 +171,7 @@ post_list_create_all <- function(users,
     list_id = list_id,
     slug = slug
   )
-  TWIT_post(token, "lists/members/create_all", params)
+  TWIT_post(token, "/1.1/lists/members/create_all", params)
 }
 
 post_list_destroy_all <- function(users,
