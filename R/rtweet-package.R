@@ -26,3 +26,8 @@ NULL
 
 # The internal environment where state of the app is stored.
 .state <- new.env(parent = emptyenv())
+
+## usethis namespace: start
+#' @importFrom lifecycle deprecated
+## usethis namespace: end
+NULL

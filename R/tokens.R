@@ -11,9 +11,9 @@ check_token <- function(token = NULL) {
 #' Fetch Twitter OAuth token
 #' 
 #' @description 
-#' This function retrieves a cached OAuth token. This can be set to your
-#' own custom app with [create_token()], but in most cases you
-#' can use the built-in app, which this function will use by default. 
+#' This function retrieves a cached OAuth token from `token_cache_path()`. 
+#' It's possible to use own custom app with [create_token()], but in most cases 
+#' you can use the built-in app, which this function will use by default. 
 #' This function will error if no usable tokens are found.
 #' 
 #' See `vignettes("auth")` for more details. 
@@ -60,8 +60,7 @@ test_token <- function() {
     consumer_key = "7rX1CfEYOjrtZenmBhjljPzO3",
     consumer_secret = "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
     access_token = access_token,
-    access_secret = access_secret,
-    set_renv = FALSE
+    access_secret = access_secret
   )
 }
 
@@ -85,6 +84,9 @@ save_cached_token <- function(token) {
 delete_cached_token <- function() {
   unlink(token_cache_path())
 }
+
+#' @export
+#' @rdname get_token
 token_cache_path <- function() {
   file.path(rappdirs::user_cache_dir("rtweet", "R"), "auth.rds")
 }
@@ -100,7 +102,7 @@ default_token <- function() {
   key <- rawToChar(openssl::rsa_decrypt(sysdat$DYKcJfBkgMnGveI[[2]], sysdat$DYKcJfBkgMnGveI[[1]]))
   secret <- rawToChar(openssl::rsa_decrypt(sysdat$MRsnZtaKXqGYHju[[2]], sysdat$MRsnZtaKXqGYHju[[1]]))
   
-  create_token("rstats2twitter", key, secret)
+  create_token("rstats2twitter", key, secret, cache = TRUE)
 }
 
 no_token <- function() {
@@ -127,7 +129,10 @@ no_token <- function() {
 #'   `Callback URL` of `http://127.0.0.1:1410`.
 #' @param access_token Access token as supplied by Twitter (apps.twitter.com)
 #' @param access_secret Access secret as supplied by Twitter (apps.twitter.com)
-#' @param set_renv Should the token be cached? 
+#' @param set_renv `r lifecycle::deprecated()` Please use `cache` instead.
+#' @param cache Should the token be cached in [token_cache_path()]? Set this
+#'   to `TRUE` if you want this token to be automatically retrieved by 
+#'   [get_token()].
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/basics/authentication/overview/oauth>
 #'
@@ -139,8 +144,16 @@ create_token <- function(app = "mytwitterapp",
                          consumer_secret,
                          access_token = NULL,
                          access_secret = NULL,
-                         set_renv = TRUE) {
+                         cache = FALSE,
+                         set_renv = deprecated()) {
 
+  if (!lifecycle::is_present(set_renv)) {
+    lifecycle::deprecate_warn("1.0.0", 
+      "create_token(set_renv)", 
+      "create_token(cache)")
+    cache <- set_renv
+  }
+  
   stopifnot(is.character(app))
   check_key(consumer_key, "`consumer_key`")
   check_key(consumer_secret, "`consumer_secret`")
@@ -173,7 +186,7 @@ create_token <- function(app = "mytwitterapp",
     )
   }
   
-  if (set_renv) {
+  if (cache) {
     save_cached_token(token)
   }
   

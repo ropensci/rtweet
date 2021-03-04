@@ -3,19 +3,22 @@
 \name{get_token}
 \alias{get_token}
 \alias{get_tokens}
+\alias{token_cache_path}
 \title{Fetch Twitter OAuth token}
 \usage{
 get_token()
 
 get_tokens()
+
+token_cache_path()
 }
 \value{
 Twitter OAuth token(s) (Token1.0).
 }
 \description{
-This function retrieves a cached OAuth token. This can be set to your
-own custom app with \code{\link[=create_token]{create_token()}}, but in most cases you
-can use the built-in app, which this function will use by default.
+This function retrieves a cached OAuth token from \code{token_cache_path()}.
+It's possible to use own custom app with \code{\link[=create_token]{create_token()}}, but in most cases
+you can use the built-in app, which this function will use by default.
 This function will error if no usable tokens are found.
 
 See \code{vignettes("auth")} for more details.

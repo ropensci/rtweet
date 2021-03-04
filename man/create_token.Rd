@@ -10,7 +10,8 @@ create_token(
   consumer_secret,
   access_token = NULL,
   access_secret = NULL,
-  set_renv = TRUE
+  cache = FALSE,
+  set_renv = deprecated()
 )
 }
 \arguments{
@@ -26,7 +27,11 @@ application must have \verb{Read and write} access level and
 
 \item{access_secret}{Access secret as supplied by Twitter (apps.twitter.com)}
 
-\item{set_renv}{Should the token be cached?}
+\item{cache}{Should the token be cached in \code{\link[=token_cache_path]{token_cache_path()}}? Set this
+to \code{TRUE} if you want this token to be automatically retrieved by
+\code{\link[=get_token]{get_token()}}.}
+
+\item{set_renv}{Please use \code{cache} instead.}
 }
 \value{
 Twitter OAuth token(s) (Token1.0).

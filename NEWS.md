@@ -1,5 +1,8 @@
 # rtweet ...
 
+- The `set_renv` argument to `create_token()` has been deprecated in favour
+  of a new `cache` argument that defaults to `FALSE`.
+
 - rtweet 1.0.0 implements a consistent strategy for handling rate limits. 
   By default, if a paginated function (i.e. a rtweet function that performs 
   multiple calls to the twitter API) is rate-limited it will return all results 
