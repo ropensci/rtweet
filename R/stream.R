@@ -76,7 +76,7 @@ stream_tweets <- function(q = "",
     df <- jsonlite::stream_in(file(file_name), verbose = FALSE)
     tibble::as_tibble(df)
   } else {
-    NULL
+    invisible(NULL)
   }
 }
 
