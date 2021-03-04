@@ -12,7 +12,7 @@ get_followers(
   parse = TRUE,
   verbose = TRUE,
   token = NULL,
-  page = lifecycle::deprecated()
+  page = deprecated()
 )
 }
 \arguments{
