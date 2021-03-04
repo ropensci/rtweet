@@ -147,7 +147,7 @@ create_token <- function(app = "mytwitterapp",
                          cache = FALSE,
                          set_renv = deprecated()) {
 
-  if (!lifecycle::is_present(set_renv)) {
+  if (lifecycle::is_present(set_renv)) {
     lifecycle::deprecate_warn("1.0.0", 
       "create_token(set_renv)", 
       "create_token(cache)")
