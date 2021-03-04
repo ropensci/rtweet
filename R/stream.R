@@ -92,7 +92,7 @@ download_from_stream <- function(stream, output, append = TRUE, timeout = 10, ve
     pb <- progress::progress_bar$new(
       total = NA,
       show_after = 0,
-      format = "Streaming tweets: :n tweets written / :rate / :elapsedfull"
+      format = "Streaming tweets: :n tweets written / :bytes / :rate / :elapsedfull"
     )
   }
 
@@ -127,8 +127,11 @@ download_from_stream <- function(stream, output, append = TRUE, timeout = 10, ve
       pb$tick(length(buf), tokens = list(n = n_seen))
     }
   
-
     writeLines(lines$lines[is_tweet], output, useBytes = TRUE)
+  }
+  
+  if (verbose) {
+    cat("\n")
   }
 
   invisible()
