@@ -24,7 +24,7 @@
 #' @family tokens
 #' @export
 rate_limit <- function(resource_match = NULL, token = NULL) {
-  json <- TWIT_get(token, "application/rate_limit_status")
+  json <- TWIT_get(token, "/1.1/application/rate_limit_status")
   
   resources <- unlist(unname(json$resources), recursive = FALSE)
   df <- tibble::tibble(
@@ -50,7 +50,7 @@ rate_limit_reset <- function(endpoint, token = NULL) {
   
   resource <- strsplit(endpoint, "/")[[1]][[1]]
   params <- list(resource = resource)
-  json <- TWIT_get(token, "application/rate_limit_status", params)
+  json <- TWIT_get(token, "/1.1/application/rate_limit_status", params)
   
   info <- json$resources[[resource]][[paste0("/", endpoint)]]
   if (is.null(info)) {

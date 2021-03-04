@@ -63,5 +63,5 @@ user_lookup_100 <- function(users, token = NULL) {
   
   params <- list()
   params[[.id_type(users)]] <- paste0(users, collapse = ",")
-  TWIT_get(token, "users/lookup", params)
+  TWIT_get(token, "/1.1/users/lookup", params)
 }

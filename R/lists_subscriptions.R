@@ -71,7 +71,7 @@ lists_subscriptions_call <- function(user,
   )
   params[[.id_type(user)]] <- user
 
-  r <- TWIT_get(token, "lists/subscriptions", params)
+  r <- TWIT_get(token, "/1.1/lists/subscriptions", params)
 
   ## get/set next_cursor value
   if (has_name_(r, "next_cursor_str")) {

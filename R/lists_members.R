@@ -61,7 +61,7 @@ lists_members <- function(list_id = NULL,
     count = n,
     cursor = cursor
   )
-  r <- TWIT_get(token, "lists/members", params, parse = parse)
+  r <- TWIT_get(token, "/1.1/lists/members", params, parse = parse)
   
   if (parse) {
     r <- as_lists_members(r)

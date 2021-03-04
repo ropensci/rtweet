@@ -76,7 +76,7 @@ search_users <- function(q, n = 100,
       pb$tick()
     }  
     params$page <- i
-    results[[i]] <- TWIT_get(token, "users/search", params)
+    results[[i]] <- TWIT_get(token, "/1.1/users/search", params)
   }
   
   if (parse) {

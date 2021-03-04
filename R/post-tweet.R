@@ -216,7 +216,7 @@ wait_for_chunked_media <- function(resp, media_id, token = NULL) {
   while (!json$processing_info$state %in% c("pending", "in_progress")) {
     Sys.sleep(json$processing_info$check_after_secs)
     
-    json <- TWIT_get(token, "media/upload", 
+    json <- TWIT_get(token, "/1.1/media/upload", 
       params = params, 
       host = "upload.twitter.com"
     )
