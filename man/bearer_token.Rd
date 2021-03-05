@@ -7,7 +7,7 @@
 bearer_token(key, secret)
 }
 \arguments{
-\item{token}{A token created by \code{\link[=create_token]{create_token()}}}
+\item{key, secret}{The API key and secret for your Twitter app.}
 }
 \value{
 A bearer token

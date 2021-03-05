@@ -17,7 +17,7 @@
 #' need to create a custom app and token following the advice in 
 #' [create_token()] and `vignette("auth")`.
 #'
-#' @param token A token created by [create_token()]
+#' @param key,secret The API key and secret for your Twitter app.
 #' @return A bearer token
 #' @examples
 #' \dontrun{
