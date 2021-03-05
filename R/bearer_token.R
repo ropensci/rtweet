@@ -80,11 +80,11 @@ invalidate_bearer <- function(bearer, token) {
     abort("`bearer` must be a bearer token")
   }
   token <- check_token(token)
-  
-  r <- httr::with_verbose(httr::POST("https://api.twitter.com/oauth2/invalidate_token",
+
+  r <- httr::POST("https://api.twitter.com/oauth2/invalidate_token",
     token,
     query = list(access_token = attr(bearer, "bearer"))
-  ))
+  )
   check_status(r)
   r
 }
