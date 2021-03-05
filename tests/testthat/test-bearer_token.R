@@ -7,8 +7,4 @@ test_that("can create and invalidate a bearer token", {
   expect_error(search_tweets("tweet", n = 10, token = bt), NA)
   # But not for user info
   expect_error(api_screen_name(bt), class = "rtweet_error_http")
-  
-  invalidate_bearer(bt, t)
-  # We can't use it at all after invalidating
-  expect_error(search_tweets("tweet", n = 10, token = bt), class = "rtweet_error_http")
 })
