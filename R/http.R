@@ -245,10 +245,12 @@ warn_early_term <- function(cnd, hint, hint_if) {
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 handle_error <- function(x) {
   parsed <- from_js(x)
-  stop(
-    "Twitter API failed [", x$status_code, "]\n",
-    paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
-    call. = FALSE
+  abort(
+    paste0(
+      "Twitter API failed [", x$status_code, "]\n",
+      paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")")
+    ),
+    "rtweet_error_http"
   )
 }
 

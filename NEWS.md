@@ -1,5 +1,8 @@
 # rtweet ...
 
+- The result of `bearer_token()` is no longer cached; it's now your 
+  responsibility to save the token to an object.
+
 - `stream_tweets()` has been overhauled to only write valid data. This obsoletes
   all previous strategy to cleen up bad data after the fact (#350, #356).
 

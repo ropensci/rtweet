@@ -1,142 +1,96 @@
-
-
-encode_keys <- function(key, secret) {
-  check_installed("openssl")
-  openssl::base64_encode(paste0(key, ":", secret))
-}
-
-create_bearer_token <- function(token = NULL) {
-  ## Step 1: Encode consumer key and secret
-
-  ## Get app keys from token
-  if (is.null(token)) {
-    token <- get_token()
-  }
-  ## get app keys
-  app_keys <- encode_keys(get_app_key(token), get_app_secret(token))
-
-  ## Step 2: Obtain a bearer token
-  r <- httr::POST("https://api.twitter.com/oauth2/token",
-    httr::add_headers(Authorization = paste0("Basic ", app_keys)),
-    body = list(grant_type = "client_credentials"))
-  httr::stop_for_status(r)
-  bearer <- httr::content(r, encoding = "UTF-8")
-  bearer_env <- new.env()
-  assign(".bearer_env", bearer_env, envir = .state)
-  assign("bearer", bearer, envir = bearer_env)
-  invisible()
-}
-
 #' Bearer token
 #'
 #' @description 
-#' Convert default token into bearer token for application only (user-free)
-#' authentication method
+#' Create a bearer token for application only (user-free) authentication.
+#' A bearer token performs actions on behalf of the app, instead of behalf
+#' of an individual user. This is useful because it provides more generous 
+#' rate limits for some endpoints. For example, the rate limit for the 
+#' standard search API is 18,000 tweets per fifteen minutes. With a bearer 
+#' token, the rate limit rises to 45,000 tweets per fifteen minutes. See
+#' <https://developer.twitter.com/en/docs/basics/rate-limits.html> for details.
 #' 
-#' `bearer_token()` will only work on valid tokens generated from
-#' a user-created Twitter app (requires a Twitter developer account; see
-#' [create_token()] for more information). Unlike the default token
-#' returned by `create_token`, bearer tokens operate without any
-#' knowledge/information about the user context–meaning, bearer token requests
-#' cannot engage in user actions (e.g., posting tweets, reading DMs), and the
-#' information returned by Twitter will not include user-specific variables
-#' (e.g., if the user is following a certain account). 
+#' Note that you should call this function once, save the result to variable,
+#' then pass that object to the `token` argument of rtweet functions.
 #' 
-#' The upside to this authentication method is that it can provides more 
-#' generous rate limits. For example, the rate limit for the standard search 
-#' API is 18,000 tweets per fifteen minutes. With a bearer token, the rate 
-#' limit is 45,000 tweets per fifteen minutes. However, this is not true for 
-#' all endpoints. For a breakdown/comparison of rate limits, see
-#' <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
+#' There is little point creating a bearer token with the default app because
+#' the app rate limits are shared across all rtweet users. Instead, you'll 
+#' need to create a custom app and token following the advice in 
+#' [create_token()] and `vignette("auth")`.
 #'
-#' @inheritParams lookup_users
+#' @param token A token created by [create_token()]
 #' @return A bearer token
 #' @examples
 #' \dontrun{
+#' token <- bearer_token(my_token)
 #' ## use bearer token to search for >18k tweets (up to 45k) w/o hitting rate limit
-#' verified_user_tweets <- search_tweets("filter:verified", n = 30000, token = bearer_token())
+#' verified_user_tweets <- search_tweets("filter:verified", n = 30000, token = token)
 #'
 #' ## get followers (user == app)
 #' ### - USER (normal) token – rate limit 15req/15min
 #' cnn_flw <- get_followers("cnn", n = 75000)
 #' ### - APP (bearer) token – rate limit 15req/15min
-#' cnn_flw <- get_followers("cnn", n = 75000, token = bearer_token())
+#' cnn_flw <- get_followers("cnn", n = 75000, token = token)
 #'
 #' ## get timelines (user < app)
 #' ### - USER (normal) token – rate limit 900req/15min
 #' cnn_flw_data <- get_timelines(cnn_flw$user_id[1:900])
 #' ### - APP (bearer) token – rate limit 1500req/15min
-#' cnn_flw_data <- get_timelines(cnn_flw$user_id[1:1500], token = bearer_token())
+#' cnn_flw_data <- get_timelines(cnn_flw$user_id[1:1500], token = token)
 #'
 #' ## lookup statuses (user > app)
 #' ### - USER (normal) token – rate limit 900req/15min
 #' cnn_flw_data2 <- lookup_tweets(cnn_flw_data$status_id[1:90000])
 #' ### - APP (bearer) token – rate limit 300req/15min
-#' cnn_flw_data2 <- lookup_tweets(cnn_flw_data$status_id[1:30000], token = bearer_token())
+#' cnn_flw_data2 <- lookup_tweets(cnn_flw_data$status_id[1:30000], token = token)
 #'
 #' }
 #' @export
-bearer_token <- function(token = NULL) {
-  bearer <- get_bearer(token)
-  if (is.null(bearer)) {
-    stop("couldn't find bearer token")
-  }
-  r <- httr::add_headers(Authorization = paste0("Bearer ", bearer$access_token))
-  structure(r, bearer = bearer, class = c("bearer", "list"))
+bearer_token <- function(key, secret) {
+  token <- create_bearer_token(key, secret)
+  r <- httr::add_headers(Authorization = paste0("Bearer ", token))
+  structure(r, bearer = token, class = c("rtweet_bearer", "request"))
 }
 
-
-get_bearer <- function(token = NULL) {
-  ## create if not already
-  if (!exists(".bearer_env", envir = .state)) {
-    create_bearer_token(token)
-  }
-  ## retrieve
-  bearer_env <- get(".bearer_env", envir = .state)
-  bearer <- tryCatch(get("bearer", envir = bearer_env), error = function(e) NULL)
-  if (is.null(bearer)) {
-    stop("couldn't find bearer token")
-  }
-  bearer
+#' @export
+print.rtweet_bearer <- function(x, ...) {
+  # Make it hard to accidentally reveal token
+  cat("<bearer token>\n")
+  invisible(x)
 }
 
-get_app_key <- function(token) {
-  token$app$key
-}
-
-get_app_secret <- function(token) {
-  token$app$secret
-}
-
-get_oauth_key <- function(token) {
-  token$credentials$oauth_token
-}
-
-get_oauth_secret <- function(token) {
-  token$credentials$oauth_token_secret
-}
-
-print.bearer <- function(bearer) {
-  cat(paste0("Bearer token: ", attr(bearer, "bearer")$access_token), fill = TRUE)
+create_bearer_token <- function(key, secret) {
+  r <- httr::POST(
+    "https://api.twitter.com/oauth2/token",
+    httr::add_headers(Authorization = paste0("Basic ", encode_keys(key, secret))),
+    body = list(grant_type = "client_credentials")
+  )
+  check_status(r)
+  
+  json <- from_js(r)
+  json$access_token
 }
 
 #' Invalidate bearer token
 #'
-#' @inheritParams lookup_users
+#' @param token A bearer token
 #' @keywords internal
 #' @export
-invalidate_bearer <- function(token = NULL) {
-  if (is.null(token)) {
-    token <- get_token()
+invalidate_bearer <- function(bearer, token) {
+  if (!inherits(bearer, "rtweet_bearer")) {
+    abort("`bearer` must be a bearer token")
   }
-  bearer <- bearer_token(token)
-  bearer_token <- attr(bearer, "bearer")
-  ## Get app keys from token
-  app_keys <- encode_keys(get_app_key(token), get_app_secret(token))
-  r <- httr::POST("https://api.twitter.com/oauth2/invalidate_token",
-    httr::add_headers(Authorization = paste0("Basic ", app_keys)),
-    body = list(access_token = bearer_token$access_token),
-    encode = "form")
-  httr::warn_for_status(r)
+  token <- check_token(token)
+  
+  r <- httr::with_verbose(httr::POST("https://api.twitter.com/oauth2/invalidate_token",
+    token,
+    query = list(access_token = attr(bearer, "bearer"))
+  ))
+  check_status(r)
   r
+}
+
+# Helpers -----------------------------------------------------------------
+
+encode_keys <- function(key, secret) {
+  openssl::base64_encode(paste0(key, ":", secret))
 }

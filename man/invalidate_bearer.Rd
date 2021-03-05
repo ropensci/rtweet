@@ -4,14 +4,10 @@
 \alias{invalidate_bearer}
 \title{Invalidate bearer token}
 \usage{
-invalidate_bearer(token = NULL)
+invalidate_bearer(bearer, token)
 }
 \arguments{
-\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link[=get_token]{get_token()}}. You should only need to
-use this argument if you are wrapping rtweet in a package.
-
-See \code{vignette("auth")} for more details.}
+\item{token}{A bearer token}
 }
 \description{
 Invalidate bearer token

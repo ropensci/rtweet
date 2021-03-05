@@ -133,7 +133,6 @@ search_premium <- function(product, q, n = 100, fromDate = NULL, toDate = NULL,
     stop("`safedir` temporarily not supported")
   }
   
-  token <- bearer_token(token)
   params <- search_params(q, 
     n = n,
     fromDate = format_from_to_date(fromDate),

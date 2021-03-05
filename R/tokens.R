@@ -1,7 +1,7 @@
 check_token <- function(token = NULL) {
   token <- token %||% get_token()
   
-  if (inherits(token, "bearer") || inherits(token, "Token1.0")) {
+  if (inherits(token, "rtweet_bearer") || inherits(token, "Token1.0")) {
     return(token)
   }
   
