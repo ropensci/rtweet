@@ -1,5 +1,9 @@
 # rtweet ...
 
+- `bearer_token()` now requires you to supply the API key and secret for 
+  your app. This means that for many read-only uses you will only need
+  a `bearer_token()`; you no longer need to call `create_token()` first.
+
 - The result of `bearer_token()` is no longer cached; it's now your 
   responsibility to save the token to an object.
 
