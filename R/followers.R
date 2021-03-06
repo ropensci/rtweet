@@ -41,7 +41,7 @@ get_followers <- function(user, n = 5000,
                           page = lifecycle::deprecated()) {
   
   if (lifecycle::is_present(page)) {
-    lifecycle::deprecate_warn("1.0.0", "get_followers(page = )", "get_followers(cursor = )")
+    lifecycle::deprecate_warn("1.0.0", "get_followers(page)", "get_followers(cursor)")
     cursor <- page
   }
 
