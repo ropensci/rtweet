@@ -55,7 +55,7 @@ use this argument if you are wrapping rtweet in a package.
 
 See \code{vignette("auth")} for more details.}
 
-\item{page}{\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}} Please use \code{cursor} instead.}
+\item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}
 }
 \value{
 A tibble data frame of follower IDs (one column named "user_id").

@@ -30,7 +30,7 @@ get_followers.
 \examples{
 \dontrun{
 ## get friends list for user with the handle "1234"
-get_friends(as_screenname("1234"))
+get_friends(as_screenname("12345"))
 
 ## as_screenname coerces all elements to class "screen_name"
 sns <- as_screenname(c("kearneymw", "1234", "jack"))

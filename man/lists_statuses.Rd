@@ -62,6 +62,11 @@ data
 \description{
 Get a timeline of tweets authored by members of a specified list.
 }
+\examples{
+\dontrun{
+(ls_senators <- lists_statuses(slug = "senators", owner_user = "cspan"))
+}
+}
 \seealso{
 Other lists: 
 \code{\link{lists_members}()},
