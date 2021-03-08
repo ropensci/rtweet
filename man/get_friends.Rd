@@ -93,9 +93,9 @@ friends lists for a user over time.
 \dontrun{
 
 ## get user ids of accounts followed by Donald Trump
-(djt <- get_friends("realDonaldTrump"))
+(djt <- get_friends("ropensci"))
 
-## get user ids of accounts followed by (friends) KFC, Trump, and Nate Silver.
+## get user ids of accounts followed by (friends) KFC, jack, and Nate Silver.
 (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
 
 }

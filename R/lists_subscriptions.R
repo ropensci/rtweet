@@ -16,9 +16,9 @@
 #'
 #' \dontrun{
 #'
-#' ## get subscriptions of new york times politics list
+#' ## get kearneymw subscriptions
 #' rstats <- lists_subscriptions(
-#'   slug = "new-york-times-politics",
+#'   user = "kearneymw",
 #'   n = 1000
 #' )
 #'

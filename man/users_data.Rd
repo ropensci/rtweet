@@ -25,13 +25,13 @@ Extracts users data from tweets data object.
 \dontrun{
 
 ## search for 100 tweets containing the letter r
-r <- search_tweets("r")
+tweets <- search_tweets("r")
 
 ## print tweets data (only first 10 rows are shown)
-head(r, 10)
+head(tweets, 10)
 
 ## extract users data
-head(users_data(r))
+head(users_data(tweets))
 
 }
 

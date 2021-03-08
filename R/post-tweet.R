@@ -76,12 +76,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
 
   ## if delete
   if (!is.null(destroy_id)) {
-    stopifnot(is.character(destroy_id) && length(destroy_id) == 1)
-    
-    query <- sprintf("statuses/destroy/%s", destroy_id)
-    r <- TWIT_post(token, query)
-    message("your tweet has been deleted!")
-    return(invisible(r))
+    lifecycle::deprecate_warn("1.0.0", "post_tweet(destroy_id)", "post_destroy()")
+    return(post_destroy(destroy_id))
   }
 
   ## if retweet
@@ -95,9 +91,9 @@ post_tweet <- function(status = "my first rtweet #rstats",
   }
 
   stopifnot(is.character(status), length(status) == 1)
-
   ## media if provided
   if (!is.null(media)) {
+    check_media(media, media_alt_text)
     media_id_string <- character(length(media))
     for (i in seq_along(media)) {
       media_id_string[[i]] <- upload_media_to_twitter(media[[i]], token, media_alt_text[[i]])
@@ -142,6 +138,7 @@ upload_media_to_twitter <- function(media,
     mp4 = "video/mp4",
     stop("Unsupported file extension", call. = FALSE)
   )
+  
   file_size <- file.size(media)
   
   if (file_size <= chunk_size && media_type != "video/mp4") {
@@ -226,4 +223,26 @@ wait_for_chunked_media <- function(resp, media_id, token = NULL) {
   }
 
   invisible()
+}
+
+check_media <- function(media, alt_text) {
+  media_type <- tools::file_ext(media)
+  if (length(media) > 4) {
+    stop("At most 4 images per plot can be uploaded.", call. = FALSE)
+  }
+  
+  if (media_type %in% c("gif", "mp4") && length(media) > 1) {
+    stop("Cannot upload more than one gif or video per tweet.", call. = TRUE)
+  }
+  
+  if (!is.null(alt_text) && length(alt_text) != length(media)) {
+    stop("Alt text for media isn't provided for each image.", call. = TRUE)
+  }
+  if (!any(media_type %in% c("jpg", "jpeg", "png", "gif", "mp4"))) {
+    stop("Media type format not recognized.", call. = TRUE)
+  }
+  
+  if (any(nchar(alt_text) > 1000)) {
+    stop("Alt text cannot be bigger than 1000 characters.", call. = TRUE)
+  }
 }

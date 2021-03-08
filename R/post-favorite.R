@@ -9,8 +9,8 @@
 #' @aliases post_favourite favorite_tweet
 #' @examples
 #' \dontrun{
-#' rt <- search_tweets("rstats")
-#' r <- lapply(rt$user_id, post_favorite)
+#' rt <- search_tweets("#rstats", n = 1)
+#' post_favorite(rt$status_id)
 #' }
 #' @family post
 #' @export
