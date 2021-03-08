@@ -59,6 +59,6 @@ status_lookup_100 <- function(id, token = NULL) {
     include_ext_alt_text = "true"
   )
 
-  resp <- TWIT_post(token, "statuses/lookup", params = params)
+  resp <- TWIT_post(token, "/1.1/statuses/lookup", params = params)
   from_js(resp)
 }

@@ -147,7 +147,7 @@ search_tweets <- function(q, n = 100,
     ...
   )
   
-  result <- TWIT_paginate_max_id(token, "search/tweets", params,
+  result <- TWIT_paginate_max_id(token, "/1.1/search/tweets", params,
     get_max_id = function(x) x$statuses$id_str,
     n = n,
     page_size = 100,

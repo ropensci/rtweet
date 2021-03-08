@@ -52,7 +52,7 @@ get_mentions <- function(n = 200,
     max_id = max_id,
     ...
   )
-  r <- TWIT_get(token, "statuses/mentions_timeline", params)
+  r <- TWIT_get(token, "/1.1/statuses/mentions_timeline", params)
   
   if (parse) {
     r <- parse_mentions(r)

@@ -48,7 +48,7 @@ direct_messages <- function(n = 50,
     count = n, 
     next_cursor = next_cursor
   )
-  TWIT_get(token, "direct_messages/events/list", params, parse = parse)
+  TWIT_get(token, "/1.1/direct_messages/events/list", params, parse = parse)
 }
 
 

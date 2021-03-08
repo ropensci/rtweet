@@ -16,7 +16,7 @@
 get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   stopifnot(is.character(status_id), length(status_id) == 1L)
   
-  query <- sprintf("statuses/retweets/%s", status_id)
+  query <- sprintf("/1.1/statuses/retweets/%s", status_id)
   params <- list(
     id = status_id,
     count = n,
@@ -82,7 +82,7 @@ get_retweeters_call <- function(status_id,
     cursor = cursor,
     stringify_ids = TRUE
   )
-  r <- TWIT_get(token, "statuses/retweeters/ids", params)
+  r <- TWIT_get(token, "/1.1/statuses/retweeters/ids", params)
   
   if (parse) {
     if (has_name_(r, "next_cursor_str")) {

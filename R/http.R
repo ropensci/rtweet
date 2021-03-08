@@ -36,7 +36,7 @@ TWIT_method <- function(method, token, api,
   withr::local_options(scipen = 14, encoding = "UTF-8")
 
   token <- check_token(token)
-  url <- paste0("https://", host, "/1.1/", api, ".json")
+  url <- paste0("https://", host, api, ".json")
   
   repeat({
     resp <- switch(method,

@@ -69,7 +69,7 @@ get_favorites_user <- function(user,
   )
   params[[.id_type(user)]] <- user
   
-  results <- TWIT_paginate_max_id(token, "favorites/list", params,
+  results <- TWIT_paginate_max_id(token, "/1.1/favorites/list", params,
     get_max_id = function(x) x$id_str,
     page_size = 200,
     n = n,

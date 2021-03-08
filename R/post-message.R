@@ -31,7 +31,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
     )
   }
 
-  r <- TWIT_post(token, "direct_messages/events/new", 
+  r <- TWIT_post(token, "/1.1/direct_messages/events/new", 
     body = body, 
     encode = "json"
   )

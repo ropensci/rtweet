@@ -97,6 +97,6 @@ api_screen_name <- function(token = NULL) {
     skip_status = TRUE,
     include_email = FALSE
   )
-  r <- TWIT_get(token, "account/verify_credentials", params)
+  r <- TWIT_get(token, "/1.1/account/verify_credentials", params)
   r$screen_name
 }

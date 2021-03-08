@@ -92,7 +92,7 @@ get_trends <- function(woeid = 1,
     exclude = if (exclude_hashtags) "hashtags"
   )
   
-  gt <- TWIT_get(token, "trends/place", params, parse = parse)
+  gt <- TWIT_get(token, "/1.1/trends/place", params, parse = parse)
   if (parse) {
     gt <- parse_trends(gt)
   }
@@ -107,7 +107,7 @@ is_latlng <- function(x) {
 
 trends_closest <- function(lat, long, token = NULL) {
   params <- list(lat = lat, long = long)
-  TWIT_get(token, "trends/closest", params)
+  TWIT_get(token, "/1.1/trends/closest", params)
 }
 
 parse_trends <- function(x) {
@@ -159,7 +159,7 @@ format_trend_date <- function(x) {
 #' @family trends
 #' @export
 trends_available <- function(token = NULL, parse = TRUE) {
-  trd <- TWIT_get(token, "trends/available", parse = parse)
+  trd <- TWIT_get(token, "/1.1/trends/available", parse = parse)
   if (parse) {
     trd <- parse_trends_available(trd)
   }

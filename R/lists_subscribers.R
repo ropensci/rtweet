@@ -89,7 +89,7 @@ lists_subscribers_call <- function(list_id = NULL,
     cursor = cursor
   )
   
-  r <- TWIT_get(token, "lists/subscribers", params)
+  r <- TWIT_get(token, "/1.1/lists/subscribers", params)
   
   if (has_name_(r, "next_cursor_str")) {
     next_cursor <- r[["next_cursor_str"]]

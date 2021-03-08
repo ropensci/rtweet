@@ -95,7 +95,7 @@ get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
   params <- list(stringify_ids = TRUE)
   params[[.id_type(user)]] <- user
   
-  results <- TWIT_paginate_cursor(token, "friends/ids", params, 
+  results <- TWIT_paginate_cursor(token, "/1.1/friends/ids", params, 
     page_size = 5000,
     n = n
   )
@@ -126,7 +126,7 @@ my_friendships <- function(user,
                            token = NULL) {
   params <- list()
   params[[.id_type(user)]] <- paste0(user, collapse = ",")
-  TWIT_get(token, "friendships/lookup", params, parse = parse)
+  TWIT_get(token, "/1.1/friendships/lookup", params, parse = parse)
 }
 
 #' Lookup friendship information between two specified users.
@@ -166,7 +166,7 @@ lookup_friendships_ <- function(source,
   params[[paste0("source_", .id_type(source))]] <- source
   params[[paste0("target_", .id_type(target))]] <- target
 
-  f <- TWIT_get(token, "friendships/show", params, parse = parse)
+  f <- TWIT_get(token, "/1.1/friendships/show", params, parse = parse)
   if (parse) {
     f <- parse_showfriendships(f, source, target)
   }

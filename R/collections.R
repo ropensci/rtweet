@@ -36,7 +36,7 @@ lookup_collections <- function(id, n = 200,
     count = n,
     ...
   )
-  TWIT_get(token, "collections/entries", params, parse = parse)
+  TWIT_get(token, "/1.1/collections/entries", params, parse = parse)
 }
 
 
@@ -100,7 +100,7 @@ get_collections <- function(user,
     params[[.ids_type(user)]] <- user
   }
   
-  r <- TWIT_get(token, "collections/list", params, parse = parse)
+  r <- TWIT_get(token, "/1.1/collections/list", params, parse = parse)
   if (parse) {
     attr(r, "next_cursor") <- r[["response"]][["cursors"]][["next_cursor"]]
   }

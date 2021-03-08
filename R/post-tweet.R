@@ -84,7 +84,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   if (!is.null(retweet_id)) {
     stopifnot(is.character(retweet_id) && length(retweet_id) == 1)
 
-    query <- sprintf("statuses/retweet/%s", retweet_id)
+    query <- sprintf("/1.1/statuses/retweet/%s", retweet_id)
     r <- TWIT_post(token, query)
     message("the tweet has been retweeted!")
     return(invisible(r))
@@ -116,7 +116,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     params[["auto_populate_reply_metadata"]] <- "true"
   }
 
-  r <- TWIT_post(token, "statuses/update", params)
+  r <- TWIT_post(token, "/1.1/statuses/update", params)
   message("your tweet has been posted!")
   invisible(r)
 }
@@ -216,7 +216,7 @@ wait_for_chunked_media <- function(resp, media_id, token = NULL) {
   while (!json$processing_info$state %in% c("pending", "in_progress")) {
     Sys.sleep(json$processing_info$check_after_secs)
     
-    json <- TWIT_get(token, "media/upload", 
+    json <- TWIT_get(token, "/1.1/media/upload", 
       params = params, 
       host = "upload.twitter.com"
     )

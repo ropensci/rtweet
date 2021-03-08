@@ -110,7 +110,7 @@ lists_memberships_call <- function(user,
     params[[.id_type(user)]] <- user
   }
   
-  r <- TWIT_get(token, "lists/memberships", params)
+  r <- TWIT_get(token, "/1.1/lists/memberships", params)
   
   if (is.recursive(r) && "next_cursor_str" %in% names(r)) {
     cursor <- r$next_cursor_str

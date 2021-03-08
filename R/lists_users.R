@@ -22,7 +22,7 @@ lists_users <- function(user = NULL, reverse = FALSE, token = NULL, parse = TRUE
   )
   params[[.id_type(user)]] <- user
 
-  r <- TWIT_get(token, "lists/list", params, parse = parse)
+  r <- TWIT_get(token, "/1.1/lists/list", params, parse = parse)
   if (parse) {
     r <- as_lists_users(r)
     r <- as.data.frame(r)
