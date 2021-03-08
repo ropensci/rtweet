@@ -34,8 +34,6 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      RTWEET_ACCESS_TOKEN: ${{ secrets.RTWEET_ACCESS_TOKEN }}
-      RTWEET_ACCESS_SECRET: ${{ secrets.RTWEET_ACCESS_SECRET }}
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/pr-fetch@v1
