@@ -28,22 +28,22 @@ post_follow <- function(user,
   stopifnot(is.atomic(user), is.logical(notify))
 
   if (all(!destroy, !retweets)) {
-    query <- "friendships/update"
+    query <- "/1.1/friendships/update"
     params <- list(
       user_type = user,
       notify = notify,
       retweets = retweets)
   } else if (mute) {
-    query <- "mutes/users/create"
+    query <- "/1.1/mutes/users/create"
     params <- list(
       user_type = user)
   } else if (destroy) {
-    query <- "friendships/destroy"
+    query <- "/1.1/friendships/destroy"
     params <- list(
       user_type = user,
       notify = notify)
   } else {
-    query <- "friendships/create"
+    query <- "/1.1/friendships/create"
     params <- list(
       user_type = user,
       notify = notify

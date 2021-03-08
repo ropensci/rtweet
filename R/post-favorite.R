@@ -22,9 +22,9 @@ post_favorite <- function(status_id,
   stopifnot(is.atomic(status_id))
 
   if (destroy) {
-    query <- "favorites/destroy"
+    query <- "/1.1/favorites/destroy"
   } else {
-    query <- "favorites/create"
+    query <- "/1.1/favorites/create"
   }
 
   params <- list(id = status_id)

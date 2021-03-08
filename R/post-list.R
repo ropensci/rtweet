@@ -188,7 +188,7 @@ post_list_destroy_all <- function(users,
     list_id = list_id,
     slug = slug
   )
-  TWIT_post(token, "lists/members/destroy_all", params = params)
+  TWIT_post(token, "/1.1/lists/members/destroy_all", params = params)
 }
 
 my_list_params <- function(token, slug = NULL, list_id = NULL, ..., users = NULL) {

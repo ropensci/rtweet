@@ -142,7 +142,7 @@ upload_media_to_twitter <- function(media,
   file_size <- file.size(media)
   
   if (file_size <= chunk_size && media_type != "video/mp4") {
-    resp <- TWIT_upload(token, "media/upload", list(
+    resp <- TWIT_upload(token, "/1.1/media/upload", list(
       media = httr::upload_file(media)
     ))
     media_id <- from_js(resp)$media_id_string
@@ -150,7 +150,7 @@ upload_media_to_twitter <- function(media,
     # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/uploading-media/chunked-media-upload
 
     # Initialize upload
-    resp <- TWIT_upload(token, "media/upload", list(
+    resp <- TWIT_upload(token, "/1.1/media/upload", list(
       command = "INIT", 
       media_type = media_type, 
       total_bytes = file_size
@@ -165,7 +165,7 @@ upload_media_to_twitter <- function(media,
     segment_id <- 0
     while (bytes_sent < file_size) {
       chunk <- readBin(videofile, chunk_size, what = "raw")
-      resp <- TWIT_upload(token, "media/upload", list(
+      resp <- TWIT_upload(token, "/1.1/media/upload", list(
         command = "APPEND",
         media_id = media_id, 
         segment_index = segment_id, 
@@ -177,7 +177,7 @@ upload_media_to_twitter <- function(media,
     }
     
     # Finalize
-    resp <- TWIT_upload(token, "media/upload", list(
+    resp <- TWIT_upload(token, "/1.1/media/upload", list(
       command = "FINALIZE", 
       media_id = media_id
     ))
@@ -186,7 +186,7 @@ upload_media_to_twitter <- function(media,
   
   if (!is.null(alt_text)) {
     # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create
-    TWIT_upload(token, "media/metadata/create", 
+    TWIT_upload(token, "/1.1/media/metadata/create", 
       list(
         media_id = media_id,
         alt_text = list(text = substr(as.character(alt_text), 1, 1000))
