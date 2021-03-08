@@ -34,7 +34,7 @@ the origin status.
 \examples{
 \dontrun{
 tw <- lookup_statuses('1084143184664510470')
-tw_thread <- tw\%>\%tweet_threading()
+tw_thread <- tweet_threading(tw)
 tw_thread
 }
 }

@@ -19,7 +19,6 @@
 #' @examples
 #'
 #' \dontrun{
-#'
 #' ## search for tweets containing "rstats"
 #' rt <- search_tweets("rstats", n = 10000)
 #'
@@ -27,9 +26,7 @@
 #' ts_plot(rt, "mins")
 #'
 #' ## plot multiple time series--retweets vs non-retweets
-#' rt %>%
-#'   dplyr::group_by(is_retweet) %>%
-#'   ts_plot("hours")
+#' ts_plot(dplyr::group_by(tmls, is_retweet), "hours")
 #'
 #' ## compare account activity for some important US political figures
 #' tmls <- get_timeline(
@@ -44,9 +41,7 @@
 #' ts_plot(dplyr::group_by(tmls, screen_name), "weeks")
 #'
 #' ## group by screen name and is_retweet
-#' tmls %>%
-#'   dplyr::group_by(tmls, screen_name, is_retweet) %>%
-#'   ts_plot("months")
+#' ts_plot(dplyr::group_by(tmls, screen_name, is_retweet), "months")
 #'
 #' }
 #' @family ts_data
@@ -110,10 +105,7 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #' ts_data(sens, "weeks")
 #'
 #' ## group by screen name and then use weekly intervals
-#' sens %>%
-#'   dplyr::group_by(screen_name) %>%
-#'   ts_plot("weeks")
-#'
+#' ts_plot(dplyr::group_by(sens, screen_name), "weeks")
 #' }
 #'
 #' @export
