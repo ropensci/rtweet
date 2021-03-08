@@ -15,7 +15,7 @@
 #' @examples 
 #' \dontrun{
 #' tw <- lookup_statuses('1084143184664510470')
-#' tw_thread <- tw%>%tweet_threading()
+#' tw_thread <- tweet_threading(tw)
 #' tw_thread
 #' }
 #' @seealso 
@@ -36,7 +36,7 @@ tweet_threading <- function(tw, traverse = c('backwards','forwards'), n = 10, ve
   for(i in traverse){
     cat('\n')
     .f <- get(sprintf('tweet_threading_%s',i),envir = asNamespace('rtweet'))
-    tw <- tw%>%.f(n,verbose)
+    tw <- .f(tw, n,verbose)
   }
   
   tw

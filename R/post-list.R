@@ -34,10 +34,9 @@
 #' cnn_users <- search_users("CNN", n = 200)
 #'
 #' ## filter and select more users to add to list
-#' more_users <- cnn_users %>%
-#'   subset(verified & !tolower(screen_name) %in% tolower(users)) %>%
-#'   .$screen_name %>%
-#'   grep("cnn", ., ignore.case = TRUE, value = TRUE)
+#' more_users <- cnn_users$screen_name[cnn_users$verified]
+#' more_users <- setdiff(more_users, users)
+#' more_users <- more_users[grepl("cnn", more_users, ignore.case = TRUE)]
 #'
 #' ## add more users to list- note: can only add up to 100 at a time
 #' post_list(users = more_users, slug = "cnn-accounts")
@@ -47,9 +46,7 @@
 #'   rtweet:::api_screen_name()))
 #'
 #' ## select users on list without "cnn" in their name field
-#' drop_users <- cnn_users %>%
-#'   subset(screen_name %in% more_users & !grepl("cnn", name, ignore.case = TRUE)) %>%
-#'   .$screen_name
+#' drop_users <- cnn_users$screen_name[!grepl("cnn", cnn_users$screen_name, ignore.case = TRUE)]
 #'
 #' ## drop these users from the cnn list
 #' post_list(users = drop_users, slug = "cnn-accounts",

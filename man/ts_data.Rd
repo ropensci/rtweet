@@ -43,10 +43,7 @@ ts_data(sens)
 ts_data(sens, "weeks")
 
 ## group by screen name and then use weekly intervals
-sens \%>\%
-  dplyr::group_by(screen_name) \%>\%
-  ts_plot("weeks")
-
+ts_plot(dplyr::group_by(sens, screen_name), "weeks")
 }
 
 }

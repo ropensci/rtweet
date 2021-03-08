@@ -1,5 +1,8 @@
 # rtweet ...
 
+- rtweet no longer re-exports the pipe; if you want to continue using it, you'll
+  need to `library(magrittr)` or `library(dplyr)` (#522).
+
 - `stream_tweets()` has been overhauled to only write valid data. This obsoletes
   all previous strategy to cleen up bad data after the fact (#350, #356).
 
