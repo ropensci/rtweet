@@ -1,6 +1,4 @@
 test_that("get_favorites returns tweets data", {
-  skip_on_cran()
-  skip_if_offline()
   n <- 100
   x <- get_favorites("kearneymw", n = n)
 

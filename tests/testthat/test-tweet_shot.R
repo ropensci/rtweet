@@ -1,6 +1,4 @@
 test_that("tweet_shot", {
-  skip_on_cran()
-  skip_if_offline()
   skip_on_ci()
   skip_if_not(webshot::is_phantomjs_installed())
   

@@ -1,7 +1,4 @@
 test_that("get_trends returns trends data", {
-  skip_on_cran()
-  skip_if_offline()
-
   x <- get_trends()
 
   expect_true(is.data.frame(x))
@@ -15,9 +12,6 @@ test_that("get_trends returns trends data", {
 })
 
 test_that("trends_available returns data frame", {
-	skip_on_cran()
-  skip_if_offline()
-
 	x <- trends_available()
 
   expect_equal(is.data.frame(x), TRUE)
@@ -29,9 +23,6 @@ test_that("trends_available returns data frame", {
 })
 
 test_that("get_trends_closest returns data frame with correct city name", {
-  skip_on_cran()
-  skip_if_offline()
-
   x <- get_trends(lat = 40.7, lng = -74.0)
 
   expect_true(is.data.frame(x))
