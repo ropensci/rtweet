@@ -1,7 +1,4 @@
 test_that("get_friends returns data frame with ids", {
-  skip_on_cran()
-  skip_if_offline()
-
   f <- get_friends("kearneymw")
 
   expect_true(is.data.frame(f))
@@ -10,9 +7,6 @@ test_that("get_friends returns data frame with ids", {
 })
 
 test_that("friendships returns data", {
-  skip_on_cran()
-  skip_if_offline()
-
   x <- my_friendships("kearneymw")
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
@@ -25,3 +19,17 @@ test_that("friendships returns data", {
   expect_true("relationship" %in% names(x))
 })
 
+test_that("get_friends works", {
+  djt <- get_friends("ropensci")
+  expect_s3_class(djt, "tbl_df")
+})
+
+test_that("lookup_friendships works", {
+  lf <- lookup_friendships("hadley", "Lluis_Revilla")
+  expect_s3_class(lf, "data.frame")
+})
+
+test_that("my_friendships works", {
+  mf <- my_friendships("hadley")
+  expect_s3_class(mf, "data.frame")
+})

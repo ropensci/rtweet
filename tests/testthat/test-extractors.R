@@ -6,3 +6,9 @@ test_that("tweets_data works", {
   expect_s3_class(tweets, "tbl")
   expect_equal(colnames(tweets), tweets_names())
 })
+
+test_that("users_data works", {
+  tweets <- search_tweets("r")
+  users <- users_data(tweets)
+  expect_s3_class(users, "tbl")
+})

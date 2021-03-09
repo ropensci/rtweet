@@ -1,7 +1,4 @@
 test_that("get_timeline", {
-  skip_on_cran()
-  skip_if_offline()
-
   n <- 400
   x <- get_timeline(c("cnnbrk", "cnn"), n = n)
   expect_true(is.data.frame(x))

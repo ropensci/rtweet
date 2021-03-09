@@ -1,7 +1,4 @@
 test_that("get_my_timeline", {
-  skip_on_cran()
-  skip_if_offline()
-
   x <- get_my_timeline()
   expect_true(is.data.frame(x), TRUE)
   expect_named(x)
@@ -13,4 +10,10 @@ test_that("get_my_timeline", {
   expect_equal(class(as_screenname("101342234")), "screen_name")
   #x <- print(as_screenname("asdf"))
   #expect_equal(x, "asdf")
+})
+
+test_that("get_my_timeline works", {
+  gmt <- get_my_timeline()
+  expect_s3_class(gmt, "tbl_df")
+  expect_equal(nrow(gmt), 100)
 })
