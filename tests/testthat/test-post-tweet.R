@@ -29,3 +29,19 @@ test_that("post_tweet works", {
   rt <- expect_message(post_destroy(crt$id_str), "your tweet has been deleted!")
   expect_equal(httr::status_code(rt), 200L)
 })
+
+test_that("post_tweet geolocated works", {
+  # Test geolocated tweet
+  msg <- paste("test geolocated", Sys.time()) # To avoid having duplicated status
+  rt <- expect_message(post_tweet(msg, lat = -36.811784, long = 174.792657), "your tweet has been posted!")
+  crt <- httr::content(rt)
+  rt <- expect_message(post_destroy(crt$id_str), "your tweet has been deleted!")
+  expect_equal(httr::status_code(rt), 200L)
+
+  # Test display_coordinates param
+  msg <- paste("test geolocated", Sys.time()) # To avoid having duplicated status
+  rt <- expect_message(post_tweet(msg, lat = -36.811784, long = 174.792657, display_coordinates = TRUE), "your tweet has been posted!")
+  crt <- httr::content(rt)
+  rt <- expect_message(post_destroy(crt$id_str), "your tweet has been deleted!")
+  expect_equal(httr::status_code(rt), 200L)
+})

@@ -13,7 +13,10 @@ post_tweet(
   destroy_id = NULL,
   retweet_id = NULL,
   auto_populate_reply_metadata = FALSE,
-  media_alt_text = NULL
+  media_alt_text = NULL,
+  lat = NULL,
+  long = NULL,
+  display_coordinates = FALSE
 )
 }
 \arguments{
@@ -51,6 +54,15 @@ metadata to the \code{media} you are uploading. Should be same length as
 \code{media} (i.e. as many alt text entries as there are \code{media} entries). See
 \href{https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create}{the official API documentation}
 for more information.}
+
+\item{lat}{Latitude of the location the tweet refers to. Range should be
+between -90 and 90 (north).}
+
+\item{long}{Longitude of the location the tweet refers to. Range should be
+between -180 and 180 (west).}
+
+\item{display_coordinates}{Put a pin on the exact coordinates a tweet has
+been sent from.}
 }
 \description{
 Posts status update to user's Twitter account
