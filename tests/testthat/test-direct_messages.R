@@ -1,7 +1,7 @@
 test_that("direct_messages works", {
   dm <- direct_messages()
   expect_type(dm, "list")
-  expect_length(dm, 2L)
+  expect_length(dm, 3L)
 })
 
 test_that("direct_messages functions", {
