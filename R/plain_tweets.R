@@ -1,11 +1,14 @@
 #' Clean up character vector (tweets) to more of a plain text.
-#'
+#' 
+#' Removes links, linebreaks, fancy spaces and apostrophes and convert everything to ASCII text.
+#' Deprecated to be defunct for next release as there are better text processing tools.
 #' @param x The desired character vector or data frame/list with named column/element
 #'   "text" to be cleaned and processed.
 #' @return Data reformatted with ascii encoding and normal ampersands and
 #'   without URL links, line breaks, fancy spaces/tabs, fancy apostrophes,
 #' @export
 plain_tweets <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "plain_tweets()")
   if (is.data.frame(x)) {
     if (has_name_(x, "text")) {
       x$text <- plain_tweets_(x$text)
