@@ -18,6 +18,9 @@ structures, so in most cases rtweet returns them as strings. This introduces
 an ambiguity, because user names can also consist solely of numbers
 (e.g. "123456"). You can resolve this ambiguity by using \code{as_screenname()}
 to a character vector a screen name.
+
+In general, you are best off using user ids where possible; screen names are
+not static and may change.
 }
 \examples{
 \dontrun{

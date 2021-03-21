@@ -9,6 +9,9 @@
 #' (e.g. "123456"). You can resolve this ambiguity by using `as_screenname()` 
 #' to a character vector a screen name.
 #' 
+#' In general, you are best off using user ids where possible; screen names are
+#' not static and may change. 
+#' 
 #' @param x A character vector of twitter screen names.
 #' @examples
 #' \dontrun{
