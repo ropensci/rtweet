@@ -97,7 +97,7 @@ get_collections <- function(user,
   } else {
     stopifnot(is.atomic(user))
     
-    params[[.ids_type(user)]] <- user
+    params[[.id_type(user)]] <- user
   }
   
   r <- TWIT_get(token, "/1.1/collections/list", params, parse = parse)

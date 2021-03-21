@@ -134,15 +134,6 @@ maybe_n <- function(x) {
 ##                            user type classifers                            ##
 ##----------------------------------------------------------------------------##
 
-.ids_type <- function(x) {
-  if (is.list(x)) x <- unlist(x, use.names = FALSE)
-  x <- .id_type(x)
-  if (length(unique(x)) > 1) {
-    stop("users must be user_ids OR screen_names, not both.")
-  }
-  unique(x)
-}
-
 .id_type <- function(x) {
   if (is_screen_name(x)) {
     return("screen_name")
