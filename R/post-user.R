@@ -33,7 +33,7 @@ post_follow <- function(user,
       retweets = retweets)
   } else if (mute) {
     query <- "/1.1/mutes/users/create"
-    params <- list(r)
+    params <- list()
   } else if (destroy) {
     query <- "/1.1/friendships/destroy"
     params <- list(
