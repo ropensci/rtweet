@@ -14,7 +14,8 @@ get_favorites(
 )
 }
 \arguments{
-\item{user}{Vector of user names, user IDs, or a mixture of both.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{n}{Specifies the number of records to retrieve. Defaults to 200,
 which is the maximum number of records that can be retrieved in a single

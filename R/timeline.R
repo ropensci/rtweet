@@ -4,7 +4,8 @@
 #' or more specified Twitter users.
 #'
 #' @inheritParams lookup_users
-#' @param user Vector of user names, user IDs, or a mixture of both.
+#' @param user Character vector of screen names or user ids. 
+#'   See [as_screenname()] for more details.
 #' @param n Number of tweets to return per timeline. Defaults to 100.
 #'   Must be of length 1 or equal to length of user. This number should
 #'   not exceed 3200 as Twitter limits returns to the most recent 3,200

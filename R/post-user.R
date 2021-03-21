@@ -1,7 +1,6 @@
 #' Follows target twitter user.
 #'
-#' @inheritParams lookup_users
-#' @param user Screen name or user id of target user.
+#' @inheritParams get_timeline
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
 #' @param mute Logical indicating whether to mute the intended
@@ -69,8 +68,7 @@ post_mute <- function(user, token = NULL) {
 
 #' Updates friendship notifications and retweet abilities.
 #'
-#' @inheritParams lookup_users
-#' @param user Screen name or user id of target user.
+#' @inheritParams get_timeline
 #' @param device Logical indicating whether to enable or disable
 #'    device notifications from target user behaviors. Defaults
 #'    to false.

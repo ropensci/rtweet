@@ -3,7 +3,7 @@
 #' Returns up to 3,000 statuses favorited by each of one or more
 #' specific Twitter users.
 #'
-#' @param user Vector of user names, user IDs, or a mixture of both.
+#' @inheritParams get_timeline
 #' @param n Specifies the number of records to retrieve. Defaults to 200,
 #'   which is the maximum number of records that can be retrieved in a single
 #'   request. Higher numbers will require multiple requests.

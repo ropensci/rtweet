@@ -28,7 +28,8 @@ get_timelines(
 )
 }
 \arguments{
-\item{user}{Vector of user names, user IDs, or a mixture of both.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{n}{Number of tweets to return per timeline. Defaults to 100.
 Must be of length 1 or equal to length of user. This number should

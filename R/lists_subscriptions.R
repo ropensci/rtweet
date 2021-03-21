@@ -1,6 +1,6 @@
 #' Get list subscriptions of a given user.
 #'
-#' @param user Either the user ID or screen name of user.
+#' @inheritParams get_timeline
 #' @param n Specifies the number of results to return
 #'   per page (see cursor below). The default is 20, with a maximum
 #'   of 1000.

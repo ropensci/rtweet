@@ -115,8 +115,7 @@ get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
 #' Gets information on friendship between authenticated user and up
 #' to 100 other users.
 #'
-#' @inheritParams lookup_users
-#' @param user Screen name or user id of target user.
+#' @inheritParams get_timeline
 #' @return Data frame converted form returned JSON object. If parse is
 #'   not true, the HTTP response object is returned instead.
 #' @family friends

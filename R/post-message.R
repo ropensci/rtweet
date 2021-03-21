@@ -1,8 +1,7 @@
 #' Posts direct message from user's Twitter account
 #'
-#' @inheritParams lookup_users
+#' @inheritParams get_timeline
 #' @param text Character, text of message.
-#' @param user Screen name or user ID of message target.
 #' @param media File path to image or video media to be
 #'   included in tweet.
 #' @export

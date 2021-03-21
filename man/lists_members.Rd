@@ -63,8 +63,8 @@ API.}
 
 \item{...}{Other arguments used as parameters in query composition.}
 
-\item{user}{The user id or screen_name of the user for whom to
-return results for.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{filter_to_owned_lists}{When set to true . t or 1 , will
 return just lists the authenticating user owns, and the user

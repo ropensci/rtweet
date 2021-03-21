@@ -4,10 +4,8 @@
 #' user. To return more than 75,000 user IDs in a single call (the
 #' rate limit maximum), set "retryonratelimit" to TRUE.
 #'
-#' @inheritParams lookup_users
+#' @inheritParams get_timeline
 #' @inheritParams TWIT_paginate_cursor
-#' @param user Screen name or user ID of target user from which the
-#'   user IDs of followers will be retrieved.
 #' @param n Number of followers to return. Use `Inf` to download all followers.
 #' 
 #'   Results are downloaded in pages of 5000, and you can download 15 pages

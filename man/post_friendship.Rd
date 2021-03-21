@@ -8,7 +8,8 @@
 post_friendship(user, device = FALSE, retweets = FALSE, token = NULL)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{device}{Logical indicating whether to enable or disable
 device notifications from target user behaviors. Defaults
