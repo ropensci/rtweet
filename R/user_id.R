@@ -102,6 +102,22 @@ api_screen_name <- function(token = NULL) {
 }
 
 
+user_type <- function(x, arg_name = "user") {
+  if (is.numeric(x)) {
+    "user_id"
+  } else if (is.character(x)) {
+    if (inherits(x, "screen_name")) {
+      # needed for purely numeric screen names
+      "screen_name"
+    } else if (all(grepl("^[0-9]+$", x))) {
+      "user_id"
+    } else {
+      "screen_name"
+    }
+  } else {
+    stop("`", arg_name, "` must be a screen name or user id", call. = FALSE)
+  }
+}
 
 .id_type <- function(x) {
   if (is_screen_name(x)) {
