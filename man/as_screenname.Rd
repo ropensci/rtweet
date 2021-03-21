@@ -3,53 +3,29 @@
 \name{as_screenname}
 \alias{as_screenname}
 \alias{as_userid}
-\title{Coerces user identifier(s) to be evaluated as a screen name(s).}
+\title{Mark a user id as a screen name}
 \usage{
 as_screenname(x)
-
-as_userid(x)
 }
 \arguments{
-\item{x}{A vector consisting of one or more Twitter user
-identifiers (i.e., screen names or user IDs).}
-}
-\value{
-A vector of class screen_name or class user_id
+\item{x}{A character vector of twitter screen names.}
 }
 \description{
-Default rtweet function behaviors will treat "1234" as a
-user ID, but the inverse (i.e., treating "2973406683" as a screen
-name) should rarely be an issue. However, in those cases, users
-may need to mix both screen names and user IDs. To do so, make
-sure to combine them as a list (and not a character vector, which
-will override conflicting user identifier classes). See examples
-code for example of mixing user IDs with screen names. Note: this
-only works with certain functions, e.g., get_friends,
-get_followers.
+There are two ways to identify a twitter user: a screen name (e.g.
+"justinbieber") or a user identifier (e.g. "27260086"). User identifiers
+are 64-bit integers which can't be represented natively by any base R data
+structures, so in most cases rtweet returns them as strings. This introduces
+an ambiguity, because user names can also consist solely of numbers
+(e.g. "123456"). You can resolve this ambiguity by using \code{as_screenname()}
+to a character vector a screen name.
 }
 \examples{
 \dontrun{
-## get friends list for user with the handle "1234"
-get_friends(as_screenname("12345"))
+# Look up user with id 123456 (screen name harperreed)
+lookup_users("123456") 
 
-## as_screenname coerces all elements to class "screen_name"
-sns <- as_screenname(c("kearneymw", "1234", "jack"))
-class(sns)
-
-## print will display user class type
-sns
-
-## BAD: combine user id and screen name using c()
-users <- c(as_userid("2973406683"), as_screenname("1234"))
-class(users)
-
-## GOOD: combine user id and screen name using list()
-users <- list(as_userid("2973406683"), as_screenname("1234"))
-users
-
-## get friend networks for each user
-get_friends(users)
-
+# Look up user with name 123456
+lookup_users(as_screenname("123456"))
 }
 }
 \seealso{

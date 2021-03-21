@@ -76,7 +76,7 @@ get_friends <- function(users,
                         token = NULL) {
   
 
-  stopifnot(is.vector(users), is_n(n))
+  stopifnot(is_n(n))
 
   results <- lapply(users, get_friends_user, 
     n = n, 

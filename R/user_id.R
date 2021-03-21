@@ -1,112 +1,57 @@
-#' Coerces user identifier(s) to be evaluated as a screen name(s).
-#'
-#' Default rtweet function behaviors will treat "1234" as a
-#' user ID, but the inverse (i.e., treating "2973406683" as a screen
-#' name) should rarely be an issue. However, in those cases, users
-#' may need to mix both screen names and user IDs. To do so, make
-#' sure to combine them as a list (and not a character vector, which
-#' will override conflicting user identifier classes). See examples
-#' code for example of mixing user IDs with screen names. Note: this
-#' only works with certain functions, e.g., get_friends,
-#' get_followers.
-#'   
-#' @param x A vector consisting of one or more Twitter user
-#'   identifiers (i.e., screen names or user IDs).
-#' @return A vector of class screen_name or class user_id
+#' Mark a user id as a screen name
+#' 
+#' @description 
+#' There are two ways to identify a twitter user: a screen name (e.g.
+#' "justinbieber") or a user identifier (e.g. "27260086"). User identifiers
+#' are 64-bit integers which can't be represented natively by any base R data
+#' structures, so in most cases rtweet returns them as strings. This introduces
+#' an ambiguity, because user names can also consist solely of numbers 
+#' (e.g. "123456"). You can resolve this ambiguity by using `as_screenname()` 
+#' to a character vector a screen name.
+#' 
+#' @param x A character vector of twitter screen names.
 #' @examples
 #' \dontrun{
-#' ## get friends list for user with the handle "1234"
-#' get_friends(as_screenname("12345"))
-#'
-#' ## as_screenname coerces all elements to class "screen_name"
-#' sns <- as_screenname(c("kearneymw", "1234", "jack"))
-#' class(sns)
-#'
-#' ## print will display user class type
-#' sns
-#'
-#' ## BAD: combine user id and screen name using c()
-#' users <- c(as_userid("2973406683"), as_screenname("1234"))
-#' class(users)
-#'
-#' ## GOOD: combine user id and screen name using list()
-#' users <- list(as_userid("2973406683"), as_screenname("1234"))
-#' users
-#'
-#' ## get friend networks for each user
-#' get_friends(users)
-#'
+#' # Look up user with id 123456 (screen name harperreed)
+#' lookup_users("123456") 
+#' 
+#' # Look up user with name 123456
+#' lookup_users(as_screenname("123456"))
 #' }
 #' @family users
 #' @rdname as_screenname
 #' @export
 as_screenname <- function(x) {
-  stopifnot(is.atomic(x))
-  x <- as.character(x)
-  set_class(x, "screen_name")
-}
-
-set_class <- function(x, value) `class<-`(x, value)
-
-`[.screen_name` <- function(x, i) {
-  x <- as.character(x)
-  x <- x[i]
-  as_screenname(x)
+  stopifnot(is.character(x))
+  structure(x, class = "rtweet_screen_name")
 }
 
 #' @export
-print.screen_name <- function(x, ...) {
-  cat("Twitter user type: screen name\nUsers:", fill = TRUE)
-  x <- as.character(x)
+`[.rtweet_screen_name` <- function(x, i) {
+  as_screenname(NextMethod())
+}
+
+#' @export
+print.rtweet_screen_name <- function(x, ...) {
+  cat("<rwteet_screen_name>\n")
+  class(x) <- NULL
   print(x, ...)
+  invisible(x)
 }
-
-is_screen_name <- function(x) {
-  inherits(x, "screen_name")
-}
-
 
 #' @rdname as_screenname
 #' @export
+#' @usage NULL
 as_userid <- function(x) {
-  stopifnot(is.atomic(x))
-  x <- as.character(x)
-  set_class(x, "user_id")
+  lifecycle::deprecate_warn("1.0.0", "as_userid()")
+  x
 }
-
-`[.user_id` <- function(x, i) {
-  x <- as.character(x)
-  x <- x[i]
-  as_userid(x)
-}
-
-#' @export
-print.user_id <- function(x, ...) {
-  cat("Twitter user type: user id\nUsers:", fill = TRUE)
-  x <- as.character(x)
-  print(x, ...)
-}
-
-is_user_id <- function(x) {
-  inherits(x, "user_id")
-}
-
-api_screen_name <- function(token = NULL) {
-  params <- list(
-    include_entities = FALSE,
-    skip_status = TRUE,
-    include_email = FALSE
-  )
-  r <- TWIT_get(token, "/1.1/account/verify_credentials", params)
-  r$screen_name
-}
-
 
 user_type <- function(x, arg_name = "user") {
   if (is.numeric(x)) {
     "user_id"
   } else if (is.character(x)) {
-    if (inherits(x, "screen_name")) {
+    if (inherits(x, "rtweet_screen_name")) {
       # needed for purely numeric screen names
       "screen_name"
     } else if (all(grepl("^[0-9]+$", x))) {
@@ -119,3 +64,12 @@ user_type <- function(x, arg_name = "user") {
   }
 }
 
+api_screen_name <- function(token = NULL) {
+  params <- list(
+    include_entities = FALSE,
+    skip_status = TRUE,
+    include_email = FALSE
+  )
+  r <- TWIT_get(token, "/1.1/account/verify_credentials", params)
+  r$screen_name
+}

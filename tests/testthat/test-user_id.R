@@ -1,3 +1,9 @@
+test_that("screen_name has print and [ methods", {
+  x <- as_screenname("123456")
+  expect_s3_class(x[1], "rtweet_screen_name")
+  expect_snapshot(x)
+})
+
 test_that("user_type handles simple cases", {
   expect_equal(user_type("hadleywickham"), "screen_name")
   
