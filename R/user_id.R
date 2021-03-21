@@ -119,21 +119,3 @@ user_type <- function(x, arg_name = "user") {
   }
 }
 
-.id_type <- function(x) {
-  if (is_screen_name(x)) {
-    return("screen_name")
-  }
-  if (is_user_id(x)) {
-    return("user_id")
-  }
-  x <- suppressWarnings(is.na(as.numeric(x)))
-  if (length(unique(x)) > 1) {
-    return("screen_name")
-  }
-  x <- unique(x)
-  if (x) {
-    return("screen_name")
-  } else {
-    return("user_id")
-  }
-}

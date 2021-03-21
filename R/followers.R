@@ -53,7 +53,7 @@ get_followers <- function(user, n = 5000,
   }
 
   params <- list(stringify_ids = TRUE)
-  params[[.id_type(user)]] <- user
+  params[[user_type(user)]] <- user
 
   results <- TWIT_paginate_cursor(token, "/1.1/followers/ids", params, 
     page_size = 5000, 

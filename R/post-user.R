@@ -30,27 +30,23 @@ post_follow <- function(user,
   if (all(!destroy, !retweets)) {
     query <- "/1.1/friendships/update"
     params <- list(
-      user_type = user,
       notify = notify,
       retweets = retweets)
   } else if (mute) {
     query <- "/1.1/mutes/users/create"
-    params <- list(
-      user_type = user)
+    params <- list(r)
   } else if (destroy) {
     query <- "/1.1/friendships/destroy"
     params <- list(
-      user_type = user,
       notify = notify)
   } else {
     query <- "/1.1/friendships/create"
     params <- list(
-      user_type = user,
       notify = notify
     )
   }
-  names(params)[1] <- .id_type(user)
-  
+  params[[user_type(user)]] <- user
+
   TWIT_post(token, query, params)
 }
 
@@ -92,11 +88,10 @@ post_friendship <- function(user,
             is.logical(retweets))
 
   params <- list(
-    user_type = user,
     device = device,
-    retweets = retweets)
-
-  names(params)[1] <- .id_type(user)
+    retweets = retweets
+  )
+  params[[user_type(user)]] <- user
 
   TWIT_post(token, "/1.1/friendships/update", params)
 }

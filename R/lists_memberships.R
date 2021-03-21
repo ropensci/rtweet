@@ -107,7 +107,7 @@ lists_memberships_call <- function(user,
   )
   if (filter_to_owned_lists) {
     params$filter_to_owned_lists <- TRUE
-    params[[.id_type(user)]] <- user
+    params[[user_type(user)]] <- user
   }
   
   r <- TWIT_get(token, "/1.1/lists/memberships", params)

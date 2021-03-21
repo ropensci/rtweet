@@ -69,7 +69,7 @@ lists_subscriptions_call <- function(user,
     count = n,
     cursor = cursor
   )
-  params[[.id_type(user)]] <- user
+  params[[user_type(user)]] <- user
 
   r <- TWIT_get(token, "/1.1/lists/subscriptions", params)
 
