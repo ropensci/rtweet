@@ -19,3 +19,7 @@ test_that("get_timeline", {
   #expect_equal(ncol(d), 4)
   unlink("Rplots.pdf")
 })
+
+test_that("get_timelines() is deprecated", {
+  expect_snapshot(x <- get_timelines("cnn", n = 10))
+})

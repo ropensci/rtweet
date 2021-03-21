@@ -121,6 +121,7 @@ get_timeline_user <- function(user,
 
 #' @export
 #' @rdname get_timeline
+#' @usage NULL
 get_timelines <- function(user,
                           n = 100,
                           max_id = NULL,
@@ -129,6 +130,9 @@ get_timelines <- function(user,
                           check = TRUE,
                           token = NULL,
                           ...) {
+  
+  lifecycle::deprecate_warn("1.0.0", "get_timelines()", "get_timeline()")
+  
   get_timeline(user, n, max_id = max_id, home = home, parse = parse, check = check, token = token, ...)
 }
 
