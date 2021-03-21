@@ -120,6 +120,8 @@ post_tweet <- function(status = "my first rtweet #rstats",
   
   ## geotag if provided
   if (!is.null(lat) && !is.null(long)) {
+    stopifnot("lat should be between -90 and 90 degrees" ~ abs(lat) <= 90)
+    stopifnot("long should be between -180 and 180  degrees" ~ abs(long) <= 180)
     params[["lat"]] <- as.double(lat)
     params[["long"]] <- as.double(long)
   
