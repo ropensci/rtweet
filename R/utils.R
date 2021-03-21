@@ -129,30 +129,6 @@ maybe_n <- function(x) {
   length(x) == 1L && is.numeric(x) && !is.na(x)
 }
 
-
-##----------------------------------------------------------------------------##
-##                            user type classifers                            ##
-##----------------------------------------------------------------------------##
-
-.id_type <- function(x) {
-  if (is_screen_name(x)) {
-    return("screen_name")
-  }
-  if (is_user_id(x)) {
-    return("user_id")
-  }
-  x <- suppressWarnings(is.na(as.numeric(x)))
-  if (length(unique(x)) > 1) {
-    return("screen_name")
-  }
-  x <- unique(x)
-  if (x) {
-    return("screen_name")
-  } else {
-    return("user_id")
-  }
-}
-
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")  
 }
