@@ -15,5 +15,6 @@ Data reformatted with ascii encoding and normal ampersands and
 without URL links, line breaks, fancy spaces/tabs, fancy apostrophes,
 }
 \description{
-Clean up character vector (tweets) to more of a plain text.
+Removes links, linebreaks, fancy spaces and apostrophes and convert everything to ASCII text.
+Deprecated to be defunct for next release as there are better text processing tools.
 }
