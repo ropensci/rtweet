@@ -29,6 +29,9 @@ not true, the HTTP response object is returned instead.
 Gets information on friendship between authenticated user and up
 to 100 other users.
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-lookup}
+}
 \seealso{
 Other friends: 
 \code{\link{lookup_friendships}()}

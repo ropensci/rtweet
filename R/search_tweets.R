@@ -127,6 +127,7 @@
 #'   data frame.
 #' @family tweets
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets>
 search_tweets <- function(q, n = 100,
                           type = c("mixed", "recent", "popular"),
                           include_rts = TRUE,

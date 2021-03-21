@@ -3,6 +3,7 @@
 #' Deletes a status of user's profile.
 #' @inheritParams post_tweet
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-destroy-id>
 #' @examples
 #' \dontrun{
 #' pt <- post_tweet()

@@ -52,6 +52,12 @@ Follows target twitter user.
 post_follow("BarackObama")
 }
 }
+\references{
+Update: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update}
+Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create}
+Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy}
+Mute: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create}
+}
 \seealso{
 Other post: 
 \code{\link{post_favorite}()},

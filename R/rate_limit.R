@@ -23,6 +23,7 @@
 #' }
 #' @family tokens
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
 rate_limit <- function(resource_match = NULL, token = NULL) {
   json <- TWIT_get(token, "/1.1/application/rate_limit_status")
   

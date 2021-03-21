@@ -76,6 +76,11 @@
 #' @family post
 #' @aliases post_status
 #' @export
+#' @references 
+#' Tweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update>
+#' Retweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id>
+#' Media: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload>
+#' Alt-text: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create>
 post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,
                        token = NULL,

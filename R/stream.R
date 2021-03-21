@@ -50,6 +50,9 @@
 #' }
 #' @return A tibble with one row per tweet
 #' @export
+#' @references 
+#' Stream: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>
+#' Filter: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/api-reference/post-statuses-filter>
 stream_tweets <- function(q = "",
                           timeout = 30,
                           parse = TRUE,
