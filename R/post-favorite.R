@@ -14,6 +14,9 @@
 #' }
 #' @family post
 #' @export
+#' @references 
+#' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create>
+#' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-destroy>
 post_favorite <- function(status_id,
                           destroy = FALSE,
                           include_entities = FALSE,

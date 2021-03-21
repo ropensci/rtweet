@@ -85,6 +85,7 @@
 #' }
 #'
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search>
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
   env_name = NULL, safedir = NULL, parse = TRUE, token = NULL) {
 

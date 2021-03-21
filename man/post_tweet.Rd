@@ -95,6 +95,12 @@ post_tweet("second in the thread",
   in_reply_to_status_id = reply_id)
 }
 }
+\references{
+Tweet: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update}
+Retweet: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id}
+Media: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload}
+Alt-text: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create}
+}
 \seealso{
 Other post: 
 \code{\link{post_favorite}()},

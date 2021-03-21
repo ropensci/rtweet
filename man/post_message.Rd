@@ -23,3 +23,6 @@ See \code{vignette("auth")} for more details.}
 \description{
 Posts direct message from user's Twitter account
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/new-event}
+}

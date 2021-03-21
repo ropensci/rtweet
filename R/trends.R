@@ -158,6 +158,7 @@ format_trend_date <- function(x) {
 #'   Earth ID.
 #' @family trends
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/trends/locations-with-trending-topics/api-reference/get-trends-available>
 trends_available <- function(token = NULL, parse = TRUE) {
   trd <- TWIT_get(token, "/1.1/trends/available", parse = parse)
   if (parse) {

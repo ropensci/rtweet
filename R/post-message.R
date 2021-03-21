@@ -6,6 +6,7 @@
 #' @param media File path to image or video media to be
 #'   included in tweet.
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/new-event>
 post_message <- function(text, user, media = NULL, token = NULL) {
   ## get user id
   user_id <- lookup_users(user)

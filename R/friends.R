@@ -67,6 +67,7 @@
 #'   user and "user_id" for follower IDs.
 #' @family ids
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
                         n = 5000,
                         retryonratelimit = FALSE,
@@ -121,6 +122,7 @@ get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
 #'   not true, the HTTP response object is returned instead.
 #' @family friends
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-lookup>
 my_friendships <- function(user,
                            parse = TRUE,
                            token = NULL) {
@@ -140,6 +142,7 @@ my_friendships <- function(user,
 #'   not true, the HTTP response object is returned instead.
 #' @family friends
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show>
 lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
   if (length(source) > 1L && length(target) > 1L) {
     stopifnot(length(source) == length(target))

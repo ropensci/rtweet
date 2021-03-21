@@ -37,6 +37,10 @@ rt <- search_tweets("#rstats", n = 1)
 post_favorite(rt$status_id)
 }
 }
+\references{
+Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create}
+Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-destroy}
+}
 \seealso{
 Other post: 
 \code{\link{post_follow}()},

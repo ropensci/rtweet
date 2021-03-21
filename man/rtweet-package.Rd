@@ -38,6 +38,12 @@ Useful links:
 \author{
 \strong{Maintainer}: Michael W. Kearney \email{kearneymw@missouri.edu} (\href{https://orcid.org/0000-0002-0730-4694}{ORCID})
 
+Authors:
+\itemize{
+  \item Lluís Revilla Sancho (\href{https://orcid.org/0000-0001-9747-2570}{ORCID})
+  \item Hadley Wickham (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Andrew Heiss (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [reviewer]
