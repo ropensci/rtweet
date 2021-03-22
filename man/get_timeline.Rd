@@ -15,17 +15,6 @@ get_timeline(
   token = NULL,
   ...
 )
-
-get_timelines(
-  user,
-  n = 100,
-  max_id = NULL,
-  home = FALSE,
-  parse = TRUE,
-  check = TRUE,
-  token = NULL,
-  ...
-)
 }
 \arguments{
 \item{user}{Vector of user names, user IDs, or a mixture of both.}
