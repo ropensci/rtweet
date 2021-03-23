@@ -31,14 +31,6 @@ test_that("post_tweet works", {
 })
 
 test_that("post_tweet geolocated works", {
-  # Test errors
-  msg <- paste("test geolocated error", Sys.time()) # To avoid having duplicated status
-  expect_error(post_tweet(msg, lat = "x", long = 0))
-  expect_error(post_tweet(msg, lat = 0, long = "x"))
-  expect_error(post_tweet(msg, lat = 91, long = 0))
-  expect_error(post_tweet(msg, lat = 0, long = 181))
-  expect_error(post_tweet(msg, lat = 0, long = 0, display_coordinates = "error"))
-  
   # Test geolocated tweet
   msg <- paste("test geolocated", Sys.time()) # To avoid having duplicated status
   rt <- expect_message(post_tweet(msg, lat = -36.811784, long = 174.792657), "your tweet has been posted!")
@@ -52,4 +44,15 @@ test_that("post_tweet geolocated works", {
   crt <- httr::content(rt)
   rt <- expect_message(post_destroy(crt$id_str), "your tweet has been deleted!")
   expect_equal(httr::status_code(rt), 200L)
+})
+
+test_that("Check geo-related inputs for post_tweet", {
+  expect_snapshot(error = TRUE, {
+    msg <- paste("test geolocated error", Sys.time()) # To avoid having duplicated status
+    post_tweet(msg, lat = "x", long = 0)
+    post_tweet(msg, lat = 0, long = "x")
+    post_tweet(msg, lat = 91, long = 0)
+    post_tweet(msg, lat = 0, long = 181)
+    post_tweet(msg, lat = 0, long = 0, display_coordinates = "error")
+  })
 })
