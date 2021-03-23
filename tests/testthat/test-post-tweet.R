@@ -46,11 +46,13 @@ test_that("post_tweet geolocated works", {
   expect_equal(httr::status_code(rt), 200L)
 })
 
-test_that("post_tweet geolocated validity checks", {
-  msg <- paste("test geolocated error", Sys.time()) # To avoid having duplicated status
-  expect_snapshot(post_tweet(msg, lat = "x", long = 0), error = TRUE)
-  expect_snapshot(post_tweet(msg, lat = 0, long = "x"), error = TRUE)
-  expect_snapshot(post_tweet(msg, lat = 91, long = 0), error = TRUE)
-  expect_snapshot(post_tweet(msg, lat = 0, long = 181), error = TRUE)
-  expect_snapshot(post_tweet(msg, lat = 0, long = 0, display_coordinates = "error"), error = TRUE)
+test_that("Check geo-related inputs for post_tweet", {
+  expect_snapshot(error = TRUE, {
+    msg <- paste("test geolocated error", Sys.time()) # To avoid having duplicated status
+    post_tweet(msg, lat = "x", long = 0)
+    post_tweet(msg, lat = 0, long = "x")
+    post_tweet(msg, lat = 91, long = 0)
+    post_tweet(msg, lat = 0, long = 181)
+    post_tweet(msg, lat = 0, long = 0, display_coordinates = "error")
+  })
 })

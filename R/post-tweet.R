@@ -131,15 +131,15 @@ post_tweet <- function(status = "my first rtweet #rstats",
   ## geotag if provided
   if (!is.null(lat) && !is.null(long)) {
     # Validate inputs
-    if (!is.numeric(lat)) stop("lat should be numeric")
-    if (!is.numeric(long)) stop("long should be numeric")
+    if (!is.numeric(lat)) stop("`lat` should be numeric.")
+    if (!is.numeric(long)) stop("`long` should be numeric.")
     
     if (!is.logical(display_coordinates)) {
-      stop("display_coordinates should be TRUE/FALSE")
+      stop("`display_coordinates` should be TRUE/FALSE.")
     }
     
-    if (abs(lat) > 90) stop("lat should be between -90 and 90 degrees")
-    if (abs(long) > 180) stop("long should be between -180 and 180  degrees")
+    if (abs(lat) > 90) stop("`lat` should be between -90 and 90 degrees.")
+    if (abs(long) > 180) stop("`long` should be between -180 and 180 degrees.")
     
     params[["lat"]] <- as.double(lat)
     params[["long"]] <- as.double(long)
