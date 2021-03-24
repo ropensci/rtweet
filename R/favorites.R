@@ -37,7 +37,6 @@ get_favorites <- function(user,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL) {
-  token <- check_token(token)
   stopifnot(is.atomic(user), is.numeric(n))
 
   rt <- lapply(user, get_favorites_user, 

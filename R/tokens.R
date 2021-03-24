@@ -1,15 +1,3 @@
-check_token <- function(token = NULL) {
-  token <- token %||% get_auth()
-
-  if (inherits(token, "Token1.0")) {
-    token
-  } else if (inherits(token, "rtweet_bearer")) {
-    httr::add_headers(Authorization = paste0("Bearer ", token$token))
-  } else {
-    abort("`token` is not a valid access token")
-  }
-}
-
 #' Fetch Twitter OAuth token
 #' 
 #' @description 
