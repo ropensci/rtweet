@@ -42,27 +42,6 @@ packageVersion("rtweet")
 sessionInfo()
 ```
 
-### Token
-
-<!-- run the code below and copy/paste the output. if you don't feel comfortable 
-sharing that information, then share the first 3-4 characters for the 
-oauth_app ($APP_NAME$) and key ($KEY$) as they appear in the printed output 
-#> <Token>
-#> <oauth_endpoint>
-#>  request:   https://api.twitter.com/oauth/request_token
-#>  authorize: https://api.twitter.com/oauth/authenticate
-#>  access:    https://api.twitter.com/oauth/access_token
-#> <oauth_app> {{$APP_NAME$}}
-#>   key:    {{$KEY$}}****************
-#>   secret: <hidden>
-#> <credentials> oauth_token, oauth_token_secret
--->
-
-``` r
-## copy/paste output
-rtweet::get_token()
-```
-
 <!-- If you think the problem may be related to features/limitations of 
 Twitter's API, you can find more information about Twitter's APIs here: 
 https://developer.twitter.com/en/docs.html -->

@@ -189,6 +189,7 @@ find_auth <- function(auth = NULL) {
     if (!file.exists(path)) {
       abort(paste0("Can't find saved auth with name '", auth, "'"))
     }
+    inform(paste0("Reading token from ", path))
     readRDS(path)
   } else {
     abort("Unrecognised input to `auth`")
@@ -234,5 +235,35 @@ auth_test <- function() {
     "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
     access_token,
     access_secret
+  )
+}
+
+# Twitter Token -----------------------------------------------------------
+
+# Twitter requires a callback url that uses 127.0.0.1 rather than localhost
+# so we temporarily override HTTR_SERVER during initialisation.
+
+TwitterToken1.0 <- R6::R6Class("TwitterToken1.0", inherit = httr::Token1.0, list(
+  init_credentials = function(force = FALSE) {
+    self$credentials <- twitter_init_oauth1.0(
+      self$endpoint, 
+      self$app,
+      permission = self$params$permission,
+      private_key = self$private_key
+    )
+  }
+))
+
+twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
+                                   is_interactive = interactive(),
+                                   private_key = NULL) {
+  
+  withr::local_envvar("HTTR_SERVER" = "127.0.0.1")
+  httr::init_oauth1.0(
+    endpoint, 
+    app, 
+    permission = permission, 
+    is_interactive = is_interactive, 
+    private_key = private_key
   )
 }
