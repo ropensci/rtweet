@@ -9,8 +9,9 @@
 #'   
 #' * `auth_app()` authenticates as a twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
-#'    rate limits (i.e. you can do more searches) generally higher. This form is 
-#'    most appropriate if you are collecting data.
+#'    rate limits (i.e. you can do more searches) generally higher. See details
+#'    at <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
+#'    This form is most appropriate if you are collecting data. 
 #'    
 #' * `auth_bot()` authenticates as bot that takes actions on behalf of an app.
 #'    This form is most appropriate if you want to create a twitter account that

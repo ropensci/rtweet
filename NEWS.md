@@ -1,5 +1,8 @@
 # rtweet ...
 
+- `bearer_token()` has been deprecated in favour of `auth_app()` which takes 
+  the bearer token found in the Twitter developer portal.
+
 - `get_timelines()` has been deprecated since it does that same thing as
   `get_timeline()` (#509).
 
