@@ -154,14 +154,6 @@ data](https://docs.ropensci.org/rtweet/articles/stream.html)
 vignette("stream", package = "rtweet")
 ```
 
-[Troubleshooting common rtweet
-problems](https://docs.ropensci.org/rtweet/articles/FAQ.html)
-
-``` r
-## working with the stream
-vignette("FAQ", package = "rtweet")
-```
-
 ### Package features
 
 #### Search tweets
