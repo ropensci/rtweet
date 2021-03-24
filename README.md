@@ -115,28 +115,18 @@ the embedded **`rstats2twitter`** app (approve the browser popup), and
 your token will be created and saved/stored (for future sessions) for
 you!
 
-### API authorization
+### Authentication
 
-All users must be authorized to interact with Twitter’s APIs. To become
-authorized, simply use a function like `search_tweets()`,
-`get_timeline()`, `get_followers()`, or `get_favorites()` in an
-interactive session — you’ll be presented with a browser popup to
-authenticate on behalf of your Twitter account!
+All users must be authenticated to interact with Twitter’s APIs. The
+easiest way to authenticate is to use your personal twitter account -
+this will happen automatically (via a browser popup) when you use any
+rtweet function for the first time.
 
-This uses the Twitter developer app baked into the package. If you want
-to post tweets, use a bearer token, or read/write direct messages, or
-work non-interactively, you will need to create your own app. See the
-details in `vignette("auth")`.
+Using your personal account is fine for casual use, but if you are
+trying to collect a lot of data it’s a good idea to create your own
+twitter “app” and use `auth_app()`. Learn more in `vignette("auth")`.
 
 ### Vignettes
-
-[Obtaining and using Twitter API
-tokens](https://docs.ropensci.org/rtweet/articles/auth.html)
-
-``` r
-## quick overview of rtweet functions
-vignette("auth", package = "rtweet")
-```
 
 [Quick overview of rtweet
 package](https://docs.ropensci.org/rtweet/articles/intro.html)
