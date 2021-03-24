@@ -1,11 +1,13 @@
 check_token <- function(token = NULL) {
-  token <- token %||% get_token()
-  
-  if (inherits(token, "bearer") || inherits(token, "Token1.0")) {
-    return(token)
+  token <- token %||% get_auth()
+
+  if (inherits(token, "Token1.0")) {
+    token
+  } else if (inherits(token, "rtweet_bearer")) {
+    httr::add_headers(Authorization = paste0("Bearer ", token$token))
+  } else {
+    abort("`token` is not a valid access token")
   }
-  
-  stop("`token` is not a valid access token", call. = FALSE)
 }
 
 #' Fetch Twitter OAuth token
@@ -103,13 +105,6 @@ default_token <- function() {
   create_token("rstats2twitter", key, secret)
 }
 
-no_token <- function() {
-  if (identical(Sys.getenv("TESTTHAT"), "true")) {
-    testthat::skip("Auth not available")
-  } else {
-    stop("Could not authenticate", call. = FALSE)
-  }
-}
 
 #' Create custom Twitter OAuth token
 #'
