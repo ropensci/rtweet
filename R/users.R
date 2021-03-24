@@ -4,11 +4,9 @@
 #' than 90,000 users, code must be written to iterate through user IDs
 #' whilst avoiding rate limits, which reset every 15 minutes.
 #'
-#' @param token An OAuth token object. The default, `NULL`, will retrieve
-#'   a default token with [get_token()]. You should only need to 
-#'   use this argument if you are wrapping rtweet in a package. 
-#'   
-#'   See `vignette("auth")` for more details.
+#' @param token Expert use only. Use this to override authentication for
+#'   a single API call. In most cases you are better off changing the
+#'   default for all calls. See [auth_use()] for details.
 #' @param parse The default, `TRUE`, indicates that the result should
 #'   be parsed into a convenient R data structure like a list or data frame. 
 #'   This protects you from the vagaries of the twitter API. Use `FALSE` 

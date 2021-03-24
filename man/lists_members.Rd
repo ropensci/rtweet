@@ -49,11 +49,9 @@ value of -1 to begin paging. Provide values as returned in the
 response body's next_cursor and previous_cursor attributes to
 page back and forth in the list.}
 
-\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link[=get_token]{get_token()}}. You should only need to
-use this argument if you are wrapping rtweet in a package.
-
-See \code{vignette("auth")} for more details.}
+\item{token}{Expert use only. Use this to override authentication for
+a single API call. In most cases you are better off changing the
+default for all calls. See \code{\link[=auth_use]{auth_use()}} for details.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.

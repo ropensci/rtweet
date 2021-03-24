@@ -31,11 +31,9 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
-\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link[=get_token]{get_token()}}. You should only need to
-use this argument if you are wrapping rtweet in a package.
-
-See \code{vignette("auth")} for more details.}
+\item{token}{Expert use only. Use this to override authentication for
+a single API call. In most cases you are better off changing the
+default for all calls. See \code{\link[=auth_use]{auth_use()}} for details.}
 
 \item{verbose}{If \code{TRUE}, will display a progress bar while downloading.}
 }
