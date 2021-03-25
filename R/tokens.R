@@ -28,7 +28,7 @@ get_tokens <- function() {
 #' to disk to make it the default for future sessions.
 #' 
 #' These three components have now been split up into three separate pieces:
-#' use [auth_user()]/[auth_app()]/[auth_bot()] to create the token,
+#' use [rtweet_user()]/[rtweet_app()]/[rtweet_bot()] to create the token,
 #' `auth_use()` to make it the default for this session, and `auth_save()` to
 #' use it in future sessions.
 #' 

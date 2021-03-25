@@ -7,7 +7,7 @@
 auth_get()
 }
 \description{
-If no authentcation has been set up for this session, will call \code{\link[=use_auth]{use_auth()}}
+If no authentcation has been set up for this session, will call \code{\link[=auth_as]{auth_as()}}
 to set up.
 }
 \keyword{internal}

@@ -32,7 +32,7 @@ By default, \code{create_token()} does three things: it creates an authenticatio
 to disk to make it the default for future sessions.
 
 These three components have now been split up into three separate pieces:
-use \code{\link[=auth_user]{auth_user()}}/\code{\link[=auth_app]{auth_app()}}/\code{\link[=auth_bot]{auth_bot()}} to create the token,
+use \code{\link[=rtweet_user]{rtweet_user()}}/\code{\link[=rtweet_app]{rtweet_app()}}/\code{\link[=rtweet_bot]{rtweet_bot()}} to create the token,
 \code{auth_use()} to make it the default for this session, and \code{auth_save()} to
 use it in future sessions.
 

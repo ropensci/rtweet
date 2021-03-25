@@ -34,7 +34,7 @@ This form is most appropriate if you want rtweet to control your
 twitter account.
 \item \code{rtweet_app()} authenticates as a twitter application. An application can't
 perform actions (i.e. it can't tweet) but otherwise has generally higher
-rate limits (i.e. you can do more searches) generally higher. See details
+rate limits (i.e. you can do more searches). See details
 at \url{https://developer.twitter.com/en/docs/basics/rate-limits.html}.
 This form is most appropriate if you are collecting data.
 \item \code{rtweet_bot()} authenticates as bot that takes actions on behalf of an app.

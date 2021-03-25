@@ -9,7 +9,7 @@
 #'   
 #' * `rtweet_app()` authenticates as a twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
-#'    rate limits (i.e. you can do more searches) generally higher. See details
+#'    rate limits (i.e. you can do more searches). See details
 #'    at <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
 #'    This form is most appropriate if you are collecting data. 
 #'    
@@ -107,7 +107,7 @@ print.rtweet_bearer <- function(x, ...) {
 
 #' Get the current authentication mechanism
 #' 
-#' If no authentcation has been set up for this session, will call [use_auth()]
+#' If no authentcation has been set up for this session, will call [auth_as()]
 #' to set up.
 #' 
 #' @keywords internal

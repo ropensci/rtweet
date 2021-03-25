@@ -4,13 +4,13 @@
 #' `r lifecycle::badge("deprecated")`
 #' 
 #' `bearer_token()` has been deprecated because it used a rather indirect
-#' method of generating a bearer token. Now, you can use [auth_app()] copying
+#' method of generating a bearer token. Now, you can use [rtweet_app()] copying
 #' in the bearer token directly from the Twitter developer portal.
 #' 
 #' @keywords internal
 #' @export
 bearer_token <- function(token = NULL) {
-  lifecycle::deprecate_stop("1.0.0", "bearer_token()", "auth_app()")
+  lifecycle::deprecate_stop("1.0.0", "bearer_token()", "rtweet_app()")
 }
 
 #' Invalidate bearer token

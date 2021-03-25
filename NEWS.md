@@ -1,12 +1,12 @@
 # rtweet ...
 
 - `create_token()` has been deprecated in favour of the combination of
-  `auth_user()`/`auth_bot()`/`auth_app()` + `auth_use()` + `auth_save()`.
+  `rtweet_user()`/`rtweet_bot()`/`rtweet_app()` + `auth_use()` + `auth_save()`.
 
 - `get_token()` and `get_tokens()` have been deprecated in favour of 
   `auth_get()`.
 
-- `bearer_token()` has been deprecated in favour of `auth_app()` which takes 
+- `bearer_token()` has been deprecated in favour of `rtweet_app()` which takes 
   the bearer token found in the Twitter developer portal.
 
 - `get_timelines()` has been deprecated since it does that same thing as

@@ -10,7 +10,7 @@ bearer_token(token = NULL)
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{bearer_token()} has been deprecated because it used a rather indirect
-method of generating a bearer token. Now, you can use \code{\link[=auth_app]{auth_app()}} copying
+method of generating a bearer token. Now, you can use \code{\link[=rtweet_app]{rtweet_app()}} copying
 in the bearer token directly from the Twitter developer portal.
 }
 \keyword{internal}
