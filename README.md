@@ -333,17 +333,6 @@ Discover what’s currently trending in San Francisco.
 sf <- get_trends("san francisco")
 ```
 
-#### Post actions
-
--   Posting (tweeting from R console) or reading direct messages require
-    additional permissions
--   If you’d like to post Twitter statuses, follow or unfollow accounts,
-    and/or read your direct messages, you’ll need to create your own
-    Twitter app
--   To create your own Twitter app, follow the instructions in the
-    authorization vignette on [obtaining and using access
-    tokens](https://docs.ropensci.org/rtweet/articles/auth.html)
-
 ## Contact
 
 Communicating with Twitter’s APIs relies on an internet connection,
