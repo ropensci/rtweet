@@ -32,7 +32,7 @@ remaining number of calls.  Defaults to TRUE.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_use]{auth_use()}} for details.}
+default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{...}{Further arguments passed on as parameters in API query.}
 }

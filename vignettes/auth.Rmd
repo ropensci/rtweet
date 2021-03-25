@@ -23,6 +23,10 @@ This vignette shows you how to use two other authentication mechanisms useful fo
 In either case, you'll need to start by creating a Twitter app, so this vignette will first walk you through that process.
 You'll then learn how to create and save the objects needed to use these two new types of authentication.
 
+```{r}
+library(rtweet)
+```
+
 ## Creating a Twitter app
 
 To create a Twitter app, you need to first apply for a developer account by following the instructions at <https://developer.twitter.com>.
@@ -43,39 +47,34 @@ You have two options:
 -   `rtweet_user()` is best for collecting data.
 -   `rtweet_bot()` is best for creating twitter bots.
 
-In either case, you first create an auth object using some data from the token and keys page:
+In both cases, you first create an auth object using data from the "tokens & keys" page then save it for use in future sessions.
+This process is a little trickier than you might expect because you never want to enter API keys into the R console or save in an .R script to avoid accidentally exposing secrets.
 
--   For `auth_as_user()` click the "regenerate" next to the "bearer token".
-    Then copy and paste the bearer token into a call to `auth_as_user()` giving you something like this:
+Start by running either of the two lines in your console:
 
-    ```{r}
-    auth <- rtweet_user("AAAAAAAAAAAAAAAAAAAAAIHUNwEAAAAAx5ZEqp%2B3%2BnVlSv8g8c1%2BdSAp5KI%3Dpq13bmse5BcjoJPjoYBH0EfknTyrYiY5H46K8JQ7INzBer4xqv")
-    ```
+```{r, eval = FALSE}
+auth <- rtweet_app()
+auth <- rtweet_bot()
+```
 
--   For `auth_as_bot()` you'll need to click regenerate next to "API key & secret" to get the first two arguments, and (re)generate next to "Access token & secret" to get the second two arguments.
-    The result should look something like:
+You will then get a series of pop-ups asking you to enter data from the "keys & tokens" page:
 
-    ```{r}
-    auth <- rtweet_bot(
-      "naVFHnZDlqY2PJSY1SbEdTaFm",
-      "YdP8ugrga48Bg8eDXps1uW00Eb4HiSEvzcSKNBj9Zg1QQWycPx",
-      "1365671359137873920-YHcLK2BaLfTWUOo7I5rSRdXDqRvSNd",
-      "78gVMohl5v7vNQsy4szaJ8HnujSnDYXBVqXiYprcKWd4b"
-    )
-    ```
+-   `rtweet_app()` is easy: you need to enter the bearer token, which you can get by clicking the "regenerate" button next to "bearer token".
 
-Note that all of these elements are equivalent to a username and password, so you shouldn't put them in R scripts.
-If you do accidentally publish them, go back to the "Keys and tokens" page and re-generate the parameters.
+-   `rtweet_bot()` is a bit more work because you need four pieces of data: the API key and secret, and the access token and secret.
+    To get these two pairs of data, you'll need to click the two regenerate buttons.
 
-Next, check that your auth works by running:
+(You may also want to record this information in another secure location; there's no other way to get it back except to regenerate, which will break any existing uses.)
 
-```{r}
-auth_whoami(auth)
+Next, check that you're entered everything correctly and your auth works:
+
+```{r, eval = FALSE}
+df <- search_tweets("#rstats", token = auth)
 ```
 
 Assuming that's good, you can now run `auth_save()` to save your authentication object so that you can use it again in the future:
 
-```{r}
+```{r, eval = FALSE}
 auth_save(auth, "your-app-name")
 ```
 
@@ -83,6 +82,6 @@ auth_save(auth, "your-app-name")
 
 Now, in a future session, you can use your saved auth by calling `auth_as()`:
 
-```{r}
+```{r, eval = FALSE}
 auth_as("your-app-name")
 ```

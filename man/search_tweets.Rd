@@ -86,7 +86,7 @@ API.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_use]{auth_use()}} for details.}
+default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
 until it refreshes. Most twitter rate limits refresh every 15 minutes.

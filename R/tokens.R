@@ -52,19 +52,22 @@ create_token <- function(app = "mytwitterapp",
                          access_secret = NULL,
                          set_renv = TRUE) {
 
+  lifecycle::deprecate_warn(
+    when = "1.0.0", 
+    what = "create_token()", 
+    details = "See vignette('auth') for details"
+  )
+  
   if (!is.null(access_token) && !is.null(access_secret)) {
-    lifecycle::deprecate_warn("1.0.0", "create_token()", "auth_bot()")
-    token <- auth_bot(consumer_key, consumer_secret, access_token, access_secret)
+    token <- rtweet_bot(consumer_key, consumer_secret, access_token, access_secret)
   } else {
-    lifecycle::deprecate_warn("1.0.0", "create_token()", "auth_user()")
-    token <- auth_user(consumer_key, consumer_secret)
+    token <- rtweet_user(consumer_key, consumer_secret)
   }
   
   if (set_renv) {
-    lifecycle::deprecate_warn("1.0.0", "create_token(set_renv)", "auth_save()")
-    auth_use(token)
-    auth_save(token, "default")
+    auth_save(token, "create_token")
   }
+  auth_as(token)
   
-  token
+  invisible(token)
 }

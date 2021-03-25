@@ -261,7 +261,7 @@ check_status <- function(x, api) {
 }
 
 check_token <- function(token = NULL) {
-  token <- token %||% get_auth()
+  token <- token %||% auth_get()
 
   if (inherits(token, "Token1.0")) {
     token
