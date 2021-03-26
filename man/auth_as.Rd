@@ -2,7 +2,7 @@
 % Please edit documentation in R/auth.R
 \name{auth_as}
 \alias{auth_as}
-\title{Set default authentication}
+\title{Set default authentication for the current session}
 \usage{
 auth_as(auth = NULL)
 }

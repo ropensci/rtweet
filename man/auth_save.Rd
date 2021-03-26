@@ -2,9 +2,12 @@
 % Please edit documentation in R/auth.R
 \name{auth_save}
 \alias{auth_save}
+\alias{auth_list}
 \title{Save an authentication mechanism for use in a future session}
 \usage{
 auth_save(auth, name)
+
+auth_list()
 }
 \arguments{
 \item{auth}{One of \code{\link[=rtweet_app]{rtweet_app()}}, \code{\link[=rtweet_bot]{rtweet_bot()}}, or \code{\link[=rtweet_user]{rtweet_user()}}.}
@@ -14,6 +17,7 @@ auth_save(auth, name)
 \description{
 Use \code{auth_save()} with \code{\link[=auth_as]{auth_as()}} to avoid repeatedly entering app
 credentials, making it easier to share auth between projects.
+\code{auth_list()} lists saved credentials.
 }
 \examples{
 \dontrun{
@@ -22,6 +26,6 @@ auth <- rtweet_app()
 auth_save(auth, "my-app")
 
 # later, in a different session...
-auth_us("my-app")
+auth_as("my-app")
 }
 }

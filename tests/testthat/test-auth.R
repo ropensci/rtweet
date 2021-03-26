@@ -33,16 +33,17 @@ test_that("find auth errors politely", {
 
 test_that("default_cached_auth() handles 0, 1, and n saved", {
   withr::local_options("rtweet:::config_dir" = tempfile())
+  auth <- rtweet_app("abc")
   
-  # Error (in tests) if no auth set up
+  # Error if no default auth set up
   expect_snapshot(default_cached_auth(), error = TRUE)
   
-  # Work if single auth present
-  auth <- rtweet_app("abc")
+  # Listing options if available
   suppressMessages(auth_save(auth, "test1"))
-  expect_equal(default_cached_auth(), auth)
-  
-  # Informative error if more than one available
   suppressMessages(auth_save(auth, "test2"))
   expect_snapshot(default_cached_auth(), error = TRUE)
+
+  # Uses default if present
+  suppressMessages(auth_save(auth, "default"))
+  expect_equal(default_cached_auth(), auth)
 })

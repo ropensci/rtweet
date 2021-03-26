@@ -9,13 +9,13 @@
 rtweet_user(api_key = NULL, api_secret = NULL)
 
 rtweet_bot(
-  api_key = askpass::askpass("Please enter your API key"),
-  api_secret = askpass::askpass("Please enter your API secret"),
-  access_token = askpass::askpass("Please enter your access token"),
-  access_secret = askpass::askpass("Please enter your access token")
+  api_key = ask_pass("API key"),
+  api_secret = ask_pass("API secret"),
+  access_token = ask_pass("access token"),
+  access_secret = ask_pass("access token")
 )
 
-rtweet_app(bearer_token = askpass::askpass("Please enter your API key"))
+rtweet_app(bearer_token = ask_pass("bearer token"))
 }
 \arguments{
 \item{api_key, api_secret}{Application API key and secret. These are
@@ -44,14 +44,15 @@ is run by a computer, rather than a human.
 
 To use \code{rtweet_app()} or \code{rtweet_bot()} you will need to create your own
 Twitter application following the instructions in \code{vignette("auth.Rmd")}.
+\code{rtweet_user()} \emph{can be} used with your own app, but generally there is
+no need to because it uses the Twitter app provided by rtweet.
 
-See \code{\link[=auth_as]{auth_as()}} to set an auth mechanism as default for this session, and
-\code{\link[=auth_save]{auth_save()}} to save an auth mechanism so you can use it across multiple
-sessions.
+Use \code{\link[=auth_as]{auth_as()}} to set the default auth mechanism for the current session,
+and \code{\link[=auth_save]{auth_save()}} to save an auth mechanism for use in future sessions.
 }
 \section{Security}{
 All of the arguments to these functions are effectively equivalent to
-passwords so should ideally never be typed into the console (where they
+passwords so should generally not be typed into the console (where they
 the will be recorded in \code{.Rhistory}) or recorded in a script (which is
 easy to accidentally share). Instead, the default arguments use
 \code{\link[askpass:askpass]{askpass::askpass()}} to interactively prompt you for the values.

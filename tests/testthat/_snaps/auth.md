@@ -21,14 +21,14 @@
     Code
       default_cached_auth()
     Error <rlang_error>
-      No saved auth found; please resolve in an interactive session
+      No default authentication found. Please call `auth_setup_default()`
 
 ---
 
     Code
       default_cached_auth()
     Error <rlang_error>
-      Multiple saved tokens. Pick one:
+      No default authentication found. Pick existing auth with:
       * auth_as('test1')
       * auth_as('test2')
 

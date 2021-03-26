@@ -12,7 +12,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-rtweet's default authentication mechanism allows you to act on behalf of your personal Twitter account, as if you were performing actions on twitter.com.
+rtweet's default authentication mechanism (`auth_setup_default()`) allows you to act on behalf of your personal Twitter account, as if you were performing actions on twitter.com.
 This vignette shows you how to use two other authentication mechanisms useful for other scenarios:
 
 -   App authentication allows you to act as if you were a Twitter app.
@@ -20,7 +20,12 @@ This vignette shows you how to use two other authentication mechanisms useful fo
 
 -   Bot authentication allows you to create a fully automated Twitter bot that performs actions on its own behalf rather than on behalf of a human.
 
-In either case, you'll need to start by creating a Twitter app, so this vignette will first walk you through that process.
+In either case, you'll need to start by creating a Twitter app.
+An app provides a
+
+To do: explain what a twitter app is and what makes these systems different.
+
+so this vignette will first walk you through that process.
 You'll then learn how to create and save the objects needed to use these two new types of authentication.
 
 ```{r}
@@ -30,58 +35,73 @@ library(rtweet)
 ## Creating a Twitter app
 
 To create a Twitter app, you need to first apply for a developer account by following the instructions at <https://developer.twitter.com>.
-Once you have acquired a developer account, navigate to the [developer portal](https://developer.twitter.com/en/portal/projects-and-apps) and click the "Create App" button at the bottom of the page.
+Once you have acquired a developer account (which may take several hours), navigate to the [developer portal](https://developer.twitter.com/en/portal/projects-and-apps) and click the "Create App" button at the bottom of the page.
 You'll need to name your app: the name is unimportant for our purposes, but needs to be unique across all twitter apps.
 
-Once you've created your app, click on "Keys and tokens" to get a screen like this:
+After you've created your app, you'll see a screen that gives you some important information.
+You'll only see this once, so make sure to record it in a secure location.
 
-![](keys-tokens.png){width="362"}
+![](app-info.png){width="548"}
 
-You'll need some data from this screen in the next step.
+(Don't worry if you forget to save them: you can always create ones by clicking the "regenerate" button on the "keys and tokens" page.)
 
 ## Setup
 
 Now you're ready to tell rtweet how to authenticate using your app.
-You have two options:
+You'll call either `rtweet_app()` or `rtweet_bot()` depending on whether you want app authentication or bot authentication as described above.
 
--   `rtweet_user()` is best for collecting data.
--   `rtweet_bot()` is best for creating twitter bots.
+### rtweet_app()
 
-In both cases, you first create an auth object using data from the "tokens & keys" page then save it for use in future sessions.
-This process is a little trickier than you might expect because you never want to enter API keys into the R console or save in an .R script to avoid accidentally exposing secrets.
-
-Start by running either of the two lines in your console:
+To use app based authentication, run the following code:
 
 ```{r, eval = FALSE}
 auth <- rtweet_app()
+```
+
+This will prompt you to enter the bearer token that you recorded earlier.
+It's good practice to only provide secrets interactively, because that makes it harder to accidentally share them in either your `.Rhistory` or an `.R` file.
+
+### `rtweet_bot()`
+
+Bot based authentication works similarly:
+
+```{r, eval = FALSE}
 auth <- rtweet_bot()
 ```
 
-You will then get a series of pop-ups asking you to enter data from the "keys & tokens" page:
+But you'll need more data --- as well as the API key and secret you recorded earlier, you'll also need to generate a "Access token and secret" which you can get by clicking the "Generate" button on the Keys and Tokens page:
 
--   `rtweet_app()` is easy: you need to enter the bearer token, which you can get by clicking the "regenerate" button next to "bearer token".
+![](keys-tokens.png){width="362"}
 
--   `rtweet_bot()` is a bit more work because you need four pieces of data: the API key and secret, and the access token and secret.
-    To get these two pairs of data, you'll need to click the two regenerate buttons.
+## Default auth
 
-(You may also want to record this information in another secure location; there's no other way to get it back except to regenerate, which will break any existing uses.)
-
-Next, check that you're entered everything correctly and your auth works:
+Now you have an auth object that you can provide to the `token` argument of any rtweet function:
 
 ```{r, eval = FALSE}
 df <- search_tweets("#rstats", token = auth)
 ```
 
-Assuming that's good, you can now run `auth_save()` to save your authentication object so that you can use it again in the future:
+It's a good idea to do this once to check that you've entered everything correctly, but it'd be annoying if you had to pass this object around every single time.
+Instead, you can use `auth_use()` to set this as the default for the remainder of the session:
 
 ```{r, eval = FALSE}
-auth_save(auth, "your-app-name")
+auth_as(auth)
 ```
 
-## Use
+## Saving and loading
 
-Now, in a future session, you can use your saved auth by calling `auth_as()`:
+`auth_use()` only lasts for a single session; if you close and re-open R, you'll need to repeat the whole process.
+This would be annoying so rtweet also provides a way to save and reload auth across sessions:
 
 ```{r, eval = FALSE}
-auth_as("your-app-name")
+auth_save(auth, "some-name")
 ```
+
+The second argument to `auth_save()` can be any string.
+It just needs to be meaningful to you so that it makes sense when you re-load it in a future session with `auth_as()`:
+
+```{r, eval = FALSE}
+auth_as("some-name")
+```
+
+You can see all the authentication options you have saved with `auth_list()`.

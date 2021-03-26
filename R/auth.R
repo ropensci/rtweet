@@ -1,3 +1,14 @@
+#' Set up default authentication
+#' 
+#' You'll need to run this function once if you want rtweet to use your
+#' personal twitter account. See [rtweet_app()]/[rtweet_bot] and [auth_save()] 
+#' for other authentication options.
+#' 
+#' @export
+auth_setup_default <- function() {
+  auth_save(rtweet_user(), "default")
+}
+
 #' Authentication options
 #' 
 #' @description 
@@ -5,7 +16,7 @@
 #' 
 #' * `rtweet_user()` interactively authenticates an existing twitter user. 
 #'   This form is most appropriate if you want rtweet to control your
-#'   twitter account.
+#'   twitter account. 
 #'   
 #' * `rtweet_app()` authenticates as a twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
@@ -19,15 +30,16 @@
 #'    
 #' To use `rtweet_app()` or `rtweet_bot()` you will need to create your own 
 #' Twitter application following the instructions in `vignette("auth.Rmd")`.
+#' `rtweet_user()` _can be_ used with your own app, but generally there is
+#' no need to because it uses the Twitter app provided by rtweet.
 #' 
-#' See [auth_as()] to set an auth mechanism as default for this session, and
-#' [auth_save()] to save an auth mechanism so you can use it across multiple 
-#' sessions.
+#' Use [auth_as()] to set the default auth mechanism for the current session, 
+#' and [auth_save()] to save an auth mechanism for use in future sessions.
 #' 
 #' # Security
 #' 
 #' All of the arguments to these functions are effectively equivalent to 
-#' passwords so should ideally never be typed into the console (where they
+#' passwords so should generally not be typed into the console (where they
 #' the will be recorded in `.Rhistory`) or recorded in a script (which is
 #' easy to accidentally share). Instead, the default arguments use 
 #' [askpass::askpass()] to interactively prompt you for the values.
@@ -61,10 +73,10 @@ rtweet_user <- function(api_key = NULL, api_secret = NULL) {
 #' @export
 #' @rdname rtweet_user
 rtweet_bot <- function(
-      api_key = askpass::askpass("Please enter your API key"),
-      api_secret = askpass::askpass("Please enter your API secret"), 
-      access_token = askpass::askpass("Please enter your access token"), 
-      access_secret = askpass::askpass("Please enter your access token")
+      api_key = ask_pass("API key"),
+      api_secret = ask_pass("API secret"), 
+      access_token = ask_pass("access token"), 
+      access_secret = ask_pass("access token")
   ) {
   stopifnot(is_string(api_key), is_string(api_secret))
   stopifnot(is_string(access_token), is_string(access_secret))
@@ -85,11 +97,22 @@ rtweet_bot <- function(
 
 #' @export
 #' @rdname rtweet_user
-rtweet_app <- function(bearer_token = askpass::askpass("Please enter your API key")) {
+rtweet_app <- function(bearer_token = ask_pass("bearer token")) {
   structure(
     list(token = bearer_token),
     class = "rtweet_bearer"
   )
+}
+
+ask_pass <- function(type) {
+  check_installed("askpass")
+  
+  message <- paste0("Please enter your ", type, ": ")
+  val <- askpass::askpass(message)
+  if (is.null(val)) {
+    abort("Cancelled by user")
+  }
+  val
 }
 
 is_auth <- function(x) {
@@ -125,6 +148,7 @@ auth_get <- function() {
 #' 
 #' Use `auth_save()` with [auth_as()] to avoid repeatedly entering app 
 #' credentials, making it easier to share auth between projects.
+#' `auth_list()` lists saved credentials.
 #' 
 #' @param auth One of [rtweet_app()], [rtweet_bot()], or [rtweet_user()].
 #' @param name Cache name to use.
@@ -136,7 +160,7 @@ auth_get <- function() {
 #' auth_save(auth, "my-app")
 #' 
 #' # later, in a different session...
-#' auth_us("my-app")
+#' auth_as("my-app")
 #' }
 auth_save <- function(auth, name) {
   stopifnot(is_auth(auth), is_string(name))
@@ -149,6 +173,14 @@ auth_save <- function(auth, name) {
   invisible(path)
 }
 
+#' @export
+#' @rdname auth_save
+auth_list <- function() {
+  paths <- dir(auth_path(), pattern = "\\.rds$")
+  tools::file_path_sans_ext(paths)
+}
+
+
 auth_path <- function(...) {
   # Use private option to make testing easier
   path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet", "R"))
@@ -157,7 +189,7 @@ auth_path <- function(...) {
 
 # Set default auth -------------------------------------------------------------
 
-#' Set default authentication
+#' Set default authentication for the current session
 #' 
 #' `auth_as()` sets up the default authentication mechanism used by all 
 #' rtweet API calls. See [rtweet_user()] to learn more about the three
@@ -212,23 +244,20 @@ find_auth <- function(auth = NULL) {
 }
 
 default_cached_auth <- function() {
-  options <- dir(auth_path(), full.names = TRUE, pattern = "\\.rds$")
+  default <- auth_path("default.rds")
   
-  if (length(options) == 0) {
-    if (is_interactive()) {
-      inform("No saved authentication found; creating...")
-      auth_save(rtweet_user(), "default")
-    } else {
-      abort("No saved auth found; please resolve in an interactive session")
-    }
-  } else if (length(options) == 1) {
-    readRDS(options)
+  if (file.exists(default)) {
+    readRDS(default)
   } else {
-    names <- tools::file_path_sans_ext(basename(options))
-    abort(c(
-      "Multiple saved tokens. Pick one:",
-      paste0("auth_as('", names, "')")
-    ))
+    names <- auth_list()
+    if (length(names) == 0) {
+      abort("No default authentication found. Please call `auth_setup_default()`")
+    } else {
+      abort(c(
+        "No default authentication found. Pick existing auth with:",
+        paste0("auth_as('", names, "')")
+      ))
+    }
   }
 }
 
