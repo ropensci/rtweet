@@ -3,14 +3,19 @@
 #' @description 
 #' There are two ways to identify a twitter user: a screen name (e.g.
 #' "justinbieber") or a user identifier (e.g. "27260086"). User identifiers
-#' are 64-bit integers which can't be represented natively by any base R data
-#' structures, so in most cases rtweet returns them as strings. This introduces
-#' an ambiguity, because user names can also consist solely of numbers 
-#' (e.g. "123456"). You can resolve this ambiguity by using `as_screenname()` 
-#' to a character vector a screen name.
+#' look like regular numbers, but are actually 64-bit integers which can't be 
+#' stored in R's numeric vectors. For this reason, rtweet always returns ids as 
+#' strings.
 #' 
-#' In general, you are best off using user ids where possible; screen names are
-#' not static and may change. 
+#' Unfortunately this introduces an ambiguity, because user names can 
+#' also consist solely of numbers (e.g. "123456") so it's not obvious whether
+#' a string consisting only of numbers is a screen name or a user id. By 
+#' default, rtweet will assume its a user id, so if you have a screen name
+#' that consists only of numbers, you'll need to use `as_screenname()` to
+#' tell rtweet that it's actually a screen name.
+#' 
+#' Note that in general, you are best off using user ids; screen names are
+#' not static and may change over longer periods of time. 
 #' 
 #' @param x A character vector of twitter screen names.
 #' @examples
@@ -65,6 +70,10 @@ user_type <- function(x, arg_name = "user") {
   } else {
     stop("`", arg_name, "` must be a screen name or user id", call. = FALSE)
   }
+}
+
+is_int64 <- function(x) {
+  all(!is.na(bit64::as.integer64(x)))
 }
 
 api_screen_name <- function(token = NULL) {
