@@ -3,7 +3,7 @@
 #' Returns up to 3,000 statuses favorited by each of one or more
 #' specific Twitter users.
 #'
-#' @param user Vector of user names, user IDs, or a mixture of both.
+#' @inheritParams get_timeline
 #' @param n Specifies the number of records to retrieve. Defaults to 200,
 #'   which is the maximum number of records that can be retrieved in a single
 #'   request. Higher numbers will require multiple requests.
@@ -66,7 +66,7 @@ get_favorites_user <- function(user,
     max_id = max_id,
     since_id = since_id
   )
-  params[[.id_type(user)]] <- user
+  params[[user_type(user)]] <- user
   
   results <- TWIT_paginate_max_id(token, "/1.1/favorites/list", params,
     get_max_id = function(x) x$id_str,

@@ -5,15 +5,10 @@ test_that("get_my_timeline", {
   expect_true("status_id" %in% names(x))
   expect_gt(nrow(x), 50)
   expect_gt(ncol(x), 25)
-
-  expect_equal(class(as_userid("101342234")), "user_id")
-  expect_equal(class(as_screenname("101342234")), "screen_name")
-  #x <- print(as_screenname("asdf"))
-  #expect_equal(x, "asdf")
 })
 
 test_that("get_my_timeline works", {
-  gmt <- get_my_timeline()
+gmt <- get_my_timeline()
   expect_s3_class(gmt, "tbl_df")
-  expect_true(nrow(gmt) > 90)
+  expect_true(nrow(gmt) > 50)
 })

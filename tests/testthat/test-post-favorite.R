@@ -1,5 +1,7 @@
-test_that("post_favorite works", {
-  rt <- search_tweets("#rstats", n = 1)
-  expect_equal(httr::status_code(post_favorite(rt$status_id)), 200)
-  expect_equal(httr::status_code(post_favorite(rt$status_id, destroy = TRUE)), 200)
+test_that("can favourite and unfavourite a tweet", {
+  tw <- suppressMessages(post_tweet(paste0("test favourite ", Sys.time())))
+  json <- httr::content(tw)
+
+  expect_error(post_favorite(json$id_str), NA)
+  expect_error(post_favorite(json$id_str, destroy = TRUE), NA)
 })

@@ -215,7 +215,7 @@ my_list_params <- function(token, slug = NULL, list_id = NULL, ..., users = NULL
   } 
   
   if (!is.null(users)) {
-    params[[.ids_type(users)]] <- paste0(users, collapse = ",")
+    params[[user_type(users, "users")]] <- paste0(users, collapse = ",")
   }
   
 }

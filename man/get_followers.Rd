@@ -16,8 +16,8 @@ get_followers(
 )
 }
 \arguments{
-\item{user}{Screen name or user ID of target user from which the
-user IDs of followers will be retrieved.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{n}{Number of followers to return. Use \code{Inf} to download all followers.
 

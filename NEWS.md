@@ -9,6 +9,11 @@
 - `bearer_token()` has been deprecated in favour of `rtweet_app()` which takes 
   the bearer token found in the Twitter developer portal.
 
+- `as_userid()` has been deprecated since in case of ambiguity the default is
+  to assume a numeric string is a user id (#520). All functions now use a 
+  single `user_type()` function so behaviour is identical for all rtweet 
+  functions.
+
 - `get_timelines()` has been deprecated since it does that same thing as
   `get_timeline()` (#509).
 

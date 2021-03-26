@@ -7,7 +7,8 @@
 lists_subscriptions(user, n = 20, cursor = "-1", parse = TRUE, token = NULL)
 }
 \arguments{
-\item{user}{Either the user ID or screen name of user.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{n}{Specifies the number of results to return
 per page (see cursor below). The default is 20, with a maximum

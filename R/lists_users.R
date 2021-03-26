@@ -1,10 +1,9 @@
 #' Get all lists a specified user subscribes to, including their own.
 #'
-#' @param user The ID of the user or screen name for whom to return results.
+#' @inheritParams get_timeline
 #' @param reverse optional Set this to true if you would like owned lists
 #'   to be returned first. See description above for information on
 #'   how this parameter works.
-#' @inheritParams lookup_users
 #' @return data
 #' @examples
 #' \dontrun{
@@ -20,7 +19,7 @@ lists_users <- function(user = NULL, reverse = FALSE, token = NULL, parse = TRUE
   params <- list(
     reverse = reverse
   )
-  params[[.id_type(user)]] <- user
+  params[[user_type(user)]] <- user
 
   r <- TWIT_get(token, "/1.1/lists/list", params, parse = parse)
   if (parse) {

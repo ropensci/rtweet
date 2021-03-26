@@ -1,7 +1,6 @@
 #' Follows target twitter user.
 #'
-#' @inheritParams lookup_users
-#' @param user Screen name or user id of target user.
+#' @inheritParams get_timeline
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
 #' @param mute Logical indicating whether to mute the intended
@@ -35,27 +34,23 @@ post_follow <- function(user,
   if (all(!destroy, !retweets)) {
     query <- "/1.1/friendships/update"
     params <- list(
-      user_type = user,
       notify = notify,
       retweets = retweets)
   } else if (mute) {
     query <- "/1.1/mutes/users/create"
-    params <- list(
-      user_type = user)
+    params <- list()
   } else if (destroy) {
     query <- "/1.1/friendships/destroy"
     params <- list(
-      user_type = user,
       notify = notify)
   } else {
     query <- "/1.1/friendships/create"
     params <- list(
-      user_type = user,
       notify = notify
     )
   }
-  names(params)[1] <- .id_type(user)
-  
+  params[[user_type(user)]] <- user
+
   TWIT_post(token, query, params)
 }
 
@@ -78,8 +73,7 @@ post_mute <- function(user, token = NULL) {
 
 #' Updates friendship notifications and retweet abilities.
 #'
-#' @inheritParams lookup_users
-#' @param user Screen name or user id of target user.
+#' @inheritParams get_timeline
 #' @param device Logical indicating whether to enable or disable
 #'    device notifications from target user behaviors. Defaults
 #'    to false.
@@ -98,11 +92,10 @@ post_friendship <- function(user,
             is.logical(retweets))
 
   params <- list(
-    user_type = user,
     device = device,
-    retweets = retweets)
-
-  names(params)[1] <- .id_type(user)
+    retweets = retweets
+  )
+  params[[user_type(user)]] <- user
 
   TWIT_post(token, "/1.1/friendships/update", params)
 }

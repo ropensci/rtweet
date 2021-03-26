@@ -9,7 +9,8 @@ post_message(text, user, media = NULL, token = NULL)
 \arguments{
 \item{text}{Character, text of message.}
 
-\item{user}{Screen name or user ID of message target.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{media}{File path to image or video media to be
 included in tweet.}

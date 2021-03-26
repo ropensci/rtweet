@@ -60,6 +60,6 @@ user_lookup_100 <- function(users, token = NULL) {
   stopifnot(length(users) <= 100)
   
   params <- list()
-  params[[.id_type(users)]] <- paste0(users, collapse = ",")
+  params[[user_type(users, "users")]] <- paste0(users, collapse = ",")
   TWIT_get(token, "/1.1/users/lookup", params)
 }
