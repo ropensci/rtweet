@@ -34,7 +34,7 @@ tweet_threading <- function(tw, traverse = c('backwards','forwards'), n = 10, ve
   }
   
   for(i in traverse){
-    cat('\n')
+    if (verbose) cat('\n')
     .f <- get(sprintf('tweet_threading_%s',i),envir = asNamespace('rtweet'))
     tw <- .f(tw, n,verbose)
   }
@@ -68,7 +68,7 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE){
         
         cat('.')
         
-        if(counter%%80 ==0 ){
+        if(counter%%80 ==0){
          cat(sprintf(' %s \n',counter)) 
         }
         
@@ -121,7 +121,7 @@ tweet_threading_forwards <- function(tw, n = 10,verbose = FALSE){
         
         cat('.')
         
-        if(counter%%80 ==0 ){
+        if(counter%%80 ==0){
           cat(sprintf(' %s \n',counter)) 
         }
         

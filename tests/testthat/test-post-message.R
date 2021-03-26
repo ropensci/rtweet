@@ -1,4 +1,5 @@
 test_that("post_message works", {
+  skip("requires manual testing")
   rt <- expect_message(
     post_message(paste("Testing", Sys.time()), user = "Lluis_Revilla"),
     "your DM has been posted!"
