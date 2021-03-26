@@ -144,3 +144,6 @@ rt <- search_30day("#rstats", n = 300,
 }
 
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search}
+}

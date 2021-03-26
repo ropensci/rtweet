@@ -30,6 +30,9 @@ not true, the HTTP response object is returned instead.
 \description{
 Gets information on friendship between two Twitter users.
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show}
+}
 \seealso{
 Other friends: 
 \code{\link{my_friendships}()}

@@ -23,6 +23,17 @@
 #'        `media` (i.e. as many alt text entries as there are `media` entries). See
 #'        [the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
 #'        for more information.
+#' @param lat A numeric value representing the latitude of the location the 
+#'   tweet refers to. Range should be between -90 and 90 (north). Note that you
+#'   should enable the "Precise location" option in your account via *Settings 
+#'   and privacy > Privacy and Safety > Location*. See 
+#'   [the official Help Center section](https://help.twitter.com/en/safety-and-security/twitter-location-services-for-mobile). 
+#' @param long A numeric value representing the longitude of the location the 
+#'   tweet refers to. Range should be between -180 and 180 (west). See
+#'   `lat` parameter.
+#' @param display_coordinates Put a pin on the exact coordinates a tweet has
+#'   been sent from. Value should be TRUE or FALSE. This parameter would apply 
+#'   only if you have provided a valid `lat/long` pair of valid values. 
 #' @examples
 #' \dontrun{
 #' ## generate data to make/save plot (as a .png file)
@@ -65,6 +76,11 @@
 #' @family post
 #' @aliases post_status
 #' @export
+#' @references 
+#' Tweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update>
+#' Retweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id>
+#' Media: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload>
+#' Alt-text: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create>
 post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,
                        token = NULL,
@@ -72,7 +88,10 @@ post_tweet <- function(status = "my first rtweet #rstats",
                        destroy_id = NULL,
                        retweet_id = NULL,
                        auto_populate_reply_metadata = FALSE,
-                       media_alt_text = NULL) {
+                       media_alt_text = NULL,
+                       lat = NULL,
+                       long = NULL,
+                       display_coordinates = FALSE) {
 
   ## if delete
   if (!is.null(destroy_id)) {
@@ -107,6 +126,29 @@ post_tweet <- function(status = "my first rtweet #rstats",
     params <- list(
       status = status
     )
+  }
+  
+  ## geotag if provided
+  if (!is.null(lat) && !is.null(long)) {
+    # Validate inputs
+    if (!is.numeric(lat)) stop("`lat` must be numeric.")
+    if (!is.numeric(long)) stop("`long` must be numeric.")
+    
+    if (!is.logical(display_coordinates)) {
+      stop("`display_coordinates` must be TRUE/FALSE.")
+    }
+    
+    if (abs(lat) > 90) stop("`lat` must be between -90 and 90 degrees.")
+    if (abs(long) > 180) stop("`long` must be between -180 and 180 degrees.")
+    
+    params[["lat"]] <- as.double(lat)
+    params[["long"]] <- as.double(long)
+    
+    if (display_coordinates) {
+      params[["display_coordinates"]] <- "true"
+    } else {
+      params[["display_coordinates"]] <- "false"
+    }
   }
 
   if (!is.null(in_reply_to_status_id)) {

@@ -27,6 +27,9 @@ See \code{vignette("auth")} for more details.}
 \description{
 Updates friendship notifications and retweet abilities.
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update}
+}
 \seealso{
 Other post: 
 \code{\link{post_favorite}()},

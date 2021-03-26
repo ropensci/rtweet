@@ -41,6 +41,7 @@
 #' @return Data frame of users returned by query.
 #' @family users
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-search>
 search_users <- function(q, n = 100,
                          parse = TRUE,
                          token = NULL,

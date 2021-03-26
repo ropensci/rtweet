@@ -27,3 +27,6 @@ crt <- httr::content(pt)
 post_destroy(crt$id_str)
 }
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-destroy-id}
+}

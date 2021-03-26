@@ -8,6 +8,14 @@ Authors@R:
              role = c("aut", "cre"),
              email = "kearneymw@missouri.edu",
              comment = c(ORCID = "0000-0002-0730-4694")),
+      person(given = "Lluís",
+             family = "Revilla Sancho",
+             role = "aut",
+             comment = c(ORCID = "0000-0001-9747-2570")),
+      person(given = "Hadley",
+             family = "Wickham",
+             role = "aut",
+             comment = c(ORCID = "0000-0003-4757-117X")),
       person(given = "Andrew",
              family = "Heiss",
              role = "rev",
@@ -25,7 +33,8 @@ Description: An implementation of calls designed to collect and
     Program Interfaces (API), which can be found at the following URL:
     <https://developer.twitter.com/en/docs>.
 License: MIT + file LICENSE
-URL: https://docs.ropensci.org/rtweet
+URL: https://docs.ropensci.org/rtweet,
+    https://github.com/ropensci/rtweet
 BugReports: https://github.com/ropensci/rtweet/issues
 Depends:
     R (>= 3.5.0)
@@ -37,8 +46,8 @@ Imports:
     lifecycle (>= 1.0.0),
     progress,
     rappdirs,
-    tibble (>= 1.3.4),
     rlang (>= 0.4.10),
+    tibble (>= 1.3.4),
     utils,
     withr
 Suggests:

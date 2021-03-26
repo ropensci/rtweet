@@ -15,17 +15,6 @@ get_timeline(
   token = NULL,
   ...
 )
-
-get_timelines(
-  user,
-  n = 100,
-  max_id = NULL,
-  home = FALSE,
-  parse = TRUE,
-  check = TRUE,
-  token = NULL,
-  ...
-)
 }
 \arguments{
 \item{user}{Character vector of screen names or user ids.

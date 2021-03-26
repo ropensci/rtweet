@@ -5,6 +5,9 @@
   single `user_type()` function so behaviour is identical for all rtweet 
   functions.
 
+- `get_timelines()` has been deprecated since it does that same thing as
+  `get_timeline()` (#509).
+
 - rtweet no longer re-exports the pipe; if you want to continue using it, you'll
   need to `library(magrittr)` or `library(dplyr)` (#522).
 
