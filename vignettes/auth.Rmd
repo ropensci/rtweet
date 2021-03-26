@@ -13,20 +13,18 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE
 ```
 
 rtweet's default authentication mechanism (`auth_setup_default()`) allows you to act on behalf of your personal Twitter account, as if you were performing actions on twitter.com.
-This vignette shows you how to use two other authentication mechanisms useful for other scenarios:
+This mechanism is very simple to set up, but is best suited for casual use of rtweet.
 
--   App authentication allows you to act as if you were a Twitter app.
-    You can't perform operations that a user would (like posting a tweet or reading a DM), but in return you get higher rate limits on operations like searching for tweets.
+If you want to collect a lot of data or implement a bot, you should instead use one of the two other authentication mechanisms provided by rtweet:
 
--   Bot authentication allows you to create a fully automated Twitter bot that performs actions on its own behalf rather than on behalf of a human.
+-   **App authentication** allows you to act as if you were a Twitter app.
+    You can't perform operations that a user can (like posting a tweet or reading a DM), but in return you get higher rate limits on operations like searching for tweets.
 
-In either case, you'll need to start by creating a Twitter app.
-An app provides a
+-   **Bot authentication** allows you to create a fully automated Twitter bot that performs actions on its own behalf rather than on behalf of a human.
 
-To do: explain what a twitter app is and what makes these systems different.
-
-so this vignette will first walk you through that process.
-You'll then learn how to create and save the objects needed to use these two new types of authentication.
+In either case, you'll need to create your own Twitter app, so we'll start by discussing what an app is and how to create one on the Twitter website.
+Next, you'll learn how to use the `rtweet_app()` and `rtweet_bot()` functions to store your app configuration so rtweet can use them when requesting data from the API.
+You'll then learn how to set the default authentication mechanism for the current R session, and how to save it so you can use it in a future session.
 
 ```{r}
 library(rtweet)
@@ -34,8 +32,14 @@ library(rtweet)
 
 ## Creating a Twitter app
 
+You're already familiar with using twitter, either through [the website](https://twitter.com) or one of a variety of apps you can install on your phone or computer.
+Now you'll have to learn more about what's going on behind the scenes.
+The first important concept to grasp is that every request to the Twitter API has to go through an "app".
+Normally, someone else has created the app for you, but now that you're using twitter programmatically, you need to create your own app.
+(It's still called an app even though you'll be using it through an R package).
+
 To create a Twitter app, you need to first apply for a developer account by following the instructions at <https://developer.twitter.com>.
-Once you have acquired a developer account (which may take several hours), navigate to the [developer portal](https://developer.twitter.com/en/portal/projects-and-apps) and click the "Create App" button at the bottom of the page.
+Once you have been approved (which may take several hours), navigate to the [developer portal](https://developer.twitter.com/en/portal/projects-and-apps) and click the "Create App" button at the bottom of the page.
 You'll need to name your app: the name is unimportant for our purposes, but needs to be unique across all twitter apps.
 
 After you've created your app, you'll see a screen that gives you some important information.
@@ -48,7 +52,7 @@ You'll only see this once, so make sure to record it in a secure location.
 ## Setup
 
 Now you're ready to tell rtweet how to authenticate using your app.
-You'll call either `rtweet_app()` or `rtweet_bot()` depending on whether you want app authentication or bot authentication as described above.
+You'll call either `rtweet_app()` or `rtweet_bot()` depending on whether you want app-style authentication or bot-style authentication as described above.
 
 ### rtweet_app()
 
