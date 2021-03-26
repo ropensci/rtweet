@@ -23,7 +23,8 @@ post_unfollow_user(user, token = NULL)
 post_mute(user, token = NULL)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{destroy}{Logical indicating whether to post (add) or
 remove (delete) target tweet as favorite.}

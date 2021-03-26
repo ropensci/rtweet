@@ -31,6 +31,7 @@ vignette("intro", package = "rtweet")
 Useful links:
 \itemize{
   \item \url{https://docs.ropensci.org/rtweet}
+  \item \url{https://github.com/ropensci/rtweet}
   \item Report bugs at \url{https://github.com/ropensci/rtweet/issues}
 }
 

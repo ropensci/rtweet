@@ -7,7 +7,8 @@
 lists_users(user = NULL, reverse = FALSE, token = NULL, parse = TRUE)
 }
 \arguments{
-\item{user}{The ID of the user or screen name for whom to return results.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{reverse}{optional Set this to true if you would like owned lists
 to be returned first. See description above for information on

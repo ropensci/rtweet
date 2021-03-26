@@ -4,8 +4,7 @@
 #' is often less than the provided n value. This is a reflection of the API and
 #' not a unique quirk of rtweet.
 #' 
-#' @param user The user id or screen_name of the user for whom to
-#'   return results for.
+#' @inheritParams get_timeline
 #' @param filter_to_owned_lists When set to true . t or 1 , will
 #'   return just lists the authenticating user owns, and the user
 #'   represented by user_id or screen_name is a member of.
@@ -107,7 +106,7 @@ lists_memberships_call <- function(user,
   )
   if (filter_to_owned_lists) {
     params$filter_to_owned_lists <- TRUE
-    params[[.id_type(user)]] <- user
+    params[[user_type(user)]] <- user
   }
   
   r <- TWIT_get(token, "/1.1/lists/memberships", params)

@@ -7,7 +7,8 @@
 my_friendships(user, parse = TRUE, token = NULL)
 }
 \arguments{
-\item{user}{Screen name or user id of target user.}
+\item{user}{Character vector of screen names or user ids.
+See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
