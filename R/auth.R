@@ -54,6 +54,8 @@ auth_setup_default <- function() {
 #' @family authentication
 #' @export
 rtweet_user <- function(api_key = NULL, api_secret = NULL) {
+  check_installed("httpuv")
+  
   if (is.null(api_key) && is.null(api_secret)) {
     decrypt <- function(x) {
       rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
