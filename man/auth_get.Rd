@@ -7,7 +7,15 @@
 auth_get()
 }
 \description{
-If no authentcation has been set up for this session, will call \code{\link[=auth_as]{auth_as()}}
-to set up.
+If no authentication has been set up for this session, \code{auth_get()} will
+call \code{\link[=auth_as]{auth_as()}} to set it up.
 }
+\seealso{
+Other authentication: 
+\code{\link{auth_as}()},
+\code{\link{auth_save}()},
+\code{\link{auth_setup_default}()},
+\code{\link{rtweet_user}()}
+}
+\concept{authentication}
 \keyword{internal}

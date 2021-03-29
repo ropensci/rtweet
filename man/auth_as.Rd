@@ -9,11 +9,12 @@ auth_as(auth = NULL)
 \arguments{
 \item{auth}{One of the following options:
 \itemize{
-\item \code{NULL}, the default, will look for cached authentication from a previous
-session. If none are found, will automatically set up \code{\link[=rtweet_user]{rtweet_user()}};
-if one is found, will use that; if multiple are found, it will error.
-\item A string giving the name of a cached auth file.
-\item An object created by \code{\link[=rtweet_app]{rtweet_app()}}, \code{\link[=rtweet_bot]{rtweet_bot()}}, or \code{\link[=rtweet_user]{rtweet_user()}}.
+\item \code{NULL}, the default, will look for rtweet's "default" authentication
+which uses your personal twitter account. If it's not found, it will
+call \code{\link[=auth_setup_default]{auth_setup_default()}} to set it up.
+\item A string giving the name of a saved auth file made by \code{\link[=auth_save]{auth_save()}}.
+\item An auth object created by \code{\link[=rtweet_app]{rtweet_app()}}, \code{\link[=rtweet_bot]{rtweet_bot()}}, or
+\code{\link[=rtweet_user]{rtweet_user()}}.
 }}
 }
 \value{
@@ -37,3 +38,11 @@ auth_as()
 auth_as("my-saved-app")
 }
 }
+\seealso{
+Other authentication: 
+\code{\link{auth_get}()},
+\code{\link{auth_save}()},
+\code{\link{auth_setup_default}()},
+\code{\link{rtweet_user}()}
+}
+\concept{authentication}

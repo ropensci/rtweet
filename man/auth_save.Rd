@@ -17,7 +17,7 @@ auth_list()
 \description{
 Use \code{auth_save()} with \code{\link[=auth_as]{auth_as()}} to avoid repeatedly entering app
 credentials, making it easier to share auth between projects.
-\code{auth_list()} lists saved credentials.
+Use \code{auth_list()} to list all saved credentials.
 }
 \examples{
 \dontrun{
@@ -29,3 +29,11 @@ auth_save(auth, "my-app")
 auth_as("my-app")
 }
 }
+\seealso{
+Other authentication: 
+\code{\link{auth_as}()},
+\code{\link{auth_get}()},
+\code{\link{auth_setup_default}()},
+\code{\link{rtweet_user}()}
+}
+\concept{authentication}
