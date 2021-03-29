@@ -29,18 +29,13 @@ get_tokens <- function() {
 #' 
 #' These three components have now been split up into three separate pieces:
 #' use [rtweet_user()]/[rtweet_app()]/[rtweet_bot()] to create the token,
-#' `auth_use()` to make it the default for this session, and `auth_save()` to
-#' use it in future sessions.
-#' 
-#' See `vignette("auth")` for more details.
+#' [auth_as()] to make it the default for this session, and [auth_save()] to
+#' use it in future sessions. See `vignette("auth")` for full details.
 #' 
 #' @param app Name of user created Twitter application
 #' @param consumer_key,consumer_secret App API key and secret.
 #' @param access_token,access_secret Access token and secret.
 #' @param set_renv Should the token be cached? 
-#' @seealso
-#'   <https://developer.twitter.com/en/docs/basics/authentication/overview/oauth>
-#'
 #' @return Twitter OAuth token(s) (Token1.0).
 #' @keywords internal
 #' @family tokens

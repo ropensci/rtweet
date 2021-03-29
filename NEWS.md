@@ -1,14 +1,5 @@
 # rtweet ...
 
-- `create_token()` has been deprecated in favour of the combination of
-  `rtweet_user()`/`rtweet_bot()`/`rtweet_app()` + `auth_use()` + `auth_save()`.
-
-- `get_token()` and `get_tokens()` have been deprecated in favour of 
-  `auth_get()`.
-
-- `bearer_token()` has been deprecated in favour of `rtweet_app()` which takes 
-  the bearer token found in the Twitter developer portal.
-
 - `as_userid()` has been deprecated since in case of ambiguity the default is
   to assume a numeric string is a user id (#520). All functions now use a 
   single `user_type()` function so behaviour is identical for all rtweet 
@@ -35,9 +26,6 @@
 
 - The `rate_limit()` interface has been drastically simplified.
 
-- httpuv is now only suggested (since it's only needed for interactive auth);
-  you'll be prompted to install it when needed.
-
 - `max_id()` and `since_id()` have been deprecated; tweetr now handles 
   pagination for you.
 
@@ -45,10 +33,25 @@
   removed as they stopped working when Twitter remove the suggested users
   endpoint in June 2019 (https://twittercommunity.com/t/124732).
 
-- rtweet no longer touches your `~/.Renviron`. Instead, it now caches the last
-  used token in a system specific cache directory.
-
 - Added support for posting alt-text metadata with images tweeted with status updated via `post_tweet()`. (@hrbrmstr)
+
+## Authentication
+
+rtweet's authentication system has been completely written. It is now based around three authentication options: `rtweet_user()`, `rtweet_app()`, and `rtweet_bot()`. Authenetication no longer touches `~/.Renviron` file; instead `auth_save()` and `auth_as()` allows you to explicitly save an load authentication mechanisms from a system config directory. See `vignette("auth")` for more details.
+
+- The httpuv package is now only suggested, since it's only needed for 
+  interactive auth, and you'll be prompted to install it when needed.
+
+- `bearer_token()` has been deprecated in favour of `rtweet_app()`, which takes 
+  the bearer token found in your Twitter developer portal. `invalidate_bearer()`
+  has been deprecated since this is something you should do yourself in the
+  Twitter developer portal.
+
+- `create_token()` has been deprecated in favour of the combination of
+  `rtweet_user()`/`rtweet_bot()`/`rtweet_app()` + `auth_as()` + `auth_save()`.
+
+- `get_token()` and `get_tokens()` have been deprecated in favour of 
+  `auth_get()`.
 
 # rtweet 0.7.0
 

@@ -33,7 +33,7 @@ to disk to make it the default for future sessions.
 
 These three components have now been split up into three separate pieces:
 use \code{\link[=rtweet_user]{rtweet_user()}}/\code{\link[=rtweet_app]{rtweet_app()}}/\code{\link[=rtweet_bot]{rtweet_bot()}} to create the token,
-\code{auth_use()} to make it the default for this session, and \code{auth_save()} to
+\code{\link[=auth_as]{auth_as()}} to make it the default for this session, and \code{\link[=auth_save]{auth_save()}} to
 use it in future sessions.
 
 See \code{vignette("auth")} for more details.
