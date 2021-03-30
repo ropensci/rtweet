@@ -38,11 +38,6 @@ lists_statuses <- function(list_id = NULL,
                            include_rts = TRUE,
                            parse = TRUE,
                            token = NULL) {
-  out <- vector("list", ceiling(n / 200))
-  if (n > 200) {
-    n <- 200
-  }
-  
   params <- lists_params(
     list_id = list_id,
     slug = slug,

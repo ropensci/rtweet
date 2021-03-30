@@ -94,6 +94,14 @@ TWIT_paginate_max_id <- function(token, query, params,
   pages <- ceiling(n / page_size)
   results <- vector("list", pages)
   
+  if (verbose)  {
+    pb <- progress::progress_bar$new(
+      format = "Downloading multiple pages :bar",
+      total = pages
+    ) 
+    withr::defer(pb$terminate())
+  }
+
   rate_limit <- NULL
   
   for (i in seq_len(pages)) {
@@ -101,7 +109,7 @@ TWIT_paginate_max_id <- function(token, query, params,
     if (i == pages) {
       params[[count_param]] <- n - (pages - 1) * page_size
     }
-    
+
     resp <- catch_rate_limit(
       TWIT_get(
         token, query, params, 
@@ -126,6 +134,10 @@ TWIT_paginate_max_id <- function(token, query, params,
     
     max_id <- id_minus_one(last(get_max_id(json)))
     results[[i]] <- if (parse) json else resp
+    
+    if (verbose) {
+      pb$tick()
+    }
   }
 
   results
