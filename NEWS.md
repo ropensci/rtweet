@@ -37,7 +37,7 @@
 
 ## Authentication
 
-rtweet's authentication system has been completely written. It is now based around three authentication options: `rtweet_user()`, `rtweet_app()`, and `rtweet_bot()`. Authenetication no longer touches `~/.Renviron` file; instead `auth_save()` and `auth_as()` allows you to explicitly save an load authentication mechanisms from a system config directory. See `vignette("auth")` for more details.
+rtweet's authentication system has been completely written. It is now based around three authentication options: `rtweet_user()`, `rtweet_app()`, and `rtweet_bot()`. Authentication no longer touches `~/.Renviron` file; instead `auth_save()` and `auth_as()` allow you to explicitly save and load authentication mechanisms from a system config directory. See `vignette("auth")` for more details.
 
 - The httpuv package is now only suggested, since it's only needed for 
   interactive auth, and you'll be prompted to install it when needed.
