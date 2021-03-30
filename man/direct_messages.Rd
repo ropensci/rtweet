@@ -55,13 +55,6 @@ Includes detailed information about the sender and
 recipient user. You can request up to 50 direct messages per
 call, and only direct messages from the last 30 days will be
 available using this endpoint.
-
-Important: This method requires an access token with read,
-write, and direct message permissions. If you own the Twitter application,
-you can change permissions through Twitter's developer portal. Once you
-have made changes to the application permission settings, you will need to
-regenerate your token before those effect of those changes can
-take effect.
 }
 \examples{
 

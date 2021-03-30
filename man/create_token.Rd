@@ -34,13 +34,9 @@ to disk to make it the default for future sessions.
 These three components have now been split up into three separate pieces:
 use \code{\link[=rtweet_user]{rtweet_user()}}/\code{\link[=rtweet_app]{rtweet_app()}}/\code{\link[=rtweet_bot]{rtweet_bot()}} to create the token,
 \code{\link[=auth_as]{auth_as()}} to make it the default for this session, and \code{\link[=auth_save]{auth_save()}} to
-use it in future sessions.
-
-See \code{vignette("auth")} for more details.
+use it in future sessions. See \code{vignette("auth")} for full details.
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
-
 Other tokens: 
 \code{\link{get_token}()},
 \code{\link{rate_limit}()}

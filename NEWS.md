@@ -51,7 +51,7 @@ rtweet's authentication system has been completely written. It is now based arou
   `rtweet_user()`/`rtweet_bot()`/`rtweet_app()` + `auth_as()` + `auth_save()`.
 
 - `get_token()` and `get_tokens()` have been deprecated in favour of 
-  `auth_get()`.
+  `auth_get()` and `auth_list()`.
 
 # rtweet 0.7.0
 

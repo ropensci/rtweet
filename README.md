@@ -119,12 +119,11 @@ you!
 
 All users must be authenticated to interact with Twitter’s APIs. The
 easiest way to authenticate is to use your personal twitter account -
-this will happen automatically (via a browser popup) when you use any
-rtweet function for the first time.
-
-Using your personal account is fine for casual use, but if you are
-trying to collect a lot of data it’s a good idea to create your own
-twitter “app” and use `auth_app()`. Learn more in `vignette("auth")`.
+this will happen automatically (via a browser popup) the first time you
+use an rtweet function. See `auth_setup_default()` for details. Using
+your personal account is fine for casual use, but if you are trying to
+collect a lot of data it’s a good idea to authentication with your own
+Twitter “app”. See `vignette("auth", package = "rtweet")` for details.
 
 ### Vignettes
 
