@@ -160,6 +160,13 @@ TWIT_paginate_cursor <- function(token, query, params,
   results <- list()
   i <- 1
   n_seen <- 0
+  
+  if (verbose) {
+    pb <- progress::progress_bar$new(
+      format = "Downloading multiple pages :spin",
+    ) 
+    withr::defer(pb$terminate())
+  }
 
   repeat({
     params$cursor <- cursor
@@ -185,6 +192,10 @@ TWIT_paginate_cursor <- function(token, query, params,
 
     if (identical(cursor, "0") || n_seen >= n) {
       break
+    }
+    
+    if (verbose) {
+      pb$tick()
     }
   })
 
