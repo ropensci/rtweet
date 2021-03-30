@@ -63,6 +63,8 @@ Streams public statuses to a file via one of the following four methods:
 \item Tracking via vector of user ids (up to 5000 user_ids)
 \item Location via geo coordinates (1-360 degree location boxes)
 }
+
+Learn more in \code{vignette("stream", package = "rtweet")}
 }
 \examples{
 \dontrun{

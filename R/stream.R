@@ -8,6 +8,8 @@
 #' 3. Tracking via vector of user ids (up to 5000 user_ids)
 #' 4. Location via geo coordinates (1-360 degree location boxes)
 #' 
+#' Learn more in `vignette("stream", package = "rtweet")`
+#' 
 #' @inheritParams lookup_users
 #' @param q Query used to select and customize streaming collection
 #'   method.  There are four possible methods:
