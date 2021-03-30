@@ -1,4 +1,4 @@
-# rtweet ...
+# rtweet (development version)
 
 - `as_userid()` has been deprecated since in case of ambiguity the default is
   to assume a numeric string is a user id (#520). All functions now use a 
@@ -52,10 +52,6 @@ rtweet's authentication system has been completely written. It is now based arou
 
 - `get_token()` and `get_tokens()` have been deprecated in favour of 
   `auth_get()` and `auth_list()`.
-
-# rtweet 0.7.0
-
-- More robust handling of token path on Windows (#380, @jonthegeek).
 
 # rtweet 0.7.0
 
