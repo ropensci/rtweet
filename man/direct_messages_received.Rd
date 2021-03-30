@@ -34,11 +34,9 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
-\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link[=get_token]{get_token()}}. You should only need to
-use this argument if you are wrapping rtweet in a package.
-
-See \code{vignette("auth")} for more details.}
+\item{token}{Expert use only. Use this to override authentication for
+a single API call. In most cases you are better off changing the
+default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \value{
 Return object converted to nested list. If status code of
@@ -55,13 +53,6 @@ Includes detailed information about the sender and
 recipient user. You can request up to 200 direct messages per
 call, and only the most recent 200 direct messages will be available using
 this endpoint.
-
-Important: This method requires an access token with read,
-write, and direct message permissions. If you own the Twitter application,
-you can change permissions through Twitter's developer portal. Once you
-have made changes to the application permission settings, you will need to
-regenerate your token before those effect of those changes can
-take effect.
 }
 \examples{
 

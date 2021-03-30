@@ -38,11 +38,9 @@ valid file.}
 
 \item{parse}{Use \code{FALSE} to opt-out of parsing the tweets.}
 
-\item{token}{An OAuth token object. The default, \code{NULL}, will retrieve
-a default token with \code{\link[=get_token]{get_token()}}. You should only need to
-use this argument if you are wrapping rtweet in a package.
-
-See \code{vignette("auth")} for more details.}
+\item{token}{Expert use only. Use this to override authentication for
+a single API call. In most cases you are better off changing the
+default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{file_name}{Character with name of file. If not specified,
 will write to \code{stream_tweets.json} in the current working directory.}

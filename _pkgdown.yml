@@ -23,13 +23,12 @@ reference:
   - suggested_users
   - trends_available
   - starts_with("tweet")
-  
-- title: Authentication, rate-limits, and pagination
-  contents:
-  - bearer_token
-  - create_token
   - rate_limit
-  - next_cursor
+  
+- title: Authentication
+  contents:
+  - starts_with("auth")
+  - rtweet_user
 
 - title: Data
   contents:

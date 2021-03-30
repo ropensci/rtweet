@@ -44,7 +44,7 @@ get_mentions <- function(n = 200,
                          token = NULL,
                          ...) {
   
-  message("Getting mentions for ", token_home_user(token))
+  message("Getting mentions for ", api_screen_name(token))
   
   params <- list(
     count = n,
@@ -61,11 +61,6 @@ get_mentions <- function(n = 200,
     }
   }
   r
-}
-
-token_home_user <- function(token) {
-  token <- check_token(token)
-  token$credentials$screen_name
 }
 
 parse_mentions <- function(x) {

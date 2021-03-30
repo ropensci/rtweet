@@ -259,3 +259,15 @@ check_status <- function(x, api) {
     error = handle_error(x)
   )
 }
+
+check_token <- function(token = NULL) {
+  token <- token %||% auth_get()
+
+  if (inherits(token, "Token1.0")) {
+    token
+  } else if (inherits(token, "rtweet_bearer")) {
+    httr::add_headers(Authorization = paste0("Bearer ", token$token))
+  } else {
+    abort("`token` is not a valid access token")
+  }
+}

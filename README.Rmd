@@ -110,21 +110,11 @@ All you need is a **Twitter account** (user name and password) and you can be up
 
 Simply send a request to Twitter's API (with a function like `search_tweets()`, `get_timeline()`, `get_followers()`, `get_favorites()`, etc.) during an interactive session of R, authorize the embedded **`rstats2twitter`** app (approve the browser popup), and your token will be created and saved/stored (for future sessions) for you!
 
-### API authorization
+### Authentication
 
-All users must be authorized to interact with Twitter's APIs. To become authorized, simply use a function like `search_tweets()`, `get_timeline()`, `get_followers()`, or `get_favorites()` in an interactive session --- you'll be presented with a browser popup to authenticate on behalf of your Twitter account!
-
-This uses the Twitter developer app baked into the package. If you want to post tweets, use a bearer token, or read/write direct messages, or work non-interactively, you will need to create your own app. See the details in `vignette("auth")`.
+All users must be authenticated to interact with Twitter's APIs. The easiest way to authenticate is to use your personal twitter account - this will happen automatically (via a browser popup) the first time you use an rtweet function. See `auth_setup_default()` for details. Using your personal account is fine for casual use, but if you are trying to collect a lot of data it's a good idea to authentication with your own Twitter "app". See `vignette("auth", package = "rtweet")` for details.
 
 ### Vignettes
-
-[Obtaining and using Twitter API tokens](https://docs.ropensci.org/rtweet/articles/auth.html)
-
-```{r}
-## quick overview of rtweet functions
-vignette("auth", package = "rtweet")
-```
-
 
 [Quick overview of rtweet package](https://docs.ropensci.org/rtweet/articles/intro.html)
 
@@ -139,14 +129,6 @@ vignette("intro", package = "rtweet")
 ## working with the stream
 vignette("stream", package = "rtweet")
 ```
-
-[Troubleshooting common rtweet problems](https://docs.ropensci.org/rtweet/articles/FAQ.html)
-
-```{r}
-## working with the stream
-vignette("FAQ", package = "rtweet")
-```
-
 
 ### Package features
 
@@ -334,17 +316,6 @@ Discover what's currently trending in San Francisco.
 sf <- get_trends("san francisco")
 ```
 
-#### Post actions
-
-- Posting (tweeting from R console) or reading direct messages require
-  additional permissions
-- If you'd like to post Twitter statuses, follow or unfollow accounts,
-and/or read your direct messages, you'll need to create your own
-Twitter app
-- To create your own Twitter app, follow the instructions in the
-  authorization vignette on [obtaining and using access tokens](https://docs.ropensci.org/rtweet/articles/auth.html)
-
-
 ## Contact
 
 Communicating with Twitter's APIs relies on an internet connection,
@@ -353,6 +324,5 @@ an obvious bug for which there is not already an active
 [issue](https://github.com/ropensci/rtweet/issues), please [create a
 new issue](https://github.com/ropensci/rtweet/issues/new) with all
 code used (preferably a reproducible example) on Github.
-
 
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

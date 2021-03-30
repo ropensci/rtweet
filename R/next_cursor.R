@@ -36,6 +36,7 @@
 #'   collection efforts that were interrupted by API rate limits.
 #'   Modify previous data request function by entering the returned
 #'   value from `next_cursor` for the `page` argument.
+#' @keywords internal
 #' @family ids
 #' @family extractors
 #' @rdname next_cursor

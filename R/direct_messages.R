@@ -27,13 +27,6 @@
 #'   recipient user. You can request up to 50 direct messages per
 #'   call, and only direct messages from the last 30 days will be
 #'   available using this endpoint.
-#'
-#'   Important: This method requires an access token with read,
-#'   write, and direct message permissions. If you own the Twitter application,
-#'   you can change permissions through Twitter's developer portal. Once you
-#'   have made changes to the application permission settings, you will need to
-#'   regenerate your token before those effect of those changes can
-#'   take effect.
 #' @export
 direct_messages <- function(n = 50,
                             next_cursor = NULL,
@@ -96,13 +89,6 @@ direct_messages <- function(n = 50,
 #'   recipient user. You can request up to 200 direct messages per
 #'   call, and only the most recent 200 direct messages will be available using
 #'   this endpoint.
-#'
-#'   Important: This method requires an access token with read,
-#'   write, and direct message permissions. If you own the Twitter application,
-#'   you can change permissions through Twitter's developer portal. Once you
-#'   have made changes to the application permission settings, you will need to
-#'   regenerate your token before those effect of those changes can
-#'   take effect.
 #' @export
 #' @keywords internal
 direct_messages_received <- function(since_id = NULL,

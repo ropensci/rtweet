@@ -6,8 +6,8 @@
 \usage{
 create_token(
   app = "mytwitterapp",
-  consumer_key,
-  consumer_secret,
+  consumer_key = NULL,
+  consumer_secret = NULL,
   access_token = NULL,
   access_secret = NULL,
   set_renv = TRUE
@@ -16,15 +16,9 @@ create_token(
 \arguments{
 \item{app}{Name of user created Twitter application}
 
-\item{consumer_key}{Application API key}
+\item{consumer_key, consumer_secret}{App API key and secret.}
 
-\item{consumer_secret}{Application API secret User-owned
-application must have \verb{Read and write} access level and
-\verb{Callback URL} of \verb{http://127.0.0.1:1410}.}
-
-\item{access_token}{Access token as supplied by Twitter (apps.twitter.com)}
-
-\item{access_secret}{Access secret as supplied by Twitter (apps.twitter.com)}
+\item{access_token, access_secret}{Access token and secret.}
 
 \item{set_renv}{Should the token be cached?}
 }
@@ -32,17 +26,20 @@ application must have \verb{Read and write} access level and
 Twitter OAuth token(s) (Token1.0).
 }
 \description{
-This function allows you to use your own Twitter app, rather than the
-one built-in into rtweet. You will need to do this if you want to create
-tweets or send/receive direct messages.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+By default, \code{create_token()} does three things: it creates an authentication
+"token", sets it as the default token for the current session, and save it
+to disk to make it the default for future sessions.
 
-See \code{vignette("auth")} for more details.
+These three components have now been split up into three separate pieces:
+use \code{\link[=rtweet_user]{rtweet_user()}}/\code{\link[=rtweet_app]{rtweet_app()}}/\code{\link[=rtweet_bot]{rtweet_bot()}} to create the token,
+\code{\link[=auth_as]{auth_as()}} to make it the default for this session, and \code{\link[=auth_save]{auth_save()}} to
+use it in future sessions. See \code{vignette("auth")} for full details.
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/basics/authentication/overview/oauth}
-
 Other tokens: 
 \code{\link{get_token}()},
 \code{\link{rate_limit}()}
 }
 \concept{tokens}
+\keyword{internal}

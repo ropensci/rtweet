@@ -9,21 +9,9 @@ get_token()
 
 get_tokens()
 }
-\value{
-Twitter OAuth token(s) (Token1.0).
-}
 \description{
-This function retrieves a cached OAuth token. This can be set to your
-own custom app with \code{\link[=create_token]{create_token()}}, but in most cases you
-can use the built-in app, which this function will use by default.
-This function will error if no usable tokens are found.
-
-See \code{vignettes("auth")} for more details.
-}
-\examples{
-\dontrun{
-get_token()
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Please use \code{\link[=auth_get]{auth_get()}} instead.
 }
 \seealso{
 Other tokens: 

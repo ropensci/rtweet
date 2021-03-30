@@ -51,6 +51,7 @@ Imports:
     utils,
     withr
 Suggests:
+    askpass,
     covr,
     ggplot2,
     httpuv,
