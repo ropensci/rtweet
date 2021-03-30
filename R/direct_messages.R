@@ -32,11 +32,6 @@ direct_messages <- function(n = 50,
                             next_cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  if (!identical(api_access_level(token), "read-write-directmessages")) {
-    stop("Token does not have `read-write-directmessages` access level. ",
-      "For DM permissions, users must create their own app at developer.twitter.com")
-  }
-  
   params <- list(
     count = n, 
     next_cursor = next_cursor
