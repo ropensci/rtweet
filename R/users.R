@@ -1,9 +1,6 @@
 #' Get Twitter users data for given users (user IDs or screen names).
 #'
-#' Returns data on up to 90,000 Twitter users. To return data on more
-#' than 90,000 users, code must be written to iterate through user IDs
-#' whilst avoiding rate limits, which reset every 15 minutes.
-#'
+#' @inheritParams TWIT_paginate_max_id
 #' @param token Expert use only. Use this to override authentication for
 #'   a single API call. In most cases you are better off changing the
 #'   default for all calls. See [auth_as()] for details.
@@ -39,27 +36,25 @@
 #' @return A tibble of users data.
 #' @family users
 #' @export
-lookup_users <- function(users, parse = TRUE, token = NULL) {
-  stopifnot(is.atomic(users))
-  
-  if (length(users) > 90000L) {
-    message("max number of users exceeded; looking up first 90,000")
-    users <- users[1:90000]
-  }
+lookup_users <- function(users, parse = TRUE, token = NULL,
+                         retryonratelimit = FALSE,
+                         verbose = TRUE) {
+  type <- user_type(users, "users")
   
   chunks <-  unname(split(users, (seq_along(users) - 1) %/% 100))
-  results <- lapply(chunks, user_lookup_100, token = token)
-  
+  params_list <- lapply(chunks, function(users) {
+    params <- list()
+    params[[type]] <- paste0(users, collapse = ",")
+    params
+  })
+
+  results <- TWIT_paginate_chunked(token, "/1.1/users/lookup", params_list,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose
+  )
+
   if (parse) {
     results <- users_with_tweets(results)
   }
   results
-}
-
-user_lookup_100 <- function(users, token = NULL) {
-  stopifnot(length(users) <= 100)
-  
-  params <- list()
-  params[[user_type(users, "users")]] <- paste0(users, collapse = ",")
-  TWIT_get(token, "/1.1/users/lookup", params)
 }

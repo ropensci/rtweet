@@ -34,11 +34,9 @@ If \code{FALSE}, and the rate limit is exceeded, the function will terminate
 early with a warning; you'll still get back all results received up to
 that point.
 
-In general, if you expect a query to take hours or days to perform,
-you should not rely \code{retryonratelimit} because it does not handle other
-HTTP failure modes that commonly arise (i.e. you temporarily lose your
-internet connection). Instead, you'll need implementing paging yourself
-using \code{max_id} or \code{cursor}.}
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.

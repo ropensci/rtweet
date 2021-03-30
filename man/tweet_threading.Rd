@@ -12,7 +12,7 @@ tweet_threading(
 )
 }
 \arguments{
-\item{tw}{\code{\link[=lookup_statuses]{lookup_statuses()}} output containing
+\item{tw}{\code{\link[=lookup_tweets]{lookup_tweets()}} output containing
 at least the last status in the thread}
 
 \item{traverse}{character, direction to traverse from origin status in tw,
@@ -23,7 +23,7 @@ Default: c('backwards','forwards')}
 \item{verbose}{logical, Output to console status of traverse, Default: FALSE}
 }
 \value{
-\code{\link[=lookup_statuses]{lookup_statuses()}} tibble
+\code{\link[=lookup_tweets]{lookup_tweets()}} tibble
 }
 \description{
 Return all statuses that are part of a thread. By default the function
@@ -33,11 +33,8 @@ the origin status.
 }
 \examples{
 \dontrun{
-tw <- lookup_statuses("1084143184664510470")
+tw <- lookup_tweets("1084143184664510470")
 tw_thread <- tweet_threading(tw)
 tw_thread
 }
-}
-\seealso{
-\code{\link[=lookup_statuses]{lookup_statuses()}}
 }

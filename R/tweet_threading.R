@@ -5,20 +5,19 @@
 #' root, then checks if there are any child statuses that were posted after
 #' the origin status.
 #'
-#' @param tw [rtweet::lookup_statuses()] output containing
+#' @param tw [lookup_tweets()] output containing
 #'  at least the last status in the thread
 #' @param traverse character, direction to traverse from origin status in tw,
 #'  Default: c('backwards','forwards')
 #' @param n numeric, timeline to fetch to start forwards traversing, Default: 10
 #' @param verbose logical, Output to console status of traverse, Default: FALSE
-#' @return [rtweet::lookup_statuses()] tibble
+#' @return [lookup_tweets()] tibble
 #' @examples
 #' \dontrun{
-#' tw <- lookup_statuses("1084143184664510470")
+#' tw <- lookup_tweets("1084143184664510470")
 #' tw_thread <- tweet_threading(tw)
 #' tw_thread
 #' }
-#' @seealso [rtweet::lookup_statuses()]
 #' @export
 tweet_threading <- function(tw, traverse = c("backwards", "forwards"), n = 10, verbose = FALSE) {
   for (i in traverse) {
@@ -48,7 +47,7 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
     nr <- nrow(tw)
     last_found <- is.na(tw$reply_to_status_id[nr])
 
-    tw_tail <- lookup_statuses(tw$reply_to_status_id[nr])
+    tw_tail <- lookup_tweets(tw$reply_to_status_id[nr])
     tw <- rbind(tw, tw_tail)
 
     if (!last_found) {
