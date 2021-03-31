@@ -1,8 +1,7 @@
 #' Get user IDs for accounts following target user.
 #'
 #' Returns a list of user IDs for the accounts following specified
-#' user. To return more than 75,000 user IDs in a single call (the
-#' rate limit maximum), set "retryonratelimit" to TRUE.
+#' user.
 #'
 #' @inheritParams get_timeline
 #' @inheritParams TWIT_paginate_cursor
@@ -21,12 +20,9 @@
 #' ## get 5000 ids of users following the KFC account
 #' (kfc <- get_followers("KFC"))
 #'
-#' ## get max number [per fresh token] of POTUS follower IDs
 #' (pres <- get_followers("potus", n = 75000))
-#' ## You might use retryonratelimit = TRUE to obtain exactly 750000
 #'
 #' }
-#'
 #' @return A tibble data frame of follower IDs (one column named "user_id").
 #' @family ids
 #' @export

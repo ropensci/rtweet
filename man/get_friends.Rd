@@ -32,13 +32,15 @@ oriented accordingly (i.e., it assumes the maximum value of n is
 this function multiple times with requests after the first using
 the \code{page} parameter.}
 
-\item{retryonratelimit}{If you'd like to retrieve 5,000 or fewer
-friends for more than 15 target users, then set
-\code{retryonratelimit = TRUE} and this function will use
-base \code{Sys.sleep} until rate limits reset and the desired
-number of friend networks is retrieved. This defaults to
-FALSE. See details for more info regarding possible issues with
-timing misfires.}
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
 
 \item{page}{Default \code{page = -1} specifies first page of JSON
 results. Other pages specified via cursor values supplied by
@@ -65,26 +67,7 @@ user and "user_id" for follower IDs.
 }
 \description{
 Returns a list of user IDs for the accounts following BY one or
-more specified users. To return the friends of more than 15 users
-in a single call (the rate limit maximum), set "retryonratelimit"
-to TRUE.
-}
-\details{
-When \code{retryonratelimit = TRUE} this function internally
-makes a rate limit API call to get information on (a) the number of requests
-remaining and (b) the amount of time until the rate limit resets. So, in
-theory, the sleep call should only be called once between waves of data
-collection. However, as a fail safe, if a system's time is calibrated such
-that it expires before the rate limit reset, or if, in another session, the
-user dips into the rate limit, then this function will wait (use Sys.sleep
-for a second time) until the next rate limit reset. Users should monitor
-and test this before making especially large calls as any systematic issues
-could create sizable inefficiencies.
-
-At this time, results are ordered with the most recent following first —
-however, this ordering is subject to unannounced change and eventual
-consistency issues. While this remains true it is possible to iteratively build
-friends lists for a user over time.
+more specified users.
 }
 \examples{
 
@@ -97,7 +80,6 @@ friends lists for a user over time.
 (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
 
 }
-
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}

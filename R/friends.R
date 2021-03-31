@@ -1,9 +1,7 @@
 #' Get user IDs of accounts followed by target user(s).
 #'
 #' Returns a list of user IDs for the accounts following BY one or
-#' more specified users. To return the friends of more than 15 users
-#' in a single call (the rate limit maximum), set "retryonratelimit"
-#' to TRUE.
+#' more specified users.
 #'
 #' @inheritParams lookup_users
 #' @param users Screen name or user ID of target user from which the
@@ -21,13 +19,6 @@
 #'   5000). To return more than 5,000 friends for a single user, call
 #'   this function multiple times with requests after the first using
 #'   the `page` parameter.
-#' @param retryonratelimit If you'd like to retrieve 5,000 or fewer
-#'   friends for more than 15 target users, then set
-#'   `retryonratelimit = TRUE` and this function will use
-#'   base `Sys.sleep` until rate limits reset and the desired
-#'   number of friend networks is retrieved. This defaults to
-#'   FALSE. See details for more info regarding possible issues with
-#'   timing misfires.
 #' @param page Default `page = -1` specifies first page of JSON
 #'   results. Other pages specified via cursor values supplied by
 #'   Twitter API response object. This is only relevant if a user has
@@ -47,22 +38,6 @@
 #' (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
 #'
 #' }
-#'
-#' @details When `retryonratelimit = TRUE` this function internally
-#'   makes a rate limit API call to get information on (a) the number of requests
-#'   remaining and (b) the amount of time until the rate limit resets. So, in
-#'   theory, the sleep call should only be called once between waves of data
-#'   collection. However, as a fail safe, if a system's time is calibrated such
-#'   that it expires before the rate limit reset, or if, in another session, the
-#'   user dips into the rate limit, then this function will wait (use Sys.sleep
-#'   for a second time) until the next rate limit reset. Users should monitor
-#'   and test this before making especially large calls as any systematic issues
-#'   could create sizable inefficiencies.
-#'
-#'   At this time, results are ordered with the most recent following first —
-#'   however, this ordering is subject to unannounced change and eventual
-#'   consistency issues. While this remains true it is possible to iteratively build
-#'   friends lists for a user over time.
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.
 #' @family ids

@@ -58,8 +58,7 @@ A tibble data frame of follower IDs (one column named "user_id").
 }
 \description{
 Returns a list of user IDs for the accounts following specified
-user. To return more than 75,000 user IDs in a single call (the
-rate limit maximum), set "retryonratelimit" to TRUE.
+user.
 }
 \examples{
 
@@ -68,12 +67,9 @@ rate limit maximum), set "retryonratelimit" to TRUE.
 ## get 5000 ids of users following the KFC account
 (kfc <- get_followers("KFC"))
 
-## get max number [per fresh token] of POTUS follower IDs
 (pres <- get_followers("potus", n = 75000))
-## You might use retryonratelimit = TRUE to obtain exactly 750000
 
 }
-
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
