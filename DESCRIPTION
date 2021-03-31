@@ -28,13 +28,12 @@ Authors@R:
              role = "ctb",
              email = "yonicd@gmail.com",
              comment = c(ORCID = "0000-0002-4222-1819")))
-Description: An implementation of calls designed to collect and
-    organize Twitter data via Twitter's REST and stream Application
-    Program Interfaces (API), which can be found at the following URL:
+Description: An implementation of calls designed to collect and organize
+    Twitter data via Twitter's REST and stream Application Program
+    Interfaces (API), which can be found at the following URL:
     <https://developer.twitter.com/en/docs>.
 License: MIT + file LICENSE
-URL: https://docs.ropensci.org/rtweet,
-    https://github.com/ropensci/rtweet
+URL: https://docs.ropensci.org/rtweet, https://github.com/ropensci/rtweet
 BugReports: https://github.com/ropensci/rtweet/issues
 Depends:
     R (>= 3.5.0)
