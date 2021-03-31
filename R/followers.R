@@ -43,13 +43,8 @@ get_followers <- function(user, n = 5000,
     cursor <- page
   }
 
-  stopifnot(is_n(n), is.atomic(user), isTRUE(length(user) == 1))
+  stopifnot(is.atomic(user), isTRUE(length(user) == 1))
   
-  if (identical(n, Inf)) {
-    usr <- lookup_users(user)
-    n <- usr$followers_count
-  }
-
   params <- list(stringify_ids = TRUE)
   params[[user_type(user)]] <- user
 

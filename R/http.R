@@ -73,14 +73,12 @@ TWIT_method <- function(method, token, api,
 #'   early with a warning; you'll still get back all results received up to 
 #'   that point.
 #'   
-#'   In general, if you expect a query to take hours or days to perform,
-#'   you should not rely `retryonratelimit` because it does not handle other
-#'   HTTP failure modes that commonly arise (i.e. you temporarily lose your
-#'   internet connection). Instead, you'll need implementing paging yourself
-#'   using `max_id` or `cursor`.
+#'   If you expect a query to take hours or days to perform, you should not 
+#'   rely soley on `retryonratelimit` because it does not handle other common
+#'   failure modes like temporarily losing your internet connection.
 #' @param verbose Show progress bars and other messages indicating current 
 #'   progress?
-TWIT_paginate_max_id <- function(token, query, params, 
+TWIT_paginate_max_id <- function(token, api, params, 
                                  get_max_id, 
                                  n = 1000, 
                                  page_size = 200, 
@@ -94,17 +92,23 @@ TWIT_paginate_max_id <- function(token, query, params,
   pages <- ceiling(n / page_size)
   results <- vector("list", pages)
   
-  rate_limit <- NULL
-  
+  if (verbose)  {
+    pb <- progress::progress_bar$new(
+      format = "Downloading multiple pages :bar",
+      total = pages
+    ) 
+    withr::defer(pb$terminate())
+  }
+
   for (i in seq_len(pages)) {
     params$max_id <- max_id
     if (i == pages) {
       params[[count_param]] <- n - (pages - 1) * page_size
     }
-    
+
     resp <- catch_rate_limit(
       TWIT_get(
-        token, query, params, 
+        token, api, params, 
         retryonratelimit = retryonratelimit,
         parse = FALSE,
         verbose = verbose
@@ -126,6 +130,10 @@ TWIT_paginate_max_id <- function(token, query, params,
     
     max_id <- id_minus_one(last(get_max_id(json)))
     results[[i]] <- if (parse) json else resp
+    
+    if (verbose) {
+      pb$tick()
+    }
   }
 
   results
@@ -136,7 +144,7 @@ TWIT_paginate_max_id <- function(token, query, params,
 #'  
 #' @param cursor Which page of results to return. The default will return 
 #'   the first page; can be used for manual pagination. 
-TWIT_paginate_cursor <- function(token, query, params, 
+TWIT_paginate_cursor <- function(token, api, params, 
                                  n = 5000, 
                                  page_size = 5000, 
                                  cursor = "-1", 
@@ -148,12 +156,19 @@ TWIT_paginate_cursor <- function(token, query, params,
   results <- list()
   i <- 1
   n_seen <- 0
+  
+  if (verbose) {
+    pb <- progress::progress_bar$new(
+      format = "Downloading multiple pages :spin",
+    ) 
+    withr::defer(pb$terminate())
+  }
 
   repeat({
     params$cursor <- cursor
     json <- catch_rate_limit(
       TWIT_get(
-        token, query, params, 
+        token, api, params, 
         retryonratelimit = retryonratelimit,
         verbose = verbose
       )
@@ -174,10 +189,57 @@ TWIT_paginate_cursor <- function(token, query, params,
     if (identical(cursor, "0") || n_seen >= n) {
       break
     }
+    
+    if (verbose) {
+      pb$tick()
+    }
   })
 
   results
 }
+
+#' @rdname TWIT_paginate_max_id
+#'  
+TWIT_paginate_chunked <- function(token, api, params_list, 
+                                  retryonratelimit = FALSE, 
+                                  verbose = TRUE) {
+  
+
+  pages <- length(params_list)
+  results <- vector("list", pages)
+  
+  if (verbose)  {
+    pb <- progress::progress_bar$new(
+      format = "Downloading multiple pages :bar",
+      total = pages
+    ) 
+    withr::defer(pb$terminate())
+  }
+
+  for (i in seq_along(params_list)) {
+    params <- params_list[[i]]
+    json <- catch_rate_limit(
+      TWIT_get(
+        token, api, params, 
+        retryonratelimit = retryonratelimit,
+        verbose = verbose
+      )
+    )
+    if (is_rate_limit(json)) {
+      warn_early_term(json, hint_if = FALSE)
+      break
+    }
+    
+    results[[i]] <- json
+    
+    if (verbose) {
+      pb$tick()
+    }
+  }
+
+  results
+}  
+
 
 # helpers -----------------------------------------------------------------
 

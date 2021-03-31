@@ -91,7 +91,6 @@ get_timeline_user <- function(user,
                               token = NULL,
                               ...) {
   stopifnot(
-    is_n(n),
     is.atomic(user),
     is.atomic(max_id),
     is.logical(home)

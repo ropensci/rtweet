@@ -3,11 +3,12 @@
 \name{TWIT_paginate_max_id}
 \alias{TWIT_paginate_max_id}
 \alias{TWIT_paginate_cursor}
+\alias{TWIT_paginate_chunked}
 \title{Pagination}
 \usage{
 TWIT_paginate_max_id(
   token,
-  query,
+  api,
   params,
   get_max_id,
   n = 1000,
@@ -21,11 +22,19 @@ TWIT_paginate_max_id(
 
 TWIT_paginate_cursor(
   token,
-  query,
+  api,
   params,
   n = 5000,
   page_size = 5000,
   cursor = "-1",
+  retryonratelimit = FALSE,
+  verbose = TRUE
+)
+
+TWIT_paginate_chunked(
+  token,
+  api,
+  params_list,
   retryonratelimit = FALSE,
   verbose = TRUE
 )
@@ -44,11 +53,9 @@ If \code{FALSE}, and the rate limit is exceeded, the function will terminate
 early with a warning; you'll still get back all results received up to
 that point.
 
-In general, if you expect a query to take hours or days to perform,
-you should not rely \code{retryonratelimit} because it does not handle other
-HTTP failure modes that commonly arise (i.e. you temporarily lose your
-internet connection). Instead, you'll need implementing paging yourself
-using \code{max_id} or \code{cursor}.}
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
 
 \item{verbose}{Show progress bars and other messages indicating current
 progress?}

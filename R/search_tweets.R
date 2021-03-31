@@ -140,7 +140,6 @@ search_tweets <- function(q, n = 100,
                           ...) {
   
   params <- search_params(q, 
-    n = n,
     type = type,
     include_rts = include_rts,
     geocode = geocode,
@@ -164,7 +163,7 @@ search_tweets <- function(q, n = 100,
   result
 }
 
-search_params <- function(q, n, 
+search_params <- function(q,
                           type = c("mixed", "recent", "popular"),
                           include_rts = TRUE,
                           geocode = NULL,
@@ -173,7 +172,7 @@ search_params <- function(q, n,
   if (missing(q) && !is.null(geocode)) {
     q <- ""
   }
-  stopifnot(is_n(n), is.atomic(q), length(q) == 1L, is.atomic(max_id))
+  stopifnot(is.atomic(q), length(q) == 1L, is.atomic(max_id))
   type <- arg_match(type)
   
   ## validate query length–char count might not always be same here as with 

@@ -1,5 +1,11 @@
 # rtweet (development version)
 
+- All functions that perform multiple requests on your behalf now display
+  a progress bar so you know what's happening. If you don't want it, you can 
+  turn it off with `verbose = FALSE` (#518). 
+
+- `lookup_statuses()` has been deprecated in favour of `lookup_tweets()`.
+
 - `as_userid()` has been deprecated since in case of ambiguity the default is
   to assume a numeric string is a user id (#520). All functions now use a 
   single `user_type()` function so behaviour is identical for all rtweet 

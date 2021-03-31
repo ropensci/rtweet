@@ -76,9 +76,6 @@ get_friends <- function(users,
                         verbose = TRUE,
                         token = NULL) {
   
-
-  stopifnot(is_n(n))
-
   results <- lapply(users, get_friends_user, 
     n = n, 
     parse = parse,
