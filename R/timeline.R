@@ -1,7 +1,7 @@
 #' Get one or more user timelines (tweets posted by target user(s)).
 #'
-#' Returns up to 3,200 statuses posted to the timelines of each of one
-#' or more specified Twitter users.
+#' `get_timeline()` returns the timeline of any Twitter user.
+#' `get_my_timeline()` returns the authenticated users home timeline.
 #'
 #' @inheritParams lookup_users
 #' @param user Character vector of screen names or user ids. 
@@ -12,14 +12,10 @@
 #'   statuses posted or retweeted by each user.
 #' @param max_id Character, returns results with an ID less than (that is,
 #'   older than) or equal to `max_id`.
-#' @param home Logical, indicating whether to return a user-timeline
-#'   or home-timeline. By default, home is set to FALSE, which means
-#'   `get_timeline` returns tweets posted by the given user. To
-#'   return a user's home timeline feed, that is, the tweets posted by
-#'   accounts followed by a user, set home to TRUE.
-#' @param check Logical indicating whether to remove check available
-#'   rate limit. Ensures the request does not exceed the maximum
-#'   remaining number of calls.  Defaults to TRUE.
+#' @param home Logical, indicating whether to return a "user" timeline
+#'   (the default, what a user has tweeted/retweeted) or a "home" timeline 
+#'   (what the user would see if they logged into twitter). 
+#' @param check `r lifecycle::badge("deprecated")`
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @seealso
@@ -50,7 +46,7 @@
 #'
 #' @family tweets
 #' @export
-get_timeline <- function(user = NULL,
+get_timeline <- function(user,
                          n = 100,
                          max_id = NULL,
                          home = FALSE,
@@ -60,7 +56,6 @@ get_timeline <- function(user = NULL,
                          ...) {
 
   stopifnot(is.atomic(user), is.numeric(n))
-  user <- user %||% api_screen_name()
 
   dots <- list(parse = parse, ...)
   rt <- lapply(user, get_timeline_user, 
@@ -82,12 +77,31 @@ get_timeline <- function(user = NULL,
 }
 
 
+#' @rdname get_timeline
+#' @export
+get_my_timeline <- function(n = 100,
+                            max_id = NULL,
+                            parse = TRUE,
+                            check = TRUE,
+                            token = NULL,
+                            ...) {
+
+  get_timeline_user(
+    user = api_screen_name(),
+    n = n,
+    home = TRUE,
+    max_id = max_id,
+    parse = parse,
+    token = token
+  )
+
+}
+
 get_timeline_user <- function(user,
                               n = 200,
                               max_id = NULL,
                               home = FALSE,
                               parse = TRUE,
-                              check = TRUE,
                               token = NULL,
                               ...) {
   stopifnot(
@@ -133,6 +147,6 @@ get_timelines <- function(user,
   
   lifecycle::deprecate_warn("1.0.0", "get_timelines()", "get_timeline()")
   
-  get_timeline(user, n, max_id = max_id, home = home, parse = parse, check = check, token = token, ...)
+  get_timeline(user, n, max_id = max_id, home = home, parse = parse, token = token, ...)
 }
 

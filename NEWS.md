@@ -1,5 +1,7 @@
 # rtweet (development version)
 
+- `get_timeline()` now always requires a `user`.
+
 - All functions that perform multiple requests on your behalf now display
   a progress bar so you know what's happening. If you don't want it, you can 
   turn it off with `verbose = FALSE` (#518). 

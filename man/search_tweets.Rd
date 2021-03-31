@@ -209,7 +209,6 @@ table(st2$query)
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},
-\code{\link{get_my_timeline}()},
 \code{\link{get_timeline}()},
 \code{\link{lists_statuses}()},
 \code{\link{lookup_tweets}()},
