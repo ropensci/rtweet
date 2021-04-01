@@ -6,7 +6,13 @@
 \title{Get direct messages sent to and received by the authenticating user from the
 past 30 days}
 \usage{
-direct_messages(n = 50, next_cursor = NULL, parse = TRUE, token = NULL)
+direct_messages(
+  n = 50,
+  cursor = NULL,
+  next_cursor = NULL,
+  parse = TRUE,
+  token = NULL
+)
 
 direct_messages_sent(
   since_id = NULL,
@@ -17,12 +23,12 @@ direct_messages_sent(
 )
 }
 \arguments{
-\item{n}{optional Specifies the number of direct messages to try
-and retrieve, up to a maximum of 50.}
+\item{n}{Maximum number of results to return.}
 
-\item{next_cursor}{If there are more than 200 DMs in the last 30 days,
-responses will include a next_cursor value, which can be supplied in
-additional requests to scroll through pages of results.}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
+
+\item{next_cursor}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{cursor} instead.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -40,21 +46,16 @@ the number of Tweets which can be accessed through the API. If
 the limit of Tweets has occurred since the since_id, the since_id
 will be forced to the oldest ID available.}
 
-\item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to \code{max_id}.}
+\item{max_id}{String giving id of most recent tweet to return.
+Can be used for manual pagination.}
 }
 \value{
-Return parsed or non-parsed response object.
+A list with one element for each page of results.
 }
 \description{
 Returns all Direct Message events (both sent and received) within the last 30
-days. Sorted in reverse-chronological order.
-}
-\details{
-Includes detailed information about the sender and
-recipient user. You can request up to 50 direct messages per
-call, and only direct messages from the last 30 days will be
-available using this endpoint.
+days. Sorted in reverse-chronological order. Includes detailed information
+about the sender and recipient.
 }
 \examples{
 
@@ -67,5 +68,7 @@ dms <- direct_messages()
 str(dms)
 
 }
-
+}
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/list-events}
 }
