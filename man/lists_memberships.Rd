@@ -39,8 +39,8 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
-\item{previous_cursor}{If you wish to use previous cursor instead of next,
-input value here to override next cursor.}
+\item{previous_cursor}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{cursor} instead.}
 }
 \description{
 Due to deleted or removed lists, the returned number of memberships

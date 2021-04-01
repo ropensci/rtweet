@@ -3,15 +3,12 @@
 \name{next_cursor}
 \alias{next_cursor}
 \alias{max_id}
-\alias{previous_cursor}
 \alias{since_id}
-\title{next_cursor/previous_cursor/max_id}
+\title{next_cursor/max_id}
 \usage{
 next_cursor(x)
 
 max_id(.x)
-
-previous_cursor(x)
 
 since_id(.x)
 }
@@ -30,8 +27,6 @@ value from \code{next_cursor} for the \code{page} argument.
 \description{
 Method for returning next value (used to request next page or results)
 object returned from Twitter APIs.
-
-Paginate in reverse (limited integration)
 }
 \examples{
 \dontrun{
@@ -61,14 +56,6 @@ nrow(f)
 
 }
 \seealso{
-Other ids: 
-\code{\link{get_followers}()},
-\code{\link{get_friends}()}
-
-Other extractors: 
-\code{\link{tweets_data}()},
-\code{\link{users_data}()}
-
 Other ids: 
 \code{\link{get_followers}()},
 \code{\link{get_friends}()}

@@ -8,8 +8,8 @@
 #' @inheritParams TWIT_paginate_cursor
 #' @param filter_to_owned_lists When `TRUE`, will return only lists that
 #'   authenticating user owns.
-#' @param previous_cursor If you wish to use previous cursor instead of next,
-#'   input value here to override next cursor.
+#' @param previous_cursor `r lifecycle::badge("deprecated")` Please use 
+#'   `cursor` instead.
 #' @examples
 #' \dontrun{
 #'

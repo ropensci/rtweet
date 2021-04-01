@@ -1,5 +1,9 @@
 # rtweet (development version)
 
+- `previous_cursor()` has been deprecated. It could only be used with 
+  `lists_memberships()` and it has been dropped in favour of making regular
+  pagination better.
+
 - `get_timeline()` now always requires a `user`.
 
 - All functions that perform multiple requests on your behalf now display
