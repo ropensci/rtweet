@@ -4,10 +4,10 @@
 \alias{get_timeline}
 \alias{get_my_timeline}
 \alias{get_timelines}
-\title{Get one or more user timelines (tweets posted by target user(s)).}
+\title{Get one or more user timelines}
 \usage{
 get_timeline(
-  user,
+  user = NULL,
   n = 100,
   max_id = NULL,
   home = FALSE,
@@ -60,8 +60,9 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 A tbl data frame of tweets data with users data attribute.
 }
 \description{
-\code{get_timeline()} returns the timeline of any Twitter user.
-\code{get_my_timeline()} returns the authenticated users home timeline.
+\code{get_timeline()} returns the timeline of any Twitter user (i.e. what they
+have tweeted). \code{get_my_timeline()} returns the home timeline for the
+authenticated user (i.e. the tweets you see when you log into Twitter).
 }
 \examples{
 
