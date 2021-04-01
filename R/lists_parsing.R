@@ -64,37 +64,6 @@ as.data.frame.lists_users <- function(x) {
   out
 }
 
-
-##----------------------------------------------------------------------------##
-##                              lists_memberships                             ##
-##----------------------------------------------------------------------------##
-
-as_lists_memberships <- function(x) {
-  structure(x, class = "lists_memberships")
-}
-
-as.data.frame.lists_memberships <- function(x) {
-  if (has_name_(x, "lists")) {
-    x <- x[["lists"]]
-  }
-  out <- as_tbl(
-    wrangle_into_clean_data(x, "list")
-  )
-  if (has_name_(x, "user")) {
-    users <- as_tbl(
-      wrangle_into_clean_data(x$user, "user")
-    )
-    attr(out, "users") <- users
-  }
-  if (has_name_(x, "status")) {
-    tweets <- as_tbl(
-      wrangle_into_clean_data(x$status, "status")
-    )
-    attr(out, "tweets") <- tweets
-  }
-  out
-}
-
 ##----------------------------------------------------------------------------##
 ##                                lists_members                               ##
 ##----------------------------------------------------------------------------##
