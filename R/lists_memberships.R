@@ -54,7 +54,6 @@ lists_memberships <- function(user = NULL,
 
 parse_lists_memberships <- function(x) {
   lists <- lapply(x, function(x) x$lists)
-
   dfs <- lapply(lists, wrangle_into_clean_data, type = "list")
   dfs <- lapply(dfs, tibble::as_tibble)
   do.call("rbind", dfs)

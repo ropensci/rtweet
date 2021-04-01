@@ -113,30 +113,6 @@ as.data.frame.lists_statuses <- function(x) {
 
 
 
-##----------------------------------------------------------------------------##
-##                              lists_subscribers                             ##
-##----------------------------------------------------------------------------##
-as_lists_subscribers <- function(x) {
-  structure(x, class = "lists_subscribers")
-}
-
-
-as.data.frame.lists_subscribers <- function(x) {
-  if (has_name_(x, "users")) {
-    x <- x$users
-  }
-  out <- as_tbl(
-    wrangle_into_clean_data(x, "user")
-  )
-  if (has_name_(x, "status")) {
-    tweets <- as_tbl(
-      wrangle_into_clean_data(x$status, "status")
-    )
-    attr(out, "tweets") <- tweets
-  }
-  out
-}
-
 
 ##----------------------------------------------------------------------------##
 ##                             lists_subscriptions                            ##
