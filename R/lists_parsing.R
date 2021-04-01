@@ -33,7 +33,6 @@ format_created_at <- function(x) {
   x
 }
 
-
 ##----------------------------------------------------------------------------##
 ##                                 lists_users                                ##
 ##----------------------------------------------------------------------------##
@@ -60,29 +59,6 @@ as.data.frame.lists_users <- function(x) {
       wrangle_into_clean_data(x$status, "status")
     )
     attr(out, "tweets") <- tweets
-  }
-  out
-}
-
-
-
-##----------------------------------------------------------------------------##
-##                               lists_statuses                               ##
-##----------------------------------------------------------------------------##
-
-as_lists_statuses <- function(x) {
-  structure(x, class = "lists_statuses")
-}
-
-as.data.frame.lists_statuses <- function(x) {
-  out <- as_tbl(
-    wrangle_into_clean_data(x, "status")
-  )
-  if (has_name_(x, "user")) {
-    users <- as_tbl(
-      wrangle_into_clean_data(x$user, "user")
-    )
-    attr(out, "users") <- users
   }
   out
 }
