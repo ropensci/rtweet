@@ -5,7 +5,7 @@
 \title{Get collections by user or status id.}
 \usage{
 get_collections(
-  user,
+  user = NULL,
   status_id = NULL,
   n = 200,
   cursor = NULL,
@@ -21,11 +21,10 @@ provide a value for one of user or status_id.}
 return results. Requests must provide a value for one of user or
 status_id.}
 
-\item{n}{Maximum number of results to return. Defaults to 200.}
+\item{n}{Maximum number of results to return.}
 
-\item{cursor}{Page identifier of results to retrieve. If parse = TRUE,
-the next cursor value for any given request--if available--is stored
-as an attribute, accessible via \code{\link[=next_cursor]{next_cursor()}}}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -62,5 +61,7 @@ wwe <- get_collections(status_id = "925172982313570306")
 str(wwe)
 
 }
-
+}
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/curate-a-collection/api-reference/get-collections-list}
 }

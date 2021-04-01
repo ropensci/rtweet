@@ -45,6 +45,8 @@ TWIT_paginate_chunked(
 string ids. This is needed because different endpoints store that
 information in different places.}
 
+\item{n}{Maximum number of results to return.}
+
 \item{max_id}{String giving id of most recent tweet to return.
 Can be used for manual pagination.}
 

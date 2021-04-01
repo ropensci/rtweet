@@ -45,15 +45,12 @@ lookup_collections <- function(id, n = 200,
 #' Find collections (themed grouping of statuses) created by specific user
 #' or status id. Results include user, status, and collection features.
 #'
+#' @inheritParams TWIT_paginate_cursor 
 #' @param user Screen name or user id of target user. Requests must
 #'   provide a value for one of user or status_id.
 #' @param status_id Optional, the identifier of the tweet for which to
 #'   return results. Requests must provide a value for one of user or
 #'   status_id.
-#' @param n Maximum number of results to return. Defaults to 200.
-#' @param cursor Page identifier of results to retrieve. If parse = TRUE,
-#'   the next cursor value for any given request--if available--is stored
-#'   as an attribute, accessible via [next_cursor()]
 #' @inheritParams lookup_users
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.
@@ -74,23 +71,17 @@ lookup_collections <- function(id, n = 200,
 #' str(wwe)
 #'
 #' }
-#'
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/curate-a-collection/api-reference/get-collections-list>
 #' @export
-get_collections <- function(user,
+get_collections <- function(user = NULL,
                             status_id = NULL,
                             n = 200,
                             cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  stopifnot(is_n(n))
   
-  params <- list(
-    count = n,
-    cursor = cursor
-  )
-  
-  if (missing(user) && !is.null(status_id) ||
-      is.null(user) && !is.null(status_id)) {
+  params <- list()
+  if (is.null(user) && !is.null(status_id)) {
     stopifnot(is.atomic(status_id))
     
     params$tweet_id <- status_id
@@ -100,9 +91,12 @@ get_collections <- function(user,
     params[[user_type(user)]] <- user
   }
   
-  r <- TWIT_get(token, "/1.1/collections/list", params, parse = parse)
-  if (parse) {
-    attr(r, "next_cursor") <- r[["response"]][["cursors"]][["next_cursor"]]
-  }
+  r <- TWIT_paginate_cursor(token, "/1.1/collections/list", params, 
+    n = n,
+    page_size = 200,
+    cursor = cursor,
+    get_id = function(x) x$response$results$timeline_id
+  )
+    
   r
 }

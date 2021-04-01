@@ -62,6 +62,7 @@ TWIT_method <- function(method, token, api,
 #' Pagination
 #' 
 #' @keywords internal
+#' @param n Maximum number of results to return.
 #' @param get_max_id A single argument function that returns a vector of 
 #'   string ids. This is needed because different endpoints store that 
 #'   information in different places.
