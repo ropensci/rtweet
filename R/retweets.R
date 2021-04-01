@@ -44,71 +44,32 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
 #' @return data
 #' @family retweets
 #' @export
+#' @examples 
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids>
 get_retweeters <- function(status_id,
                            n = 100,
                            parse = TRUE,
                            token = NULL) {
-  stopifnot(is_n(n))
   
-  cursor <- "-1"
-  
-  n <- ceiling(n / 100L)
-  r <- vector("list", n)
-  for (i in seq_along(r)) {
-    r[[i]] <- get_retweeters_call(
-      status_id = status_id, cursor = cursor, token = token
-    )
-    cursor <- attr(r[[i]], "next_cursor")
-    if (is.null(cursor) || length(cursor) == 0 || identical(cursor, "0")) {
-      break
-    }
-  }
-  if (parse) {
-    r <- do.call("rbind", r)
-    attr(r, "next_cursor") <- cursor
-  }
-  r
-}
-
-get_retweeters_call <- function(status_id,
-                                cursor = "-1",
-                                parse = TRUE,
-                                token = NULL) {
-  stopifnot(is.character(status_id), is.character(cursor))
   
   params <- list(
     id = status_id,
-    count = 100,
-    cursor = cursor,
     stringify_ids = TRUE
   )
-  r <- TWIT_get(token, "/1.1/statuses/retweeters/ids", params)
+
+  r <- TWIT_paginate_cursor(token, "/1.1/statuses/retweeters/ids", 
+    params = params,
+    page_size = 100
+  )
   
   if (parse) {
-    if (has_name_(r, "next_cursor_str")) {
-      next_cursor <- r$next_cursor_str
-    } else {
-      next_cursor <- NULL
-    }
-    r <- as_retweeters(r)
-    r <- as.data.frame(r)
-    attr(r, "next_cursor") <- next_cursor
+    r <- parse_retweeters(r)
   }
   r
 }
 
-as_retweeters <- function(x) {
-  structure(x, class = "retweeters")
-}
 
-as.data.frame.retweeters <- function(x) {
-  if (has_name_(x, "ids")) {
-    x <- data.frame(
-      user_id = x$ids,
-      stringsAsFactors = FALSE
-    )
-  } else {
-    x <- data.frame()
-  }
-  x
+parse_retweeters <- function(x) {
+  ids <- lapply(x, function(x) x$ids)
+  tibble::tibble(user_id = unlist(ids))
 }
