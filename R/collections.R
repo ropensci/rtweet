@@ -58,23 +58,10 @@ lookup_collections <- function(id, n = 200,
 #' @return Return object converted to nested list if parsed otherwise
 #'   an HTTP response object is returned.
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## lookup a specific collection
-#' cnnc <- get_collections("cnn")
-#'
-#' ## inspect data
-#' str(cnnc)
-#'
-#' ## by status id
-#' wwe <- get_collections(status_id = "925172982313570306")
-#'
-#' ## inspect data
-#' str(wwe)
-#'
+#' if (auth_has_default()) {
+#'   cnnc <- get_collections("cnn")
+#'   str(cnnc$objects$users[[1]])
 #' }
-#'
 #' @export
 get_collections <- function(user,
                             status_id = NULL,

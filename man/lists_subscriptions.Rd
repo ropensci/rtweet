@@ -36,17 +36,10 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Get list subscriptions of a given user.
 }
 \examples{
-
-\dontrun{
-
-## get kearneymw subscriptions
-rstats <- lists_subscriptions(
-  user = "kearneymw",
-  n = 1000
-)
-
+if (auth_has_default()) {
+  lists <- lists_subscriptions("kearneymw")
+  lists
 }
-
 }
 \seealso{
 Other lists: 

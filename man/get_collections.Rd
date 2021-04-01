@@ -46,21 +46,8 @@ Find collections (themed grouping of statuses) created by specific user
 or status id. Results include user, status, and collection features.
 }
 \examples{
-
-\dontrun{
-
-## lookup a specific collection
-cnnc <- get_collections("cnn")
-
-## inspect data
-str(cnnc)
-
-## by status id
-wwe <- get_collections(status_id = "925172982313570306")
-
-## inspect data
-str(wwe)
-
+if (auth_has_default()) {
+  cnnc <- get_collections("cnn")
+  str(cnnc$objects$users[[1]])
 }
-
 }

@@ -2,9 +2,12 @@
 % Please edit documentation in R/auth.R
 \name{auth_setup_default}
 \alias{auth_setup_default}
+\alias{auth_has_default}
 \title{Set up default authentication}
 \usage{
 auth_setup_default()
+
+auth_has_default()
 }
 \description{
 You'll need to run this function once per computer so that rtweet can use

@@ -31,13 +31,9 @@ data
 Get all lists a specified user subscribes to, including their own.
 }
 \examples{
-\dontrun{
-
-## get lists subsribed to by Nate Silver
-lists_users("NateSilver538")
-
+if (auth_has_default()) {
+  lists_users("NateSilver538")
 }
-
 }
 \seealso{
 Other lists: 

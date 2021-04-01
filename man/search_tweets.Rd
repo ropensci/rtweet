@@ -128,57 +128,24 @@ an index of all Tweets. At the time of searching, the search API
 index includes between only 6-9 days of Tweets.
 }
 \examples{
-
-\dontrun{
-
-## search for 1000 tweets mentioning Hillary Clinton
-hrc <- search_tweets(q = "hillaryclinton", n = 1000)
-
-## data frame where each observation (row) is a different tweet
-hrc
-
-## users data also retrieved. can access it via users_data()
-users_data(hrc)
-
-## search for 1000 tweets in English
-djt <- search_tweets(q = "realdonaldtrump", n = 1000, lang = "en")
-
-## preview tweets data
-djt
-
-## preview users data
-users_data(djt)
-
-## exclude retweets
-rt <- search_tweets("rstats", n = 500, include_rts = FALSE)
-
-## perform search for lots of tweets
-rt <- search_tweets(
-  "trump OR president OR potus", n = 100000,
-  retryonratelimit = TRUE
-)
-
-## plot time series of tweets frequency
-ts_plot(rt, by = "mins")
-
-## make multiple independent search queries
-ds <- Map(
-  "search_tweets",
-  c("\"data science\"", "rstats OR python"),
-  n = 1000
-)
-
-## bind by row whilst preserving users data
-ds <- do_call_rbind(ds)
-
-## preview tweets data
-ds
-
-## preview users data
-users_data(ds)
-
+if (auth_has_default()) {
+  tweets <- search_tweets("#rstats", n = 100)
+  tweets
+ 
+  # data about uses who made the tweets
+  users_data(tweets)
+ 
+  # restrict tweets to English
+  tweets <- search_tweets("#rstats", n = 100, lang = "en")
+ 
+  # exclude retweets
+  tweets <- search_tweets("#rstats", n = 100, include_rts = FALSE)
+ 
+  # search for many tweets
+  \dontrun{
+  tweets <- search_tweets("#rstats", n = 100000, retryonratelimit = TRUE)
+  }
 }
-
 
 \dontrun{
 
@@ -216,3 +183,4 @@ Other tweets:
 \code{\link{tweets_with_users}()}
 }
 \concept{tweets}
+\keyword{internal}

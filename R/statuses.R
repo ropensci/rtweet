@@ -4,17 +4,15 @@
 #' @param statuses User id or screen name of target user.
 #' @seealso <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @examples
-#'
-#' \dontrun{
-#' statuses <- c(
-#'   "567053242429734913",
-#'   "266031293945503744",
-#'   "440322224407314432"
-#' )
-#'
-#' ## lookup tweets data for given statuses
-#' tw <- lookup_tweets(statuses)
-#' tw
+#' if (auth_has_default()) {
+#'   statuses <- c(
+#'     "567053242429734913",
+#'     "266031293945503744",
+#'     "440322224407314432"
+#'   )
+#'  
+#'   tweets <- lookup_tweets(statuses)
+#'   tweets
 #' }
 #' @return A tibble of tweets data.
 #' @family tweets

@@ -19,18 +19,13 @@
 #'   cursors to navigate collections for more information.
 #' @inheritParams lookup_users
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## get subscribers of new york times politics list
-#' rstats <- lists_subscribers(
-#'   slug = "new-york-times-politics",
-#'   owner_user = "nytpolitics",
-#'   n = 1000
-#' )
-#'
+#' if (auth_has_default()) {
+#'   subscribers <- lists_subscribers(
+#'     slug = "new-york-times-politics",
+#'     owner_user = "nytpolitics",
+#'   )
+#'   subscribers
 #' }
-#'
 #' @family lists
 #' @family users
 #' @export

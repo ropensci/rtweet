@@ -21,22 +21,15 @@
 #' @param ... Other arguments used as parameters in query composition.
 #' @return Either a nested list (if parsed) or an HTTP response object.
 #' @examples
-#' \dontrun{
-#'
-#' ## get list members for a list of polling experts using list_id
-#' (pollsters <- lists_members("105140588"))
-#'
-#' ## get list members of cspan's senators list
-#' sens <- lists_members(slug = "senators", owner_user = "cspan")
-#' sens
-#'
-#' ## get list members for an rstats list using list topic slug
-#' ## list owner's screen name
-#' rstats <- lists_members(slug = "rstats", owner_user = "scultrera")
-#' rstats
-#'
+#' if (auth_has_default()) {
+#'   # You can use a list id:
+#'   pollsters <- lists_members("105140588")
+#'   pollsters
+#'   
+#'   # But in most case it'll be easier to use a user & list name
+#'   senators <- lists_members(owner_user = "cspan", slug = "senators")
+#'   senators
 #' }
-#'
 #' @family lists
 #' @rdname lists_members
 #' @export

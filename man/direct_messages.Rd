@@ -57,7 +57,6 @@ call, and only direct messages from the last 30 days will be
 available using this endpoint.
 }
 \examples{
-
 \dontrun{
 
 ## get my direct messages
@@ -67,5 +66,4 @@ dms <- direct_messages()
 str(dms)
 
 }
-
 }

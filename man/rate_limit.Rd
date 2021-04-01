@@ -35,9 +35,8 @@ because all paginated functions will wait on your behalf if you set
 \code{retryonratelimit = TRUE}.
 }
 \examples{
-
-\dontrun{
-rate_limit()
+if (auth_has_default()) {
+  rate_limit()
 }
 }
 \references{

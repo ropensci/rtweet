@@ -17,9 +17,8 @@
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
 #' @examples
-#'
-#' \dontrun{
-#' rate_limit()
+#' if (auth_has_default()) {
+#'   rate_limit()
 #' }
 #' @family tokens
 #' @export

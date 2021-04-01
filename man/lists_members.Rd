@@ -80,30 +80,19 @@ is often less than the provided n value. This is a reflection of the API and
 not a unique quirk of rtweet.
 }
 \examples{
-\dontrun{
-
-## get list members for a list of polling experts using list_id
-(pollsters <- lists_members("105140588"))
-
-## get list members of cspan's senators list
-sens <- lists_members(slug = "senators", owner_user = "cspan")
-sens
-
-## get list members for an rstats list using list topic slug
-## list owner's screen name
-rstats <- lists_members(slug = "rstats", owner_user = "scultrera")
-rstats
-
+if (auth_has_default()) {
+  # You can use a list id:
+  pollsters <- lists_members("105140588")
+  pollsters
+  
+  # But in most case it'll be easier to use a user & list name
+  senators <- lists_members(owner_user = "cspan", slug = "senators")
+  senators
 }
-
-\dontrun{
-
-## get up to 1000 Twitter lists that include Nate Silver
-ns538 <- lists_memberships("NateSilver538", n = 1000)
-
-## view data
-ns538
-
+if (auth_has_default()) {
+  # find Twitter lists that include Nate Silver
+  nate_silver <- lists_memberships("NateSilver538", n = 100)
+  nate_silver
 }
 
 }

@@ -61,14 +61,9 @@ Returns a list of user IDs for the accounts following specified
 user.
 }
 \examples{
-
-\dontrun{
-
-## get 5000 ids of users following the KFC account
-(kfc <- get_followers("KFC"))
-
-(pres <- get_followers("potus", n = 75000))
-
+if (auth_has_default()) {
+  user <- get_followers("KFC", n = 100)
+  user
 }
 }
 \seealso{

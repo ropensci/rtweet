@@ -14,14 +14,9 @@
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## get 5000 ids of users following the KFC account
-#' (kfc <- get_followers("KFC"))
-#'
-#' (pres <- get_followers("potus", n = 75000))
-#'
+#' if (auth_has_default()) {
+#'   user <- get_followers("KFC", n = 100)
+#'   user
 #' }
 #' @return A tibble data frame of follower IDs (one column named "user_id").
 #' @family ids

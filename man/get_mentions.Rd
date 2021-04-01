@@ -52,17 +52,10 @@ The timeline returned is the equivalent of the one seen when you view
 your mentions on twitter.com.
 }
 \examples{
-
-\dontrun{
-
-## get most recent 200 mentions of authenticating user
-mymentions <- get_mentions()
-
-## view data
-mymentions
-
+if (has_default_auth()) {
+  my_mentions <- get_mentions()
+  my_mentions
 }
-
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}

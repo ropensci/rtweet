@@ -11,14 +11,10 @@
 #' @param previous_cursor If you wish to use previous cursor instead of next,
 #'   input value here to override next cursor.
 #' @examples
-#' \dontrun{
-#'
-#' ## get up to 1000 Twitter lists that include Nate Silver
-#' ns538 <- lists_memberships("NateSilver538", n = 1000)
-#'
-#' ## view data
-#' ns538
-#'
+#' if (auth_has_default()) {
+#'   # find Twitter lists that include Nate Silver
+#'   nate_silver <- lists_memberships("NateSilver538", n = 100)
+#'   nate_silver
 #' }
 #'
 #' @rdname lists_members

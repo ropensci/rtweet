@@ -24,10 +24,11 @@
 #' @family lists
 #' @family tweets
 #' @return data
-#' @examples 
-#' \dontrun{
-#' (ls_senators <- lists_statuses(slug = "senators", owner_user = "cspan"))
-#' }
+#' @examples
+#' if (default_has_auth()) {
+#'   senator_tweets <- lists_statuses(slug = "senators", owner_user = "cspan")
+#'   senator_tweets
+#' } 
 #' @export
 lists_statuses <- function(list_id = NULL,
                            slug = NULL,

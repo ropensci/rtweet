@@ -135,3 +135,6 @@ is_testing <- function() {
 is_dev_mode <- function() {
   exists(".__DEVTOOLS__", .getNamespace("rtweet"))
 }
+is_rcmd_check <- function() {
+  identical(Sys.getenv("RTESTS"), "true")  
+}

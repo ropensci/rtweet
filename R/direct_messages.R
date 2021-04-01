@@ -12,7 +12,6 @@
 #' @inheritParams lookup_users
 #' @return Return parsed or non-parsed response object.
 #' @examples
-#'
 #' \dontrun{
 #'
 #' ## get my direct messages
@@ -22,7 +21,6 @@
 #' str(dms)
 #'
 #' }
-#'
 #' @details Includes detailed information about the sender and
 #'   recipient user. You can request up to 50 direct messages per
 #'   call, and only direct messages from the last 30 days will be

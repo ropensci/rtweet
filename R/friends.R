@@ -28,15 +28,9 @@
 #'   for each inputted user.
 #' @seealso <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## get user ids of accounts followed by Donald Trump
-#' (djt <- get_friends("ropensci"))
-#'
-#' ## get user ids of accounts followed by (friends) KFC, jack, and Nate Silver.
-#' (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
-#'
+#' if (auth_has_default()) {
+#'   user <- get_friends("ropensci")
+#'   user
 #' }
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.

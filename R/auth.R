@@ -10,6 +10,12 @@ auth_setup_default <- function() {
   auth_save(rtweet_user(), "default")
 }
 
+#' @rdname auth_setup_default
+#' @export
+auth_has_default <- function() {
+  file.exists(auth_path("default.rds")) || !is.null(rtweet_test())
+}
+
 #' Authentication options
 #' 
 #' @description 
@@ -233,7 +239,7 @@ find_auth <- function(auth = NULL) {
   if (is.null(auth)) {
     if (is_testing()) {
       rtweet_test() %||% no_token()
-    } else if (is_dev_mode()) {
+    } else if (is_dev_mode() %||% is_rcmd_check()) {
       rtweet_test() %||% default_cached_auth()
     } else{
       default_cached_auth()

@@ -6,13 +6,9 @@
 #'   how this parameter works.
 #' @return data
 #' @examples
-#' \dontrun{
-#'
-#' ## get lists subsribed to by Nate Silver
-#' lists_users("NateSilver538")
-#'
+#' if (auth_has_default()) {
+#'   lists_users("NateSilver538")
 #' }
-#'
 #' @family lists
 #' @export
 lists_users <- function(user = NULL, reverse = FALSE, token = NULL, parse = TRUE) {

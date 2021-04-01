@@ -16,16 +16,9 @@
 #' @inheritParams lookup_users
 #' @return A tibble with one row for each tweet.
 #' @examples
-#' \dontrun{
-#'
-#' ## get max number of statuses favorited by KFC
-#' kfc <- get_favorites("KFC", n = 3000)
-#' kfc
-#'
-#' ## get 400 statuses favorited by each of three users
-#' favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
-#' favs
-#'
+#' if (auth_has_default()) {
+#'   tw <- get_favorites(c("KFC", "pizzahut"), n = 100)
+#'   tw
 #' }
 #' @family tweets
 #' @seealso

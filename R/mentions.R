@@ -23,17 +23,10 @@
 #' @return Tibble of mentions data.
 #' @family tweets
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## get most recent 200 mentions of authenticating user
-#' mymentions <- get_mentions()
-#'
-#' ## view data
-#' mymentions
-#'
+#' if (has_default_auth()) {
+#'   my_mentions <- get_mentions()
+#'   my_mentions
 #' }
-#'
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline>
 #' @export

@@ -64,29 +64,11 @@ A tbl data frame of tweets data with users data attribute.
 \code{get_my_timeline()} returns the authenticated users home timeline.
 }
 \examples{
-
-\dontrun{
-
-## get most recent 3200 tweets posted by Donald Trump's account
-djt <- get_timeline("realDonaldTrump", n = 3200)
-
-## data frame where each observation (row) is a different tweet
-djt
-
-## users data for realDonaldTrump is also retrieved
-users_data(djt)
-
-## retrieve timelines of mulitple users
-tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
-
-## it's returned as one data frame
-tmls
-
-## count observations for each timeline
-table(tmls$screen_name)
-
+if (auth_has_default()) {
+  # get most recent tweets from Beyonce
+  tweets <- get_timeline("beyonce")
+  tweets
 }
-
 }
 \seealso{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}

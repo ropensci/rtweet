@@ -51,18 +51,13 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Get subscribers of a specified list.
 }
 \examples{
-
-\dontrun{
-
-## get subscribers of new york times politics list
-rstats <- lists_subscribers(
-  slug = "new-york-times-politics",
-  owner_user = "nytpolitics",
-  n = 1000
-)
-
+if (auth_has_default()) {
+  subscribers <- lists_subscribers(
+    slug = "new-york-times-politics",
+    owner_user = "nytpolitics",
+  )
+  subscribers
 }
-
 }
 \seealso{
 Other lists: 

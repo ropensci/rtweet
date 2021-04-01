@@ -6,7 +6,7 @@ output: github_document
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  eval = FALSE,
+  eval = rtweet::auth_has_default(),
   collapse = TRUE,
   comment = "#>",
   fig.path = "README-"
@@ -30,7 +30,7 @@ Use twitter from R. Get started by reading `vignette("rtweet")`.
 
 To get the current released version from CRAN:
 
-```{r}
+```{r, eval = FALSE}
 install.packages("rtweet")
 ```
 
@@ -46,32 +46,32 @@ library(rtweet)
 
 ### Search tweets or users
 
-Search for up to 10,000 tweets containing #rstats, excluding retweets:
+Search for up to 1,000 tweets containing #rstats, excluding retweets:
 
 ```{r}
-rt <- search_tweets("#rstats", n = 10000, include_rts = FALSE)
+rt <- search_tweets("#rstats", n = 1000, include_rts = FALSE)
 ```
 
 Twitter rate limits cap the number of search results returned to 18,000 every 15 minutes. To request more than that, set `retryonratelimit = TRUE` and rtweet will wait for rate limit
 resets for you.
 
-Search for 1,000 users with the #rstats in their profile:
+Search for 200 users with the #rstats in their profile:
 
 ```{r}
-usrs <- search_users("#rstats", n = 1000)
+usrs <- search_users("#rstats", n = 200)
 ```
 
 ### Stream tweets
 
 Randomly sample (approximately 1%) from the live stream of all tweets:
 
-```{r}
+```{r, eval = FALSE}
 rt <- stream_tweets("")
 ```
 
 Stream all geo-located tweets from London for 60 seconds:
 
-```{r}
+```{r, eval = FALSE}
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 ```
 
@@ -84,14 +84,13 @@ Get all accounts followed by a user:
 cnn_fds <- get_friends("cnn")
 
 ## lookup data on those accounts
-cnn_fds_data <- lookup_users(cnn_fds$user_id)
+cnn_fds_data <- lookup_users(cnn_fds$ids)
 ```
 
 Get all accounts following a user:
 
 ```{r}
-## get user IDs of accounts following CNN
-cnn_flw <- get_followers("cnn", n = 10000)
+cnn_flw <- get_followers("cnn", n = 100)
 cnn_flw_data <- lookup_users(cnn_flw$user_id)
 ```
 
@@ -99,19 +98,18 @@ If you want *all* followers, you'll need you'll need to set `n = Inf` and `retry
 
 ### Get timelines
 
-Get the most recent 3,200 tweets from CNN, BBC World, and Fox News:
+Get the most recent 100 tweets from CNN, BBC World, and Fox News:
 
 ```{r}
-## get user IDs of accounts followed by CNN
-tmls <- get_timelines(c("cnn", "BBCWorld", "foxnews"), n = 3200)
+tmls <- get_timeline(c("cnn", "BBCWorld", "foxnews"), n = 100)
 ```
 
 ### Get favorites
 
-Get the 3,000 most recently favorited statuses by Justin Bieber:
+Get the 150 most recently favorited statuses by Justin Bieber:
 
 ```{r}
-jkr <- get_favorites("justinbieber", n = 3000)
+jkr <- get_favorites("justinbieber", n = 150)
 ```
 
 ## Contact

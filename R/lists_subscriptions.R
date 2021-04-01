@@ -13,17 +13,10 @@
 #'   cursors to navigate collections for more information.
 #' @inheritParams lookup_users
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## get kearneymw subscriptions
-#' rstats <- lists_subscriptions(
-#'   user = "kearneymw",
-#'   n = 1000
-#' )
-#'
+#' if (auth_has_default()) {
+#'   lists <- lists_subscriptions("kearneymw")
+#'   lists
 #' }
-#'
 #' @family lists
 #' @export
 lists_subscriptions <- function(user,
