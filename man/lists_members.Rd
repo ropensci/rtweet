@@ -23,20 +23,12 @@ its numerical id. If you decide to do so, note that you'll also
 have to specify the list owner using the owner_id or
 owner_user parameters.}
 
-\item{owner_user}{optional The screen name or user ID of the user
-who owns the list being requested by a slug.}
+\item{owner_user}{optional The screen name or user ID of the user}
 
-\item{n}{Specifies the number of results to return
-per page (see cursor below). For \code{list_memberships()}, the default and
-max is 200 per page. Twitter technically allows up to 1,000 per page,
-but above 200 frequently results in an over capacity error.
-For \code{lists_members()}, the default, and max number
-of users per list, is 5,000.}
+\item{n}{Maximum number of results to return.}
 
-\item{cursor}{optional Breaks the results into pages. Provide a
-value of -1 to begin paging. Provide values as returned in the
-response body's next_cursor and previous_cursor attributes to
-page back and forth in the list.}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
