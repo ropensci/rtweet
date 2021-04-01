@@ -44,7 +44,6 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
 #' @return data
 #' @family retweets
 #' @export
-#' @examples 
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids>
 get_retweeters <- function(status_id,
                            n = 100,

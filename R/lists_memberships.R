@@ -5,6 +5,7 @@
 #' not a unique quirk of rtweet.
 #' 
 #' @inheritParams get_timeline
+#' @inheritParams TWIT_paginate_cursor
 #' @param filter_to_owned_lists When `TRUE`, will return only lists that
 #'   authenticating user owns.
 #' @param previous_cursor If you wish to use previous cursor instead of next,
@@ -20,7 +21,6 @@
 #'
 #' }
 #'
-#' @rdname lists_members
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships>
 #' @export
 lists_memberships <- function(user = NULL,

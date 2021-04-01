@@ -38,7 +38,6 @@
 #' }
 #'
 #' @family lists
-#' @rdname lists_members
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-members>
 lists_members <- function(list_id = NULL,

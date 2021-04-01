@@ -10,17 +10,10 @@ lists_subscriptions(user, n = 20, cursor = "-1", parse = TRUE, token = NULL)
 \item{user}{Character vector of screen names or user ids.
 See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
-\item{n}{Specifies the number of results to return
-per page (see cursor below). The default is 20, with a maximum
-of 1000.}
+\item{n}{Number of lists to return}
 
-\item{cursor}{Causes the collection of list members
-to be broken into "pages" of consistent sizes (specified by
-the count parameter). If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."
-The response from the API will include a previous_cursor
-and next_cursor to allow paging back and forth. See Using
-cursors to navigate collections for more information.}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.

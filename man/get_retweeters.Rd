@@ -30,6 +30,9 @@ Returns user IDs of users who retweeted a given status. At the
 current time, this function is limited in returning a maximum of
 100 users for a given status.
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids}
+}
 \seealso{
 Other retweets: 
 \code{\link{get_retweets}()}

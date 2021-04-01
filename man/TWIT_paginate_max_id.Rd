@@ -27,6 +27,7 @@ TWIT_paginate_cursor(
   n = 5000,
   page_size = 5000,
   cursor = "-1",
+  get_id = function(x) x$ids,
   retryonratelimit = FALSE,
   verbose = TRUE
 )
