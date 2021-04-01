@@ -86,28 +86,3 @@ as.data.frame.lists_statuses <- function(x) {
   }
   out
 }
-
-
-
-
-
-##----------------------------------------------------------------------------##
-##                             lists_subscriptions                            ##
-##----------------------------------------------------------------------------##
-
-as_lists_subscriptions <- function(x) {
-  structure(x, class = "lists_subscriptions")
-}
-
-as.data.frame.lists_subscriptions <- function(x) {
-  out <- as_tbl(
-    wrangle_into_clean_data(x, "list")
-  )
-  if (has_name_(x, "user")) {
-    users <- as_tbl(
-      wrangle_into_clean_data(x$user, "user")
-    )
-    attr(out, "users") <- users
-  }
-  out
-}

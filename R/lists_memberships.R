@@ -46,13 +46,13 @@ lists_memberships <- function(user = NULL,
   )
   
   if (parse) {
-    r <- parse_lists_memberships(r)
+    r <- parse_lists_list(r)
   }
 
   r
 }
 
-parse_lists_memberships <- function(x) {
+parse_lists_list <- function(x) {
   lists <- lapply(x, function(x) x$lists)
   dfs <- lapply(lists, wrangle_into_clean_data, type = "list")
   dfs <- lapply(dfs, tibble::as_tibble)
