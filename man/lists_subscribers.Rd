@@ -53,7 +53,7 @@ rstats <- lists_subscribers(
 
 }
 \references{
-https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers}
 }
 \seealso{
 Other lists: 

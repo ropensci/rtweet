@@ -23,7 +23,7 @@
 #' @family lists
 #' @family users
 #' @export
-#' @references https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers>
 lists_subscribers <- function(list_id = NULL,
                               slug = NULL,
                               owner_user = NULL,
