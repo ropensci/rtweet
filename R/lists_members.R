@@ -40,6 +40,7 @@
 #' @family lists
 #' @rdname lists_members
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-members>
 lists_members <- function(list_id = NULL,
                           slug = NULL,
                           owner_user = NULL,
@@ -48,24 +49,20 @@ lists_members <- function(list_id = NULL,
                           token = NULL,
                           parse = TRUE,
                           ...) {
-  stopifnot(is.numeric(n))
-  if (n > 5000) {
-    warning("maximum number of list users it 5,000")
-    n <- 5000
-  }
-  
   params <- lists_params(
     list_id = list_id,
     slug = slug,
-    owner_user = owner_user,
-    count = n,
-    cursor = cursor
+    owner_user = owner_user
   )
-  r <- TWIT_get(token, "/1.1/lists/members", params, parse = parse)
+  r <- TWIT_paginate_cursor(token, "/1.1/lists/members", params,
+    n = n,
+    page_size = 200,
+    cursor = cursor,
+    get_id = function(x) x$users$id_str
+  )
   
   if (parse) {
-    r <- as_lists_members(r)
-    r <- as.data.frame(r)
+    r <- parse_lists_users(r)
   }
   r
 }

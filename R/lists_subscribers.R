@@ -45,12 +45,12 @@ lists_subscribers <- function(list_id = NULL,
   )
 
   if (parse) {
-    r <- parse_lists_subscribers(r)
+    r <- parse_lists_users(r)
   }
   r
 }
 
-parse_lists_subscribers <- function(x) {
+parse_lists_users <- function(x) {
   users <- lapply(x, function(x) x$users)
   dfs <- lapply(users, wrangle_into_clean_data, type = "user")
   dfs <- lapply(dfs, tibble::as_tibble)
