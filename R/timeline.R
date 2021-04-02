@@ -1,7 +1,8 @@
-#' Get one or more user timelines (tweets posted by target user(s)).
+#' Get one or more user timelines
 #'
-#' `get_timeline()` returns the timeline of any Twitter user.
-#' `get_my_timeline()` returns the authenticated users home timeline.
+#' `get_timeline()` returns the timeline of any Twitter user (i.e. what they
+#' have tweeted). `get_my_timeline()` returns the home timeline for the 
+#' authenticated user (i.e. the tweets you see when you log into Twitter).
 #'
 #' @inheritParams lookup_users
 #' @param user Character vector of screen names or user ids. 
@@ -46,7 +47,7 @@
 #'
 #' @family tweets
 #' @export
-get_timeline <- function(user,
+get_timeline <- function(user = NULL,
                          n = 100,
                          max_id = NULL,
                          home = FALSE,
@@ -55,13 +56,16 @@ get_timeline <- function(user,
                          token = NULL,
                          ...) {
 
-  stopifnot(is.atomic(user), is.numeric(n))
-
-  dots <- list(parse = parse, ...)
+  if (!isFALSE(home)) {
+    lifecycle::deprecate_stop("1.0.0", "get_timeline(home)")
+  }
+  
+  user <- user %||% api_screen_name()
+  
   rt <- lapply(user, get_timeline_user, 
     n = n, 
     max_id = max_id,
-    home = home, 
+    home = FALSE, 
     parse = parse,
     check = check,
     token = token,
