@@ -3,8 +3,8 @@
 #' Returns a list of user IDs for the accounts following specified
 #' user.
 #'
-#' @inheritParams get_timeline
 #' @inheritParams TWIT_paginate_cursor
+#' @inheritParams get_timeline
 #' @param n Number of followers to return. Use `Inf` to download all followers.
 #' 
 #'   Results are downloaded in pages of 5000, and you can download 15 pages

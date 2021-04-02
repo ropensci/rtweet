@@ -3,7 +3,7 @@
 #' Returns a list of user IDs for the accounts following BY one or
 #' more specified users.
 #'
-#' @inheritParams lookup_users
+#' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_followers
 #' @param users Screen name or user ID of target user from which the
 #'   user IDs of friends (accounts followed BY target user) will be

@@ -6,7 +6,6 @@
 #' about the sender and recipient. 
 #'
 #' @inheritParams TWIT_paginate_cursor
-#' @inheritParams lookup_users
 #' @param next_cursor `r lifecycle::badge("deprecated")` Use `cursor` instead.
 #' @return A list with one element for each page of results.
 #' @examples

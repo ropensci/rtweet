@@ -10,7 +10,7 @@ lists_subscriptions(user, n = 20, cursor = "-1", parse = TRUE, token = NULL)
 \item{user}{Character vector of screen names or user ids.
 See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
-\item{n}{Number of lists to return}
+\item{n}{Maximum number of results to return.}
 
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}

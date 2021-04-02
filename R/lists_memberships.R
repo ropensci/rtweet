@@ -4,8 +4,8 @@
 #' is often less than the provided n value. This is a reflection of the API and
 #' not a unique quirk of rtweet.
 #' 
-#' @inheritParams get_timeline
 #' @inheritParams TWIT_paginate_cursor
+#' @inheritParams get_timeline
 #' @param filter_to_owned_lists When `TRUE`, will return only lists that
 #'   authenticating user owns.
 #' @param previous_cursor `r lifecycle::badge("deprecated")` Please use 

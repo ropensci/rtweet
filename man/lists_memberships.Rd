@@ -18,10 +18,7 @@ lists_memberships(
 \item{user}{Character vector of screen names or user ids.
 See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
-\item{n}{Number of tweets to return per timeline. Defaults to 100.
-Must be of length 1 or equal to length of user. This number should
-not exceed 3200 as Twitter limits returns to the most recent 3,200
-statuses posted or retweeted by each user.}
+\item{n}{Maximum number of results to return.}
 
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}

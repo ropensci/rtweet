@@ -1,8 +1,7 @@
 #' Get list subscriptions of a given user.
 #'
-#' @inheritParams get_timeline
 #' @inheritParams TWIT_paginate_cursor
-#' @param n Number of lists to return
+#' @inheritParams get_timeline
 #' @examples
 #'
 #' \dontrun{
