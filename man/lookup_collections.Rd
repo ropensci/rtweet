@@ -2,48 +2,25 @@
 % Please edit documentation in R/collections.R
 \name{lookup_collections}
 \alias{lookup_collections}
-\title{Get collections by user or status id.}
+\alias{get_collections}
+\title{Collections API}
 \usage{
 lookup_collections(id, n = 200, parse = TRUE, token = NULL, ...)
-}
-\arguments{
-\item{id}{required. The identifier of the Collection to return results for
-e.g., "custom-539487832448843776"}
 
-\item{n}{Specifies the maximum number of results to include in
-the response. Specify count between 1 and 200.}
-
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
-
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
-
-\item{...}{Other arguments passed along to composed request query.}
-}
-\value{
-Return object converted to nested list if parsed otherwise
-an HTTP response object is returned.
+get_collections(
+  user = NULL,
+  status_id = NULL,
+  n = 200,
+  cursor = NULL,
+  parse = TRUE,
+  token = NULL
+)
 }
 \description{
-Return data for specified collection (themed grouping of Twitter statuses).
-Response data varies significantly compared to most other users and tweets
-data objects returned in this package.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{get_collections()} and \code{lookup_collections()} have been deprecated
+since the underlying Twitter API has been deprecated:
+\url{https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/collection}.
 }
-\examples{
-
-\dontrun{
-
-## lookup a specific collection
-cc <- lookup_collections("custom-539487832448843776")
-
-## inspect data
-str(cc)
-
-}
-
-}
+\keyword{internal}

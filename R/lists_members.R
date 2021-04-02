@@ -6,17 +6,7 @@
 #'   have to specify the list owner using the owner_id or
 #'   owner_user parameters.
 #' @param owner_user optional The screen name or user ID of the user
-#'   who owns the list being requested by a slug.
-#' @param n Specifies the number of results to return
-#'   per page (see cursor below). For `list_memberships()`, the default and
-#'   max is 200 per page. Twitter technically allows up to 1,000 per page,
-#'   but above 200 frequently results in an over capacity error.
-#'   For `lists_members()`, the default, and max number
-#'   of users per list, is 5,000.
-#' @param cursor optional Breaks the results into pages. Provide a
-#'   value of -1 to begin paging. Provide values as returned in the
-#'   response body's next_cursor and previous_cursor attributes to
-#'   page back and forth in the list.
+#' @inheritParams TWIT_paginate_cursor
 #' @inheritParams lookup_users
 #' @param ... Other arguments used as parameters in query composition.
 #' @return Either a nested list (if parsed) or an HTTP response object.
@@ -38,8 +28,8 @@
 #' }
 #'
 #' @family lists
-#' @rdname lists_members
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-members>
 lists_members <- function(list_id = NULL,
                           slug = NULL,
                           owner_user = NULL,
@@ -48,24 +38,20 @@ lists_members <- function(list_id = NULL,
                           token = NULL,
                           parse = TRUE,
                           ...) {
-  stopifnot(is.numeric(n))
-  if (n > 5000) {
-    warning("maximum number of list users it 5,000")
-    n <- 5000
-  }
-  
   params <- lists_params(
     list_id = list_id,
     slug = slug,
-    owner_user = owner_user,
-    count = n,
-    cursor = cursor
+    owner_user = owner_user
   )
-  r <- TWIT_get(token, "/1.1/lists/members", params, parse = parse)
+  r <- TWIT_paginate_cursor(token, "/1.1/lists/members", params,
+    n = n,
+    page_size = 5000,
+    cursor = cursor,
+    get_id = function(x) x$users$id_str
+  )
   
   if (parse) {
-    r <- as_lists_members(r)
-    r <- as.data.frame(r)
+    r <- parse_lists_users(r)
   }
   r
 }

@@ -17,25 +17,13 @@ lists_subscribers(
 \arguments{
 \item{list_id}{required The numerical id of the list.}
 
-\item{slug}{required You can identify a list by its slug instead of
-its numerical id. If you decide to do so, note that you'll also
-have to specify the list owner using the owner_id or
-owner_user parameters.}
+\item{slug, owner_user}{The list name (slug) and owner.}
 
-\item{owner_user}{optional The screen name or user ID of the user
-who owns the list being requested by a slug.}
-
-\item{n}{optional Specifies the number of results to return
-per page (see cursor below). The default is 20, with a maximum
+\item{n}{Number of results to return. The default is 20, with a maximum
 of 5,000.}
 
-\item{cursor}{semi-optional Causes the collection of list members
-to be broken into "pages" of consistent sizes (specified by
-the count parameter). If no cursor is provided, a
-value of -1 will be assumed, which is the first "page."
-The response from the API will include a previous_cursor
-and next_cursor to allow paging back and forth. See Using
-cursors to navigate collections for more information.}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -63,6 +51,9 @@ rstats <- lists_subscribers(
 
 }
 
+}
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers}
 }
 \seealso{
 Other lists: 

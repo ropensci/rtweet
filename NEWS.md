@@ -1,5 +1,12 @@
 # rtweet (development version)
 
+- `lookup_collections()` and `get_collections()` has been hard deprecated 
+  because the underlying Twitter API has been deprecated.
+
+- `previous_cursor()` has been hard deprecated. It could only be used with 
+  `lists_memberships()` and it has been dropped in favour of making regular
+  pagination better.
+
 - The `home` argument to `get_timeline()` has been deprecated. You can only
   retrieve the home timeline for the logged in user, and that's the job of
   `get_my_timeline()` (#550).

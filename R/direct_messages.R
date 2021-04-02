@@ -2,15 +2,13 @@
 #' past 30 days
 #'
 #' Returns all Direct Message events (both sent and received) within the last 30
-#' days. Sorted in reverse-chronological order.
+#' days. Sorted in reverse-chronological order. Includes detailed information 
+#' about the sender and recipient. 
 #'
-#' @param n optional Specifies the number of direct messages to try
-#'   and retrieve, up to a maximum of 50.
-#' @param next_cursor If there are more than 200 DMs in the last 30 days,
-#'   responses will include a next_cursor value, which can be supplied in
-#'   additional requests to scroll through pages of results.
+#' @inheritParams TWIT_paginate_cursor
 #' @inheritParams lookup_users
-#' @return Return parsed or non-parsed response object.
+#' @param next_cursor `r lifecycle::badge("deprecated")` Use `cursor` instead.
+#' @return A list with one element for each page of results.
 #' @examples
 #'
 #' \dontrun{
@@ -22,23 +20,29 @@
 #' str(dms)
 #'
 #' }
-#'
-#' @details Includes detailed information about the sender and
-#'   recipient user. You can request up to 50 direct messages per
-#'   call, and only direct messages from the last 30 days will be
-#'   available using this endpoint.
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/list-events>
 direct_messages <- function(n = 50,
+                            cursor = NULL,
                             next_cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  params <- list(
-    count = n, 
-    next_cursor = next_cursor
+  
+  if (!is.null(next_cursor)) {
+    lifecycle::deprecate_warn("1.0.0", 
+      "direct_messages(next_cursor)", 
+      "direct_messages(cursor)"
+    )
+    cursor <- next_cursor
+  }
+  
+  TWIT_paginate_cursor(token, "/1.1/direct_messages/events/list", list(), 
+    cursor = cursor,
+    n = n,
+    page_size = 50,
+    get_id = function(x) x$events$id
   )
-  TWIT_get(token, "/1.1/direct_messages/events/list", params, parse = parse)
 }
-
 
 #' (DEPRECATED) Get the most recent direct messages sent to the authenticating user.
 #'

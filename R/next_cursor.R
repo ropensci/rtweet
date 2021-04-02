@@ -1,4 +1,4 @@
-#' next_cursor/previous_cursor/max_id
+#' next_cursor/max_id
 #'
 #' Method for returning next value (used to request next page or results)
 #' object returned from Twitter APIs.
@@ -89,10 +89,6 @@ next_cursor.response <- function(x) {
 }
 
 
-
-
-
-
 #' @rdname next_cursor
 #' @param .x id
 #' @export
@@ -104,12 +100,6 @@ id_minus_one <- function(x) {
   as.character(bit64::as.integer64(x) - 1L)
 }
 
-is_emptylist <- function(x) {
-  inherits(x, "list") && length(x) == 1L && is.null(names(x))
-}
-
-
-
 
 ##----------------------------------------------------------------------------##
 ##                               PREVIOUS CURSOR                              ##
@@ -117,63 +107,15 @@ is_emptylist <- function(x) {
 
 #' Previous cursor
 #'
-#' Paginate in reverse (limited integration)
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' Reverse pagination is no longer supported.
 #'
-#' @family ids
-#' @family extractors
-#' @rdname next_cursor
+#' @keywords internal
 #' @export
-#' @export
-previous_cursor <- function(x) UseMethod("previous_cursor")
-
-#' @export
-previous_cursor.default <- function(x) last(x)
-
-#' @export
-previous_cursor.numeric <- function(x) {
-  sp <- getOption("scipen")
-  on.exit(options(scipen = sp), add = TRUE)
-  options(scipen = 14)
-  x <- as.character(x)
-  NextMethod()
+previous_cursor <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "previous_cursor()")
 }
-
-#' @export
-previous_cursor.character <- function(x) {
-  last(x)
-}
-
-#' @export
-previous_cursor.data.frame <- function(x) {
-  if (has_name_(x, "previous_cursor_str")) return(x[["previous_cursor_str"]])
-  if (has_name_(x, "previous_cursor")) return(x[["previous_cursor"]])
-  if (has_name_(attributes(x), "previous_cursor")) return(attr(x, "previous_cursor"))
-  x <- x[[grep("id$", names(x))[1]]]
-  NextMethod()
-}
-
-#' @export
-previous_cursor.list <- function(x) {
-  if (has_name_(x, "previous_cursor_str")) return(x[["previous_cursor_str"]])
-  if (has_name_(x, "previous_cursor")) return(x[["previous_cursor"]])
-  if (has_name_(attributes(x), "previous_cursor")) return(attr(x, "previous_cursor"))
-  if (!is.null(names(x))) {
-    x <- list(x)
-  }
-  x <- lapply(x, function(x) x[[grep("id$", names(x))[1]]])
-  x <- unlist(lapply(x, previous_cursor))
-  last(x)
-}
-
-#' @export
-previous_cursor.response <- function(x) {
-  x <- from_js(x)
-  NextMethod()
-}
-
-
-
-
 
 ##----------------------------------------------------------------------------##
 ##                                  SINCE_ID                                  ##

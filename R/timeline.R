@@ -125,7 +125,6 @@ get_timeline_user <- function(user,
   params[[user_type(user)]] <- user
 
   result <- TWIT_paginate_max_id(token, api, params, 
-    get_max_id = function(x) x$id_str,
     n = n,
     page_size = 200,
     parse = parse

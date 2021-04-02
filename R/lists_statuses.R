@@ -50,7 +50,6 @@ lists_statuses <- function(list_id = NULL,
   )
 
   results <- TWIT_paginate_max_id(token, "/1.1/lists/statuses", params,
-    get_max_id = function(x) x$id_str,
     page_size = 200,
     n = n,
     parse = parse
