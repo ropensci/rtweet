@@ -5,19 +5,12 @@
 #' The timeline returned is the equivalent of the one seen when you view 
 #' your mentions on twitter.com.
 #'
+#' @inheritParams TWIT_paginate_max_id
 #' @param n Specifies the number of Tweets to try and retrieve, up to
 #'   a maximum of 200 (the default). The value of count is best
 #'   thought of as a limit to the number of tweets to return because
 #'   suspended or deleted content is removed after the count has been
 #'   applied.
-#' @param since_id Returns results with an ID greater than (that is,
-#'   more recent than) the specified ID. There are limits to the
-#'   number of Tweets which can be accessed through the API. If the
-#'   limit of Tweets has occurred since the since_id, the since_id
-#'   will be forced to the oldest ID available.
-#' @param max_id Character, returns results with an ID less than (that is,
-#'   older than) or equal to `max_id`.
-#' @inheritParams lookup_users
 #' @param ... Other arguments passed as parameters in composed API
 #'   query.
 #' @return Tibble of mentions data.

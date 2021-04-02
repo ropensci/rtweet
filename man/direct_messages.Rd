@@ -2,7 +2,6 @@
 % Please edit documentation in R/direct_messages.R
 \name{direct_messages}
 \alias{direct_messages}
-\alias{direct_messages_sent}
 \title{Get direct messages sent to and received by the authenticating user from the
 past 30 days}
 \usage{
@@ -10,14 +9,6 @@ direct_messages(
   n = 50,
   cursor = NULL,
   next_cursor = NULL,
-  parse = TRUE,
-  token = NULL
-)
-
-direct_messages_sent(
-  since_id = NULL,
-  max_id = NULL,
-  n = 200,
   parse = TRUE,
   token = NULL
 )
@@ -39,15 +30,6 @@ API.}
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
-
-\item{since_id}{optional Returns results with an ID greater than
-(that is, more recent than) the specified ID. There are limits to
-the number of Tweets which can be accessed through the API. If
-the limit of Tweets has occurred since the since_id, the since_id
-will be forced to the oldest ID available.}
-
-\item{max_id}{String giving id of most recent tweet to return.
-Can be used for manual pagination.}
 }
 \value{
 A list with one element for each page of results.

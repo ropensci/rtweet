@@ -50,19 +50,11 @@ direct_messages <- function(n = 50,
 #' by the authenticating (home) user. This function requires access
 #' token with read, write, and direct messages access.
 #'
-#' @param since_id optional Returns results with an ID greater than
-#'   (that is, more recent than) the specified ID. There are limits to
-#'   the number of Tweets which can be accessed through the API. If
-#'   the limit of Tweets has occurred since the since_id, the since_id
-#'   will be forced to the oldest ID available.
-#' @param max_id Character, returns results with an ID less than (that is,
-#'   older than) or equal to `max_id`.
 #' @param n optional Specifies the number of direct messages to try
 #'   and retrieve, up to a maximum of 200. The value of count is best
 #'   thought of as a limit to the number of Tweets to return because
 #'   suspended or deleted content is removed after the count has been
 #'   applied.
-#' @inheritParams lookup_users
 #' @return Return object converted to nested list. If status code of
 #'   response object is not 200, the response object is returned
 #'   directly.
@@ -99,9 +91,8 @@ direct_messages_received <- function(since_id = NULL,
     "Please use `direct_messages()` instead.")
 }
 
-#' @inheritParams direct_messages_received
 #' @export
-#' @rdname direct_messages
+#' @rdname direct_messages_received
 direct_messages_sent <- function(since_id = NULL,
                                  max_id = NULL,
                                  n = 200,

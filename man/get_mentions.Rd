@@ -20,14 +20,14 @@ thought of as a limit to the number of tweets to return because
 suspended or deleted content is removed after the count has been
 applied.}
 
-\item{since_id}{Returns results with an ID greater than (that is,
-more recent than) the specified ID. There are limits to the
-number of Tweets which can be accessed through the API. If the
-limit of Tweets has occurred since the since_id, the since_id
-will be forced to the oldest ID available.}
+\item{since_id}{Provides a lower-bound for the results returned; all results
+will have an ID greater than or equal to \code{since_id}. This can generally
+be omitted.}
 
-\item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to \code{max_id}.}
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.

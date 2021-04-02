@@ -24,9 +24,14 @@ request. Higher numbers will require multiple requests.
 \code{n} is applied before removing any tweets that have been suspended or
 deleted.}
 
-\item{since_id, max_id}{Limit tweets to ids in \verb{(since_id, max_id]}.
-If \code{since_id} is smaller than the earliest tweet available to the API,
-it will be forced to the oldest tweet available.}
+\item{since_id}{Provides a lower-bound for the results returned; all results
+will have an ID greater than or equal to \code{since_id}. This can generally
+be omitted.}
+
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.

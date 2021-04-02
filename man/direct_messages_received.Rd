@@ -2,6 +2,7 @@
 % Please edit documentation in R/direct_messages.R
 \name{direct_messages_received}
 \alias{direct_messages_received}
+\alias{direct_messages_sent}
 \title{(DEPRECATED) Get the most recent direct messages sent to the authenticating user.}
 \usage{
 direct_messages_received(
@@ -11,32 +12,21 @@ direct_messages_received(
   parse = TRUE,
   token = NULL
 )
+
+direct_messages_sent(
+  since_id = NULL,
+  max_id = NULL,
+  n = 200,
+  parse = TRUE,
+  token = NULL
+)
 }
 \arguments{
-\item{since_id}{optional Returns results with an ID greater than
-(that is, more recent than) the specified ID. There are limits to
-the number of Tweets which can be accessed through the API. If
-the limit of Tweets has occurred since the since_id, the since_id
-will be forced to the oldest ID available.}
-
-\item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to \code{max_id}.}
-
 \item{n}{optional Specifies the number of direct messages to try
 and retrieve, up to a maximum of 200. The value of count is best
 thought of as a limit to the number of Tweets to return because
 suspended or deleted content is removed after the count has been
 applied.}
-
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
-
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \value{
 Return object converted to nested list. If status code of

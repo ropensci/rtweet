@@ -35,8 +35,10 @@ Must be of length 1 or equal to length of user. This number should
 not exceed 3200 as Twitter limits returns to the most recent 3,200
 statuses posted or retweeted by each user.}
 
-\item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to \code{max_id}.}
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
 \item{home}{Logical, indicating whether to return a "user" timeline
 (the default, what a user has tweeted/retweeted) or a "home" timeline

@@ -3,7 +3,6 @@
 #' Returns Twitter statuses matching a user provided search
 #' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. 
 #'
-#' @inheritParams lookup_users
 #' @param q Query to be searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
 #'   exceed maximum of 500 characters. Spaces behave like boolean

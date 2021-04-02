@@ -75,8 +75,10 @@ entering "RT" into the text of one's tweets).}
 \item{geocode}{Geographical limiter of the template
 "latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
 
-\item{max_id}{String giving id of most recent tweet to return.
-Can be used for manual pagination.}
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
