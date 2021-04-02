@@ -86,13 +86,10 @@ TWIT_method <- function(method, token, api,
 #'   the JSON response. The defaults are chosen to cover the most common cases,
 #'   but you'll need to double check whenever implementing pagination for
 #'   a new endpoint.
-#' @param max_id Provide an upper bound for the returned results; all results
-#'   will have an ID less than or equal to `max_id`. If omitted, results will 
-#'   start from the most recent available. Supplying `max_id` allows you to 
-#'   manually paginate the results.
-#' @param since_id Provides a lower-bound for the results returned; all results
-#'   will have an ID greater than or equal to `since_id`. This can generally
-#'   be omitted.
+#' @param max_id Supply a vector of ids or a data frame of previous results to 
+#'   find tweets **older** than `max_id`.
+#' @param since_id Supply a vector of ids or a data frame of previous results to 
+#'   find tweets **newer** than `since_id`.
 #' @param retryonratelimit If `TRUE`, and a rate limit is exhausted, will wait
 #'   until it refreshes. Most twitter rate limits refresh every 15 minutes.
 #'   If `FALSE`, and the rate limit is exceeded, the function will terminate
@@ -119,6 +116,12 @@ TWIT_paginate_max_id <- function(token, api, params,
                                  count_param = "count", 
                                  retryonratelimit = FALSE,
                                  verbose = TRUE) {
+  if (!is.null(max_id)) {
+    max_id <- rtweet::max_id(max_id)  
+  }
+  if (!is.null(since_id)) {
+    since_id <- rtweet::since_id(since_id)  
+  }
   
   params$since_id <- since_id
   params[[count_param]] <- page_size  
@@ -161,7 +164,7 @@ TWIT_paginate_max_id <- function(token, api, params,
       break
     }
     
-    max_id <- id_minus_one(last(get_id(json)))
+    max_id <- max_id(get_id(json))
     results[[i]] <- if (parse) json else resp
     
     if (verbose) {

@@ -106,38 +106,40 @@ previous_cursor <- function(x) {
 #' tweets (typically tweets that have occured since your last query) with
 #' `since_id`/`since_id()`.
 #' 
-#' @param df A data frame of tweets.
+#' @param x Either a data frame of tweets or a character vector of status ids.
 #' @export
 #' @examples 
 #' \dontrun{
-#' tw <- search_tweets("#rstats", n = 100)
+#' tw <- search_tweets("#rstats")
 #' 
 #' # retrieve older tweets
-#' older <- search_tweets("#rstats", n = 100, max_id = max_id(tw))
-#' even_older <- search_tweets("#rstats", n = 100, max_id = max_id(older))
+#' older <- search_tweets("#rstats", max_id = tw)
+#' even_older <- search_tweets("#rstats", max_id = older)
 #' 
 #' # retrieve newer tweets
-#' newer <- search_tweets("#rstats", n = 100, since_id = since_id(tw))
+#' newer <- search_tweets("#rstats", since_id = tw)
 #' }
-max_id <- function(df) {
-  if (!is.data.frame(df) || !has_name(df, "status_id")) {
-    abort("`df` must be a data frame with a `status_id` column")
-  }
-  
-  as.character(min(bit64::as.integer64(df$status_id)) - 1L)
+max_id <- function(x) {
+  id <- find_id(x, "max_id")
+  as.character(min(bit64::as.integer64(id)) - 1L)
 }
 
 #' @rdname next_cursor
 #' @export
-since_id <- function(df) {
-  if (!is.data.frame(df) || !has_name(df, "status_id")) {
-    abort("`df` must be a data frame with a `status_id` column")
-  }
-  
-  as.character(max(bit64::as.integer64(df$status_id)))
+since_id <- function(x) {
+  id <- find_id(x, "since_id")
+  as.character(max(bit64::as.integer64(id)))
 }
 
-
-id_minus_one <- function(x) {
-  as.character(bit64::as.integer64(x) - 1L)
+find_id <- function(x, arg_name) {
+  if (is.character(x)) {
+    x
+  } else if (is.data.frame(x)) {
+    if (!has_name(x, "status_id"))  {
+      abort(paste0("`", arg_name, "` must contain a `status_id` column"))
+    }
+    x$status_id
+  } else {
+    abort(paste0("`", arg_name, "` must be a character vector or data frame"))
+  }
 }

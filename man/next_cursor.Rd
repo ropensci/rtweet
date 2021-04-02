@@ -7,7 +7,7 @@
 \usage{
 next_cursor(x)
 
-since_id(df)
+since_id(x)
 }
 \arguments{
 \item{x}{Data object returned by Twitter API.}

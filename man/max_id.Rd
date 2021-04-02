@@ -4,10 +4,10 @@
 \alias{max_id}
 \title{Extract minimum/maximum id from a data frame of tweets}
 \usage{
-max_id(df)
+max_id(x)
 }
 \arguments{
-\item{df}{A data frame of tweets.}
+\item{x}{Either a data frame of tweets or a character vector of status ids.}
 }
 \description{
 Use these functions to get earlier tweets with \code{max_id}/\code{max_id()} or later
@@ -16,13 +16,13 @@ tweets (typically tweets that have occured since your last query) with
 }
 \examples{
 \dontrun{
-tw <- search_tweets("#rstats", n = 100)
+tw <- search_tweets("#rstats")
 
 # retrieve older tweets
-older <- search_tweets("#rstats", n = 100, max_id = max_id(tw))
-even_older <- search_tweets("#rstats", n = 100, max_id = max_id(older))
+older <- search_tweets("#rstats", max_id = tw)
+even_older <- search_tweets("#rstats", max_id = older)
 
 # retrieve newer tweets
-newer <- search_tweets("#rstats", n = 100, since_id = since_id(tw))
+newer <- search_tweets("#rstats", since_id = tw)
 }
 }

@@ -78,14 +78,11 @@ entering "RT" into the text of one's tweets).}
 \item{geocode}{Geographical limiter of the template
 "latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
 
-\item{since_id}{Provides a lower-bound for the results returned; all results
-will have an ID greater than or equal to \code{since_id}. This can generally
-be omitted.}
+\item{since_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{newer} than \code{since_id}.}
 
-\item{max_id}{Provide an upper bound for the returned results; all results
-will have an ID less than or equal to \code{max_id}. If omitted, results will
-start from the most recent available. Supplying \code{max_id} allows you to
-manually paginate the results.}
+\item{max_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{older} than \code{max_id}.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
