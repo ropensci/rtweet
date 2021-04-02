@@ -138,12 +138,12 @@ search_premium <- function(product, q, n = 100, fromDate = NULL, toDate = NULL,
     n = n,
     fromDate = format_from_to_date(fromDate),
     toDate = format_from_to_date(toDate),
-    max_id = max_id,
   )
   
   api <- paste0("/1.1/search/tweets/", product, "/", env_name)
   result <- TWIT_paginate_max_id(token, api, params,
     get_id = function(x) x$statuses$id_str,
+    max_id = max_id,
     n = n,
     page_size = if (env_name == "sandbox") 100 else 500, 
     parse = parse,

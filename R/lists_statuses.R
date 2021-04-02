@@ -43,7 +43,6 @@ lists_statuses <- function(list_id = NULL,
     slug = slug,
     owner_user = owner_user,
     since_id = since_id,
-    max_id = max_id,
     count = n,
     include_rts = include_rts,
     tweet_mode = "extended"
@@ -51,6 +50,7 @@ lists_statuses <- function(list_id = NULL,
 
   results <- TWIT_paginate_max_id(token, "/1.1/lists/statuses", params,
     page_size = 200,
+    max_id = max_id,
     n = n,
     parse = parse
   )

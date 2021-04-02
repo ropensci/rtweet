@@ -108,16 +108,9 @@ get_timeline_user <- function(user,
                               parse = TRUE,
                               token = NULL,
                               ...) {
-  stopifnot(
-    is.atomic(user),
-    is.atomic(max_id),
-    is.logical(home)
-  )
-  
   api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
 
   params <- list(
-    max_id = max_id,
     tweet_mode = "extended",
     include_ext_alt_text = "true",
     ...
@@ -127,6 +120,7 @@ get_timeline_user <- function(user,
   result <- TWIT_paginate_max_id(token, api, params, 
     n = n,
     page_size = 200,
+    max_id = max_id,
     parse = parse
   )
   

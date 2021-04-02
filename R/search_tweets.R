@@ -143,7 +143,6 @@ search_tweets <- function(q, n = 100,
     type = type,
     include_rts = include_rts,
     geocode = geocode,
-    max_id = max_id,
     ...
   )
   
