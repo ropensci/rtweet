@@ -1,6 +1,9 @@
 # rtweet (development version)
 
-- `previous_cursor()` has been deprecated. It could only be used with 
+- `lookup_collections()` and `get_collections()` has been hard deprecated 
+  because the underlying Twitter API has been deprecated.
+
+- `previous_cursor()` has been hard deprecated. It could only be used with 
   `lists_memberships()` and it has been dropped in favour of making regular
   pagination better.
 
