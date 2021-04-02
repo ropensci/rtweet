@@ -8,10 +8,11 @@ get_friends(
   users,
   n = 5000,
   retryonratelimit = FALSE,
-  page = "-1",
+  cursor = "-1",
   parse = TRUE,
   verbose = TRUE,
-  token = NULL
+  token = NULL,
+  page = lifecycle::deprecated()
 )
 }
 \arguments{
@@ -42,10 +43,8 @@ If you expect a query to take hours or days to perform, you should not
 rely soley on \code{retryonratelimit} because it does not handle other common
 failure modes like temporarily losing your internet connection.}
 
-\item{page}{Default \code{page = -1} specifies first page of JSON
-results. Other pages specified via cursor values supplied by
-Twitter API response object. This is only relevant if a user has
-over 5000 friends (follows more than 5000 accounts).}
+\item{cursor}{Which page of results to return. The default will return
+the first page; can be used for manual pagination.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -53,13 +52,14 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
-\item{verbose}{Logical indicating whether or not to include output
-messages. Defaults to TRUE, which includes printing a success message
-for each inputted user.}
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
+
+\item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}
 }
 \value{
 A tibble data frame with two columns, "user" for name or ID of target

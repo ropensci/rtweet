@@ -4,6 +4,7 @@
 #' more specified users.
 #'
 #' @inheritParams lookup_users
+#' @inheritParams get_followers
 #' @param users Screen name or user ID of target user from which the
 #'   user IDs of friends (accounts followed BY target user) will be
 #'   retrieved.
@@ -19,13 +20,6 @@
 #'   5000). To return more than 5,000 friends for a single user, call
 #'   this function multiple times with requests after the first using
 #'   the `page` parameter.
-#' @param page Default `page = -1` specifies first page of JSON
-#'   results. Other pages specified via cursor values supplied by
-#'   Twitter API response object. This is only relevant if a user has
-#'   over 5000 friends (follows more than 5000 accounts).
-#' @param verbose Logical indicating whether or not to include output
-#'   messages. Defaults to TRUE, which includes printing a success message
-#'   for each inputted user.
 #' @seealso <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
 #'
@@ -46,10 +40,17 @@
 get_friends <- function(users,
                         n = 5000,
                         retryonratelimit = FALSE,
-                        page = "-1",
+                        cursor = "-1",
                         parse = TRUE,
                         verbose = TRUE,
-                        token = NULL) {
+                        token = NULL,
+                        page = lifecycle::deprecated()) {
+  
+  if (lifecycle::is_present(page)) {
+    lifecycle::deprecate_warn("1.0.0", "get_friends(page)", "get_friends(cursor)")
+    cursor <- page
+  }
+
   
   results <- lapply(users, get_friends_user, 
     n = n, 

@@ -44,7 +44,7 @@ sys.Sleep(15 * 60) ## Suspend execution of R expressions for 15 mins
 
 ## Use the page value returned from `next_cursor` to continue
 ##   where you left off.
-f2 <- get_followers("potus", n = 75000, page = page)
+f2 <- get_followers("potus", n = 75000, cursor = page)
 
 ## combine
 f <- do.call("rbind", list(f1, f2))
