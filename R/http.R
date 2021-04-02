@@ -162,7 +162,8 @@ TWIT_paginate_cursor <- function(token, api, params,
   
   if (verbose) {
     pb <- progress::progress_bar$new(
-      format = "Downloading multiple pages :spin",
+      format = "Downloading multiple pages :bar",
+      total = n
     ) 
     withr::defer(pb$terminate())
   }
@@ -194,7 +195,7 @@ TWIT_paginate_cursor <- function(token, api, params,
     }
     
     if (verbose) {
-      pb$tick()
+      pb$update(n_seen / n)
     }
   })
 
