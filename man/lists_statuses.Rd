@@ -13,6 +13,8 @@ lists_statuses(
   n = 200,
   include_rts = TRUE,
   parse = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   token = NULL
 )
 }
@@ -61,6 +63,19 @@ be parsed into a convenient R data structure like a list or data frame.
 This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
