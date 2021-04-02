@@ -10,9 +10,9 @@ max_id(df)
 \item{df}{A data frame of tweets.}
 }
 \description{
-Use these functions to get earlier tweets with \code{max_id()} or later
+Use these functions to get earlier tweets with \code{max_id}/\code{max_id()} or later
 tweets (typically tweets that have occured since your last query) with
-\code{since_id()}.
+\code{since_id}/\code{since_id()}.
 }
 \examples{
 \dontrun{

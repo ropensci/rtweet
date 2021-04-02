@@ -100,13 +100,11 @@ previous_cursor <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "previous_cursor()")
 }
 
-
-
 #' Extract minimum/maximum id from a data frame of tweets
 #' 
-#' Use these functions to get earlier tweets with `max_id()` or later 
+#' Use these functions to get earlier tweets with `max_id`/`max_id()` or later 
 #' tweets (typically tweets that have occured since your last query) with
-#' `since_id()`.
+#' `since_id`/`since_id()`.
 #' 
 #' @param df A data frame of tweets.
 #' @export
@@ -126,7 +124,7 @@ max_id <- function(df) {
     abort("`df` must be a data frame with a `status_id` column")
   }
   
-  as.character(max(bit64::as.integer64(df$status_id)) - 1L)
+  as.character(min(bit64::as.integer64(df$status_id)) - 1L)
 }
 
 #' @rdname next_cursor
@@ -136,7 +134,7 @@ since_id <- function(df) {
     abort("`df` must be a data frame with a `status_id` column")
   }
   
-  as.character(min(bit64::as.integer64(df$status_id)))
+  as.character(max(bit64::as.integer64(df$status_id)))
 }
 
 

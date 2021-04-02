@@ -1,7 +1,6 @@
-#' Get tweets data for statuses favorited by one or more target users.
+#' Get tweets favorited by one or more users
 #'
-#' Returns up to 3,000 statuses favorited by each of one or more
-#' specific Twitter users.
+#' Returns up to 3,000 tweets favorited for each `user`.
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams get_timeline
@@ -26,14 +25,16 @@ get_favorites <- function(user,
                           since_id = NULL,
                           max_id = NULL,
                           parse = TRUE,
+                          retryonratelimit = FALSE,
+                          verbose = TRUE,
                           token = NULL) {
-  stopifnot(is.atomic(user), is.numeric(n))
-
   rt <- lapply(user, get_favorites_user, 
     n = n,
     since_id = since_id,
     max_id = max_id,
     parse = parse,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     token = token
   )
 
@@ -43,13 +44,7 @@ get_favorites <- function(user,
   rt
 }
 
-get_favorites_user <- function(user,
-                           n = 200,
-                           since_id = NULL,
-                           max_id = NULL,
-                           parse = TRUE,
-                           token = NULL) {
-
+get_favorites_user <- function(user, ..., parse = TRUE, token = NULL) {
   params <- list(
     tweet_mode = "extended",
     include_ext_alt_text = "true"
@@ -58,15 +53,13 @@ get_favorites_user <- function(user,
   
   results <- TWIT_paginate_max_id(token, "/1.1/favorites/list", params,
     page_size = 200,
-    max_id = max_id,
-    since_id = since_id,
-    n = n,
+    ...,
     parse = parse
   )
 
   if (parse) {
     results <- tweets_with_users(results)
-    results$favorited_by <- user
+    results$favorited_by <- rep(user, nrow(results))
   }
   
   results
