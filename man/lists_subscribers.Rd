@@ -19,8 +19,19 @@ lists_subscribers(
 
 \item{slug, owner_user}{The list name (slug) and owner.}
 
-\item{n}{Number of results to return. The default is 20, with a maximum
-of 5,000.}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page. Set \code{n = Inf} to download as many results as possible.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}

@@ -30,13 +30,24 @@ get_my_timeline(
 \item{user}{Character vector of screen names or user ids.
 See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
-\item{n}{Number of tweets to return per timeline. Defaults to 100.
-Must be of length 1 or equal to length of user. This number should
-not exceed 3200 as Twitter limits returns to the most recent 3,200
-statuses posted or retweeted by each user.}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page. Set \code{n = Inf} to download as many results as possible.
 
-\item{max_id}{Character, returns results with an ID less than (that is,
-older than) or equal to \code{max_id}.}
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
+
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
 \item{home}{Logical, indicating whether to return a "user" timeline
 (the default, what a user has tweeted/retweeted) or a "home" timeline

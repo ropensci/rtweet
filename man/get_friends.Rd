@@ -20,18 +20,19 @@ get_friends(
 user IDs of friends (accounts followed BY target user) will be
 retrieved.}
 
-\item{n}{Number of friends (user IDs) to return. Defaults to 5,000,
-which is the maximum returned by a single API call. Users are
-limited to 15 of these requests per 15 minutes. Twitter limits
-the number of friends a user can have to 5,000. To follow more
-than 5,000 accounts (to have more than 5 thousand "friends")
-accounts must meet certain requirements (e.g., a certain ratio of
-followers to friends). Consequently, the vast majority of users
-follow fewer than five thousand accounts. This function has been
-oriented accordingly (i.e., it assumes the maximum value of n is
-5000). To return more than 5,000 friends for a single user, call
-this function multiple times with requests after the first using
-the \code{page} parameter.}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page. Set \code{n = Inf} to download as many results as possible.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
 until it refreshes. Most twitter rate limits refresh every 15 minutes.
@@ -68,6 +69,11 @@ user and "user_id" for follower IDs.
 \description{
 Returns a list of user IDs for the accounts following BY one or
 more specified users.
+}
+\details{
+Generally, you should not need to set \code{n} to more than 5,000 since Twitter
+limits the number of people that you can follow (i.e. to follow more than
+5,000 people at least 5,000 people need to follow you).
 }
 \examples{
 

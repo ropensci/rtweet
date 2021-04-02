@@ -3,17 +3,8 @@
 #' Returns up to 3,000 statuses favorited by each of one or more
 #' specific Twitter users.
 #'
+#' @inheritParams TWIT_paginate_max_id
 #' @inheritParams get_timeline
-#' @param n Specifies the number of records to retrieve. Defaults to 200,
-#'   which is the maximum number of records that can be retrieved in a single
-#'   request. Higher numbers will require multiple requests.
-#'   
-#'   `n` is applied before removing any tweets that have been suspended or 
-#'    deleted. 
-#' @param since_id,max_id Limit tweets to ids in `(since_id, max_id]`.
-#'   If `since_id` is smaller than the earliest tweet available to the API,
-#'   it will be forced to the oldest tweet available.
-#' @inheritParams lookup_users
 #' @return A tibble with one row for each tweet.
 #' @examples
 #' \dontrun{
@@ -62,14 +53,14 @@ get_favorites_user <- function(user,
 
   params <- list(
     tweet_mode = "extended",
-    include_ext_alt_text = "true",
-    since_id = since_id
+    include_ext_alt_text = "true"
   )
   params[[user_type(user)]] <- user
   
   results <- TWIT_paginate_max_id(token, "/1.1/favorites/list", params,
     page_size = 200,
     max_id = max_id,
+    since_id = since_id,
     n = n,
     parse = parse
   )

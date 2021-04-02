@@ -14,6 +14,7 @@ TWIT_paginate_max_id(
   n = 1000,
   page_size = 200,
   parse = TRUE,
+  since_id = NULL,
   max_id = NULL,
   count_param = "count",
   retryonratelimit = FALSE,
@@ -41,15 +42,43 @@ TWIT_paginate_chunked(
 )
 }
 \arguments{
+\item{token}{Expert use only. Use this to override authentication for
+a single API call. In most cases you are better off changing the
+default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
+
 \item{get_id}{A single argument function that returns a vector of ids given
 the JSON response. The defaults are chosen to cover the most common cases,
 but you'll need to double check whenever implementing pagination for
 a new endpoint.}
 
-\item{n}{Maximum number of results to return.}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page. Set \code{n = Inf} to download as many results as possible.
 
-\item{max_id}{String giving id of most recent tweet to return.
-Can be used for manual pagination.}
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
+
+\item{parse}{The default, \code{TRUE}, indicates that the result should
+be parsed into a convenient R data structure like a list or data frame.
+This protects you from the vagaries of the twitter API. Use \code{FALSE}
+to return the "raw" list produced by the JSON returned from the twitter
+API.}
+
+\item{since_id}{Provides a lower-bound for the results returned; all results
+will have an ID greater than or equal to \code{since_id}. This can generally
+be omitted.}
+
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
 until it refreshes. Most twitter rate limits refresh every 15 minutes.
@@ -68,6 +97,7 @@ progress?}
 the first page; can be used for manual pagination.}
 }
 \description{
-Pagination
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+These are internal functions used for pagination inside of rtweet.
 }
 \keyword{internal}

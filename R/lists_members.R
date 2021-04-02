@@ -1,13 +1,12 @@
 #' Get Twitter list members (users on a given list).
 #'
+#' @inheritParams TWIT_paginate_cursor
 #' @param list_id required The numerical id of the list.
 #' @param slug required You can identify a list by its slug instead of
 #'   its numerical id. If you decide to do so, note that you'll also
 #'   have to specify the list owner using the owner_id or
 #'   owner_user parameters.
 #' @param owner_user optional The screen name or user ID of the user
-#' @inheritParams TWIT_paginate_cursor
-#' @inheritParams lookup_users
 #' @param ... Other arguments used as parameters in query composition.
 #' @return Either a nested list (if parsed) or an HTTP response object.
 #' @examples

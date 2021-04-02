@@ -1,25 +1,17 @@
 #' Get user IDs of accounts followed by target user(s).
 #'
 #' Returns a list of user IDs for the accounts following BY one or
-#' more specified users.
+#' more specified users. 
+#' 
+#' Generally, you should not need to set `n` to more than 5,000 since Twitter
+#' limits the number of people that you can follow (i.e. to follow more than
+#' 5,000 people at least 5,000 people need to follow you).
 #'
-#' @inheritParams lookup_users
+#' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_followers
 #' @param users Screen name or user ID of target user from which the
 #'   user IDs of friends (accounts followed BY target user) will be
 #'   retrieved.
-#' @param n Number of friends (user IDs) to return. Defaults to 5,000,
-#'   which is the maximum returned by a single API call. Users are
-#'   limited to 15 of these requests per 15 minutes. Twitter limits
-#'   the number of friends a user can have to 5,000. To follow more
-#'   than 5,000 accounts (to have more than 5 thousand "friends")
-#'   accounts must meet certain requirements (e.g., a certain ratio of
-#'   followers to friends). Consequently, the vast majority of users
-#'   follow fewer than five thousand accounts. This function has been
-#'   oriented accordingly (i.e., it assumes the maximum value of n is
-#'   5000). To return more than 5,000 friends for a single user, call
-#'   this function multiple times with requests after the first using
-#'   the `page` parameter.
 #' @seealso <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
 #'

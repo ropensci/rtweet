@@ -3,13 +3,8 @@
 #' Returns a list of user IDs for the accounts following specified
 #' user.
 #'
-#' @inheritParams get_timeline
 #' @inheritParams TWIT_paginate_cursor
-#' @param n Number of followers to return. Use `Inf` to download all followers.
-#' 
-#'   Results are downloaded in pages of 5000, and you can download 15 pages
-#'   (i.e. 75,000 tweets) in each 15 minute period. The easiest way to download 
-#'   more than that is to set `retryonratelimit = TRUE`.
+#' @inheritParams get_timeline
 #' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
 #' @seealso
 #'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>

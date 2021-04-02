@@ -7,20 +7,12 @@
 #'   parameters.
 #' @param owner_user optional The screen name or user ID of the user
 #'   who owns the list being requested by a slug.
-#' @param since_id optional Returns results with an ID greater than
-#'   (that is, more recent than) the specified ID. There are limits to the
-#'   number of Tweets which can be accessed through the API. If the limit
-#'   of Tweets has occurred since the since_id, the since_id will be forced
-#'   to the oldest ID available.
-#' @param max_id optional Returns results with an ID less than (that is,
-#'   older than) or equal to the specified ID.
-#' @param n optional Specifies the number of results to retrieve per "page."
 #' @param include_rts optional When set to either true, t or 1,
 #'   the list timeline will contain native retweets (if they exist) in
 #'   addition to the standard stream of tweets. The output format of
 #'   retweeted tweets is identical to the representation you see in
 #'   home_timeline.
-#' @inheritParams lookup_users
+#' @inheritParams TWIT_paginate_max_id
 #' @family lists
 #' @family tweets
 #' @return data
@@ -42,7 +34,6 @@ lists_statuses <- function(list_id = NULL,
     list_id = list_id,
     slug = slug,
     owner_user = owner_user,
-    since_id = since_id,
     count = n,
     include_rts = include_rts,
     tweet_mode = "extended"
@@ -51,6 +42,7 @@ lists_statuses <- function(list_id = NULL,
   results <- TWIT_paginate_max_id(token, "/1.1/lists/statuses", params,
     page_size = 200,
     max_id = max_id,
+    since_id = since_id,
     n = n,
     parse = parse
   )

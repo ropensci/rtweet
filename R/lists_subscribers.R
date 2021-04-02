@@ -1,12 +1,8 @@
 #' Get subscribers of a specified list.
 #'
+#' @inheritParams TWIT_paginate_cursor
 #' @param list_id required The numerical id of the list.
 #' @param slug,owner_user The list name (slug) and owner. 
-#' @param n Number of results to return. The default is 20, with a maximum
-#'   of 5,000.
-#' @inheritParams TWIT_paginate_cursor
-#' @inheritParams get_timeline
-#' @inheritParams lookup_users
 #' @examples
 #'
 #' \dontrun{

@@ -4,15 +4,9 @@
 #' have tweeted). `get_my_timeline()` returns the home timeline for the 
 #' authenticated user (i.e. the tweets you see when you log into Twitter).
 #'
-#' @inheritParams lookup_users
+#' @inheritParams TWIT_paginate_max_id
 #' @param user Character vector of screen names or user ids. 
 #'   See [as_screenname()] for more details.
-#' @param n Number of tweets to return per timeline. Defaults to 100.
-#'   Must be of length 1 or equal to length of user. This number should
-#'   not exceed 3200 as Twitter limits returns to the most recent 3,200
-#'   statuses posted or retweeted by each user.
-#' @param max_id Character, returns results with an ID less than (that is,
-#'   older than) or equal to `max_id`.
 #' @param home Logical, indicating whether to return a "user" timeline
 #'   (the default, what a user has tweeted/retweeted) or a "home" timeline 
 #'   (what the user would see if they logged into twitter). 

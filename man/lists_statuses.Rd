@@ -27,16 +27,28 @@ parameters.}
 \item{owner_user}{optional The screen name or user ID of the user
 who owns the list being requested by a slug.}
 
-\item{since_id}{optional Returns results with an ID greater than
-(that is, more recent than) the specified ID. There are limits to the
-number of Tweets which can be accessed through the API. If the limit
-of Tweets has occurred since the since_id, the since_id will be forced
-to the oldest ID available.}
+\item{since_id}{Provides a lower-bound for the results returned; all results
+will have an ID greater than or equal to \code{since_id}. This can generally
+be omitted.}
 
-\item{max_id}{optional Returns results with an ID less than (that is,
-older than) or equal to the specified ID.}
+\item{max_id}{Provide an upper bound for the returned results; all results
+will have an ID less than or equal to \code{max_id}. If omitted, results will
+start from the most recent available. Supplying \code{max_id} allows you to
+manually paginate the results.}
 
-\item{n}{optional Specifies the number of results to retrieve per "page."}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page. Set \code{n = Inf} to download as many results as possible.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{include_rts}{optional When set to either true, t or 1,
 the list timeline will contain native retweets (if they exist) in
