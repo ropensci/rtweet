@@ -119,6 +119,7 @@ search_tweets <- function(q, n = 100,
                           type = c("mixed", "recent", "popular"),
                           include_rts = TRUE,
                           geocode = NULL,
+                          since_id = NULL,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL,
@@ -135,11 +136,12 @@ search_tweets <- function(q, n = 100,
   
   result <- TWIT_paginate_max_id(token, "/1.1/search/tweets", params,
     get_id = function(x) x$statuses$id_str,
-    n = n,
     page_size = 100,
-    retryonratelimit = retryonratelimit,
+    n = n,
+    since_id = since_id,
     max_id = max_id,
     parse = parse,
+    retryonratelimit = retryonratelimit,
     verbose = verbose
   )
 

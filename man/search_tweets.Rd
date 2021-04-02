@@ -11,6 +11,7 @@ search_tweets(
   type = c("mixed", "recent", "popular"),
   include_rts = TRUE,
   geocode = NULL,
+  since_id = NULL,
   max_id = NULL,
   parse = TRUE,
   token = NULL,
@@ -76,6 +77,10 @@ entering "RT" into the text of one's tweets).}
 
 \item{geocode}{Geographical limiter of the template
 "latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
+
+\item{since_id}{Provides a lower-bound for the results returned; all results
+will have an ID greater than or equal to \code{since_id}. This can generally
+be omitted.}
 
 \item{max_id}{Provide an upper bound for the returned results; all results
 will have an ID less than or equal to \code{max_id}. If omitted, results will
