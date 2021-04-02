@@ -63,9 +63,10 @@ TWIT_method <- function(method, token, api,
 #' 
 #' @keywords internal
 #' @param n Maximum number of results to return.
-#' @param get_max_id A single argument function that returns a vector of 
-#'   string ids. This is needed because different endpoints store that 
-#'   information in different places.
+#' @param get_id A single argument function that returns a vector of ids given 
+#'   the JSON response. The defaults are chosen to cover the most common cases,
+#'   but you'll need to double check whenever implementing pagination for
+#'   a new endpoint.
 #' @param max_id String giving id of most recent tweet to return. 
 #'   Can be used for manual pagination.
 #' @param retryonratelimit If `TRUE`, and a rate limit is exhausted, will wait
@@ -80,7 +81,7 @@ TWIT_method <- function(method, token, api,
 #' @param verbose Show progress bars and other messages indicating current 
 #'   progress?
 TWIT_paginate_max_id <- function(token, api, params, 
-                                 get_max_id, 
+                                 get_id = function(x) x$id_str, 
                                  n = 1000, 
                                  page_size = 200, 
                                  parse = TRUE,
@@ -129,7 +130,7 @@ TWIT_paginate_max_id <- function(token, api, params,
       break
     }
     
-    max_id <- id_minus_one(last(get_max_id(json)))
+    max_id <- id_minus_one(last(get_id(json)))
     results[[i]] <- if (parse) json else resp
     
     if (verbose) {

@@ -10,7 +10,7 @@ TWIT_paginate_max_id(
   token,
   api,
   params,
-  get_max_id,
+  get_id = function(x) x$id_str,
   n = 1000,
   page_size = 200,
   parse = TRUE,
@@ -41,9 +41,10 @@ TWIT_paginate_chunked(
 )
 }
 \arguments{
-\item{get_max_id}{A single argument function that returns a vector of
-string ids. This is needed because different endpoints store that
-information in different places.}
+\item{get_id}{A single argument function that returns a vector of ids given
+the JSON response. The defaults are chosen to cover the most common cases,
+but you'll need to double check whenever implementing pagination for
+a new endpoint.}
 
 \item{n}{Maximum number of results to return.}
 
