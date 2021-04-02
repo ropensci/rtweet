@@ -28,6 +28,8 @@ get_mentions <- function(n = 200,
                          since_id = NULL,
                          max_id = NULL,
                          parse = TRUE,
+                         retryonratelimit = FALSE,
+                         verbose = TRUE,
                          token = NULL,
                          ...) {
 
@@ -36,6 +38,8 @@ get_mentions <- function(n = 200,
     n = n,
     since_id = since_id,
     max_id = max_id,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose
   )
   
   if (parse) {
