@@ -102,10 +102,10 @@ previous_cursor <- function(x) {
 
 #' Extract minimum/maximum id from a data frame of tweets
 #' 
-#' Use these functions to get earlier tweets with `max_id`/`max_id()` or later 
-#' tweets (typically tweets that have occured since your last query) with
-#' `since_id`/`since_id()`.
+#' These internal helpers extract the ids passed on to the `max_id`
+#' and `since_id` arguments to functions that use [TWIT_paginate_max_id()].
 #' 
+#' @keywords internal
 #' @param x Either a data frame of tweets or a character vector of status ids.
 #' @export
 #' @examples 

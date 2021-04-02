@@ -10,9 +10,8 @@ max_id(x)
 \item{x}{Either a data frame of tweets or a character vector of status ids.}
 }
 \description{
-Use these functions to get earlier tweets with \code{max_id}/\code{max_id()} or later
-tweets (typically tweets that have occured since your last query) with
-\code{since_id}/\code{since_id()}.
+These internal helpers extract the ids passed on to the \code{max_id}
+and \code{since_id} arguments to functions that use \code{\link[=TWIT_paginate_max_id]{TWIT_paginate_max_id()}}.
 }
 \examples{
 \dontrun{
@@ -26,3 +25,4 @@ even_older <- search_tweets("#rstats", max_id = older)
 newer <- search_tweets("#rstats", since_id = tw)
 }
 }
+\keyword{internal}
