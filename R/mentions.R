@@ -30,22 +30,18 @@ get_mentions <- function(n = 200,
                          parse = TRUE,
                          token = NULL,
                          ...) {
-  
-  message("Getting mentions for ", api_screen_name(token))
-  
-  params <- list(
-    count = n,
+
+  params <- list(...)
+  r <- TWIT_paginate_max_id(token, "/1.1/statuses/mentions_timeline", params,
+    n = n,
     since_id = since_id,
     max_id = max_id,
-    ...
   )
-  r <- TWIT_get(token, "/1.1/statuses/mentions_timeline", params)
   
   if (parse) {
-    r <- parse_mentions(r)
-    if (has_name_(r, "created_at")) {
-      r$created_at <- format_date(r$created_at)
-    }
+    r <- lapply(r, parse_mentions)
+    r <- do.call("rbind", r)
+    r$created_at <- format_date(r$created_at)
   }
   r
 }
