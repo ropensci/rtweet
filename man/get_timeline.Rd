@@ -9,19 +9,25 @@
 get_timeline(
   user = NULL,
   n = 100,
+  since_id = NULL,
   max_id = NULL,
   home = FALSE,
   parse = TRUE,
   check = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   token = NULL,
   ...
 )
 
 get_my_timeline(
   n = 100,
+  since_id = NULL,
   max_id = NULL,
   parse = TRUE,
   check = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   token = NULL,
   ...
 )
@@ -44,6 +50,10 @@ You will get more results if you ask for a number of tweets that's not
 a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
+\item{since_id}{Provides a lower-bound for the results returned; all results
+will have an ID greater than or equal to \code{since_id}. This can generally
+be omitted.}
+
 \item{max_id}{Provide an upper bound for the returned results; all results
 will have an ID less than or equal to \code{max_id}. If omitted, results will
 start from the most recent available. Supplying \code{max_id} allows you to
@@ -60,6 +70,19 @@ to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{check}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the

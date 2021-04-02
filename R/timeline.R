@@ -42,10 +42,13 @@
 #' @export
 get_timeline <- function(user = NULL,
                          n = 100,
+                         since_id = NULL,
                          max_id = NULL,
                          home = FALSE,
                          parse = TRUE,
                          check = TRUE,
+                         retryonratelimit = FALSE,
+                         verbose = TRUE,
                          token = NULL,
                          ...) {
 
@@ -57,10 +60,13 @@ get_timeline <- function(user = NULL,
   
   rt <- lapply(user, get_timeline_user, 
     n = n, 
+    since_id = since_id,
     max_id = max_id,
     home = FALSE, 
     parse = parse,
     check = check,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     token = token,
     ...
   )
@@ -77,9 +83,12 @@ get_timeline <- function(user = NULL,
 #' @rdname get_timeline
 #' @export
 get_my_timeline <- function(n = 100,
+                            since_id = NULL,
                             max_id = NULL,
                             parse = TRUE,
                             check = TRUE,
+                            retryonratelimit = FALSE,
+                            verbose = TRUE,
                             token = NULL,
                             ...) {
 
@@ -87,18 +96,23 @@ get_my_timeline <- function(n = 100,
     user = api_screen_name(),
     n = n,
     home = TRUE,
+    since_id = since_id,
     max_id = max_id,
     parse = parse,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     token = token
   )
-
 }
 
 get_timeline_user <- function(user,
                               n = 200,
+                              since_id = NULL,
                               max_id = NULL,
                               home = FALSE,
                               parse = TRUE,
+                              retryonratelimit = FALSE,
+                              verbose = TRUE,
                               token = NULL,
                               ...) {
   api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
@@ -113,8 +127,11 @@ get_timeline_user <- function(user,
   result <- TWIT_paginate_max_id(token, api, params, 
     n = n,
     page_size = 200,
+    since_id = since_id,
     max_id = max_id,
-    parse = parse
+    parse = parse,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
   )
   
   if (parse) {
