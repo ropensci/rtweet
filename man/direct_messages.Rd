@@ -16,7 +16,7 @@ direct_messages(
 \arguments{
 \item{n}{Desired number of results to return. Results are downloaded
 in pages when \code{n} is large; the default value will download a single
-page.
+page. Set \code{n = Inf} to download as many results as possible.
 
 The Twitter API rate limits the number of requests you can perform
 in each 15 minute period. The easiest way to download more than that is

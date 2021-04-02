@@ -71,7 +71,7 @@ TWIT_method <- function(method, token, api,
 #'   default for all calls. See [auth_as()] for details.
 #' @param n Desired number of results to return. Results are downloaded
 #'   in pages when `n` is large; the default value will download a single
-#'   page.
+#'   page. Set `n = Inf` to download as many results as possible.
 #'   
 #'   The Twitter API rate limits the number of requests you can perform
 #'   in each 15 minute period. The easiest way to download more than that is 

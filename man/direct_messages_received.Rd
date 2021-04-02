@@ -21,13 +21,6 @@ direct_messages_sent(
   token = NULL
 )
 }
-\arguments{
-\item{n}{optional Specifies the number of direct messages to try
-and retrieve, up to a maximum of 200. The value of count is best
-thought of as a limit to the number of Tweets to return because
-suspended or deleted content is removed after the count has been
-applied.}
-}
 \value{
 Return object converted to nested list. If status code of
 response object is not 200, the response object is returned
