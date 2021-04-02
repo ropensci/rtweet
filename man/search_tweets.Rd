@@ -49,17 +49,19 @@ Some other useful query tips:
 \item Filter (return only) tweets with media \code{"filter:media"}
 }}
 
-\item{n}{Integer giving the total number of tweets to download.
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page.
 
-Results are downloaded in pages of 100, and you can download 180 pages
-(e.g. 18,000 tweets) in each 15 minute period. The easiest way to download
-more than that is to use \code{retryonratelimit = TRUE}.
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
 
 You are not guaranteed to get exactly \code{n} results back. You will get
 fewer results when tweets have been deleted or if you hit a rate limit.
 You will get more results if you ask for a number of tweets that's not
-a multiple of page size, e.g. if you request \code{n = 150} you'll get 200
-tweets back.}
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{type}{Character string specifying which type of search
 results to return from Twitter's REST API. The current default is

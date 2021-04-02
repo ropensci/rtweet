@@ -36,7 +36,19 @@ will have an ID less than or equal to \code{max_id}. If omitted, results will
 start from the most recent available. Supplying \code{max_id} allows you to
 manually paginate the results.}
 
-\item{n}{optional Specifies the number of results to retrieve per "page."}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{include_rts}{optional When set to either true, t or 1,
 the list timeline will contain native retweets (if they exist) in

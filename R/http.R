@@ -69,7 +69,19 @@ TWIT_method <- function(method, token, api,
 #' @param token Expert use only. Use this to override authentication for
 #'   a single API call. In most cases you are better off changing the
 #'   default for all calls. See [auth_as()] for details.
-#' @param n Maximum number of results to return.
+#' @param n Desired number of results to return. Results are downloaded
+#'   in pages when `n` is large; the default value will download a single
+#'   page.
+#'   
+#'   The Twitter API rate limits the number of requests you can perform
+#'   in each 15 minute period. The easiest way to download more than that is 
+#'   to use `retryonratelimit = TRUE`.
+#'   
+#'   You are not guaranteed to get exactly `n` results back. You will get
+#'   fewer results when tweets have been deleted or if you hit a rate limit. 
+#'   You will get more results if you ask for a number of tweets that's not
+#'   a multiple of page size, e.g. if you request `n = 150` and the page
+#'   size is 200, you'll get 200 results back.
 #' @param get_id A single argument function that returns a vector of ids given 
 #'   the JSON response. The defaults are chosen to cover the most common cases,
 #'   but you'll need to double check whenever implementing pagination for

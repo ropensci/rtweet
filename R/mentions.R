@@ -6,11 +6,6 @@
 #' your mentions on twitter.com.
 #'
 #' @inheritParams TWIT_paginate_max_id
-#' @param n Specifies the number of Tweets to try and retrieve, up to
-#'   a maximum of 200 (the default). The value of count is best
-#'   thought of as a limit to the number of tweets to return because
-#'   suspended or deleted content is removed after the count has been
-#'   applied.
 #' @param ... Other arguments passed as parameters in composed API
 #'   query.
 #' @return Tibble of mentions data.

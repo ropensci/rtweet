@@ -7,7 +7,6 @@
 #'   parameters.
 #' @param owner_user optional The screen name or user ID of the user
 #'   who owns the list being requested by a slug.
-#' @param n optional Specifies the number of results to retrieve per "page."
 #' @param include_rts optional When set to either true, t or 1,
 #'   the list timeline will contain native retweets (if they exist) in
 #'   addition to the standard stream of tweets. The output format of

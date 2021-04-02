@@ -2,11 +2,9 @@
 #'
 #' Search 30day or fullarchive products
 #'
+#' @inheritParams TWIT_paginate_max_id
 #' @param q Search query on which to match/filter tweets. See details for
 #'   information about available search operators.
-#' @param n Number of tweets to return; it is best to set this number in
-#'   intervals of 100 for the '30day' API and either 100 (for sandbox) or 500
-#'   (for paid) for the 'fullarchive' API. Default is 100.
 #' @param fromDate Oldest date-time (YYYYMMDDHHMM) from which tweets should be
 #'   searched for.
 #' @param toDate Newest date-time (YYYYMMDDHHMM) from which tweets should be
@@ -16,7 +14,6 @@
 #'   saved. If the directory doesn't exist, it will be created. If NULL (the
 #'   default) then a dir will be created in the current working directory. To
 #'   override/deactivate safedir set this to FALSE.
-#' @inheritParams lookup_users
 #'
 #' @section Developer Account:
 #' Users must have an approved developer account and an active/labeled

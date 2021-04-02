@@ -14,11 +14,19 @@ get_mentions(
 )
 }
 \arguments{
-\item{n}{Specifies the number of Tweets to try and retrieve, up to
-a maximum of 200 (the default). The value of count is best
-thought of as a limit to the number of tweets to return because
-suspended or deleted content is removed after the count has been
-applied.}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{since_id}{Provides a lower-bound for the results returned; all results
 will have an ID greater than or equal to \code{since_id}. This can generally

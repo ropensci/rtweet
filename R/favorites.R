@@ -5,12 +5,6 @@
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams get_timeline
-#' @param n Specifies the number of records to retrieve. Defaults to 200,
-#'   which is the maximum number of records that can be retrieved in a single
-#'   request. Higher numbers will require multiple requests.
-#'   
-#'   `n` is applied before removing any tweets that have been suspended or 
-#'    deleted. 
 #' @return A tibble with one row for each tweet.
 #' @examples
 #' \dontrun{

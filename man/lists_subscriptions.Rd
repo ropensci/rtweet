@@ -10,7 +10,19 @@ lists_subscriptions(user, n = 20, cursor = "-1", parse = TRUE, token = NULL)
 \item{user}{Character vector of screen names or user ids.
 See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
-\item{n}{Maximum number of results to return.}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}
