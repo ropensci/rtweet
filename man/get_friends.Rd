@@ -88,11 +88,11 @@ limits the number of people that you can follow (i.e. to follow more than
 }
 }
 \references{
+\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
+
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
-
 Other ids: 
 \code{\link{get_followers}()},
 \code{\link{next_cursor}()}

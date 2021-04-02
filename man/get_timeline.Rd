@@ -100,9 +100,10 @@ table(tmls$screen_name)
 }
 
 }
-\seealso{
+\references{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
-
+}
+\seealso{
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},

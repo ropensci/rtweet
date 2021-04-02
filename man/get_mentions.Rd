@@ -72,9 +72,10 @@ mymentions
 }
 
 }
-\seealso{
+\references{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
-
+}
+\seealso{
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_timeline}()},

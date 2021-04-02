@@ -41,11 +41,11 @@ rate_limit()
 }
 }
 \references{
+\url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
+
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
-
 Other tokens: 
 \code{\link{create_token}()},
 \code{\link{get_token}()}

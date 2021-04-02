@@ -35,7 +35,7 @@
 #' @param verbose If `TRUE`, display a progress bar.
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
-#' @seealso <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
 #'  <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview>
 #' @examples
 #' \dontrun{

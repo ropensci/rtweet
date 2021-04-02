@@ -6,8 +6,7 @@
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_timeline
 #' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
-#' @seealso
-#'   <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
+#' @references <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
 #'
 #' \dontrun{

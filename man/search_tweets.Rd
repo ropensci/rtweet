@@ -205,11 +205,11 @@ table(st2$query)
 
 }
 \references{
+\url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
+
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets}
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
-
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},

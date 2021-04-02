@@ -14,8 +14,7 @@
 #'   resources listed in returned rate limit data.
 #' @param endpoint Name of twitter endpoint like `"lookup/users"`,
 #'   `"/media/upload"`, or `"/feedback/show/:id"`.
-#' @seealso
-#'   <https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
+#' @references <https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
 #' @examples
 #'
 #' \dontrun{
