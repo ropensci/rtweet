@@ -20,7 +20,6 @@ reference:
   - starts_with("post")
   - starts_with("search")
   - stream_tweets
-  - suggested_users
   - trends_available
   - starts_with("tweet")
   - rate_limit
