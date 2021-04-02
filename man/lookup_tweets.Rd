@@ -59,9 +59,10 @@ tw <- lookup_tweets(statuses)
 tw
 }
 }
-\seealso{
+\references{
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
-
+}
+\seealso{
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},

@@ -70,9 +70,10 @@ favs
 
 }
 }
-\seealso{
+\references{
 \url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}
-
+}
+\seealso{
 Other tweets: 
 \code{\link{get_mentions}()},
 \code{\link{get_timeline}()},

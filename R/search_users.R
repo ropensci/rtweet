@@ -22,7 +22,7 @@
 #'   return. Defaults to 100. Maximum number of users returned from a
 #'   single search is 1,000.
 #' @param verbose If `TRUE`, will display a progress bar while downloading.
-#' @seealso <https://dev.twitter.com/overview/documentation>
+#' @references <https://dev.twitter.com/overview/documentation>
 #' @examples
 #'
 #' \dontrun{

@@ -22,8 +22,7 @@
 #'  align = 'center'
 #' )
 #' 
-#' @seealso 
-#'  [httr::GET()],[httr::content()]
+#' @seealso [httr::GET()],[httr::content()]
 #' @rdname tweet_embed
 #' @export 
 tweet_embed <- function(screen_name,status_id,...){

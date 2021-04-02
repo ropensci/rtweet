@@ -2,7 +2,7 @@
 #'
 #' @inheritParams lookup_users
 #' @param statuses User id or screen name of target user.
-#' @seealso <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup>
+#' @references <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @examples
 #'
 #' \dontrun{

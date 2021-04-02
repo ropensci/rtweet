@@ -65,9 +65,10 @@ lookup_users(user_ids)
 }
 
 }
-\seealso{
+\references{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
-
+}
+\seealso{
 Other users: 
 \code{\link{as_screenname}()},
 \code{\link{lists_subscribers}()},

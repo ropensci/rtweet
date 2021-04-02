@@ -21,7 +21,8 @@ a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{endpoint}{Name of twitter endpoint like \code{"lookup/users"},
-\code{"/media/upload"}, or \code{"/feedback/show/:id"}.}
+\code{"/media/upload"}, or \code{"/feedback/show/:id"}.
+#' @references \url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}}
 }
 \description{
 \itemize{
@@ -44,8 +45,6 @@ rate_limit()
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
 }
 \seealso{
-\url{https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status}
-
 Other tokens: 
 \code{\link{create_token}()},
 \code{\link{get_token}()}
