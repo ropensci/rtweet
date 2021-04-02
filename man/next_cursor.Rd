@@ -2,20 +2,15 @@
 % Please edit documentation in R/next_cursor.R
 \name{next_cursor}
 \alias{next_cursor}
-\alias{max_id}
 \alias{since_id}
-\title{next_cursor/max_id}
+\title{next_cursor}
 \usage{
 next_cursor(x)
 
-max_id(.x)
-
-since_id(.x)
+since_id(df)
 }
 \arguments{
 \item{x}{Data object returned by Twitter API.}
-
-\item{.x}{id}
 }
 \value{
 Character string of next cursor value used to retrieved

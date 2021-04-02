@@ -1,4 +1,4 @@
-#' next_cursor/max_id
+#' next_cursor
 #'
 #' Method for returning next value (used to request next page or results)
 #' object returned from Twitter APIs.
@@ -88,23 +88,6 @@ next_cursor.response <- function(x) {
   NextMethod()
 }
 
-
-#' @rdname next_cursor
-#' @param .x id
-#' @export
-max_id <- function(.x) {
-  lifecycle::deprecate_stop("1.0.0", "max_id()")
-}
-
-id_minus_one <- function(x) {
-  as.character(bit64::as.integer64(x) - 1L)
-}
-
-
-##----------------------------------------------------------------------------##
-##                               PREVIOUS CURSOR                              ##
-##----------------------------------------------------------------------------##
-
 #' Previous cursor
 #'
 #' @description 
@@ -117,12 +100,46 @@ previous_cursor <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "previous_cursor()")
 }
 
-##----------------------------------------------------------------------------##
-##                                  SINCE_ID                                  ##
-##----------------------------------------------------------------------------##
+
+
+#' Extract minimum/maximum id from a data frame of tweets
+#' 
+#' Use these functions to get earlier tweets with `max_id()` or later 
+#' tweets (typically tweets that have occured since your last query) with
+#' `since_id()`.
+#' 
+#' @param df A data frame of tweets.
+#' @export
+#' @examples 
+#' \dontrun{
+#' tw <- search_tweets("#rstats", n = 100)
+#' 
+#' # retrieve older tweets
+#' older <- search_tweets("#rstats", n = 100, max_id = max_id(tw))
+#' even_older <- search_tweets("#rstats", n = 100, max_id = max_id(older))
+#' 
+#' # retrieve newer tweets
+#' newer <- search_tweets("#rstats", n = 100, since_id = since_id(tw))
+#' }
+max_id <- function(df) {
+  if (!is.data.frame(df) || !has_name(df, "status_id")) {
+    abort("`df` must be a data frame with a `status_id` column")
+  }
+  
+  as.character(max(bit64::as.integer64(df$status_id)) - 1L)
+}
 
 #' @rdname next_cursor
 #' @export
-since_id <- function(.x) {
-  lifecycle::deprecate_stop("1.0.0", "max_id()")
+since_id <- function(df) {
+  if (!is.data.frame(df) || !has_name(df, "status_id")) {
+    abort("`df` must be a data frame with a `status_id` column")
+  }
+  
+  as.character(min(bit64::as.integer64(df$status_id)))
+}
+
+
+id_minus_one <- function(x) {
+  as.character(bit64::as.integer64(x) - 1L)
 }
