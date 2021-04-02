@@ -7,7 +7,9 @@
   `lists_memberships()` and it has been dropped in favour of making regular
   pagination better.
 
-- `get_timeline()` now always requires a `user`.
+- The `home` argument to `get_timeline()` has been deprecated. You can only
+  retrieve the home timeline for the logged in user, and that's the job of
+  `get_my_timeline()` (#550).
 
 - All functions that perform multiple requests on your behalf now display
   a progress bar so you know what's happening. If you don't want it, you can 
