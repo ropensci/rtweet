@@ -17,25 +17,17 @@
 #' @examples
 #'
 #' \dontrun{
+#' tw <- get_timeline("JustinBieber")
+#' tw
+#' 
+#' # get tweets that arrived since the last request
+#' get_timeline("JustinBieber", since_id = tw)
+#' # get earlier tweets
+#' get_timeline("JustinBieber", max_id = tw)
 #'
-#' ## get most recent 3200 tweets posted by Donald Trump's account
-#' djt <- get_timeline("realDonaldTrump", n = 3200)
-#'
-#' ## data frame where each observation (row) is a different tweet
-#' djt
-#'
-#' ## users data for realDonaldTrump is also retrieved
-#' users_data(djt)
-#'
-#' ## retrieve timelines of mulitple users
-#' tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
-#'
-#' ## it's returned as one data frame
-#' tmls
-#'
-#' ## count observations for each timeline
-#' table(tmls$screen_name)
-#'
+#' # get timelines for mulitple users
+#' tw <- get_timeline(c("KFC", "PizzaHut", "McDonalds"))
+#' tw
 #' }
 #'
 #' @family tweets
@@ -118,8 +110,8 @@ get_timeline_user <- function(user,
   api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
 
   params <- list(
-    tweet_mode = "extended",
-    include_ext_alt_text = "true",
+    # tweet_mode = "extended",
+    # include_ext_alt_text = "true",
     ...
   )
   params[[user_type(user)]] <- user

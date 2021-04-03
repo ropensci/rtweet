@@ -74,15 +74,12 @@ your mentions on twitter.com.
 \examples{
 
 \dontrun{
+tw <- get_mentions()
+tw
 
-## get most recent 200 mentions of authenticating user
-mymentions <- get_mentions()
-
-## view data
-mymentions
-
+# newer mentions
+get_mentions(since_id = tw)
 }
-
 }
 \references{
 \url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}

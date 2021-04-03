@@ -13,15 +13,12 @@
 #' @examples
 #'
 #' \dontrun{
-#'
-#' ## get most recent 200 mentions of authenticating user
-#' mymentions <- get_mentions()
-#'
-#' ## view data
-#' mymentions
-#'
+#' tw <- get_mentions()
+#' tw
+#' 
+#' # newer mentions
+#' get_mentions(since_id = tw)
 #' }
-#'
 #' @references <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline>
 #' @export
 get_mentions <- function(n = 200,

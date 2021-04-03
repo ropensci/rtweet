@@ -7,15 +7,15 @@
 #' @return A tibble with one row for each tweet.
 #' @examples
 #' \dontrun{
-#'
-#' ## get max number of statuses favorited by KFC
-#' kfc <- get_favorites("KFC", n = 3000)
+#' # get likes for a single user
+#' kfc <- get_favorites("KFC", n = 600)
 #' kfc
+#' # get newer likes since last request
+#' newer <- get_favorites("KFC", since_id = kfc)
 #'
-#' ## get 400 statuses favorited by each of three users
+#' # get likes from multiple users
 #' favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
 #' favs
-#'
 #' }
 #' @family tweets
 #' @references <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list>
