@@ -21,9 +21,7 @@ appearing in the tweets. At this time, Twitter's users/search API
 does not allow complex searches or queries targeting exact
 phrases as is allowed by \code{search_tweets}.}
 
-\item{n}{Numeric, specifying the total number of desired users to
-return. Defaults to 100. Maximum number of users returned from a
-single search is 1,000.}
+\item{n}{Number of users to return (at most 1,000).}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -61,8 +59,6 @@ tweets_data(rstats)
 
 }
 \references{
-\url{https://dev.twitter.com/overview/documentation}
-
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-search}
 }
 \seealso{

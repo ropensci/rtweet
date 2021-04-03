@@ -1,5 +1,9 @@
 # rtweet (development version)
 
+- `lookup_users()` and `search_users()` now returns a data frame containing
+  on information about each user (not their latest tweet). If you want to get 
+  that data you can use `tweets_data()`.
+
 - `lookup_collections()` and `get_collections()` has been hard deprecated 
   because the underlying Twitter API has been deprecated.
 

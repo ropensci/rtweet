@@ -18,24 +18,16 @@
 #'   appearing in the tweets. At this time, Twitter's users/search API
 #'   does not allow complex searches or queries targeting exact
 #'   phrases as is allowed by `search_tweets`.
-#' @param n Numeric, specifying the total number of desired users to
-#'   return. Defaults to 100. Maximum number of users returned from a
-#'   single search is 1,000.
+#' @param n Number of users to return (at most 1,000).
 #' @param verbose If `TRUE`, will display a progress bar while downloading.
-#' @references <https://dev.twitter.com/overview/documentation>
 #' @examples
 #'
 #' \dontrun{
+#' users <- search_users("#rstats", n = 300)
+#' users
 #'
-#' ## search for up to 1000 users using the keyword rstats
-#' rstats <- search_users(q = "rstats", n = 1000)
-#'
-#' ## data frame where each observation (row) is a different user
-#' rstats
-#'
-#' ## tweets data also retrieved. can access it via tweets_data()
-#' tweets_data(rstats)
-#'
+#' # latest tweet from each user
+#' tweets_data(users)
 #' }
 #'
 #' @return Data frame of users returned by query.
@@ -49,15 +41,7 @@ search_users <- function(q, n = 100,
   
   stopifnot(is_n(n), is.atomic(q))
   if (n > 1000) {
-    warning(
-      "search only returns up to 1,000 users per ",
-      "unique search. Setting n to 1000..."
-    )
-    n <- 1000
-  }
-
-  if (nchar(q) > 500) {
-    stop("q cannot exceed 500 characters.", call. = FALSE)
+    abort("`n` must be <= 1,000")
   }
 
   pages <- ceiling(n / 20)
@@ -81,7 +65,7 @@ search_users <- function(q, n = 100,
   }
   
   if (parse) {
-    results <- tweets_with_users(results)
+    results <- users_with_tweets(results)
   }
   
   results

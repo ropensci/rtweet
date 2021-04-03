@@ -40,25 +40,13 @@ tweets_with_users <- function(x) {
 #' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
-  if (is.null(x) || (length(x) == 0L && !is.data.frame(x))) {
-    x <- data.frame()
-    attr(x, "tweets") <- data.frame()
-    return(x)
-  }
-  tweets <- status_object(x)
-  tweets <- tweets_df_(tweets)
-  users <- user_object(x)
-  users <- users_df_(users)
-  if (nrow(tweets) == nrow(users)) {
-    if (has_name_(users, "user_id")) {
-      tweets$user_id <- users$user_id
-      if (has_name_(users, "screen_name")) {
-        tweets$screen_name <- users$screen_name
-      }
-    }
-  }
-  attr(users, "tweets") <- tweets
-  join_rtweet(users)
+  users <- users_df_(user_object(x))
+  
+  tweets <- tweets_df_(status_object(x))
+  tweets$user_id <- users$user_id
+  tweets$screen_name <- users$screen_name
+  
+  structure(users, tweets = tweets)
 }
 
 tweets_df_ <- function(dat) {
