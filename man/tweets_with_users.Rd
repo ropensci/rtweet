@@ -10,10 +10,10 @@ tweets_with_users(x)
 users_with_tweets(x)
 }
 \arguments{
-\item{x}{Unparsed data returned by rtweet API request.}
+\item{x}{A list of responses, with one element for each page.}
 }
 \value{
-A tweets/users tibble (data frame) with users/tweets tibble attribute.
+A tweets/users tibble with users/tweets attribute.
 }
 \description{
 For internal use only

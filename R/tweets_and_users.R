@@ -2,8 +2,8 @@
 #' 
 #' For internal use only
 #' 
-#' @param x Unparsed data returned by rtweet API request.
-#' @return A tweets/users tibble (data frame) with users/tweets tibble attribute.
+#' @param x A list of responses, with one element for each page. 
+#' @return A tweets/users tibble with users/tweets attribute.
 #' @keywords internal
 #' @export
 tweets_with_users <- function(x) {
