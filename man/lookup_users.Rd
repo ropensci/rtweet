@@ -66,8 +66,6 @@ tweets_data(users)
 Other users: 
 \code{\link{as_screenname}()},
 \code{\link{lists_subscribers}()},
-\code{\link{search_users}()},
-\code{\link{tweets_with_users}()},
-\code{\link{users_data}()}
+\code{\link{search_users}()}
 }
 \concept{users}

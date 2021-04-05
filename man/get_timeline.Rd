@@ -121,7 +121,6 @@ Other tweets:
 \code{\link{get_mentions}()},
 \code{\link{lists_statuses}()},
 \code{\link{lookup_tweets}()},
-\code{\link{search_tweets}()},
-\code{\link{tweets_data}()}
+\code{\link{search_tweets}()}
 }
 \concept{tweets}

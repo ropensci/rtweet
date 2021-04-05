@@ -2,51 +2,32 @@
 % Please edit documentation in R/extractors.R
 \name{users_data}
 \alias{users_data}
-\alias{user_data}
-\alias{data_user}
-\alias{data_users}
-\title{Extracts users data from tweets data object.}
+\alias{tweets_data}
+\title{Get tweets from users, or users from tweets}
 \usage{
 users_data(tweets)
-}
-\arguments{
-\item{tweets}{Parsed data object of tweets data as returned via
-\code{\link[=get_timeline]{get_timeline()}}, \code{\link[=search_tweets]{search_tweets()}},
-\code{\link[=stream_tweets]{stream_tweets()}}, etc..}
+
+tweets_data(users)
 }
 \value{
-Users data frame from tweets returned in a tweets data object.
+\code{user_data()} returns a data frame of users; \code{tweets_data()}
+returns a data frame of tweets.
 }
 \description{
-Extracts users data from tweets data object.
+Twitter API endpoints that return tweets also return data about the users who
+tweeted, and most endpoints that return users also return their last tweet.
+Showing these additional columns would clutter the default display, so
+rtweet instead stores in special attributes and allows you to retrieve them
+with the \code{user_data()} and \code{tweets_data()} helpers.
 }
 \examples{
-
 \dontrun{
-
-## search for 100 tweets containing the letter r
+# find users from tweets
 tweets <- search_tweets("r")
+users_data(tweets)
 
-## print tweets data (only first 10 rows are shown)
-head(tweets, 10)
-
-## extract users data
-head(users_data(tweets))
-
+# from tweets from users
+users <- search_users("r")
+tweets_data(users)
 }
-
 }
-\seealso{
-Other users: 
-\code{\link{as_screenname}()},
-\code{\link{lists_subscribers}()},
-\code{\link{lookup_users}()},
-\code{\link{search_users}()},
-\code{\link{tweets_with_users}()}
-
-Other extractors: 
-\code{\link{next_cursor}()},
-\code{\link{tweets_data}()}
-}
-\concept{extractors}
-\concept{users}

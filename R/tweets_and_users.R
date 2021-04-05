@@ -17,8 +17,6 @@ tweets_with_users <- function(x) {
   structure(tweets, users = users)
 }
 
-#' @family parsing
-#' @family users
 #' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
