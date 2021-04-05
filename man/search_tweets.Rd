@@ -181,8 +181,6 @@ Other tweets:
 \code{\link{get_mentions}()},
 \code{\link{get_timeline}()},
 \code{\link{lists_statuses}()},
-\code{\link{lookup_tweets}()},
-\code{\link{tweets_data}()},
-\code{\link{tweets_with_users}()}
+\code{\link{lookup_tweets}()}
 }
 \concept{tweets}

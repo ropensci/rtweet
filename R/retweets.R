@@ -23,7 +23,7 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   r <- TWIT_get(token, query, params)
   
   if (parse) {
-    r <- tweets_with_users(r)
+    r <- tweets_with_users(list(r))
   }
   r
 }

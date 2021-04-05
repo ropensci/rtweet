@@ -10,53 +10,12 @@ tweets_with_users(x)
 users_with_tweets(x)
 }
 \arguments{
-\item{x}{Unparsed data returned by rtweet API request.}
+\item{x}{A list of responses, with one element for each page.}
 }
 \value{
-A tweets/users tibble (data frame) with users/tweets tibble attribute.
+A tweets/users tibble with users/tweets attribute.
 }
 \description{
-Parsing data into tweets/users data tibbles
+For internal use only
 }
-\examples{
-\dontrun{
-## search with parse = FALSE
-rt <- search_tweets("rstats", n = 500, parse = FALSE)
-
-## parse to tweets data tibble with users data attribute object
-tweets_with_users(rt)
-
-## search with parse = FALSE
-usr <- search_users("rstats", n = 300, parse = FALSE)
-
-## parse to users data tibble with users data attribute object
-users_with_tweets(usr)
-
-}
-}
-\seealso{
-Other parsing: 
-\code{\link{do_call_rbind}()}
-
-Other tweets: 
-\code{\link{get_favorites}()},
-\code{\link{get_mentions}()},
-\code{\link{get_timeline}()},
-\code{\link{lists_statuses}()},
-\code{\link{lookup_tweets}()},
-\code{\link{search_tweets}()},
-\code{\link{tweets_data}()}
-
-Other parsing: 
-\code{\link{do_call_rbind}()}
-
-Other users: 
-\code{\link{as_screenname}()},
-\code{\link{lists_subscribers}()},
-\code{\link{lookup_users}()},
-\code{\link{search_users}()},
-\code{\link{users_data}()}
-}
-\concept{parsing}
-\concept{tweets}
-\concept{users}
+\keyword{internal}

@@ -3,8 +3,8 @@ test_that("tweets_data works", {
 
   ## get data on most recent tweet from user(s)
   tweets <- tweets_data(jack)
-  expect_s3_class(tweets, "tbl")
-  expect_equal(colnames(tweets), tweets_names())
+  expect_s3_class(tweets, "tbl_df")
+  expect_true("status_id" %in% names(tweets))
 })
 
 test_that("users_data works", {

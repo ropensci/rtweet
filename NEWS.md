@@ -1,5 +1,9 @@
 # rtweet (development version)
 
+- `lookup_users()` and `search_users()` now returns a data frame containing
+  on information about each user (not their latest tweet). If you want to get 
+  that data you can use `tweets_data()`.
+
 - `parse = FALSE` always means return the raw "JSON". Previously some functions
   (e.g. `my_friendships()`) would return the raw HTTP response instead (#504).
 

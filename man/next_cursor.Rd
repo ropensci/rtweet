@@ -54,10 +54,6 @@ nrow(f)
 Other ids: 
 \code{\link{get_followers}()},
 \code{\link{get_friends}()}
-
-Other extractors: 
-\code{\link{tweets_data}()},
-\code{\link{users_data}()}
 }
 \concept{extractors}
 \concept{ids}

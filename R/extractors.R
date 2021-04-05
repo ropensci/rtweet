@@ -1,78 +1,40 @@
-
-#' Extracts users data from tweets data object.
-#'
-#' @param tweets Parsed data object of tweets data as returned via
-#'   [get_timeline()], [search_tweets()],
-#'   [stream_tweets()], etc..
+#' Get tweets from users, or users from tweets
+#' 
+#' Twitter API endpoints that return tweets also return data about the users who
+#' tweeted, and most endpoints that return users also return their last tweet. 
+#' Showing these additional columns would clutter the default display, so 
+#' rtweet instead stores in special attributes and allows you to retrieve them 
+#' with the `user_data()` and `tweets_data()` helpers.
 #'
 #' @examples
-#'
 #' \dontrun{
-#'
-#' ## search for 100 tweets containing the letter r
+#' # find users from tweets
 #' tweets <- search_tweets("r")
-#'
-#' ## print tweets data (only first 10 rows are shown)
-#' head(tweets, 10)
-#'
-#' ## extract users data
-#' head(users_data(tweets))
-#'
+#' users_data(tweets)
+#' 
+#' # from tweets from users
+#' users <- search_users("r")
+#' tweets_data(users)
 #' }
-#'
-#' @return Users data frame from tweets returned in a tweets data object.
-#' @aliases user_data data_user data_users
-#' @family users
-#' @family extractors
+#' @return `user_data()` returns a data frame of users; `tweets_data()` 
+#'   returns a data frame of tweets.
+#' @param tweets A data frame of tweets. 
 #' @export
 users_data <- function(tweets) {
-  if (!is.recursive(tweets)) return(data.frame())
-  if (isTRUE("users" %in% names(attributes(tweets)))) {
-    attr(tweets, "users")
-  } else if (names_in_users(tweets) > 2L) {
-    tweets[names(tweets) %in% users_names()]
-  } else {
-    data.frame()
+  users <- attr(tweets, "users", exact = TRUE)
+  if (is.null(users)) {
+    abort("`tweets` does not have a `users` attribute")
   }
-
+  users
 }
 
-#' Extracts tweets data from users data object.
-#'
-#' @param users Parsed data object of users data as returned via
-#'   [search_users()], [lookup_users()], etc.
-#'
-#' @examples
-#' \dontrun{
-#' ## get twitter user data
-#' jack <- lookup_users("jack")
-#'
-#' ## get data on most recent tweet from user(s)
-#' tweets_data(jack)
-#'
-#' ## search for 100 tweets containing the letter r
-#' r <- search_tweets("r")
-#'
-#' ## print tweets data (only first 10 rows are shown)
-#' head(r, 10)
-#'
-#' ## preview users data
-#' head(users_data(r))
-#' }
-#'
-#' @return Tweets data frame.
-#'
-#' @aliases tweet_data data_tweet data_tweets
-#' @family tweets
-#' @family extractors
+#' @param users A data frame of users.
+#' @rdname users_data
 #' @export
 tweets_data <- function(users) {
-  if (!is.recursive(users)) return(data.frame())
-  if (isTRUE("tweets" %in% names(attributes(users)))) {
-    attr(users, "tweets")
-  } else if (names_in_tweets(users) > 2L) {
-    users[names(users) %in% tweets_names()]
-  } else {
-    data.frame()
+  tweets <- attr(users, "tweets", exact = TRUE)
+  if (is.null(tweets)) {
+    abort("`users` does not have a `tweets` attribute")
   }
+  tweets
 }

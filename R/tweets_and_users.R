@@ -1,74 +1,35 @@
 #' Parsing data into tweets/users data tibbles
-#'
-#' @param x Unparsed data returned by rtweet API request.
-#' @return A tweets/users tibble (data frame) with users/tweets tibble attribute.
-#' @family parsing
-#' @family tweets
-#' @examples
-#' \dontrun{
-#' ## search with parse = FALSE
-#' rt <- search_tweets("rstats", n = 500, parse = FALSE)
-#'
-#' ## parse to tweets data tibble with users data attribute object
-#' tweets_with_users(rt)
-#'
-#' ## search with parse = FALSE
-#' usr <- search_users("rstats", n = 300, parse = FALSE)
-#'
-#' ## parse to users data tibble with users data attribute object
-#' users_with_tweets(usr)
-#'
-#' }
+#' 
+#' For internal use only
+#' 
+#' @param x A list of responses, with one element for each page. 
+#' @return A tweets/users tibble with users/tweets attribute.
+#' @keywords internal
 #' @export
 tweets_with_users <- function(x) {
-  if (is.null(x) || length(x) == 0L) {
-    x <- data.frame()
-    attr(x, "users") <- data.frame()
-    return(x)
-  }
-  tweets <- status_object(x)
-  tweets <- tweets_df_(tweets)
-  users <- user_object(x)
-  users <- users_df_(users)
-  attr(tweets, "users") <- users
-  join_rtweet(tweets)
+  tweets_tbl <- lapply(x, tweets_to_tbl_)
+  tweets <- do.call("rbind", tweets_tbl)
+  
+  users_raw <- lapply(x, function(x) x[["user"]])
+  users_tbl <- lapply(users_raw, users_to_tbl_)
+  users <- do.call("rbind", users_tbl)
+
+  structure(tweets, users = users)
 }
 
-
-#' @family parsing
-#' @family users
 #' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
-  if (is.null(x) || (length(x) == 0L && !is.data.frame(x))) {
-    x <- data.frame()
-    attr(x, "tweets") <- data.frame()
-    return(x)
-  }
-  tweets <- status_object(x)
-  tweets <- tweets_df_(tweets)
-  users <- user_object(x)
-  users <- users_df_(users)
-  if (nrow(tweets) == nrow(users)) {
-    if (has_name_(users, "user_id")) {
-      tweets$user_id <- users$user_id
-      if (has_name_(users, "screen_name")) {
-        tweets$screen_name <- users$screen_name
-      }
-    }
-  }
-  attr(users, "tweets") <- tweets
-  join_rtweet(users)
-}
+  users_tbl <- lapply(x, users_to_tbl_)
+  users <- do.call("rbind", users_tbl)
 
-tweets_df_ <- function(dat) {
-  dat <- lapply(dat, tweets_to_tbl_)
-  do.call("rbind", dat)
-}
-
-users_df_ <- function(x) {
-  x <- lapply(x, users_to_tbl_)
-  do.call("rbind", x)
+  tweets_raw <- lapply(x, function(x) x[["status"]])
+  tweets_tbl <- lapply(tweets_raw, tweets_to_tbl_)
+  tweets <- do.call("rbind", tweets_tbl)
+  tweets$user_id <- users$user_id
+  tweets$screen_name <- users$screen_name
+  
+  structure(users, tweets = tweets)
 }
 
 ##-----------------------------------------------------
@@ -92,77 +53,6 @@ users_df_ <- function(x) {
   }
   x[lengths(x) == 0L] <- NA_
   x
-}
-
-
-##-----------------------------------------------------
-## get status object(s)
-##-----------------------------------------------------
-status_object <- function(x) {
-  ## make sure each element is data returned from Twitter
-  if (is.list(x) && is.null(names(x)) && length(x) == 1 &&
-      is.recursive(x[[1]]) && is.null(names(x[[1]]))) {
-    x <- x[[1]]
-  }
-  if (!(is.list(x) && is.null(names(x)))) {
-    x <- list(x)
-  }
-  status_object_(x)
-}
-
-is_usr_obj <- function(x) {
-  sum(c("favourites_count", "description", "friends_count",
-    "location", "followers_count", "statuses_count") %in% names(x),
-    na.rm = TRUE) >= 3 %||% FALSE
-}
-is_twt_obj <- function(x) {
-  sum(c("favorite_count", "hashtags", "symbols",
-    "source", "retweet_count", "text") %in% names(x),
-    na.rm = TRUE) >= 3 %||% FALSE
-}
-
-status_object_ <- function(x) {
-  s_o_ <- function(x) {
-    if (is.atomic(x) && length(x) == 1L) {
-      return(data.frame())
-    }
-    ## peel back
-    if (is.list(x) && length(x) == 1L) {
-      x <- x[[1]]
-    }
-    if (is.list(x) && "statuses" %in% names(x)) {
-      x <- x[["statuses"]]
-    } else if (is.list(x) && "results" %in% names(x)) {
-      x <- x$results
-    }
-    if (is.data.frame(x) && is_twt_obj(x)) {
-      return(x)
-    }
-    if (is.list(x) && has_name_(x, "status")) {
-      return(x$status)
-    }
-    if (is.list(x) && is_usr_obj(x) && !"status" %in% names(x) && "id_str" %in% names(x)) {
-      return(data.frame(id_str = x$id_str, stringsAsFactors = FALSE))
-    }
-    if (has_name_(x, "id_str") && is.data.frame(x$id_str)) {
-      return(x)
-    }
-    if (has_name_(x, "id_str") && length(x$id_str)) {
-      for (i in seq_along(x)) {
-        if (length(x[[i]]) > 0 && !is.data.frame(x[[i]])) {
-          x[[i]] <- rep(x[[i]], length(x$id_str))
-        }
-        if (length(x$id_str) == 1 && length(x[[i]]) > 1) {
-          x[[i]] <- list(x[[i]])
-        }
-      }
-      x <- tryCatch(as.data.frame(x, stringsAsFactors = FALSE),
-        error = function(e) x)
-      return(x)
-    }
-    data.frame()
-  }
-  lapply(x, s_o_)
 }
 
 
@@ -321,62 +211,8 @@ tweets_to_tbl_ <- function(dat) {
 }
 
 
-##-----------------------------------------------------
-## get user object(s)
-##-----------------------------------------------------
-user_object <- function(x) {
-  if (is.list(x) && is.null(names(x)) && length(x) == 1 &&
-      is.recursive(x[[1]]) && is.null(names(x[[1]]))) {
-    x <- x[[1]]
-  }
-  if (!(is.list(x) && is.null(names(x)))) {
-    x <- list(x)
-  }
-  user_object_(x)
-}
-user_object_ <- function(x) {
-  u_o_ <- function(x) {
-    if (is.atomic(x) && length(x) <= 1L) {
-      return(data.frame())
-    }
-    ## peel back
-    if (is.list(x) && length(x) == 1L) {
-      x <- x[[1]]
-    }
-    if (is.list(x) && "statuses" %in% names(x)) {
-      x <- x$statuses
-    } else if (is.list(x) && "results" %in% names(x)) {
-      x <- x$results
-    }
-    if (is.data.frame(x) && is_usr_obj(x)) {
-      return(x)
-    }
-    if (is.list(x) && has_name_(x, "user")) {
-      return(x$user)
-    }
-    if (has_name_(x, "id_str") && is.data.frame(x$id_str)) {
-      return(x)
-    }
-    if (has_name_(x, "id_str") && length(x$id_str)) {
-      for (i in seq_along(x)) {
-        if (length(x[[i]])) {
-          x[[i]] <- rep(x[[i]], length(x$id_str))
-        }
-        if (length(x$id_str) == 1 && length(x[[i]]) > 1) {
-          x[[i]] <- list(x[[i]])
-        }
-      }
-      x <- tryCatch(as.data.frame(x, stringsAsFactors = FALSE),
-        error = function(e) x)
-      return(x)
-    }
-    data.frame()
-  }
-  lapply(x, u_o_)
-}
-
 users_to_tbl_ <- function(dat) {
-  if (nrow(dat) == 0L) return(data.frame())
+  if (NROW(dat) == 0L) return(data.frame())
   urls <- `[[[`(dat, "entities")
   urls <- `[[[`(urls, "url")
   urls <- `[[[`(urls, "urls")
