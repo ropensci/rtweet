@@ -6,17 +6,11 @@
 #' @return A tweets/users tibble (data frame) with users/tweets tibble attribute.
 #' @keywords internal
 #' @export
-tweets_with_users <- function(x, get_status = NULL) {
-  if (is.null(get_status)) {
-    tweets_raw <- x
-  } else {
-    tweets_raw <- lapply(x, as_function(get_status))
-  }
-  
-  tweets_tbl <- lapply(tweets_raw, tweets_to_tbl_)
+tweets_with_users <- function(x) {
+  tweets_tbl <- lapply(x, tweets_to_tbl_)
   tweets <- do.call("rbind", tweets_tbl)
   
-  users_raw <- lapply(tweets_raw, function(x) x[["user"]])
+  users_raw <- lapply(x, function(x) x[["user"]])
   users_tbl <- lapply(users_raw, users_to_tbl_)
   users <- do.call("rbind", users_tbl)
 

@@ -144,7 +144,8 @@ search_tweets <- function(q, n = 100,
   )
 
   if (parse) {
-    result <- tweets_with_users(result, get_status = ~ .x$statuses)
+    tweets <- lapply(result, "[[", "statuses")
+    result <- tweets_with_users(tweets)
   }
   result
 }
