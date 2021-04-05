@@ -16,37 +16,9 @@ users_with_tweets(x)
 A tweets/users tibble (data frame) with users/tweets tibble attribute.
 }
 \description{
-Parsing data into tweets/users data tibbles
-}
-\examples{
-\dontrun{
-## search with parse = FALSE
-rt <- search_tweets("rstats", n = 500, parse = FALSE)
-
-## parse to tweets data tibble with users data attribute object
-tweets_with_users(rt)
-
-## search with parse = FALSE
-usr <- search_users("rstats", n = 300, parse = FALSE)
-
-## parse to users data tibble with users data attribute object
-users_with_tweets(usr)
-
-}
+For internal use only
 }
 \seealso{
-Other parsing: 
-\code{\link{do_call_rbind}()}
-
-Other tweets: 
-\code{\link{get_favorites}()},
-\code{\link{get_mentions}()},
-\code{\link{get_timeline}()},
-\code{\link{lists_statuses}()},
-\code{\link{lookup_tweets}()},
-\code{\link{search_tweets}()},
-\code{\link{tweets_data}()}
-
 Other parsing: 
 \code{\link{do_call_rbind}()}
 
@@ -58,5 +30,5 @@ Other users:
 \code{\link{users_data}()}
 }
 \concept{parsing}
-\concept{tweets}
 \concept{users}
+\keyword{internal}

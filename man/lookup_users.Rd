@@ -47,16 +47,15 @@ Get Twitter users data for given users (user IDs or screen names).
 \examples{
 
 \dontrun{
-
-## select one or more twitter users to lookup
 users <- c(
   "potus", "hillaryclinton", "realdonaldtrump",
   "fivethirtyeight", "cnn", "espn", "twitter"
 )
-usr_df <- lookup_users(users)
+users <- lookup_users(users)
+users
 
-# view last tweet from each user
-tweets_data(usr_df)
+# latest tweet from each user
+tweets_data(users)
 }
 
 }

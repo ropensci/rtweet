@@ -45,16 +45,11 @@ query.
 \examples{
 
 \dontrun{
+users <- search_users("#rstats", n = 300)
+users
 
-## search for up to 1000 users using the keyword rstats
-rstats <- search_users(q = "rstats", n = 1000)
-
-## data frame where each observation (row) is a different user
-rstats
-
-## tweets data also retrieved. can access it via tweets_data()
-tweets_data(rstats)
-
+# latest tweet from each user
+tweets_data(users)
 }
 
 }

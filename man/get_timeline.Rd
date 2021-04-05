@@ -110,7 +110,6 @@ Other tweets:
 \code{\link{lists_statuses}()},
 \code{\link{lookup_tweets}()},
 \code{\link{search_tweets}()},
-\code{\link{tweets_data}()},
-\code{\link{tweets_with_users}()}
+\code{\link{tweets_data}()}
 }
 \concept{tweets}

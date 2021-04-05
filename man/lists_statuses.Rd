@@ -90,8 +90,7 @@ Other tweets:
 \code{\link{get_timeline}()},
 \code{\link{lookup_tweets}()},
 \code{\link{search_tweets}()},
-\code{\link{tweets_data}()},
-\code{\link{tweets_with_users}()}
+\code{\link{tweets_data}()}
 }
 \concept{lists}
 \concept{tweets}
