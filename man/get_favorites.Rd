@@ -71,9 +71,9 @@ Returns up to 3,000 tweets favorited for each \code{user}.
 \examples{
 \dontrun{
 # get likes for a single user
-kfc <- get_favorites("KFC", n = 600)
+kfc <- get_favorites("KFC")
 kfc
-# get newer likes since last request
+# get newer likes since last request 
 newer <- get_favorites("KFC", since_id = kfc)
 
 # get likes from multiple users
