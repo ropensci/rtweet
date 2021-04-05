@@ -1,5 +1,8 @@
 # rtweet (development version)
 
+- `parse = FALSE` always means return the raw "JSON". Previously some functions
+  (e.g. `my_friendships()`) would return the raw HTTP response instead (#504).
+
 - Functions that return tweets (e.g. `get_favorites()`, `get_my_timeline()`, 
   `get_timeline()`, `get_mentions()`, `lists_statuses()` and `search_tweets()`)
   now expose a consistent pagination interface. They all support `max_id` and 
