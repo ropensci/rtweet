@@ -143,7 +143,6 @@ search_premium <- function(product, q, n = 100, fromDate = NULL, toDate = NULL,
     max_id = max_id,
     n = n,
     page_size = if (env_name == "sandbox") 100 else 500, 
-    parse = parse,
     count_param = "maxResults"
   )
 

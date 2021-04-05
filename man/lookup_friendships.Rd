@@ -11,19 +11,13 @@ lookup_friendships(source, target, parse = TRUE, token = NULL)
 
 \item{target}{Screen name or user id of target user.}
 
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
-}
-\value{
-Data frame converted form returned JSON object. If parse is
-not true, the HTTP response object is returned instead.
 }
 \description{
 Gets information on friendship between two Twitter users.

@@ -47,11 +47,9 @@ failure modes like temporarily losing your internet connection.}
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}
 
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
 
 \item{verbose}{Show progress bars and other messages indicating current
 progress?}

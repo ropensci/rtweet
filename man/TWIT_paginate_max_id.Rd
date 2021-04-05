@@ -13,7 +13,6 @@ TWIT_paginate_max_id(
   get_id = function(x) x$id_str,
   n = 1000,
   page_size = 200,
-  parse = TRUE,
   since_id = NULL,
   max_id = NULL,
   count_param = "count",
@@ -65,12 +64,6 @@ You will get more results if you ask for a number of tweets that's not
 a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
-
 \item{since_id}{Supply a vector of ids or a data frame of previous results to
 find tweets \strong{newer} than \code{since_id}.}
 
@@ -92,6 +85,10 @@ progress?}
 
 \item{cursor}{Which page of results to return. The default will return
 the first page; can be used for manual pagination.}
+
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

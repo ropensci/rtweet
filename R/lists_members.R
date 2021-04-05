@@ -8,7 +8,6 @@
 #'   owner_user parameters.
 #' @param owner_user optional The screen name or user ID of the user
 #' @param ... Other arguments used as parameters in query composition.
-#' @return Either a nested list (if parsed) or an HTTP response object.
 #' @examples
 #' \dontrun{
 #'

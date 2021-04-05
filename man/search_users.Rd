@@ -25,11 +25,9 @@ You will get more results if you ask for a number of tweets that's not
 a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the

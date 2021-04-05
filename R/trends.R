@@ -92,7 +92,7 @@ get_trends <- function(woeid = 1,
     exclude = if (exclude_hashtags) "hashtags"
   )
   
-  gt <- TWIT_get(token, "/1.1/trends/place", params, parse = parse)
+  gt <- TWIT_get(token, "/1.1/trends/place", params)
   if (parse) {
     gt <- parse_trends(gt)
   }
@@ -160,7 +160,7 @@ format_trend_date <- function(x) {
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/trends/locations-with-trending-topics/api-reference/get-trends-available>
 trends_available <- function(token = NULL, parse = TRUE) {
-  trd <- TWIT_get(token, "/1.1/trends/available", parse = parse)
+  trd <- TWIT_get(token, "/1.1/trends/available")
   if (parse) {
     trd <- parse_trends_available(trd)
   }

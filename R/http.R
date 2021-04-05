@@ -1,4 +1,4 @@
-TWIT_get <- function(token, api, params = NULL, parse = TRUE, ..., host = "api.twitter.com") {
+TWIT_get <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
   resp <- TWIT_method("GET", 
     token = token, 
     api = api,
@@ -7,11 +7,7 @@ TWIT_get <- function(token, api, params = NULL, parse = TRUE, ..., host = "api.t
     host = host
   )
   
-  if (parse) {
-    from_js(resp)
-  } else {
-    resp
-  }
+  from_js(resp)
 }
 
 TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.twitter.com") {
@@ -99,18 +95,15 @@ TWIT_method <- function(method, token, api,
 #'   If you expect a query to take hours or days to perform, you should not 
 #'   rely soley on `retryonratelimit` because it does not handle other common
 #'   failure modes like temporarily losing your internet connection.
-#' @param parse The default, `TRUE`, indicates that the result should
-#'   be parsed into a convenient R data structure like a list or data frame. 
-#'   This protects you from the vagaries of the twitter API. Use `FALSE` 
-#'   to return the "raw" list produced by the JSON returned from the twitter 
-#'   API.
+#' @param parse If `TRUE`, the default, returns a tidy data frame. Use `FALSE` 
+#'   to return the "raw" list corresponding to the JSON returned from the 
+#'   Twitter API.
 #' @param verbose Show progress bars and other messages indicating current 
 #'   progress?
 TWIT_paginate_max_id <- function(token, api, params, 
                                  get_id = function(x) x$id_str, 
                                  n = 1000, 
                                  page_size = 200, 
-                                 parse = TRUE,
                                  since_id = NULL,
                                  max_id = NULL,
                                  count_param = "count", 
@@ -142,30 +135,28 @@ TWIT_paginate_max_id <- function(token, api, params,
       params[[count_param]] <- n - (pages - 1) * page_size
     }
 
-    resp <- catch_rate_limit(
+    json <- catch_rate_limit(
       TWIT_get(
         token, api, params, 
         retryonratelimit = retryonratelimit,
-        parse = FALSE,
         verbose = verbose
       )
     )
-    if (is_rate_limit(resp)) {
-      warn_early_term(resp, 
+    if (is_rate_limit(json)) {
+      warn_early_term(json, 
         hint = paste0("Set `max_id = '", max_id, "' to continue."),
         hint_if = !is.null(max_id)
       )
       break
     }
     
-    json <- from_js(resp)
     # no more tweets to return
     if (length(json) == 0) {
       break
     }
     
     max_id <- max_id(get_id(json))
-    results[[i]] <- if (parse) json else resp
+    results[[i]] <- json
     
     if (verbose) {
       pb$tick()
@@ -344,10 +335,10 @@ warn_early_term <- function(cnd, hint, hint_if) {
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 handle_error <- function(x) {
-  parsed <- from_js(x)
+  json <- from_js(x)
   stop(
     "Twitter API failed [", x$status_code, "]\n",
-    paste0(" * ", parsed$errors$message, " (", parsed$errors$code, ")"),
+    paste0(" * ", json$errors$message, " (", json$errors$code, ")"),
     call. = FALSE
   )
 }

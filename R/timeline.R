@@ -121,7 +121,6 @@ get_timeline_user <- function(user,
     page_size = 200,
     since_id = since_id,
     max_id = max_id,
-    parse = parse,
     retryonratelimit = retryonratelimit,
     verbose = verbose,
   )

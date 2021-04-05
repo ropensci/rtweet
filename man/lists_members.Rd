@@ -46,16 +46,11 @@ the first page; can be used for manual pagination.}
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
-\item{parse}{The default, \code{TRUE}, indicates that the result should
-be parsed into a convenient R data structure like a list or data frame.
-This protects you from the vagaries of the twitter API. Use \code{FALSE}
-to return the "raw" list produced by the JSON returned from the twitter
-API.}
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
 
 \item{...}{Other arguments used as parameters in query composition.}
-}
-\value{
-Either a nested list (if parsed) or an HTTP response object.
 }
 \description{
 Get Twitter list members (users on a given list).
