@@ -2,26 +2,28 @@
 % Please edit documentation in R/search_users.R
 \name{search_users}
 \alias{search_users}
-\title{Get users data on accounts identified via search query.}
+\title{Search for users}
 \usage{
 search_users(q, n = 100, parse = TRUE, token = NULL, verbose = TRUE)
 }
 \arguments{
-\item{q}{Query to be searched, used in filtering relevant tweets to
-return from Twitter's REST API. Should be a character string not
-to exceed 500 characters maximum. Spaces are assumed to function
-like boolean "AND" operators. To search for tweets including one
-of multiple possible terms, separate search terms with spaces and
-the word "OR". For example, the search \code{query = "data science"} searches for tweets using both "data" and
-"science" though the words can appear anywhere and in any order
-in the tweet. However, when OR is added between search terms,
-\code{query = "data OR science"}, Twitter's REST API should
-return any tweet that includes either "data" or "science"
-appearing in the tweets. At this time, Twitter's users/search API
-does not allow complex searches or queries targeting exact
-phrases as is allowed by \code{search_tweets}.}
+\item{q}{As string providing the search query. Try searching by interest,
+full name, company name, or location. Exact match searches are not
+supported.}
 
-\item{n}{Number of users to return (at most 1,000).}
+\item{n}{Desired number of results to return. Results are downloaded
+in pages when \code{n} is large; the default value will download a single
+page. Set \code{n = Inf} to download as many results as possible.
+
+The Twitter API rate limits the number of requests you can perform
+in each 15 minute period. The easiest way to download more than that is
+to use \code{retryonratelimit = TRUE}.
+
+You are not guaranteed to get exactly \code{n} results back. You will get
+fewer results when tweets have been deleted or if you hit a rate limit.
+You will get more results if you ask for a number of tweets that's not
+a multiple of page size, e.g. if you request \code{n = 150} and the page
+size is 200, you'll get 200 results back.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -33,14 +35,15 @@ API.}
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
-\item{verbose}{If \code{TRUE}, will display a progress bar while downloading.}
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 }
 \value{
-Data frame of users returned by query.
+Data frame with one row for each matching user.
 }
 \description{
-Returns data for up to 1,000 users matched by user provided search
-query.
+Search for Twitter users. The Twitter API limits the results to at most
+1,000 users.
 }
 \examples{
 
