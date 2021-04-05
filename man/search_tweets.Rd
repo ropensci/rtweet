@@ -11,6 +11,7 @@ search_tweets(
   type = c("mixed", "recent", "popular"),
   include_rts = TRUE,
   geocode = NULL,
+  since_id = NULL,
   max_id = NULL,
   parse = TRUE,
   token = NULL,
@@ -77,10 +78,11 @@ entering "RT" into the text of one's tweets).}
 \item{geocode}{Geographical limiter of the template
 "latitude,longitude,radius" e.g., \code{geocode = "37.78,-122.40,1mi"}.}
 
-\item{max_id}{Provide an upper bound for the returned results; all results
-will have an ID less than or equal to \code{max_id}. If omitted, results will
-start from the most recent available. Supplying \code{max_id} allows you to
-manually paginate the results.}
+\item{since_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{newer} than \code{since_id}.}
+
+\item{max_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{older} than \code{max_id}.}
 
 \item{parse}{The default, \code{TRUE}, indicates that the result should
 be parsed into a convenient R data structure like a list or data frame.
@@ -134,55 +136,21 @@ index includes between only 6-9 days of Tweets.
 \examples{
 
 \dontrun{
+tweets <- search_tweets("weather")
+tweets
 
-## search for 1000 tweets mentioning Hillary Clinton
-hrc <- search_tweets(q = "hillaryclinton", n = 1000)
+# data about the users who made those tweets
+users_data(tweets)
 
-## data frame where each observation (row) is a different tweet
-hrc
+# Retrieve all the tweets made since the previous request
+# (there might not be any if people aren't tweeting about the weather)
+newer <- search_tweets("weather", since_id = tweets)
+# Retrieve tweets made before the previous request
+older <- search_tweets("weather", max_id = tweets)
 
-## users data also retrieved. can access it via users_data()
-users_data(hrc)
-
-## search for 1000 tweets in English
-djt <- search_tweets(q = "realdonaldtrump", n = 1000, lang = "en")
-
-## preview tweets data
-djt
-
-## preview users data
-users_data(djt)
-
-## exclude retweets
-rt <- search_tweets("rstats", n = 500, include_rts = FALSE)
-
-## perform search for lots of tweets
-rt <- search_tweets(
-  "trump OR president OR potus", n = 100000,
-  retryonratelimit = TRUE
-)
-
-## plot time series of tweets frequency
-ts_plot(rt, by = "mins")
-
-## make multiple independent search queries
-ds <- Map(
-  "search_tweets",
-  c("\"data science\"", "rstats OR python"),
-  n = 1000
-)
-
-## bind by row whilst preserving users data
-ds <- do_call_rbind(ds)
-
-## preview tweets data
-ds
-
-## preview users data
-users_data(ds)
-
+# Restrict to English only, and ignore retweets
+tweets2 <- search_tweets("weather", lang = "en", include_rts = FALSE)
 }
-
 
 \dontrun{
 

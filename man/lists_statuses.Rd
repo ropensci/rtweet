@@ -13,6 +13,8 @@ lists_statuses(
   n = 200,
   include_rts = TRUE,
   parse = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   token = NULL
 )
 }
@@ -27,14 +29,11 @@ parameters.}
 \item{owner_user}{optional The screen name or user ID of the user
 who owns the list being requested by a slug.}
 
-\item{since_id}{Provides a lower-bound for the results returned; all results
-will have an ID greater than or equal to \code{since_id}. This can generally
-be omitted.}
+\item{since_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{newer} than \code{since_id}.}
 
-\item{max_id}{Provide an upper bound for the returned results; all results
-will have an ID less than or equal to \code{max_id}. If omitted, results will
-start from the most recent available. Supplying \code{max_id} allows you to
-manually paginate the results.}
+\item{max_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{older} than \code{max_id}.}
 
 \item{n}{Desired number of results to return. Results are downloaded
 in pages when \code{n} is large; the default value will download a single
@@ -61,6 +60,19 @@ be parsed into a convenient R data structure like a list or data frame.
 This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the

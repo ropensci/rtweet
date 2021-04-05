@@ -61,55 +61,21 @@
 #' @examples
 #'
 #' \dontrun{
-#'
-#' ## search for 1000 tweets mentioning Hillary Clinton
-#' hrc <- search_tweets(q = "hillaryclinton", n = 1000)
-#'
-#' ## data frame where each observation (row) is a different tweet
-#' hrc
-#'
-#' ## users data also retrieved. can access it via users_data()
-#' users_data(hrc)
-#'
-#' ## search for 1000 tweets in English
-#' djt <- search_tweets(q = "realdonaldtrump", n = 1000, lang = "en")
-#'
-#' ## preview tweets data
-#' djt
-#'
-#' ## preview users data
-#' users_data(djt)
-#'
-#' ## exclude retweets
-#' rt <- search_tweets("rstats", n = 500, include_rts = FALSE)
-#'
-#' ## perform search for lots of tweets
-#' rt <- search_tweets(
-#'   "trump OR president OR potus", n = 100000,
-#'   retryonratelimit = TRUE
-#' )
-#'
-#' ## plot time series of tweets frequency
-#' ts_plot(rt, by = "mins")
-#'
-#' ## make multiple independent search queries
-#' ds <- Map(
-#'   "search_tweets",
-#'   c("\"data science\"", "rstats OR python"),
-#'   n = 1000
-#' )
-#'
-#' ## bind by row whilst preserving users data
-#' ds <- do_call_rbind(ds)
-#'
-#' ## preview tweets data
-#' ds
-#'
-#' ## preview users data
-#' users_data(ds)
-#'
+#' tweets <- search_tweets("weather")
+#' tweets
+#' 
+#' # data about the users who made those tweets
+#' users_data(tweets)
+#' 
+#' # Retrieve all the tweets made since the previous request
+#' # (there might not be any if people aren't tweeting about the weather)
+#' newer <- search_tweets("weather", since_id = tweets)
+#' # Retrieve tweets made before the previous request
+#' older <- search_tweets("weather", max_id = tweets)
+#' 
+#' # Restrict to English only, and ignore retweets
+#' tweets2 <- search_tweets("weather", lang = "en", include_rts = FALSE)
 #' }
-#'
 #' @return List object with tweets and users each returned as a
 #'   data frame.
 #' @family tweets
@@ -119,6 +85,7 @@ search_tweets <- function(q, n = 100,
                           type = c("mixed", "recent", "popular"),
                           include_rts = TRUE,
                           geocode = NULL,
+                          since_id = NULL,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL,
@@ -135,11 +102,12 @@ search_tweets <- function(q, n = 100,
   
   result <- TWIT_paginate_max_id(token, "/1.1/search/tweets", params,
     get_id = function(x) x$statuses$id_str,
-    n = n,
     page_size = 100,
-    retryonratelimit = retryonratelimit,
+    n = n,
+    since_id = since_id,
     max_id = max_id,
     parse = parse,
+    retryonratelimit = retryonratelimit,
     verbose = verbose
   )
 

@@ -1,5 +1,11 @@
 # rtweet (development version)
 
+- Functions that return tweets (e.g. `get_favorites()`, `get_my_timeline()`, 
+  `get_timeline()`, `get_mentions()`, `lists_statuses()` and `search_tweets()`)
+  now expose a consistent pagination interface. They all support `max_id` and 
+  `since_id` to find earlier and later tweets respectively, as well as
+  `retryonratelimit` to wait as long as needed when rate limited (#510).
+
 - `lookup_collections()` and `get_collections()` has been hard deprecated 
   because the underlying Twitter API has been deprecated.
 
@@ -42,9 +48,6 @@
   rate-limit is reset, you can set `retryratelimit = TRUE`.
 
 - The `rate_limit()` interface has been drastically simplified.
-
-- `max_id()` and `since_id()` have been deprecated; tweetr now handles 
-  pagination for you.
 
 - `suggested_slugs()`, `suggested_users()`, `suggested_users_all()` have been
   removed as they stopped working when Twitter remove the suggested users

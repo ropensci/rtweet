@@ -29,6 +29,8 @@ lists_statuses <- function(list_id = NULL,
                            n = 200,
                            include_rts = TRUE,
                            parse = TRUE,
+                           retryonratelimit = FALSE,
+                           verbose = TRUE,
                            token = NULL) {
   params <- lists_params(
     list_id = list_id,
@@ -44,7 +46,9 @@ lists_statuses <- function(list_id = NULL,
     max_id = max_id,
     since_id = since_id,
     n = n,
-    parse = parse
+    parse = parse,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose
   )
   
   if (parse) {
