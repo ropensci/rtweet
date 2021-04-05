@@ -17,35 +17,30 @@
 #' @examples
 #'
 #' \dontrun{
+#' tw <- get_timeline("JustinBieber")
+#' tw
+#' 
+#' # get tweets that arrived since the last request
+#' get_timeline("JustinBieber", since_id = tw)
+#' # get earlier tweets
+#' get_timeline("JustinBieber", max_id = tw)
 #'
-#' ## get most recent 3200 tweets posted by Donald Trump's account
-#' djt <- get_timeline("realDonaldTrump", n = 3200)
-#'
-#' ## data frame where each observation (row) is a different tweet
-#' djt
-#'
-#' ## users data for realDonaldTrump is also retrieved
-#' users_data(djt)
-#'
-#' ## retrieve timelines of mulitple users
-#' tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
-#'
-#' ## it's returned as one data frame
-#' tmls
-#'
-#' ## count observations for each timeline
-#' table(tmls$screen_name)
-#'
+#' # get timelines for mulitple users
+#' tw <- get_timeline(c("KFC", "PizzaHut", "McDonalds"))
+#' tw
 #' }
 #'
 #' @family tweets
 #' @export
 get_timeline <- function(user = NULL,
                          n = 100,
+                         since_id = NULL,
                          max_id = NULL,
                          home = FALSE,
                          parse = TRUE,
                          check = TRUE,
+                         retryonratelimit = FALSE,
+                         verbose = TRUE,
                          token = NULL,
                          ...) {
 
@@ -57,10 +52,13 @@ get_timeline <- function(user = NULL,
   
   rt <- lapply(user, get_timeline_user, 
     n = n, 
+    since_id = since_id,
     max_id = max_id,
     home = FALSE, 
     parse = parse,
     check = check,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     token = token,
     ...
   )
@@ -77,9 +75,12 @@ get_timeline <- function(user = NULL,
 #' @rdname get_timeline
 #' @export
 get_my_timeline <- function(n = 100,
+                            since_id = NULL,
                             max_id = NULL,
                             parse = TRUE,
                             check = TRUE,
+                            retryonratelimit = FALSE,
+                            verbose = TRUE,
                             token = NULL,
                             ...) {
 
@@ -87,25 +88,30 @@ get_my_timeline <- function(n = 100,
     user = api_screen_name(),
     n = n,
     home = TRUE,
+    since_id = since_id,
     max_id = max_id,
     parse = parse,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     token = token
   )
-
 }
 
 get_timeline_user <- function(user,
                               n = 200,
+                              since_id = NULL,
                               max_id = NULL,
                               home = FALSE,
                               parse = TRUE,
+                              retryonratelimit = FALSE,
+                              verbose = TRUE,
                               token = NULL,
                               ...) {
   api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
 
   params <- list(
-    tweet_mode = "extended",
-    include_ext_alt_text = "true",
+    # tweet_mode = "extended",
+    # include_ext_alt_text = "true",
     ...
   )
   params[[user_type(user)]] <- user
@@ -113,8 +119,11 @@ get_timeline_user <- function(user,
   result <- TWIT_paginate_max_id(token, api, params, 
     n = n,
     page_size = 200,
+    since_id = since_id,
     max_id = max_id,
-    parse = parse
+    parse = parse,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
   )
   
   if (parse) {

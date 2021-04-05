@@ -9,19 +9,25 @@
 get_timeline(
   user = NULL,
   n = 100,
+  since_id = NULL,
   max_id = NULL,
   home = FALSE,
   parse = TRUE,
   check = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   token = NULL,
   ...
 )
 
 get_my_timeline(
   n = 100,
+  since_id = NULL,
   max_id = NULL,
   parse = TRUE,
   check = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   token = NULL,
   ...
 )
@@ -44,10 +50,11 @@ You will get more results if you ask for a number of tweets that's not
 a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
-\item{max_id}{Provide an upper bound for the returned results; all results
-will have an ID less than or equal to \code{max_id}. If omitted, results will
-start from the most recent available. Supplying \code{max_id} allows you to
-manually paginate the results.}
+\item{since_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{newer} than \code{since_id}.}
+
+\item{max_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{older} than \code{max_id}.}
 
 \item{home}{Logical, indicating whether to return a "user" timeline
 (the default, what a user has tweeted/retweeted) or a "home" timeline
@@ -60,6 +67,19 @@ to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
 \item{check}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
@@ -78,25 +98,17 @@ authenticated user (i.e. the tweets you see when you log into Twitter).
 \examples{
 
 \dontrun{
+tw <- get_timeline("JustinBieber")
+tw
 
-## get most recent 3200 tweets posted by Donald Trump's account
-djt <- get_timeline("realDonaldTrump", n = 3200)
+# get tweets that arrived since the last request
+get_timeline("JustinBieber", since_id = tw)
+# get earlier tweets
+get_timeline("JustinBieber", max_id = tw)
 
-## data frame where each observation (row) is a different tweet
-djt
-
-## users data for realDonaldTrump is also retrieved
-users_data(djt)
-
-## retrieve timelines of mulitple users
-tmls <- get_timeline(c("KFC", "ConanOBrien", "NateSilver538"), n = 1000)
-
-## it's returned as one data frame
-tmls
-
-## count observations for each timeline
-table(tmls$screen_name)
-
+# get timelines for mulitple users
+tw <- get_timeline(c("KFC", "PizzaHut", "McDonalds"))
+tw
 }
 
 }

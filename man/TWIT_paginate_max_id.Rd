@@ -71,14 +71,11 @@ This protects you from the vagaries of the twitter API. Use \code{FALSE}
 to return the "raw" list produced by the JSON returned from the twitter
 API.}
 
-\item{since_id}{Provides a lower-bound for the results returned; all results
-will have an ID greater than or equal to \code{since_id}. This can generally
-be omitted.}
+\item{since_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{newer} than \code{since_id}.}
 
-\item{max_id}{Provide an upper bound for the returned results; all results
-will have an ID less than or equal to \code{max_id}. If omitted, results will
-start from the most recent available. Supplying \code{max_id} allows you to
-manually paginate the results.}
+\item{max_id}{Supply a vector of ids or a data frame of previous results to
+find tweets \strong{older} than \code{max_id}.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
 until it refreshes. Most twitter rate limits refresh every 15 minutes.
