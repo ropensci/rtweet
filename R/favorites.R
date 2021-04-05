@@ -53,8 +53,7 @@ get_favorites_user <- function(user, ..., parse = TRUE, token = NULL) {
   
   results <- TWIT_paginate_max_id(token, "/1.1/favorites/list", params,
     page_size = 200,
-    ...,
-    parse = parse
+    ...
   )
 
   if (parse) {

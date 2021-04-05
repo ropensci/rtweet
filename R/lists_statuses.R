@@ -46,7 +46,6 @@ lists_statuses <- function(list_id = NULL,
     max_id = max_id,
     since_id = since_id,
     n = n,
-    parse = parse,
     retryonratelimit = retryonratelimit,
     verbose = verbose
   )

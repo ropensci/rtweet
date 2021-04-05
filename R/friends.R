@@ -82,17 +82,20 @@ get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
 #' to 100 other users.
 #'
 #' @inheritParams get_timeline
-#' @return Data frame converted form returned JSON object. If parse is
-#'   not true, the HTTP response object is returned instead.
 #' @family friends
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-lookup>
 my_friendships <- function(user,
-                           parse = TRUE,
+                           parse = FALSE,
                            token = NULL) {
+  
+  if (!isFALSE(parse)) {
+    abort("`my_friendships()` can only return unparsed data")
+  }
+  
   params <- list()
   params[[user_type(user)]] <- paste0(user, collapse = ",")
-  TWIT_get(token, "/1.1/friendships/lookup", params, parse = parse)
+  TWIT_get(token, "/1.1/friendships/lookup", params)
 }
 
 #' Lookup friendship information between two specified users.
@@ -102,8 +105,6 @@ my_friendships <- function(user,
 #' @inheritParams lookup_users
 #' @param source Screen name or user id of source user.
 #' @param target Screen name or user id of target user.
-#' @return Data frame converted form returned JSON object. If parse is
-#'   not true, the HTTP response object is returned instead.
 #' @family friends
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show>
@@ -133,7 +134,7 @@ lookup_friendships_ <- function(source,
   params[[paste0("source_", user_type(source, "source"))]] <- source
   params[[paste0("target_", user_type(target, "target"))]] <- target
 
-  f <- TWIT_get(token, "/1.1/friendships/show", params, parse = parse)
+  f <- TWIT_get(token, "/1.1/friendships/show", params)
   if (parse) {
     f <- parse_showfriendships(f, source, target)
   }
