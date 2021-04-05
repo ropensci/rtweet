@@ -37,7 +37,7 @@ get_retweeters <- function(status_id, n = 100, parse = TRUE, token = NULL) {
     count = n,
     stringify_ids = TRUE
   )
-  r <- TWIT_get(token, "/1.1/statuses/retweeters/ids")
+  r <- TWIT_get(token, "/1.1/statuses/retweeters/ids", params)
   
   if (parse) {
     r <- tibble::tibble(user_id = r$ids)
