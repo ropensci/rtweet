@@ -9,6 +9,11 @@ users_data(tweets)
 
 tweets_data(users)
 }
+\arguments{
+\item{tweets}{A data frame of tweets.}
+
+\item{users}{A data frame of users.}
+}
 \value{
 \code{user_data()} returns a data frame of users; \code{tweets_data()}
 returns a data frame of tweets.

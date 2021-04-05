@@ -18,6 +18,7 @@
 #' }
 #' @return `user_data()` returns a data frame of users; `tweets_data()` 
 #'   returns a data frame of tweets.
+#' @param tweets A data frame of tweets. 
 #' @export
 users_data <- function(tweets) {
   users <- attr(tweets, "users", exact = TRUE)
@@ -27,6 +28,7 @@ users_data <- function(tweets) {
   users
 }
 
+#' @param users A data frame of users.
 #' @rdname users_data
 #' @export
 tweets_data <- function(users) {
