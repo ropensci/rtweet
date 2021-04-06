@@ -12,7 +12,7 @@
 #' @keywords internal
 #' @export
 next_cursor <- function(x) {
-  if (is_string(x)) {
+  if (is_string(x) || is_null(x)) {
     x
   } else if (is.data.frame(x)) {
     cursor <- attr(x, "rtweet_cursor")

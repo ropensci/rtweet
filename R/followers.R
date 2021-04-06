@@ -10,11 +10,11 @@
 #' @examples
 #'
 #' \dontrun{
-#'
-#' ## get 5000 ids of users following the KFC account
-#' (kfc <- get_followers("KFC"))
-#'
-#' (pres <- get_followers("potus", n = 75000))
+#' users <- get_followers("KFC")
+#' users
+#' 
+#' # use `cursor` to find the next "page" of results
+#' more_users <- get_followers("KFC", cursor = users)
 #'
 #' }
 #' @return A tibble data frame of follower IDs (one column named "user_id").

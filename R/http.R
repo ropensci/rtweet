@@ -170,7 +170,8 @@ TWIT_paginate_max_id <- function(token, api, params,
 #' @rdname TWIT_paginate_max_id
 #'  
 #' @param cursor Which page of results to return. The default will return 
-#'   the first page; can be used for manual pagination. 
+#'   the first page; you can supply the result from a previous call to 
+#'   continue pagination from where it left off.
 TWIT_paginate_cursor <- function(token, api, params, 
                                  n = 5000, 
                                  page_size = 5000, 

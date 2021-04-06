@@ -21,7 +21,7 @@ test_that("TWIT_paginte_max_id respects max_id and since_id", {
 
 test_that("TWIT_paginte_cursor respects cursor", {
   page1 <- get_followers("JustinBieber")
-  page2 <- get_followers("JustinBieber", cursor = page2)
+  page2 <- get_followers("JustinBieber", cursor = page1)
   
   expect_length(intersect(page1$user_id, page2$user_id), 0)
 })  

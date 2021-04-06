@@ -42,7 +42,8 @@ a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
 \item{cursor}{Which page of results to return. The default will return
-the first page; can be used for manual pagination.}
+the first page; you can supply the result from a previous call to
+continue pagination from where it left off.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
