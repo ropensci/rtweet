@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("TWIT_paginte_max_id respects max_id and since_id", {
   simple_timeline <- function(...) {
     r <- TWIT_paginate_max_id(NULL, "/1.1/statuses/user_timeline", 
       list(screen_name = "JustinBieber"), 
@@ -17,4 +17,11 @@ test_that("multiplication works", {
   # asking for newer tweets should give back the original data
   base2 <- simple_timeline(since_id = older)
   expect_length(intersect(base$status_id, base2$status_id), 100)
+})  
+
+test_that("TWIT_paginte_cursor respects cursor", {
+  page1 <- get_followers("JustinBieber")
+  page2 <- get_followers("JustinBieber", cursor = page2)
+  
+  expect_length(intersect(page1$user_id, page2$user_id), 0)
 })  

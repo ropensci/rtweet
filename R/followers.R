@@ -18,7 +18,6 @@
 #'
 #' }
 #' @return A tibble data frame of follower IDs (one column named "user_id").
-#' @family ids
 #' @export
 get_followers <- function(user, n = 5000,
                           cursor = "-1",
@@ -47,30 +46,9 @@ get_followers <- function(user, n = 5000,
   )
   
   if (parse) {
-    results <- lapply(results, parse.piper.fs, n = n)
-    results <- do.call("rbind", results)
+    df <- tibble::tibble(user_id = unlist(lapply(results, function(x) x$ids)))
+    results <- copy_cursor(df, results)
   }
 
   results
-}
-
-parse.piper.fs <- function(f, n = NULL) {
-  if (!is.list(f)) {
-    f <- list(f)
-  }
-  if (length(f) == 0L) {
-    return(data.frame())
-  }
-  df <- unlist(lapply(f, "[[[", "ids"), use.names = FALSE)
-  if (length(df) == 0L) {
-    return(data.frame())
-  }
-
-  df <- as_tbl(list(user_id = df))
-  if (!is.null(n)) {
-    if (n < nrow(df)) {
-      df <- df[seq_len(n), ]
-    }
-  }
-  df
 }

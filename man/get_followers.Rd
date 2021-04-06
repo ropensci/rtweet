@@ -80,9 +80,3 @@ user.
 \references{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
 }
-\seealso{
-Other ids: 
-\code{\link{get_friends}()},
-\code{\link{next_cursor}()}
-}
-\concept{ids}

@@ -90,9 +90,3 @@ limits the number of people that you can follow (i.e. to follow more than
 
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 }
-\seealso{
-Other ids: 
-\code{\link{get_followers}()},
-\code{\link{next_cursor}()}
-}
-\concept{ids}

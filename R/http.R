@@ -179,6 +179,7 @@ TWIT_paginate_cursor <- function(token, api, params,
                                  retryonratelimit = FALSE,
                                  verbose = TRUE) {
   params$count <- page_size
+  cursor <- next_cursor(cursor)
   
   # TODO: consider if its worth using fastmap::faststack() here
   results <- list()
@@ -202,6 +203,7 @@ TWIT_paginate_cursor <- function(token, api, params,
         verbose = verbose
       )
     )
+
     if (is_rate_limit(json)) {
       warn_early_term(json, 
         hint = paste0("Set `cursor = '", cursor, "' to continue."),
@@ -224,7 +226,7 @@ TWIT_paginate_cursor <- function(token, api, params,
     }
   })
 
-  results
+  structure(results, rtweet_cursor = cursor)
 }
 
 #' @rdname TWIT_paginate_max_id
