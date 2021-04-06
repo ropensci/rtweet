@@ -149,13 +149,14 @@ TWIT_paginate_max_id <- function(token, api, params,
       )
       break
     }
-    
+
+    id <- get_id(json)
     # no more tweets to return
-    if (length(json) == 0) {
+    if (length(id) == 0) {
       break
     }
     
-    max_id <- max_id(get_id(json))
+    max_id <- max_id(id)
     results[[i]] <- json
     
     if (verbose) {
