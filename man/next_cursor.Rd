@@ -3,58 +3,20 @@
 \name{next_cursor}
 \alias{next_cursor}
 \alias{since_id}
-\title{next_cursor}
+\title{Extract cursor (for cursor based pagination)}
 \usage{
 next_cursor(x)
 
 since_id(x)
 }
-\arguments{
-\item{x}{Data object returned by Twitter API.}
-}
-\value{
-Character string of next cursor value used to retrieved
-the next page of results. This should be used to resume data
-collection efforts that were interrupted by API rate limits.
-Modify previous data request function by entering the returned
-value from \code{next_cursor} for the \code{page} argument.
-}
 \description{
-Method for returning next value (used to request next page or results)
-object returned from Twitter APIs.
+This internal helper extracts the cursor from the object passed to the
+\code{cursor} argument of the functions that use \code{\link[=TWIT_paginate_cursor]{TWIT_paginate_cursor()}}.
 }
 \examples{
 \dontrun{
-
-## Retrieve user ids of accounts following POTUS
-f1 <- get_followers("potus", n = 75000)
-
-## store next_cursor in page
-page <- next_cursor(f1)
-
-## max. number of ids returned by one token is 75,000 every 15
-##   minutes, so you'll need to wait a bit before collecting the
-##   next batch of ids
-sys.Sleep(15 * 60) ## Suspend execution of R expressions for 15 mins
-
-## Use the page value returned from `next_cursor` to continue
-##   where you left off.
-f2 <- get_followers("potus", n = 75000, cursor = page)
-
-## combine
-f <- do.call("rbind", list(f1, f2))
-
-## count rows
-nrow(f)
-
+page1 <- get_followers("potus")
+page2 <- get_followers("potus", cursor = page1)
 }
-
 }
-\seealso{
-Other ids: 
-\code{\link{get_followers}()},
-\code{\link{get_friends}()}
-}
-\concept{extractors}
-\concept{ids}
 \keyword{internal}

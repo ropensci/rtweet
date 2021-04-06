@@ -34,7 +34,8 @@ a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
 \item{cursor}{Which page of results to return. The default will return
-the first page; can be used for manual pagination.}
+the first page; you can supply the result from a previous call to
+continue pagination from where it left off.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
 until it refreshes. Most twitter rate limits refresh every 15 minutes.
@@ -69,20 +70,14 @@ user.
 \examples{
 
 \dontrun{
+users <- get_followers("KFC")
+users
 
-## get 5000 ids of users following the KFC account
-(kfc <- get_followers("KFC"))
-
-(pres <- get_followers("potus", n = 75000))
+# use `cursor` to find the next "page" of results
+more_users <- get_followers("KFC", cursor = users)
 
 }
 }
 \references{
 \url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
 }
-\seealso{
-Other ids: 
-\code{\link{get_friends}()},
-\code{\link{next_cursor}()}
-}
-\concept{ids}

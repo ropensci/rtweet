@@ -1,5 +1,10 @@
 # rtweet (development version)
 
+- All paginated functions that don't return tweet now use a consistent 
+  pagination interface. They all store the "next cursor" in an `rtweet_cursor`
+  attribute, which will be automatically retrieved when you use the `cursor`
+  argument.
+
 - `lookup_users()` and `search_users()` now returns a data frame containing
   on information about each user (not their latest tweet). If you want to get 
   that data you can use `tweets_data()`.

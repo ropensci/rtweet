@@ -29,6 +29,8 @@ lists_memberships <- function(user = NULL,
                               filter_to_owned_lists = FALSE,
                               token = NULL,
                               parse = TRUE,
+                              retryonratelimit = FALSE,
+                              verbose = TRUE,
                               previous_cursor = NULL) {
   params <- list()
   if (!is.null(user)) {
@@ -41,6 +43,8 @@ lists_memberships <- function(user = NULL,
   r <- TWIT_paginate_cursor(token, "/1.1/lists/memberships", params, 
     n = n,
     cursor = cursor, 
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     page_size = 1000,
     get_id = function(x) x$lists$id_str
   )
@@ -56,5 +60,7 @@ parse_lists_list <- function(x) {
   lists <- lapply(x, function(x) x$lists)
   dfs <- lapply(lists, wrangle_into_clean_data, type = "list")
   dfs <- lapply(dfs, tibble::as_tibble)
-  do.call("rbind", dfs)
+  df <- do.call("rbind", dfs)
+  
+  copy_cursor(df, x)
 }

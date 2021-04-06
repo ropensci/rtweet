@@ -20,6 +20,8 @@ lists_subscriptions <- function(user,
                                 n = 20,
                                 cursor = "-1",
                                 parse = TRUE,
+                                retryonratelimit = FALSE,
+                                verbose = TRUE,
                                 token = NULL) {
   
   params <- list(
@@ -29,8 +31,10 @@ lists_subscriptions <- function(user,
   params[[user_type(user)]] <- user
 
   r <- TWIT_paginate_cursor(token, "/1.1/lists/subscriptions", params,
-    page_size = 1000,
     cursor = cursor,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
+    page_size = 1000,
     get_id = function(x) x$user_id
   )
   

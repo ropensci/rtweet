@@ -170,7 +170,8 @@ TWIT_paginate_max_id <- function(token, api, params,
 #' @rdname TWIT_paginate_max_id
 #'  
 #' @param cursor Which page of results to return. The default will return 
-#'   the first page; can be used for manual pagination. 
+#'   the first page; you can supply the result from a previous call to 
+#'   continue pagination from where it left off.
 TWIT_paginate_cursor <- function(token, api, params, 
                                  n = 5000, 
                                  page_size = 5000, 
@@ -179,6 +180,12 @@ TWIT_paginate_cursor <- function(token, api, params,
                                  retryonratelimit = FALSE,
                                  verbose = TRUE) {
   params$count <- page_size
+  
+  cursor <- next_cursor(cursor)
+  if (identical(cursor, "0")) {
+    # Last request retrieved all available results
+    return(list())
+  }
   
   # TODO: consider if its worth using fastmap::faststack() here
   results <- list()
@@ -202,6 +209,7 @@ TWIT_paginate_cursor <- function(token, api, params,
         verbose = verbose
       )
     )
+
     if (is_rate_limit(json)) {
       warn_early_term(json, 
         hint = paste0("Set `cursor = '", cursor, "' to continue."),
@@ -224,7 +232,7 @@ TWIT_paginate_cursor <- function(token, api, params,
     }
   })
 
-  results
+  structure(results, rtweet_cursor = cursor)
 }
 
 #' @rdname TWIT_paginate_max_id

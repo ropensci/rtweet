@@ -25,7 +25,9 @@ direct_messages <- function(n = 50,
                             cursor = NULL,
                             next_cursor = NULL,
                             parse = TRUE,
-                            token = NULL) {
+                            token = NULL,
+                            retryonratelimit = FALSE,
+                            verbose = TRUE) {
   
   if (!is.null(next_cursor)) {
     lifecycle::deprecate_warn("1.0.0", 
@@ -36,8 +38,10 @@ direct_messages <- function(n = 50,
   }
   
   TWIT_paginate_cursor(token, "/1.1/direct_messages/events/list", list(), 
-    cursor = cursor,
     n = n,
+    cursor = cursor,
+    retryonratelimit = retryonratelimit,
+    verbose = verbose,
     page_size = 50,
     get_id = function(x) x$events$id
   )

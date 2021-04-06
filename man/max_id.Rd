@@ -2,7 +2,7 @@
 % Please edit documentation in R/next_cursor.R
 \name{max_id}
 \alias{max_id}
-\title{Extract minimum/maximum id from a data frame of tweets}
+\title{Extract min/max id (for id based pagination)}
 \usage{
 max_id(x)
 }

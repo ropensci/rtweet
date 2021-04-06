@@ -45,7 +45,8 @@ rely soley on \code{retryonratelimit} because it does not handle other common
 failure modes like temporarily losing your internet connection.}
 
 \item{cursor}{Which page of results to return. The default will return
-the first page; can be used for manual pagination.}
+the first page; you can supply the result from a previous call to
+continue pagination from where it left off.}
 
 \item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
 to return the "raw" list corresponding to the JSON returned from the
@@ -76,13 +77,8 @@ limits the number of people that you can follow (i.e. to follow more than
 \examples{
 
 \dontrun{
-
-## get user ids of accounts followed by Donald Trump
-(djt <- get_friends("ropensci"))
-
-## get user ids of accounts followed by (friends) KFC, jack, and Nate Silver.
-(fds <- get_friends(c("kfc", "jack", "NateSilver538")))
-
+users <- get_friends("ropensci")
+users
 }
 }
 \references{
@@ -90,9 +86,3 @@ limits the number of people that you can follow (i.e. to follow more than
 
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 }
-\seealso{
-Other ids: 
-\code{\link{get_followers}()},
-\code{\link{next_cursor}()}
-}
-\concept{ids}

@@ -10,15 +10,14 @@
 #' @examples
 #'
 #' \dontrun{
-#'
-#' ## get 5000 ids of users following the KFC account
-#' (kfc <- get_followers("KFC"))
-#'
-#' (pres <- get_followers("potus", n = 75000))
+#' users <- get_followers("KFC")
+#' users
+#' 
+#' # use `cursor` to find the next "page" of results
+#' more_users <- get_followers("KFC", cursor = users)
 #'
 #' }
 #' @return A tibble data frame of follower IDs (one column named "user_id").
-#' @family ids
 #' @export
 get_followers <- function(user, n = 5000,
                           cursor = "-1",
@@ -41,36 +40,15 @@ get_followers <- function(user, n = 5000,
   results <- TWIT_paginate_cursor(token, "/1.1/followers/ids", params, 
     page_size = 5000, 
     n = n,
-    retryonratelimit = retryonratelimit,
     cursor = cursor,
+    retryonratelimit = retryonratelimit,
     verbose = verbose
   )
   
   if (parse) {
-    results <- lapply(results, parse.piper.fs, n = n)
-    results <- do.call("rbind", results)
+    df <- tibble::tibble(user_id = unlist(lapply(results, function(x) x$ids)))
+    results <- copy_cursor(df, results)
   }
 
   results
-}
-
-parse.piper.fs <- function(f, n = NULL) {
-  if (!is.list(f)) {
-    f <- list(f)
-  }
-  if (length(f) == 0L) {
-    return(data.frame())
-  }
-  df <- unlist(lapply(f, "[[[", "ids"), use.names = FALSE)
-  if (length(df) == 0L) {
-    return(data.frame())
-  }
-
-  df <- as_tbl(list(user_id = df))
-  if (!is.null(n)) {
-    if (n < nrow(df)) {
-      df <- df[seq_len(n), ]
-    }
-  }
-  df
 }

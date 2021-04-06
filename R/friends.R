@@ -16,17 +16,11 @@
 #' @examples
 #'
 #' \dontrun{
-#'
-#' ## get user ids of accounts followed by Donald Trump
-#' (djt <- get_friends("ropensci"))
-#'
-#' ## get user ids of accounts followed by (friends) KFC, jack, and Nate Silver.
-#' (fds <- get_friends(c("kfc", "jack", "NateSilver538")))
-#'
+#' users <- get_friends("ropensci")
+#' users
 #' }
 #' @return A tibble data frame with two columns, "user" for name or ID of target
 #'   user and "user_id" for follower IDs.
-#' @family ids
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
@@ -43,34 +37,45 @@ get_friends <- function(users,
     cursor <- page
   }
 
-  
   results <- lapply(users, get_friends_user, 
     n = n, 
+    retryonratelimit = retryonratelimit,
+    cursor = cursor,
     parse = parse,
+    verbose = verbose,
     token = token
   )
   
   if (parse) {
-    results <- do.call("rbind", results)
+    # Can only paginate with cursor if requesting info for single user. 
+    # Fortunately, few people follower >5000 users so this should rarely
+    # come up in practice.
+    df <- do.call("rbind", results)
+    if (length(results) == 1) {
+      results <- copy_cursor(df, results[[1]])
+    } else {
+      results <- df
+    }
   }
   
   results
 }
 
-get_friends_user <- function(user, token, n = 5000, parse = TRUE) {
+get_friends_user <- function(user, token, ..., parse = TRUE) {
   params <- list(stringify_ids = TRUE)
   params[[user_type(user)]] <- user
   
-  results <- TWIT_paginate_cursor(token, "/1.1/friends/ids", params, 
+  results <- TWIT_paginate_cursor(token, "/1.1/friends/ids", params,
     page_size = 5000,
-    n = n
+    ...
   )
-  
+
   if (parse) {
-    results <- tibble::tibble(
+    df <- tibble::tibble(
       user = user,
       ids = unlist(lapply(results, function(x) x$ids))
     )
+    results <- copy_cursor(df, results)
   }
   results
 }
