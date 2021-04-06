@@ -179,7 +179,12 @@ TWIT_paginate_cursor <- function(token, api, params,
                                  retryonratelimit = FALSE,
                                  verbose = TRUE) {
   params$count <- page_size
+  
   cursor <- next_cursor(cursor)
+  if (identical(cursor, "0")) {
+    # Last request retrieved all available results
+    return(list())
+  }
   
   # TODO: consider if its worth using fastmap::faststack() here
   results <- list()

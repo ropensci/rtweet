@@ -51,5 +51,7 @@ parse_lists_users <- function(x) {
   users <- lapply(x, function(x) x$users)
   dfs <- lapply(users, wrangle_into_clean_data, type = "user")
   dfs <- lapply(dfs, tibble::as_tibble)
-  do.call("rbind", dfs)
+  df <- do.call("rbind", dfs)
+  
+  copy_cursor(df, x)
 }
