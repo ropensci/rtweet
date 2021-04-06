@@ -16,7 +16,7 @@ test_that("TWIT_paginte_max_id respects max_id and since_id", {
 
   # asking for newer tweets should give back the original data
   base2 <- simple_timeline(since_id = older)
-  expect_length(intersect(base$status_id, base2$status_id), 100)
+  expect_length(intersect(base$status_id, base2$status_id), nrow(base))
 })  
 
 test_that("TWIT_paginte_cursor respects cursor", {
