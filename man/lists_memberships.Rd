@@ -11,6 +11,8 @@ lists_memberships(
   filter_to_owned_lists = FALSE,
   token = NULL,
   parse = TRUE,
+  retryonratelimit = FALSE,
+  verbose = TRUE,
   previous_cursor = NULL
 )
 }
@@ -45,6 +47,19 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
+
+\item{verbose}{Show progress bars and other messages indicating current
+progress?}
 
 \item{previous_cursor}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
 \code{cursor} instead.}

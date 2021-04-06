@@ -40,8 +40,8 @@ get_followers <- function(user, n = 5000,
   results <- TWIT_paginate_cursor(token, "/1.1/followers/ids", params, 
     page_size = 5000, 
     n = n,
-    retryonratelimit = retryonratelimit,
     cursor = cursor,
+    retryonratelimit = retryonratelimit,
     verbose = verbose
   )
   
