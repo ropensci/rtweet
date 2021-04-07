@@ -89,7 +89,7 @@ search_tweets <- function(q, n = 100,
                           max_id = NULL,
                           parse = TRUE,
                           token = NULL,
-                          retryonratelimit = FALSE,
+                          retryonratelimit = NULL,
                           verbose = TRUE,
                           ...) {
   

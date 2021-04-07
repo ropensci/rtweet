@@ -26,7 +26,7 @@ direct_messages <- function(n = 50,
                             next_cursor = NULL,
                             parse = TRUE,
                             token = NULL,
-                            retryonratelimit = FALSE,
+                            retryonratelimit = NULL,
                             verbose = TRUE) {
   
   if (!is.null(next_cursor)) {

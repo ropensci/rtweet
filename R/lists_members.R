@@ -34,7 +34,7 @@ lists_members <- function(list_id = NULL,
                           n = 5000,
                           cursor = "-1",
                           token = NULL,
-                          retryonratelimit = FALSE,
+                          retryonratelimit = NULL,
                           verbose = TRUE,
                           parse = TRUE,
                           ...) {

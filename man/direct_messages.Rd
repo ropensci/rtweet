@@ -11,7 +11,7 @@ direct_messages(
   next_cursor = NULL,
   parse = TRUE,
   token = NULL,
-  retryonratelimit = FALSE,
+  retryonratelimit = NULL,
   verbose = TRUE
 )
 }
@@ -48,7 +48,9 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 until it refreshes. Most twitter rate limits refresh every 15 minutes.
 If \code{FALSE}, and the rate limit is exceeded, the function will terminate
 early with a warning; you'll still get back all results received up to
-that point.
+that point. The default value, \code{NULL}, consults the option
+\code{rtweet.retryonratelimit} so that you can globally set it to \code{TRUE},
+if desired.
 
 If you expect a query to take hours or days to perform, you should not
 rely soley on \code{retryonratelimit} because it does not handle other common

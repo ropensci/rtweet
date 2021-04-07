@@ -25,7 +25,7 @@ get_favorites <- function(user,
                           since_id = NULL,
                           max_id = NULL,
                           parse = TRUE,
-                          retryonratelimit = FALSE,
+                          retryonratelimit = NULL,
                           verbose = TRUE,
                           token = NULL) {
   rt <- lapply(user, get_favorites_user, 

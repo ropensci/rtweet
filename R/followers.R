@@ -21,7 +21,7 @@
 #' @export
 get_followers <- function(user, n = 5000,
                           cursor = "-1",
-                          retryonratelimit = FALSE,
+                          retryonratelimit = NULL,
                           parse = TRUE,
                           verbose = TRUE,
                           token = NULL,
