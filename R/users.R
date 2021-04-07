@@ -23,7 +23,7 @@
 #' @family users
 #' @export
 lookup_users <- function(users, parse = TRUE, token = NULL,
-                         retryonratelimit = FALSE,
+                         retryonratelimit = NULL,
                          verbose = TRUE) {
   type <- user_type(users, "users")
   

@@ -20,7 +20,7 @@ lists_subscriptions <- function(user,
                                 n = 20,
                                 cursor = "-1",
                                 parse = TRUE,
-                                retryonratelimit = FALSE,
+                                retryonratelimit = NULL,
                                 verbose = TRUE,
                                 token = NULL) {
   

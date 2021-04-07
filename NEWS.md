@@ -1,5 +1,9 @@
 # rtweet (development version)
 
+- The default value of `retryonratelimit` comes from the option
+  `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
+  (#173).
+
 - All paginated functions that don't return tweet now use a consistent 
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`
   attribute, which will be automatically retrieved when you use the `cursor`

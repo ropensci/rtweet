@@ -25,7 +25,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
                         n = 5000,
-                        retryonratelimit = FALSE,
+                        retryonratelimit = NULL,
                         cursor = "-1",
                         parse = TRUE,
                         verbose = TRUE,

@@ -24,7 +24,7 @@ TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.t
 TWIT_method <- function(method, token, api, 
                         params = NULL, 
                         host = "api.twiter.com",
-                        retryonratelimit = FALSE,
+                        retryonratelimit = NULL,
                         verbose = TRUE,
                         ...) {
   # need scipen to ensure large IDs are not displayed in scientific notation
@@ -90,7 +90,9 @@ TWIT_method <- function(method, token, api,
 #'   until it refreshes. Most twitter rate limits refresh every 15 minutes.
 #'   If `FALSE`, and the rate limit is exceeded, the function will terminate
 #'   early with a warning; you'll still get back all results received up to 
-#'   that point.
+#'   that point. The default value, `NULL`, consults the option 
+#'   `rtweet.retryonratelimit` so that you can globally set it to `TRUE`, 
+#'   if desired.
 #'   
 #'   If you expect a query to take hours or days to perform, you should not 
 #'   rely soley on `retryonratelimit` because it does not handle other common
@@ -107,7 +109,7 @@ TWIT_paginate_max_id <- function(token, api, params,
                                  since_id = NULL,
                                  max_id = NULL,
                                  count_param = "count", 
-                                 retryonratelimit = FALSE,
+                                 retryonratelimit = NULL,
                                  verbose = TRUE) {
   if (!is.null(max_id)) {
     max_id <- rtweet::max_id(max_id)  
@@ -178,7 +180,7 @@ TWIT_paginate_cursor <- function(token, api, params,
                                  page_size = 5000, 
                                  cursor = "-1", 
                                  get_id = function(x) x$ids,
-                                 retryonratelimit = FALSE,
+                                 retryonratelimit = NULL,
                                  verbose = TRUE) {
   params$count <- page_size
   
@@ -239,7 +241,7 @@ TWIT_paginate_cursor <- function(token, api, params,
 #' @rdname TWIT_paginate_max_id
 #'  
 TWIT_paginate_chunked <- function(token, api, params_list, 
-                                  retryonratelimit = FALSE, 
+                                  retryonratelimit = NULL, 
                                   verbose = TRUE) {
   
 
@@ -304,7 +306,7 @@ resp_type <- function(resp) {
 # * skip, if testing
 # * return, if retryonratelimit is TRUE
 # * error, otherwise
-handle_rate_limit <- function(x, api, retryonratelimit = FALSE, verbose = TRUE) {
+handle_rate_limit <- function(x, api, retryonratelimit = NULL, verbose = TRUE) {
   if (is_testing()) {
     testthat::skip("Rate limit exceeded")
   }
@@ -312,6 +314,8 @@ handle_rate_limit <- function(x, api, retryonratelimit = FALSE, verbose = TRUE) 
   headers <- httr::headers(x)
   n <- headers$`x-rate-limit-limit`
   when <- .POSIXct(as.numeric(headers$`x-rate-limit-reset`))
+  
+  retryonratelimit <- retryonratelimit %||% getOption("rtweet.retryonratelimit", FALSE)
   
   if (retryonratelimit) {
     wait_until(when, api, verbose = verbose)

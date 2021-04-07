@@ -29,7 +29,7 @@ lists_memberships <- function(user = NULL,
                               filter_to_owned_lists = FALSE,
                               token = NULL,
                               parse = TRUE,
-                              retryonratelimit = FALSE,
+                              retryonratelimit = NULL,
                               verbose = TRUE,
                               previous_cursor = NULL) {
   params <- list()

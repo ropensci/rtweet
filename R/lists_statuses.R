@@ -29,7 +29,7 @@ lists_statuses <- function(list_id = NULL,
                            n = 200,
                            include_rts = TRUE,
                            parse = TRUE,
-                           retryonratelimit = FALSE,
+                           retryonratelimit = NULL,
                            verbose = TRUE,
                            token = NULL) {
   params <- lists_params(

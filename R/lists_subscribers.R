@@ -26,7 +26,7 @@ lists_subscribers <- function(list_id = NULL,
                               n = 20,
                               cursor = "-1",
                               parse = TRUE,
-                              retryonratelimit = FALSE,
+                              retryonratelimit = NULL,
                               verbose = TRUE,
                               token = NULL) {
 

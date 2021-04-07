@@ -20,7 +20,7 @@
 #' @family tweets
 #' @export
 lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
-                          retryonratelimit = FALSE, verbose = TRUE) {
+                          retryonratelimit = NULL, verbose = TRUE) {
   chunks <- unname(split(statuses, (seq_along(statuses) - 1) %/% 100))
   params_list <- lapply(chunks, function(id) {
     list(
