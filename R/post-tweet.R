@@ -159,7 +159,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   }
 
   r <- TWIT_post(token, "/1.1/statuses/update", params)
-  message("your tweet has been posted!")
+  message("Your tweet has been posted!")
   invisible(r)
 }
 

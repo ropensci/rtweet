@@ -35,6 +35,6 @@ post_message <- function(text, user, media = NULL, token = NULL) {
     body = body, 
     encode = "json"
   )
-  message("your DM has been posted!")
+  message("Your DM has been posted!")
   invisible(r)
 }
