@@ -11,8 +11,9 @@ status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org
 [![Coverage
 Status](https://codecov.io/gh/ropensci/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/rtweet?branch=master)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
-[![DOI](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
-[![DOI](https://joss.theoj.org/papers/10.21105/joss.01829/status.svg)](https://doi.org/10.21105/joss.01829)
+[![ZENODO](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
+[![rOpenSci](https://badges.ropensci.org/302_status.svg)](https://github.com/ropensci/software-review/issues/302)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.01829/status.svg)](https://doi.org/10.21105/joss.01829)
 <!-- badges: end -->
 
 Use twitter from R. Get started by reading `vignette("rtweet")`.
