@@ -226,6 +226,8 @@ auth_path <- function(...) {
 auth_as <- function(auth = NULL) {
   old <- .state$auth
   .state$auth <- find_auth(auth)
+  # Restart limits to endpoints for new auth
+  .state$limits <- NULL
   invisible(old)
 }
 
