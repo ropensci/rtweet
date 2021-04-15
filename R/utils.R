@@ -135,3 +135,11 @@ is_testing <- function() {
 is_dev_mode <- function() {
   exists(".__DEVTOOLS__", .getNamespace("rtweet"))
 }
+
+is_limit <- function() {
+  is.null(.state$limits)
+}
+
+invalid_n <- function(n) {
+  n < 0 && is.infinite(n)
+}

@@ -103,3 +103,22 @@ wait_until <- function(until, api, fps = 8, verbose = TRUE) {
 
   invisible()
 }
+
+
+#' Get api limits
+#' 
+#' If no known limits for the API has been stored for this session, `limits_get()` will 
+#' call [rate_limit()] to store them.
+#' @inheritParams rate_limit
+#' 
+#' @keywords internal
+#' @export
+limits_get <- function(api = NULL) {
+  if (is_limit()) {
+     rt <- rate_limit()
+     limits <- rt$limit
+     names(limits) <- paste0("/1.1", rt$resource)
+     .state$limits <- limits
+  }
+  .state$limits[api]
+}
