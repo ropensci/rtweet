@@ -4,7 +4,15 @@
 \alias{search_users}
 \title{Search for users}
 \usage{
-search_users(q, n = 100, parse = TRUE, token = NULL, verbose = TRUE)
+search_users(
+  q,
+  n = 1000,
+  parse = TRUE,
+  page = "-1",
+  token = NULL,
+  retryonratelimit = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{q}{As string providing the search query. Try searching by interest,
@@ -13,7 +21,8 @@ supported.}
 
 \item{n}{Desired number of results to return. Results are downloaded
 in pages when \code{n} is large; the default value will download a single
-page. Set \code{n = Inf} to download as many results as possible.
+page. Set \code{n = Inf} to download as many results as possible without
+hitting the rate limit.
 
 The Twitter API rate limits the number of requests you can perform
 in each 15 minute period. The easiest way to download more than that is
@@ -32,6 +41,18 @@ Twitter API.}
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
+
+\item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
+until it refreshes. Most twitter rate limits refresh every 15 minutes.
+If \code{FALSE}, and the rate limit is exceeded, the function will terminate
+early with a warning; you'll still get back all results received up to
+that point. The default value, \code{NULL}, consults the option
+\code{rtweet.retryonratelimit} so that you can globally set it to \code{TRUE},
+if desired.
+
+If you expect a query to take hours or days to perform, you should not
+rely soley on \code{retryonratelimit} because it does not handle other common
+failure modes like temporarily losing your internet connection.}
 
 \item{verbose}{Show progress bars and other messages indicating current
 progress?}
