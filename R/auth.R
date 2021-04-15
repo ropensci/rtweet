@@ -271,7 +271,7 @@ default_cached_auth <- function() {
 }
 
 no_token <- function() {
-  if (identical(Sys.getenv("TESTTHAT"), "true")) {
+  if (is_testing()) {
     testthat::skip("Auth not available")
   } else {
     stop("Could not authenticate", call. = FALSE)
