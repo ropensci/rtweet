@@ -29,9 +29,13 @@ get_mentions <- function(n = 200,
                          verbose = TRUE,
                          token = NULL,
                          ...) {
+  endpoint <- "/1.1/statuses/mentions_timeline"
+  if (invalid_n(n)) {
+    n <- 200*limits_get(endpoint)
+  }
 
   params <- list(...)
-  r <- TWIT_paginate_max_id(token, "/1.1/statuses/mentions_timeline", params,
+  r <- TWIT_paginate_max_id(token, endpoint, params,
     n = n,
     since_id = since_id,
     max_id = max_id,

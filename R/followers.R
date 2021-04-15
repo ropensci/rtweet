@@ -31,13 +31,18 @@ get_followers <- function(user, n = 5000,
     lifecycle::deprecate_warn("1.0.0", "get_followers(page)", "get_followers(cursor)")
     cursor <- page
   }
+  endpoint <- "/1.1/followers/ids"
+  
+  if (invalid_n(n)) {
+    n <- 5000*limits_get(endpoint)
+  }
 
   stopifnot(is.atomic(user), isTRUE(length(user) == 1))
   
   params <- list(stringify_ids = TRUE)
   params[[user_type(user)]] <- user
 
-  results <- TWIT_paginate_cursor(token, "/1.1/followers/ids", params, 
+  results <- TWIT_paginate_cursor(token, endpoint, params, 
     page_size = 5000, 
     n = n,
     cursor = cursor,

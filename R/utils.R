@@ -141,5 +141,5 @@ is_limit <- function() {
 }
 
 invalid_n <- function(n) {
-  n < 0 && is.infinite(n)
+  n < 0 || is.infinite(n)
 }

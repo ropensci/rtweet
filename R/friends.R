@@ -36,6 +36,10 @@ get_friends <- function(users,
     lifecycle::deprecate_warn("1.0.0", "get_friends(page)", "get_friends(cursor)")
     cursor <- page
   }
+  
+  if (invalid_n(n)) {
+    n <- 5000*limits_get("/1.1/friends/ids")
+  }
 
   results <- lapply(users, get_friends_user, 
     n = n, 

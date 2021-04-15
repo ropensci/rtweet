@@ -32,6 +32,11 @@ lists_statuses <- function(list_id = NULL,
                            retryonratelimit = NULL,
                            verbose = TRUE,
                            token = NULL) {
+  endpoint <-  "/1.1/lists/statuses"
+  if (invalid_n(n)) {
+    n <- 200*limits_get(endpoint)
+  }
+  
   params <- lists_params(
     list_id = list_id,
     slug = slug,
@@ -41,7 +46,7 @@ lists_statuses <- function(list_id = NULL,
     tweet_mode = "extended"
   )
 
-  results <- TWIT_paginate_max_id(token, "/1.1/lists/statuses", params,
+  results <- TWIT_paginate_max_id(token, endpoint, params,
     page_size = 200,
     max_id = max_id,
     since_id = since_id,

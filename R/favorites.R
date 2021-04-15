@@ -28,6 +28,9 @@ get_favorites <- function(user,
                           retryonratelimit = NULL,
                           verbose = TRUE,
                           token = NULL) {
+  if (invalid_n(n)) {
+    n <- 200*limits_get("/1.1/favorites/list")
+  }
   rt <- lapply(user, get_favorites_user, 
     n = n,
     since_id = since_id,

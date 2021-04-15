@@ -38,12 +38,19 @@ lists_members <- function(list_id = NULL,
                           verbose = TRUE,
                           parse = TRUE,
                           ...) {
+  endpoint <- "/1.1/lists/members"
+  
+  if (invalid_n(n)) {
+    n <- 5000*limits_get(endpoint)
+  }
+  
   params <- lists_params(
     list_id = list_id,
     slug = slug,
     owner_user = owner_user
   )
-  r <- TWIT_paginate_cursor(token, "/1.1/lists/members", params,
+  
+  r <- TWIT_paginate_cursor(token, endpoint, params,
     n = n,
     cursor = cursor,
     retryonratelimit = retryonratelimit,

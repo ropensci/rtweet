@@ -99,8 +99,11 @@ search_tweets <- function(q, n = 100,
     geocode = geocode,
     ...
   )
-  
-  result <- TWIT_paginate_max_id(token, "/1.1/search/tweets", params,
+  api <- "/1.1/search/tweets"
+  if (invalid_n(n) ) {
+    n <- 200*limits_get(api)
+  }
+  result <- TWIT_paginate_max_id(token, api, params,
     get_id = function(x) x$statuses$id_str,
     page_size = 100,
     n = n,

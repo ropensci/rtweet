@@ -15,6 +15,9 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   stopifnot(is.character(status_id), length(status_id) == 1L)
   
   query <- sprintf("/1.1/statuses/retweets/%s", status_id)
+  if (invalid_n(n)) {
+    n <- 100*limits_get("/1.1/statuses/retweets/:id")
+  }
   params <- list(
     id = status_id,
     count = n,
@@ -32,12 +35,19 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids>
 #' @rdname get_retweets
 get_retweeters <- function(status_id, n = 100, parse = TRUE, token = NULL) {
+  
+  endpoint <- "/1.1/statuses/retweeters/ids"
+  if (invalid_n(n)) {
+    n <- 100*limits_get(endpoint)
+  }
+  
   params <- list(
     id = status_id,
     count = n,
     stringify_ids = TRUE
   )
-  r <- TWIT_get(token, "/1.1/statuses/retweeters/ids", params)
+  
+  r <- TWIT_get(token, endpoint, params)
   
   if (parse) {
     r <- tibble::tibble(user_id = r$ids)

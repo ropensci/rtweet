@@ -33,7 +33,7 @@
 #' @family tweets
 #' @export
 get_timeline <- function(user = NULL,
-                         n = 100,
+                         n = 200,
                          since_id = NULL,
                          max_id = NULL,
                          home = FALSE,
@@ -46,6 +46,12 @@ get_timeline <- function(user = NULL,
 
   if (!isFALSE(home)) {
     lifecycle::deprecate_stop("1.0.0", "get_timeline(home)")
+  }
+  
+  api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
+  
+  if (invalid_n(n)) {
+    n <- 200*limits_get(api)
   }
   
   user <- user %||% api_screen_name()
