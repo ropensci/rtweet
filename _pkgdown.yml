@@ -1,8 +1,11 @@
 url: https://docs.ropensci.org/rtweet
-
+development:
+  mode: auto
 authors:
   Michael W. Kearney:
     href: https://mikewk.com
+  Lluís Revilla Sancho:
+    href: https://llrs.dev
 navbar:
   right:
   - icon: fa-github fa-lg
