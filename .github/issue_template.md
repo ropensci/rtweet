@@ -5,6 +5,9 @@ look through existing issues for a similar issue. If you don't see a related
 issue, please complete the prompts below to make it easier to replicate and 
 [hopefully] resolve your issue.  -->
 
+<!-- If you have some question about how to use this package, please post it on
+https://discuss.ropensci.org/tag/rtweet -->
+
 ### Problem
 
 <!-- Succinctly describe the problem (be as specific as you think necessary) -->
