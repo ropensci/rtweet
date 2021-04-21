@@ -69,7 +69,10 @@
   removed as they stopped working when Twitter remove the suggested users
   endpoint in June 2019 (https://twittercommunity.com/t/124732).
 
-- Added support for posting alt-text metadata with images tweeted with status updated via `post_tweet()`. (@hrbrmstr)
+- Added support for posting alt-text metadata with images tweeted with status 
+  updated via `post_tweet()`. (@hrbrmstr)
+  
+- Update to new rOpenSci Code of Conduct: https://ropensci.org/code-of-conduct/
 
 ## Authentication
 

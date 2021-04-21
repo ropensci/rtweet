@@ -126,4 +126,8 @@ obvious bug for which there is not already an active
 issue](https://github.com/ropensci/rtweet/issues/new) with all code used
 (preferably a reproducible example) on Github.
 
-[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
+# Code of Conduct
+
+Please note that this package is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+project, you agree to abide by its terms.
