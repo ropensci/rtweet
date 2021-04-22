@@ -1,7 +1,8 @@
 test_that("direct_messages works", {
   dm <- direct_messages()[[1]]
   expect_type(dm, "list")
-  expect_length(dm, 3L)
+  expect_length(dm, 2L)
+  expect_named(dm, c("events", "apps"))
   
   expect_true(is.data.frame(dm$events))
 })
