@@ -60,8 +60,7 @@ tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
   dat$display_text_width <- display_text_range(dat)
   ## extended entities > media
-  if (has_name_(dat, "extended_entities") &&
-      has_name_(dat[['extended_entities']], "media")) {
+  if (has_name_children(dat, "extended_entities", "media")) {
     dat$ext_media_url <- lapply(
       dat$extended_entities$media, "[[[", "media_url")
     dat$ext_media_expanded_url <- lapply(
@@ -77,7 +76,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$ext_alt_text <- as.list(NA_character_)
   }
   ## entities > urls
-  if (has_name_(dat, "entities") && has_name_(dat[['entities']], "urls")) {
+  if (has_name_children(dat, "entities", "urls")) {
     dat$urls_url <- lapply(dat$entities$urls, "[[[", "display_url")
     dat$urls_expanded_url <- lapply(dat$entities$urls, "[[[", "expanded_url")
     dat$urls_t.co <- lapply(dat$entities$urls, "[[[", "url")
@@ -87,7 +86,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$urls_t.co <- as.list(NA_character_)
   }
   ## entities > media
-  if (has_name_(dat, "entities") && has_name_(dat[['entities']], "media")) {
+  if (has_name_children(dat, "entities", "media")) {
     dat$media_url <- lapply(dat$entities$media, "[[[", "media_url")
     dat$media_expanded_url <- lapply(dat$entities$media, "[[[", "expanded_url")
     dat$media_t.co <- lapply(dat$entities$media, "[[[", "url")
@@ -99,8 +98,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$media_type <- as.list(NA_character_)
   }
   ## entities > user_mentions
-  if (has_name_(dat, "entities") &&
-      has_name_(dat[["entities"]], "user_mentions")) {
+  if (has_name_children(dat, "entities", "user_mentions")) {
     dat$mentions_user_id <- lapply(
       dat$entities$user_mentions, "[[[", "id_str")
     dat$mentions_screen_name <- lapply(
@@ -110,30 +108,29 @@ tweets_to_tbl_ <- function(dat) {
     dat$mentions_screen_name <- as.list(NA_character_)
   }
   ## entities > hashtags
-  if (has_name_(dat, "entities") && has_name_(dat[["entities"]], "hashtags")) {
+  if (has_name_children(dat, "entities", "hashtags")) {
     dat$hashtags <- lapply(dat$entities$hashtags, "[[[", "text")
   } else {
     dat$hashtags <- as.list(NA_character_)
   }
-  if (has_name_(dat, "entities") && has_name_(dat[["entities"]], "symbols")) {
+  if (has_name_children(dat, "entities", "symbols")) {
     dat$symbols <- lapply(dat$entities$symbols, "[[[", "text")
   } else {
     dat$symbols <- as.list(NA_character_)
   }
-  if (has_name_(dat, "geo") && has_name_(dat[["geo"]], "coordinates")) {
+  if (has_name_children(dat, "geo", "coordinates")) {
     dat$geo_coords <- lapply(
       dat$geo$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
     dat$geo_coords <- list(c(NA_real_, NA_real_))
   }
-  if (has_name_(dat, "coordinates") &&
-      has_name_(dat[["coordinates"]], "coordinates")) {
+  if (has_name_children(dat, "coordinates", "coordinates")) {
     dat$coordinates_coords <- lapply(
       dat$coordinates$coordinates, `[[[`, 1, NA_ = c(NA_real_, NA_real_))
   } else {
     dat$coordinates_coords <- list(c(NA_real_, NA_real_))
   }
-  if (has_name_(dat, "place") && has_name_(dat[["place"]], "id")) {
+  if (has_name_children(dat, "place", "id")) {
     dat$place_url <- `[[[`(dat$place, "url")
     dat$place_full_name <- `[[[`(dat$place, "full_name")
     dat$place_name <- `[[[`(dat$place, "name")
@@ -170,7 +167,7 @@ tweets_to_tbl_ <- function(dat) {
           NA_real_, NA_real_, NA_real_, NA_real_)
       )
   }
-  if (has_name_(dat, "user") && has_name_(dat[["user"]], "id_str")) {
+  if (has_name_children(dat, "user", "id_str")) {
     dat$user_id <- `[[[`(dat$user, "id_str")
     dat$screen_name <- `[[[`(dat$user, "screen_name")
   } else if (has_name_(dat, "screen_name") && has_name_(dat, "id_str")) {
@@ -185,7 +182,7 @@ tweets_to_tbl_ <- function(dat) {
   if (has_name_(dat, "full_text")) {
     dat$text <- dat$full_text
   }
-  if (has_name_(dat, "extended_tweet") && has_name_(dat$extended_tweet, "full_text")) {
+  if (has_name_children(dat, "extended_tweet", "full_text")) {
     is_et <- !is.na(dat$extended_tweet$full_text)
     dat$text[is_et] <- dat$extended_tweet$full_text[is_et]
   }
@@ -397,7 +394,7 @@ wrangle_retweet_status <- function(x) {
   } else {
     x$retweet_text <- NA_character_
   }
-  if (has_name_(rst, "extended_tweet") && has_name_(rst$extended_tweet, "full_text")) {
+  if (has_name_children(rst, "extended_tweet", "full_text")) {
     is_et <- !is.na(rst$extended_tweet$full_text)
     x$retweet_text[is_et] <- rst$extended_tweet$full_text[is_et]
   }
@@ -419,48 +416,48 @@ wrangle_retweet_status <- function(x) {
   } else {
     x$retweet_favorite_count <- NA_integer_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "screen_name")) {
+  if (has_name_children(rst, "user", "screen_name")) {
     x$retweet_screen_name <- rst$user$screen_name
   } else {
     x$retweet_screen_name <- NA_character_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "id_str")) {
+  if (has_name_children(rst, "user", "id_str")) {
     x$retweet_user_id <- rst$user$id_str
   } else {
     x$retweet_user_id <- NA_character_
   }
   ##
-  if (has_name_(rst, "user") && has_name_(rst$user, "name")) {
+  if (has_name_children(rst, "user", "name")) {
     x$retweet_name <- rst$user$name
   } else {
     x$retweet_name <- NA_character_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "description")) {
+  if (has_name_children(rst, "user", "description")) {
     x$retweet_description <- rst$user$description
   } else {
     x$retweet_description <- NA_character_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "followers_count")) {
+  if (has_name_children(rst, "user", "followers_count")) {
     x$retweet_followers_count <- rst$user$followers_count
   } else {
     x$retweet_followers_count <- NA_integer_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "friends_count")) {
+  if (has_name_children(rst, "user", "friends_count")) {
     x$retweet_friends_count <- rst$user$friends_count
   } else {
     x$retweet_friends_count <- NA_integer_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "statuses_count")) {
+  if (has_name_children(rst, "user", "statuses_count")) {
     x$retweet_statuses_count <- rst$user$statuses_count
   } else {
     x$retweet_statuses_count <- NA_integer_
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "verified")) {
+  if (has_name_children(rst, "user", "verified")) {
     x$retweet_verified <- rst$user$verified
   } else {
     x$retweet_verified <- NA
   }
-  if (has_name_(rst, "user") && has_name_(rst$user, "location")) {
+  if (has_name_children(rst, "user", "location")) {
     x$retweet_location <- rst$user$location
   } else {
     x$retweet_location <- NA_character_
@@ -490,7 +487,7 @@ wrangle_quote_status <- function(x) {
   } else {
     x$quoted_text <- NA_character_
   }
-  if (has_name_(qst, "extended_tweet") && has_name_(qst$extended_tweet, "full_text")) {
+  if (has_name_children(qst, "extended_tweet", "full_text")) {
     is_et <- !is.na(qst$extended_tweet$full_text)
     x$quoted_text[is_et] <- qst$extended_tweet$full_text[is_et]
   }
@@ -514,47 +511,47 @@ wrangle_quote_status <- function(x) {
   } else {
     x$quoted_retweet_count <- NA_integer_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "screen_name")) {
+  if (has_name_children(qst, "user", "screen_name")) {
     x$quoted_screen_name <- qst$user$screen_name
   } else {
     x$quoted_screen_name <- NA_character_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "id_str")) {
+  if (has_name_children(qst, "user", "id_str")) {
     x$quoted_user_id <- qst$user$id_str
   } else {
     x$quoted_user_id <- NA_character_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "name")) {
+  if (has_name_children(qst, "user", "name")) {
     x$quoted_name <- qst$user$name
   } else {
     x$quoted_name <- NA_character_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "description")) {
+  if (has_name_children(qst, "user", "description")) {
     x$quoted_description <- qst$user$description
   } else {
     x$quoted_description <- NA_character_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "followers_count")) {
+  if (has_name_children(qst, "user", "followers_count")) {
     x$quoted_followers_count <- qst$user$followers_count
   } else {
     x$quoted_followers_count <- NA_integer_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "friends_count")) {
+  if (has_name_children(qst, "user", "friends_count")) {
     x$quoted_friends_count <- qst$user$friends_count
   } else {
     x$quoted_friends_count <- NA_integer_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "statuses_count")) {
+  if (has_name_children(qst, "user", "statuses_count")) {
     x$quoted_statuses_count <- qst$user$statuses_count
   } else {
     x$quoted_statuses_count <- NA_integer_
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "verified")) {
+  if (has_name_children(qst, "user", "verified")) {
     x$quoted_verified <- qst$user$verified
   } else {
     x$quoted_verified <- NA
   }
-  if (has_name_(qst, "user") && has_name_(qst$user, "location")) {
+  if (has_name_children(qst, "user", "location")) {
     x$quoted_location <- qst$user$location
   } else {
     x$quoted_location <- NA_character_
