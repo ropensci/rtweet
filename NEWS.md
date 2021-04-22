@@ -8,6 +8,8 @@
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`
   attribute, which will be automatically retrieved when you use the `cursor`
   argument.
+  
+- Message are now properly capitalized (#565, @jsta)  
 
 - `lookup_users()` and `search_users()` now returns a data frame containing
   on information about each user (not their latest tweet). If you want to get 
