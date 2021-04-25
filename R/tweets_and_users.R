@@ -61,13 +61,12 @@ tweets_to_tbl_ <- function(dat) {
   dat$display_text_width <- display_text_range(dat)
   ## extended entities > media
   if (has_name_children(dat, "extended_entities", "media")) {
-    dat$ext_media_url <- lapply(
-      dat$extended_entities$media, "[[[", "media_url")
-    dat$ext_media_expanded_url <- lapply(
-      dat$extended_entities$media, "[[[", "expanded_url")
-    dat$ext_media_t.co <- lapply(dat$extended_entities$media, "[[[", "url")
-    dat$ext_media_type <- lapply(dat$extended_entities$media, "[[[", "type")
-    dat$ext_alt_text <- lapply(dat$extended_entities$media, "[[[", "ext_alt_text")
+    media <- dat$extended_entities$media
+    dat$ext_media_url <- lapply(media, "[[[", "media_url")
+    dat$ext_media_expanded_url <- lapply(media, "[[[", "expanded_url")
+    dat$ext_media_t.co <- lapply(media, "[[[", "url")
+    dat$ext_media_type <- lapply(media, "[[[", "type")
+    dat$ext_alt_text <- lapply(media, "[[[", "ext_alt_text")
   } else {
     dat$ext_media_url <- as.list(NA_character_)
     dat$ext_media_expanded_url <- as.list(NA_character_)
@@ -207,6 +206,9 @@ tweets_to_tbl_ <- function(dat) {
   as_tbl(dat)
 }
 
+as_tbl <- function(x, ...) {
+  tibble::as_tibble(x, ...)
+}
 
 users_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
