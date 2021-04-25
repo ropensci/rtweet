@@ -62,38 +62,6 @@ format_date <- function(x, tz = "UTC") {
 ##                            fetch/return features                           ##
 ##----------------------------------------------------------------------------##
 
-go_get_var <- function(x, ..., expect_n = NULL) {
-  vars <- c(...)
-  success <- FALSE
-  for (i in vars) {
-    if (!is.recursive(x)) break
-    if (has_name_(x, i)) {
-      x <- x[[i]]
-      if (i == vars[length(vars)]) {
-        success <- TRUE
-      }
-    } else if (any_recursive(x) && any(sapply(x, has_name_, i))) {
-      kp <- sapply(x, has_name_, i)
-      x <- x[kp]
-      x <- lapply(x, "[[", i)
-      if (i == vars[length(vars)]) {
-        success <- TRUE
-      }
-    }
-  }
-  if (!success && is.null(expect_n)) {
-    return(NULL)
-  }
-  if (any_recursive(x) && is.null(expect_n)) {
-    return(x)
-  }
-  x <- unlist(x)
-  if (!is.null(expect_n) && length(x) < expect_n) {
-      x <- c(x, rep(NA, expect_n - length(x)))
-  }
-  x
-}
-
 last <- function(x) {
   x[[length(x)]]
 }
@@ -114,6 +82,8 @@ any_recursive <- function(x) {
 is.na.quiet <- function(x) {
   suppressWarnings(is.na(x))
 }
+
+as_tbl <- tibble::as_tibble
 
 is_n <- function(n) {
   if (is.character(n)) {
