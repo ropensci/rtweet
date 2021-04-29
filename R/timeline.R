@@ -93,7 +93,8 @@ get_my_timeline <- function(n = 100,
     parse = parse,
     retryonratelimit = retryonratelimit,
     verbose = verbose,
-    token = token
+    token = token,
+    ...
   )
 }
 
