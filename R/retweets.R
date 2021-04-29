@@ -18,6 +18,8 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   params <- list(
     id = status_id,
     count = n,
+    # Undocumented parameter https://github.com/ropensci/rtweet/issues/575#issuecomment-829605892
+    tweet_mode = "extended",
     ...
   )
   r <- TWIT_get(token, query, params)

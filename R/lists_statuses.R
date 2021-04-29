@@ -38,6 +38,7 @@ lists_statuses <- function(list_id = NULL,
     owner_user = owner_user,
     count = n,
     include_rts = include_rts,
+    # Undocumented parameter https://github.com/ropensci/rtweet/issues/575#issuecomment-829605892
     tweet_mode = "extended"
   )
 
