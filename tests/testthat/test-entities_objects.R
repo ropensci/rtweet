@@ -178,3 +178,32 @@ test_that("media works", {
 })
 
   
+
+
+polls_media <- jsonlite::fromJSON('{"polls": [
+      {
+        "options": [
+          {
+            "position": 1,
+            "text": "I read documentation once."
+          },
+          {
+            "position": 2,
+            "text": "I read documentation twice."
+          },
+          {
+            "position": 3,
+            "text": "I read documentation over and over again."
+          }
+        ],
+        "end_datetime": "Thu May 25 22:20:27 +0000 2017",
+        "duration_minutes": 60
+      }
+    ]
+  }')
+
+test_that("polls works", {
+  out <- polls(polls_media$polls)
+  expect_s3_class(out, "data.frame")
+  expect_named(out, c("options", "end_datetime", "duration_minutes"))
+})

@@ -64,7 +64,11 @@ symbols <- hashtags
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#polls>
 # Not testable without fullarchive access
 polls <- function(x) {
-    
+    if (is.null(x)) {
+      return(data.frame("options"= I(list(NA)), "end_datetime" = NA, "duration_minutes" = NA))
+    } else {
+      x
+    }
 }
 
 
