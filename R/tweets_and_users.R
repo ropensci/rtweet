@@ -11,7 +11,7 @@ tweets_with_users <- function(x) {
   tweets <- do.call("rbind", tweets_tbl)
   
   users_raw <- lapply(x, function(x) x[["user"]])
-  users_tbl <- lapply(users_raw, users_to_tbl_)
+  users_tbl <- lapply(users_raw, user)
   users <- do.call("rbind", users_tbl)
 
   structure(tweets, users = users)
@@ -20,13 +20,13 @@ tweets_with_users <- function(x) {
 #' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
-  users_tbl <- lapply(x, users_to_tbl_)
+  users_tbl <- lapply(x, user)
   users <- do.call("rbind", users_tbl)
 
   tweets_raw <- lapply(x, function(x) x[["status"]])
   tweets_tbl <- lapply(tweets_raw, tweets_to_tbl_)
   tweets <- do.call("rbind", tweets_tbl)
-  tweets$user_id <- users$user_id
+  tweets$id_str <- users$id_str
   tweets$screen_name <- users$screen_name
   
   structure(users, tweets = tweets)
@@ -136,8 +136,7 @@ tweets_to_tbl_ <- function(dat) {
     dat$country_code <- `[[[`(dat$place, "country_code")
     dat$place_type <- `[[[`(dat$place, "place_type")
     dat$country <- `[[[`(dat$place, "country")
-    if (has_name_(dat$place, "bounding_box") &&
-          has_name_(dat$place[["bounding_box"]], "coordinates")) {
+    if (has_name_children(dat$place, "bounding_box", "coordinates")) {
       dat$bbox_coords <- lapply(
         dat$place$bounding_box[["coordinates"]], function(i) {
           if (is.array(i)) {
@@ -208,70 +207,6 @@ tweets_to_tbl_ <- function(dat) {
 
 as_tbl <- function(x, ...) {
   tibble::as_tibble(x, ...)
-}
-
-users_to_tbl_ <- function(dat) {
-  if (NROW(dat) == 0L) return(data.frame())
-  urls <- `[[[`(dat, "entities")
-  urls <- `[[[`(urls, "url")
-  urls <- `[[[`(urls, "urls")
-  dat$profile_url <- unlist(
-    lapply(urls, function(x) {
-      if (is.data.frame(x)) x[["url"]] else NA_character_
-    }), use.names = FALSE
-  )
-  dat$profile_expanded_url <- unlist(
-    lapply(urls, function(x) {
-      if (is.data.frame(x)) x[["expanded_url"]] else NA_character_
-    }), use.names = FALSE
-  )
-  dat$created_at <- format_date(dat$created_at)
-  if (!has_name_(dat, "reply_count")) {
-    dat$reply_count <- NA_integer_
-  }
-  if (!has_name_(dat, "quote_count")) {
-    dat$quote_count <- NA_integer_
-  }
-  usercols <- usercols_()
-  nacols <- usercols[!usercols %in% names(dat)]
-  for (i in seq_along(nacols)) {
-    dat[[nacols[i]]] <- NA
-  }
-  dat <- dat[, usercols[usercols %in% names(dat)]]
-  names(dat) <- names(usercols)[usercols %in% names(dat)]
-  as_tbl(dat)
-}
-
-
-
-
-
-##-----------------------------------------------------
-## column names
-##-----------------------------------------------------
-usercols_ <- function() {
-  c(
-    user_id = "id_str",
-    name = "name",
-    screen_name = "screen_name",
-    location = "location",
-    description = "description",
-    url = "url",
-    protected = "protected",
-    followers_count = "followers_count",
-    friends_count = "friends_count",
-    listed_count = "listed_count",
-    statuses_count = "statuses_count",
-    favourites_count = "favourites_count",
-    account_created_at = "created_at",
-    verified = "verified",
-    profile_url = "profile_url",
-    profile_expanded_url = "profile_expanded_url",
-    account_lang = "lang",
-    profile_banner_url = "profile_banner_url",
-    profile_background_url = "profile_background_image_url",
-    profile_image_url = "profile_image_url"
-  )
 }
 
 statuscols_ <- function() {
