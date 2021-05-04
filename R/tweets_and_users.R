@@ -7,12 +7,9 @@
 #' @keywords internal
 #' @export
 tweets_with_users <- function(x) {
-  tweets_tbl <- lapply(x, tweets_to_tbl_)
-  tweets <- do.call("rbind", tweets_tbl)
-  
-  users_raw <- lapply(x, function(x) x[["user"]])
-  users_tbl <- lapply(users_raw, user)
-  users <- do.call("rbind", users_tbl)
+  tweets <- do.call("rbind", lapply(x, tweet))
+  users <- tweets$user
+  tweets <- tweets[!colnames(tweets) %in% "user"]
 
   structure(tweets, users = users)
 }
@@ -20,14 +17,8 @@ tweets_with_users <- function(x) {
 #' @rdname tweets_with_users
 #' @export
 users_with_tweets <- function(x) {
-  users_tbl <- lapply(x, user)
-  users <- do.call("rbind", users_tbl)
-
-  tweets_raw <- lapply(x, function(x) x[["status"]])
-  tweets_tbl <- lapply(tweets_raw, tweets_to_tbl_)
-  tweets <- do.call("rbind", tweets_tbl)
-  tweets$id_str <- users$id_str
-  tweets$screen_name <- users$screen_name
+  users <- do.call("rbind", lapply(x, user))
+  tweets <- do.call("rbind", lapply(x[["status"]], tweet))
   
   structure(users, tweets = tweets)
 }
