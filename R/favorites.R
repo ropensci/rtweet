@@ -45,6 +45,7 @@ get_favorites <- function(user,
 }
 
 get_favorites_user <- function(user, ..., parse = TRUE, token = NULL) {
+  stopifnot(length(user) == 1)
   params <- list(
     # Undocumented parameter https://github.com/ropensci/rtweet/issues/575#issuecomment-829605892
     tweet_mode = "extended"
