@@ -16,7 +16,7 @@ media <- function(x) {
   df <- data.frame("id" = NA, "id_str" = NA, "indices" = I(list(NA)), 
                    "media_url" = NA, "media_url_https" = NA, 
                    "url" = NA, "display_url" = NA, "expanded_url" = NA, 
-                   "type" = NA, "sizes" = I(list(NA)),
+                   "type" = NA, "sizes" = I(list(NA)), "ext_alt_text" = NA,
                    stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
     return(df)

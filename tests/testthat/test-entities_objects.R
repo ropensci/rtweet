@@ -174,7 +174,8 @@ test_that("media works", {
   out <- media(extended_media$extended_entities$media)
   expect_s3_class(out, "data.frame")
   expect_named(out, c("id", "id_str", "indices", "media_url", "media_url_https", 
-                      "url", "display_url", "expanded_url", "type", "sizes"))
+                      "url", "display_url", "expanded_url", "type", "sizes", 
+                      "ext_alt_text"))
 })
 
   
