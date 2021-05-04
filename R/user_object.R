@@ -17,23 +17,23 @@ user <- function(x) {
    "withheld_scope" = NA, stringsAsFactors = FALSE
  )
  empty <- as_tbl(empty)
-  if (NROW(x) == 0) {
+ if (NROW(x) == 0) {
     return(empty)
-  } 
-  
+ } 
+ 
  # Ignoring status, as it holds tweets
  y <- x[ , colnames(x) %in% colnames(empty)]
  
  # Adding missing values.
  missing <- setdiff(colnames(y), colnames(empty))
  if (length(missing) != 0 ) {
-   y[ , missing] <- empty[rep(1, nrow(y)), missing]
+    y[ , missing] <- empty[rep(1, nrow(y)), missing]
  }
  
  if (has_name_(x, "entities")) {
-   y$entities <- parse_entities(x$entities)
+    y$entities <- parse_entities(x$entities)
  } else {
-   y$entitites <- list(list())
+    y$entitites <- list(list())
  }
  as_tbl(y)
 }
