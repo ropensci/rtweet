@@ -8,9 +8,16 @@
 #' @export
 tweets_with_users <- function(x) {
   tweets <- do.call("rbind", lapply(x, tweet))
-  users <- tweets$user
-  tweets <- tweets[!colnames(tweets) %in% "user"]
-
+  if (has_name_(tweets, "user")) {
+    users <- do.call("rbind", tweets[["user"]])
+    tweets <- tweets[!colnames(tweets) %in% "user"]
+  } else {
+    users <- user(NULL)
+  }
+  if (lengths(x)[1] == 0) {
+    tweets <- tweets[0, ]
+    users <- users[0, ]
+  }
   structure(tweets, users = users)
 }
 
@@ -18,8 +25,13 @@ tweets_with_users <- function(x) {
 #' @export
 users_with_tweets <- function(x) {
   users <- do.call("rbind", lapply(x, user))
-  tweets <- do.call("rbind", lapply(x[["status"]], tweet))
+  status <- lapply(x, `[[`, i = "status")
+  tweets <- do.call("rbind", lapply(status, tweet))
   
+  if (lengths(x)[1] == 0) {
+    tweets <- tweets[0, ]
+    users <- users[0, ]
+  }
   structure(users, tweets = tweets)
 }
 

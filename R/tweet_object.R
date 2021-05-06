@@ -12,7 +12,9 @@ tweet <- function(x) {
                       "contributors" = NA, "is_quote_status" = NA, 
                       "retweet_count" = 0, "favorite_count" = 0, 
                       "favorited" = NA, "retweeted" = NA, 
-                      "lang" = NA_character_)
+                      "lang" = NA_character_,
+                      "possibly_sensitive" = NA,
+                      "display_text_width" = NA)
   if (NROW(x) == 0) {
     return(as_tbl(empty))
   }
@@ -40,31 +42,46 @@ tweet <- function(x) {
     tb$text <- x$full_text
     tb$display_text_width <- vapply(x$display_text_range, `[`, numeric(1), i = 2)
   }
-  tb$user <- user(x$user)
+  user <- user(x$user)
+  l <- split(user, seq_len(NROW(user)))
+  names(l) <- NULL
+  tb$user <- l
   
   if (has_name_(x, "entities") && has_name_(x, "extended_entities")) {
     ent <- parse_entities2(x$entities)
     ext_ent <- parse_entities2(x$extended_entities)
-    ent[colnames(x$extended_entities)] <- ext_ent[colnames(x$extended_entities)]
+    for (i in NROW(x$entities)) {
+      ent[[i]][names(x$extended_entities)] <- ext_ent[[i]][names(x$extended_entities)]
+    }
     
-    tb$entities <- ent
   } else if (has_name_(x, "entities")) {
     ent <- parse_entities2(x$entities)
-    tb$entities <- ent
   } else if (has_name_(x, "extended_entities")) {
     ent <- parse_entities2(x$extended_entities)
-    tb$entities <- ent
+  }  else {
+    ent <- vector("list", NROW(x$entities))
   }
+  tb$entities <- ent
+  
   as_tbl(tb)
 }
 
 parse_entities2 <- function(y) {
-  l <- vector("list", ncol(y))
-  names(l) <- colnames(y)
-  for (col in seq_len(ncol(y))) {
+  l <- vector("list", NROW(y))
+  for (col in seq_len(NCOL(y))) {
     # Look for the function of said object and save it. 
     fun <- match.fun(colnames(y)[col])
     l[[col]] <- lapply(y[[col]], fun)
   }
-  as_tbl(l)
+  # Split and join
+  ll <- transpose_list(l)
+  lapply(ll, `names<-`, value = colnames(y))
+}
+
+# From https://stackoverflow.com/a/54970694/2886003
+# Assumes equal length for each list on the list
+transpose_list <- function(l) {
+  l2 <- split(do.call(cbind, l), seq_len(length(l[[1]])))
+  names(l2) <- NULL
+  l2
 }
