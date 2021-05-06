@@ -26,13 +26,13 @@ test_that("max_id and since_id work in bit64", {
 })
 
 test_that("max_id and since_id work with data frames", {
-  df <- data.frame(status_id = "123", stringsAsFactors = FALSE)
+  df <- data.frame(id = "123", stringsAsFactors = FALSE)
   expect_equal(max_id(df), "122")
   expect_equal(since_id(df), "123")
 })
 
 test_that("max_id and since_id work with data frames and factors", {
-  df <- data.frame(status_id = "123")
+  df <- data.frame(id = "123")
   expect_equal(max_id(df), "122")
   expect_equal(since_id(df), "123")
 })

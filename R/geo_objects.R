@@ -15,7 +15,7 @@ bounding_box <- function(x) {
 
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo#coordinates>
 coordinates <- function(x) {
-  if (is.null(x) || is.na(x)) {
+  if (is.null(x) || length(x) == 1 && is.na(x)) {
     return(as_tbl(data.frame(long = NA, lat = NA, type = NA)))
   }
   if (has_name_children(x, "coordinates", "coordinates")) {

@@ -1,9 +1,9 @@
 test_that("get_timeline works", {
   x <- get_timeline(c("cnnbrk", "cnn"), n = 400)
   expect_s3_class(x, "tbl_df")
-  expect_true("status_id" %in% names(x))
+  expect_true("id" %in% names(x))
   expect_gt(nrow(x), 100)
-  expect_gt(ncol(x), 25)
+  expect_gt(ncol(x), 20)
 })
 
 test_that("get_my_timeline() works", {

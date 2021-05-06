@@ -12,7 +12,7 @@ test_that("graphing functions work", {
   )
 
 })
-
+# https://twitter.com/henrikbengtsson/status/1390403676057980928
 test_that("network_data works", {
    rstats <- search_tweets("#rstats", n = 20)
    ## create from-to data frame representing retweet/mention/reply connections
@@ -21,7 +21,7 @@ test_that("network_data works", {
   expect_equal(colnames(rstats_net), c("from", "to", "type"))
 })
 
-
+lu <- lookup_tweets("1390403676057980928")
 test_that("network_graph works", {
   rstats <- search_tweets("#rstats", n = 20)
   
