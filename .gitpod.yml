@@ -1,0 +1,6 @@
+image:
+  file: .gitpod.Dockerfile
+
+vscode:
+  extensions:
+    - Ikuyadeu.r@1.2.1:z5vr1v1bfS++U/aHLSXQ6Q==
