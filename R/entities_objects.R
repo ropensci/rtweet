@@ -7,7 +7,7 @@ hashtags <- function(x) {
     return(data.frame(text = NA, indices = I(list(NA)), 
                       stringsAsFactors = FALSE))
   }
-  tibble::tibble(text = x$text, indices = list(simplify2array(x$indices)))
+  data.frame(text = x$text, indices = I(list(simplify2array(x$indices))))
 }
 
 # The extended entities is really for media
@@ -58,6 +58,7 @@ user_mentions <- function(x) {
   colnames(indices) <- c("start", "end")
   x$indices <- indices
   x[setdiff(colnames(df), colnames(x))] <- rep(NA, nrow(x))
+  rownames(x) <- NULL
   x
 }
 

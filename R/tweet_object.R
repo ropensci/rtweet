@@ -18,13 +18,19 @@ tweet <- function(x) {
   if (NROW(x) == 0) {
     return(as_tbl(empty))
   }
+  # Select columns that do not need tweaks and add those that are missing
+  orig_names <- names(x)
+  v_names <- c("created_at", "id", "id_str", "truncated", "source", 
+               "in_reply_to_status_id", "in_reply_to_status_id_str", "in_reply_to_user_id", 
+               "in_reply_to_user_id_str", "in_reply_to_screen_name", "geo", 
+               "coordinates", "place", "contributors", "is_quote_status", 
+               "quoted_status_id", "quoted_status_id_str", "quoted_status_permalink",
+               "retweet_count", 
+               "favorite_count", "favorited", "retweeted", 
+               "lang")
   
-  tb <- as_tbl(x[c("created_at", "id", "id_str", "truncated", "source", 
-             "in_reply_to_status_id", "in_reply_to_status_id_str", "in_reply_to_user_id", 
-             "in_reply_to_user_id_str", "in_reply_to_screen_name", "geo", 
-             "coordinates", "place", "contributors", "is_quote_status", "retweet_count", 
-             "favorite_count", "favorited", "retweeted", 
-             "lang")])
+  tb <- as_tbl(x[v_names %in% orig_names])
+  tb[v_names[!v_names %in% colnames(tb)]] <- NA
   
   
   #  Some fields seem to depend on what is needed
@@ -33,6 +39,16 @@ tweet <- function(x) {
     tb$possibly_sensitive <- x$possibly_sensitive
   } else {
     tb$possibly_sensitive <- FALSE
+  }
+  
+  if (has_name_(x, "quoted_status")) {
+    tb$quoted_status <- tweet(x$quoted_status) # Recursive and in a loop not good..
+  } else {
+    tb$quoted_status <- FALSE
+  }
+  
+  if (has_name_(x, "display_text_range")) {
+    tb$display_text_range <- vapply(x$display_text_range, `[`, numeric(1), i = 2)
   }
   
   if (has_name_(x, "text")) {
@@ -61,8 +77,12 @@ tweet <- function(x) {
   }  else {
     ent <- vector("list", NROW(x$entities))
   }
-  tb$entities <- ent
   
+  tb$coordinates <- coordinates(x$coordinates)
+  tb$place <- place(x$place)
+  
+  tb$entities <- ent
+  stopifnot(all(orig_names  %in% colnames(tb)))
   as_tbl(tb)
 }
 
@@ -84,4 +104,14 @@ transpose_list <- function(l) {
   l2 <- split(do.call(cbind, l), seq_len(length(l[[1]])))
   names(l2) <- NULL
   l2
+}
+
+
+quoted_status <- function(x) {
+  c("created_at", "id", "id_str", "full_text", "truncated", "display_text_range", 
+    "entities", "source", "in_reply_to_status_id", "in_reply_to_status_id_str", 
+    "in_reply_to_user_id", "in_reply_to_user_id_str", "in_reply_to_screen_name", 
+    "user", "geo", "coordinates", "place", "contributors", "is_quote_status", 
+    "retweet_count", "favorite_count", "favorited", "retweeted", 
+    "possibly_sensitive", "lang")
 }

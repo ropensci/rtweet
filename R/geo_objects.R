@@ -2,7 +2,7 @@
 # https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo
 
 bounding_box <- function(x) {
-  if(is.null(x)) {
+  if(is.null(x) || length(x) == 1 && is.na(x)) {
     as_tbl(data.frame(long = NA, lat = NA, type = NA))
   }
   
@@ -26,7 +26,7 @@ coordinates <- function(x) {
 
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo#place>
 place <- function(x) {
-  if (is.null(x)) {
+  if (is.null(x) || length(x) == 1 && is.na(x)) {
     df <- data.frame(geo = I(list(NA)), coordinates = I(list(NA)),
                              place = I(list(NA)))
     return(as_tbl(df))
