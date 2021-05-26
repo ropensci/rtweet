@@ -67,13 +67,13 @@ prep_from_to <- function(x, from, to) {
 #'    various network classes. 
 #' * `network_graph()` returns a igraph object
 #'
-#' @param .x Data frame returned by rtweet function
-#' @param .e Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
+#' @param x Data frame returned by rtweet function
+#' @param e Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
 #'   This must be a character vector of length one or more. This value will be
 #'   split on punctuation and space (so you can include multiple types in the
 #'   same string separated by a comma or space). The values "all" and
 #'   "semantic" are assumed to mean all edge types, which is equivalent to the
-#'   default value of `c("mention,retweet,reply,quote")`
+#'   default value of `c("mention", "retweet", "reply", "quote")`
 #' @return A from/to data edge data frame
 #' @seealso network_graph
 #' @examples
@@ -83,7 +83,7 @@ prep_from_to <- function(x, from, to) {
 #'   rstats <- search_tweets("#rstats", n = 200)
 #'
 #'   ## create from-to data frame representing retweet/mention/reply connections
-#'   rstats_net <- network_data(rstats, "retweet,mention,reply")
+#'   rstats_net <- network_data(rstats, c("retweet","mention","reply"))
 #'
 #'   ## view edge data frame
 #'   rstats_net
@@ -102,65 +102,119 @@ prep_from_to <- function(x, from, to) {
 #'   }
 #' }
 #' @export
-network_data <- function(.x, .e = c("mention,retweet,reply,quote")) {
-  if (isTRUE(.e)) {
-    .e <- "all"
+network_data <- function(x, e = c("mention", "retweet","reply", "quote")) {
+  if (isTRUE(e) || length(e) == 1 && (e == "semantics" || e == "all")) {
+    e <- c("mention", "retweet","reply", "quote")
   }
-  stopifnot(is.character(.e))
-  .e <- sub("d$|s$", "", tolower(unlist(strsplit(.e, "[[:punct:] ]+"))))
-  if (length(.e) == 1 &&  grepl("^all$|^semantic$", .e, ignore.case = TRUE)) {
-    .e <- c("mention", "retweet", "reply", "quote")
+  
+  stopifnot(is.character(e))
+  y <- users_data(x)
+  
+  ids <- character()
+  screen_names <- character()
+  if ("mention" %in% e) {
+    user_mentions <- lapply(x$entities, function(x){
+      if (has_name_(x, "user_mentions")) {
+        y <- x$user_mentions
+        if (length(y$id) > 1 || !is.na(y$id)) {
+          return(y[, c("screen_name", "id")])
+        }
+      }
+    NULL
+    })
+    k <- vapply(user_mentions, is.null, logical(1L))
+    r <- do.call("rbind", user_mentions[!k])
+    
+    
+    ids <- c(ids, r$id, y[!k, "id", drop = TRUE])
+    screen_names <- c(screen_names, r$screen_name, y[!k, "screen_name", drop = TRUE])
+    
+    mention <- data.frame(from = rep(y[!k, "id", drop = TRUE], times = vapply(user_mentions[!k], nrow, numeric(1L))),
+                        to = r$id,
+                        type = "mention")
+  } else {
+    mention <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }
-  .x <- lapply(.e, network_data_one, .x)
-  idsn <- lapply(.x, attr, "idsn")
-  idsn <- list(
-    id = unlist(lapply(idsn, `[[`, "id"), use.names = FALSE),
-    sn = unlist(lapply(idsn, `[[`, "sn"), use.names = FALSE)
-  )
-  idsn$sn <- idsn$sn[!duplicated(idsn$id)]
-  idsn$id <- idsn$id[!duplicated(idsn$id)]
-  .x <- do.call(rbind, .x)
-  attr(.x, "idsn") <- idsn
-  .x
+  
+  if ("retweet" %in% e) {
+    # Retweets are those that the text start with RT and a mention but are not quoted
+    r <- x[!x$is_quote_status & startsWith(r$text, "RT @"), ]
+    
+    user_mentions <- lapply(r$entities, function(x){
+      y <- x$user_mentions
+      # Pick the first mention that is the one the tweet is quoting
+      # Example: 1390785143615467524
+      return(y[y$indices$start == 3, c("screen_name", "id")])
+    })
+    um <- do.call("rbind", user_mentions)
+    
+    ids <- c(ids, r$id, y[x$retweeted, "id", drop = TRUE])
+    screen_names <- c(screen_names, r$screen_name, y[x$retweeted, "screen_name", drop = TRUE])
+    
+    retweet <- data.frame(from = r$id,
+                        to = y[x$retweeted, "id"],
+                        type = "retweet")
+    
+  } else {
+    retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
+  }
+  
+  if ("reply" %in% e && !all(is.na(x$in_reply_to_user_id))) {
+    reply_keep <- x$in_reply_to_user_id & !is.na(x$in_reply_to_user_id)
+    
+    ids <- c(ids, y[["id"]][reply_keep], x[["in_reply_to_user_id"]][reply_keep])
+    screen_names <- c(screen_names, y[["screen_name"]][reply_keep], x[["in_reply_to_screen_name"]][reply_keep])
+    
+    reply <- data.frame(from = y[["id"]][reply_keep],
+                        to = x[["in_reply_to_user_id"]][reply_keep],
+                        type = "reply")
+    
+  } else {
+    reply <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
+  }
+  if ("quote" %in% e && !all(is.na(x$is_quote_status))) {
+    r <- x[x$is_quote_status, ]
+    # Quotes are from users on entities$user_mentions whose indices start at 3
+    user_mentions <- lapply(r$entities, function(x){
+      y <- x$user_mentions
+      # Pick the first mention that is the one the tweet is quoting
+      # Example: 1390785143615467524
+      return(y[y$indices$start == 3, c("screen_name", "id")])
+    })
+    um <- do.call("rbind", user_mentions)
+    ids <- c(ids, y[x$is_quote_status, "id", drop = TRUE], um$id)
+    screen_names <- c(screen_names, y[x$is_quote_status, "screen_name", drop = TRUE], um$screen_name)
+    
+    quote <- data.frame(from = y[x$is_quote_status, "id", drop = TRUE],
+                        to = um$id,
+                        type = "quote")
+  } else {
+    quote <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
+  }
+  
+  out <- rbind(mention, retweet, reply, quote)
+  
+  
+  idsn <- data.frame(id = ids, sn = screen_names)
+  idsn <- unique(idsn)
+  stopifnot(all(out$from %in% idsn$id))
+  stopifnot(all(out$to %in% idsn$id))
+  attr(out, "idsn") <- as.list(idsn)
+  out
 }
 
-network_data_one <- function(.e, .x) {
-  stopifnot(.e %in% c("mention", "retweet", "reply", "quote"))
-  vars <- c("user_id", "screen_name", switch(.e,
-    mention = c("mentions_user_id", "mentions_screen_name"),
-    retweet = c("retweet_user_id",  "retweet_screen_name"),
-    reply =   c("reply_to_user_id", "reply_to_screen_name"),
-    quote =   c("quoted_user_id",   "quoted_screen_name")))
-  .x <- .x[, vars]
-  idsn <- id_sn_index(.x)
-  v <- names(.x)
-  .x <- prep_from_to(.x, v[1], v[3])
-  if (nrow(.x) > 0) {
-    .x$type <- .e
-  }
-  attr(.x, "idsn") <- idsn
-  .x
-}
 
 #' @return An igraph object
 #' @rdname network_data
 #' @export
-network_graph <- function(.x, .e = c("mention,retweet,reply,quote")) {
+network_graph <- function(.x, .e = c("mention", "retweet", "reply", "quote")) {
   if (!requireNamespace("igraph", quietly = TRUE)) {
     stop(
       "Please install the {igraph} package to use this function",
       call. = FALSE
     )
   }
-  if (isTRUE(.e)) {
-    .e <- "all"
-  }
-  stopifnot(is.character(.e))
-  .e <- sub("d$|s$", "", tolower(unlist(strsplit(.e, "[[:punct:] ]+"))))
-  if (length(.e) == 1 &&  grepl("^all$|^semantic$", .e, ignore.case = TRUE)) {
-    .e <- c("mention", "retweet", "reply", "quote")
-  }
-  .x <- network_data(.x, .e)
+  .x <- network_data(x = .x, e = .e)
   idsn <- attr(.x, "idsn")
   g <- igraph::make_empty_graph(n = 0, directed = TRUE)
   g <- igraph::add_vertices(g, length(idsn$id),
