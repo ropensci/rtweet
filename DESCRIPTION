@@ -36,7 +36,7 @@ License: MIT + file LICENSE
 URL: https://docs.ropensci.org/rtweet, https://github.com/ropensci/rtweet
 BugReports: https://github.com/ropensci/rtweet/issues
 Depends:
-    R (>= 3.5.0)
+    R (>= 4.0.0)
 Imports:
     bit64,
     curl,
@@ -44,7 +44,6 @@ Imports:
     jsonlite (>= 0.9.22),
     lifecycle (>= 1.0.0),
     progress,
-    rappdirs,
     rlang (>= 0.4.10),
     tibble (>= 1.3.4),
     utils,

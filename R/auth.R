@@ -189,7 +189,7 @@ auth_list <- function() {
 
 auth_path <- function(...) {
   # Use private option to make testing easier
-  path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet", "R"))
+  path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
   file.path(path, ...)
 }
 
