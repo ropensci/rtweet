@@ -14,6 +14,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
   } else {
     user_id <- user
   }
+
   stopifnot(is.character(text))
   stopifnot(length(text) == 1)
 
