@@ -8,8 +8,8 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/new-event>
 post_message <- function(text, user, media = NULL, token = NULL) {
   ## get user id
-  user_id <- lookup_users(user,token=token,parse=FALSE)
-  user_id <- user_id[[1]]$id
+  user_id <- lookup_users(user, token=token)
+  user_id <- user_id$user_id
   stopifnot(is.character(text))
   stopifnot(length(text) == 1)
 
