@@ -126,7 +126,7 @@ network_data <- function(x, e = c("mention", "retweet","reply", "quote")) {
     yr <- y[x$is_quote_status, c("screen_name", "id_str")]
     # Quotes are from users on entities$user_mentions whose indices start at 3
     
-    if (is(r$quoted_status$user, "data.frame")) {
+    if (is.data.frame(r$quoted_status$user)) {
       um <- r$quoted_status$user[, c("screen_name", "id_str")]
     } else {
       user_mentions <- lapply(r$quoted_status$user, function(x){
@@ -168,7 +168,7 @@ network_data <- function(x, e = c("mention", "retweet","reply", "quote")) {
 #' @return An igraph object
 #' @rdname network_data
 #' @export
-network_graph <- function(.x, .e = c("mention", "retweet", "reply", "quote")) {
+network_graph <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   if (!requireNamespace("igraph", quietly = TRUE)) {
     stop(
       "Please install the {igraph} package to use this function",

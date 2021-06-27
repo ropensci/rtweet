@@ -7,7 +7,7 @@
 \usage{
 network_data(x, e = c("mention", "retweet", "reply", "quote"))
 
-network_graph(.x, .e = c("mention", "retweet", "reply", "quote"))
+network_graph(x, e = c("mention", "retweet", "reply", "quote"))
 }
 \arguments{
 \item{x}{Data frame returned by rtweet function}
