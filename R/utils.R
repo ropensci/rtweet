@@ -107,5 +107,5 @@ is_testing <- function() {
   requireNamespace("testthat", quietly = TRUE) && identical(Sys.getenv("TESTTHAT"), "true")
 }
 is_dev_mode <- function() {
-  requireNamespace("devtools", quietly = TRUE) && exists(".__DEVTOOLS__", .getNamespace("rtweet"))
+  exists(".__DEVTOOLS__", .getNamespace("rtweet"))
 }
