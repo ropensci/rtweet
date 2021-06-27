@@ -2,41 +2,55 @@
 # https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo
 
 bounding_box <- function(x) {
+  empty <- data.frame(long = NA, lat = NA, type = NA)
   if(is.null(x) || length(x) == 1 && is.na(x)) {
-    as_tbl(data.frame(long = NA, lat = NA, type = NA))
+    return(empty)
   }
-  
+  if (is.data.frame(x)) {
+    coord <- x$coordinates[[1]][1, , ]
+    if (is.null(coord)) {
+      return(empty)
+    }
+    return(data.frame(long = coord[, 1], lat = coord[, 2], type = I(x$type)))
+  }
   m <- x$coordinates[1, , ]
   colnames(m) <- c("long", "lat")
   df <- as.data.frame(m)
-  df$type <- x$type
-  as_tbl(df)
+  df$type <- I(x$type)
+  df
 }
 
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo#coordinates>
 coordinates <- function(x) {
   if (is.null(x) || length(x) == 1 && is.na(x)) {
-    return(as_tbl(data.frame(long = NA, lat = NA, type = NA)))
+    return(data.frame(long = NA, lat = NA, type = NA))
   }
   if (has_name_children(x, "coordinates", "coordinates")) {
-    return(as_tbl(data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = x$type)))
+    return(data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = I(x$type)))
   }
-  as_tbl(data.frame(long = x[[1]], lat = x[[2]], type = x$type))
+  data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = I(x$type))
 }
 
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo#place>
 place <- function(x) {
   if (is.null(x) || length(x) == 1 && is.na(x)) {
-    df <- data.frame(geo = I(list(NA)), coordinates = I(list(NA)),
+    df <- data.frame(geo = I(list(coordinates(NA))), coordinates = I(list(coordinates(NA))),
                              place = I(list(NA)))
-    return(as_tbl(df))
+    return(df)
   }
-  l <- simplify2array(x$place[!names(x$place) %in% "bounding_box"])
-  l[lengths(l) == 0] <- NA
+
+  if (is.data.frame(x)) {
+    l <- simplify2array(x[!colnames(x) %in% c("geo", "coordinates", "bounding_box")])
+  } else if (is.list(x)) {
+    l <- simplify2array(x[!names(x) %in% c("geo", "coordinates", "bounding_box")])
+    if (nrow(l) != 1) {
+      l <- t(l)
+    }
+  }
   place <- as.data.frame(l)
-  place$bounding_box <- list(bounding_box(x$place$bounding_box))
+  place$bounding_box <- list(bounding_box(x$bounding_box))
   
-  tibble::tibble(geo = coordinates(x$geo),
-            coordinates = coordinates(x$coordinates),
-            place = place)
+  data.frame(geo = I(coordinates(x$geo)),
+            coordinates = I(coordinates(x$coordinates)),
+            place = I(place))
 }
