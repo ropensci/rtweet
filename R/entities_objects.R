@@ -7,7 +7,16 @@ hashtags <- function(x) {
     return(data.frame(text = NA, indices = I(list(NA)), 
                       stringsAsFactors = FALSE))
   }
-  data.frame(text = x$text, indices = I(list(simplify2array(x$indices))))
+  i <- indices_vec(x$indices)
+  data.frame(text = x$text, indices = I(i))
+}
+
+
+indices_vec <- function(x) {
+  i <- lapply(x, function(y){matrix(y, ncol = 2, 
+                                    dimnames = list(NULL, 
+                                                    c("start", "end")))})
+  i
 }
 
 # The extended entities is really for media
@@ -23,7 +32,7 @@ media <- function(x) {
   }
   indices <- as.data.frame(t(simplify2array(x$indices)))
   colnames(indices) <- c("start", "end")
-  x$indices <- list(indices)
+  x$indices <- I(list(indices))
   sizes <- rbind(x$sizes$large, x$sizes$small, x$sizes$thumb, x$sizes$medium)
   sizes$type <- c("large", "small", "thumb", "medium")
   x$sizes <- list(sizes)
@@ -40,7 +49,7 @@ urls <- function(x) {
   }
   indices <- as.data.frame(t(simplify2array(x$indices)))
   colnames(indices) <- c("start", "end")
-  x$indices <- indices
+  x$indices <- I(indices)
   x[setdiff(colnames(df), colnames(x))] <- rep(NA, nrow(x))
   x
 }
