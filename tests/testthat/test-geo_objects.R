@@ -87,6 +87,6 @@ exact_location <- jsonlite::fromJSON('{
 
 test_that("place works", {
   out <- place(exact_location)
-  expect_s3_class(out, "tbl_df")
+  expect_s3_class(out, "data.frame")
   
 })
