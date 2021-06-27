@@ -16,7 +16,7 @@ user <- function(x) {
    "withheld_in_countries" = I(list(list())),
    "withheld_scope" = NA, stringsAsFactors = FALSE
  )
- empty <- as_tbl(empty)
+ empty <- empty
  if (NROW(x) == 0) {
     return(empty)
  } 
@@ -35,5 +35,5 @@ user <- function(x) {
  } else {
     y$entitites <- list(list())
  }
- as_tbl(y)
+ y
 }
