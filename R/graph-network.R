@@ -1,68 +1,6 @@
-id_sn_index <- function(x) {
-  id <- character()
-  sn <- character()
-  if ("mentions_user_id" %in% names(x)) {
-    id <- unroll_users(x$mentions_user_id)
-    sn <- unroll_users(x$mentions_screen_name)
-    x$mentions_user_id <- NULL
-    x$mentions_screen_name <- NULL
-  }
-  id_vars <- grep("user_id$", names(x), value = TRUE)
-  sn_vars <- grep("screen_name$", names(x), value = TRUE)
-  id <- c(id, unlist(x[id_vars], use.names = FALSE))
-  sn <- c(sn, unlist(x[sn_vars], use.names = FALSE))
-  kp <- !duplicated(id) & !is.na(id)
-  list(id = id[kp], sn = sn[kp])
-}
-
-
-unroll_users <- function(x) {
-  x <- unlist(x, use.names = FALSE)
-  x[!is.na(x)]
-}
-
-id_sn_join <- function(x, ref) {
-  m <- match(x, ref$id)
-  ref$sn[m]
-}
-
-unroll_connections <- function(x) {
-  ## initialize logical (TRUE) vector
-  kp <- !logical(nrow(x))
-  
-  ## measure [and record] length of each 'to' field (list of character vector)
-  n <- lengths(x[[2]])
-  n1 <- which(n == 1)
-  
-  ## if length == 1 & is.na(x[1])
-  kp[n1[vapply(x[[2]][n1], is.na, logical(1))]] <- FALSE
-  
-  ## create 'from' and 'to' vectors
-  from <- unlist(mapply(rep, x[[1]][kp], n[kp]), use.names = FALSE)
-  to <- unlist(x[[2]][kp], use.names = FALSE)
-  
-  ## return as data frame
-  data.frame(
-    from = from,
-    to = to,
-    stringsAsFactors = FALSE
-  )
-}
-
-prep_from_to <- function(x, from, to) {
-  if (is.list(x[[to]])) {
-    unroll_connections(x[c(from, to)])
-  } else {
-    x <- x[c(from, to)]
-    names(x) <- c("from", "to")
-    x <- x[!is.na(x[[2]]), ]
-    x
-  }
-}
-
 #' Network data
 #' 
-#' See which users are connected to which users. 
+#' Retrieve data to know which users are connected to which users. 
 #'
 #' @description 
 #' * `network_data()` returns a data frame that can easily be converted to
@@ -245,9 +183,3 @@ network_graph <- function(.x, .e = c("mention", "retweet", "reply", "quote")) {
   edges <- rbind(match(.x[[1]], idsn$id), match(.x[[2]], idsn$id))
   igraph::add_edges(g, edges, attr = list(type = .x[[3]]))
 }
-
-# user_vars <- c("user_id", "screen_name", "name", "location", "description",
-#   "url", "protected", "followers_count", "friends_count", "listed_count",
-#   "statuses_count", "favourites_count", "account_created_at", "verified",
-#   "profile_url", "profile_expanded_url", "account_lang",
-#   "profile_banner_url", "profile_background_url", "profile_image_url")
