@@ -175,11 +175,11 @@ network_graph <- function(x, e = c("mention", "retweet", "reply", "quote")) {
       call. = FALSE
     )
   }
-  .x <- network_data(x = .x, e = .e)
-  idsn <- attr(.x, "idsn")
+  nd <- network_data(x = x, e = e)
+  idsn <- attr(nd, "idsn")
   g <- igraph::make_empty_graph(n = 0, directed = TRUE)
   g <- igraph::add_vertices(g, length(idsn$id),
     attr = list(id = idsn$id, name = idsn$sn))
-  edges <- rbind(match(.x[[1]], idsn$id), match(.x[[2]], idsn$id))
-  igraph::add_edges(g, edges, attr = list(type = .x[[3]]))
+  edges <- rbind(match(nd[[1]], idsn$id), match(nd[[2]], idsn$id))
+  igraph::add_edges(g, edges, attr = list(type = nd[[3]]))
 }
