@@ -104,8 +104,8 @@ maybe_n <- function(x) {
 }
 
 is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true")  
+  requireNamespace("testthat", quietly = TRUE) && identical(Sys.getenv("TESTTHAT"), "true")
 }
 is_dev_mode <- function() {
-  exists(".__DEVTOOLS__", .getNamespace("rtweet"))
+  requireNamespace("devtools", quietly = TRUE) && exists(".__DEVTOOLS__", .getNamespace("rtweet"))
 }
