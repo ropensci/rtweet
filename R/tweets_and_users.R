@@ -61,7 +61,7 @@ users_with_tweets <- function(x) {
 
 tweets_to_tbl_ <- function(dat) {
   if (NROW(dat) == 0L) return(data.frame())
-  dat$display_text_width <- display_text_range(dat)
+  dat$display_text_width <- display_text_range(dat$display_text_range)
   ## extended entities > media
   if (has_name_children(dat, "extended_entities", "media")) {
     media <- dat$extended_entities$media
@@ -288,17 +288,6 @@ statuscols_ <- function() {
     bbox_coords = "bbox_coords"
   )
 }
-
-display_text_range <- function(x) {
-  if (has_name_(x, "display_text_range")) {
-    vapply(
-      x$display_text_range,
-      function(x) ifelse(is.null(x), NA_integer_, diff(x)), double(1))
-  } else {
-    rep(NA_integer_, nrow(x))
-  }
-}
-
 
 ##-----------------------------------------------------
 ## utility funs
