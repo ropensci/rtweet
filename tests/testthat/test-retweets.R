@@ -7,7 +7,7 @@ test_that("get_retweets returns tweets data", {
 
 test_that("get_retweets returns user data", {
   x <- get_retweets("1363488961537130497")
-  expect_s3_class(users_data(x), "tbl_df")
+  expect_s3_class(users_data(x), "data.frame")
 })
 
 test_that("get_retweeters returns users", {
