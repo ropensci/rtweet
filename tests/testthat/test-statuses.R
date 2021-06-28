@@ -37,3 +37,10 @@ test_that("lookup on retweet", {
   retweet <- lookup_tweets("1390785143615467524")
   expect_true(all(coln %in% colnames(retweet))) 
 })
+
+
+test_that("lookup on users without tweets, #574", {
+  lu <- lookup_users("994659707766833153")
+  td <- tweets_data(lu)
+  expect_equal(nrow(td), 1)
+})
