@@ -16,3 +16,9 @@ test_that("get_timelines() is deprecated", {
   expect_snapshot(x <- get_timelines("cnn", n = 10))
 })
 
+test_that("Doesn't trim at 280 characters, #575", {
+  timeline_users <- get_timeline(user = "mvabercron", n = 20)
+  text <- timeline_users$text[!is.na(timeline_users$text)]
+  expect_true(any(nchar(text) > 280)|| all(!endsWith(text, "...")))
+})
+
