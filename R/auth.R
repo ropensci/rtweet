@@ -187,12 +187,6 @@ auth_list <- function() {
   tools::file_path_sans_ext(paths)
 }
 
-auth_path <- function(...) {
-  # Use private option to make testing easier
-  path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
-  file.path(path, ...)
-}
-
 # Set default auth -------------------------------------------------------------
 
 #' Set default authentication for the current session
@@ -285,7 +279,7 @@ rtweet_test <- function() {
   if (identical(access_token, "") || identical(access_secret, "")) {
     return()
   }
-
+  
   rtweet_bot(
     "7rX1CfEYOjrtZenmBhjljPzO3",
     "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
@@ -327,4 +321,81 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
     is_interactive = is_interactive, 
     private_key = private_key
   )
+}
+
+
+auth_path <- function(...) {
+  # Use private option to make testing easier
+  if (getRversion() >= "4.0.0") {
+    path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
+  } else {
+    path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet"))
+  }
+  file.path(path, ...)
+}
+
+find_old_tokens <- function() {
+  twitter_pat <- Sys.getenv("TWITTER_PAT")
+  home_path <- normalizePath(file.path("~"), mustWork = TRUE)
+  
+  many_paths <- c(twitter_pat, home_path)
+  old_tokens <- lapply(many_paths, list.files, pattern = ".rtweet_token.*rds", full.names = TRUE, all.files = TRUE)
+  unlist(old_tokens, TRUE, FALSE)
+}
+
+clean_tokens <- function(tokens) {
+  tokens <- sapply(tokens, raw_auth)
+  dup_app <- duplicated(tokens["app", ])
+  dup_user <- duplicated(tokens["user_id", ])
+  dup_key <- duplicated(tokens["key", ])
+  
+  duplicate_tokens <- dup_app & dup_key & dup_user
+  names(duplicate_tokens) <- colnames(tokens)
+  if (any(duplicate_tokens)) {
+    inform(paste0("Removing duplicate tokens: ", names(duplicate_tokens)[duplicate_tokens]))
+    # unlink(names(duplicate_tokens)[duplicate_tokens])
+  }
+  same_user_app <- dup_app & dup_user & !duplicate_tokens
+  names(same_user_app) <- colnames(tokens)
+  if (any(same_user_app)) {
+    inform(paste0("Found authentications for the same app: ", names(same_user_app)[same_user_app]))
+  }
+  colnames(tokens)[!duplicate_tokens]
+}
+
+clean_bearer <- function(bearer) {
+  
+}
+
+clean_old_tokens <- function(old_tokens_files) {
+  old_tokens <- lapply(old_tokens_files, readRDS)
+  names(old_tokens) <- old_tokens_files
+  class_tokens <- sapply(old_tokens, is)
+  class_tokens <- ifelse(endsWith(class_tokens, "Token1.0"), "token", "bearer")
+  
+  c(clean_bearer(old_tokens[class_tokens != "token"]),
+    clean_tokens(old_tokens[class_tokens == "token"]))
+}
+
+clean_rtweet_tokens <- function() {
+  old_tokens_files <- find_old_tokens()
+  clean_old_tokens(old_tokens_files)
+  
+  if (requireNamespace("rappdirs", quietly = TRUE)) {
+    rappdirs_path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet"))
+    rappdirs_tokens <- list.files(rappdirs_path, pattern = "*.rds", all.files = TRUE, full.names = TRUE)
+    tk <- lapply(rappdirs_tokens, readRDS)
+    names(tk) <- rappdirs_tokens
+  }
+  
+  
+  if (getRversion() >= "4.0.0") {
+    final_path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
+  }
+  
+}
+
+
+raw_auth <- function(auth) {
+  c("app" = auth$app$appname, "user_id" = auth$credentials$user_id, key = auth$app$key)
 }
