@@ -1,4 +1,5 @@
-bb <- jsonlite::fromJSON('{
+test_that("bounding_box works", {
+  bb <- jsonlite::fromJSON('{
   "bounding_box": {
     "coordinates": [
       [
@@ -23,9 +24,6 @@ bb <- jsonlite::fromJSON('{
     "type": "Polygon"
   }
 }')
-
-
-test_that("bounding_box works", {
   out <- bounding_box(bb$bounding_box)
   expect_s3_class(out, "data.frame")
   expect_named(out, c("long", "lat", "type"))
@@ -33,7 +31,9 @@ test_that("bounding_box works", {
   expect_equal(nrow(out), 4)
 })
 
-exact_location <- jsonlite::fromJSON('{
+
+test_that("place works", {
+  exact_location <- jsonlite::fromJSON('{
   "geo": {
     "type": "Point",
     "coordinates": [
@@ -84,8 +84,6 @@ exact_location <- jsonlite::fromJSON('{
     }
   }
 }')
-
-test_that("place works", {
   out <- place(exact_location)
   expect_s3_class(out, "data.frame")
   

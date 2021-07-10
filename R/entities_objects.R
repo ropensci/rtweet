@@ -4,28 +4,27 @@
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#hashtags>
 hashtags <- function(x) {
   if (NROW(x) == 0) {
-    return(data.frame(text = NA, indices = I(list(NA)), 
-                      stringsAsFactors = FALSE))
+    data.frame(text = NA, indices = I(list(NA)), 
+                      stringsAsFactors = FALSE)
+  } else {
+    i <- indices_vec(x$indices)
+    data.frame(text = x$text, indices = I(i))
   }
-  i <- indices_vec(x$indices)
-  data.frame(text = x$text, indices = I(i))
 }
 
 
 indices_vec <- function(x) {
-  i <- lapply(x, function(y){matrix(y, ncol = 2, 
-                                    dimnames = list(NULL, 
-                                                    c("start", "end")))})
-  i
+  lapply(x, function(y){
+    matrix(y, ncol = 2, dimnames = list(NULL, c("start", "end")))})
 }
 
 # The extended entities is really for media
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/extended-entities>
 media <- function(x) {
-  df <- data.frame("id" = NA, "id_str" = NA, "indices" = I(list(NA)), 
-                   "media_url" = NA, "media_url_https" = NA, 
-                   "url" = NA, "display_url" = NA, "expanded_url" = NA, 
-                   "type" = NA, "sizes" = I(list(NA)), "ext_alt_text" = NA,
+  df <- data.frame(id = NA, id_str = NA, indices = I(list(NA)), 
+                   media_url = NA, media_url_https = NA, 
+                   url = NA, display_url = NA, expanded_url = NA, 
+                   type = NA, sizes = I(list(NA)), ext_alt_text = NA,
                    stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
     return(df)
@@ -41,8 +40,8 @@ media <- function(x) {
 }
 
 urls <- function(x) {
-  df <- data.frame("url" = NA, "expanded_url" = NA, "display_url" = NA, 
-                   "indices" = I(list(NA)), "unwound" = I(list(NA)), 
+  df <- data.frame(url = NA, expanded_url = NA, display_url = NA, 
+                   indices = I(list(NA)), unwound = I(list(NA)), 
                    stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
     return(df)
@@ -58,8 +57,8 @@ urls <- function(x) {
 # has:mentions
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#mentions>
 user_mentions <- function(x) {
-  df <- data.frame("screen_name" = NA, "name" = NA, "id" = NA, "id_str" = NA,
-                   "indices" = I(list(NA)), stringsAsFactors = FALSE)
+  df <- data.frame(screen_name = NA, name = NA, id = NA, id_str = NA,
+                   indices = I(list(NA)), stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
     return(df)
   }
@@ -80,8 +79,8 @@ symbols <- hashtags
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#polls>
 # Not testable without fullarchive access
 polls <- function(x) {
-  df <- data.frame("options"= I(list(NA)), "end_datetime" = NA, 
-                   "duration_minutes" = NA, stringsAsFactors = FALSE)
+  df <- data.frame(options= I(list(NA)), end_datetime = NA, 
+                   duration_minutes = NA, stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
     return(df)
   } 
@@ -93,7 +92,7 @@ polls <- function(x) {
 parse_entities <- function(x) {
   
   if (is.null(x)) {
-    return(list("description" = urls(NULL), "url" = urls(NULL)))
+    return(list(description = urls(NULL), url = urls(NULL)))
   }
   
   if (is.null(x$description$urls)) {

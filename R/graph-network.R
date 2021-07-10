@@ -42,9 +42,9 @@
 #'   }
 #' }
 #' @export
-network_data <- function(x, e = c("mention", "retweet","reply", "quote")) {
-  if (isTRUE(e) || length(e) == 1 && (e == "semantics" || e == "all")) {
-    e <- c("mention", "retweet","reply", "quote")
+network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
+  if (isTRUE(e) || (length(e) == 1 && e %in% c("semantics", "all"))) {
+    e <- c("mention", "retweet", "reply", "quote")
   }
   
   stopifnot(is.character(e))

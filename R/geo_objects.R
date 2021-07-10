@@ -3,7 +3,7 @@
 
 bounding_box <- function(x) {
   empty <- data.frame(long = NA, lat = NA, type = NA)
-  if(is.null(x) || length(x) == 1 && is.na(x)) {
+  if (is.null(x) || (identical(x, NA))) {
     return(empty)
   }
   if (is.data.frame(x)) {
@@ -11,12 +11,12 @@ bounding_box <- function(x) {
     if (is.null(coord)) {
       return(empty)
     }
-    return(data.frame(long = coord[, 1], lat = coord[, 2], type = I(x$type)))
+    return(data.frame(long = coord[, 1], lat = coord[, 2], type = x$type))
   }
   m <- x$coordinates[1, , ]
   colnames(m) <- c("long", "lat")
   df <- as.data.frame(m)
-  df$type <- I(x$type)
+  df$type <- x$type
   df
 }
 
@@ -26,9 +26,9 @@ coordinates <- function(x) {
     return(data.frame(long = NA, lat = NA, type = NA))
   }
   if (has_name_children(x, "coordinates", "coordinates")) {
-    return(data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = I(x$type)))
+    return(data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = x$type))
   }
-  data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = I(x$type))
+  data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = x$type)
 }
 
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo#place>

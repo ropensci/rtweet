@@ -1,35 +1,35 @@
 tweet <- function(x) {
-  empty <- data.frame("created_at" = NA_character_, "id" = NA_integer_, 
-                      "id_str" = NA_character_, 
-                      "text" = NA_character_, 
-                      "full_text" = NA_character_,
-                      "truncated" = NA, 
-                      "entities" = I(list(list())), 
-                      "source" = NA_character_, 
-                      "in_reply_to_status_id" = NA_integer_, 
-                      "in_reply_to_status_id_str" = NA_character_, 
-                      "in_reply_to_user_id" = NA_integer_,
-                      "in_reply_to_user_id_str" = NA_character_,
-                      "in_reply_to_screen_name" = NA_character_, 
-                      "geo" = NA, 
-                      "coordinates" = NA, "place" = NA, 
-                      "contributors" = NA, "is_quote_status" = NA, 
-                      "retweet_count" = 0, "favorite_count" = 0, 
-                      "favorited" = NA, "favorited_by" = NA,
-                      "retweeted" = NA, 
-                      "lang" = NA_character_,
-                      "possibly_sensitive" = NA,
-                      "display_text_width" = NA,
-                      "display_text_range" = NA,
-                      "retweeted_status" = NA,
-                      "quoted_status" = NA,
-                      "quoted_status_id" = NA,
-                      "quoted_status_id_str" = NA, 
-                      "quoted_status_permalink" = NA,
-                      "metadata" = NA,
-                      "query" = NA,
-                      "user" = I(list(list())),
-                      "possibly_sensitive_appealable" = NA)
+  empty <- data.frame(created_at = NA_character_, id = NA_integer_, 
+                      id_str = NA_character_, 
+                      text = NA_character_, 
+                      full_text = NA_character_,
+                      truncated = NA, 
+                      entities = I(list(list())), 
+                      source = NA_character_, 
+                      in_reply_to_status_id = NA_integer_, 
+                      in_reply_to_status_id_str = NA_character_, 
+                      in_reply_to_user_id = NA_integer_,
+                      in_reply_to_user_id_str = NA_character_,
+                      in_reply_to_screen_name = NA_character_, 
+                      geo = NA, 
+                      coordinates = NA, place = NA, 
+                      contributors = NA, is_quote_status = NA, 
+                      retweet_count = 0, favorite_count = 0, 
+                      favorited = NA, favorited_by = NA,
+                      retweeted = NA, 
+                      lang = NA_character_,
+                      possibly_sensitive = NA,
+                      display_text_width = NA,
+                      display_text_range = NA,
+                      retweeted_status = NA,
+                      quoted_status = NA,
+                      quoted_status_id = NA,
+                      quoted_status_id_str = NA, 
+                      quoted_status_permalink = NA,
+                      metadata = NA,
+                      query = NA,
+                      user = I(list(list())),
+                      possibly_sensitive_appealable = NA)
   if (NROW(x) == 0) {
     return(empty)
   }
@@ -142,13 +142,4 @@ display_text_range <- function(x) {
   dtr <- rep(NA, length.out = length(x))
   dtr[ldtr != 0] <- vapply(x[ldtr != 0], `[`, numeric(1), i = 2)
   dtr
-}
-
-quoted_status <- function(x) {
-  c("created_at", "id", "id_str", "full_text", "truncated", "display_text_range", 
-    "entities", "source", "in_reply_to_status_id", "in_reply_to_status_id_str", 
-    "in_reply_to_user_id", "in_reply_to_user_id_str", "in_reply_to_screen_name", 
-    "user", "geo", "coordinates", "place", "contributors", "is_quote_status", 
-    "retweet_count", "favorite_count", "favorited", "retweeted", 
-    "possibly_sensitive", "lang")
 }
