@@ -22,9 +22,12 @@
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create>
 #' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy>
 #' Mute: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create>
+#' Block: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create>
+
 post_follow <- function(user,
                         destroy = FALSE,
                         mute = FALSE,
+                        block = FALSE,
                         notify = FALSE,
                         retweets = TRUE,
                         token = NULL) {
@@ -36,6 +39,9 @@ post_follow <- function(user,
     params <- list(
       notify = notify,
       retweets = retweets)
+  } else if (block) {
+    query <- "/1.1/blocks/users/create"
+    params <- list()
   } else if (mute) {
     query <- "/1.1/mutes/users/create"
     params <- list()
