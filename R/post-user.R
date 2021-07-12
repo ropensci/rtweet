@@ -31,6 +31,7 @@
 post_follow <- function(user,
                         destroy = FALSE,
                         mute = FALSE,
+                        unblock = FALSE,
                         block = FALSE,
                         notify = FALSE,
                         retweets = TRUE,
