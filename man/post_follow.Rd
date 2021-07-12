@@ -6,13 +6,17 @@
 \alias{post_unfollow_user}
 \alias{unfollow_user}
 \alias{post_mute}
+\alias{post_block}
+\alias{post_unblock}
 \alias{mute_user}
-\title{Follows target twitter user.}
+\title{Follows/blocks/mutess target twitter user.}
 \usage{
 post_follow(
   user,
   destroy = FALSE,
   mute = FALSE,
+  block = FALSE,
+  unblock = FALSE,
   notify = FALSE,
   retweets = TRUE,
   token = NULL
@@ -21,6 +25,10 @@ post_follow(
 post_unfollow_user(user, token = NULL)
 
 post_mute(user, token = NULL)
+
+post_block(user, token = NULL)
+
+post_unblock(user, token = NULL)
 }
 \arguments{
 \item{user}{Character vector of screen names or user ids.
@@ -32,6 +40,12 @@ remove (delete) target tweet as favorite.}
 \item{mute}{Logical indicating whether to mute the intended
 friend (you must already be following this account prior
 to muting them)}
+
+\item{block}{Logical indicating whether to block the intended
+friend.}
+
+\item{unblock}{Logical indicating whether to unblock the intended
+friend}
 
 \item{notify}{Logical indicating whether to enable notifications
 for target user. Defaults to false.}
@@ -48,6 +62,10 @@ Follows target twitter user.
 }
 \examples{
 \dontrun{
+post_block("BarackObama")
+  
+post_unblock("BarackObama")
+
 post_follow("BarackObama")
 }
 }
