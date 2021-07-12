@@ -12,6 +12,13 @@ hashtags <- function(x) {
   }
 }
 
+# PowerTrack $ text
+# has:symbol
+# They are the same
+# <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#symbols>
+# parse_entities2 uses the name of the columns to match the appropriate function to parse it. 
+# It needs a symbols function that is the same as hashtags
+symbols <- hashtags
 
 indices_vec <- function(x) {
   lapply(x, function(y){
@@ -69,12 +76,6 @@ user_mentions <- function(x) {
   rownames(x) <- NULL
   x
 }
-
-# PowerTrack $ text
-# has:symbol
-# They are the same
-# <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#symbols>
-symbols <- hashtags
 
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#polls>
 # Not testable without fullarchive access
