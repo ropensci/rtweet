@@ -1,4 +1,6 @@
-hashtags <- jsonlite::fromJSON('{
+
+test_that("hashtags works", {
+  hashtags <- jsonlite::fromJSON('{
   "hashtags": [
     {
       "indices": [
@@ -9,8 +11,6 @@ hashtags <- jsonlite::fromJSON('{
     }
   ]
 }')
-
-test_that("hashtags works", {
   out <- hashtags(hashtags$hashtags)
   expect_s3_class(out, "data.frame")
   expect_named(out, c("text", "indices"))
@@ -18,7 +18,10 @@ test_that("hashtags works", {
 })
 
 
-extended_media <- jsonlite::fromJSON('{
+
+
+test_that("media works", {
+  extended_media <- jsonlite::fromJSON('{
 "extended_entities": {
     "media": [
       {
@@ -168,9 +171,6 @@ extended_media <- jsonlite::fromJSON('{
     ]
   }
 }')
-
-
-test_that("media works", {
   out <- media(extended_media$extended_entities$media)
   expect_s3_class(out, "data.frame")
   expect_named(out, c("id", "id_str", "indices", "media_url", "media_url_https", 
@@ -181,7 +181,8 @@ test_that("media works", {
   
 
 
-polls_media <- jsonlite::fromJSON('{"polls": [
+test_that("polls works", {
+  polls_media <- jsonlite::fromJSON('{"polls": [
       {
         "options": [
           {
@@ -202,8 +203,6 @@ polls_media <- jsonlite::fromJSON('{"polls": [
       }
     ]
   }')
-
-test_that("polls works", {
   out <- polls(polls_media$polls)
   expect_s3_class(out, "data.frame")
   expect_named(out, c("options", "end_datetime", "duration_minutes"))
