@@ -85,17 +85,13 @@ post_mute <- function(user, token = NULL) {
   post_follow(user, mute = TRUE, token = token)
 }
 
-#' @aliases unfollow_user
 #' @rdname post_follow
-#' @aliases mute_user
 #' @export
 post_block <- function(user, token = NULL) {
   post_follow(user, block = TRUE, token = token)
 }
 
-#' @aliases unfollow_user
 #' @rdname post_follow
-#' @aliases mute_user
 #' @export
 post_unblock <- function(user, token = NULL) {
   post_follow(user, unblock = TRUE, token = token)
