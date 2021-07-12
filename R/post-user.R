@@ -40,7 +40,7 @@ post_follow <- function(user,
       notify = notify,
       retweets = retweets)
   } else if (block) {
-    query <- "/1.1/blocks/users/create"
+    query <- "/1.1/blocks/create"
     params <- list()
   } else if (mute) {
     query <- "/1.1/mutes/users/create"
