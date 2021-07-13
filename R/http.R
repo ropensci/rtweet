@@ -121,10 +121,7 @@ TWIT_paginate_max_id <- function(token, api, params,
   params$since_id <- since_id
   params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
-  if (is.finite(pages)) {
-    results <- vector("list", pages)
-  } else {
-    results <- vector("list", 1000) #see https://github.com/ropensci/rtweet/pull/567#issuecomment-821169712
+results <- vector("list", if (is.finite(pages)) pages else 1000)
   }
   
   if (verbose)  {
