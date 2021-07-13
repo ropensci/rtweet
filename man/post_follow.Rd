@@ -6,17 +6,17 @@
 \alias{post_unfollow_user}
 \alias{unfollow_user}
 \alias{post_mute}
+\alias{mute_user}
 \alias{post_block}
 \alias{post_unblock}
-\alias{mute_user}
-\title{Follows/blocks/mutess target twitter user.}
+\title{Follows target twitter user.}
 \usage{
 post_follow(
   user,
   destroy = FALSE,
   mute = FALSE,
-  block = FALSE,
   unblock = FALSE,
+  block = FALSE,
   notify = FALSE,
   retweets = TRUE,
   token = NULL
@@ -41,10 +41,10 @@ remove (delete) target tweet as favorite.}
 friend (you must already be following this account prior
 to muting them)}
 
-\item{block}{Logical indicating whether to block the intended
-friend.}
-
 \item{unblock}{Logical indicating whether to unblock the intended
+friend}
+
+\item{block}{Logical indicating whether to block the intended
 friend}
 
 \item{notify}{Logical indicating whether to enable notifications
@@ -62,10 +62,6 @@ Follows target twitter user.
 }
 \examples{
 \dontrun{
-post_block("BarackObama")
-  
-post_unblock("BarackObama")
-
 post_follow("BarackObama")
 }
 }
@@ -74,6 +70,7 @@ Update: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-u
 Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create}
 Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy}
 Mute: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create}
+Block: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create}
 }
 \seealso{
 Other post: 
