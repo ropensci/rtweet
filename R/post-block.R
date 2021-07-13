@@ -22,7 +22,7 @@ post_block <- function(user,
                       unblock = FALSE,
                       token = NULL) {
 
-  stopifnot(is.atomic(user), is.logical(notify))
+  stopifnot(is.atomic(user), is.logical(unblock))
 
   if (!unblock) {
     query <- "/1.1/blocks/create"

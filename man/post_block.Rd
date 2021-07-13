@@ -19,9 +19,6 @@ friend}
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
-
-\item{block}{Logical indicating whether to block the intended
-friend}
 }
 \description{
 \code{post_block(...)} blocks or unblocks a target twitter user.
