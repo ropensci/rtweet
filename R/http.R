@@ -159,7 +159,8 @@ TWIT_paginate_max_id <- function(token, api, params,
     if (length(id) == 0) {
       break
     }
-    if(i>length(results)) { #doubling size, see https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
+    if(i > length(results)) { 
+      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
       length(results) <- 2 * length(results)
     }
     
