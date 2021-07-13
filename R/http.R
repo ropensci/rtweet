@@ -121,7 +121,11 @@ TWIT_paginate_max_id <- function(token, api, params,
   params$since_id <- since_id
   params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
-  results <- vector("list", pages)
+  if (is.finite(pages)) {
+    results <- vector("list", pages)
+  } else {
+    results <- vector("list", 1000) #see https://github.com/ropensci/rtweet/pull/567#issuecomment-821169712
+  }
   
   if (verbose)  {
     pb <- progress::progress_bar$new(
@@ -130,8 +134,9 @@ TWIT_paginate_max_id <- function(token, api, params,
     ) 
     withr::defer(pb$terminate())
   }
-
-  for (i in seq_len(pages)) {
+  
+  i<-0
+  while ((i<-i+1) < pages) {
     params$max_id <- max_id
     if (i == pages) {
       params[[count_param]] <- n - (pages - 1) * page_size
@@ -157,6 +162,9 @@ TWIT_paginate_max_id <- function(token, api, params,
     if (length(id) == 0) {
       break
     }
+    if(i>length(results)) { #doubling size, based on https://github.com/ropensci/rtweet/pull/567#issuecomment-821169712
+      length(results)<-2*length(results)
+    }
     
     max_id <- max_id(id)
     results[[i]] <- json
@@ -165,8 +173,7 @@ TWIT_paginate_max_id <- function(token, api, params,
       pb$tick()
     }
   }
-
-  results
+  results[1:i]
 }
 
 # https://developer.twitter.com/en/docs/pagination
