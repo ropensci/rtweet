@@ -1,8 +1,9 @@
-#' Follows target twitter user.
+#' Blocking or unblocking twitter users
+#' 
+#' `post_block(...)` blocks or unblocks a target twitter user.
+#' `post_unblock(...)` is synonymous to `post_block(..., unblock=TRUE)`
 #'
 #' @inheritParams get_timeline
-#' @param block Logical indicating whether to block the intended
-#'   friend 
 #' @param unblock Logical indicating whether to unblock the intended
 #'   friend 
 #' @aliases post_unblock
@@ -10,8 +11,7 @@
 #' \dontrun{
 #' post_block("BarackObama")
 #' post_unblock("BarackObama")
-#' post_block("BarackObama")
-#' post_block("BarackObama", unblock=TRUE)
+#' post_block("BarackObama", unblock=TRUE) #<-same as the above
 #' }
 #' @family post
 #' @export

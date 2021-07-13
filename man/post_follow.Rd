@@ -7,16 +7,12 @@
 \alias{unfollow_user}
 \alias{post_mute}
 \alias{mute_user}
-\alias{post_block}
-\alias{post_unblock}
 \title{Follows target twitter user.}
 \usage{
 post_follow(
   user,
   destroy = FALSE,
   mute = FALSE,
-  unblock = FALSE,
-  block = FALSE,
   notify = FALSE,
   retweets = TRUE,
   token = NULL
@@ -25,10 +21,6 @@ post_follow(
 post_unfollow_user(user, token = NULL)
 
 post_mute(user, token = NULL)
-
-post_block(user, token = NULL)
-
-post_unblock(user, token = NULL)
 }
 \arguments{
 \item{user}{Character vector of screen names or user ids.
@@ -40,12 +32,6 @@ remove (delete) target tweet as favorite.}
 \item{mute}{Logical indicating whether to mute the intended
 friend (you must already be following this account prior
 to muting them)}
-
-\item{unblock}{Logical indicating whether to unblock the intended
-friend}
-
-\item{block}{Logical indicating whether to block the intended
-friend}
 
 \item{notify}{Logical indicating whether to enable notifications
 for target user. Defaults to false.}
@@ -70,10 +56,10 @@ Update: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-u
 Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create}
 Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy}
 Mute: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create}
-Block: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create}
 }
 \seealso{
 Other post: 
+\code{\link{post_block}()},
 \code{\link{post_favorite}()},
 \code{\link{post_friendship}()},
 \code{\link{post_tweet}()}
