@@ -133,7 +133,7 @@ TWIT_paginate_max_id <- function(token, api, params,
   
   i <- 0
   while (i < pages) {
-    i <- i+1
+    i <- i + 1
     params$max_id <- max_id
     if (i == pages) {
       params[[count_param]] <- n - (pages - 1) * page_size
