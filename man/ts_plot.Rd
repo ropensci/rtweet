@@ -20,7 +20,7 @@ and end of the time series.}
 \item{tz}{Time zone to be used, defaults to "UTC" (Twitter default)}
 
 \item{...}{Other arguments passed to
-\code{\link[ggplot2:geom_path]{ggplot2::geom_line()}}.}
+\code{\link[ggplot2:geom_line]{ggplot2::geom_line()}}.}
 }
 \value{
 If

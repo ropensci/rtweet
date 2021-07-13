@@ -41,7 +41,7 @@ Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-a
 }
 \seealso{
 Other post: 
-\code{\link{post_block}()},
+\code{\link{block_user}()},
 \code{\link{post_follow}()},
 \code{\link{post_friendship}()},
 \code{\link{post_tweet}()}

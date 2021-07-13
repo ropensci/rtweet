@@ -1,8 +1,8 @@
 test_that("blocking and unblocking users", {
-  pf <- post_block("s_hesz") 
+  pf <- block_user("s_hesz") 
   expect_equal(httr::status_code(pf), 200L)
   
   # unblocking
-  pf <- post_unblock("s_hesz")
+  pf <- unblock_user("s_hesz")
   expect_equal(httr::status_code(pf), 200L)
 })

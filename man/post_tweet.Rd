@@ -118,7 +118,7 @@ Alt-text: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload
 }
 \seealso{
 Other post: 
-\code{\link{post_block}()},
+\code{\link{block_user}()},
 \code{\link{post_favorite}()},
 \code{\link{post_follow}()},
 \code{\link{post_friendship}()}
