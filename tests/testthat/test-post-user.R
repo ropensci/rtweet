@@ -23,3 +23,12 @@ test_that("Muting  #467", {
   pf <- post_follow("hlynur", destroy = TRUE, mute = FALSE, notify = TRUE)
   expect_equal(httr::status_code(pf), 200L)
 })
+
+test_that("blocking and unblocking users", {
+  pf <- post_block("s_hesz") 
+  expect_equal(httr::status_code(pf), 200L)
+  
+  # Unmutting without following
+  pf <- post_unblock("s_hesz")
+  expect_equal(httr::status_code(pf), 200L)
+})
