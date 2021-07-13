@@ -6,10 +6,6 @@
 #' @param mute Logical indicating whether to mute the intended
 #'   friend (you must already be following this account prior
 #'   to muting them)
-#' @param block Logical indicating whether to block the intended
-#'   friend 
-#' @param unblock Logical indicating whether to unblock the intended
-#'   friend 
 #' @param notify Logical indicating whether to enable notifications
 #'   for target user. Defaults to false.
 #' @param retweets Logical indicating whether to enable retweets
@@ -26,13 +22,9 @@
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create>
 #' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy>
 #' Mute: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create>
-#' Block: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create>
-
 post_follow <- function(user,
                         destroy = FALSE,
                         mute = FALSE,
-                        unblock = FALSE,
-                        block = FALSE,
                         notify = FALSE,
                         retweets = TRUE,
                         token = NULL) {
@@ -44,12 +36,6 @@ post_follow <- function(user,
     params <- list(
       notify = notify,
       retweets = retweets)
-  } else if (block) {
-    query <- "/1.1/blocks/create"
-    params <- list()
-  } else if (unblock) {
-    query <- "/1.1/blocks/destroy"
-    params <- list()
   } else if (mute) {
     query <- "/1.1/mutes/users/create"
     params <- list()
@@ -83,18 +69,6 @@ post_unfollow_user <- function(user, token = NULL) {
 #' @export
 post_mute <- function(user, token = NULL) {
   post_follow(user, mute = TRUE, token = token)
-}
-
-#' @rdname post_follow
-#' @export
-post_block <- function(user, token = NULL) {
-  post_follow(user, block = TRUE, token = token)
-}
-
-#' @rdname post_follow
-#' @export
-post_unblock <- function(user, token = NULL) {
-  post_follow(user, unblock = TRUE, token = token)
 }
 
 #' Updates friendship notifications and retweet abilities.
