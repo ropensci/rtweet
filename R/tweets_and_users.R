@@ -26,8 +26,11 @@ users_with_tweets <- function(x) {
   tweets_raw <- lapply(x, function(x) x[["status"]])
   tweets_tbl <- lapply(tweets_raw, tweets_to_tbl_)
   tweets <- do.call("rbind", tweets_tbl)
-  tweets$user_id <- users$user_id
-  tweets$screen_name <- users$screen_name
+  
+  if (NROW(tweets) > 0) {
+    tweets$user_id <- users$user_id
+    tweets$screen_name <- users$screen_name
+  }
   
   structure(users, tweets = tweets)
 }
