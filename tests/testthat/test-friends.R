@@ -21,7 +21,7 @@ test_that("friendships returns data", {
 
 test_that("get_friends works", {
   djt <- get_friends("ropensci")
-  expect_s3_class(djt, "tbl_df")
+  expect_s3_class(djt, "data.frame")
 })
 
 test_that("lookup_friendships works", {
