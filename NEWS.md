@@ -4,7 +4,7 @@
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
 
-- All paginated functions that don't return tweet now use a consistent 
+- All paginated functions that don't return tweets now use a consistent 
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`
   attribute, which will be automatically retrieved when you use the `cursor`
   argument.
@@ -12,7 +12,7 @@
 - Message are now properly capitalized (#565, @jsta)  
 
 - `lookup_users()` and `search_users()` now returns a data frame containing
-  on information about each user (not their latest tweet). If you want to get 
+  all information about each user (not their latest tweet). If you want to get 
   that data you can use `tweets_data()`.
 
 - `parse = FALSE` always means return the raw "JSON". Previously some functions
@@ -61,7 +61,7 @@
 - rtweet 1.0.0 implements a consistent strategy for handling rate limits. 
   By default, if a paginated function (i.e. a rtweet function that performs 
   multiple calls to the twitter API) is rate-limited it will return all results 
-  recieved up to that point, along with a warning telling you how to get more
+  received up to that point, along with a warning telling you how to get more
   results. Alternatively, if you want to automatically wait until the 
   rate-limit is reset, you can set `retryratelimit = TRUE`.
 
