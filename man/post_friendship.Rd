@@ -30,9 +30,9 @@ Updates friendship notifications and retweet abilities.
 }
 \seealso{
 Other post: 
-\code{\link{block_user}()},
 \code{\link{post_favorite}()},
 \code{\link{post_follow}()},
-\code{\link{post_tweet}()}
+\code{\link{post_tweet}()},
+\code{\link{user_block}()}
 }
 \concept{post}
