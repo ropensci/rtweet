@@ -374,6 +374,7 @@ clean_bearer <- function(bearer) {
   return(names(tokens)[!dup_tokens])
 }
 
+#' @importFrom methods is
 clean <- function(old_tokens_files) {
   old_tokens <- lapply(old_tokens_files, readRDS)
   names(old_tokens) <- old_tokens_files
@@ -420,7 +421,7 @@ tokens_sitrep <- function() {
 
 move_tokens <- function(tokens, folder) {
   file_names <- basename(tokens)
-  file_names <- gsub("\\.([0-9]*)rds", "\\1.rds", base_names, ignore.case = TRUE)
+  file_names <- gsub("\\.([0-9]*)rds", "\\1.rds", file_names, ignore.case = TRUE)
   file_names <- gsub("^\\.", "", file_names)
   new_names <- file.path(folder, file_names)
   fr <- file.rename(from = tokens, to = new_names)
