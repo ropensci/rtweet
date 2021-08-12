@@ -61,6 +61,7 @@ Mute: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-use
 Other post: 
 \code{\link{post_favorite}()},
 \code{\link{post_friendship}()},
-\code{\link{post_tweet}()}
+\code{\link{post_tweet}()},
+\code{\link{user_block}()}
 }
 \concept{post}

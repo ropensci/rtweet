@@ -43,6 +43,7 @@ Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-a
 Other post: 
 \code{\link{post_follow}()},
 \code{\link{post_friendship}()},
-\code{\link{post_tweet}()}
+\code{\link{post_tweet}()},
+\code{\link{user_block}()}
 }
 \concept{post}
