@@ -96,7 +96,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
   ## if delete
   if (!is.null(destroy_id)) {
     lifecycle::deprecate_warn("1.0.0", "post_tweet(destroy_id)", "post_destroy()")
-    return(post_destroy(destroy_id))
+    return(post_destroy(destroy_id, token=token))
   }
 
   ## if retweet
