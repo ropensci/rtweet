@@ -5,19 +5,19 @@
 \alias{network_graph}
 \title{Network data}
 \usage{
-network_data(.x, .e = c("mention,retweet,reply,quote"))
+network_data(x, e = c("mention", "retweet", "reply", "quote"))
 
-network_graph(.x, .e = c("mention,retweet,reply,quote"))
+network_graph(x, e = c("mention", "retweet", "reply", "quote"))
 }
 \arguments{
-\item{.x}{Data frame returned by rtweet function}
+\item{x}{Data frame returned by rtweet function}
 
-\item{.e}{Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
+\item{e}{Type of edge/link–i.e., "mention", "retweet", "quote", "reply".
 This must be a character vector of length one or more. This value will be
 split on punctuation and space (so you can include multiple types in the
 same string separated by a comma or space). The values "all" and
 "semantic" are assumed to mean all edge types, which is equivalent to the
-default value of \code{c("mention,retweet,reply,quote")}}
+default value of \code{c("mention", "retweet", "reply", "quote")}}
 }
 \value{
 A from/to data edge data frame
@@ -31,6 +31,9 @@ various network classes.
 \item \code{network_graph()} returns a igraph object
 }
 }
+\details{
+Retrieve data to know which users are connected to which users.
+}
 \examples{
 
 \dontrun{
@@ -38,7 +41,7 @@ various network classes.
   rstats <- search_tweets("#rstats", n = 200)
 
   ## create from-to data frame representing retweet/mention/reply connections
-  rstats_net <- network_data(rstats, "retweet,mention,reply")
+  rstats_net <- network_data(rstats, c("retweet","mention","reply"))
 
   ## view edge data frame
   rstats_net

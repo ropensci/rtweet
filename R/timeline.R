@@ -93,7 +93,8 @@ get_my_timeline <- function(n = 100,
     parse = parse,
     retryonratelimit = retryonratelimit,
     verbose = verbose,
-    token = token
+    token = token,
+    ...
   )
 }
 
@@ -110,8 +111,8 @@ get_timeline_user <- function(user,
   api <- if (home) "/1.1/statuses/home_timeline" else "/1.1/statuses/user_timeline"
 
   params <- list(
-    # tweet_mode = "extended",
-    # include_ext_alt_text = "true",
+    # Undocumented parameter https://github.com/ropensci/rtweet/issues/575#issuecomment-829605892
+    tweet_mode = "extended", 
     ...
   )
   params[[user_type(user)]] <- user

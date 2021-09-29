@@ -72,6 +72,10 @@ last <- function(x) {
 
 has_name_ <- function(x, name) isTRUE(name %in% names(x))
 
+has_name_children <- function(x, name, children) {
+  has_name_(x, name) && has_name_(x[[name]], children)
+}
+
 any_recursive <- function(x) {
   if (!is.recursive(x)) {
     return(FALSE)
@@ -100,7 +104,7 @@ maybe_n <- function(x) {
 }
 
 is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true")  
+  identical(Sys.getenv("TESTTHAT"), "true") && requireNamespace("testthat", quietly = TRUE)
 }
 is_dev_mode <- function() {
   exists(".__DEVTOOLS__", .getNamespace("rtweet"))

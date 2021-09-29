@@ -121,7 +121,7 @@ TWIT_paginate_max_id <- function(token, api, params,
   params$since_id <- since_id
   params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
-  results <- vector("list", pages)
+  results <- vector("list", if (is.finite(pages)) pages else 1000)
   
   if (verbose)  {
     pb <- progress::progress_bar$new(
@@ -130,8 +130,10 @@ TWIT_paginate_max_id <- function(token, api, params,
     ) 
     withr::defer(pb$terminate())
   }
-
-  for (i in seq_len(pages)) {
+  
+  i <- 0
+  while (i < pages) {
+    i <- i + 1
     params$max_id <- max_id
     if (i == pages) {
       params[[count_param]] <- n - (pages - 1) * page_size
@@ -157,6 +159,10 @@ TWIT_paginate_max_id <- function(token, api, params,
     if (length(id) == 0) {
       break
     }
+    if(i > length(results)) { 
+      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
+      length(results) <- 2 * length(results)
+    }
     
     max_id <- max_id(id)
     results[[i]] <- json
@@ -165,7 +171,6 @@ TWIT_paginate_max_id <- function(token, api, params,
       pb$tick()
     }
   }
-
   results
 }
 

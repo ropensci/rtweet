@@ -45,9 +45,9 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
 
   while (!last_found) {
     nr <- nrow(tw)
-    last_found <- is.na(tw$reply_to_status_id[nr])
+    last_found <- is.na(tw$in_reply_to_status_id[nr])
 
-    tw_tail <- lookup_tweets(tw$reply_to_status_id[nr])
+    tw_tail <- lookup_tweets(tw$in_reply_to_status_id[nr])
     tw <- rbind(tw, tw_tail)
 
     if (!last_found) {
@@ -76,7 +76,7 @@ tweet_threading_forwards <- function(tw, n = 10, verbose = FALSE) {
   }
 
   timeline <- get_timeline(tw$screen_name[1], n = n)
-  from_id <- tw$status_id[1]
+  from_id <- tw$id[1]
 
   last_found <- FALSE
 
@@ -87,11 +87,11 @@ tweet_threading_forwards <- function(tw, n = 10, verbose = FALSE) {
   counter <- 0
 
   while (!last_found) {
-    idx <- which(timeline$reply_to_status_id %in% from_id)
+    idx <- which(timeline$in_reply_to_status_id %in% from_id)
     last_found <- length(idx) == 0
 
     tw <- rbind(timeline[idx, ], tw)
-    from_id <- timeline$status_id[idx]
+    from_id <- timeline$id[idx]
 
     if (!last_found) {
       counter <- counter + 1
