@@ -73,8 +73,8 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
 
     ## make a mobile URL
     x <- sprintf("https://mobile.twitter.com/%s/status/%s",
-      x$screen_name, x$status_id)
-
+                 users_data(x)$screen_name, x$id_str)
+    
   }
 
   ## keep the filesystem clean
