@@ -277,7 +277,8 @@ no_token <- function() {
     stop("Could not authenticate", call. = FALSE)
   }
 }
-
+# Internal function to generate the bot used for testing
+# Do not forget to later us auth_as(rtweet_test())
 rtweet_test <- function() {
   access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
   access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
