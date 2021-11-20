@@ -188,7 +188,6 @@ TWIT_paginate_cursor <- function(token, api, params,
                                  retryonratelimit = NULL,
                                  verbose = TRUE) {
   params$count <- page_size
-  
   cursor <- next_cursor(cursor)
   if (identical(cursor, "0")) {
     # Last request retrieved all available results
@@ -229,11 +228,18 @@ TWIT_paginate_cursor <- function(token, api, params,
     }
 
     results[[i]] <- json
-    cursor <- ifelse(!is.null(json$next_cursor_str), json$next_cursor_str, json$next_cursor)
+    if (any(grepl("next_cursor", names(json)))) {
+      cursor <- ifelse(!is.null(json$next_cursor_str), 
+                       json$next_cursor_str, 
+                       json$next_cursor)
+    } else {
+      # If next_cursor is missing there are no message within the last 30 days
+      cursor <- "0" 
+    }
     n_seen <- n_seen + length(get_id(json))
     i <- i + 1
 
-    if (identical(cursor, "0") || n_seen >= n) {
+    if (identical(cursor, "0") || n_seen >= n || length(json$events) == 0) {
       break
     }
     
