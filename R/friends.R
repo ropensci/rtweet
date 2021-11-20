@@ -51,6 +51,9 @@ get_friends <- function(users,
     # Fortunately, few people follower >5000 users so this should rarely
     # come up in practice.
     df <- do.call("rbind", results)
+    if (!"ids" %in% colnames(df)) {
+      df <- as_tbl(cbind(df, "ids" = NA_character_))
+    }
     if (length(results) == 1) {
       results <- copy_cursor(df, results[[1]])
     } else {
@@ -58,7 +61,7 @@ get_friends <- function(users,
     }
   }
   
-  results
+  results[!is.na(results$ids), ]
 }
 
 get_friends_user <- function(user, token, ..., parse = TRUE) {
