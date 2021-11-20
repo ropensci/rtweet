@@ -74,7 +74,7 @@ rt <- stream_tweets("")
 Stream all geo-located tweets from London for 60 seconds:
 
 ``` r
-rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
+rt <- stream_tweets(location = lookup_coords("london"), timeout = 60)
 ```
 
 ### Get friends and followers
