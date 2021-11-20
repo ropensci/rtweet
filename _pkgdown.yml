@@ -17,15 +17,21 @@ reference:
   contents:
   - direct_messages
   - starts_with("get")
-  - starts_with("lists")
   - starts_with("lookup")
   - my_friendships
   - starts_with("post")
-  - starts_with("search")
   - stream_tweets
   - trends_available
   - starts_with("tweet")
-  - rate_limit
+  - subtitle: Lists
+    contents:
+      - starts_with("lists")
+  - subtitle: Search
+    contents:
+      - starts_with("search")
+  - subtitle: API limits
+    contents:
+      - rate_limit
   
 - title: Authentication
   contents:
