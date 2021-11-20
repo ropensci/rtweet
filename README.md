@@ -45,7 +45,8 @@ terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-c
 
 ### Search tweets or users
 
-Search for up to 10,000 tweets containing #rstats, excluding retweets:
+Search for up to 10,000 tweets containing #rstats, the common hashtag
+used to refer to the R language, excluding retweets:
 
 ``` r
 rt <- search_tweets("#rstats", n = 10000, include_rts = FALSE)
