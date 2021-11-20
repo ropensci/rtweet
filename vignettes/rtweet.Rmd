@@ -94,59 +94,59 @@ Stream all geo enabled tweets from London for 60 seconds.
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 ```
 
-Stream all tweets mentioning realDonaldTrump or Trump for a week.
+Stream all tweets mentioning #rstats for a week.
 ```{r, eval=FALSE}
 ## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
 stream_tweets(
-  "realdonaldtrump,trump",
+  "#rstats",
   timeout = 60 * 60 * 24 * 7,
-  file_name = "tweetsabouttrump.json",
+  file_name = "tweets_about_R.json",
   parse = FALSE
 )
 
 ## read in the data as a tidy tbl data frame
-djt <- parse_stream("tweetsabouttrump.json")
+djt <- parse_stream("tweets_about_R.json.json")
 ```
 
 ### Get friends
 
 Retrieve a list of all the accounts a **user follows**.
 ```{r, eval=FALSE}
-## get user IDs of accounts followed by CNN
-cnn_fds <- get_friends("cnn")
+## get user IDs of accounts followed by R Foundation
+R_foundation_fds <- get_friends("_R_Foundation")
 
 ## lookup data on those accounts
-cnn_fds_data <- lookup_users(cnn_fds$user_id)
+R_foundation_fds_data <- lookup_users(R_foundation$user_id)
 ```
 
 ### Get followers
 
 Retrieve a list of the **accounts following** a user.
 ```{r, eval=FALSE}
-## get user IDs of accounts following CNN
-cnn_flw <- get_followers("cnn", n = 75000)
+## get user IDs of accounts following R Foundation
+R_foundation_flw <- get_followers("_R_Foundation", n = 75000)
 
 ## lookup data on those accounts
-cnn_flw_data <- lookup_users(cnn_flw$user_id)
+R_foundation_flw_data <- lookup_users(R_foundation_flw$user_id)
 ```
 
 Or if you really want ALL of their followers:
 ```{r, eval=FALSE}
-## how many total follows does cnn have?
-cnn <- lookup_users("cnn")
+## how many total follows does R Foundation have?
+R_foundation <- lookup_users("_R_Foundation")
 
 ## get them all (this would take a little over 5 days)
-cnn_flw <- get_followers(
-  "cnn", n = cnn$followers_count, retryonratelimit = TRUE
+R_foundation_flw <- get_followers(
+  "_R_Foundation", n = R_foundation$followers_count, retryonratelimit = TRUE
 )
 ```
 
 ### Get timelines
 
-Get the most recent 3,200 tweets from cnn, BBCWorld, and foxnews.
+Get the most recent 3,200 tweets from R Foundation.
 ```{r, eval=FALSE}
-## get user IDs of accounts followed by CNN
-tmls <- get_timelines(c("cnn", "BBCWorld", "foxnews"), n = 3200)
+## get user IDs of accounts followed by R Foundation
+tmls <- get_timelines("_R_Foundation", n = 3200)
 
 ## plot the frequency of tweets for each user over time
 tmls %>%
@@ -169,9 +169,9 @@ tmls %>%
 
 ### Get favorites
 
-Get the 3,000 most recently favorited statuses by JK Rowling.
+Get the 3,000 most recently favorited statuses by R Foundation.
 ```{r, eval=FALSE}
-jkr <- get_favorites("jk_rowling", n = 3000)
+jkr <- get_favorites("_R_Foundation", n = 3000)
 ```
 
 ### Search users
