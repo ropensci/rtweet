@@ -23,7 +23,7 @@ TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.t
 
 TWIT_method <- function(method, token, api, 
                         params = NULL, 
-                        host = "api.twiter.com",
+                        host = "api.twitter.com",
                         retryonratelimit = NULL,
                         verbose = TRUE,
                         ...) {
@@ -87,7 +87,7 @@ TWIT_method <- function(method, token, api,
 #' @param since_id Supply a vector of ids or a data frame of previous results to 
 #'   find tweets **newer** than `since_id`.
 #' @param retryonratelimit If `TRUE`, and a rate limit is exhausted, will wait
-#'   until it refreshes. Most twitter rate limits refresh every 15 minutes.
+#'   until it refreshes. Most Twitter rate limits refresh every 15 minutes.
 #'   If `FALSE`, and the rate limit is exceeded, the function will terminate
 #'   early with a warning; you'll still get back all results received up to 
 #'   that point. The default value, `NULL`, consults the option 
@@ -121,7 +121,7 @@ TWIT_paginate_max_id <- function(token, api, params,
   params$since_id <- since_id
   params[[count_param]] <- page_size  
   pages <- ceiling(n / page_size)
-  results <- vector("list", pages)
+  results <- vector("list", if (is.finite(pages)) pages else 1000)
   
   if (verbose)  {
     pb <- progress::progress_bar$new(
@@ -130,8 +130,10 @@ TWIT_paginate_max_id <- function(token, api, params,
     ) 
     withr::defer(pb$terminate())
   }
-
-  for (i in seq_len(pages)) {
+  
+  i <- 0
+  while (i < pages) {
+    i <- i + 1
     params$max_id <- max_id
     if (i == pages) {
       params[[count_param]] <- n - (pages - 1) * page_size
@@ -157,6 +159,10 @@ TWIT_paginate_max_id <- function(token, api, params,
     if (length(id) == 0) {
       break
     }
+    if(i > length(results)) { 
+      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
+      length(results) <- 2 * length(results)
+    }
     
     max_id <- max_id(id)
     results[[i]] <- json
@@ -165,7 +171,6 @@ TWIT_paginate_max_id <- function(token, api, params,
       pb$tick()
     }
   }
-
   results
 }
 
@@ -183,7 +188,6 @@ TWIT_paginate_cursor <- function(token, api, params,
                                  retryonratelimit = NULL,
                                  verbose = TRUE) {
   params$count <- page_size
-  
   cursor <- next_cursor(cursor)
   if (identical(cursor, "0")) {
     # Last request retrieved all available results
@@ -214,19 +218,28 @@ TWIT_paginate_cursor <- function(token, api, params,
     )
 
     if (is_rate_limit(json)) {
-      warn_early_term(json, 
-        hint = paste0("Set `cursor = '", cursor, "' to continue."),
-        hint_if = !identical(cursor, "-1")
-      )
+      if (!is.null(retryonratelimit)){
+        warn_early_term(json, 
+                        hint = paste0("Set `cursor = '", cursor, "' to continue."),
+                        hint_if = !identical(cursor, "-1")
+        )
+      }
       break
     }
 
     results[[i]] <- json
-    cursor <- json$next_cursor_str
+    if (any(grepl("next_cursor", names(json)))) {
+      cursor <- ifelse(!is.null(json$next_cursor_str), 
+                       json$next_cursor_str, 
+                       json$next_cursor)
+    } else {
+      # If next_cursor is missing there are no message within the last 30 days
+      cursor <- "0" 
+    }
     n_seen <- n_seen + length(get_id(json))
     i <- i + 1
 
-    if (identical(cursor, "0") || n_seen >= n) {
+    if (identical(cursor, "0") || n_seen >= n || length(json$events) == 0) {
       break
     }
     

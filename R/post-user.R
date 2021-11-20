@@ -1,4 +1,4 @@
-#' Follows target twitter user.
+#' Follows target Twitter user.
 #'
 #' @inheritParams get_timeline
 #' @param destroy Logical indicating whether to post (add) or

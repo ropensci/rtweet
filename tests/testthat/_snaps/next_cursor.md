@@ -18,7 +18,7 @@
     Code
       max_id(mtcars)
     Error <rlang_error>
-      `max_id` must contain a `status_id` column
+      `max_id` must contain a `id` column
     Code
       since_id(10)
     Error <rlang_error>
@@ -26,5 +26,5 @@
     Code
       since_id(mtcars)
     Error <rlang_error>
-      `since_id` must contain a `status_id` column
+      `since_id` must contain a `id` column
 

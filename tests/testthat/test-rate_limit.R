@@ -1,10 +1,10 @@
 test_that("rate_limit works", {
   rl <- rate_limit()
-  expect_s3_class(rl, "tbl_df")
+  expect_s3_class(rl, "data.frame")
 })
 test_that("rate_limit works", {
   rl <- rate_limit("application/rate_limit_status")
-  expect_s3_class(rl, "tbl_df")
+  expect_s3_class(rl, "data.frame")
   expect_equal(nrow(rl), 1)
 })
 

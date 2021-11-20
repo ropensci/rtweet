@@ -1,4 +1,4 @@
-#' Premium twitter searches
+#' Premium Twitter searches
 #'
 #' Search 30day or fullarchive products
 #'

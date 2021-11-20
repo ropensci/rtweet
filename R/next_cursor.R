@@ -77,10 +77,10 @@ find_id <- function(x, arg_name) {
   if (is.character(x)) {
     x
   } else if (is.data.frame(x)) {
-    if (!has_name(x, "status_id"))  {
-      abort(paste0("`", arg_name, "` must contain a `status_id` column"))
+    if (!has_name(x, "id"))  {
+      abort(paste0("`", arg_name, "` must contain a `id` column"))
     }
-    y <- x$status_id
+    y <- x$id
     if (is.factor(y)) {
       y <- as.numeric(levels(y))[y]
     }
