@@ -23,7 +23,7 @@ TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.t
 
 TWIT_method <- function(method, token, api, 
                         params = NULL, 
-                        host = "api.twiter.com",
+                        host = "api.twitter.com",
                         retryonratelimit = NULL,
                         verbose = TRUE,
                         ...) {
