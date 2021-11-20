@@ -219,15 +219,17 @@ TWIT_paginate_cursor <- function(token, api, params,
     )
 
     if (is_rate_limit(json)) {
-      warn_early_term(json, 
-        hint = paste0("Set `cursor = '", cursor, "' to continue."),
-        hint_if = !identical(cursor, "-1")
-      )
+      if (!is.null(retryonratelimit)){
+        warn_early_term(json, 
+                        hint = paste0("Set `cursor = '", cursor, "' to continue."),
+                        hint_if = !identical(cursor, "-1")
+        )
+      }
       break
     }
 
     results[[i]] <- json
-    cursor <- json$next_cursor_str
+    cursor <- ifelse(!is.null(json$next_cursor_str), json$next_cursor_str, json$next_cursor)
     n_seen <- n_seen + length(get_id(json))
     i <- i + 1
 
