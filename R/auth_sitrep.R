@@ -26,7 +26,8 @@ clean_tokens <- function(tokens) {
   duplicate_tokens <- dup_app & dup_key & dup_user
   names(duplicate_tokens) <- colnames(tokens)
   if (any(duplicate_tokens)) {
-    inform(paste0("Removing duplicate tokens: ", names(duplicate_tokens)[duplicate_tokens]))
+    inform(paste0("Removing duplicate token: ", 
+                  names(duplicate_tokens)[duplicate_tokens]))
     unlink(names(duplicate_tokens)[duplicate_tokens])
   }
   same_user_app <- dup_app & dup_user & !duplicate_tokens
@@ -36,7 +37,8 @@ clean_tokens <- function(tokens) {
                       paste(names(same_user_app)[same_user_app], 
                             collapse = " and\n\t"))
     inform(message)
-    inform("Check these tokens and keep just one.")
+    inform(c("Check these tokens and keep just one.",
+           "Recommended via auth_as() and auth_get() to inspect them."))
   }
   colnames(tokens)[!duplicate_tokens]
 }
