@@ -46,7 +46,7 @@ Create, add users, and destroy Twitter lists
 \examples{
 \dontrun{
 
-## CNN twitter accounts
+## CNN Twitter accounts
 users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
   "cnnnewsroom", "cnnspecreport", "CNNNewsource",
   "CNNNSdigital", "CNNTonight")

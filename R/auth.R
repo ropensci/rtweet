@@ -1,7 +1,7 @@
 #' Set up default authentication
 #' 
 #' You'll need to run this function once per computer so that rtweet can use 
-#' your personal twitter account. See [rtweet_app()]/[rtweet_bot] and 
+#' your personal Twitter account. See [rtweet_app()]/[rtweet_bot] and 
 #' [auth_save()] for other authentication options.
 #' 
 #' @export
@@ -13,20 +13,20 @@ auth_setup_default <- function() {
 #' Authentication options
 #' 
 #' @description 
-#' There are three ways that you can authenticate with the twitter API:
+#' There are three ways that you can authenticate with the Twitter API:
 #' 
-#' * `rtweet_user()` interactively authenticates an existing twitter user. 
+#' * `rtweet_user()` interactively authenticates an existing Twitter user. 
 #'   This form is most appropriate if you want rtweet to control your
-#'   twitter account. 
+#'   Twitter account. 
 #'   
-#' * `rtweet_app()` authenticates as a twitter application. An application can't 
+#' * `rtweet_app()` authenticates as a Twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
 #'    rate limits (i.e. you can do more searches). See details
 #'    at <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
 #'    This form is most appropriate if you are collecting data. 
 #'    
 #' * `rtweet_bot()` authenticates as bot that takes actions on behalf of an app.
-#'    This form is most appropriate if you want to create a twitter account that
+#'    This form is most appropriate if you want to create a Twitter account that
 #'    is run by a computer, rather than a human.
 #'    
 #' To use `rtweet_app()` or `rtweet_bot()` you will need to create your own 
@@ -127,7 +127,7 @@ is_auth <- function(x) {
 #' @export
 print.rtweet_bearer <- function(x, ...) {
    # Make it hard to accidentally reveal token
-   cat("<twitter bearer token>\n")
+   cat("<Twitter bearer token>\n")
    invisible(x)
 }
 
@@ -203,7 +203,7 @@ auth_path <- function(...) {
 #' 
 #' @param auth One of the following options:
 #'   * `NULL`, the default, will look for rtweet's "default" authentication 
-#'      which uses your personal twitter account. If it's not found, it will 
+#'      which uses your personal Twitter account. If it's not found, it will 
 #'      call [auth_setup_default()] to set it up.
 #'   * A string giving the name of a saved auth file made by [auth_save()].
 #'   * An auth object created by [rtweet_app()], [rtweet_bot()], or 

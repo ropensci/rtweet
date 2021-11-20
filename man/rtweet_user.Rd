@@ -27,18 +27,18 @@ the built-in rtweet app.}
 \item{bearer_token}{App bearer token.}
 }
 \description{
-There are three ways that you can authenticate with the twitter API:
+There are three ways that you can authenticate with the Twitter API:
 \itemize{
-\item \code{rtweet_user()} interactively authenticates an existing twitter user.
+\item \code{rtweet_user()} interactively authenticates an existing Twitter user.
 This form is most appropriate if you want rtweet to control your
-twitter account.
-\item \code{rtweet_app()} authenticates as a twitter application. An application can't
+Twitter account.
+\item \code{rtweet_app()} authenticates as a Twitter application. An application can't
 perform actions (i.e. it can't tweet) but otherwise has generally higher
 rate limits (i.e. you can do more searches). See details
 at \url{https://developer.twitter.com/en/docs/basics/rate-limits.html}.
 This form is most appropriate if you are collecting data.
 \item \code{rtweet_bot()} authenticates as bot that takes actions on behalf of an app.
-This form is most appropriate if you want to create a twitter account that
+This form is most appropriate if you want to create a Twitter account that
 is run by a computer, rather than a human.
 }
 

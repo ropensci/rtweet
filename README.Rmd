@@ -43,7 +43,7 @@ All users must be authenticated to interact with Twitter's APIs. The easiest way
 library(rtweet)
 ```
 
-{{rtweet}} should be used in strict accordance with Twitter's [developer  terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
+rtweet should be used in strict accordance with Twitter's [developer  terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
 
 ### Search tweets or users
 

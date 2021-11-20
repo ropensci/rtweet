@@ -87,7 +87,7 @@ TWIT_method <- function(method, token, api,
 #' @param since_id Supply a vector of ids or a data frame of previous results to 
 #'   find tweets **newer** than `since_id`.
 #' @param retryonratelimit If `TRUE`, and a rate limit is exhausted, will wait
-#'   until it refreshes. Most twitter rate limits refresh every 15 minutes.
+#'   until it refreshes. Most Twitter rate limits refresh every 15 minutes.
 #'   If `FALSE`, and the rate limit is exceeded, the function will terminate
 #'   early with a warning; you'll still get back all results received up to 
 #'   that point. The default value, `NULL`, consults the option 

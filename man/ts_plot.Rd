@@ -49,7 +49,7 @@ tmls <- get_timeline(
   n = 3000
 )
 
-## examine all twitter activity using weekly intervals
+## examine all Twitter activity using weekly intervals
 ts_plot(tmls, "weeks")
 
 ## group by screen name and plot each time series

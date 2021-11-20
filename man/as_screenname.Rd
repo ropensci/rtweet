@@ -8,10 +8,10 @@
 as_screenname(x)
 }
 \arguments{
-\item{x}{A character vector of twitter screen names.}
+\item{x}{A character vector of Twitter screen names.}
 }
 \description{
-There are two ways to identify a twitter user: a screen name (e.g.
+There are two ways to identify a Twitter user: a screen name (e.g.
 "justinbieber") or a user identifier (e.g. "27260086"). User identifiers
 look like regular numbers, but are actually 64-bit integers which can't be
 stored in R's numeric vectors. For this reason, rtweet always returns ids as

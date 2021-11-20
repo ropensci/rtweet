@@ -3,7 +3,7 @@
 \name{search_fullarchive}
 \alias{search_fullarchive}
 \alias{search_30day}
-\title{Premium twitter searches}
+\title{Premium Twitter searches}
 \usage{
 search_fullarchive(
   q,
