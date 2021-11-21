@@ -10,8 +10,8 @@ auth_sitrep()
 Invisible the path of the tokens
 }
 \description{
-Get a situation report of your current tokens; useful for diagnosing
-problems and when upgrading from rtweet 0.7.0 to 1.0.0 .
+Get a situation report of your current tokens; useful for upgrading from
+rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens. Called by it side effects
 }
 \details{
 Searches for old tokens on the user folder, if duplicate tokens are found

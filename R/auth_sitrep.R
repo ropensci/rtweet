@@ -1,3 +1,42 @@
+#' Twitter Tokens sitrep
+#' 
+#' Get a situation report of your current tokens; useful for upgrading from 
+#' rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens. Called by it side effects
+#' 
+#' Searches for old tokens on the user folder, if duplicate tokens are found 
+#' they are deleted. Tokens are then moved to the new location. 
+#' @return Invisible the path of the tokens
+#' @export
+#' @examples
+#' auth_sitrep()
+auth_sitrep <- function() {
+  all_tokens_files <- c(find_old_tokens(), 
+                        find_rappdirs_tokens(), 
+                        find_tools_tokens())
+  path <- tools::R_user_dir("rtweet", "config")
+  if (!dir.exists(path)) {
+    dir.create(path, showWarnings = FALSE, recursive = TRUE)
+  }
+  
+  if (is.null(all_tokens_files)) {
+    inform("No tokens where found! See auth_as help file.")
+    return(NULL)
+  }
+  
+  type_auth <- type_auth(all_tokens_files)
+  all_tokens <- lapply(all_tokens_files, readRDS)
+  names(all_tokens) <- all_tokens_files
+  
+  if (any(type_auth == "bearer")){
+    handle_bearer(all_tokens[type_auth == "bearer"], path)
+  }
+  if (any(type_auth == "token")){
+    handle_token(all_tokens[type_auth == "token"], path)
+  }
+  invisible(list.files(path, pattern = "*.rds", all.files = TRUE, 
+                       full.names = TRUE))
+}
+
 find_old_tokens <- function() {
   twitter_pat <- Sys.getenv("TWITTER_PAT")
   home_path <- normalizePath(file.path("~"), mustWork = TRUE)
@@ -8,114 +47,61 @@ find_old_tokens <- function() {
   unlist(old_tokens, TRUE, FALSE)
 }
 
-clean_tokens <- function(tokens) {
+find_rappdirs_tokens <- function() {
+  if (requireNamespace("rappdirs", quietly = TRUE)) {
+    rappdirs_path <- getOption("rtweet:::config_dir", 
+                               rappdirs::user_config_dir("rtweet"))
+    rappdirs_tokens <- list.files(rappdirs_path, pattern = "*.rds", 
+                                  all.files = TRUE, full.names = TRUE)
+  } else {
+    rappdirs_tokens <- NULL
+  }
+  rappdirs_tokens
+}
+
+find_tools_tokens <- function() {
+  path <- tools::R_user_dir("rtweet", "config")
+  final_path <- getOption("rtweet:::config_dir", path)
+  if (dir.exists(final_path)) {
+    new_tokens <- list.files(final_path, pattern = "*.rds", 
+                             all.files = TRUE, full.names = TRUE)
+  } else {
+    new_tokens <- NULL
+  }
+}
+
+bearer_auth <- function(bearer) {
+  tok <- vapply(bearer, function(x){x$token}, character(1L))
+  tok <- as.factor(tok)
+  levels(tok) <- LETTERS[length(unique(tok))]
+  df <- data.frame(token = tok)
+  rownames(df) <- bearer
+}
+
+token_auth <- function(tokens) {
   tokens <- lapply(tokens, raw_auth)
-  df <- data.frame(app = character(), user_id = character(), key = character())
+  n <- length(tokens)
+  df <- data.frame(app = character(n), 
+                   user_id = character(n), 
+                   key = character(n))
   for (i in seq_along(tokens)) {
     token <- tokens[[i]]
     df[i, names(token)] <- token
   }
   rownames(df) <- names(tokens)
-  tokens <- t(df)
-  
-  
-  dup_app <- duplicated(tokens["app", ])
-  dup_user <- duplicated(tokens["user_id", ])
-  dup_key <- duplicated(tokens["key", ])
-  
-  duplicate_tokens <- dup_app & dup_key & dup_user
-  names(duplicate_tokens) <- colnames(tokens)
-  if (any(duplicate_tokens)) {
-    inform(paste0("Removing duplicate token: ", 
-                  names(duplicate_tokens)[duplicate_tokens]))
-    unlink(names(duplicate_tokens)[duplicate_tokens])
-  }
-  same_user_app <- dup_app & dup_user & !duplicate_tokens
-  names(same_user_app) <- colnames(tokens)
-  if (any(same_user_app)) {
-    message <- paste0("Found authentications for the same app: ", 
-                      paste(names(same_user_app)[same_user_app], 
-                            collapse = " and\n\t"))
-    inform(message)
-    inform(c("Check these tokens and keep just one.",
-           "Recommended via auth_as() and auth_get() to inspect them."))
-  }
-  colnames(tokens)[!duplicate_tokens]
-}
-
-clean_bearer <- function(bearer) {
-  tokens <- vapply(bearer, function(x){x$token}, character(1L))
-  dup_tokens <- duplicated(tokens)
-  if (any(dup_tokens)) {
-    inform("Found bearer authentications duplicated. Keeping just one.")
-    unlink(names(tokens)[dup_tokens])
-  }
-  return(names(tokens)[!dup_tokens])
+  uk <- unique(df$key)
+  length_levels <- length(uk) - sum(any(uk == ""))
+  df$key <- factor(df$key, labels = LETTERS[seq_len(length_levels)], exclude = "")
+  df
 }
 
 #' @importFrom methods is
-clean <- function(old_tokens_files) {
+type_auth <- function(old_tokens_files) {
   old_tokens <- lapply(old_tokens_files, readRDS)
   names(old_tokens) <- old_tokens_files
   class_tokens <- sapply(old_tokens, is)
   class_tokens <- ifelse(endsWith(class_tokens, "Token1.0"), "token", "bearer")
-  
-  c(clean_bearer(old_tokens[class_tokens != "token"]),
-    clean_tokens(old_tokens[class_tokens == "token"]))
 }
-
-#' Twitter Tokens sitrep
-#' 
-#' Get a situation report of your current tokens; useful for diagnosing 
-#' problems and when upgrading from rtweet 0.7.0 to 1.0.0 .
-#' 
-#' Searches for old tokens on the user folder, if duplicate tokens are found 
-#' they are deleted. Tokens are then moved to the new location. 
-#' @return Invisible the path of the tokens
-#' @export
-#' @examples
-#' auth_sitrep()
-auth_sitrep <- function() {
-  old_tokens_files <- find_old_tokens()
-  
-  if (requireNamespace("rappdirs", quietly = TRUE) && getRversion() < "4.0.0") {
-    rappdirs_path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet"))
-    rappdirs_tokens <- list.files(rappdirs_path, pattern = "*.rds", all.files = TRUE, full.names = TRUE)
-  } else {
-    rappdirs_tokens <- NULL
-  }
-  
-  if (getRversion() >= "4.0.0") {
-    final_path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
-    if (dir.exists(final_path)) {
-      new_tokens <- list.files(final_path, pattern = "*.rds", 
-                               all.files = TRUE, full.names = TRUE)
-    } else {
-      dir.create("/home/lluis/.config/R/rtweet", showWarnings = FALSE, 
-                 recursive = TRUE)
-      new_tokens <- NULL
-    }
-  } else {
-    new_tokens <- NULL
-    final_path <- rappdirs_path
-  }
-  
-  all_tokens <- c(old_tokens_files, rappdirs_tokens, new_tokens)
-  
-  if (is.null(all_tokens)) {
-    inform("No tokens where found! See auth_as help file.")
-    return(NULL)
-  }
-  cleaned_tokens <- clean(all_tokens)
-  mv <- move_tokens(cleaned_tokens, final_path)
-  if (length(mv) == 0) {
-    inform("Tokens found but no action needed!")
-    NULL 
-  } else {
-    invisible(mv)
-  }
-}
-
 
 move_tokens <- function(tokens, folder) {
   file_names <- basename(tokens)
@@ -123,16 +109,79 @@ move_tokens <- function(tokens, folder) {
   file_names <- gsub("^\\.", "", file_names)
   new_names <- file.path(folder, file_names)
   moving_files <- tokens != new_names
-  file.path()
-  file.rename(from = tokens[moving_files], to = new_names[moving_files])
+  file_existed <- file.exists(new_names[moving_files])
+  file.rename(from = tokens[moving_files][!file_existed], 
+              to = new_names[moving_files][!file_existed])
   if (any(moving_files)) {
-    inform(c("Moving and renaming tokens:", 
-             paste0(tokens[moving_files], " to ", new_names[moving_files])))
+    inform(c("Moving and renaming:", 
+             paste0("from ", tokens[moving_files][!file_existed], " to ", 
+                    new_names[moving_files][!file_existed])))
   }
-  tokens[moving_files] <- new_names[moving_files]
+  if (any(file_existed)) {
+    inform(paste0("Auth ", tokens[moving_files][file_existed], " not moved",
+                  " but should be on ", folder))
+  }
+  for (p in unique(dirname(tokens[moving_files]))) {
+    if (length(list.files(p, all.files = TRUE, no.. = TRUE)) == 0) {
+      unlink(p, recursive = TRUE)
+    }
+  }
+  tokens[moving_files][!file_existed] <- new_names[moving_files][!file_existed]
   tokens
 }
 
 raw_auth <- function(auth) {
   c("app" = auth$app$appname, "user_id" = auth$credentials$user_id, key = auth$app$key)
+}
+
+
+handle_bearer <- function(bearers, path) {
+  action_bearer <- FALSE
+  bearers <- bearer_auth(bearers)
+  mv <- move_tokens(rownames(bearers), path)
+  rownames(bearers) <- basename(mv)
+  if (anyDuplicated(bearers$token)) {
+    inform("Multiple authentications with the same token found")
+    action_bearer <- TRUE
+  }
+  
+  if (action_bearer) {
+    inform("Choose which is the best path of action for the bearer tokens:")
+    print(bearers)
+    inform(paste0("You can find them at ", path))
+  }
+  NULL
+}
+
+
+handle_token <- function(tokens, path) {
+  action_tokens <- FALSE
+  token <- token_auth(tokens)
+  mv <- move_tokens(rownames(token), path)
+  rownames(token) <- basename(mv)
+  
+  if (any(is.na(token$key))) {
+    remove <- which(is.na(token$key))
+    for (r in remove) {
+      inform(paste0("Removing empty auth for app ", token$app[r], " from ", 
+                    dirname(mv[r])))
+      unlink(mv[r])
+    }
+    token <- token[-remove, ]
+  }
+  if (anyDuplicated(token$key)) {
+    action_tokens <- TRUE
+    inform("Multiple authentications with the same key found!")
+  }
+  
+  if (anyDuplicated(token$app)) {
+    action_tokens <- TRUE
+    inform("Multiple authentications with the same app found!")
+  }
+  if (action_tokens) {
+    inform("Choose which is the best path of action for the tokens:")
+    print(token)
+    inform(paste0("You can find them at ", path))
+  }
+  NULL
 }
