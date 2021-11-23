@@ -64,8 +64,8 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}
 }
 \value{
-A tibble data frame with two columns, "user" for name or ID of target
-user and "user_id" for follower IDs.
+A tibble data frame with two columns, "from_id" for name or ID of target
+user and "to_id" for accounts ID they follow.
 }
 \description{
 Returns a list of user IDs for the accounts following BY one or

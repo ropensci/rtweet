@@ -11,6 +11,9 @@
   
 - Message are now properly capitalized (#565, @jsta)  
 
+- `get_friends()` and `get_followers()` return similar formatted output with 
+  two columns "from_id" and "to_id" (#308)
+
 - `lookup_users()` and `search_users()` now returns a data frame containing
   all information about each user (not their latest tweet). If you want to get 
   that data you can use `tweets_data()`.
@@ -72,7 +75,7 @@
   endpoint in June 2019 (https://twittercommunity.com/t/124732).
 
 - Added support for posting alt-text metadata with images tweeted with status 
-  updated via `post_tweet()`. (@hrbrmstr)
+  updated via `post_tweet()`. (#425, @hrbrmstr)
   
 - Update to new rOpenSci Code of Conduct: https://ropensci.org/code-of-conduct/
 

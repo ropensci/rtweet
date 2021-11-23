@@ -17,7 +17,8 @@
 #' more_users <- get_followers("KFC", cursor = users)
 #'
 #' }
-#' @return A tibble data frame of follower IDs (one column named "user_id").
+#' @return A tibble data frame with one column named "from_id" with the 
+#' followers and another one "to_id" with the user used as input.
 #' @export
 get_followers <- function(user, n = 5000,
                           cursor = "-1",
@@ -46,8 +47,8 @@ get_followers <- function(user, n = 5000,
   )
   
   if (parse) {
-    df <- tibble::tibble(from_id = user,
-                         to_id = unlist(lapply(results, function(x) x$ids)))
+    df <- tibble::tibble(from_id = unlist(lapply(results, function(x) x$ids)),
+                         to_id = user)
     results <- copy_cursor(df, results)
   }
   results

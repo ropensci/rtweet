@@ -19,8 +19,8 @@
 #' users <- get_friends("ropensci")
 #' users
 #' }
-#' @return A tibble data frame with two columns, "user" for name or ID of target
-#'   user and "user_id" for follower IDs.
+#' @return A tibble data frame with two columns, "from_id" for name or ID of target
+#'   user and "to_id" for accounts ID they follow.
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
