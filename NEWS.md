@@ -11,6 +11,8 @@
   
 - Message are now properly capitalized (#565, @jsta)  
 
+- Banned or protected accounts now trigger a warning instead of an error (#590)
+
 - `get_friends()` and `get_followers()` return similar formatted output with 
   two columns "from_id" and "to_id" (#308)
 
