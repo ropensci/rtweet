@@ -46,9 +46,9 @@ get_followers <- function(user, n = 5000,
   )
   
   if (parse) {
-    df <- tibble::tibble(user_id = unlist(lapply(results, function(x) x$ids)))
+    df <- tibble::tibble(from_id = user,
+                         to_id = unlist(lapply(results, function(x) x$ids)))
     results <- copy_cursor(df, results)
   }
-
   results
 }
