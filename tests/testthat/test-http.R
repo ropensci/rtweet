@@ -23,5 +23,5 @@ test_that("TWIT_paginte_cursor respects cursor", {
   page1 <- get_followers("JustinBieber")
   page2 <- get_followers("JustinBieber", cursor = page1)
   
-  expect_length(intersect(page1$user_id, page2$user_id), 0)
+  expect_length(intersect(page1$from_id, page2$from_id), 0)
 })  
