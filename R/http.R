@@ -34,23 +34,22 @@ TWIT_method <- function(method, token, api,
   token <- check_token(token)
   url <- paste0("https://", host, api, ".json")
   
-  repeat({
-    resp <- switch(method,
-      GET = httr::GET(url, query = params, token, ...),
-      POST = httr::POST(url, query = params, token, ...),
-      stop("Unsupported method", call. = FALSE)
-    )
-    
-    switch(resp_type(resp),
-      ok = break,
-      rate_limit = handle_rate_limit(
-        resp, api, 
-        retryonratelimit = retryonratelimit,
-        verbose = verbose
-      ),
-      error = handle_error(resp)
-    )
-  })
+  resp <- switch(method,
+                 GET = httr::GET(url, query = params, token, ...),
+                 POST = httr::POST(url, query = params, token, ...),
+                 stop("Unsupported method", call. = FALSE)
+  )
+  
+  switch(resp_type(resp),
+         ok = NULL,
+         protected = handle_protected(params),
+         rate_limit = handle_rate_limit(
+           resp, api, 
+           retryonratelimit = retryonratelimit,
+           verbose = verbose
+         ),
+         error = handle_error(resp)
+  )
 
   resp
 }
@@ -308,6 +307,8 @@ resp_type <- function(resp) {
   x <- resp$status_code
   if (x == 429) {
     "rate_limit"
+  } else if (x == 401) {
+    "protected"
   } else if (x >= 400) {
     "error"
   } else {
@@ -362,11 +363,17 @@ warn_early_term <- function(cnd, hint, hint_if) {
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 handle_error <- function(x) {
   json <- from_js(x)
-  stop(
-    "Twitter API failed [", x$status_code, "]\n",
-    paste0(" * ", json$errors$message, " (", json$errors$code, ")"),
-    call. = FALSE
-  )
+  stop("Twitter API failed [", x$status_code, "]\n",
+       paste0(" * ", json$errors$message, " (", json$errors$code, ")"),
+       call. = FALSE)
+}
+
+handle_protected <- function(params) {
+  if (any(c("screen_name", "user_id") %in% names(params))) {
+    account <- params$screen_name
+    if (is.null(account)) account <- params$user_id
+  }
+  warning("Skipping unauthorized account: ", account, call. = FALSE)
 }
 
 check_status <- function(x, api) {
