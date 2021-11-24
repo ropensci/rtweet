@@ -38,5 +38,5 @@ test_that("favorites warns on a locked user but continues", {
                                         "no_idea" = "Lluis_Revilla")),
                  "Skipping unauthorized account: bhs928")
   expect_gt(nrow(gtf), 2)
-  expect_true(all(gtf$favorited_by == "LLuis_Revilla"))
+  expect_true(all(gtf$favorited_by == "Lluis_Revilla"))
 })
