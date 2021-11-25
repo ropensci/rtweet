@@ -19,8 +19,8 @@
 #' users <- get_friends("ropensci")
 #' users
 #' }
-#' @return A tibble data frame with two columns, "from_id" for name or ID of target
-#'   user and "to_id" for accounts ID they follow.
+#' @return A tibble data frame with two columns, "friend_of" for name or ID of target
+#'   user and "user_id" for accounts ID they follow.
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
@@ -72,8 +72,8 @@ get_friends_user <- function(user, token, ..., parse = TRUE) {
 
   if (parse) {
     df <- tibble::tibble(
-      from_id = user,
-      to_id = unlist(lapply(results, function(x) x$ids), 
+      friend_of = user,
+      user_id = unlist(lapply(results, function(x) x$ids), 
                      recursive = FALSE, use.names = FALSE)
     )
     results <- copy_cursor(df, results)
