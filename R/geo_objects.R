@@ -28,6 +28,10 @@ coordinates <- function(x) {
   if (has_name_children(x, "coordinates", "coordinates")) {
     return(data.frame(long = x$coordinates[[1]], lat = x$coordinates[[2]], type = x$type))
   }
+  if (is.logical(x)) {
+    nas <- rep(NA, length(x))
+    return(data.frame(long = nas, lat = nas, type = nas))
+  }
   if (is.data.frame(x)) {
     pos_coord <- function(y, pos){
       if (is.null(y)) {

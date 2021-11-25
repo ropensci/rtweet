@@ -94,11 +94,7 @@ tweet <- function(x) {
   }
   tb$entities <- ent
   
-  tryCatch(tb$coordinates <- lapply(x$coordinates, coordinates),
-           error = function(e){
-             stop("Tweet ",  x$id_str, " has some unexpected coordinates.",
-                  "\nPlease contact the maintainer and paste this error.", 
-                  call. = FALSE)})
+  tb$coordinates <- split_df(coordinates(x$coordinates))
   if (is.data.frame(x$place)) {
     l <- split_df(x$place)
     tb$place <- lapply(l, place)
