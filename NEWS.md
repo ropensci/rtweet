@@ -4,15 +4,20 @@
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
 
-- All paginated functions that don't return tweet now use a consistent 
+- All paginated functions that don't return tweets now use a consistent 
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`
   attribute, which will be automatically retrieved when you use the `cursor`
   argument.
   
 - Message are now properly capitalized (#565, @jsta)  
 
+- Banned or protected accounts now trigger a warning instead of an error (#590)
+
+- `get_friends()` and `get_followers()` return similar formatted output with 
+  two columns "from_id" and "to_id" (#308)
+
 - `lookup_users()` and `search_users()` now returns a data frame containing
-  on information about each user (not their latest tweet). If you want to get 
+  all information about each user (not their latest tweet). If you want to get 
   that data you can use `tweets_data()`.
 
 - `parse = FALSE` always means return the raw "JSON". Previously some functions
@@ -61,7 +66,7 @@
 - rtweet 1.0.0 implements a consistent strategy for handling rate limits. 
   By default, if a paginated function (i.e. a rtweet function that performs 
   multiple calls to the twitter API) is rate-limited it will return all results 
-  recieved up to that point, along with a warning telling you how to get more
+  received up to that point, along with a warning telling you how to get more
   results. Alternatively, if you want to automatically wait until the 
   rate-limit is reset, you can set `retryratelimit = TRUE`.
 
@@ -72,7 +77,7 @@
   endpoint in June 2019 (https://twittercommunity.com/t/124732).
 
 - Added support for posting alt-text metadata with images tweeted with status 
-  updated via `post_tweet()`. (@hrbrmstr)
+  updated via `post_tweet()`. (#425, @hrbrmstr)
   
 - Update to new rOpenSci Code of Conduct: https://ropensci.org/code-of-conduct/
 

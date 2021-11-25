@@ -35,7 +35,7 @@ a multiple of page size, e.g. if you request \code{n = 150} and the page
 size is 200, you'll get 200 results back.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
-until it refreshes. Most twitter rate limits refresh every 15 minutes.
+until it refreshes. Most Twitter rate limits refresh every 15 minutes.
 If \code{FALSE}, and the rate limit is exceeded, the function will terminate
 early with a warning; you'll still get back all results received up to
 that point. The default value, \code{NULL}, consults the option
@@ -64,8 +64,8 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}
 }
 \value{
-A tibble data frame with two columns, "user" for name or ID of target
-user and "user_id" for follower IDs.
+A tibble data frame with two columns, "from_id" for name or ID of target
+user and "to_id" for accounts ID they follow.
 }
 \description{
 Returns a list of user IDs for the accounts following BY one or

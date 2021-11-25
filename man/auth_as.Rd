@@ -10,7 +10,7 @@ auth_as(auth = NULL)
 \item{auth}{One of the following options:
 \itemize{
 \item \code{NULL}, the default, will look for rtweet's "default" authentication
-which uses your personal twitter account. If it's not found, it will
+which uses your personal Twitter account. If it's not found, it will
 call \code{\link[=auth_setup_default]{auth_setup_default()}} to set it up.
 \item A string giving the name of a saved auth file made by \code{\link[=auth_save]{auth_save()}}.
 \item An auth object created by \code{\link[=rtweet_app]{rtweet_app()}}, \code{\link[=rtweet_bot]{rtweet_bot()}}, or

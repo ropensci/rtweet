@@ -73,10 +73,10 @@ e <- stream_tweets("election", timeout = 10)
 e
 
 # Download another 10s worth of data to the same file
-e <- stream_tweets("election", timeout = 10)
+e <- stream_tweets("election", timeout = 10, append = TRUE)
 
 # stream tweets about continential USA for 5 minutes
-usa <- stream_tweets(lookup_coords("usa"), file_name = "usa.json", timeout = 300)
+usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", timeout = 300)
 
 }
 }

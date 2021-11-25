@@ -1,7 +1,7 @@
 #' Mark a user id as a screen name
 #' 
 #' @description 
-#' There are two ways to identify a twitter user: a screen name (e.g.
+#' There are two ways to identify a Twitter user: a screen name (e.g.
 #' "justinbieber") or a user identifier (e.g. "27260086"). User identifiers
 #' look like regular numbers, but are actually 64-bit integers which can't be 
 #' stored in R's numeric vectors. For this reason, rtweet always returns ids as 
@@ -17,7 +17,7 @@
 #' Note that in general, you are best off using user ids; screen names are
 #' not static and may change over longer periods of time. 
 #' 
-#' @param x A character vector of twitter screen names.
+#' @param x A character vector of Twitter screen names.
 #' @examples
 #' \dontrun{
 #' # Look up user with id 123456 (screen name harperreed)

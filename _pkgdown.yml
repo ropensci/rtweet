@@ -14,20 +14,30 @@ navbar:
 
 reference:
 - title: API functions
-  contents:
+- contents:
   - direct_messages
   - starts_with("get")
-  - starts_with("lists")
   - starts_with("lookup")
   - my_friendships
   - starts_with("post")
-  - starts_with("search")
   - stream_tweets
   - trends_available
   - starts_with("tweet")
-  - rate_limit
+- subtitle: Lists
+  desc: Manage lists.
+  contents:
+    - starts_with("lists")
+- subtitle: Search
+  desc: Look for some tweet or user.
+  contents:
+    - starts_with("search")
+- subtitle: API limits
+  desc: Find which are the rate limits set by Twitter.
+  contents:
+    - rate_limit
   
 - title: Authentication
+  desc: Manage your authentications. 
   contents:
   - starts_with("auth")
   - rtweet_user

@@ -43,7 +43,7 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
 
   if (is_url) {
 
-    ## shld have "twitter" in it
+    ## should have "twitter" in it
     is_twitter <- grepl("twitter", x)
     if (!is_twitter) {
       stop("statusid_or_url must be a valid Twitter status id or URL",
@@ -73,8 +73,8 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
 
     ## make a mobile URL
     x <- sprintf("https://mobile.twitter.com/%s/status/%s",
-      x$screen_name, x$status_id)
-
+                 users_data(x)$screen_name, x$id_str)
+    
   }
 
   ## keep the filesystem clean

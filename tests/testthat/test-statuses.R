@@ -44,3 +44,8 @@ test_that("lookup on users without tweets, #574", {
   td <- tweets_data(lu)
   expect_equal(nrow(td), 1)
 })
+
+test_that("lookup on users with scopes, #615", {
+  lu <- lookup_tweets("1400810492843630598")
+  expect_equal(nrow(lu), 1)
+})

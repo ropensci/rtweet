@@ -144,7 +144,10 @@ find_google_geocode_key <- function() {
     p <- p[length(p)]
     key <- Sys.getenv(evs[p])
   } else if (interactive()) {
-    yn <- menuline("lookup_users() requires a Google Maps API key (for instructions on how to acquire one, see: https://developers.google.com/maps/documentation/javascript/tutorial), Do you have a Google Maps API key you'd like to use?", c("Yes", "No"))
+    yn <- menuline(c("lookup_users() requires a Google Maps API key.", 
+                     "For instructions on how to acquire one, see: https://developers.google.com/maps/documentation/javascript/tutorial.", 
+                     "Do you have a Google Maps API key you'd like to use?"), 
+                   c("Yes", "No"))
     if (yn == 2) {
       stop("sorry, lookup_users() requires a Google Maps API key")
     }

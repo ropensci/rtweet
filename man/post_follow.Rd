@@ -7,7 +7,7 @@
 \alias{unfollow_user}
 \alias{post_mute}
 \alias{mute_user}
-\title{Follows target twitter user.}
+\title{Follows target Twitter user.}
 \usage{
 post_follow(
   user,
@@ -44,7 +44,7 @@ a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{
-Follows target twitter user.
+Follows target Twitter user.
 }
 \examples{
 \dontrun{
