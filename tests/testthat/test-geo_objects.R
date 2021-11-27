@@ -107,11 +107,11 @@ test_that("coordinates work", {
   # other_ids adjacent (w-1):
   other_ids <- c("1462911347801444365", "1462903930090840071", 
                  "1462903173656428545", "1462900536848490499")
-  all_ids <- c(ids, other_ids)
+  all_ids <- unique(c(ids, other_ids))
   expect_error(lu <- lookup_tweets(all_ids), NA)
-  expect_equal(length(lu$coordinates), 6)
+  expect_equal(length(lu$coordinates), nrow(lu))
   expect_equal(ncol(lu$coordinates[[1]]), 3)
   expect_named(lu$coordinates[[1]], c("long", "lat", "type"))
-  expect_equal(lu$coordinates[[5]]$type, "Point")
+  expect_equal(lu$coordinates[[which(lu$id_str == "1462903173656428545")]]$type, "Point")
   
-  })
+})
