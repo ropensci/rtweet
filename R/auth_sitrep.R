@@ -1,11 +1,11 @@
 #' Twitter Tokens sitrep
 #' 
 #' Get a situation report of your current tokens; useful for upgrading from 
-#' rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens. Called by it side effects
+#' rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens. Called for its side effects
 #' 
 #' Searches for old tokens on the user folder, if duplicate tokens are found 
 #' they are deleted. Tokens are then moved to the new location. 
-#' @return Invisible the path of the tokens
+#' @return Invisibly, the path of the tokens
 #' @export
 #' @examples
 #' auth_sitrep()
@@ -19,7 +19,7 @@ auth_sitrep <- function() {
   }
   
   if (is.null(all_tokens_files)) {
-    inform("No tokens where found! See auth_as help file.")
+    inform("No tokens were found! See ?auth_as for more details.")
     return(NULL)
   }
   
