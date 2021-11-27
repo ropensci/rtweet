@@ -326,10 +326,6 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
 
 auth_path <- function(...) {
   # Use private option to make testing easier
-  if (getRversion() >= "4.0.0") {
-    path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
-  } else {
-    path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet"))
-  }
+  path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
   file.path(path, ...)
 }
