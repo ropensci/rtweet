@@ -10,13 +10,14 @@
 #' @examples
 #' auth_sitrep()
 auth_sitrep <- function() {
-  all_tokens_files <- c(find_old_tokens(), 
-                        find_rappdirs_tokens(), 
-                        find_tools_tokens())
-  path <- tools::R_user_dir("rtweet", "config")
+  path <- auth_path()
   if (!dir.exists(path)) {
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
   }
+  
+  all_tokens_files <- c(find_old_tokens(), 
+                        find_rappdirs_tokens(), 
+                        find_tools_tokens())
   
   if (is.null(all_tokens_files)) {
     inform("No tokens were found! See ?auth_as for more details.")
@@ -47,27 +48,20 @@ find_old_tokens <- function() {
   unlist(old_tokens, TRUE, FALSE)
 }
 
+# Only for those that installed developer version will still using rappdirs. 
 find_rappdirs_tokens <- function() {
-  if (requireNamespace("rappdirs", quietly = TRUE)) {
-    rappdirs_path <- getOption("rtweet:::config_dir", 
-                               rappdirs::user_config_dir("rtweet"))
-    rappdirs_tokens <- list.files(rappdirs_path, pattern = "*.rds", 
-                                  all.files = TRUE, full.names = TRUE)
-  } else {
-    rappdirs_tokens <- NULL
+  if (!requireNamespace("rappdirs", quietly = TRUE)) {
+    return()
   }
-  rappdirs_tokens
+  rappdirs_path <- getOption("rtweet:::config_dir", 
+                             rappdirs::user_config_dir("rtweet"))
+  list.files(rappdirs_path, pattern = "*.rds", 
+                                all.files = TRUE, full.names = TRUE)
 }
 
 find_tools_tokens <- function() {
-  path <- tools::R_user_dir("rtweet", "config")
-  final_path <- getOption("rtweet:::config_dir", path)
-  if (dir.exists(final_path)) {
-    new_tokens <- list.files(final_path, pattern = "*.rds", 
-                             all.files = TRUE, full.names = TRUE)
-  } else {
-    new_tokens <- NULL
-  }
+  list.files(auth_path(), pattern = "*.rds", 
+             all.files = TRUE, full.names = TRUE)
 }
 
 bearer_auth <- function(bearer) {
@@ -105,7 +99,9 @@ type_auth <- function(old_tokens_files) {
 
 move_tokens <- function(tokens, folder) {
   file_names <- basename(tokens)
-  file_names <- gsub("\\.([0-9]*)rds", "\\1.rds", file_names, ignore.case = TRUE)
+  # Replace old tokens names to an easy to read name and findable by auth_as
+  file_names <- gsub("\\.([0-9]*)rds", "\\1.rds", 
+                     file_names, ignore.case = TRUE)
   file_names <- gsub("^\\.", "", file_names)
   new_names <- file.path(folder, file_names)
   moving_files <- tokens != new_names
@@ -138,8 +134,8 @@ raw_auth <- function(auth) {
 handle_bearer <- function(bearers, path) {
   action_bearer <- FALSE
   bearers <- bearer_auth(bearers)
-  mv <- move_tokens(rownames(bearers), path)
-  rownames(bearers) <- basename(mv)
+  # mv <- move_tokens(rownames(bearers), path)
+  rownames(bearers) <- basename(bearers)
   if (anyDuplicated(bearers$token)) {
     inform("Multiple authentications with the same token found")
     action_bearer <- TRUE
@@ -157,8 +153,8 @@ handle_bearer <- function(bearers, path) {
 handle_token <- function(tokens, path) {
   action_tokens <- FALSE
   token <- token_auth(tokens)
-  mv <- move_tokens(rownames(token), path)
-  rownames(token) <- basename(mv)
+  # mv <- move_tokens(rownames(token), path)
+  rownames(token) <- basename(token)
   
   if (any(is.na(token$key))) {
     remove <- which(is.na(token$key))
