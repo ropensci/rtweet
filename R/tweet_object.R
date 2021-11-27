@@ -98,7 +98,7 @@ tweet <- function(x) {
   }
   tb$entities <- ent
   
-  tb$coordinates <- lapply(x$coordinates, coordinates)
+  tb$coordinates <- split_df(coordinates(x$coordinates))
   if (is.data.frame(x$place)) {
     l <- split_df(x$place)
     tb$place <- lapply(l, place)
