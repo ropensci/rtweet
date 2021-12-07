@@ -7,16 +7,15 @@
 auth_sitrep()
 }
 \value{
-Invisible the path of the tokens
+Invisibly, TRUE if some problems were found and FALSE otherwise
 }
 \description{
 Get a situation report of your current tokens; useful for upgrading from
-rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens. Called by it side effects
-}
-\details{
-Searches for old tokens on the user folder, if duplicate tokens are found
-they are deleted. Tokens are then moved to the new location.
+rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens.
 }
 \examples{
 auth_sitrep()
+}
+\seealso{
+\code{\link[=auth_as]{auth_as()}}
 }
