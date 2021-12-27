@@ -24,7 +24,8 @@ auth_sitrep <- function() {
   change_tools <- FALSE
   
   if (length(old_tokens) != 0) {
-    inform(paste0("Tokens found on ", unique(dirname(old_tokens)), ":"))
+    inform(paste0("Tokens from rtweet version < 1.0.0 found on ", 
+           unique(dirname(old_tokens)), ":"))
     
     change_old <- auth_check(read_tokens(old_tokens))
   }
@@ -38,8 +39,10 @@ auth_sitrep <- function() {
   }
   
   if (change_old || change_rappdirs || change_tools) {
-    inform("Use auth_helper to automatically fix some issues identified.")
     change <- TRUE
+  }
+  if (change_old || change_rappdirs) {
+    inform(paste0("All tokens should be moved to", auth_path()))
   }
   
   invisible(change)
@@ -52,11 +55,7 @@ find_old_tokens <- function() {
   many_paths <- c(twitter_pat, home_path)
   old_tokens <- lapply(many_paths, list.files, pattern = ".rtweet_token.*rds", 
                        full.names = TRUE, all.files = TRUE)
-  old_tokens <- unlist(old_tokens, TRUE, FALSE)
-  if (length(old_tokens) != 0) {
-    inform("Tokens from rtweet version < 1.0.0 found.")
-  }
-  old_tokens
+  unlist(old_tokens, TRUE, FALSE)
 }
 
 # Only for those that installed developer version will still using rappdirs. 
