@@ -112,6 +112,8 @@ test_that("coordinates work", {
   expect_equal(length(lu$coordinates), nrow(lu))
   expect_equal(ncol(lu$coordinates[[1]]), 3)
   expect_named(lu$coordinates[[1]], c("long", "lat", "type"))
-  expect_equal(lu$coordinates[[which(lu$id_str == "1462903173656428545")]]$type, "Point")
-  
+  # The tweet might have been deleted 
+  if ("1462903173656428545" %in% lu$id_str) {
+    expect_equal(lu$coordinates[[which(lu$id_str == "1462903173656428545")]]$type, "Point")
+  }  
 })
