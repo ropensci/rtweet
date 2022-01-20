@@ -42,7 +42,7 @@ TWIT_method <- function(method, token, api,
   
   switch(resp_type(resp),
          ok = NULL,
-         protected = handle_protected(params),
+         protected = handle_protected(resp, params),
          rate_limit = handle_rate_limit(
            resp, api, 
            retryonratelimit = retryonratelimit,
@@ -368,12 +368,14 @@ handle_error <- function(x) {
        call. = FALSE)
 }
 
-handle_protected <- function(params) {
+handle_protected <- function(resp, params) {
+  handle_codes(resp)
+  
   if (any(c("screen_name", "user_id") %in% names(params))) {
     account <- params$screen_name
     if (is.null(account)) account <- params$user_id
+    warning("Skipping unauthorized account: ", account, call. = FALSE)
   }
-  warning("Skipping unauthorized account: ", account, call. = FALSE)
 }
 
 check_status <- function(x, api) {
@@ -393,5 +395,21 @@ check_token <- function(token = NULL) {
     httr::add_headers(Authorization = paste0("Bearer ", token$token))
   } else {
     abort("`token` is not a valid access token")
+  }
+}
+
+# Function for responses that might be errors
+# Depending on the internal error code it is provided to the users as a warning or error
+handle_codes <- function(x) {
+  if ("errors" %in% names(httr::content(x))) {
+    errors <- httr::content(x)$errors[[1]]
+    for (e in seq_len(max(lengths(errors)))) {
+      funct <- switch(as.character(errors$code[e]),
+                      "89" = stop,
+                      warning)
+      funct(paste0(errors$message[e], " (", errors$code[e], ")"),
+           call. = FALSE)
+      
+    }
   }
 }
