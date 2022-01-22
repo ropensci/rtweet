@@ -3,6 +3,8 @@
 - The default value of `retryonratelimit` comes from the option
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
+  
+- `auth_as()` accepts path to an authentication to make it easier to use authentication outside a user account (#602)
 
 - All paginated functions that don't return tweets now use a consistent 
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`

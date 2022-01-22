@@ -241,9 +241,13 @@ find_auth <- function(auth = NULL) {
   } else if (is_auth(auth)) {
     auth
   } else if (is_string(auth)) {
-    path <- auth_path(paste0(auth, ".rds"))
-    if (!file.exists(path)) {
-      abort(paste0("Can't find saved auth with name '", auth, "'"))
+    if (file.exists(auth)) {
+      path <- auth
+    } else {
+      path <- auth_path(paste0(auth, ".rds"))
+      if (!file.exists(path)) {
+        abort(paste0("Can't find saved auth with name '", auth, "'"))
+      }
     }
     inform(paste0("Reading auth from '", path, "'"))
     readRDS(path)
