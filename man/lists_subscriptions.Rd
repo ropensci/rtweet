@@ -75,6 +75,9 @@ rstats <- lists_subscriptions(
 }
 
 }
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions}
+}
 \seealso{
 Other lists: 
 \code{\link{lists_members}()},

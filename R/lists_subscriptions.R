@@ -15,6 +15,7 @@
 #' }
 #'
 #' @family lists
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions>
 #' @export
 lists_subscriptions <- function(user,
                                 n = 20,
