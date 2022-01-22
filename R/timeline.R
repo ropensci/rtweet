@@ -25,7 +25,7 @@
 #' # get earlier tweets
 #' get_timeline("JustinBieber", max_id = tw)
 #'
-#' # get timelines for mulitple users
+#' # get timelines for multiple users
 #' tw <- get_timeline(c("KFC", "PizzaHut", "McDonalds"))
 #' tw
 #' }
