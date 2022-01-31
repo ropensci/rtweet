@@ -10,5 +10,5 @@
     Code
       search_tweets("stats", type = "all")
     Error <rlang_error>
-      `type` must be one of "mixed", "recent", or "popular".
+      `type` must be one of "mixed", "recent", or "popular", not "all".
 
