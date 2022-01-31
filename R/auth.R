@@ -187,12 +187,6 @@ auth_list <- function() {
   tools::file_path_sans_ext(paths)
 }
 
-auth_path <- function(...) {
-  # Use private option to make testing easier
-  path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet", "R"))
-  file.path(path, ...)
-}
-
 # Set default auth -------------------------------------------------------------
 
 #' Set default authentication for the current session
@@ -290,7 +284,7 @@ rtweet_test <- function() {
   if (identical(access_token, "") || identical(access_secret, "")) {
     return()
   }
-
+  
   rtweet_bot(
     "7rX1CfEYOjrtZenmBhjljPzO3",
     "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
@@ -332,4 +326,10 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
     is_interactive = is_interactive, 
     private_key = private_key
   )
+}
+
+auth_path <- function(...) {
+  # Use private option to make testing easier
+  path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
+  file.path(path, ...)
 }
