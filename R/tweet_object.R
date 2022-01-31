@@ -11,7 +11,7 @@ tweet <- function(x) {
                       in_reply_to_user_id = NA_integer_,
                       in_reply_to_user_id_str = NA_character_,
                       in_reply_to_screen_name = NA_character_, 
-                      geo = NA, 
+                      geo = I(list(list())), 
                       coordinates = NA, place = NA, 
                       contributors = NA, is_quote_status = NA, 
                       retweet_count = 0, favorite_count = 0, 
@@ -71,7 +71,10 @@ tweet <- function(x) {
   if (has_name_(x, "scopes")){
     tb$scopes <- split_df(x$scopes)
   }
-  
+  if (has_name_(x, "geo")){
+    tb$geo <- split_df(x$geo)
+  }
+
   if (has_name_(x, "text")) {
     tb$text <- x$text
     tb$display_text_width <- nchar(x$text)

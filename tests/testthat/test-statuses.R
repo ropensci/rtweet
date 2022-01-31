@@ -54,3 +54,10 @@ test_that("Check coordinates on different autoformatting from jsonlite", {
   lu <- lookup_tweets(c("368194158915506176", "1483888984455581705"))
   expect_equal(nrow(lu), 2)
 })
+
+
+test_that("Check that geo works well,  #648", {
+  lu <- lookup_tweets(c("1488182699202383875", "1373362476839022592", "1481348667307180033", 
+    "930475046530936834", "914607458169081858"))
+  expect_true(is.list(lu$geo) && !is.data.frame(lu$geo))
+})
