@@ -13,6 +13,8 @@
   
 - Message are now properly capitalized (#565, @jsta)  
 
+- Fields `withheld_scope`, `withheld_copyright`, `withheld_in_countries` are now correctly parsed (#647).
+
 - Banned or protected accounts now trigger a warning instead of an error (#590)
 
 - `get_friends()` and `get_followers()` return similar formatted output with 

@@ -30,11 +30,13 @@ tweet <- function(x) {
                       metadata = NA,
                       query = NA,
                       user = I(list(list())),
+                      withheld_scope = NA_character_,
+                      withheld_copyright = NA,
+                      withheld_in_countries = NA_character_,
                       possibly_sensitive_appealable = NA)
   if (NROW(x) == 0) {
     return(empty)
   }
-  
   tb <- x
   #  Some fields seem to depend on what is needed
   # possibly_sensitive, full_text, extended_entities
