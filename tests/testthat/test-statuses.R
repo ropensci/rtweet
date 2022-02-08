@@ -51,8 +51,9 @@ test_that("lookup on users with scopes, #615", {
 })
 
 test_that("Check coordinates on different autoformatting from jsonlite", {
-  lu <- lookup_tweets(c("368194158915506176", "1483888984455581705"))
-  expect_equal(nrow(lu), 2)
+  lu <- lookup_tweets(c("368194158915506176"))
+  expect_true(is.list(lu$coordinates) && is.data.frame(lu$coordinates[[1]]))
+  expect_equal(nrow(lu), 1)
 })
 
 
