@@ -13,5 +13,14 @@ test_that("lookup_users works", {
   usr_df <- lookup_users(users)
   expect_s3_class(usr_df, "data.frame")
   expect_equal(nrow(usr_df), 6)
-  expect_equal(ncol(usr_df), 21)
+  expect_equal(ncol(usr_df), 23)
 })
+
+
+test_that("users with same information #654", {
+  a <- lookup_users("alexpghayes")
+  d <- lookup_users("Corey_Yanofsky")
+  
+  expect_length(setdiff(colnames(a), colnames(d)), 0)
+})
+

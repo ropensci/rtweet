@@ -25,7 +25,7 @@ user <- function(x) {
  y <- x[ , colnames(x) %in% colnames(empty)]
  
  # Adding missing values.
- missing <- setdiff(colnames(y), colnames(empty))
+ missing <- setdiff(colnames(empty), colnames(y))
  if (length(missing) != 0 ) {
     y[ , missing] <- empty[rep(1, nrow(y)), missing]
  }
