@@ -26,6 +26,6 @@ test_that("users with same information, #654", {
 
 test_that("Users with date formatting, #653", {
   x <- lookup_users("alexpghayes")
-  expect_s3_class(x$created_at, "POSIXlt")
+  expect_s3_class(x$created_at, "POSIXct")
 })
 
