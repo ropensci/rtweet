@@ -17,10 +17,15 @@ test_that("lookup_users works", {
 })
 
 
-test_that("users with same information #654", {
+test_that("users with same information, #654", {
   a <- lookup_users("alexpghayes")
   d <- lookup_users("Corey_Yanofsky")
   
   expect_length(setdiff(colnames(a), colnames(d)), 0)
+})
+
+test_that("Users with date formatting, #653", {
+  x <- lookup_users("alexpghayes")
+  expect_s3_class(x$created_at, "POSIXlt")
 })
 
