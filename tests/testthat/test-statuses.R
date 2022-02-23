@@ -62,3 +62,8 @@ test_that("Check that geo works well,  #648", {
     "930475046530936834", "914607458169081858"))
   expect_true(is.list(lu$geo) && !is.data.frame(lu$geo))
 })
+
+test_that("Check lookup returns appropiate format,  #657", {
+  lu <- lookup_tweets("1488182699202383875")
+  expect_s3_class(lu$created_at, "POSIXct")
+})

@@ -66,6 +66,10 @@ get_timeline <- function(user = NULL,
   if (parse) {
     rt <- do.call("rbind", rt)
     rt <- as_tbl(rt)
+    locale <- Sys.getlocale("LC_TIME")
+    Sys.setlocale("LC_TIME", "C") 
+    rt$created_at <- as.POSIXct(rt$created_at, format = "%a %b %d %T %z %Y")
+    Sys.setlocale("LC_TIME", locale) 
   } 
   
   rt
