@@ -77,9 +77,10 @@ find_tools_tokens <- function() {
 bearer_auth <- function(bearer) {
   tok <- vapply(bearer, function(x){x$token}, character(1L))
   tok <- as.factor(tok)
-  levels(tok) <- LETTERS[length(unique(tok))]
+  levels(tok) <- LETTERS[seq_along(unique(tok))]
   df <- data.frame(token = tok)
   rownames(df) <- bearer
+  df
 }
 
 token_auth <- function(tokens) {
@@ -141,8 +142,8 @@ raw_auth <- function(auth) {
 
 handle_bearer <- function(bearers) {
   action_bearer <- FALSE
-  bearers <- bearer_auth(bearers)
-  rownames(bearers) <- basename(bearers)
+  bearers_f <- bearer_auth(bearers)
+  rownames(bearers_f) <- basename(names(bearers))
   if (anyDuplicated(bearers$token) != 0) {
     inform("Multiple authentications with the same token found")
     action_bearer <- TRUE
@@ -151,7 +152,7 @@ handle_bearer <- function(bearers) {
   if (action_bearer) {
     inform("Choose which is the best path of action for the bearer tokens:")
   }
-  print(bearers)
+  print(bearers_f)
   action_bearer
 }
 
