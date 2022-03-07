@@ -9,7 +9,9 @@ coln <- c("created_at", "id", "id_str", "full_text", "truncated", "display_text_
 
 test_that("lookup_statuses returns users data", {
   ids <- c("558115838503690243", "760182486005583872", "776053079540166657")
-  x <- lookup_tweets(ids)
+  vcr::use_cassette("ids1", {
+    x <- lookup_tweets(ids)
+  })
   expect_true(all(coln %in% colnames(x))) 
   
   expect_s3_class(x, "data.frame")
@@ -18,52 +20,70 @@ test_that("lookup_statuses returns users data", {
 
 
 test_that("lookup status no retweet, no reply no quote", {
-  status <- lookup_tweets("1333789433288540160")
+  vcr::use_cassette("ids2", {
+    status <- lookup_tweets("1333789433288540160")
+  })
   expect_true(all(coln %in% colnames(status))) 
 })
 
 test_that("lookup on reply, no quote no retweet", {
-  reply <- lookup_tweets("1333789435482161153")
+  vcr::use_cassette("ids3", {
+    reply <- lookup_tweets("1333789435482161153")
+  })
   expect_true(all(coln %in% colnames(reply))) 
 })
 
 test_that("lookup on retweet quotting", {
-  retweet_quoted <- lookup_tweets("1390610121743556609")
+  vcr::use_cassette("ids4", {
+    retweet_quoted <- lookup_tweets("1390610121743556609")
+  })
   expect_true(all(coln %in% colnames(retweet_quoted))) 
 })
 
 
 test_that("lookup on retweet", {
-  retweet <- lookup_tweets("1390785143615467524")
+  vcr::use_cassette("ids5", {
+    retweet <- lookup_tweets("1390785143615467524")
+  })
   expect_true(all(coln %in% colnames(retweet))) 
 })
 
 
 test_that("lookup on users without tweets, #574", {
-  lu <- lookup_users("994659707766833153")
+  vcr::use_cassette("ids6", {
+    lu <- lookup_users("994659707766833153")
+  })
   td <- tweets_data(lu)
   expect_equal(nrow(td), 1)
 })
 
 test_that("lookup on users with scopes, #615", {
-  lu <- lookup_tweets("1400810492843630598")
+  vcr::use_cassette("ids7", {
+    lu <- lookup_tweets("1400810492843630598")
+  })
   expect_equal(nrow(lu), 1)
 })
 
 test_that("Check coordinates on different autoformatting from jsonlite", {
-  lu <- lookup_tweets(c("368194158915506176"))
+  vcr::use_cassette("ids8", {
+    lu <- lookup_tweets(c("368194158915506176"))
+  })
   expect_true(is.list(lu$coordinates) && is.data.frame(lu$coordinates[[1]]))
   expect_equal(nrow(lu), 1)
 })
 
 
 test_that("Check that geo works well,  #648", {
-  lu <- lookup_tweets(c("1488182699202383875", "1373362476839022592", "1481348667307180033", 
-    "930475046530936834", "914607458169081858"))
+  vcr::use_cassette("ids9", {
+    lu <- lookup_tweets(c("1488182699202383875", "1373362476839022592", "1481348667307180033", 
+                          "930475046530936834", "914607458169081858"))
+  })
   expect_true(is.list(lu$geo) && !is.data.frame(lu$geo))
 })
 
 test_that("Check lookup returns appropiate format,  #657", {
-  lu <- lookup_tweets("1488182699202383875")
+  vcr::use_cassette("ids10", {
+    lu <- lookup_tweets("1488182699202383875")
+  })
   expect_s3_class(lu$created_at, "POSIXct")
 })

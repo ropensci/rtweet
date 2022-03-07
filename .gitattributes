@@ -1,1 +1,3 @@
 *.* linguist-language=R
+* text=auto
+tests/fixtures/**/* -diff

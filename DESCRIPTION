@@ -50,6 +50,7 @@ Imports:
     utils,
     withr
 Suggests:
+    vcr (>= 0.6.0),
     askpass,
     covr,
     ggplot2,
