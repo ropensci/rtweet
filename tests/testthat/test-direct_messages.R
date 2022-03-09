@@ -1,5 +1,7 @@
 test_that("direct_messages works", {
-  dm <- direct_messages(n = 1)[[1]]
+  vcr::use_cassette("direct_messages", {
+    dm <- direct_messages(n = 1)[[1]]
+  })
   expect_type(dm, "list")
   expect_length(dm, 1L)
   expect_named(dm, "events")

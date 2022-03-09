@@ -1,5 +1,7 @@
 test_that("tweets_data works", {
-  jack <- lookup_users("jack")
+  vcr::use_cassette("tweet_data1", {
+    jack <- lookup_users("jack")
+  })
 
   ## get data on most recent tweet from user(s)
   tweets <- tweets_data(jack)
@@ -8,7 +10,9 @@ test_that("tweets_data works", {
 })
 
 test_that("users_data works", {
-  tweets <- search_tweets("r")
+  vcr::use_cassette("tweet_data2", {
+    tweets <- search_tweets("r")
+  })
   users <- users_data(tweets)
   expect_s3_class(users, "data.frame")
 })
