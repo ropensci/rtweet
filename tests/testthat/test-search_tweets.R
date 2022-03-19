@@ -24,3 +24,8 @@ test_that("search_tweets2 can search for multiple queries", {
   expect_s3_class(df, "data.frame")
   expect_true(nrow(df) > 25) # should almost always be true
 })
+
+test_that("search_tweets uses POSIXct at created_at, #660", {
+  df <- search_tweets2(c("#rstats", "open science"), n = 50)
+  expect_true(is(df$created_at, "POSIXct"))
+})
