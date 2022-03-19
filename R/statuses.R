@@ -37,10 +37,7 @@ lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
 
   if (parse) {
     results <- tweets_with_users(results)
-    locale <- Sys.getlocale("LC_TIME")
-    Sys.setlocale("LC_TIME", "C") 
-    results$created_at <- as.POSIXct(results$created_at, format = "%a %b %d %T %z %Y")
-    Sys.setlocale("LC_TIME", locale) 
+    results$created_at <- format_date(results$created_at)
   }
   results
 }
