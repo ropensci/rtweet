@@ -113,6 +113,7 @@ search_tweets <- function(q, n = 100,
   if (parse) {
     tweets <- lapply(result, "[[", "statuses")
     result <- tweets_with_users(tweets)
+    result$created_at <- format_date(result$created_at)
   }
   result
 }
