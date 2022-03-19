@@ -19,6 +19,9 @@
 
 - `get_friends()` and `get_followers()` return similar formatted output with 
   two columns "from_id" and "to_id" (#308)
+  
+- Functions like `search_tweets()`, `lookup_statuses()` and others return the 
+   appropriate date time format for the right columns (`created_at` mostly) (#653, #657, #660). 
 
 - `lookup_users()` and `search_users()` now returns a data frame containing
   all information about each user (not their latest tweet). If you want to get 
@@ -58,7 +61,7 @@
 - `get_timelines()` has been deprecated since it does that same thing as
   `get_timeline()` (#509).
 
-- rtweet no longer re-exports the pipe; if you want to continue using it, you'll
+- rtweet no longer re-exports the magrittr pipe; if you want to continue using it, you'll
   need to `library(magrittr)` or `library(dplyr)` (#522).
 
 - `stream_tweets()` has been overhauled to only write valid data. This obsoletes
