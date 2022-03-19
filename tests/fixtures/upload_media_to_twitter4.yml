@@ -1,0 +1,99 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://upload.twitter.com/1.1/media/upload.json
+    body:
+      encoding: ''
+      string: media=list(path = "/home/lluis/Documents/Projects/rtweet/tests/testthat/tweet.gif",
+        type = "image/gif")
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sat, 19 Mar 2022 12:36:14 GMT
+      vary: Origin
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sat, 19 Mar 2022 12:36:14 GMT
+      x-transaction: 1e3c672a02f988c1
+      content-length: '144'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: 1; mode=block
+      x-rate-limit-limit: '415'
+      x-rate-limit-reset: '1647696971'
+      content-disposition: attachment; filename=json.json
+      x-rate-limit-remaining: '412'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '274'
+      x-connection-hash: 16c612b7fccdc1fda7f671b0e2f75367076213e82a113d567529c60ab196ec14
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"media_id":1505161223280762889,"media_id_string":"1505161223280762889","size":9477,"expires_after_secs":86400,"image":{"image_type":"image\/gif","w":1200,"h":1200}}'
+  recorded_at: 2022-03-19 12:36:15 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: post
+    uri: https://upload.twitter.com/1.1/media/metadata/create.json
+    body:
+      encoding: ''
+      string: '{"media_id":"1505161223280762889","alt_text":{"text":"A bird tweeting"}}'
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: application/json
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sat, 19 Mar 2022 12:36:15 GMT
+      vary: Origin
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: text/html;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sat, 19 Mar 2022 12:36:15 GMT
+      x-transaction: 0f4278c2fc101c4d
+      content-length: '0'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      x-xss-protection: 1; mode=block
+      x-rate-limit-limit: '2000'
+      x-rate-limit-reset: '1647696975'
+      x-rate-limit-remaining: '1999'
+      content-security-policy: default-src 'self'; connect-src 'self'; font-src 'self'
+        https://*.twimg.com https://twitter.com https://ton.twitter.com data:; frame-src
+        'self' https://*.twimg.com https://twitter.com https://ton.twitter.com; img-src
+        'self' https://*.twimg.com https://twitter.com https://ton.twitter.com data:;
+        media-src 'self' https://*.twimg.com https://twitter.com https://ton.twitter.com;
+        object-src 'none'; script-src 'self' https://*.twimg.com https://twitter.com
+        https://ton.twitter.com; style-src 'self' https://*.twimg.com https://twitter.com
+        https://ton.twitter.com; report-uri https://twitter.com/i/csp_report?a=OBZG6ZTJNRSWE2LSMQ%3D%3D%3D%3D%3D%3D&ro=false;
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '116'
+      x-connection-hash: 16c612b7fccdc1fda7f671b0e2f75367076213e82a113d567529c60ab196ec14
+    body:
+      encoding: UTF-8
+      file: no
+      string: ''
+  recorded_at: 2022-03-19 12:36:15 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
