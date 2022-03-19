@@ -2,7 +2,8 @@
 % Please edit documentation in R/lists_subscriptions.R
 \name{lists_subscriptions}
 \alias{lists_subscriptions}
-\title{Get list subscriptions of a given user.}
+\title{Get list subscriptions of a given user but does not include the user's own
+lists.}
 \usage{
 lists_subscriptions(
   user,
@@ -60,7 +61,8 @@ a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{
-Get list subscriptions of a given user.
+Get list subscriptions of a given user but does not include the user's own
+lists.
 }
 \examples{
 

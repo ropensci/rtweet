@@ -1,4 +1,5 @@
-#' Get list subscriptions of a given user.
+#' Get list subscriptions of a given user but does not include the user's own 
+#' lists.
 #'
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_timeline
