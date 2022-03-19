@@ -129,7 +129,7 @@ ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   ## reformat time var
   .unit <- parse_unit(by)
   ## adjust to desired tz
-  data[[dtvar]] <- as.POSIXct(format(data[[dtvar]], tz = "UTC"), tz = tz)
+  data[[dtvar]] <- convert_tz(data[[dtvar]], tz = tz)
   data[[dtvar]] <- round_time(data[[dtvar]], by, tz)
   ## get unique values of time in series
   dtm <- unique(
