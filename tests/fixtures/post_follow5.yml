@@ -1,0 +1,52 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://api.twitter.com/1.1/mutes/users/create.json?screen_name=hlynur
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: ''
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sat, 26 Mar 2022 10:49:14 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sat, 26 Mar 2022 10:49:14 GMT
+      x-transaction: bd5aef0a3b799580
+      content-length: '1387'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '232'
+      x-connection-hash: f78ec2a2178dc79626e48785e0852503b1d3ca9f90337a5063bc44ca8d60d211
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":13541462,"id_str":"13541462","name":"Hlynur Hallgr\u00edmsson","screen_name":"hlynur","location":"Reykjav\u00edk,
+        Iceland","description":"Einu sinni \u00e6tla\u00f0i umbo\u00f0sma\u00f0ur
+        Kanye West a\u00f0 bj\u00f3\u00f0a m\u00e9r og Marcus Mumford \u00e1 U2 t\u00f3nleika
+        \u00ed London. Svo komst hann a\u00f0 \u00fev\u00ed a\u00f0 \u00e9g v\u00e6ri
+        n\u00f3bodd\u00ed og h\u00e6tti vi\u00f0. He\/him","url":"https:\/\/t.co\/XpA7advKVT","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/XpA7advKVT","expanded_url":"http:\/\/hlynur.io","display_url":"hlynur.io","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":1461,"friends_count":912,"listed_count":14,"created_at":"Sat
+        Feb 16 03:09:13 +0000 2008","favourites_count":61183,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":false,"statuses_count":13118,"lang":null,"status":{"created_at":"Fri
+        Mar 25 18:34:06 +0000 2022","id":1507425610062340102,"id_str":"1507425610062340102","text":"1st
+        All-Time in turnovers\/game \ud83d\ude09 https:\/\/t.co\/cceqderTU5 https:\/\/t.co\/v62Fgns3TU","truncated":false,"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/cceqderTU5","expanded_url":"https:\/\/twitter.com\/NBA\/status\/1507409477347254280","display_url":"twitter.com\/NBA\/status\/150\u2026","indices":[33,56]}],"media":[{"id":1507425422715273252,"id_str":"1507425422715273252","indices":[57,80],"media_url":"http:\/\/pbs.twimg.com\/media\/FOtzb25WQCQJaj9.png","media_url_https":"https:\/\/pbs.twimg.com\/media\/FOtzb25WQCQJaj9.png","url":"https:\/\/t.co\/v62Fgns3TU","display_url":"pic.twitter.com\/v62Fgns3TU","expanded_url":"https:\/\/twitter.com\/hlynur\/status\/1507425610062340102\/photo\/1","type":"photo","sizes":{"small":{"w":680,"h":371,"resize":"fit"},"large":{"w":703,"h":384,"resize":"fit"},"medium":{"w":703,"h":384,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"}}}]},"extended_entities":{"media":[{"id":1507425422715273252,"id_str":"1507425422715273252","indices":[57,80],"media_url":"http:\/\/pbs.twimg.com\/media\/FOtzb25WQCQJaj9.png","media_url_https":"https:\/\/pbs.twimg.com\/media\/FOtzb25WQCQJaj9.png","url":"https:\/\/t.co\/v62Fgns3TU","display_url":"pic.twitter.com\/v62Fgns3TU","expanded_url":"https:\/\/twitter.com\/hlynur\/status\/1507425610062340102\/photo\/1","type":"photo","sizes":{"small":{"w":680,"h":371,"resize":"fit"},"large":{"w":703,"h":384,"resize":"fit"},"medium":{"w":703,"h":384,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"}}}]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":true,"quoted_status_id":1507409477347254280,"quoted_status_id_str":"1507409477347254280","retweet_count":0,"favorite_count":1,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1258898169016078338\/6qlD2eSz_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1258898169016078338\/6qlD2eSz_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/13541462\/1647090818","profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"muting":true,"translator_type":"none","withheld_in_countries":[]}'
+  recorded_at: 2022-03-26 10:49:14 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

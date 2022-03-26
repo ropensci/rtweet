@@ -1,0 +1,87 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/retweets/1363488961537130497.json?id=1363488961537130497&count=100&tweet_mode=extended
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sat, 26 Mar 2022 10:49:16 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sat, 26 Mar 2022 10:49:16 GMT
+      x-transaction: a736dc87c26ba937
+      content-length: '2155'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: br
+      x-xss-protection: '0'
+      x-rate-limit-limit: '75'
+      x-rate-limit-reset: '1648292656'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '74'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '154'
+      x-connection-hash: f78ec2a2178dc79626e48785e0852503b1d3ca9f90337a5063bc44ca8d60d211
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Sun Feb 21 14:32:19 +0000 2021","id":1363496779761803265,"id_str":"1363496779761803265","full_text":"RT
+        @thomas_mock: This past week''s #TidyTuesday counts, posted through #rstats
+        courtesy of #rtweet!\n\n#TidyTuesday details: https:\/\/t.co\/sElb\u2026","truncated":false,"display_text_range":[0,140],"entities":{"hashtags":[{"text":"TidyTuesday","indices":[34,46]},{"text":"rstats","indices":[70,77]},{"text":"rtweet","indices":[90,97]},{"text":"TidyTuesday","indices":[100,112]}],"symbols":[],"user_mentions":[{"screen_name":"thomas_mock","name":"Tom
+        Mock","id":1241814552,"id_str":"1241814552","indices":[3,15]}],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/help.twitter.com\/en\/using-twitter\/how-to-tweet#source-labels\"
+        rel=\"nofollow\"\u003eData Science Promoter Bot\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":884605291,"id_str":"884605291","name":"Tidy
+        Tuesday Bot","screen_name":"TidyTuesday_Bot","location":"USA","description":"Twitter
+        Bot for Promoting #TidyTuesday Visualizations. \nFollow to get started. Made
+        by @harshbg","url":"https:\/\/t.co\/J6V9WBxfwH","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/J6V9WBxfwH","expanded_url":"http:\/\/harshgupta.com","display_url":"harshgupta.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":2193,"friends_count":3,"listed_count":16,"created_at":"Tue
+        Oct 16 14:50:19 +0000 2012","favourites_count":282,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":18670,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1363329268076306438\/oibNFuNH_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1363329268076306438\/oibNFuNH_normal.jpg","profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"retweeted_status":{"created_at":"Sun
+        Feb 21 14:01:15 +0000 2021","id":1363488961537130497,"id_str":"1363488961537130497","full_text":"This
+        past week''s #TidyTuesday counts, posted through #rstats courtesy of #rtweet!\n\n#TidyTuesday
+        details: https:\/\/t.co\/sElb4fcv3u\n#TidyTuesday Tweets: https:\/\/t.co\/h8n7HZw5iM
+        https:\/\/t.co\/48qHGrAZep","truncated":false,"display_text_range":[0,173],"entities":{"hashtags":[{"text":"TidyTuesday","indices":[17,29]},{"text":"rstats","indices":[53,60]},{"text":"rtweet","indices":[73,80]},{"text":"TidyTuesday","indices":[83,95]},{"text":"TidyTuesday","indices":[129,141]}],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/sElb4fcv3u","expanded_url":"http:\/\/bit.ly\/tidyreadme","display_url":"bit.ly\/tidyreadme","indices":[105,128]},{"url":"https:\/\/t.co\/h8n7HZw5iM","expanded_url":"https:\/\/github.com\/rfordatascience\/tidytuesday\/blob\/master\/tidytuesday_tweets\/data.csv","display_url":"github.com\/rfordatascienc\u2026","indices":[150,173]}],"media":[{"id":1363488959666487296,"id_str":"1363488959666487296","indices":[174,197],"media_url":"http:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","media_url_https":"https:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","url":"https:\/\/t.co\/48qHGrAZep","display_url":"pic.twitter.com\/48qHGrAZep","expanded_url":"https:\/\/twitter.com\/thomas_mock\/status\/1363488961537130497\/photo\/1","type":"photo","sizes":{"medium":{"w":1200,"h":1050,"resize":"fit"},"large":{"w":2048,"h":1792,"resize":"fit"},"small":{"w":680,"h":595,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"}}}]},"extended_entities":{"media":[{"id":1363488959666487296,"id_str":"1363488959666487296","indices":[174,197],"media_url":"http:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","media_url_https":"https:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","url":"https:\/\/t.co\/48qHGrAZep","display_url":"pic.twitter.com\/48qHGrAZep","expanded_url":"https:\/\/twitter.com\/thomas_mock\/status\/1363488961537130497\/photo\/1","type":"photo","sizes":{"medium":{"w":1200,"h":1050,"resize":"fit"},"large":{"w":2048,"h":1792,"resize":"fit"},"small":{"w":680,"h":595,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"}}}]},"source":"\u003ca
+        href=\"https:\/\/twitter.com\/thomas_mock\" rel=\"nofollow\"\u003er_tweet
+        bot\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":1241814552,"id_str":"1241814552","name":"Tom
+        Mock","screen_name":"thomas_mock","location":"San Antonio, TX","description":"He\/Him
+        | Customer Enablement @RStudio \ud83d\udc68\u200d\ud83d\udcbb \nWriting at
+        https:\/\/t.co\/w6DzRaebvp\nJoin #R4DS & try #TidyTuesday \nI \u2764\ufe0f  Data,
+        \ud83c\udf2e, tables, #tidyverse & #RStats\nNeuro PhD","url":"https:\/\/t.co\/jYBsulyy65","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/jYBsulyy65","expanded_url":"https:\/\/themockup.blog","display_url":"themockup.blog","indices":[0,23]}]},"description":{"urls":[{"url":"https:\/\/t.co\/w6DzRaebvp","expanded_url":"http:\/\/themockup.blog","display_url":"themockup.blog","indices":[54,77]}]}},"protected":false,"followers_count":15241,"friends_count":1257,"listed_count":355,"created_at":"Mon
+        Mar 04 17:35:03 +0000 2013","favourites_count":42205,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":20175,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1467219661121064965\/Lfondr9M_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1467219661121064965\/Lfondr9M_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/1241814552\/1547176500","profile_link_color":"1B95E0","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":2,"favorite_count":12,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"is_quote_status":false,"retweet_count":2,"favorite_count":0,"favorited":false,"retweeted":false,"lang":"en"},{"created_at":"Sun
+        Feb 21 14:06:18 +0000 2021","id":1363490231643738115,"id_str":"1363490231643738115","full_text":"RT
+        @thomas_mock: This past week''s #TidyTuesday counts, posted through #rstats
+        courtesy of #rtweet!\n\n#TidyTuesday details: https:\/\/t.co\/sElb\u2026","truncated":false,"display_text_range":[0,140],"entities":{"hashtags":[{"text":"TidyTuesday","indices":[34,46]},{"text":"rstats","indices":[70,77]},{"text":"rtweet","indices":[90,97]},{"text":"TidyTuesday","indices":[100,112]}],"symbols":[],"user_mentions":[{"screen_name":"thomas_mock","name":"Tom
+        Mock","id":1241814552,"id_str":"1241814552","indices":[3,15]}],"urls":[]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter
+        for iPhone\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":983470194982088704,"id_str":"983470194982088704","name":"R4DS
+        online learning community","screen_name":"R4DScommunity","location":"","description":"A
+        community of #rstats learners at all skill levels working together to improve
+        our skills. Join our slack: https:\/\/t.co\/HIWwvhm6Eh","url":"https:\/\/t.co\/YlhW2IZv8l","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/YlhW2IZv8l","expanded_url":"http:\/\/r4ds.io","display_url":"r4ds.io","indices":[0,23]}]},"description":{"urls":[{"url":"https:\/\/t.co\/HIWwvhm6Eh","expanded_url":"http:\/\/r4ds.io\/join","display_url":"r4ds.io\/join","indices":[108,131]}]}},"protected":false,"followers_count":19158,"friends_count":1628,"listed_count":379,"created_at":"Mon
+        Apr 09 22:22:21 +0000 2018","favourites_count":14927,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":15623,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/985163908418711552\/Y8gFf5Wc_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/985163908418711552\/Y8gFf5Wc_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/983470194982088704\/1606179014","profile_link_color":"1B95E0","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"retweeted_status":{"created_at":"Sun
+        Feb 21 14:01:15 +0000 2021","id":1363488961537130497,"id_str":"1363488961537130497","full_text":"This
+        past week''s #TidyTuesday counts, posted through #rstats courtesy of #rtweet!\n\n#TidyTuesday
+        details: https:\/\/t.co\/sElb4fcv3u\n#TidyTuesday Tweets: https:\/\/t.co\/h8n7HZw5iM
+        https:\/\/t.co\/48qHGrAZep","truncated":false,"display_text_range":[0,173],"entities":{"hashtags":[{"text":"TidyTuesday","indices":[17,29]},{"text":"rstats","indices":[53,60]},{"text":"rtweet","indices":[73,80]},{"text":"TidyTuesday","indices":[83,95]},{"text":"TidyTuesday","indices":[129,141]}],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/sElb4fcv3u","expanded_url":"http:\/\/bit.ly\/tidyreadme","display_url":"bit.ly\/tidyreadme","indices":[105,128]},{"url":"https:\/\/t.co\/h8n7HZw5iM","expanded_url":"https:\/\/github.com\/rfordatascience\/tidytuesday\/blob\/master\/tidytuesday_tweets\/data.csv","display_url":"github.com\/rfordatascienc\u2026","indices":[150,173]}],"media":[{"id":1363488959666487296,"id_str":"1363488959666487296","indices":[174,197],"media_url":"http:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","media_url_https":"https:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","url":"https:\/\/t.co\/48qHGrAZep","display_url":"pic.twitter.com\/48qHGrAZep","expanded_url":"https:\/\/twitter.com\/thomas_mock\/status\/1363488961537130497\/photo\/1","type":"photo","sizes":{"medium":{"w":1200,"h":1050,"resize":"fit"},"large":{"w":2048,"h":1792,"resize":"fit"},"small":{"w":680,"h":595,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"}}}]},"extended_entities":{"media":[{"id":1363488959666487296,"id_str":"1363488959666487296","indices":[174,197],"media_url":"http:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","media_url_https":"https:\/\/pbs.twimg.com\/media\/EuwV_BgWgAAXSF9.png","url":"https:\/\/t.co\/48qHGrAZep","display_url":"pic.twitter.com\/48qHGrAZep","expanded_url":"https:\/\/twitter.com\/thomas_mock\/status\/1363488961537130497\/photo\/1","type":"photo","sizes":{"medium":{"w":1200,"h":1050,"resize":"fit"},"large":{"w":2048,"h":1792,"resize":"fit"},"small":{"w":680,"h":595,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"}}}]},"source":"\u003ca
+        href=\"https:\/\/twitter.com\/thomas_mock\" rel=\"nofollow\"\u003er_tweet
+        bot\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":1241814552,"id_str":"1241814552","name":"Tom
+        Mock","screen_name":"thomas_mock","location":"San Antonio, TX","description":"He\/Him
+        | Customer Enablement @RStudio \ud83d\udc68\u200d\ud83d\udcbb \nWriting at
+        https:\/\/t.co\/w6DzRaebvp\nJoin #R4DS & try #TidyTuesday \nI \u2764\ufe0f  Data,
+        \ud83c\udf2e, tables, #tidyverse & #RStats\nNeuro PhD","url":"https:\/\/t.co\/jYBsulyy65","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/jYBsulyy65","expanded_url":"https:\/\/themockup.blog","display_url":"themockup.blog","indices":[0,23]}]},"description":{"urls":[{"url":"https:\/\/t.co\/w6DzRaebvp","expanded_url":"http:\/\/themockup.blog","display_url":"themockup.blog","indices":[54,77]}]}},"protected":false,"followers_count":15241,"friends_count":1257,"listed_count":355,"created_at":"Mon
+        Mar 04 17:35:03 +0000 2013","favourites_count":42205,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":20175,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1467219661121064965\/Lfondr9M_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1467219661121064965\/Lfondr9M_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/1241814552\/1547176500","profile_link_color":"1B95E0","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":2,"favorite_count":12,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"is_quote_status":false,"retweet_count":2,"favorite_count":0,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-03-26 10:49:16 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

@@ -40,7 +40,7 @@ test_that("post_tweet works", {
   cpt <- httr::content(pt) 
   expect_equal(httr::status_code(pt), 200L)
   vcr::use_cassette("post_tweet2", {
-    expect_message(dt <-post_destroy(cpt$id_str), "Your tweet has been deleted!")
+    expect_message(dt <- post_destroy(cpt$id_str), "Your tweet has been deleted!")
   })
   # dt = destroy tweet
   expect_equal(httr::status_code(dt), 200L)
@@ -69,7 +69,7 @@ test_that("post_tweet geolocated works", {
   cpt <- httr::content(pt)
   
   vcr::use_cassette("post_tweet6", {
-    expect_message(post_destroy(cpt$id_str), "Your tweet has been deleted!")
+    expect_message(dt <- post_destroy(cpt$id_str), "Your tweet has been deleted!")
   })
   expect_equal(httr::status_code(dt), 200L)
 })

@@ -14,18 +14,24 @@ test_that("gives useful errors", {
 })
 
 test_that("non-existent search returns empty data frame", {
-  tweets <- search_tweets("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc")
+  vcr::use_cassette("search_tweets1", {
+    tweets <- search_tweets("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc")
+  })
   expect_s3_class(tweets, "data.frame")
   expect_equal(nrow(tweets), 0)
 })
 
 test_that("search_tweets2 can search for multiple queries", {
-  df <- search_tweets2(c("#rstats", "open science"), n = 50)
+  vcr::use_cassette("search_tweets2", {
+    df <- search_tweets2(c("#rstats", "open science"), n = 50)
+  })
   expect_s3_class(df, "data.frame")
   expect_true(nrow(df) > 25) # should almost always be true
 })
 
 test_that("search_tweets uses POSIXct at created_at, #660", {
-  df <- search_tweets2(c("#rstats", "open science"), n = 50)
+  vcr::use_cassette("search_tweets3", {
+    df <- search_tweets2(c("#rstats", "open science"), n = 50)
+  })
   expect_true(is(df$created_at, "POSIXct"))
 })
