@@ -120,7 +120,6 @@ Alt-text: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload
 Other post: 
 \code{\link{post_favorite}()},
 \code{\link{post_follow}()},
-\code{\link{post_friendship}()},
-\code{\link{user_block}()}
+\code{\link{post_friendship}()}
 }
 \concept{post}

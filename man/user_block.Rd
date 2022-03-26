@@ -14,14 +14,15 @@ user_unblock(user, token = NULL)
 See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 
 \item{unblock}{Logical indicating whether to unblock the intended
-friend}
+friend.}
 
 \item{token}{Expert use only. Use this to override authentication for
 a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{
-\code{user_block(...)} blocks or unblocks a target twitter user. ' \code{user_unblock(...)} is synonymous to \code{user_block(..., unblock=TRUE)}.
+\code{user_block(...)} blocks or unblocks a target twitter user.
+\code{user_unblock(...)} is synonymous to \code{user_block(..., unblock=TRUE)}.
 }
 \examples{
 \dontrun{
@@ -33,11 +34,3 @@ user_block("BarackObama", unblock=TRUE) #<-same as the above
 \references{
 Block: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create}
 }
-\seealso{
-Other post: 
-\code{\link{post_favorite}()},
-\code{\link{post_follow}()},
-\code{\link{post_friendship}()},
-\code{\link{post_tweet}()}
-}
-\concept{post}
