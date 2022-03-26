@@ -1,0 +1,50 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/direct_messages/events/list.json?count=50
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      content-disposition: attachment; filename=json.json
+      content-encoding: gzip
+      content-length: '39'
+      content-type: application/json;charset=utf-8
+      date: Wed, 09 Mar 2022 00:05:39 GMT
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      last-modified: Wed, 09 Mar 2022 00:05:39 GMT
+      pragma: no-cache
+      server: tsa_f
+      set-cookie:
+      - lang=en; Path=/
+      - guest_id=v1%3A164678433928566239; Max-Age=34214400; Expires=Sun, 09 Apr 2023
+        00:05:39 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None
+      status: 200 OK
+      strict-transport-security: max-age=631138519
+      x-access-level: read-write-directmessages
+      x-connection-hash: aa46e8cfc40bc5e118339b12a8935c140825c6923c956b9d38ba9d63e30b584a
+      x-content-type-options: nosniff
+      x-frame-options: SAMEORIGIN
+      x-rate-limit-limit: '15'
+      x-rate-limit-remaining: '14'
+      x-rate-limit-reset: '1646785239'
+      x-response-time: '114'
+      x-transaction: 8e30fa7fa2230ba2
+      x-twitter-response-tags: BouncerCompliant
+      x-xss-protection: '0'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"events":[]}'
+  recorded_at: 2022-03-09 00:05:39 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

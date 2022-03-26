@@ -1,0 +1,47 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/favorites/list.json?tweet_mode=extended&user_id=515880511&count=200
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 401
+      category: Client error
+      reason: Unauthorized
+      message: 'Client error: (401) Unauthorized'
+    headers:
+      date: Wed, 09 Mar 2022 00:05:45 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 401 Unauthorized
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Wed, 09 Mar 2022 00:05:45 GMT
+      x-transaction: 977040a7cb48149f
+      content-length: '91'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      www-authenticate: OAuth realm="https://api.twitter.com"
+      x-xss-protection: '0'
+      x-rate-limit-limit: '75'
+      x-rate-limit-reset: '1646785242'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '71'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '115'
+      x-connection-hash: aa46e8cfc40bc5e118339b12a8935c140825c6923c956b9d38ba9d63e30b584a
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"request":"\/1.1\/favorites\/list.json","error":"Not authorized."}'
+  recorded_at: 2022-03-09 00:05:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

@@ -1,0 +1,51 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://upload.twitter.com/1.1/media/upload.json
+    body:
+      encoding: ''
+      string: media=list(path = "/home/lluis/Documents/Projects/rtweet/tests/testthat/tweet.gif",
+        type = "image/gif")
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      content-disposition: attachment; filename=json.json
+      content-encoding: gzip
+      content-length: '143'
+      content-type: application/json;charset=utf-8
+      date: Sat, 19 Mar 2022 12:36:11 GMT
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      last-modified: Sat, 19 Mar 2022 12:36:11 GMT
+      pragma: no-cache
+      server: tsa_f
+      set-cookie:
+      - lang=en; Path=/
+      - guest_id=v1%3A164769337165957912; Max-Age=34214400; Expires=Wed, 19 Apr 2023
+        12:36:11 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None
+      status: 200 OK
+      strict-transport-security: max-age=631138519
+      vary: Origin
+      x-access-level: read-write-directmessages
+      x-connection-hash: 16c612b7fccdc1fda7f671b0e2f75367076213e82a113d567529c60ab196ec14
+      x-frame-options: SAMEORIGIN
+      x-rate-limit-limit: '415'
+      x-rate-limit-remaining: '414'
+      x-rate-limit-reset: '1647696971'
+      x-response-time: '295'
+      x-transaction: 48132ecbb945f182
+      x-twitter-response-tags: BouncerCompliant
+      x-xss-protection: 1; mode=block
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"media_id":1505161210009903104,"media_id_string":"1505161210009903104","size":9477,"expires_after_secs":86400,"image":{"image_type":"image\/gif","w":1200,"h":1200}}'
+  recorded_at: 2022-03-19 12:36:11 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

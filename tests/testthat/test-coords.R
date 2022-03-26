@@ -1,4 +1,5 @@
 test_that("lookup_coords returns coords data", {
+  
   kcmo <- lookup_coords("kansas city, mo")
   expect_gt(cor(kcmo$point, c(39.0997, 94.5786)), 0.9)
   tor <- lookup_coords("toronto canada")
@@ -8,15 +9,17 @@ test_that("lookup_coords returns coords data", {
   expect_equal(is.list(x), TRUE)
   expect_named(x)
   expect_true("box" %in% names(x))
-
+  
   x <- lookup_coords("world")
   expect_equal(is.list(x), TRUE)
   expect_named(x)
   expect_true("box" %in% names(x))
-
+  
   gmk <- Sys.getenv("GOOGLE_MAPS_KEY")
   if (!is.null(gmk) && !identical(gmk, "")) {
-    x <- lookup_coords("New York, NY")
+    vcr::use_cassette("lookup_coords5", {
+      x <- lookup_coords("New York, NY")
+    })
     expect_equal(is.list(x), TRUE)
     expect_named(x)
     expect_true("box" %in% names(x))
@@ -24,7 +27,9 @@ test_that("lookup_coords returns coords data", {
   Sys.setenv(GOOGLE_KEY = gmk)
   Sys.setenv(GOOGLE_MAPS_KEY = "")
   if (!is.null(gmk) && !identical(gmk, "")) {
-    x <- lookup_coords("New York, NY")
+    vcr::use_cassette("lookup_coords6", {
+      x <- lookup_coords("New York, NY")
+    })
     expect_equal(is.list(x), TRUE)
     expect_named(x)
     expect_true("box" %in% names(x))
