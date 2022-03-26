@@ -1,10 +1,11 @@
 #' Blocking or unblocking twitter users
 #' 
-#' `user_block(...)` blocks or unblocks a target twitter user. ' `user_unblock(...)` is synonymous to `user_block(..., unblock=TRUE)`.
+#' `user_block(...)` blocks or unblocks a target twitter user.  
+#' `user_unblock(...)` is synonymous to `user_block(..., unblock=TRUE)`.
 #'
 #' @inheritParams get_timeline
 #' @param unblock Logical indicating whether to unblock the intended
-#'   friend 
+#'   friend.
 #' @aliases user_unblock
 #' @examples
 #' \dontrun{
@@ -12,11 +13,9 @@
 #' user_unblock("BarackObama")
 #' user_block("BarackObama", unblock=TRUE) #<-same as the above
 #' }
-#' @family post
 #' @export
 #' @references 
 #' Block: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create>
-
 user_block <- function(user,
                       unblock = FALSE,
                       token = NULL) {
