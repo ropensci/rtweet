@@ -40,12 +40,13 @@ Twitter “app”. See `vignette("auth", package = "rtweet")` for details.
 library(rtweet)
 ```
 
-{{rtweet}} should be used in strict accordance with Twitter’s [developer
+rtweet should be used in strict accordance with Twitter’s [developer
 terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
 
 ### Search tweets or users
 
-Search for up to 10,000 tweets containing \#rstats, excluding retweets:
+Search for up to 10,000 tweets containing #rstats, the common hashtag
+used to refer to the R language, excluding retweets:
 
 ``` r
 rt <- search_tweets("#rstats", n = 10000, include_rts = FALSE)
@@ -56,7 +57,7 @@ every 15 minutes. To request more than that, set
 `retryonratelimit = TRUE` and rtweet will wait for rate limit resets for
 you.
 
-Search for 1,000 users with the \#rstats in their profile:
+Search for 1,000 users with the #rstats in their profile:
 
 ``` r
 usrs <- search_users("#rstats", n = 1000)
@@ -73,7 +74,7 @@ rt <- stream_tweets("")
 Stream all geo-located tweets from London for 60 seconds:
 
 ``` r
-rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
+rt <- stream_tweets(location = lookup_coords("london"), timeout = 60)
 ```
 
 ### Get friends and followers
@@ -81,19 +82,19 @@ rt <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
 Get all accounts followed by a user:
 
 ``` r
-## get user IDs of accounts followed by CNN
-cnn_fds <- get_friends("cnn")
+## get user IDs of accounts followed by R Foundation
+R_Foundation_fds <- get_friends("_R_Foundation")
 
 ## lookup data on those accounts
-cnn_fds_data <- lookup_users(cnn_fds$user_id)
+R_Foundation_fds_data <- lookup_users(R_Foundation_fds$user_id)
 ```
 
 Get all accounts following a user:
 
 ``` r
-## get user IDs of accounts following CNN
-cnn_flw <- get_followers("cnn", n = 10000)
-cnn_flw_data <- lookup_users(cnn_flw$user_id)
+## get user IDs of accounts following R Foundation
+R_Foundation_flw <- get_followers("_R_Foundation", n = 10000)
+R_Foundation_flw_data <- lookup_users(R_Foundation_flw$user_id)
 ```
 
 If you want *all* followers, you’ll need you’ll need to set `n = Inf`
@@ -102,19 +103,19 @@ and `retryonratelimit = TRUE` but be warned that this might take a
 
 ### Get timelines
 
-Get the most recent 3,200 tweets from CNN, BBC World, and Fox News:
+Get the most recent 3,200 tweets from R Foundation:
 
 ``` r
-## get user IDs of accounts followed by CNN
-tmls <- get_timelines(c("cnn", "BBCWorld", "foxnews"), n = 3200)
+## get user IDs of accounts followed by R Foundation
+tmls <- get_timelines("_R_Foundation", n = 3200)
 ```
 
 ### Get favorites
 
-Get the 3,000 most recently favorited statuses by Justin Bieber:
+Get the 3,000 most recently favorited statuses by R Foundation:
 
 ``` r
-jkr <- get_favorites("justinbieber", n = 3000)
+jkr <- get_favorites("_R_Foundation", n = 3000)
 ```
 
 ## Contact

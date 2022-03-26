@@ -46,47 +46,43 @@ Create, add users, and destroy Twitter lists
 \examples{
 \dontrun{
 
-## CNN twitter accounts
-users <- c("cnn", "cnnbrk", "cnni", "cnnpolitics", "cnnmoney",
-  "cnnnewsroom", "cnnspecreport", "CNNNewsource",
-  "CNNNSdigital", "CNNTonight")
+## R related Twitter accounts
+users <- c("_R_Foundation", "R_dev_news", "rweekly_live", "RConsortium", "rstats4ds",
+  "icymi_r", "rstatstweet", "RLadiesGlobal")
 
-## create CNN-accounts list with 9 total users
-(cnn_lst <- post_list(users,
-  "cnn-accounts", description = "Official CNN accounts"))
+## create r-accounts list with 8 total users
+(r_lst <- post_list(users,
+  "r-accounts", description = "R related accounts"))
 
 ## view list in browser
-browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
+browseURL(sprintf("https://twitter.com/\%s/lists/r-accounts",
   rtweet:::api_screen_name()))
 
-## search for more CNN users
-cnn_users <- search_users("CNN", n = 200)
+## search for more rstats users
+r_users <- search_users("rstats", n = 200)
 
 ## filter and select more users to add to list
-more_users <- cnn_users$screen_name[cnn_users$verified]
-more_users <- setdiff(more_users, users)
-more_users <- more_users[grepl("cnn", more_users, ignore.case = TRUE)]
+more_users <- r_users$screen_name[r_users$verified]
 
 ## add more users to list- note: can only add up to 100 at a time
-post_list(users = more_users, slug = "cnn-accounts")
+post_list(users = more_users, slug = "r-accounts")
 
 ## view updated list in browser (should be around 100 users)
-browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
+browseURL(sprintf("https://twitter.com/\%s/lists/r-accounts",
   rtweet:::api_screen_name()))
 
-## select users on list without "cnn" in their name field
-drop_users <- cnn_users$screen_name[!grepl("cnn", cnn_users$screen_name, ignore.case = TRUE)]
+drop_users <- "icymi_r"
 
-## drop these users from the cnn list
-post_list(users = drop_users, slug = "cnn-accounts",
+## drop these users from the R list
+post_list(users = drop_users, slug = "r-accounts",
   destroy = TRUE)
 
 ## view updated list in browser (should be around 100 users)
-browseURL(sprintf("https://twitter.com/\%s/lists/cnn-accounts",
+browseURL(sprintf("https://twitter.com/\%s/lists/r-accounts",
   rtweet:::api_screen_name()))
 
 ## delete list entirely
-post_list(slug = "cnn-accounts", destroy = TRUE)
+post_list(slug = "r-accounts", destroy = TRUE)
 
 }
 }

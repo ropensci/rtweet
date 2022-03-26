@@ -1,10 +1,14 @@
 test_that("direct_messages works", {
-  dm <- direct_messages()[[1]]
-  expect_type(dm, "list")
-  expect_length(dm, 2L)
-  expect_named(dm, c("events", "apps"))
   
-  expect_true(is.data.frame(dm$events))
+  vcr::use_cassette("direct_messages", {
+    dm <- direct_messages(n = 1)[[1]]
+  })
+  expect_type(dm, "list")
+  expect_length(dm, 1L)
+  expect_named(dm, "events")
+  
+  # Usually a data.frame but if no message it can be an empty list
+  expect_true(is.list(dm$events)) 
 })
 
 test_that("old functions give informative errors", {

@@ -37,6 +37,7 @@ lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
 
   if (parse) {
     results <- tweets_with_users(results)
+    results$created_at <- format_date(results$created_at)
   }
   results
 }

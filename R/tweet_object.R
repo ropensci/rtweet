@@ -11,12 +11,13 @@ tweet <- function(x) {
                       in_reply_to_user_id = NA_integer_,
                       in_reply_to_user_id_str = NA_character_,
                       in_reply_to_screen_name = NA_character_, 
-                      geo = NA, 
+                      geo = I(list(list())), 
                       coordinates = NA, place = NA, 
                       contributors = NA, is_quote_status = NA, 
                       retweet_count = 0, favorite_count = 0, 
                       favorited = NA, favorited_by = NA,
                       retweeted = NA, 
+                      scopes = I(list(list())),
                       lang = NA_character_,
                       possibly_sensitive = NA,
                       display_text_width = NA,
@@ -29,11 +30,13 @@ tweet <- function(x) {
                       metadata = NA,
                       query = NA,
                       user = I(list(list())),
+                      withheld_scope = NA_character_,
+                      withheld_copyright = NA,
+                      withheld_in_countries = NA_character_,
                       possibly_sensitive_appealable = NA)
   if (NROW(x) == 0) {
     return(empty)
   }
-  
   tb <- x
   #  Some fields seem to depend on what is needed
   # possibly_sensitive, full_text, extended_entities
@@ -67,7 +70,13 @@ tweet <- function(x) {
   if (has_name_(x, "metadata")){
     tb$metadata <- split_df(x$metadata)
   }
-  
+  if (has_name_(x, "scopes")){
+    tb$scopes <- split_df(x$scopes)
+  }
+  if (has_name_(x, "geo")){
+    tb$geo <- split_df(x$geo)
+  }
+
   if (has_name_(x, "text")) {
     tb$text <- x$text
     tb$display_text_width <- nchar(x$text)
@@ -94,7 +103,7 @@ tweet <- function(x) {
   }
   tb$entities <- ent
   
-  tb$coordinates <- lapply(x$coordinates, coordinates)
+  tb$coordinates <- split_df(coordinates(x$coordinates))
   if (is.data.frame(x$place)) {
     l <- split_df(x$place)
     tb$place <- lapply(l, place)
@@ -104,7 +113,8 @@ tweet <- function(x) {
   
   end <- setdiff(colnames(tb), colnames(empty))
   if (length(end) != 0) {
-    stop(end)
+    stop("Unidentified value: ", end, 
+         ".\n\tPlease open an issue and notify the maintainer. Thanks!")
   }
   tb[setdiff(colnames(empty), colnames(tb))] <- NA
   tb

@@ -19,8 +19,8 @@
 #' users <- get_friends("ropensci")
 #' users
 #' }
-#' @return A tibble data frame with two columns, "user" for name or ID of target
-#'   user and "user_id" for follower IDs.
+#' @return A tibble data frame with two columns, "from_id" for name or ID of target
+#'   user and "to_id" for accounts ID they follow.
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
@@ -51,13 +51,13 @@ get_friends <- function(users,
     # Fortunately, few people follower >5000 users so this should rarely
     # come up in practice.
     df <- do.call("rbind", results)
+    
     if (length(results) == 1) {
       results <- copy_cursor(df, results[[1]])
     } else {
       results <- df
     }
   }
-  
   results
 }
 
@@ -72,8 +72,9 @@ get_friends_user <- function(user, token, ..., parse = TRUE) {
 
   if (parse) {
     df <- tibble::tibble(
-      user = user,
-      ids = unlist(lapply(results, function(x) x$ids))
+      from_id = user,
+      to_id = unlist(lapply(results, function(x) x$ids), 
+                     recursive = FALSE, use.names = FALSE)
     )
     results <- copy_cursor(df, results)
   }

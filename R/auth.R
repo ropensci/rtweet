@@ -1,7 +1,7 @@
 #' Set up default authentication
 #' 
 #' You'll need to run this function once per computer so that rtweet can use 
-#' your personal twitter account. See [rtweet_app()]/[rtweet_bot] and 
+#' your personal Twitter account. See [rtweet_app()]/[rtweet_bot] and 
 #' [auth_save()] for other authentication options.
 #' 
 #' @export
@@ -13,20 +13,20 @@ auth_setup_default <- function() {
 #' Authentication options
 #' 
 #' @description 
-#' There are three ways that you can authenticate with the twitter API:
+#' There are three ways that you can authenticate with the Twitter API:
 #' 
-#' * `rtweet_user()` interactively authenticates an existing twitter user. 
+#' * `rtweet_user()` interactively authenticates an existing Twitter user. 
 #'   This form is most appropriate if you want rtweet to control your
-#'   twitter account. 
+#'   Twitter account. 
 #'   
-#' * `rtweet_app()` authenticates as a twitter application. An application can't 
+#' * `rtweet_app()` authenticates as a Twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
 #'    rate limits (i.e. you can do more searches). See details
 #'    at <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
 #'    This form is most appropriate if you are collecting data. 
 #'    
 #' * `rtweet_bot()` authenticates as bot that takes actions on behalf of an app.
-#'    This form is most appropriate if you want to create a twitter account that
+#'    This form is most appropriate if you want to create a Twitter account that
 #'    is run by a computer, rather than a human.
 #'    
 #' To use `rtweet_app()` or `rtweet_bot()` you will need to create your own 
@@ -127,7 +127,7 @@ is_auth <- function(x) {
 #' @export
 print.rtweet_bearer <- function(x, ...) {
    # Make it hard to accidentally reveal token
-   cat("<twitter bearer token>\n")
+   cat("<Twitter bearer token>\n")
    invisible(x)
 }
 
@@ -187,12 +187,6 @@ auth_list <- function() {
   tools::file_path_sans_ext(paths)
 }
 
-auth_path <- function(...) {
-  # Use private option to make testing easier
-  path <- getOption("rtweet:::config_dir", rappdirs::user_config_dir("rtweet", "R"))
-  file.path(path, ...)
-}
-
 # Set default auth -------------------------------------------------------------
 
 #' Set default authentication for the current session
@@ -203,7 +197,7 @@ auth_path <- function(...) {
 #' 
 #' @param auth One of the following options:
 #'   * `NULL`, the default, will look for rtweet's "default" authentication 
-#'      which uses your personal twitter account. If it's not found, it will 
+#'      which uses your personal Twitter account. If it's not found, it will 
 #'      call [auth_setup_default()] to set it up.
 #'   * A string giving the name of a saved auth file made by [auth_save()].
 #'   * An auth object created by [rtweet_app()], [rtweet_bot()], or 
@@ -241,9 +235,13 @@ find_auth <- function(auth = NULL) {
   } else if (is_auth(auth)) {
     auth
   } else if (is_string(auth)) {
-    path <- auth_path(paste0(auth, ".rds"))
-    if (!file.exists(path)) {
-      abort(paste0("Can't find saved auth with name '", auth, "'"))
+    if (file.exists(auth)) {
+      path <- auth
+    } else {
+      path <- auth_path(paste0(auth, ".rds"))
+      if (!file.exists(path)) {
+        abort(paste0("Can't find saved auth with name '", auth, "'"))
+      }
     }
     inform(paste0("Reading auth from '", path, "'"))
     readRDS(path)
@@ -277,7 +275,8 @@ no_token <- function() {
     stop("Could not authenticate", call. = FALSE)
   }
 }
-
+# Internal function to generate the bot used for testing
+# Do not forget to later us auth_as(rtweet_test())
 rtweet_test <- function() {
   access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
   access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
@@ -285,7 +284,7 @@ rtweet_test <- function() {
   if (identical(access_token, "") || identical(access_secret, "")) {
     return()
   }
-
+  
   rtweet_bot(
     "7rX1CfEYOjrtZenmBhjljPzO3",
     "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
@@ -327,4 +326,10 @@ twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
     is_interactive = is_interactive, 
     private_key = private_key
   )
+}
+
+auth_path <- function(...) {
+  # Use private option to make testing easier
+  path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
+  file.path(path, ...)
 }

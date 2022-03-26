@@ -1,40 +1,58 @@
 test_that("get_friends returns data frame with ids", {
-  f <- get_friends("kearneymw")
-
+  
+  vcr::use_cassette("friends1", {
+    f <- get_friends("kearneymw")
+  })
   expect_true(is.data.frame(f))
   ##expect_true(is.character(f[["ids"]]))
   expect_gt(nrow(f), 200)
 })
 
 test_that("friendships returns data", {
-  x <- my_friendships("kearneymw")
+  
+  vcr::use_cassette("friends2", {
+    x <- my_friendships("kearneymw")
+  })
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("screen_name" %in% names(x))
-
-  x <- lookup_friendships("kearneymw", c("realdonaldtrump", "cstonehoops"))
-
+  vcr::use_cassette("friends3", {
+    x <- lookup_friendships("kearneymw", c("realdonaldtrump", "cstonehoops"))
+  })
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true("relationship" %in% names(x))
 })
 
 test_that("get_friends works", {
-  djt <- get_friends("ropensci")
+  
+  vcr::use_cassette("friends4", {
+    djt <- get_friends("ropensci")
+  })
   expect_s3_class(djt, "data.frame")
+  expect_gt(nrow(djt), 50)
 })
 
 test_that("lookup_friendships works", {
-  lf <- lookup_friendships("hadley", "Lluis_Revilla")
+  
+  vcr::use_cassette("friends5", {
+    lf <- lookup_friendships("hadley", "Lluis_Revilla")
+  })
   expect_s3_class(lf, "data.frame")
 })
 
 test_that("my_friendships works", {
-  mf <- my_friendships("hadley")
+  
+  vcr::use_cassette("friends6", {
+    mf <- my_friendships("hadley")
+  })
   expect_s3_class(mf, "data.frame")
 })
 
 test_that("n = Inf works", {
-  mf <- get_friends("SmallBuStudio", n = Inf)
+  
+  vcr::use_cassette("friends7", {
+    mf <- get_friends("SmallBuStudio", n = Inf)
+  })
   expect_s3_class(mf, "data.frame")
 })

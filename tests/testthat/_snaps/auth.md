@@ -3,7 +3,7 @@
     Code
       rtweet_app("abc")
     Output
-      <twitter bearer token>
+      <Twitter bearer token>
 
 # find auth errors politely
 

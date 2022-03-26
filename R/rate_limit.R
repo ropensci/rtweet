@@ -12,7 +12,7 @@
 #' @inheritParams lookup_users
 #' @param resource_match An optional regular expression used to filter the 
 #'   resources listed in returned rate limit data.
-#' @param endpoint Name of twitter endpoint like `"lookup/users"`,
+#' @param endpoint Name of Twitter endpoint like `"lookup/users"`,
 #'   `"/media/upload"`, or `"/feedback/show/:id"`.
 #' #' @references <https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
 #' @examples

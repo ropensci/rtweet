@@ -1,0 +1,54 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=368194158915506176&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Mon, 07 Mar 2022 22:59:00 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Mon, 07 Mar 2022 22:59:00 GMT
+      x-transaction: 4a41ec72a270c80e
+      content-length: '1387'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1646694162'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '865'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '136'
+      x-connection-hash: 0d83f653da2db81b26cab86ad008f6158cb28f0a8cfde4c8ad8af833e15db2e2
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri Aug 16 02:15:02 +0000 2013","id":368194158915506176,"id_str":"368194158915506176","full_text":"\u201cI
+        know I will be one of the 25 richest writers of the future\u201d http:\/\/t.co\/xhst6vfZfN","truncated":false,"display_text_range":[0,85],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[{"url":"http:\/\/t.co\/xhst6vfZfN","expanded_url":"http:\/\/nie.mn\/18yGXzQ","display_url":"nie.mn\/18yGXzQ","indices":[63,85]}]},"source":"\u003ca
+        href=\"https:\/\/tapbots.com\/software\/tweetbot\/mac\" rel=\"nofollow\"\u003eTweetbot
+        for Mac\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":36623,"id_str":"36623","name":"Joshua
+        Benton","screen_name":"jbenton","location":"Greater Boston","description":"Senior
+        writer + founder of @NiemanLab at @Harvard. I write about (a) digital journalism,
+        (b) southern history, mostly. Proud Cajun. Takes mine, not Harvard''s.","url":"https:\/\/t.co\/HAIJkDgroR","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/HAIJkDgroR","expanded_url":"http:\/\/www.joshuabenton.com\/","display_url":"joshuabenton.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":44970,"friends_count":3662,"listed_count":1770,"created_at":"Sat
+        Dec 02 06:32:23 +0000 2006","favourites_count":38046,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":true,"statuses_count":115639,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"022330","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/500365878269984768\/OYxjyPTb_normal.jpeg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/500365878269984768\/OYxjyPTb_normal.jpeg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/36623\/1498237310","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"333333","profile_sidebar_border_color":"A8C7F7","profile_sidebar_fill_color":"C0DFEC","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":{"type":"Point","coordinates":[42.36285176,-71.11172141]},"coordinates":{"type":"Point","coordinates":[-71.11172141,42.36285176]},"place":{"id":"8193d87541f11dfb","url":"https:\/\/api.twitter.com\/1.1\/geo\/id\/8193d87541f11dfb.json","place_type":"city","name":"Cambridge","full_name":"Cambridge,
+        MA","country_code":"US","country":"United States","contained_within":[],"bounding_box":{"type":"Polygon","coordinates":[[[-71.160356,42.352429],[-71.064398,42.352429],[-71.064398,42.4039663],[-71.160356,42.4039663]]]},"attributes":{}},"contributors":null,"is_quote_status":false,"retweet_count":0,"favorite_count":3,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"}]'
+  recorded_at: 2022-03-07 22:59:00 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

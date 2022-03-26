@@ -44,10 +44,10 @@
 #' e
 #'
 #' # Download another 10s worth of data to the same file
-#' e <- stream_tweets("election", timeout = 10)
+#' e <- stream_tweets("election", timeout = 10, append = TRUE)
 #'
 #' # stream tweets about continential USA for 5 minutes
-#' usa <- stream_tweets(lookup_coords("usa"), file_name = "usa.json", timeout = 300)
+#' usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", timeout = 300)
 #' 
 #' }
 #' @return A tibble with one row per tweet
@@ -68,7 +68,7 @@ stream_tweets <- function(q = "",
     inform(paste0("Writing to '", file_name, "'"))
   }
   output <- file(file_name)
-  
+
   prep <- stream_prep(token, q, ...)
   stream <- curl::curl(prep$url, handle = prep$handle)
 
@@ -102,10 +102,10 @@ download_from_stream <- function(stream, output, append = TRUE, timeout = 10, ve
   }
 
   open(stream, "rb") 
-  withr::defer(close(stream))
+  withr::defer(close(stream), current_env(), priority = "first")
   
   open(output, if (append) "ab" else "b")
-  withr::defer(close(output))
+  withr::defer(close(output), current_env(), priority = "last")
 
   lines <- list(lines = character(), fragment = "")
   while (isIncomplete(stream) && Sys.time() < stop_time) {

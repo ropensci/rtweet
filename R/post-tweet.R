@@ -268,6 +268,9 @@ wait_for_chunked_media <- function(resp, media_id, token = NULL) {
 }
 
 check_media <- function(media, alt_text) {
+  if (!is.character(media) | !is.character(alt_text)) {
+    stop("Media and alt_text must be character vectors.", call. = FALSE)
+  }
   media_type <- tools::file_ext(media)
   if (length(media) > 4) {
     stop("At most 4 images per plot can be uploaded.", call. = FALSE)

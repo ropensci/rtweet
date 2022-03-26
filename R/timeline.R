@@ -25,7 +25,7 @@
 #' # get earlier tweets
 #' get_timeline("JustinBieber", max_id = tw)
 #'
-#' # get timelines for mulitple users
+#' # get timelines for multiple users
 #' tw <- get_timeline(c("KFC", "PizzaHut", "McDonalds"))
 #' tw
 #' }
@@ -66,6 +66,7 @@ get_timeline <- function(user = NULL,
   if (parse) {
     rt <- do.call("rbind", rt)
     rt <- as_tbl(rt)
+    rt$created_at <- format_date(rt$created_at)
   } 
   
   rt

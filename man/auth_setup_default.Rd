@@ -8,7 +8,7 @@ auth_setup_default()
 }
 \description{
 You'll need to run this function once per computer so that rtweet can use
-your personal twitter account. See \code{\link[=rtweet_app]{rtweet_app()}}/\link{rtweet_bot} and
+your personal Twitter account. See \code{\link[=rtweet_app]{rtweet_app()}}/\link{rtweet_bot} and
 \code{\link[=auth_save]{auth_save()}} for other authentication options.
 }
 \seealso{

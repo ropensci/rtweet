@@ -2,62 +2,17 @@
 ##                                 format_date                                ##
 ##----------------------------------------------------------------------------#
 
-format_date <- function(x, tz = "UTC") {
-  o <- tryCatch(
-    as.POSIXct(
-      x,
-      format = "%a %b %d %T %z %Y",
-      tz = tz
-    ),
-    error = function(e) return(NULL)
-  )
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    o <- tryCatch(as.POSIXct(
-      x,
-      format = "%a %b %d %H:%M:%S %z %Y",
-      tz = tz,
-      origin = "1970-01-01"),
-      error = function(e) return(NULL))
-  }
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    o <- tryCatch(as.POSIXct(
-      x,
-      format = "%a %b %d %H:%M:%S %z %Y"),
-      error = function(e) return(NULL))
-  }
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    curLocale <- Sys.getlocale("LC_TIME")
-    on.exit(
-      Sys.setlocale("LC_TIME", curLocale)
-      ##add = TRUE
-    )
-    Sys.setlocale("LC_TIME", "C")
-
-    o <- tryCatch(as.POSIXct(
-      x,
-      tz = tz,
-      format = "%a, %d %b %Y %H:%M:%S +0000"),
-      error = function(e) return(NULL)
-    )
-  }
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    o <- tryCatch(as.POSIXct(
-      x, tz = tz,
-      format = "%a %b %d %H:%M:%S +0000 %Y"),
-      error = function(e) return(NULL))
-  }
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    o <- tryCatch(as.POSIXct(
-      x, format = "%a %b %d %H:%M:%S %z %Y"),
-      error = function(e) return(NULL))
-  }
-  if (any(is.null(o), all(is.na.quiet(o)))) {
-    o <- x
-  }
-  o
+format_date <- function(x, format = "%a %b %d %T %z %Y") {
+  locale <- Sys.getlocale("LC_TIME")
+  on.exit(Sys.setlocale("LC_TIME", locale), add = TRUE)
+  Sys.setlocale("LC_TIME", "C") 
+  as.POSIXct(x, format = format)
 }
 
 
+convert_tz <- function(x, tz) {
+  as.POSIXct(as.POSIXlt(x, tz = tz))
+}
 ##----------------------------------------------------------------------------##
 ##                            fetch/return features                           ##
 ##----------------------------------------------------------------------------##

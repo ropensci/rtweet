@@ -1,0 +1,91 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/friendships/show.json?source_screen_name=kearneymw&target_screen_name=realdonaldtrump
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Wed, 09 Mar 2022 00:05:50 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Wed, 09 Mar 2022 00:05:50 GMT
+      x-transaction: 58396f25525bda1c
+      content-length: '253'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '180'
+      x-rate-limit-reset: '1646785250'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '179'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '130'
+      x-connection-hash: aa46e8cfc40bc5e118339b12a8935c140825c6923c956b9d38ba9d63e30b584a
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"relationship":{"source":{"id":2973406683,"id_str":"2973406683","screen_name":"kearneymw","following":false,"followed_by":false,"live_following":false,"following_received":null,"following_requested":null,"notifications_enabled":null,"can_dm":false,"blocking":null,"blocked_by":null,"muting":null,"want_retweets":null,"all_replies":null,"marked_spam":null},"target":{"id":25073877,"id_str":"25073877","screen_name":"realDonaldTrump","following":false,"followed_by":false,"following_received":null,"following_requested":null}}}'
+  recorded_at: 2022-03-09 00:05:51 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/friendships/show.json?source_screen_name=kearneymw&target_screen_name=cstonehoops
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Wed, 09 Mar 2022 00:05:51 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Wed, 09 Mar 2022 00:05:51 GMT
+      x-transaction: 90ba929f15c81cf4
+      content-length: '252'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '180'
+      x-rate-limit-reset: '1646785250'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '178'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '126'
+      x-connection-hash: aa46e8cfc40bc5e118339b12a8935c140825c6923c956b9d38ba9d63e30b584a
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"relationship":{"source":{"id":2973406683,"id_str":"2973406683","screen_name":"kearneymw","following":true,"followed_by":true,"live_following":false,"following_received":null,"following_requested":null,"notifications_enabled":null,"can_dm":true,"blocking":null,"blocked_by":null,"muting":null,"want_retweets":null,"all_replies":null,"marked_spam":null},"target":{"id":2176646084,"id_str":"2176646084","screen_name":"cstonehoops","following":true,"followed_by":true,"following_received":null,"following_requested":null}}}'
+  recorded_at: 2022-03-09 00:05:51 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

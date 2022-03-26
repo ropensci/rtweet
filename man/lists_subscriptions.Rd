@@ -2,7 +2,8 @@
 % Please edit documentation in R/lists_subscriptions.R
 \name{lists_subscriptions}
 \alias{lists_subscriptions}
-\title{Get list subscriptions of a given user.}
+\title{Get list subscriptions of a given user but does not include the user's own
+lists.}
 \usage{
 lists_subscriptions(
   user,
@@ -41,7 +42,7 @@ to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
-until it refreshes. Most twitter rate limits refresh every 15 minutes.
+until it refreshes. Most Twitter rate limits refresh every 15 minutes.
 If \code{FALSE}, and the rate limit is exceeded, the function will terminate
 early with a warning; you'll still get back all results received up to
 that point. The default value, \code{NULL}, consults the option
@@ -60,7 +61,8 @@ a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{
-Get list subscriptions of a given user.
+Get list subscriptions of a given user but does not include the user's own
+lists.
 }
 \examples{
 
@@ -74,6 +76,9 @@ rstats <- lists_subscriptions(
 
 }
 
+}
+\references{
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions}
 }
 \seealso{
 Other lists: 

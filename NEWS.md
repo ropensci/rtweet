@@ -3,6 +3,8 @@
 - The default value of `retryonratelimit` comes from the option
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
+  
+- `auth_as()` accepts path to an authentication to make it easier to use authentication outside a user account (#602)
 
 - All paginated functions that don't return tweets now use a consistent 
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`
@@ -10,6 +12,16 @@
   argument.
   
 - Message are now properly capitalized (#565, @jsta)  
+
+- Fields `withheld_scope`, `withheld_copyright`, `withheld_in_countries` are now correctly parsed (#647).
+
+- Banned or protected accounts now trigger a warning instead of an error (#590)
+
+- `get_friends()` and `get_followers()` return similar formatted output with 
+  two columns "from_id" and "to_id" (#308)
+  
+- Functions like `search_tweets()`, `lookup_statuses()` and others return the 
+   appropriate date time format for the right columns (`created_at` mostly) (#653, #657, #660). 
 
 - `lookup_users()` and `search_users()` now returns a data frame containing
   all information about each user (not their latest tweet). If you want to get 
@@ -49,7 +61,7 @@
 - `get_timelines()` has been deprecated since it does that same thing as
   `get_timeline()` (#509).
 
-- rtweet no longer re-exports the pipe; if you want to continue using it, you'll
+- rtweet no longer re-exports the magrittr pipe; if you want to continue using it, you'll
   need to `library(magrittr)` or `library(dplyr)` (#522).
 
 - `stream_tweets()` has been overhauled to only write valid data. This obsoletes
@@ -72,7 +84,7 @@
   endpoint in June 2019 (https://twittercommunity.com/t/124732).
 
 - Added support for posting alt-text metadata with images tweeted with status 
-  updated via `post_tweet()`. (@hrbrmstr)
+  updated via `post_tweet()`. (#425, @hrbrmstr)
   
 - Update to new rOpenSci Code of Conduct: https://ropensci.org/code-of-conduct/
 

@@ -13,7 +13,7 @@ tweet_threading(
 }
 \arguments{
 \item{tw}{\code{\link[=lookup_tweets]{lookup_tweets()}} output containing
-at least the last status in the thread}
+at least the last status in the thread or an id of a tweet.}
 
 \item{traverse}{character, direction to traverse from origin status in tw,
 Default: c('backwards','forwards')}
@@ -26,15 +26,14 @@ Default: c('backwards','forwards')}
 \code{\link[=lookup_tweets]{lookup_tweets()}} tibble
 }
 \description{
-Return all statuses that are part of a thread. By default the function
-traverses first backwards from the origin status_id of the thread up to the
-root, then checks if there are any child statuses that were posted after
-the origin status.
+Return all statuses that are part of a thread (Replies from a user to their
+own tweets). By default the function traverses first backwards from the
+origin status_id of the thread up to the root, then checks if there are any
+child statuses that were posted after the origin status.
 }
 \examples{
 \dontrun{
-tw <- lookup_tweets("1084143184664510470")
-tw_thread <- tweet_threading(tw)
+tw_thread <- tweet_threading("1461776330584956929")
 tw_thread
 }
 }

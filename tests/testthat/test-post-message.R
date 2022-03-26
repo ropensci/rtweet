@@ -5,4 +5,5 @@ test_that("post_message works", {
     "Your DM has been posted!"
   )
   expect_equal(httr::status_code(rt), 200L)
+  
 })
