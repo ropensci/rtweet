@@ -26,9 +26,9 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \examples{
 \dontrun{
-user_block("BarackObama")
-user_unblock("BarackObama")
-user_block("BarackObama", unblock=TRUE) #<-same as the above
+user_block("rtweet_test")
+user_unblock("rtweet_test")
+user_block("rtweet_test", unblock=TRUE) #<-same as the above
 }
 }
 \references{
