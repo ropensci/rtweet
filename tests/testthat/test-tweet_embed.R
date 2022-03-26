@@ -1,5 +1,5 @@
 test_that("tweet_embed() returns a string", {
-  skip_if_offline()
+  
   vcr::use_cassette("tweet_embed", {
     out <- tweet_embed("kearneymw", "1087047171306856451")
   })

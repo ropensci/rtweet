@@ -1,5 +1,5 @@
 test_that("get_trends returns trends data", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_trends1", {
     x <- get_trends()
   })
@@ -15,7 +15,7 @@ test_that("get_trends returns trends data", {
 })
 
 test_that("trends_available returns data frame", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_trends2", {
     x <- trends_available()
   })
@@ -29,7 +29,7 @@ test_that("trends_available returns data frame", {
 })
 
 test_that("get_trends_closest returns data frame with correct city name", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_trends3", {
     x <- get_trends(lat = 40.7, lng = -74.0)
   })

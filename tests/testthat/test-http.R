@@ -1,5 +1,5 @@
 test_that("TWIT_paginte_max_id respects max_id and since_id", {
-  skip_if_offline()
+  
   simple_timeline <- function(...) {
     r <- TWIT_paginate_max_id(NULL, "/1.1/statuses/user_timeline", 
                               list(screen_name = "JustinBieber"), 
@@ -26,7 +26,7 @@ test_that("TWIT_paginte_max_id respects max_id and since_id", {
 })  
 
 test_that("TWIT_paginte_cursor respects cursor", {
-  skip_if_offline()
+  
   vcr::use_cassette("http4", {
     page1 <- get_followers("JustinBieber")
   })

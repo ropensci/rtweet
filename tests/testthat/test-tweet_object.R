@@ -1,5 +1,5 @@
 test_that("tweet works with withheld_* #647", {
-  skip_if_offline()
+  
   vcr::use_cassette("lookup_tweets", {
     lu <- rtweet::lookup_tweets("1168343686863892480")
   })

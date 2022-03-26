@@ -1,5 +1,5 @@
 test_that("lookup_users returns users data", {
-  skip_if_offline()
+  
   vcr::use_cassette("lookup_users1", {
     x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
   })
@@ -8,7 +8,7 @@ test_that("lookup_users returns users data", {
 })
 
 test_that("lookup_users works", {
-  skip_if_offline()
+  
   users <- c(
     "potus", "hillaryclinton", "realdonaldtrump",
     "fivethirtyeight", "cnn", "espn", "twitter"
@@ -23,7 +23,7 @@ test_that("lookup_users works", {
 
 
 test_that("users with same information, #654", {
-  skip_if_offline()
+  
   vcr::use_cassette("lookup_users3", {
     a <- lookup_users("alexpghayes")
   })
@@ -35,7 +35,7 @@ test_that("users with same information, #654", {
 })
 
 test_that("Users with date formatting, #653", {
-  skip_if_offline()
+  
   vcr::use_cassette("lookup_users5", {
     x <- lookup_users("alexpghayes")
   })

@@ -1,17 +1,12 @@
-test_that("can favourite and unfavourite a tweet", {
-  skip_if_offline()
-  vcr::use_cassette("post_favorite", {
+vcr::use_cassette("post_favorite", {
+  test_that("can favourite and unfavourite a tweet", {
+    
     tw <- suppressMessages(post_tweet(paste0("test favourite ", Sys.time())))
-  })
-  json <- httr::content(tw)
-  
-  vcr::use_cassette("post_favorite1", {
+    json <- httr::content(tw)
+    
     expect_error(post_favorite(json$id_str), NA)
-  })
-  vcr::use_cassette("post_favorite2", {
     expect_error(post_favorite(json$id_str, destroy = TRUE), NA)
-  })
-  vcr::use_cassette("post_favorite3", {
-    expect_error(post_destroy(json$id_str), NA)
+    expect_message(expect_error(post_destroy(json$id_str), NA), 
+                   "Your tweet has been deleted!")
   })
 })

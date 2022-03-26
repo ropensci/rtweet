@@ -1,6 +1,6 @@
 # Status (no retweet, no reply no quote)
 test_that("network_data on status", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network1", {
     status <- lookup_tweets("1333789433288540160")
     nd <- network_data(status, "mention")  
@@ -10,7 +10,7 @@ test_that("network_data on status", {
 
 # Reply (no quote no retweet)
 test_that("network_data on reply", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network2", {
     reply <- lookup_tweets("1333789435482161153")
     nd <- network_data(reply, "reply")  
@@ -20,7 +20,7 @@ test_that("network_data on reply", {
 
 # Retweet with other tweet embedded quoting  
 test_that("network_data on retweet quoting", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network3", {
     retweet_quoted <- lookup_tweets("1390610121743556609")
     nd <- network_data(retweet_quoted, "quote")  
@@ -30,7 +30,7 @@ test_that("network_data on retweet quoting", {
 
 # Retweet without adding anything new
 test_that("network_data on retweet", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network4", {
     retweet <- lookup_tweets("1390785143615467524")
     nd_retweet <- network_data(retweet, "retweet")
@@ -40,7 +40,7 @@ test_that("network_data on retweet", {
 
 
 test_that("network_data on many", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network5", {
     status <- lookup_tweets(c("1333789433288540160", "1333789435482161153", 
                               "1390610121743556609", "1390785143615467524"))
@@ -51,7 +51,7 @@ test_that("network_data on many", {
 
 
 test_that("graphing functions work", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network6", {
     x <- search_tweets("twitter filter:verified", n = 200)
     d <- network_data(x)
@@ -71,7 +71,7 @@ test_that("graphing functions work", {
 
 # https://twitter.com/henrikbengtsson/status/1390403676057980928
 test_that("network_data works", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network7", {
     rstats <- search_tweets("#rstats", n = 20)
     ## create from-to data frame representing retweet/mention/reply connections
@@ -82,7 +82,7 @@ test_that("network_data works", {
 })
 
 test_that("network_graph works", {
-  skip_if_offline()
+  
   vcr::use_cassette("graph-network8", {
     rstats <- search_tweets("#rstats", n = 20)
     

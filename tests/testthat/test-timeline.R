@@ -1,5 +1,5 @@
 test_that("get_timeline works", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_timeline1", {
     x <- get_timeline(c("cnnbrk", "cnn"), n = 400)
   })
@@ -10,7 +10,7 @@ test_that("get_timeline works", {
 })
 
 test_that("get_my_timeline() works", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_timeline2", {
     gmt <- get_my_timeline()
   })
@@ -19,14 +19,14 @@ test_that("get_my_timeline() works", {
 })
 
 test_that("get_timelines() is deprecated", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_timeline3", {
     expect_snapshot(x <- get_timelines("cnn", n = 10))
   })
 })
 
 test_that("Doesn't trim at 280 characters, #575", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_timeline4", {
     timeline_users <- get_timeline(user = "mvabercron", n = 20)
   })

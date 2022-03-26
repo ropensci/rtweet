@@ -1,5 +1,5 @@
 test_that("mentions returns tweets data", {
-  skip_if_offline()
+  
   vcr::use_cassette("mentions", {
     suppressMessages(x <- get_mentions())
   })

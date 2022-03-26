@@ -1,5 +1,5 @@
 test_that("list_members() works with either id or slug + owner_user", {
-  skip_if_offline()
+  
   vcr::use_cassette("lists_members1", {
     x <- lists_members("105140588")
   })

@@ -1,5 +1,5 @@
 test_that("get_followers returns expected data", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_followers", {
     users <- get_followers("KFC")
   })

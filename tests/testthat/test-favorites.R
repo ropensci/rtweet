@@ -1,5 +1,5 @@
 test_that("can retrieve multiple users", {
-  skip_if_offline()
+  
   users <- c("hadleywickham", "jennybryan")
   vcr::use_cassette("get_favorites1", {
     out <- get_favorites(users, n = 20)
@@ -10,7 +10,7 @@ test_that("can retrieve multiple users", {
 })
 
 test_that("get_favorites returns tweets data", {
-  skip_if_offline()
+  
   n <- 100
   vcr::use_cassette("get_favorites2", {
     x <- get_favorites("kearneymw", n = n)
@@ -27,30 +27,30 @@ test_that("get_favorites returns tweets data", {
   #expect_named(users_data(x))
 })
 
-test_that("favorites warns on a locked user", {
-  skip_if_offline()
-  vcr::use_cassette("get_favorites3", {
+vcr::use_cassette("get_favorites3", {
+  test_that("favorites warns on a locked user", {
+    
     expect_warning(gtf <- get_favorites("515880511"),
                    "Skipping unauthorized account: 515880511")
   })
 })
 # unauthorized 
 
-test_that("favorites warns on a banned user", {
-  skip_if_offline()
-  vcr::use_cassette("get_favorites4", {
+vcr::use_cassette("get_favorites4", {
+  test_that("favorites warns on a banned user", {
+    
     expect_warning(gtf <- get_favorites("realdonaldtrump"),
                    "Skipping unauthorized account: realdonaldtrump")
   })
 })
 
-test_that("favorites warns on a locked user but continues", {
-  skip_if_offline()
-  vcr::use_cassette("get_favorites5", {
+vcr::use_cassette("get_favorites5", {
+  test_that("favorites warns on a locked user but continues", {
+    
     expect_warning(gtf <- get_favorites(c("515880511" = "bhs928",
                                           "no_idea" = "Lluis_Revilla")),
                    "Skipping unauthorized account: bhs928")
-  })
   expect_gt(nrow(gtf), 2)
   expect_true(all(gtf$favorited_by == "Lluis_Revilla"))
+  })
 })

@@ -1,5 +1,5 @@
 test_that("lists_users returns data frame with nrow > 1", {
-  skip_if_offline()
+  
   vcr::use_cassette("list_users1", {
     x <- lists_users("kearneymw")
   })

@@ -1,5 +1,5 @@
 test_that("lists_subscriptions returns lists data frame", {
-  skip_if_offline()
+  
   vcr::use_cassette("lists_subscriptions1", {
     x <- lists_subscriptions("kearneymw")
   })

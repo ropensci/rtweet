@@ -1,5 +1,5 @@
 test_that("lists_subscribers returns users data frame", {
-  skip_if_offline()
+  
   vcr::use_cassette("lists_subscribers", {
     x <- lists_subscribers(
       slug = "new-york-times-politics",

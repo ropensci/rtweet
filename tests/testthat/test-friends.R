@@ -1,5 +1,5 @@
 test_that("get_friends returns data frame with ids", {
-  skip_if_offline()
+  
   vcr::use_cassette("friends1", {
     f <- get_friends("kearneymw")
   })
@@ -9,7 +9,7 @@ test_that("get_friends returns data frame with ids", {
 })
 
 test_that("friendships returns data", {
-  skip_if_offline()
+  
   vcr::use_cassette("friends2", {
     x <- my_friendships("kearneymw")
   })
@@ -25,7 +25,7 @@ test_that("friendships returns data", {
 })
 
 test_that("get_friends works", {
-  skip_if_offline()
+  
   vcr::use_cassette("friends4", {
     djt <- get_friends("ropensci")
   })
@@ -34,7 +34,7 @@ test_that("get_friends works", {
 })
 
 test_that("lookup_friendships works", {
-  skip_if_offline()
+  
   vcr::use_cassette("friends5", {
     lf <- lookup_friendships("hadley", "Lluis_Revilla")
   })
@@ -42,7 +42,7 @@ test_that("lookup_friendships works", {
 })
 
 test_that("my_friendships works", {
-  skip_if_offline()
+  
   vcr::use_cassette("friends6", {
     mf <- my_friendships("hadley")
   })
@@ -50,7 +50,7 @@ test_that("my_friendships works", {
 })
 
 test_that("n = Inf works", {
-  skip_if_offline()
+  
   vcr::use_cassette("friends7", {
     mf <- get_friends("SmallBuStudio", n = Inf)
   })

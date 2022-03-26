@@ -1,5 +1,5 @@
 test_that("list_statuses() works with either id or slug + owner_user", {
-  skip_if_offline()
+  
   vcr::use_cassette("lists_statuses1", {
     x <- lists_statuses("105140588")
   })

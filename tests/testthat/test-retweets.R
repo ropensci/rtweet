@@ -1,5 +1,5 @@
 test_that("get_retweets returns tweets data", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_retweets1", {
     x <- get_retweets("1363488961537130497")
   })
@@ -9,7 +9,7 @@ test_that("get_retweets returns tweets data", {
 })
 
 test_that("get_retweets returns user data", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_retweets2", {
     x <- get_retweets("1363488961537130497")
   })
@@ -17,7 +17,7 @@ test_that("get_retweets returns user data", {
 })
 
 test_that("get_retweeters returns users", {
-  skip_if_offline()
+  
   vcr::use_cassette("get_retweets3", {
     x <- get_retweeters("1363488961537130497")
   })

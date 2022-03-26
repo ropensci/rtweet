@@ -1,5 +1,5 @@
 test_that("ts_plot works", {
-  skip_if_offline()
+  
   vcr::use_cassette("ts_plot1", {
     rt <- search_tweets("rstats", n = 100)
   })
@@ -8,9 +8,9 @@ test_that("ts_plot works", {
 
 
 test_that("ts_data works", {
-  skip_if_offline()
+  
   vcr::use_cassette("ts_plot2", {
-  rt <- search_tweets("rstats", n = 100)
+    rt <- search_tweets("rstats", n = 100)
   })
   expect_error(ts_data(rt), NA)
 })
