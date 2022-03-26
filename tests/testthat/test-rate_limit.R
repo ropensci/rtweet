@@ -1,10 +1,13 @@
 test_that("rate_limit works", {
+  skip_if_offline()
   vcr::use_cassette("rate_limit1", {
     rl <- rate_limit()
   })
   expect_s3_class(rl, "data.frame")
 })
+
 test_that("rate_limit works", {
+  skip_if_offline()
   vcr::use_cassette("rate_limit2", {
     rl <- rate_limit("application/rate_limit_status")
   })
@@ -13,6 +16,7 @@ test_that("rate_limit works", {
 })
 
 test_that("rate_limit returns rate_limit data", {
+  skip_if_offline()
   vcr::use_cassette("rate_limit3", {
     x <- rate_limit()
   })
@@ -24,12 +28,15 @@ test_that("rate_limit returns rate_limit data", {
 })
 
 test_that("rate_limit_reset works", {
+  skip_if_offline()
   vcr::use_cassette("rate_limit4", {
     reset <- rate_limit_reset("application/rate_limit_status")
   })
   expect_s3_class(reset, "POSIXct")
 })
+
 test_that("rate_limit_wait works", {
+  skip_if_offline()
   vcr::use_cassette("rate_limit5", {
     wait <- rate_limit_wait("application/rate_limit_status")
   })

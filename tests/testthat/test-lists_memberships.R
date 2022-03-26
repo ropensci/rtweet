@@ -1,4 +1,5 @@
 test_that("lists_memberships returns data frame with nrow > 1", {
+  skip_if_offline()
   vcr::use_cassette("lists_memberships", {
     df <- lists_memberships("kearneymw", filter_to_owned_lists = TRUE)
   })

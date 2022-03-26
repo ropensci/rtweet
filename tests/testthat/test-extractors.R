@@ -1,4 +1,5 @@
 test_that("tweets_data works", {
+  skip_if_offline()
   vcr::use_cassette("tweet_data1", {
     jack <- lookup_users("jack")
   })
@@ -10,6 +11,7 @@ test_that("tweets_data works", {
 })
 
 test_that("users_data works", {
+  skip_if_offline()
   vcr::use_cassette("tweet_data2", {
     tweets <- search_tweets("r")
   })

@@ -8,6 +8,7 @@ coln <- c("created_at", "id", "id_str", "full_text", "truncated", "display_text_
           "text")
 
 test_that("lookup_statuses returns users data", {
+  skip_if_offline()
   ids <- c("558115838503690243", "760182486005583872", "776053079540166657")
   vcr::use_cassette("ids1", {
     x <- lookup_tweets(ids)
@@ -20,6 +21,7 @@ test_that("lookup_statuses returns users data", {
 
 
 test_that("lookup status no retweet, no reply no quote", {
+  skip_if_offline()
   vcr::use_cassette("ids2", {
     status <- lookup_tweets("1333789433288540160")
   })
@@ -27,6 +29,7 @@ test_that("lookup status no retweet, no reply no quote", {
 })
 
 test_that("lookup on reply, no quote no retweet", {
+  skip_if_offline()
   vcr::use_cassette("ids3", {
     reply <- lookup_tweets("1333789435482161153")
   })
@@ -34,6 +37,7 @@ test_that("lookup on reply, no quote no retweet", {
 })
 
 test_that("lookup on retweet quotting", {
+  skip_if_offline()
   vcr::use_cassette("ids4", {
     retweet_quoted <- lookup_tweets("1390610121743556609")
   })
@@ -42,6 +46,7 @@ test_that("lookup on retweet quotting", {
 
 
 test_that("lookup on retweet", {
+  skip_if_offline()
   vcr::use_cassette("ids5", {
     retweet <- lookup_tweets("1390785143615467524")
   })
@@ -50,6 +55,7 @@ test_that("lookup on retweet", {
 
 
 test_that("lookup on users without tweets, #574", {
+  skip_if_offline()
   vcr::use_cassette("ids6", {
     lu <- lookup_users("994659707766833153")
   })
@@ -58,6 +64,7 @@ test_that("lookup on users without tweets, #574", {
 })
 
 test_that("lookup on users with scopes, #615", {
+  skip_if_offline()
   vcr::use_cassette("ids7", {
     lu <- lookup_tweets("1400810492843630598")
   })
@@ -65,6 +72,7 @@ test_that("lookup on users with scopes, #615", {
 })
 
 test_that("Check coordinates on different autoformatting from jsonlite", {
+  skip_if_offline()
   vcr::use_cassette("ids8", {
     lu <- lookup_tweets(c("368194158915506176"))
   })
@@ -74,6 +82,7 @@ test_that("Check coordinates on different autoformatting from jsonlite", {
 
 
 test_that("Check that geo works well,  #648", {
+  skip_if_offline()
   vcr::use_cassette("ids9", {
     lu <- lookup_tweets(c("1488182699202383875", "1373362476839022592", "1481348667307180033", 
                           "930475046530936834", "914607458169081858"))
@@ -82,6 +91,7 @@ test_that("Check that geo works well,  #648", {
 })
 
 test_that("Check lookup returns appropiate format,  #657", {
+  skip_if_offline()
   vcr::use_cassette("ids10", {
     lu <- lookup_tweets("1488182699202383875")
   })

@@ -1,4 +1,5 @@
 test_that("upload_media_to_twitter() can handle small file", {
+  skip_if_offline()
   # gif - unchunk 1MB
   vcr::use_cassette("upload_media_to_twitter1", {
     id <- upload_media_to_twitter(test_path("tweet.gif"), chunk_size = 1024 * 1024)
@@ -23,6 +24,7 @@ test_that("upload_media_to_twitter() can handle small file", {
 
 
 test_that("can set alt text", {
+  skip_if_offline()
   vcr::use_cassette("upload_media_to_twitter4", {
     id <- upload_media_to_twitter(test_path("tweet.gif"), alt_text = "A bird tweeting")
   })
@@ -31,6 +33,7 @@ test_that("can set alt text", {
 
 
 test_that("post_tweet works", {
+  skip_if_offline()
   msg <- paste("test", Sys.time()) # To avoid having duplicated status
   
   vcr::use_cassette("post_tweet1", {
@@ -47,6 +50,7 @@ test_that("post_tweet works", {
 })
 
 test_that("post_tweet geolocated works", {
+  skip_if_offline()
   # Test geolocated tweet
   msg <- paste("test geolocated", Sys.time()) # To avoid having duplicated status
   vcr::use_cassette("post_tweet3", {

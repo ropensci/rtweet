@@ -1,4 +1,5 @@
 test_that("can favourite and unfavourite a tweet", {
+  skip_if_offline()
   vcr::use_cassette("post_favorite", {
     tw <- suppressMessages(post_tweet(paste0("test favourite ", Sys.time())))
   })

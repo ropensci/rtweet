@@ -25,6 +25,7 @@ test_that("can follow and unfollow with notifications", {
 })
 
 test_that("Muting  #467", {
+  skip_if_offline()
   vcr::use_cassette("post_follow5", {
     pf <- post_follow("hlynur", destroy = TRUE, mute = TRUE, notify = TRUE) 
   })

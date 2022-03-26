@@ -1,4 +1,5 @@
 test_that("direct_messages works", {
+  skip_if_offline()
   vcr::use_cassette("direct_messages", {
     dm <- direct_messages(n = 1)[[1]]
   })

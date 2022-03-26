@@ -1,4 +1,5 @@
 test_that("tweet_threading works", {
+  skip_if_offline()
   vcr::use_cassette("tweet_threading", {
     tw <- lookup_tweets('1461776330584956929')
     tw_thread <- tweet_threading(tw)

@@ -91,6 +91,7 @@ test_that("place works", {
 
 
 test_that("coordinates work", {
+  skip_if_offline()
   minimal_coord <- structure(
     list(type = "Point", 
          coordinates = list(c(-85.6445217, 42.9360473))), 
