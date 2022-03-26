@@ -29,7 +29,7 @@ post_follow <- function(user,
                         retweets = TRUE,
                         token = NULL) {
 
-  stopifnot(is.atomic(user), is.logical(notify), is.logical(mute), is.logical(retweets), is.logical(destroy))
+  stopifnot(is.atomic(user), is.logical(notify))
 
   if (all(!destroy, !retweets)) {
     query <- "/1.1/friendships/update"
