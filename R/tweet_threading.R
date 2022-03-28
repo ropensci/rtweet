@@ -24,6 +24,9 @@ tweet_threading <- function(tw, traverse = c("backwards", "forwards"), n = 10, v
   if (is.character(tw)) {
     tw <- lookup_tweets(tw[1]) 
   }
+  
+  stopifnot("Provide a number above 0" = n > 0)
+  
   # Prevent a forwards, backwards order
   if (length(unique(traverse)) == 2 && all(c("backwards", "forwards") %in% traverse)) {
     traverse <- c("backwards", "forwards")
@@ -52,7 +55,7 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
   if (nrow(tw) == 0) {
     return(tw)
   }
-  counter <- 0
+  counter <- 0L
   ud <- users_data(tw)
   user_data_tw <- ud
   while (!last_found) {
@@ -60,21 +63,22 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
     
     if (!is.na(tw$in_reply_to_status_id[nr])) {
       tw_head <- lookup_tweets(tw$in_reply_to_status_id_str[nr])
+      user_data <- users_data(tw_head)
+      
+      if (user_data$id_str != ud$id_str) {
+        stop("Reply to a different user.", call. = FALSE)
+      }
+      
       last_found <- is.na(tw_head$in_reply_to_status_id[1])
       # Bind replies with the latest reply below
       tw <- rbind(tw_head, tw) 
-      user_data_tw <- rbind(user_data_tw, user_data_tw)
-      counter <- counter + 1
-    }
-
-    if (!last_found && verbose) {
-      cat(".")
-      
-      if (counter %% 80 == 0) {
-        cat(sprintf(" %s \n", counter))
+      user_data_tw <- rbind(user_data_tw, user_data)
+      counter <- counter + 1L
+    } else {
+      if (verbose) {
+        cat("Initial tweet of thread found.")
       }
-    } else if (verbose) {
-      cat(sprintf(" %s statuses found \n", counter))
+      break 
     }
   }
   structure(tw, "users" = user_data_tw)
