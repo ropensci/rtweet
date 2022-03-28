@@ -42,7 +42,7 @@ tweet_threading <- function(tw, traverse = c("backwards", "forwards"), n = 10, v
     if (verbose) cat("\n")
   }
 
-  tw
+  tw[order(tw$created_at), ]
 }
 
 tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
@@ -56,7 +56,10 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
     return(tw)
   }
   counter <- 0L
-  ud <- users_data(tw)
+  ud <- unique(users_data(tw))
+  if (nrow(ud) >= 2) {
+    stop("Data must be from a single user.", call. = FALSE)
+  }
   user_data_tw <- ud
   while (!last_found) {
     nr <- nrow(tw)
@@ -65,14 +68,14 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
       tw_head <- lookup_tweets(tw$in_reply_to_status_id_str[nr])
       user_data <- users_data(tw_head)
       
-      if (user_data$id_str != ud$id_str) {
+      if (user_data$id_str != unique(ud$id_str)) {
         stop("Reply to a different user.", call. = FALSE)
       }
       
       last_found <- is.na(tw_head$in_reply_to_status_id[1])
       # Bind replies with the latest reply below
-      tw <- rbind(tw_head, tw) 
-      user_data_tw <- rbind(user_data_tw, user_data)
+      tw <- rbind(tw, tw_head) 
+      user_data_tw <- rbind(user_data, user_data_tw)
       counter <- counter + 1L
     } else {
       if (verbose) {
@@ -90,44 +93,24 @@ tweet_threading_forwards <- function(tw, n = 10, verbose = FALSE) {
   }
   ud <- users_data(tw)
   
-  # Assumes that the latest reply is last
-  # Could bite if someone uses traverse = c("forwards", "backwards")
-  from_id <- tw$id_str[nrow(tw)] 
+  timeline <- get_timeline(ud$id_str[1], since_id = tw$id_str, verbose = verbose)
   
-  timeline <- get_timeline(ud$id_str[1], since_id = tw)
-  idx <- which(timeline$in_reply_to_status_id_str %in% from_id)
-  last_found <- length(idx) == 0
-
   if (verbose) {
     message("Initializing Forwards Traverse")
   }
-
-  counter <- 0
-
-  while (last_found) {
-    timeline2 <- get_timeline(ud$id_str[1], since_id = tw, max_id = timeline)
-    idx <- which(timeline$in_reply_to_status_id_str %in% from_id)
-    last_found <- length(idx) == 0
-    counter <- counter + 1
-    timeline <- rbind(timeline2, timeline)
-    if (last_found && verbose) {
-      cat(".")
-      
-      if (counter %% 80 == 0) {
-        cat(sprintf(" %s \n", counter))
-      }
-    } else if (verbose) {
-      cat(sprintf(" %s statuses found \n", counter))
-    }
+  
+  while (any(timeline$in_reply_to_status_id_str %in% tw$id_str)) {
+    idx <- which(timeline$in_reply_to_status_id_str %in% tw$id_str)
+    tw <- rbind(tw, timeline[idx, ])
+    timeline <- timeline[-idx, ]
   }
-  while (TRUE) {
-    last_reply <- timeline$id_str[idx[length(idx)]]
-    if (last_reply %in% timeline$in_reply_to_status_id_str) {
-      i <- which(timeline$in_reply_to_status_id_str == last_reply)
-      idx <- c(idx, i)
-    } else {
-      break
-    }
+  
+  if (verbose) {
+    message("No more tweets found on the thread.")
+    message("Either it is before the last 3200 tweets or the thread is finished.")
   }
-  rbind(tw, timeline[idx, ])
+  
+  ud <- ud[rep(1, nrow(tw)), ]
+  rownames(ud) <- NULL
+  structure(tw, "users" = ud)
 }
