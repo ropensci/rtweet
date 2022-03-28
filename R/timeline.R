@@ -3,6 +3,8 @@
 #' `get_timeline()` returns the timeline of any Twitter user (i.e. what they
 #' have tweeted). `get_my_timeline()` returns the home timeline for the 
 #' authenticated user (i.e. the tweets you see when you log into Twitter).
+#' 
+#' At most up to 3,200 of a user's most recent Tweets can be retrieved.
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @param user Character vector of screen names or user ids. 
