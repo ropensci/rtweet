@@ -26,3 +26,69 @@ test_that("tweet_threading works fast", {
   expect_equal(order(tw_thread1$created_at), 1:4)
   expect_equal(order(tw_thread4$created_at), 1:4)
 })
+
+
+test_that("tweet_threading works with id and tweets", {
+  
+  threads <- c("1256278643224965120", "1256278643883442176", 
+                  "1256278644508377088", "1256278645255008256", 
+                  "1256278645905055745", "1256278646605504512", 
+                  "1256278647226265600", "1256278647914156033", 
+                  "1256278648690262018", "1256278649600225280")
+  
+  vcr::use_cassette("tweet_threading3", {
+    tw <- lookup_tweets(threads)
+    tw <- tw[match(threads, tw$id_str), ]
+    th1_id <- tweet_threading(threads[1], traverse = "backwards")
+    th1_tw <- tweet_threading(tw[1, ], traverse = "backwards")
+    th10_id <- tweet_threading(threads[10], traverse = "backwards")
+    th10_tw <- tweet_threading(tw[10, ], traverse = "backwards")
+  })
+  
+  expect_equal(nrow(th1_id), nrow(th1_tw))
+  expect_equal(nrow(th10_id), nrow(th10_tw))
+})
+
+test_that("tweet_threading works forwards", {
+  
+  threads <- c("1256278643224965120", "1256278643883442176", 
+                  "1256278644508377088", "1256278645255008256", 
+                  "1256278645905055745", "1256278646605504512", 
+                  "1256278647226265600", "1256278647914156033", 
+                  "1256278648690262018", "1256278649600225280")
+  
+  vcr::use_cassette("tweet_threading4", {
+    tw <- lookup_tweets(threads)
+    tw <- tw[match(threads, tw$id_str), ]
+    th1_id <- tweet_threading(threads[1], traverse = "forwards")
+    th1_tw <- tweet_threading(tw[1, ], traverse = "forwards")
+    th10_id <- tweet_threading(threads[10], traverse = "forwards")
+    th10_tw <- tweet_threading(tw[10, ], traverse = "forwards")
+  })
+  
+  expect_equal(nrow(th1_id), 10)
+  expect_equal(nrow(th10_id), 1)
+  expect_equal(nrow(th1_id), nrow(th1_tw))
+  expect_equal(nrow(th10_id), nrow(th10_tw))
+})
+
+test_that("tweet_threading works forwards and backwards", {
+  
+  threads <- c("1256278643224965120", "1256278643883442176", 
+               "1256278644508377088", "1256278645255008256", 
+               "1256278645905055745", "1256278646605504512", 
+               "1256278647226265600", "1256278647914156033", 
+               "1256278648690262018", "1256278649600225280")
+  
+  vcr::use_cassette("tweet_threading5", {
+    
+    t1f <- tweet_threading(threads[1], traverse = "forwards")
+    t1b <- tweet_threading(threads[1], traverse = "backwards")
+    t10f <- tweet_threading(threads[10], traverse = "forwards")
+    t10b <- tweet_threading(threads[10], traverse = "backwards")
+  })
+  expect_equal(nrow(t1f), 10)
+  expect_equal(nrow(t1b), 1)
+  expect_equal(nrow(t10f), 1)
+  expect_equal(nrow(t10b), 10)
+})

@@ -93,7 +93,8 @@ tweet_threading_forwards <- function(tw, n = 10, verbose = FALSE) {
   }
   ud <- users_data(tw)
   
-  timeline <- get_timeline(ud$id_str[1], since_id = tw$id_str, verbose = verbose)
+  timeline <- get_timeline(ud$id_str[1], since_id = tw$id_str, 
+                           verbose = verbose, n = Inf)
   
   if (verbose) {
     message("Initializing Forwards Traverse")
