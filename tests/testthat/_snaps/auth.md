@@ -9,26 +9,30 @@
 
     Code
       find_auth(1:10)
-    Error <rlang_error>
-      Unrecognised input to `auth`
+    Condition
+      Error in `find_auth()`:
+      ! Unrecognised input to `auth`
     Code
       find_auth("not-present")
-    Error <rlang_error>
-      Can't find saved auth with name 'not-present'
+    Condition
+      Error in `find_auth()`:
+      ! Can't find saved auth with name 'not-present'
 
 # default_cached_auth() handles 0, 1, and n saved
 
     Code
       default_cached_auth()
-    Error <rlang_error>
-      No default authentication found. Please call `auth_setup_default()`
+    Condition
+      Error in `default_cached_auth()`:
+      ! No default authentication found. Please call `auth_setup_default()`
 
 ---
 
     Code
       default_cached_auth()
-    Error <rlang_error>
-      No default authentication found. Pick existing auth with:
+    Condition
+      Error in `default_cached_auth()`:
+      ! No default authentication found. Pick existing auth with:
       * auth_as('test1')
       * auth_as('test2')
 

@@ -2,12 +2,14 @@
 
     Code
       . <- get_token()
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `get_token()` was deprecated in rtweet 1.0.0.
       Please use `auth_get()` instead.
     Code
       . <- get_tokens()
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `get_tokens()` was deprecated in rtweet 1.0.0.
       Please use `auth_get()` instead.
 
@@ -15,7 +17,8 @@
 
     Code
       token <- suppressMessages(create_token("my-app", "x", "x", "y", "y"))
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `create_token()` was deprecated in rtweet 1.0.0.
       See vignette('auth') for details
 
