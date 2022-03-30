@@ -5,27 +5,30 @@
 #' origin status_id of the thread up to the root, then checks if there are any 
 #' child statuses that were posted after the origin status.
 #'
+#' The backwards method looks up the tweet which is replying to, so it works if 
+#' starting from the last tweet of the thread.
+#' 
+#' The forwards method looks for newer replies to the tweet provided. If the tweet doesn't have a reply it won't be able to find anything.
+#' The forwards method is limited by the timeline API (See [get_timeline()]). 
 #' @param tw [lookup_tweets()] output containing
 #'  at least the last status in the thread or an id of a tweet. 
-#' @param traverse character, direction to traverse from origin status in tw,
-#'  Default: c('backwards','forwards')
-#' @param n numeric, timeline to fetch to start forwards traversing, Default: 10
-#' @param verbose logical, Output to console status of traverse, Default: FALSE
-#' @return [lookup_tweets()] tibble
+#' @param traverse character, direction to traverse from origin status in tw.
+#' It is not recommended to change the default if you don't know at which point of a thread you are starting.
+#' @param verbose logical, output to console status of traverse.
+#' @return Tweets in a structure like [lookup_tweets()].
 #' @examples
 #' \dontrun{
 #' tw_thread <- tweet_threading("1461776330584956929")
 #' tw_thread
 #' }
 #' @export
-tweet_threading <- function(tw, traverse = c("backwards", "forwards"), n = 10, verbose = FALSE) {
+tweet_threading <- function(tw, traverse = c("backwards", "forwards"), verbose = FALSE) {
   
   # Accept tweets ids
   if (is.character(tw)) {
     tw <- lookup_tweets(tw[1]) 
   }
-  
-  stopifnot("Provide a number above 0" = n > 0)
+  stopifnot(is.logical(verbose))
   
   # Prevent a forwards, backwards order
   if (length(unique(traverse)) == 2 && all(c("backwards", "forwards") %in% traverse)) {
@@ -38,14 +41,14 @@ tweet_threading <- function(tw, traverse = c("backwards", "forwards"), n = 10, v
       abort("`traverse` must contain only 'backwards' or 'forwards")
     )
 
-    tw <- direction(tw, n, verbose)
+    tw <- direction(tw, verbose)
     if (verbose) cat("\n")
   }
 
   tw[order(tw$created_at), ]
 }
 
-tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
+tweet_threading_backwards <- function(tw, verbose = FALSE) {
   last_found <- FALSE
 
   if (verbose) {
@@ -87,9 +90,9 @@ tweet_threading_backwards <- function(tw, n = NULL, verbose = FALSE) {
   structure(tw, "users" = user_data_tw)
 }
 
-tweet_threading_forwards <- function(tw, n = 10, verbose = FALSE) {
+tweet_threading_forwards <- function(tw, verbose = FALSE) {
   if (verbose) {
-    message(sprintf("Retrieving last %s statuses from @%s's timeline", n, tw$screen_name[1]))
+    message(sprintf("Retrieving last statuses from @%s's timeline", tw$screen_name[1]))
   }
   ud <- users_data(tw)
   
