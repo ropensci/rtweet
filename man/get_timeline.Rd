@@ -95,6 +95,9 @@ A tbl data frame of tweets data with users data attribute.
 have tweeted). \code{get_my_timeline()} returns the home timeline for the
 authenticated user (i.e. the tweets you see when you log into Twitter).
 }
+\details{
+At most up to 3,200 of a user's most recent Tweets can be retrieved.
+}
 \examples{
 
 \dontrun{

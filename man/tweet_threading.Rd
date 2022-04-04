@@ -4,32 +4,32 @@
 \alias{tweet_threading}
 \title{Collect statuses contained in a thread}
 \usage{
-tweet_threading(
-  tw,
-  traverse = c("backwards", "forwards"),
-  n = 10,
-  verbose = FALSE
-)
+tweet_threading(tw, traverse = c("backwards", "forwards"), verbose = FALSE)
 }
 \arguments{
 \item{tw}{\code{\link[=lookup_tweets]{lookup_tweets()}} output containing
 at least the last status in the thread or an id of a tweet.}
 
-\item{traverse}{character, direction to traverse from origin status in tw,
-Default: c('backwards','forwards')}
+\item{traverse}{character, direction to traverse from origin status in tw.
+It is not recommended to change the default if you don't know at which point of a thread you are starting.}
 
-\item{n}{numeric, timeline to fetch to start forwards traversing, Default: 10}
-
-\item{verbose}{logical, Output to console status of traverse, Default: FALSE}
+\item{verbose}{logical, output to console status of traverse.}
 }
 \value{
-\code{\link[=lookup_tweets]{lookup_tweets()}} tibble
+Tweets in a structure like \code{\link[=lookup_tweets]{lookup_tweets()}}.
 }
 \description{
 Return all statuses that are part of a thread (Replies from a user to their
 own tweets). By default the function traverses first backwards from the
 origin status_id of the thread up to the root, then checks if there are any
 child statuses that were posted after the origin status.
+}
+\details{
+The backwards method looks up the tweet which is replying to, so it works if
+starting from the last tweet of the thread.
+
+The forwards method looks for newer replies to the tweet provided. If the tweet doesn't have a reply it won't be able to find anything.
+The forwards method is limited by the timeline API (See \code{\link[=get_timeline]{get_timeline()}}).
 }
 \examples{
 \dontrun{

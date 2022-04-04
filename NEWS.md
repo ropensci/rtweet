@@ -4,6 +4,8 @@
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
   
+- The new `tweet_threading` function is now faster and more reliable (#305, #693). 
+  
 - `auth_as()` accepts path to an authentication to make it easier to use authentication outside a user account (#602)
 
 - All paginated functions that don't return tweets now use a consistent 
@@ -12,6 +14,8 @@
   argument.
   
 - Message are now properly capitalized (#565, @jsta)  
+
+
 
 - Fields `withheld_scope`, `withheld_copyright`, `withheld_in_countries` are now correctly parsed (#647).
 
