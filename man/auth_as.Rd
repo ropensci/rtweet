@@ -39,6 +39,8 @@ auth_as("my-saved-app")
 }
 }
 \seealso{
+\code{\link[=auth_sitrep]{auth_sitrep()}} to help finding and managing authentications.
+
 Other authentication: 
 \code{\link{auth_get}()},
 \code{\link{auth_save}()},
