@@ -14,11 +14,30 @@ knitr::opts_chunk$set(
   echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-This vignette provides a quick tour of the R package `rtweet: Collecting Twitter Data`.
+This vignette provides a quick tour of the R package.
 
-### Search tweets
+## Authenticate
+
+First you should set up your own credentials:
+
+```{r}
+auth_setup_default()
+```
+
+Which will look up your account on your browser.
+Next we need to authenticate as it:
+
+```{r}
+auth_as("default")
+```
+
+Then we are ready to use the package.
+If you want to set up a bot or collect a lot of information, please read the `vignette("auth", "rtweet")`
+
+## Search tweets
 
 Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.
+
 ```{r, eval=FALSE}
 ## search for 18000 tweets using the rstats hashtag
 rt <- search_tweets(
@@ -80,7 +99,135 @@ maps::map("state", lwd = .25)
 with(rt, points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75)))
 ```
 
-### Stream tweets
+
+## Posting statuses
+
+You can post tweets with:
+
+```{r, eval=FALSE}
+post_tweet("my first rtweet #rstats")
+```
+
+It can include media and alt text:
+
+```{r}
+path_file <- ggplot2::ggsave(tempfile(fileext = ".png"), plot)
+post_tweet("my first rtweet #rstats", media = path_file, media_alt_text = "Plot of the R Foundation monthly tweets since October 2017. At most 7 tweets per month, with some months without tweets.")
+```
+
+You can also reply to a previous tweet, retweet and provide additional information. 
+
+## Get friends
+
+Retrieve a list of all the accounts a **user follows**.
+```{r, eval=FALSE}
+## get user IDs of accounts followed by R Foundation
+R_foundation_fds <- get_friends("_R_Foundation")
+
+## lookup data on those accounts
+R_foundation_fds_data <- lookup_users(R_foundation$user_id)
+```
+
+## Get followers
+
+Retrieve a list of the **accounts following** a user.
+```{r, eval=FALSE}
+## get user IDs of accounts following R Foundation
+R_foundation_flw <- get_followers("_R_Foundation", n = 75000)
+
+## lookup data on those accounts
+R_foundation_flw_data <- lookup_users(R_foundation_flw$user_id)
+```
+
+Or if you really want ALL of their followers:
+```{r, eval=FALSE}
+## how many total follows does R Foundation have?
+R_foundation <- lookup_users("_R_Foundation")
+
+## get them all (this would take a little over 5 days)
+R_foundation_flw <- get_followers(
+  "_R_Foundation", n = R_foundation$followers_count, retryonratelimit = TRUE
+)
+```
+
+## Get timelines
+
+Get the most recent 3,200 tweets from R Foundation.
+```{r, eval=FALSE}
+## get user IDs of accounts followed by R Foundation
+tmls <- get_timeline("_R_Foundation", n = 3200)
+
+## plot the frequency of tweets for each user over time
+plot <- tmls |> 
+  dplyr::filter(created_at > "2017-10-29") |> 
+  ts_plot(by = "month", trim = 1L) +
+  ggplot2::geom_point() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequency of Twitter statuses posted by the R Foundation",
+    subtitle = "Twitter status (tweet) counts aggregated by month from October/November 2017",
+    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
+  )
+```
+
+## Get favorites
+
+Get the 3,000 most recently favorited statuses by R Foundation.
+```{r, eval=FALSE}
+jkr <- get_favorites("_R_Foundation", n = 3000)
+```
+
+## Search users
+
+Search for 1,000 users with the rstats hashtag in their profile bios.
+```{r, eval=FALSE}
+## search for users with #rstats in their profiles
+usrs <- search_users("#rstats", n = 1000)
+```
+
+## Get trends
+
+Discover what's currently trending in San Francisco.
+```{r, eval=FALSE}
+sf <- get_trends("san francisco")
+```
+
+## Lookup users
+
+```{r, eval=FALSE}
+## lookup users by screen_name or user_id
+users <- c("KimKardashian", "justinbieber", "taylorswift13",
+           "espn", "JoelEmbiid", "cstonehoops", "KUHoops",
+           "upshotnyt", "fivethirtyeight", "hadleywickham",
+           "cnn", "foxnews", "msnbc", "maddow", "seanhannity",
+           "potus", "epa", "hillaryclinton", "realdonaldtrump",
+           "natesilver538", "ezraklein", "annecoulter")
+famous_tweeters <- lookup_users(users)
+
+## preview users data
+famous_tweeters
+
+# extract most recent tweets data from the famous tweeters
+tweets_data(famous_tweeters)
+```
+
+
+
+## Following users
+
+You can follow users and unfollow them:
+
+```{r, eval=FALSE}
+post_follow("_F_Foundation")
+post_unfollow_user("afdsaf")
+```
+
+## Stream tweets
 
 Randomly sample (approximately 1%) from the live stream of all tweets.
 ```{r, eval=FALSE}
@@ -106,118 +253,4 @@ stream_tweets(
 
 ## read in the data as a tidy tbl data frame
 djt <- parse_stream("tweets_about_R.json.json")
-```
-
-### Get friends
-
-Retrieve a list of all the accounts a **user follows**.
-```{r, eval=FALSE}
-## get user IDs of accounts followed by R Foundation
-R_foundation_fds <- get_friends("_R_Foundation")
-
-## lookup data on those accounts
-R_foundation_fds_data <- lookup_users(R_foundation$user_id)
-```
-
-### Get followers
-
-Retrieve a list of the **accounts following** a user.
-```{r, eval=FALSE}
-## get user IDs of accounts following R Foundation
-R_foundation_flw <- get_followers("_R_Foundation", n = 75000)
-
-## lookup data on those accounts
-R_foundation_flw_data <- lookup_users(R_foundation_flw$user_id)
-```
-
-Or if you really want ALL of their followers:
-```{r, eval=FALSE}
-## how many total follows does R Foundation have?
-R_foundation <- lookup_users("_R_Foundation")
-
-## get them all (this would take a little over 5 days)
-R_foundation_flw <- get_followers(
-  "_R_Foundation", n = R_foundation$followers_count, retryonratelimit = TRUE
-)
-```
-
-### Get timelines
-
-Get the most recent 3,200 tweets from R Foundation.
-```{r, eval=FALSE}
-## get user IDs of accounts followed by R Foundation
-tmls <- get_timelines("_R_Foundation", n = 3200)
-
-## plot the frequency of tweets for each user over time
-tmls %>%
-  dplyr::filter(created_at > "2017-10-29") %>%
-  dplyr::group_by(screen_name) %>%
-  ts_plot("days", trim = 1L) +
-  ggplot2::geom_point() +
-  ggplot2::theme_minimal() +
-  ggplot2::theme(
-    legend.title = ggplot2::element_blank(),
-    legend.position = "bottom",
-    plot.title = ggplot2::element_text(face = "bold")) +
-  ggplot2::labs(
-    x = NULL, y = NULL,
-    title = "Frequency of Twitter statuses posted by news organization",
-    subtitle = "Twitter status (tweet) counts aggregated by day from October/November 2017",
-    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
-  )
-```
-
-### Get favorites
-
-Get the 3,000 most recently favorited statuses by R Foundation.
-```{r, eval=FALSE}
-jkr <- get_favorites("_R_Foundation", n = 3000)
-```
-
-### Search users
-
-Search for 1,000 users with the rstats hashtag in their profile bios.
-```{r, eval=FALSE}
-## search for users with #rstats in their profiles
-usrs <- search_users("#rstats", n = 1000)
-```
-
-### Get trends
-
-Discover what's currently trending in San Francisco.
-```{r, eval=FALSE}
-sf <- get_trends("san francisco")
-```
-
-### Lookup users
-
-```{r, eval=FALSE}
-## lookup users by screen_name or user_id
-users <- c("KimKardashian", "justinbieber", "taylorswift13",
-           "espn", "JoelEmbiid", "cstonehoops", "KUHoops",
-           "upshotnyt", "fivethirtyeight", "hadleywickham",
-           "cnn", "foxnews", "msnbc", "maddow", "seanhannity",
-           "potus", "epa", "hillaryclinton", "realdonaldtrump",
-           "natesilver538", "ezraklein", "annecoulter")
-famous_tweeters <- lookup_users(users)
-
-## preview users data
-famous_tweeters
-
-# extract most recent tweets data from the famous tweeters
-tweets_data(famous_tweeters)
-```
-
-
-### Posting statuses
-
-```{r, eval=FALSE}
-post_tweet("my first rtweet #rstats")
-```
-
-### Following users
-
-```{r, eval=FALSE}
-## ty for the follow ;)
-post_follow("kearneymw")
 ```
