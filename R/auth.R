@@ -4,13 +4,22 @@
 #' your personal Twitter account. See [rtweet_app()]/[rtweet_bot] and 
 #' [auth_save()] for other authentication options.
 #' 
+#' It will use the current logged in account on the default browser to detect 
+#' the credentials needed for rtweet and save them as "default".
+#' 
 #' @export
 #' @family authentication
+#' @examples 
+#' \dontrun{
+#' auth_setup_default()
+#' }
 auth_setup_default <- function() {
   auth_save(rtweet_user(), "default")
 }
 
 #' Authentication options
+#' 
+#' Authenticate methods to use the Twitter API.
 #' 
 #' @description 
 #' There are three ways that you can authenticate with the Twitter API:
@@ -43,8 +52,8 @@ auth_setup_default <- function() {
 #' passwords so should generally not be typed into the console (where they
 #' the will be recorded in `.Rhistory`) or recorded in a script (which is
 #' easy to accidentally share). Instead, call these functions without arguments
-#' since the default behaviour is to use [askpass::askpass()] to interactively 
-#' prompt you for the values.
+#' since the default behaviour is to use ask_pass that if possible uses 
+#' [askpass::askpass()] to interactively safely prompt you for the values.
 #' 
 #' @param api_key,api_secret Application API key and secret. These are 
 #'   generally not required for `tweet_user()` since the defaults will use
@@ -53,6 +62,12 @@ auth_setup_default <- function() {
 #' @param bearer_token App bearer token.
 #' @family authentication
 #' @export
+#' @examples 
+#' \dontrun{
+#' rtweet_user()
+#' rtweet_bot()
+#' rtweet_app()
+#' }
 rtweet_user <- function(api_key = NULL, api_secret = NULL) {
   check_installed("httpuv")
   
@@ -141,6 +156,10 @@ print.rtweet_bearer <- function(x, ...) {
 #' @keywords internal
 #' @family authentication
 #' @export
+#' @examples 
+#' \dontrun{
+#' auth_get()
+#' }
 auth_get <- function() {
   if (is.null(.state$auth)) {
     auth_as()
@@ -156,9 +175,13 @@ auth_get <- function() {
 #' credentials, making it easier to share auth between projects.
 #' Use `auth_list()` to list all saved credentials.
 #' 
+#' The tokens are saved on `tools::R_user_dir("rtweet", "config")`. 
+#' 
 #' @param auth One of [rtweet_app()], [rtweet_bot()], or [rtweet_user()].
-#' @param name Cache name to use.
+#' @param name Name of the file to use.
+#' @return Invisible the path where the authentication is saved.
 #' @family authentication
+#' @seealso [auth_sitrep()] to help finding and managing authentications.
 #' @export
 #' @examples 
 #' \dontrun{
@@ -168,6 +191,8 @@ auth_get <- function() {
 #' 
 #' # later, in a different session...
 #' auth_as("my-app")
+#' # Show all authentications stored
+#' auth_list()
 #' }
 auth_save <- function(auth, name) {
   stopifnot(is_auth(auth), is_string(name))
@@ -203,6 +228,7 @@ auth_list <- function() {
 #'   * An auth object created by [rtweet_app()], [rtweet_bot()], or 
 #'     [rtweet_user()].
 #' @return Invisibly returns the previous authentication mechanism.
+#' @seealso [auth_sitrep()] to help finding and managing authentications.
 #' @family authentication
 #' @export
 #' @examples 

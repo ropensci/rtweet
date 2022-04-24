@@ -50,15 +50,25 @@ no need to because it uses the Twitter app provided by rtweet.
 Use \code{\link[=auth_as]{auth_as()}} to set the default auth mechanism for the current session,
 and \code{\link[=auth_save]{auth_save()}} to save an auth mechanism for use in future sessions.
 }
+\details{
+Authenticate methods to use the Twitter API.
+}
 \section{Security}{
 All of the arguments to these functions are roughly equivalent to
 passwords so should generally not be typed into the console (where they
 the will be recorded in \code{.Rhistory}) or recorded in a script (which is
 easy to accidentally share). Instead, call these functions without arguments
-since the default behaviour is to use \code{\link[askpass:askpass]{askpass::askpass()}} to interactively
-prompt you for the values.
+since the default behaviour is to use ask_pass that if possible uses
+\code{\link[askpass:askpass]{askpass::askpass()}} to interactively safely prompt you for the values.
 }
 
+\examples{
+\dontrun{
+rtweet_user()
+rtweet_bot()
+rtweet_app()
+}
+}
 \seealso{
 Other authentication: 
 \code{\link{auth_as}()},

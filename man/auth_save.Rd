@@ -12,12 +12,18 @@ auth_list()
 \arguments{
 \item{auth}{One of \code{\link[=rtweet_app]{rtweet_app()}}, \code{\link[=rtweet_bot]{rtweet_bot()}}, or \code{\link[=rtweet_user]{rtweet_user()}}.}
 
-\item{name}{Cache name to use.}
+\item{name}{Name of the file to use.}
+}
+\value{
+Invisible the path where the authentication is saved.
 }
 \description{
 Use \code{auth_save()} with \code{\link[=auth_as]{auth_as()}} to avoid repeatedly entering app
 credentials, making it easier to share auth between projects.
 Use \code{auth_list()} to list all saved credentials.
+}
+\details{
+The tokens are saved on \code{tools::R_user_dir("rtweet", "config")}.
 }
 \examples{
 \dontrun{
@@ -27,9 +33,13 @@ auth_save(auth, "my-app")
 
 # later, in a different session...
 auth_as("my-app")
+# Show all authentications stored
+auth_list()
 }
 }
 \seealso{
+\code{\link[=auth_sitrep]{auth_sitrep()}} to help finding and managing authentications.
+
 Other authentication: 
 \code{\link{auth_as}()},
 \code{\link{auth_get}()},

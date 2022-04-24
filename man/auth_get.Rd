@@ -10,6 +10,11 @@ auth_get()
 If no authentication has been set up for this session, \code{auth_get()} will
 call \code{\link[=auth_as]{auth_as()}} to set it up.
 }
+\examples{
+\dontrun{
+auth_get()
+}
+}
 \seealso{
 Other authentication: 
 \code{\link{auth_as}()},
