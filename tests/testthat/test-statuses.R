@@ -53,7 +53,6 @@ test_that("lookup on retweet", {
   expect_true(all(coln %in% colnames(retweet))) 
 })
 
-
 test_that("lookup on users without tweets, #574", {
   
   vcr::use_cassette("ids6", {
@@ -96,4 +95,15 @@ test_that("Check lookup returns appropiate format,  #657", {
     lu <- lookup_tweets("1488182699202383875")
   })
   expect_s3_class(lu$created_at, "POSIXct")
+})
+
+test_that("Lookup_tweets return same order on output #697", {
+  thread <- c("1256278643224965120", "1256278643883442176", "1256278644508377088", 
+              "1256278645255008256", "1256278645905055745", "1256278646605504512", 
+              "1256278647226265600", "1256278647914156033", "1256278648690262018", 
+              "1256278649600225280")
+  vcr::use_cassette("ids11", {
+    out <- lookup_tweets(thread)
+  })
+  expect_equal(out$id_str, thread)
 })

@@ -38,6 +38,11 @@ lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
   if (parse) {
     results <- tweets_with_users(results)
     results$created_at <- format_date(results$created_at)
+    # Reorder to match input, skip NA if the status is not found. 
+    m <- match(statuses, results$id_str)
+    m <- m[!is.na(m)] 
+    results <- results[m, ]
+    attr(results, "users") <- users_data(results)[m, ]
   }
   results
 }
