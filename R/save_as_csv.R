@@ -22,6 +22,8 @@ write_as_csv <- function(x, file_name,
                          prepend_ids = TRUE,
                          na = "",
                          fileEncoding = "UTF-8") {
+  lifecycle::deprecate_warn("1.0.0", "write_as_csv()", 
+                            details = c(i = "Only works on  rtweet data before 1.0.0 version"))
   ## to minimize rounding
   op <- options()
   on.exit(options(op))
@@ -193,6 +195,8 @@ unx_ids <- function(x) {
 #' @family datafiles
 #' @export
 read_twitter_csv <- function(file, unflatten = FALSE) {
+  lifecycle::deprecate_warn("1.0.0", "read_twitter_csv()", 
+                            details = c(i = "Works on rtweet data saved before 1.0.0 version."))
   x <- utils::read.csv(
     file = file,
     na.strings = "",

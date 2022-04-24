@@ -1,5 +1,5 @@
 test_that("save_as_csv saves tweets data", {
-  skip("Not ready yet")
+  skip("Without old data")
   x <- search_tweets(q = "obama")
   write_as_csv(x, "csv_data.csv", prepend_ids = FALSE)
   expect_gt(ncol(utils::read.csv("csv_data.csv")), 15)
