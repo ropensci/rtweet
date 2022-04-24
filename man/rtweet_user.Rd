@@ -62,6 +62,13 @@ since the default behaviour is to use ask_pass that if possible uses
 \code{\link[askpass:askpass]{askpass::askpass()}} to interactively safely prompt you for the values.
 }
 
+\examples{
+\dontrun{
+rtweet_user()
+rtweet_bot()
+rtweet_app()
+}
+}
 \seealso{
 Other authentication: 
 \code{\link{auth_as}()},

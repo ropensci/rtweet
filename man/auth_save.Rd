@@ -33,6 +33,8 @@ auth_save(auth, "my-app")
 
 # later, in a different session...
 auth_as("my-app")
+# Show all authentications stored
+auth_list()
 }
 }
 \seealso{

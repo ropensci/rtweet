@@ -11,6 +11,15 @@ You'll need to run this function once per computer so that rtweet can use
 your personal Twitter account. See \code{\link[=rtweet_app]{rtweet_app()}}/\link{rtweet_bot} and
 \code{\link[=auth_save]{auth_save()}} for other authentication options.
 }
+\details{
+It will use the current logged in account on the default browser to detect
+the credentials needed for rtweet and save them as "default".
+}
+\examples{
+\dontrun{
+auth_setup_default()
+}
+}
 \seealso{
 Other authentication: 
 \code{\link{auth_as}()},
