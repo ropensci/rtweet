@@ -14,6 +14,7 @@ your personal Twitter account. See \code{\link[=rtweet_app]{rtweet_app()}}/\link
 \details{
 It will use the current logged in account on the default browser to detect
 the credentials needed for rtweet and save them as "default".
+If a default is found it will use it instead.
 }
 \examples{
 \dontrun{
