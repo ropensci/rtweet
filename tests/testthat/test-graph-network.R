@@ -91,3 +91,11 @@ test_that("network_graph works", {
   })
   expect_s3_class(rstats_net, "igraph")
 })
+
+test_that("Network data works even with no retweet, #696", {
+  
+  vcr::use_cassette("graph-network9", {
+    th10 <- tweet_threading("1256278649600225280", traverse = "backwards")
+  })
+  expect_error(nd <- network_data(th10), NA)
+})

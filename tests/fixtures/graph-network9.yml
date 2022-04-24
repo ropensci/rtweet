@@ -1,0 +1,524 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278649600225280&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      content-disposition: attachment; filename=json.json
+      content-encoding: gzip
+      content-length: '1125'
+      content-type: application/json;charset=utf-8
+      date: Sun, 24 Apr 2022 15:16:38 GMT
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      last-modified: Sun, 24 Apr 2022 15:16:38 GMT
+      pragma: no-cache
+      server: tsa_f
+      set-cookie:
+      - lang=en; Path=/
+      - guest_id=v1%3A165081339892658640; Max-Age=34214400; Expires=Thu, 25 May 2023
+        15:16:38 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None
+      status: 200 OK
+      strict-transport-security: max-age=631138519
+      x-access-level: read-write-directmessages
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+      x-content-type-options: nosniff
+      x-frame-options: SAMEORIGIN
+      x-rate-limit-limit: '900'
+      x-rate-limit-remaining: '889'
+      x-rate-limit-reset: '1650814254'
+      x-response-time: '131'
+      x-transaction: 74f64da494bfb331
+      x-twitter-response-tags: BouncerCompliant
+      x-xss-protection: '0'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:45 +0000 2020","id":1256278649600225280,"id_str":"1256278649600225280","full_text":"The
+        current crisis reminds me of the dotcom crash. Times will be tough but there
+        will undoubtedly be a few unicorns that emerge from this crisis. Read the
+        full post here: https:\/\/t.co\/qZ6Emvg5zC","truncated":false,"display_text_range":[0,194],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/qZ6Emvg5zC","expanded_url":"https:\/\/medium.com\/craft-ventures\/the-original-apocalypse-ea432f8aacf","display_url":"medium.com\/craft-ventures\u2026","indices":[171,194]}]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278648690262018,"in_reply_to_status_id_str":"1256278648690262018","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":20,"favorite_count":120,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278648690262018&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:39 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:39 GMT
+      x-transaction: 083b8dc2d4f7d0fb
+      content-length: '1084'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '888'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '131'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:45 +0000 2020","id":1256278648690262018,"id_str":"1256278648690262018","full_text":"Lesson
+        5: Many things actually get easier during an economic downturn. We were able
+        to hire great teammates because there were more talented people on the market.
+        Our CAC was lower because fewer startups were getting funded which meant fewer
+        companies competing for keywords.","truncated":false,"display_text_range":[0,275],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278647914156033,"in_reply_to_status_id_str":"1256278647914156033","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":7,"favorite_count":77,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278647914156033&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:39 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:39 GMT
+      x-transaction: 4aaf0deba356efcf
+      content-length: '1081'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '887'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '131'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:44 +0000 2020","id":1256278647914156033,"id_str":"1256278647914156033","full_text":"Lesson
+        4: Depression-era values can build a strong culture. We were forced to be
+        frugal with our cash, flexible with our strategy and persistent in our mission.
+        These principles continued to define our identity even after the economy recovered
+        and our business flourished.","truncated":false,"display_text_range":[0,272],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278647226265600,"in_reply_to_status_id_str":"1256278647226265600","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":16,"favorite_count":89,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278647226265600&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:40 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:40 GMT
+      x-transaction: 96fbf7a23567e064
+      content-length: '1064'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '886'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '131'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:44 +0000 2020","id":1256278647226265600,"id_str":"1256278647226265600","full_text":"Lesson
+        3: VCs don\u2019t decide your fate. Scores of venture firms passed on the
+        opportunity to invest in StubHub. Our cap table was unconventional with many
+        small individual investors, but that didn\u2019t affect our performance.","truncated":false,"display_text_range":[0,220],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278646605504512,"in_reply_to_status_id_str":"1256278646605504512","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":5,"favorite_count":75,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278646605504512&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:40 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:40 GMT
+      x-transaction: a1efa8badd1edb30
+      content-length: '998'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '885'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '128'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:44 +0000 2020","id":1256278646605504512,"id_str":"1256278646605504512","full_text":"Lesson
+        2: Be flexible with your strategy. Our willingness to shift from a B2B strategy
+        to a B2C strategy was critical to our success.","truncated":false,"display_text_range":[0,133],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278645905055745,"in_reply_to_status_id_str":"1256278645905055745","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":4,"favorite_count":58,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278645905055745&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:40 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:40 GMT
+      x-transaction: e06106c943b0fd90
+      content-length: '1022'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '884'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '131'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:44 +0000 2020","id":1256278645905055745,"id_str":"1256278645905055745","full_text":"Lesson
+        1: The market need for your product matters more than the market timing. There
+        was a real need for our product which led to success even though the internet
+        economy was suffering.","truncated":false,"display_text_range":[0,186],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278645255008256,"in_reply_to_status_id_str":"1256278645255008256","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":9,"favorite_count":85,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278645255008256&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:41 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:41 GMT
+      x-transaction: 76909bb33fb50268
+      content-length: '1012'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '883'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '129'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:44 +0000 2020","id":1256278645255008256,"id_str":"1256278645255008256","full_text":"I
+        learned some valuable lessons navigating through the Original Apocalypse that
+        are newly relevant in today\u2019s COVID-19 climate.","truncated":false,"display_text_range":[0,127],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278644508377088,"in_reply_to_status_id_str":"1256278644508377088","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":3,"favorite_count":21,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278644508377088&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:41 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:41 GMT
+      x-transaction: 6952851791940e8a
+      content-length: '1042'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '882'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '132'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:44 +0000 2020","id":1256278644508377088,"id_str":"1256278644508377088","full_text":"We
+        incorporated StubHub in March 2000, one month before the dotcom crash. Our
+        timing was terrible, but we grew the top line 3-4x for several years and sold
+        the company to eBay in 2007.","truncated":false,"display_text_range":[0,184],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278643883442176,"in_reply_to_status_id_str":"1256278643883442176","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":2,"favorite_count":26,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278643883442176&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:41 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:41 GMT
+      x-transaction: 9120fff66bc17ef7
+      content-length: '1010'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '881'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '133'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:43 +0000 2020","id":1256278643883442176,"id_str":"1256278643883442176","full_text":"For
+        founders who didn\u2019t experience this first-hand, it may be hard to imagine
+        a reset more severe than the current one brought on by Covid.","truncated":false,"display_text_range":[0,139],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1256278643224965120,"in_reply_to_status_id_str":"1256278643224965120","in_reply_to_user_id":34783009,"in_reply_to_user_id_str":"34783009","in_reply_to_screen_name":"jefffluhr","user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":1,"favorite_count":25,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1256278643224965120&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sun, 24 Apr 2022 15:16:42 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sun, 24 Apr 2022 15:16:42 GMT
+      x-transaction: 0e39b9be65b70589
+      content-length: '1016'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1650814254'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '880'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '128'
+      x-connection-hash: 4396b4c6630581d47a8fe8ca2413b9fdd01bb8df1a3f6962c66139c4bf2060ad
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Fri May 01 17:45:43 +0000 2020","id":1256278643224965120,"id_str":"1256278643224965120","full_text":"20
+        years ago, the Original Apocalypse - the dotcom crash of 2000 -  wiped out
+        90% of the value of most public tech companies and chilled tech investing
+        for two years.","truncated":false,"display_text_range":[0,166],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":34783009,"id_str":"34783009","name":"Jeff
+        Fluhr","screen_name":"jefffluhr","location":"","description":"Entrepreneur,
+        dad, student. GP at @craft_ventures","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":4171,"friends_count":447,"listed_count":165,"created_at":"Fri
+        Apr 24 00:21:30 +0000 2009","favourites_count":257,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":1180,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1126154658722934785\/IA-ojFgg_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/34783009\/1399496892","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":75,"favorite_count":352,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-04-24 15:16:42 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

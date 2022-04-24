@@ -86,24 +86,28 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   if ("retweet" %in% e) {
     # Retweets are those that the text start with RT and a mention but are not quoted
     retweets <- startsWith(x$text, "RT @")
-    r <- x[retweets, ]
-    yr <- y[retweets, ]
-    
-    user_mentions <- lapply(r$entities, function(x){
-      y <- x$user_mentions
-      # Pick the first mention that is the one the tweet is quoting
-      # Example: 1390785143615467524
-      return(y[y$indices$start == 3, c("screen_name", "id_str")])
-    })
-    um <- do.call("rbind", user_mentions)
-    ur <- yr[, c("screen_name", "id_str")]
-
-    ids <- c(ids, ur$id_str, um$id_str)
-    screen_names <- c(screen_names, ur$screen_name, um$screen_name)
-    
-    retweet <- data.frame(from = um$id_str,
-                          to = ur$id_str,
-                          type = "retweet")
+    if (any(retweets)) {
+      r <- x[retweets, ]
+      yr <- y[retweets, ]
+      
+      user_mentions <- lapply(r$entities, function(x){
+        y <- x$user_mentions
+        # Pick the first mention that is the one the tweet is quoting
+        # Example: 1390785143615467524
+        return(y[y$indices$start == 3, c("screen_name", "id_str")])
+      })
+      um <- do.call("rbind", user_mentions)
+      ur <- yr[, c("screen_name", "id_str")]
+      
+      ids <- c(ids, ur$id_str, um$id_str)
+      screen_names <- c(screen_names, ur$screen_name, um$screen_name)
+      
+      retweet <- data.frame(from = um$id_str,
+                            to = ur$id_str,
+                            type = "retweet")
+    } else {
+      retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
+    }
   } else {
     retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }
