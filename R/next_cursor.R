@@ -5,9 +5,9 @@
 #'
 #' @keywords internal
 #' @examples
-#' \dontrun{
-#' page1 <- get_followers("potus")
-#' page2 <- get_followers("potus", cursor = page1)
+#' if (auth_has_default()) {
+#' page1 <- get_followers("_R_Foundation")
+#' page2 <- get_followers("_R_Foundation", cursor = page1)
 #' }
 #' @keywords internal
 #' @export
@@ -51,7 +51,7 @@ previous_cursor <- function(x) {
 #' @param x Either a data frame of tweets or a character vector of status ids.
 #' @export
 #' @examples 
-#' \dontrun{
+#' if (auth_has_default()) {
 #' tw <- search_tweets("#rstats")
 #' 
 #' # retrieve older tweets

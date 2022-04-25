@@ -24,8 +24,8 @@ the credentials needed for rtweet and save them as "default".
 If a default is found it will use it instead.
 }
 \examples{
-\dontrun{
-auth_setup_default()
+if (!auth_has_default()) {
+   auth_setup_default()
 }
 }
 \seealso{

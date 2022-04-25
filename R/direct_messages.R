@@ -9,7 +9,6 @@
 #' @param next_cursor `r lifecycle::badge("deprecated")` Use `cursor` instead.
 #' @return A list with one element for each page of results.
 #' @examples
-#'
 #' \dontrun{
 #'
 #' ## get my direct messages

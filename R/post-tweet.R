@@ -35,7 +35,7 @@
 #'   been sent from. Value should be TRUE or FALSE. This parameter would apply 
 #'   only if you have provided a valid `lat/long` pair of valid values. 
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' ## generate data to make/save plot (as a .png file)
 #' x <- rnorm(300)
 #' y <- x + rnorm(300, 0, .75)

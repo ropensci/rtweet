@@ -50,8 +50,7 @@ Tibble data frame of trends data for a given geographical area.
 Get Twitter trends data.
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
 
 ## Retrieve available trends
 trends <- trends_available()

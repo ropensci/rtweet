@@ -15,7 +15,7 @@
 #' @family parsing
 #' @examples
 #'
-#' \dontrun{
+#' if (auth_has_default()) {
 #'
 #' ## lapply through three different search queries
 #' lrt <- lapply(

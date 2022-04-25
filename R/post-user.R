@@ -12,8 +12,8 @@
 #'   for target user. Defaults to true.
 #' @aliases follow_user
 #' @examples
-#' \dontrun{
-#' post_follow("BarackObama")
+#' if (auth_has_default()) {
+#' post_follow("_R_Foundation")
 #' }
 #' @family post
 #' @export

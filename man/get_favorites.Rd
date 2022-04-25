@@ -69,7 +69,7 @@ A tibble with one row for each tweet.
 Returns up to 3,000 tweets favorited for each \code{user}.
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 # get likes for a single user
 kfc <- get_favorites("KFC")
 kfc

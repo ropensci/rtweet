@@ -4,16 +4,9 @@
 #' @param list_id required The numerical id of the list.
 #' @param slug,owner_user The list name (slug) and owner. 
 #' @examples
-#'
-#' \dontrun{
-#'
-#' ## get subscribers of new york times politics list
-#' rstats <- lists_subscribers(
-#'   slug = "new-york-times-politics",
-#'   owner_user = "nytpolitics",
-#'   n = 1000
-#' )
-#'
+#' if (auth_has_default()) {
+#' ## get subscribers of rladies list
+#' rstats <- lists_subscribers(slug = "rladies", owner_user = "rladiesglobal")
 #' }
 #'
 #' @family lists

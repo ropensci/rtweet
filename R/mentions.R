@@ -11,8 +11,7 @@
 #' @return Tibble of mentions data.
 #' @family tweets
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' tw <- get_mentions()
 #' tw
 #' 

@@ -19,8 +19,7 @@
 #'   exclude hashtags. Defaults to FALSE--meaning, hashtags are
 #'   included in returned trends.
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #'
 #' ## Retrieve available trends
 #' trends <- trends_available()
@@ -147,7 +146,7 @@ format_trend_date <- function(x) {
 #' @inheritParams lookup_users
 #'
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' ## Retrieve available trends
 #' trends <- trends_available()
 #' trends

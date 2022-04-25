@@ -59,8 +59,7 @@
 #'   an index of all Tweets. At the time of searching, the search API
 #'   index includes between only 6-9 days of Tweets.
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' tweets <- search_tweets("weather")
 #' tweets
 #' 
@@ -169,10 +168,9 @@ search_params <- function(q,
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
 #' @examples
+#' if (auth_has_default()) {
 #'
-#' \dontrun{
-#'
-#' ## search using multilple queries
+#' ## search using multiple queries
 #' st2 <- search_tweets2(
 #'   c("\"data science\"", "rstats OR python"),
 #'   n = 500

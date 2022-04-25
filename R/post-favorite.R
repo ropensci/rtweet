@@ -8,7 +8,7 @@
 #'   include entities object in return.
 #' @aliases post_favourite favorite_tweet
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' rt <- search_tweets("#rstats", n = 1)
 #' post_favorite(rt$status_id)
 #' }

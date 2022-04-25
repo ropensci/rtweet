@@ -5,7 +5,7 @@
 #' @references <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @examples
 #'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' statuses <- c(
 #'   "567053242429734913",
 #'   "266031293945503744",

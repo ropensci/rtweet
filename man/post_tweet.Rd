@@ -71,7 +71,7 @@ only if you have provided a valid \code{lat/long} pair of valid values.}
 Posts status update to user's Twitter account
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 ## generate data to make/save plot (as a .png file)
 x <- rnorm(300)
 y <- x + rnorm(300, 0, .75)

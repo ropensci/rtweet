@@ -13,8 +13,8 @@
 #' @export
 #' @family authentication
 #' @examples 
-#' \dontrun{
-#' auth_setup_default()
+#' if (!auth_has_default()) {
+#'    auth_setup_default()
 #' }
 auth_setup_default <- function() {
   if (auth_has_default()){
