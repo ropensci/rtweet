@@ -7,7 +7,9 @@
 #' It will use the current logged in account on the default browser to detect 
 #' the credentials needed for rtweet and save them as "default". 
 #' If a default is found it will use it instead. 
-#' 
+#' @return 
+#' `auth_setup_default()`: Invisibly returns the previous authentication mechanism.
+#' `auth_has_default()`: A logical value `TRUE` if there is a default authentication.
 #' @export
 #' @family authentication
 #' @examples 
@@ -15,13 +17,19 @@
 #' auth_setup_default()
 #' }
 auth_setup_default <- function() {
-  if ("default" %in% auth_list()){
+  if (auth_has_default()){
     inform("Using default authentication available.")
   } else {
     auth <- rtweet_user()
     auth_save(auth, "default")
   }
   auth_as("default")
+}
+
+#' @rdname auth_setup_default
+#' @export
+auth_has_default <- function() {
+  file.exists(auth_path("default.rds")) || !is.null(rtweet_test())
 }
 
 #' Authentication options
