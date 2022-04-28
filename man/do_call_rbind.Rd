@@ -30,7 +30,7 @@ if (auth_has_default()) {
 lrt <- lapply(
   c("rstats OR tidyverse", "data science", "python"),
   search_tweets,
-  n = 5000
+  n = 100
 )
 
 ## convert list object into single parsed data rame

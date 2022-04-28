@@ -18,7 +18,8 @@
 #' @return data
 #' @examples 
 #' if (auth_has_default()) {
-#'   (rladies <- lists_statuses(slug = "rladies", owner_user = "RLadiesGlobal"))
+#'   (rladies <- lists_statuses(list_id = "839186302968848384"))
+#'   (rladies <- lists_statuses(slug = "rladies1", owner_user = "RLadiesGlobal"))
 #' }
 #' @export
 lists_statuses <- function(list_id = NULL,

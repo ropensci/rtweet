@@ -5,8 +5,8 @@
 #' @param slug,owner_user The list name (slug) and owner. 
 #' @examples
 #' if (auth_has_default()) {
-#' ## get subscribers of rladies list
-#' rstats <- lists_subscribers(slug = "rladies", owner_user = "rladiesglobal")
+#'     ## get subscribers of rladies list
+#'     rstats <- lists_subscribers(slug = "rladies1", owner_user = "rladiesglobal")
 #' }
 #'
 #' @family lists

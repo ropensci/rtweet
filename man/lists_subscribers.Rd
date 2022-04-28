@@ -67,8 +67,8 @@ Get subscribers of a specified list.
 }
 \examples{
 if (auth_has_default()) {
-## get subscribers of rladies list
-rstats <- lists_subscribers(slug = "rladies", owner_user = "rladiesglobal")
+    ## get subscribers of rladies list
+    rstats <- lists_subscribers(slug = "rladies1", owner_user = "rladiesglobal")
 }
 
 }

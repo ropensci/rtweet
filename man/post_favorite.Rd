@@ -31,8 +31,8 @@ Favorites target status id.
 }
 \examples{
 if (auth_has_default()) {
-rt <- search_tweets("#rstats", n = 1)
-post_favorite(rt$status_id)
+   rt <- search_tweets("#rstats", n = 1)
+   post_favorite(rt$id_str)
 }
 }
 \references{

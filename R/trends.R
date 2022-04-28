@@ -35,10 +35,10 @@
 #' ww_trends
 #'
 #' ## Retrieve trends data using latitude, longitude near New York City
-#' nyc_trends <- get_trends_closest(lat = 40.7, lng = -74.0)
+#' nyc_trends <- get_trends(lat = 40.7, lng = -74.0)
 #'
 #' ## should be same result if lat/long supplied as first argument
-#' nyc_trends <- get_trends_closest(c(40.7, -74.0))
+#' nyc_trends <- get_trends(c(40.7, -74.0))
 #'
 #' ## Preview trends data
 #' nyc_trends

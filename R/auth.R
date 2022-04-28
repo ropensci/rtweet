@@ -13,7 +13,7 @@
 #' @export
 #' @family authentication
 #' @examples 
-#' if (!auth_has_default()) {
+#' if (!auth_has_default() & interactive()) {
 #'    auth_setup_default()
 #' }
 auth_setup_default <- function() {
@@ -24,12 +24,6 @@ auth_setup_default <- function() {
     auth_save(auth, "default")
   }
   auth_as("default")
-}
-
-#' @rdname auth_setup_default
-#' @export
-auth_has_default <- function() {
-  file.exists(auth_path("default.rds")) || !is.null(rtweet_test())
 }
 
 #' Authentication options
@@ -268,8 +262,8 @@ find_auth <- function(auth = NULL) {
   if (is.null(auth)) {
     if (is_testing()) {
       rtweet_test() %||% no_token()
-    } else if (is_dev_mode()  %||% is_rcmd_check()) {
-      rtweet_test() %||% default_cached_auth()
+    } else if (is_dev_mode() %||% is_rcmd_check()) {
+      rtweet_test() %||% no_token()
     } else{
       default_cached_auth()
     }
@@ -307,6 +301,12 @@ default_cached_auth <- function() {
       ))
     }
   }
+}
+
+#' @rdname auth_setup_default
+#' @export
+auth_has_default <- function() {
+  file.exists(auth_path("default.rds"))
 }
 
 no_token <- function() {
