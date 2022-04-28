@@ -18,31 +18,15 @@
 #'   installed then a [ggplot2::ggplot()] plot object.
 #' @examples
 #'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' ## search for tweets containing "rstats"
-#' rt <- search_tweets("rstats", n = 10000)
+#' rt <- search_tweets("rstats", n = 100)
 #'
 #' ## plot frequency in 1 min intervals
 #' ts_plot(rt, "mins")
 #'
-#' ## plot multiple time series--retweets vs non-retweets
-#' ts_plot(dplyr::group_by(tmls, is_retweet), "hours")
-#'
-#' ## compare account activity for some important US political figures
-#' tmls <- get_timeline(
-#'   c("SenSchumer", "SenGillibrand", "realDonaldTrump"),
-#'   n = 3000
-#' )
-#'
 #' ## examine all Twitter activity using weekly intervals
-#' ts_plot(tmls, "weeks")
-#'
-#' ## group by screen name and plot each time series
-#' ts_plot(dplyr::group_by(tmls, screen_name), "weeks")
-#'
-#' ## group by screen name and is_retweet
-#' ts_plot(dplyr::group_by(tmls, screen_name, is_retweet), "months")
-#'
+#' ts_plot(rt, "hours")
 #' }
 #' @family ts_data
 #' @export
@@ -89,23 +73,19 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #'
 #' ## handles of women senators
-#' sens <- c("SenatorBaldwin", "SenGillibrand", "PattyMurray", "SenatorHeitkamp")
+#' orgs <- c("_R_Foundation", "ropensci")
 #'
 #' ## get timelines for each
-#' sens <- get_timeline(sens, n = 3200)
+#' orgs_tml <- get_timeline(orgs, n = 100)
 #'
 #' ## get single time series for tweets
-#' ts_data(sens)
+#' ts_data(orgs_tml)
 #'
 #' ## using weekly intervals
-#' ts_data(sens, "weeks")
-#'
-#' ## group by screen name and then use weekly intervals
-#' ts_plot(dplyr::group_by(sens, screen_name), "weeks")
+#' ts_data(orgs_tml, "weeks")
 #' }
 #'
 #' @export

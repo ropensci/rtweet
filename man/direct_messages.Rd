@@ -68,7 +68,6 @@ days. Sorted in reverse-chronological order. Includes detailed information
 about the sender and recipient.
 }
 \examples{
-
 \dontrun{
 
 ## get my direct messages

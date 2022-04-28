@@ -72,8 +72,7 @@ The timeline returned is the equivalent of the one seen when you view
 your mentions on twitter.com.
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
 tw <- get_mentions()
 tw
 

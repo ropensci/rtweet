@@ -7,7 +7,7 @@
 #' with the `user_data()` and `tweets_data()` helpers.
 #'
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' # find users from tweets
 #' tweets <- search_tweets("r")
 #' users_data(tweets)

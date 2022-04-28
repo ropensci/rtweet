@@ -71,7 +71,7 @@ only if you have provided a valid \code{lat/long} pair of valid values.}
 Posts status update to user's Twitter account
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 ## generate data to make/save plot (as a .png file)
 x <- rnorm(300)
 y <- x + rnorm(300, 0, .75)
@@ -93,7 +93,9 @@ grid(8, lwd = .15, lty = 2, col = "#00000088")
 dev.off()
 
 ## post tweet with media attachment
-post_tweet("a tweet with media attachment", media = tmp)
+post_tweet("a tweet with media attachment", media = tmp, 
+           media_alt_text = "Random  points example of rtweet::post_tweet. 
+           rtweet requires alt text with all media")
 
 # example of replying within a thread
 ## first post
@@ -103,7 +105,7 @@ post_tweet(status="first in a thread")
 my_timeline <- get_my_timeline()
 
 ## ID for reply
-reply_id <- my_timeline$status_id[1]
+reply_id <- my_timeline$id_str[1]
 
 ## post reply
 post_tweet("second in the thread",

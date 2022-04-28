@@ -44,8 +44,7 @@ Search for Twitter users. The Twitter API limits the results to at most
 1,000 users.
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
 users <- search_users("#rstats", n = 300)
 users
 

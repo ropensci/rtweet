@@ -14,8 +14,7 @@
 #'   retrieved.
 #' @references <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' users <- get_friends("ropensci")
 #' users
 #' }

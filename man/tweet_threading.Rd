@@ -32,7 +32,7 @@ The forwards method looks for newer replies to the tweet provided. If the tweet 
 The forwards method is limited by the timeline API (See \code{\link[=get_timeline]{get_timeline()}}).
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 tw_thread <- tweet_threading("1461776330584956929")
 tw_thread
 }

@@ -19,8 +19,8 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Deletes a status of user's profile.
 }
 \examples{
-\dontrun{
-pt <- post_tweet()
+if (auth_has_default()) {
+pt <- post_tweet("Running #rtweet examples")
 crt <- httr::content(pt)
 post_destroy(crt$id_str)
 }

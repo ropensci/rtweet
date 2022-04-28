@@ -29,10 +29,10 @@ data
 Get all lists a specified user subscribes to, including their own.
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 
-## get lists subsribed to by Nate Silver
-lists_users("NateSilver538")
+## get lists subscribed to by R_Foundation
+lists_users("ropensci")
 
 }
 

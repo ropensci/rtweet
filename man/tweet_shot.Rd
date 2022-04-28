@@ -32,8 +32,8 @@ Use the \code{zoom} factor to get more pixels which may improve the text renderi
 of the tweet/thread.
 }
 \examples{
-\dontrun{
-tweet_shot("947082036019388416")
-tweet_shot("https://twitter.com/jhollist/status/947082036019388416")
+if (auth_has_default()) {
+    tweet_shot("947061504892919808")
+    tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
 }
 }

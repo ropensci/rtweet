@@ -5,16 +5,25 @@
 #' [auth_save()] for other authentication options.
 #' 
 #' It will use the current logged in account on the default browser to detect 
-#' the credentials needed for rtweet and save them as "default".
-#' 
+#' the credentials needed for rtweet and save them as "default". 
+#' If a default is found it will use it instead. 
+#' @return 
+#' `auth_setup_default()`: Invisibly returns the previous authentication mechanism.
+#' `auth_has_default()`: A logical value `TRUE` if there is a default authentication.
 #' @export
 #' @family authentication
 #' @examples 
-#' \dontrun{
-#' auth_setup_default()
+#' if (!auth_has_default() & interactive()) {
+#'    auth_setup_default()
 #' }
 auth_setup_default <- function() {
-  auth_save(rtweet_user(), "default")
+  if (auth_has_default()){
+    inform("Using default authentication available.")
+  } else {
+    auth <- rtweet_user()
+    auth_save(auth, "default")
+  }
+  auth_as("default")
 }
 
 #' Authentication options
@@ -253,8 +262,8 @@ find_auth <- function(auth = NULL) {
   if (is.null(auth)) {
     if (is_testing()) {
       rtweet_test() %||% no_token()
-    } else if (is_dev_mode()) {
-      rtweet_test() %||% default_cached_auth()
+    } else if (is_dev_mode() %||% is_rcmd_check()) {
+      rtweet_test() %||% no_token()
     } else{
       default_cached_auth()
     }
@@ -292,6 +301,12 @@ default_cached_auth <- function() {
       ))
     }
   }
+}
+
+#' @rdname auth_setup_default
+#' @export
+auth_has_default <- function() {
+  file.exists(auth_path("default.rds"))
 }
 
 no_token <- function() {

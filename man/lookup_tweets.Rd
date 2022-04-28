@@ -47,7 +47,7 @@ Get tweets data for given statuses (status IDs).
 }
 \examples{
 
-\dontrun{
+if (auth_has_default()) {
 statuses <- c(
   "567053242429734913",
   "266031293945503744",

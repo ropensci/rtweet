@@ -6,7 +6,7 @@
 #' @inheritParams get_timeline
 #' @return A tibble with one row for each tweet.
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' # get likes for a single user
 #' kfc <- get_favorites("KFC")
 #' kfc

@@ -29,17 +29,14 @@
 #' @family geo
 #' @examples
 #'
-#' \dontrun{
+#' if (auth_has_default()) {
 #'
 #' ## stream tweets sent from the US
 #' rt <- stream_tweets(lookup_coords("usa"), timeout = 10)
 #'
 #' ## use lat_lng to recover full information geolocation data
-#' rtll <- lat_lng(rt)
-#'
-#' ## plot points
-#' with(rtll, plot(lng, lat))
-#'
+#' rtl_loc <- lat_lng(rt)
+#' rtl_loc
 #' }
 #'
 #' @export

@@ -41,3 +41,11 @@ test_that("search_tweets uses POSIXct at created_at, #660", {
   })
   expect_true(is(df$created_at, "POSIXct"))
 })
+
+
+test_that("search_tweets2 works", {
+  vcr::use_cassette("search_tweets4", {
+    st2 <- search_tweets2(c('"data science"', "rstats OR python"), n = 100)
+  })
+  expect_gt(nrow(st2), 100)
+})
