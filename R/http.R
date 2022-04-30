@@ -194,14 +194,14 @@ TWIT_paginate_cursor <- function(token, api, params,
   }
   
   # TODO: consider if its worth using fastmap::faststack() here
-  results <- list()
+  results <- vector("list", if (is.infinite(n)) page_size else n)
   i <- 1
   n_seen <- 0
   
   if (verbose) {
     pb <- progress::progress_bar$new(
       format = "Downloading multiple pages :bar",
-      total = n
+      total = if (is.infinite(n)) page_size else n
     ) 
     withr::defer(pb$terminate())
   }
@@ -225,7 +225,10 @@ TWIT_paginate_cursor <- function(token, api, params,
       }
       break
     }
-
+    if (i > length(results)) {
+      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
+      length(results) <- 2 * length(results)
+    }
     results[[i]] <- json
     if (any(grepl("next_cursor", names(json)))) {
       cursor <- ifelse(!is.null(json$next_cursor_str), 
