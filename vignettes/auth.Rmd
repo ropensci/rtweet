@@ -177,9 +177,9 @@ auth_sitrep()
 ## Multiple authentications with the same app found!
 ## Choose which is the best path of action for the tokens:
 ##                       app    user_id key
-## default.rds        rtweet 1051053384   A
+## default.rds        rtweet 9951053384   A
 ## testing_rtweet.rds rtweet              B
-## All tokens should be moved to/home/user/.config/R/rtweet
+## All tokens should be moved to /home/user/.config/R/rtweet
 ```
 
 First looks up old authentications rtweet saved at your home directory (`~`, or `$HOME`).

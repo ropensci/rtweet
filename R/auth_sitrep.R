@@ -42,7 +42,7 @@ auth_sitrep <- function() {
     change <- TRUE
   }
   if (change_old || change_rappdirs) {
-    inform(paste0("All tokens should be moved to", auth_path()))
+    inform(paste0("All tokens should be moved to ", auth_path()))
   }
   
   invisible(change)
