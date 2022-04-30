@@ -4,7 +4,11 @@
 \alias{lat_lng}
 \title{Adds single-point latitude and longitude variables to tweets data.}
 \usage{
-lat_lng(x, coords = c("coords_coords", "bbox_coords", "geo_coords"))
+lat_lng(
+  x,
+  coords = c("coords_coords", "bbox_coords", "geo_coords"),
+  prefs = "bbox_coords"
+)
 }
 \arguments{
 \item{x}{Parsed Twitter data as returned by various rtweet
@@ -18,6 +22,8 @@ obs consists of eight entries) followed by the supplied order of
 variable names. Defaults to "bbox_coords",
 "coords_coords", and "geo_coords") (which are the default column
 names of data returned by most status-oriented rtweet functions).}
+
+\item{prefs}{Preference of coordinates to use as default, must be in \code{coords}.}
 }
 \value{
 Returns updated data object with full information latitude
