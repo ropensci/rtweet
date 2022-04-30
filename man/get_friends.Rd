@@ -77,14 +77,11 @@ limits the number of people that you can follow (i.e. to follow more than
 5,000 people at least 5,000 people need to follow you).
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
 users <- get_friends("ropensci")
 users
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
-
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 }

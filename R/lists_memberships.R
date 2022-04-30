@@ -11,13 +11,13 @@
 #' @param previous_cursor `r lifecycle::badge("deprecated")` Please use 
 #'   `cursor` instead.
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #'
 #' ## get up to 1000 Twitter lists that include Nate Silver
-#' ns538 <- lists_memberships("NateSilver538", n = 1000)
+#' R_foundation <- lists_memberships("_R_Foundation", n = 1000)
 #'
 #' ## view data
-#' ns538
+#' R_foundation
 #'
 #' }
 #'

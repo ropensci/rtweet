@@ -8,9 +8,9 @@
 #'   include entities object in return.
 #' @aliases post_favourite favorite_tweet
 #' @examples
-#' \dontrun{
-#' rt <- search_tweets("#rstats", n = 1)
-#' post_favorite(rt$status_id)
+#' if (auth_has_default()) {
+#'    rt <- search_tweets("#rstats", n = 1)
+#'    post_favorite(rt$id_str)
 #' }
 #' @family post
 #' @export

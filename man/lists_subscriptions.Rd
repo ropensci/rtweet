@@ -65,15 +65,9 @@ Get list subscriptions of a given user but does not include the user's own
 lists.
 }
 \examples{
-
-\dontrun{
-
-## get kearneymw subscriptions
-rstats <- lists_subscriptions(
-  user = "kearneymw",
-  n = 1000
-)
-
+if (auth_has_default()) {
+## get ropensci subscriptions
+rstats <- lists_subscriptions(user = "rladiesglobal", n = 1000)
 }
 
 }

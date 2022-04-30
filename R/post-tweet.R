@@ -21,7 +21,7 @@
 #' @param media_alt_text attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
 #'        metadata to the `media` you are uploading. Should be same length as
 #'        `media` (i.e. as many alt text entries as there are `media` entries). See
-#'        [the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
+#'        [the official API documentation](https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create)
 #'        for more information.
 #' @param lat A numeric value representing the latitude of the location the 
 #'   tweet refers to. Range should be between -90 and 90 (north). Note that you
@@ -35,7 +35,7 @@
 #'   been sent from. Value should be TRUE or FALSE. This parameter would apply 
 #'   only if you have provided a valid `lat/long` pair of valid values. 
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' ## generate data to make/save plot (as a .png file)
 #' x <- rnorm(300)
 #' y <- x + rnorm(300, 0, .75)
@@ -57,7 +57,9 @@
 #' dev.off()
 #'
 #' ## post tweet with media attachment
-#' post_tweet("a tweet with media attachment", media = tmp)
+#' post_tweet("a tweet with media attachment", media = tmp, 
+#'            media_alt_text = "Random  points example of rtweet::post_tweet. 
+#'            rtweet requires alt text with all media")
 #'
 #' # example of replying within a thread
 #' ## first post
@@ -67,7 +69,7 @@
 #' my_timeline <- get_my_timeline()
 #'
 #' ## ID for reply
-#' reply_id <- my_timeline$status_id[1]
+#' reply_id <- my_timeline$id_str[1]
 #'
 #' ## post reply
 #' post_tweet("second in the thread",
@@ -79,7 +81,7 @@
 #' @references 
 #' Tweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update>
 #' Retweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id>
-#' Media: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload>
+#' Media: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create>
 #' Alt-text: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create>
 post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,

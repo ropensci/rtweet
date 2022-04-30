@@ -12,17 +12,15 @@
 #' @param users Screen name or user ID of target user from which the
 #'   user IDs of friends (accounts followed BY target user) will be
 #'   retrieved.
-#' @references <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' users <- get_friends("ropensci")
 #' users
 #' }
 #' @return A tibble data frame with two columns, "from_id" for name or ID of target
 #'   user and "to_id" for accounts ID they follow.
 #' @export
-#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 get_friends <- function(users,
                         n = 5000,
                         retryonratelimit = NULL,

@@ -2,9 +2,16 @@
 % Please edit documentation in R/auth.R
 \name{auth_setup_default}
 \alias{auth_setup_default}
+\alias{auth_has_default}
 \title{Set up default authentication}
 \usage{
 auth_setup_default()
+
+auth_has_default()
+}
+\value{
+\code{auth_setup_default()}: Invisibly returns the previous authentication mechanism.
+\code{auth_has_default()}: A logical value \code{TRUE} if there is a default authentication.
 }
 \description{
 You'll need to run this function once per computer so that rtweet can use
@@ -18,7 +25,9 @@ If a default is found it will use it instead.
 }
 \examples{
 \dontrun{
-auth_setup_default()
+if (!auth_has_default() && interactive()) {
+   auth_setup_default()
+}
 }
 }
 \seealso{

@@ -11,15 +11,14 @@
 #' @return Tibble of mentions data.
 #' @family tweets
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' tw <- get_mentions()
 #' tw
 #' 
 #' # newer mentions
 #' get_mentions(since_id = tw)
 #' }
-#' @references <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @export
 get_mentions <- function(n = 200,
                          since_id = NULL,
@@ -40,18 +39,8 @@ get_mentions <- function(n = 200,
   )
   
   if (parse) {
-    r <- lapply(r, parse_mentions)
-    r <- do.call("rbind", r)
+    r <- tweets_with_users(r)
     r$created_at <- format_date(r$created_at)
   }
   r
-}
-
-parse_mentions <- function(x) {
-  out <- tibble::as_tibble(wrangle_into_clean_data(x, "status"))
-  if (has_name_(x, "user")) {
-    users <- tibble::as_tibble(wrangle_into_clean_data(x, "user"))
-    attr(out, "users") <- users
-  }
-  out
 }

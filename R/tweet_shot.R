@@ -18,9 +18,12 @@
 #'     own image manipulation.
 #' @return `magick` object
 #' @export
-#' @examples \dontrun{
-#' tweet_shot("947082036019388416")
-#' tweet_shot("https://twitter.com/jhollist/status/947082036019388416")
+#' @examples 
+#' \dontrun{
+#' if (auth_has_default()) {
+#'     tweet_shot("947061504892919808")
+#'     tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
+#' }
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   check_installed(c("magick", "webshot"))

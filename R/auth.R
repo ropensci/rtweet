@@ -7,15 +7,19 @@
 #' It will use the current logged in account on the default browser to detect 
 #' the credentials needed for rtweet and save them as "default". 
 #' If a default is found it will use it instead. 
-#' 
+#' @return 
+#' `auth_setup_default()`: Invisibly returns the previous authentication mechanism.
+#' `auth_has_default()`: A logical value `TRUE` if there is a default authentication.
 #' @export
 #' @family authentication
 #' @examples 
 #' \dontrun{
-#' auth_setup_default()
+#' if (!auth_has_default() && interactive()) {
+#'    auth_setup_default()
+#' }
 #' }
 auth_setup_default <- function() {
-  if ("default" %in% auth_list()){
+  if (auth_has_default()) {
     inform("Using default authentication available.")
   } else {
     auth <- rtweet_user()
@@ -38,7 +42,7 @@ auth_setup_default <- function() {
 #' * `rtweet_app()` authenticates as a Twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
 #'    rate limits (i.e. you can do more searches). See details
-#'    at <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
+#'    at <https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits>.
 #'    This form is most appropriate if you are collecting data. 
 #'    
 #' * `rtweet_bot()` authenticates as bot that takes actions on behalf of an app.
@@ -260,8 +264,8 @@ find_auth <- function(auth = NULL) {
   if (is.null(auth)) {
     if (is_testing()) {
       rtweet_test() %||% no_token()
-    } else if (is_dev_mode()) {
-      rtweet_test() %||% default_cached_auth()
+    } else if (is_dev_mode() %||% is_rcmd_check()) {
+      rtweet_test() %||% no_token()
     } else{
       default_cached_auth()
     }
@@ -299,6 +303,12 @@ default_cached_auth <- function() {
       ))
     }
   }
+}
+
+#' @rdname auth_setup_default
+#' @export
+auth_has_default <- function() {
+  file.exists(auth_path("default.rds"))
 }
 
 no_token <- function() {

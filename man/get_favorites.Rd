@@ -69,7 +69,7 @@ A tibble with one row for each tweet.
 Returns up to 3,000 tweets favorited for each \code{user}.
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 # get likes for a single user
 kfc <- get_favorites("KFC")
 kfc
@@ -82,7 +82,7 @@ favs
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list}
 }
 \seealso{
 Other tweets: 

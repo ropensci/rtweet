@@ -134,8 +134,7 @@ an index of all Tweets. At the time of searching, the search API
 index includes between only 6-9 days of Tweets.
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
 tweets <- search_tweets("weather")
 tweets
 
@@ -151,10 +150,9 @@ older <- search_tweets("weather", max_id = tweets)
 # Restrict to English only, and ignore retweets
 tweets2 <- search_tweets("weather", lang = "en", include_rts = FALSE)
 }
+if (auth_has_default()) {
 
-\dontrun{
-
-## search using multilple queries
+## search using multiple queries
 st2 <- search_tweets2(
   c("\"data science\"", "rstats OR python"),
   n = 500
@@ -173,8 +171,6 @@ table(st2$query)
 
 }
 \references{
-\url{https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets}
-
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets}
 }
 \seealso{

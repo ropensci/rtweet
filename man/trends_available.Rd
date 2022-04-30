@@ -23,7 +23,7 @@ Earth ID.
 Available Twitter trends along with associated WOEID.
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 ## Retrieve available trends
 trends <- trends_available()
 trends

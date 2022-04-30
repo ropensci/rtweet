@@ -9,14 +9,10 @@
 #' @param owner_user optional The screen name or user ID of the user
 #' @param ... Other arguments used as parameters in query composition.
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #'
-#' ## get list members for a list of polling experts using list_id
-#' (pollsters <- lists_members("105140588"))
-#'
-#' ## get list members of cspan's senators list
-#' sens <- lists_members(slug = "senators", owner_user = "cspan")
-#' sens
+#' ## get list members for a list of rstats experts using list_id
+#' (rstats <- lists_members("785434502382383105"))
 #'
 #' ## get list members for an rstats list using list topic slug
 #' ## list owner's screen name

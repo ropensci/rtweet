@@ -46,21 +46,18 @@ Get Twitter users data for given users (user IDs or screen names).
 }
 \examples{
 
-\dontrun{
-users <- c(
-  "potus", "hillaryclinton", "realdonaldtrump",
-  "fivethirtyeight", "cnn", "espn", "twitter"
-)
-users <- lookup_users(users)
-users
-
-# latest tweet from each user
-tweets_data(users)
+if (auth_has_default()) {
+    users <- c("twitter", "rladiesglobal", "_R_Foundation")
+    users <- lookup_users(users)
+    users
+   
+    # latest tweet from each user
+    tweets_data(users)
 }
 
 }
 \references{
-\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
 }
 \seealso{
 Other users: 

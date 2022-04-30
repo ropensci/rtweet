@@ -47,8 +47,8 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Follows target Twitter user.
 }
 \examples{
-\dontrun{
-post_follow("BarackObama")
+if (auth_has_default()) {
+post_follow("_R_Foundation")
 }
 }
 \references{

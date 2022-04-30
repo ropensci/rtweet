@@ -35,7 +35,7 @@ Twitter account.
 \item \code{rtweet_app()} authenticates as a Twitter application. An application can't
 perform actions (i.e. it can't tweet) but otherwise has generally higher
 rate limits (i.e. you can do more searches). See details
-at \url{https://developer.twitter.com/en/docs/basics/rate-limits.html}.
+at \url{https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits}.
 This form is most appropriate if you are collecting data.
 \item \code{rtweet_bot()} authenticates as bot that takes actions on behalf of an app.
 This form is most appropriate if you want to create a Twitter account that

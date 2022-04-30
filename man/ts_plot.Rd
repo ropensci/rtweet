@@ -33,31 +33,15 @@ interval of time.
 }
 \examples{
 
-\dontrun{
+if (auth_has_default()) {
 ## search for tweets containing "rstats"
-rt <- search_tweets("rstats", n = 10000)
+rt <- search_tweets("rstats", n = 100)
 
 ## plot frequency in 1 min intervals
 ts_plot(rt, "mins")
 
-## plot multiple time series--retweets vs non-retweets
-ts_plot(dplyr::group_by(tmls, is_retweet), "hours")
-
-## compare account activity for some important US political figures
-tmls <- get_timeline(
-  c("SenSchumer", "SenGillibrand", "realDonaldTrump"),
-  n = 3000
-)
-
 ## examine all Twitter activity using weekly intervals
-ts_plot(tmls, "weeks")
-
-## group by screen name and plot each time series
-ts_plot(dplyr::group_by(tmls, screen_name), "weeks")
-
-## group by screen name and is_retweet
-ts_plot(dplyr::group_by(tmls, screen_name, is_retweet), "months")
-
+ts_plot(rt, "hours")
 }
 }
 \concept{ts_data}

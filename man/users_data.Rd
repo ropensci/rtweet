@@ -26,7 +26,7 @@ rtweet instead stores in special attributes and allows you to retrieve them
 with the \code{user_data()} and \code{tweets_data()} helpers.
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 # find users from tweets
 tweets <- search_tweets("r")
 users_data(tweets)

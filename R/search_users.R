@@ -8,8 +8,7 @@
 #'   full name, company name, or location. Exact match searches are not 
 #'   supported.
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' users <- search_users("#rstats", n = 300)
 #' users
 #'

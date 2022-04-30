@@ -71,16 +71,15 @@ Returns a list of user IDs for the accounts following specified
 user.
 }
 \examples{
-
-\dontrun{
-users <- get_followers("KFC")
+if (auth_has_default()) {
+users <- get_followers("_R_Foundation")
 users
 
 # use `cursor` to find the next "page" of results
-more_users <- get_followers("KFC", cursor = users)
+more_users <- get_followers("_R_Foundation", cursor = users)
 
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
 }

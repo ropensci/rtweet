@@ -28,11 +28,11 @@ Note that in general, you are best off using user ids; screen names are
 not static and may change over longer periods of time.
 }
 \examples{
-\dontrun{
-# Look up user with id 123456 (screen name harperreed)
-lookup_users("123456") 
+if (auth_has_default()) {
+# Look up user with id 
+lookup_users("25594077") 
 
-# Look up user with name 123456
+# Look up user with name 25594077
 lookup_users(as_screenname("123456"))
 }
 }

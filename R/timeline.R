@@ -15,20 +15,19 @@
 #' @param check `r lifecycle::badge("deprecated")`
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
-#' @references <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @examples
-#'
-#' \dontrun{
-#' tw <- get_timeline("JustinBieber")
+#' if (auth_has_default()) {
+#' tw <- get_timeline("_R_Foundation")
 #' tw
 #' 
 #' # get tweets that arrived since the last request
-#' get_timeline("JustinBieber", since_id = tw)
+#' get_timeline("_R_Foundation", since_id = tw)
 #' # get earlier tweets
-#' get_timeline("JustinBieber", max_id = tw)
+#' get_timeline("_R_Foundation", max_id = tw)
 #'
 #' # get timelines for multiple users
-#' tw <- get_timeline(c("KFC", "PizzaHut", "McDonalds"))
+#' tw <- get_timeline(c("_R_Foundation", "rOpenSci", "Bioconductor"))
 #' tw
 #' }
 #'

@@ -51,7 +51,6 @@
 #'   sent to Twitter's REST API. To return only English language
 #'   tweets, for example, use `lang = "en"`. For more options see
 #'   Twitter's API documentation.
-#' @references <https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets>
 #' @details Twitter API documentation recommends limiting searches to
 #'   10 keywords and operators. Complex queries may also produce API
 #'   errors preventing recovery of information related to the query.
@@ -59,8 +58,7 @@
 #'   an index of all Tweets. At the time of searching, the search API
 #'   index includes between only 6-9 days of Tweets.
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #' tweets <- search_tweets("weather")
 #' tweets
 #' 
@@ -169,10 +167,9 @@ search_params <- function(q,
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
 #' @examples
+#' if (auth_has_default()) {
 #'
-#' \dontrun{
-#'
-#' ## search using multilple queries
+#' ## search using multiple queries
 #' st2 <- search_tweets2(
 #'   c("\"data science\"", "rstats OR python"),
 #'   n = 500

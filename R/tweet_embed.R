@@ -5,7 +5,7 @@
 #' @param screen_name character, screen name of the user
 #' @param status_id character, status id
 #' @param ... parameters to pass to the GET call. See
-#'   <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed>
+#'   <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-oembed>
 #'   for details.
 #' @return character
 #' @examples 

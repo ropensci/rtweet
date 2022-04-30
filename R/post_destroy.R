@@ -5,8 +5,8 @@
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-destroy-id>
 #' @examples
-#' \dontrun{
-#' pt <- post_tweet()
+#' if (auth_has_default()) {
+#' pt <- post_tweet("Running #rtweet examples")
 #' crt <- httr::content(pt)
 #' post_destroy(crt$id_str)
 #' }

@@ -17,7 +17,7 @@
 #' @param verbose logical, output to console status of traverse.
 #' @return Tweets in a structure like [lookup_tweets()].
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' tw_thread <- tweet_threading("1461776330584956929")
 #' tw_thread
 #' }

@@ -3,20 +3,17 @@
 #' @inheritParams TWIT_paginate_max_id
 #'   
 #' @param users User id or screen name of target user.
-#' @references <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
 #' 
 #' @examples
 #'
-#' \dontrun{
-#' users <- c(
-#'   "potus", "hillaryclinton", "realdonaldtrump",
-#'   "fivethirtyeight", "cnn", "espn", "twitter"
-#' )
-#' users <- lookup_users(users)
-#' users
-#'
-#' # latest tweet from each user
-#' tweets_data(users)
+#' if (auth_has_default()) {
+#'     users <- c("twitter", "rladiesglobal", "_R_Foundation")
+#'     users <- lookup_users(users)
+#'     users
+#'    
+#'     # latest tweet from each user
+#'     tweets_data(users)
 #' }
 #'
 #' @return A tibble of users data.

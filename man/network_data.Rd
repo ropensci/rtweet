@@ -35,8 +35,7 @@ various network classes.
 Retrieve data to know which users are connected to which users.
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
   ## search for #rstats tweets
   rstats <- search_tweets("#rstats", n = 200)
 

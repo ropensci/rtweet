@@ -6,7 +6,7 @@
 #' @inheritParams get_timeline
 #' @return A tibble with one row for each tweet.
 #' @examples
-#' \dontrun{
+#' if (auth_has_default()) {
 #' # get likes for a single user
 #' kfc <- get_favorites("KFC")
 #' kfc
@@ -18,7 +18,7 @@
 #' favs
 #' }
 #' @family tweets
-#' @references <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list>
 #' @export
 get_favorites <- function(user,
                           n = 200,

@@ -72,8 +72,7 @@ The timeline returned is the equivalent of the one seen when you view
 your mentions on twitter.com.
 }
 \examples{
-
-\dontrun{
+if (auth_has_default()) {
 tw <- get_mentions()
 tw
 
@@ -82,7 +81,7 @@ get_mentions(since_id = tw)
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview}
 }
 \seealso{
 Other tweets: 

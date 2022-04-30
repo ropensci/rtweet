@@ -14,7 +14,7 @@ These internal helpers extract the ids passed on to the \code{max_id}
 and \code{since_id} arguments to functions that use \code{\link[=TWIT_paginate_max_id]{TWIT_paginate_max_id()}}.
 }
 \examples{
-\dontrun{
+if (auth_has_default()) {
 tw <- search_tweets("#rstats")
 
 # retrieve older tweets

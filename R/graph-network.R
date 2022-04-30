@@ -17,8 +17,7 @@
 #' @return A from/to data edge data frame
 #' @seealso network_graph
 #' @examples
-#'
-#' \dontrun{
+#' if (auth_has_default()) {
 #'   ## search for #rstats tweets
 #'   rstats <- search_tweets("#rstats", n = 200)
 #'
