@@ -365,6 +365,10 @@ warn_early_term <- function(cnd, hint, hint_if) {
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 handle_error <- function(x) {
+  if (!is.null(x$headers[["content-type"]])) {
+    stop("Twitter API failed [", x$status_code, "]\n", 
+         "API did not return json", call. = FALSE)
+  }
   json <- from_js(x)
   stop("Twitter API failed [", x$status_code, "]\n",
        paste0(" * ", json$errors$message, " (", json$errors$code, ")"),
