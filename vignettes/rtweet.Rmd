@@ -1,6 +1,5 @@
 ---
 title: "Intro to rtweet: Collecting Twitter Data"
-author: "Michael W. Kearney"
 output:
   rmarkdown::html_vignette
 vignette: >
@@ -233,14 +232,14 @@ If your queries return an error, check if you already exhausted your quota and t
 ## Stream tweets
 
 Randomly sample (approximately 1%) from the live stream of all tweets.
-```{r}
+```{r, eval=FALSE}
 ## random sample for 30 seconds (default)
 stream <- tempfile(fileext = ".json")
 rt <- stream_tweets("rstats", file_name = stream)
 ```
 
 Stream all geo enabled tweets from London for 15 seconds.
-```{r}
+```{r, eval=FALSE}
 ## stream tweets from london for 60 seconds
 stream2 <- tempfile(fileext = ".json")
 rt <- stream_tweets(lookup_coords("london, uk"), timeout = 15, file_name = stream2)
