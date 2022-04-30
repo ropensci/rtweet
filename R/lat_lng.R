@@ -17,7 +17,7 @@
 #'   variable names. Defaults to "bbox_coords",
 #'   "coords_coords", and "geo_coords") (which are the default column
 #'   names of data returned by most status-oriented rtweet functions).
-#' @param pref Preference of coordinates to use as default, must be in `coords`. 
+#' @param prefs Preference of coordinates to use as default, must be in `coords`. 
 #' @details On occasion values may appear to be outliers given a
 #'   previously used query filter (e.g., when searching for tweets
 #'   sent from the continental US).  This is typically because those
