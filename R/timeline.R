@@ -15,7 +15,7 @@
 #' @param check `r lifecycle::badge("deprecated")`
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
-#' @references <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @examples
 #' if (auth_has_default()) {
 #' tw <- get_timeline("_R_Foundation")

@@ -2,7 +2,7 @@
 #'
 #' @inheritParams lookup_users
 #' @param statuses User id or screen name of target user.
-#' @references <https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @examples
 #'
 #' if (auth_has_default()) {

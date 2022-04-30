@@ -82,7 +82,7 @@ favs
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list}
 }
 \seealso{
 Other tweets: 

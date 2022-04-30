@@ -9,7 +9,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
 [![Coverage
-Status](https://codecov.io/gh/ropensci/rtweet/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/rtweet?branch=master)
+Status](https://codecov.io/gh/ropensci/rtweet/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/rtweet?branch=master)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
 [![ZENODO](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
 [![rOpenSci](https://badges.ropensci.org/302_status.svg)](https://github.com/ropensci/software-review/issues/302)

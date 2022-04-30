@@ -33,7 +33,7 @@ Description: An implementation of calls designed to collect and organize
     Interfaces (API), which can be found at the following URL:
     <https://developer.twitter.com/en/docs>.
 License: MIT + file LICENSE
-URL: https://docs.ropensci.org/rtweet, https://github.com/ropensci/rtweet
+URL: https://docs.ropensci.org/rtweet/, https://github.com/ropensci/rtweet/
 BugReports: https://github.com/ropensci/rtweet/issues
 Depends:
     R (>= 4.0.0)

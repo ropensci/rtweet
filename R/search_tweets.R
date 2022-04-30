@@ -51,7 +51,6 @@
 #'   sent to Twitter's REST API. To return only English language
 #'   tweets, for example, use `lang = "en"`. For more options see
 #'   Twitter's API documentation.
-#' @references <https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets>
 #' @details Twitter API documentation recommends limiting searches to
 #'   10 keywords and operators. Complex queries may also produce API
 #'   errors preventing recovery of information related to the query.

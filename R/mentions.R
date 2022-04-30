@@ -18,7 +18,7 @@
 #' # newer mentions
 #' get_mentions(since_id = tw)
 #' }
-#' @references <https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @export
 get_mentions <- function(n = 200,
                          since_id = NULL,
