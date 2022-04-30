@@ -13,11 +13,13 @@
 #' @export
 #' @family authentication
 #' @examples 
-#' if (!auth_has_default() & interactive()) {
+#' \dontrun{
+#' if (!auth_has_default() && interactive()) {
 #'    auth_setup_default()
 #' }
+#' }
 auth_setup_default <- function() {
-  if (auth_has_default()){
+  if (auth_has_default()) {
     inform("Using default authentication available.")
   } else {
     auth <- rtweet_user()
@@ -40,7 +42,7 @@ auth_setup_default <- function() {
 #' * `rtweet_app()` authenticates as a Twitter application. An application can't 
 #'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
 #'    rate limits (i.e. you can do more searches). See details
-#'    at <https://developer.twitter.com/en/docs/basics/rate-limits.html>.
+#'    at <https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits>.
 #'    This form is most appropriate if you are collecting data. 
 #'    
 #' * `rtweet_bot()` authenticates as bot that takes actions on behalf of an app.

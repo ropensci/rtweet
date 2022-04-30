@@ -115,7 +115,7 @@ tw
 
 }
 \references{
-\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview}
 }
 \seealso{
 Other tweets: 

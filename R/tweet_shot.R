@@ -19,9 +19,11 @@
 #' @return `magick` object
 #' @export
 #' @examples 
+#' \dontrun{
 #' if (auth_has_default()) {
 #'     tweet_shot("947061504892919808")
 #'     tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
+#' }
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   check_installed(c("magick", "webshot"))

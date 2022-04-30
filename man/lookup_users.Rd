@@ -57,7 +57,7 @@ if (auth_has_default()) {
 
 }
 \references{
-\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup}
 }
 \seealso{
 Other users: 

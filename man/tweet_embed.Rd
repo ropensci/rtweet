@@ -12,7 +12,7 @@ tweet_embed(screen_name, status_id, ...)
 \item{status_id}{character, status id}
 
 \item{...}{parameters to pass to the GET call. See
-\url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-oembed}
 for details.}
 }
 \value{

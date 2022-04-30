@@ -3,7 +3,7 @@
 #' @inheritParams TWIT_paginate_max_id
 #'   
 #' @param users User id or screen name of target user.
-#' @references <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
 #' 
 #' @examples
 #'

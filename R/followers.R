@@ -6,7 +6,7 @@
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_timeline
 #' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
-#' @references <https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
 #' if (auth_has_default()) {
 #' users <- get_followers("_R_Foundation")

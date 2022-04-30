@@ -14,14 +14,13 @@
 #'   resources listed in returned rate limit data.
 #' @param endpoint Name of Twitter endpoint like `"lookup/users"`,
 #'   `"/media/upload"`, or `"/feedback/show/:id"`.
-#' #' @references <https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
 #' @examples
 #' if (auth_has_default()) {
 #' rate_limit()
 #' }
 #' @family tokens
 #' @export
-#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status>
 rate_limit <- function(resource_match = NULL, token = NULL) {
   json <- TWIT_get(token, "/1.1/application/rate_limit_status")
   

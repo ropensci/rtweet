@@ -60,7 +60,7 @@ tw
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup}
 }
 \seealso{
 Other tweets: 

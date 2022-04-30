@@ -21,7 +21,7 @@
 #' @param media_alt_text attach additional [alt text](https://en.wikipedia.org/wiki/Alt_attribute)
 #'        metadata to the `media` you are uploading. Should be same length as
 #'        `media` (i.e. as many alt text entries as there are `media` entries). See
-#'        [the official API documentation](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create)
+#'        [the official API documentation](https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create)
 #'        for more information.
 #' @param lat A numeric value representing the latitude of the location the 
 #'   tweet refers to. Range should be between -90 and 90 (north). Note that you
@@ -81,7 +81,7 @@
 #' @references 
 #' Tweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update>
 #' Retweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id>
-#' Media: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload>
+#' Media: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create>
 #' Alt-text: <https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create>
 post_tweet <- function(status = "my first rtweet #rstats",
                        media = NULL,

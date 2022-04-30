@@ -50,7 +50,7 @@ original Tweet, and added to the new Tweet from there. Defaults to FALSE.}
 \item{media_alt_text}{attach additional \href{https://en.wikipedia.org/wiki/Alt_attribute}{alt text}
 metadata to the \code{media} you are uploading. Should be same length as
 \code{media} (i.e. as many alt text entries as there are \code{media} entries). See
-\href{https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create}{the official API documentation}
+\href{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create}{the official API documentation}
 for more information.}
 
 \item{lat}{A numeric value representing the latitude of the location the
@@ -115,7 +115,7 @@ post_tweet("second in the thread",
 \references{
 Tweet: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update}
 Retweet: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id}
-Media: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload}
+Media: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create}
 Alt-text: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create}
 }
 \seealso{

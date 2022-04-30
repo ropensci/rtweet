@@ -81,5 +81,5 @@ more_users <- get_followers("_R_Foundation", cursor = users)
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids}
 }
