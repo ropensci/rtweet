@@ -2,38 +2,26 @@ Type: Package
 Package: rtweet
 Title: Collecting Twitter Data
 Version: 0.7.0.9024
-Authors@R: 
-    c(person(given = "Michael W.",
-             family = "Kearney",
-             role = c("aut", "cre"),
-             email = "kearneymw@missouri.edu",
-             comment = c(ORCID = "0000-0002-0730-4694")),
-      person(given = "Lluís",
-             family = "Revilla Sancho",
-             role = "aut",
-             comment = c(ORCID = "0000-0001-9747-2570")),
-      person(given = "Hadley",
-             family = "Wickham",
-             role = "aut",
-             comment = c(ORCID = "0000-0003-4757-117X")),
-      person(given = "Andrew",
-             family = "Heiss",
-             role = "rev",
-             comment = c(ORCID = "0000-0002-3948-3914")),
-      person(given = "Francois",
-             family = "Briatte",
-             role = "rev"),
-      person(given = "Jonathan",
-             family = "Sidi",
-             role = "ctb",
-             email = "yonicd@gmail.com",
-             comment = c(ORCID = "0000-0002-4222-1819")))
+Authors@R: c(
+    person("Michael W.", "Kearney", , "kearneymw@missouri.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0730-4694")),
+    person("Lluís", "Revilla Sancho", role = "aut",
+           comment = c(ORCID = "0000-0001-9747-2570")),
+    person("Hadley", "Wickham", role = "aut",
+           comment = c(ORCID = "0000-0003-4757-117X")),
+    person("Andrew", "Heiss", role = "rev",
+           comment = c(ORCID = "0000-0002-3948-3914")),
+    person("Francois", "Briatte", role = "rev"),
+    person("Jonathan", "Sidi", , "yonicd@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0002-4222-1819"))
+  )
 Description: An implementation of calls designed to collect and organize
     Twitter data via Twitter's REST and stream Application Program
     Interfaces (API), which can be found at the following URL:
     <https://developer.twitter.com/en/docs>.
 License: MIT + file LICENSE
-URL: https://docs.ropensci.org/rtweet/, https://github.com/ropensci/rtweet/
+URL: https://docs.ropensci.org/rtweet/,
+    https://github.com/ropensci/rtweet/
 BugReports: https://github.com/ropensci/rtweet/issues
 Depends:
     R (>= 4.0.0)
@@ -50,18 +38,20 @@ Imports:
     utils,
     withr
 Suggests:
-    vcr (>= 0.6.0),
     askpass,
     covr,
-    ggplot2,
+    dplyr (>= 1.0.9),
+    ggplot2 (>= 3.3.5),
     httpuv,
     igraph,
     knitr,
     magick,
+    maps (>= 3.4.0),
     openssl,
     rappdirs,
     rmarkdown,
     testthat (>= 3.1.0),
+    vcr (>= 0.6.0),
     webshot
 VignetteBuilder: 
     knitr
