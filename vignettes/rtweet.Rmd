@@ -242,7 +242,7 @@ Stream all geo enabled tweets from London for 15 seconds.
 ```{r, eval=FALSE}
 ## stream tweets from london for 60 seconds
 stream2 <- tempfile(fileext = ".json")
-rt <- stream_tweets(lookup_coords("london, uk"), timeout = 15, file_name = stream2)
+stream_london <- stream_tweets(lookup_coords("london, uk"), timeout = 15, file_name = stream2)
 ```
 
 Stream all tweets mentioning #rstats for a week.
@@ -257,7 +257,5 @@ stream_tweets(
 )
 
 ## read in the data as a tidy tbl data frame
-djt <- jsonlite::stream_in(stream3)
-## Unfollow
-post_follow("kearneymw", destroy = TRUE)
+rstats <- jsonlite::stream_in(stream3)
 ```
