@@ -131,7 +131,7 @@ search_params <- function(q,
   ## validate query length–char count might not always be same here as with 
   ## Twitter, so set this to 600 and let Twitter reject others
   if (nchar(q) > 600) {
-    stop("q cannot exceed 500 characters.", call. = FALSE)
+    stop("q cannot exceed 600 characters.", call. = FALSE)
   }
   if (!include_rts) {
     q <- paste0(q, " -filter:retweets")

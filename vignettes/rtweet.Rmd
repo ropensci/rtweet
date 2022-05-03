@@ -258,4 +258,6 @@ stream_tweets(
 
 ## read in the data as a tidy tbl data frame
 djt <- jsonlite::stream_in(stream3)
+## Unfollow
+post_follow("kearneymw", destroy = TRUE)
 ```
