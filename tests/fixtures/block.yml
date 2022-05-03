@@ -1,0 +1,107 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://api.twitter.com/1.1/blocks/create.json?screen_name=BarackObama
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: ''
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      content-disposition: attachment; filename=json.json
+      content-encoding: gzip
+      content-length: '1154'
+      content-type: application/json;charset=utf-8
+      date: Sat, 26 Mar 2022 17:32:24 GMT
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      last-modified: Sat, 26 Mar 2022 17:32:24 GMT
+      pragma: no-cache
+      server: tsa_f
+      set-cookie:
+      - lang=en; Path=/
+      - guest_id=v1%3A164831594482167658; Max-Age=34214400; Expires=Wed, 26 Apr 2023
+        17:32:24 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None
+      status: 200 OK
+      strict-transport-security: max-age=631138519
+      x-access-level: read-write-directmessages
+      x-connection-hash: 5894cbd441c135766ac58c25ab01ed9a000a13bdd8e2791e41ca907477e79d64
+      x-content-type-options: nosniff
+      x-frame-options: SAMEORIGIN
+      x-response-time: '189'
+      x-transaction: cd0da8b439801c49
+      x-twitter-response-tags: BouncerCompliant
+      x-xss-protection: '0'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":813286,"id_str":"813286","name":"Barack Obama","screen_name":"BarackObama","location":"Washington,
+        DC","description":"Dad, husband, President, citizen.","url":"https:\/\/t.co\/kHvnxozw8x","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/kHvnxozw8x","expanded_url":"http:\/\/obamabook.com","display_url":"obamabook.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":131369806,"friends_count":586073,"listed_count":222245,"created_at":"Mon
+        Mar 05 22:08:25 +0000 2007","favourites_count":0,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":16417,"lang":null,"status":{"created_at":"Thu
+        Mar 24 20:00:48 +0000 2022","id":1507085038940262408,"id_str":"1507085038940262408","text":"Today
+        @POTUS announced that the U.S. will be welcoming 100,000 refugees fleeing
+        the war in Ukraine.\n\u00a0\nThis is the r\u2026 https:\/\/t.co\/wlyZASCR4i","truncated":true,"entities":{"hashtags":[],"symbols":[],"user_mentions":[{"screen_name":"POTUS","name":"President
+        Biden","id":1349149096909668363,"id_str":"1349149096909668363","indices":[6,12]}],"urls":[{"url":"https:\/\/t.co\/wlyZASCR4i","expanded_url":"https:\/\/twitter.com\/i\/web\/status\/1507085038940262408","display_url":"twitter.com\/i\/web\/status\/1\u2026","indices":[117,140]}]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter
+        for iPhone\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":2066,"favorite_count":12965,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"contributors_enabled":false,"is_translator":false,"is_translation_enabled":true,"profile_background_color":"77B0DC","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1329647526807543809\/2SGvnHYV_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1329647526807543809\/2SGvnHYV_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/813286\/1633800288","profile_link_color":"2574AD","profile_sidebar_border_color":"FFFFFF","profile_sidebar_fill_color":"C2E0F6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"muting":false,"translator_type":"regular","withheld_in_countries":[]}'
+  recorded_at: 2022-03-26 17:32:25 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: post
+    uri: https://api.twitter.com/1.1/blocks/destroy.json?screen_name=BarackObama
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: ''
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Sat, 26 Mar 2022 17:32:25 GMT
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Sat, 26 Mar 2022 17:32:25 GMT
+      x-transaction: 514601c2cc82f027
+      content-length: '1154'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-xss-protection: '0'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '184'
+      x-connection-hash: 5894cbd441c135766ac58c25ab01ed9a000a13bdd8e2791e41ca907477e79d64
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":813286,"id_str":"813286","name":"Barack Obama","screen_name":"BarackObama","location":"Washington,
+        DC","description":"Dad, husband, President, citizen.","url":"https:\/\/t.co\/kHvnxozw8x","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/kHvnxozw8x","expanded_url":"http:\/\/obamabook.com","display_url":"obamabook.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":131369806,"friends_count":586073,"listed_count":222245,"created_at":"Mon
+        Mar 05 22:08:25 +0000 2007","favourites_count":0,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":true,"statuses_count":16417,"lang":null,"status":{"created_at":"Thu
+        Mar 24 20:00:48 +0000 2022","id":1507085038940262408,"id_str":"1507085038940262408","text":"Today
+        @POTUS announced that the U.S. will be welcoming 100,000 refugees fleeing
+        the war in Ukraine.\n\u00a0\nThis is the r\u2026 https:\/\/t.co\/wlyZASCR4i","truncated":true,"entities":{"hashtags":[],"symbols":[],"user_mentions":[{"screen_name":"POTUS","name":"President
+        Biden","id":1349149096909668363,"id_str":"1349149096909668363","indices":[6,12]}],"urls":[{"url":"https:\/\/t.co\/wlyZASCR4i","expanded_url":"https:\/\/twitter.com\/i\/web\/status\/1507085038940262408","display_url":"twitter.com\/i\/web\/status\/1\u2026","indices":[117,140]}]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter
+        for iPhone\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":2066,"favorite_count":12965,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"contributors_enabled":false,"is_translator":false,"is_translation_enabled":true,"profile_background_color":"77B0DC","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1329647526807543809\/2SGvnHYV_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1329647526807543809\/2SGvnHYV_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/813286\/1633800288","profile_link_color":"2574AD","profile_sidebar_border_color":"FFFFFF","profile_sidebar_fill_color":"C2E0F6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"muting":false,"translator_type":"regular","withheld_in_countries":[]}'
+  recorded_at: 2022-03-26 17:32:25 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
