@@ -14,7 +14,7 @@ test_that("get_followers returns expected data", {
 
 vcr::use_cassette("get_followers2", {
   test_that("n = Inf works", {
-    R_foundation_flw <- get_followers("_R_Foundation", n = Inf, 
-                                      retryonratelimit = FALSE)
+    expect_error(get_followers("_R_Foundation", n = Inf, 
+                                      retryonratelimit = FALSE), NA)
   })
 })
