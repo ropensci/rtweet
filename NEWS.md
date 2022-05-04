@@ -2,6 +2,8 @@
 
 - `auth_setup_default()` will not only authenticate and save but use the default token.
 
+- New `user_block()` and `user_unblock()` to block and unblock users (#593, @simonheb). 
+
 - The default value of `retryonratelimit` comes from the option
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
