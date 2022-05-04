@@ -116,7 +116,7 @@ auth_as(auth)
 
 ## Saving and loading
 
-`auth_as()` only lasts for a single session; if you close and re-open R, you'll need to repeat the whole process.
+`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_user()`, `rtweet_app()` or `rtweet_bot()`).
 This would be annoying (!) so rtweet also provides a way to save and reload authentications across sessions:
 
 ```{r, eval = FALSE}
