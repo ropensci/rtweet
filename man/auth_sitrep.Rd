@@ -13,6 +13,18 @@ Invisibly, TRUE if some problems were found and FALSE otherwise
 Get a situation report of your current tokens; useful for upgrading from
 rtweet 0.7.0 to 1.0.0 and diagnosing problems with tokens.
 }
+\details{
+Prints rtweet tokens on the old folder (rtweet < 0.7.0) and on the
+new (rtweet > 1.0.0) default location.
+For each folder it reports apps and then users and bots authentications.
+For users authentications it reports the user_id, so that you can check who is that user.
+
+Users should follow its advise, if there is no advise but there are still
+some problems authenticating regenerate the authentications.
+}
+\note{
+It is safe to use in public, as instead of the tokens or keys it reports a letter.
+}
 \examples{
 auth_sitrep()
 }

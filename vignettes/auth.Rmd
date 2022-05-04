@@ -116,7 +116,7 @@ auth_as(auth)
 
 ## Saving and loading
 
-`auth_as()` only lasts for a single session; if you close and re-open R, you'll need to repeat the whole process.
+`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_user()`, `rtweet_app()` or `rtweet_bot()`).
 This would be annoying (!) so rtweet also provides a way to save and reload authentications across sessions:
 
 ```{r, eval = FALSE}
@@ -158,9 +158,11 @@ Also do not print RTWEET_BEARER or other secrets.
 
 ## Authentications sitrep
 
-If you want a more complete check up of your authentications you can use `auth_sitrep()`.
+On the rtweet 1.0.0 version there were some changes on the default location of the tokens. 
+
+If you upgrade or want a complete check up of your authentications you can use `auth_sitrep()`.
 It can help when regenerating credentials and to follow best practices when upgrading rtweet.
-It will return something like these:
+It will print something like these:
 
 
 ```{r, eval = FALSE}
@@ -182,11 +184,11 @@ auth_sitrep()
 ## All tokens should be moved to /home/user/.config/R/rtweet
 ```
 
-First looks up old authentications rtweet saved at your home directory (`~`, or `$HOME`).
+First looks up old authentications rtweet saved at your home directory (`~`, or `$HOME`) as it did on rtweet < 1.0.0.
 Then it reports the authentications found on the new location (rtweet >= 1.0.0).
 For each folder it reports apps and then users and bots authentications.
 It is safe to use in public, as instead of the tokens or keys it reports a letter.
-For users authentications it reports the user_id, so that you can check who is that user (`search_users("1051053384")`).
+For users authentications it reports the user_id, so that you can check who is that user (`search_users("1251053384")`).
 
 This makes it easier to see if there is a saved authentication with a name not matching the user_id.
 It also warns you if there is the same key or token for multiple files, as this indicates a misunderstanding or a duplication of the authentication.

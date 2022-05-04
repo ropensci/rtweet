@@ -1,6 +1,5 @@
 ---
 title: "Intro to rtweet: Collecting Twitter Data"
-author: "Michael W. Kearney"
 output:
   rmarkdown::html_vignette
 vignette: >
@@ -14,224 +13,271 @@ knitr::opts_chunk$set(
   echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE)
 ```
 
-This vignette provides a quick tour of the R package `rtweet: Collecting Twitter Data`.
+This vignette provides a quick tour of the R package.
 
-### Search tweets
-
-Search for up to 18,000 (non-retweeted) tweets containing the rstats hashtag.
-```{r, eval=FALSE}
-## search for 18000 tweets using the rstats hashtag
-rt <- search_tweets("#rstats", n = 18000, include_rts = FALSE)
-
-## preview tweets data
-rt
-
-users_data(rt) # view users data
-
-## plot time series (if ggplot2 is installed)
-ts_plot(rt)
+```{r}
+library("rtweet")
 ```
 
 
-Quickly visualize frequency of tweets over time using `ts_plot()`.
+## Authenticate
+
+First you should set up your own credentials:
+
 ```{r, eval=FALSE}
+auth_setup_default()
+```
+
+Which will look up your account on your browser.
+Next we need to authenticate with it:
+
+```{r, eval=FALSE}
+auth_as("default")
+```
+
+Then we are ready to use the package with your own authentication.
+If you want to set up a bot or collect a lot of information, please read the `vignette("auth", "rtweet")`.
+
+## Search tweets
+
+You can search tweets:
+
+```{r}
+## search for 18000 tweets using the rstats hashtag
+rstats <- search_tweets("#rstats", n = 100, include_rts = FALSE)
+rstats
+```
+
+The `include_rts = FALSE` excludes retweets from the search.
+
+Twitter rate limits the number of calls to the endpoints you can do. 
+See `rate_limit()` and the [rate limit section](#Rate-limit) below.
+If your query requires more calls like the example below, simply set `retryonratelimit = TRUE` and rtweet will wait for rate limit resets for you.
+
+```{r, eval=FALSE}
+## search for 250,000 tweets containing the word data
+tweets_peace <- search_tweets("peace", n = 250000, retryonratelimit = TRUE)
+```
+
+Search by geo-location, for example tweets in the English language sent from the United States.
+
+```{r}
+# search for tweets sent from the US 
+# lookup_coords requires Google maps API key for maps outside usa, canada and world
+geo_tweets <- search_tweets("lang:en", geocode = lookup_coords("usa"), n = 100)
+geo_tweets
+```
+
+You can check the location of these tweets with `lat_lng()`.
+Or quickly visualize frequency of tweets over time using `ts_plot()` (if `ggplot2` is installed).
+
+```{r}
 ## plot time series of tweets
-ts_plot(rt, "3 hours") +
+ts_plot(rstats) +
   ggplot2::theme_minimal() +
   ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
   ggplot2::labs(
     x = NULL, y = NULL,
     title = "Frequency of #rstats Twitter statuses from past 9 days",
     subtitle = "Twitter status (tweet) counts aggregated using three-hour intervals",
-    caption = "\nSource: Data collected from Twitter's REST API via rtweet"
+    caption = "Source: Data collected from Twitter's REST API via rtweet"
   )
 ```
 
-Twitter rate limits cap the number of search results returned to
-18,000 every 15 minutes. To request more than that, simply set
-`retryonratelimit = TRUE` and rtweet will wait for rate limit
-resets for you.
-```{r, eval=FALSE}
-## search for 250,000 tweets containing the word data
-rt <- search_tweets("data", n = 250000, retryonratelimit = TRUE)
+## Posting statuses
+
+You can post tweets with:
+
+```{r}
+post_tweet(paste0("My first tweet with #rtweet #rstats at ", Sys.Date()))
 ```
 
-Search by geo-location, for example, find 1000 tweets in the English
-language sent from the United States.
-```{r, eval=FALSE}
-## search for 10,000 tweets sent from the US
-geo_search <- search_tweets("lang:en", geocode = lookup_coords("usa"),
-                            n = 1000)
+It can include media and alt text:
 
-## create lat/lng variables using all available tweet and profile geo-location data
-geo_tweets <- lat_lng(geo_search)
-
-## plot state boundaries
-par(mar = c(0, 0, 0, 0))
-if (requireNamespace("maps", quietly = TRUE)) {
-  maps::map("state", lwd = .25)
-}
-
-## plot lat and lng points onto state map
-points(geo_tweets$lng, geo_tweets$lat, pch = 20, cex = .75, 
-       col = rgb(0, .3, .7, .75))
+```{r}
+path_file <- tempfile(fileext = ".png")
+png(filename = path_file)
+plot(mpg ~ cyl, mtcars, col = gear, pch = gear)
+dev.off()
+post_tweet("my first tweet with #rtweet with media #rstats", media = path_file, media_alt_text = "Plot of mtcars dataset, showing cyl vs mpg colored by gear. The lower cyl the higher the mpg is.")
 ```
 
-### Stream tweets
+You can also reply to a previous tweet, retweet and provide additional information. 
+
+## Get friends
+
+Retrieve a list of all the accounts a **user follows**.
+```{r}
+## get user IDs of accounts followed by R Foundation
+R_foundation_fds <- get_friends("_R_Foundation")
+R_foundation_fds
+```
+
+Using `get_friends()` we can retrieve which users are being followed by the R Foundation. 
+
+## Get followers
+
+If you really want all the users that follow the account we can use `get_followers()`:
+```{r}
+R_foundation_flw <- get_followers("_R_Foundation", n = 30000, 
+                                  retryonratelimit = TRUE)
+```
+
+Note that the `retryonratelimit` option is intended for when you need more queries than provided by Twitter on a given period. 
+You might want to check with `rate_limit()` how many does it provide for the endpoints you are using. 
+If exceeded `retryonratelimit` waits till the there are more calls available and then resumes the query.
+
+## Lookup users
+
+As seen above we can use `lookup_users()` to check their
+
+```{r}
+# Look who is following R Foundation
+R_foundation_fds_data <- lookup_users(R_foundation_fds$to_id)
+R_foundation_fds_data[, c("name", "screen_name", "created_at")]
+
+# Look R Foundation followers
+R_foundation_flw_data <- lookup_users(R_foundation_flw$from_id)
+R_foundation_flw_data[, c("name", "screen_name", "created_at")]
+```
+
+We have now the information from those followed by the R Foundation and its followers.
+We can retrieve their latest tweets from these users:
+
+```{r}
+tweets_data(R_foundation_fds_data)[, c("created_at", "text")]
+```
+
+## Search users
+
+Search for 1,000 users with the rstats hashtag in their profile bios.
+```{r}
+## search for users with #rstats in their profiles
+useRs <- search_users("#rstats", n = 1000)
+useRs[, c("name", "screen_name", "created_at")]
+```
+
+If we want to know what have they tweeted about we can use `tweets_data()`:
+```{r}
+useRs_twt <- tweets_data(useRs)
+useRs_twt[, c("id_str", "created_at", "text")]
+```
+
+## Get timelines
+
+Get the most recent tweets from R Foundation.
+```{r}
+## get user IDs of accounts followed by R Foundation
+R_foundation_tline <- get_timeline("_R_Foundation")
+
+## plot the frequency of tweets for each user over time
+plot <- R_foundation_tline |> 
+  dplyr::filter(created_at > "2017-10-29") |> 
+  ts_plot(by = "month", trim = 1L) +
+  ggplot2::geom_point() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequency of Twitter statuses posted by the R Foundation",
+    subtitle = "Twitter status (tweet) counts aggregated by month from October/November 2017",
+    caption = "Source: Data collected from Twitter's REST API via rtweet"
+  )
+```
+
+## Get favorites
+
+Get the 10 recently favorited statuses by R Foundation.
+
+```{r}
+R_foundation_favs <- get_favorites("_R_Foundation", n = 10)
+R_foundation_favs[, c("text", "created_at", "id_str")]
+```
+
+
+## Get trends
+
+Discover what's currently trending in San Francisco.
+```{r}
+sf <- get_trends("san francisco")
+```
+
+## Following users
+
+You can follow users and unfollow them:
+
+```{r}
+post_follow("_R_Foundation")
+post_unfollow_user("rtweet_test")
+```
+
+## Muting users
+
+You can mute and unmute users:
+
+```{r}
+post_follow("rtweet_test", mute = TRUE)
+post_follow("rtweet_test", mute = FALSE)
+```
+
+
+## Blocking users
+
+You can block users and unblock them:
+
+```{r}
+user_block("rtweet_test")
+user_unblock("rtweet_test")
+```
+
+
+
+## Rate limits
+
+Twitter sets a limited number of calls to their endpoints for different authentications (check `vignette("auth", "rtweet")` to find which one is better for your use case).
+To consult those limits you can use `rate_limt()`
+
+```{r}
+rate_limit()
+# Search only those related to followers
+rate_limit("followers")
+```
+
+The remaining column shows the number of times that you can call and endpoint (not the numbers of followers you can search). 
+After a query the number should decrease until it is reset again. 
+
+If your queries return an error, check if you already exhausted your quota and try after the time on "reset_at".
+
+## Stream tweets
 
 Randomly sample (approximately 1%) from the live stream of all tweets.
 ```{r, eval=FALSE}
 ## random sample for 30 seconds (default)
-stream1 <- stream_tweets("")
+stream <- tempfile(fileext = ".json")
+rt <- stream_tweets("rstats", file_name = stream)
 ```
 
-Stream all geo enabled tweets from London for 60 seconds.
+Stream all geo enabled tweets from London for 15 seconds.
 ```{r, eval=FALSE}
 ## stream tweets from london for 60 seconds
-stream_london <- stream_tweets(lookup_coords("london, uk"), timeout = 60)
+stream2 <- tempfile(fileext = ".json")
+stream_london <- stream_tweets(lookup_coords("london, uk"), timeout = 15, file_name = stream2)
 ```
 
 Stream all tweets mentioning #rstats for a week.
 ```{r, eval=FALSE}
 ## stream london tweets for a week (60 secs x 60 mins * 24 hours *  7 days)
-stream_rstats <- stream_tweets(
+stream3 <- tempfile(fileext = ".json")
+stream_tweets(
   "#rstats",
   timeout = 60 * 60 * 24 * 7,
-  file_name = "tweets_about_R.json",
+  file_name = stream3,
   parse = FALSE
 )
 
 ## read in the data as a tidy tbl data frame
-djt <- parse_stream("tweets_about_R.json.json")
-```
-
-### Get friends
-
-Retrieve a list of all the accounts a **user follows**.
-```{r, eval=FALSE}
-## get user IDs of accounts followed by R Foundation
-R_foundation_fds <- get_friends("_R_Foundation")
-
-## lookup data on those accounts
-R_foundation_fds_data <- lookup_users(R_foundation$user_id)
-```
-
-### Get followers
-
-Retrieve a list of the **accounts following** a user.
-```{r, eval=FALSE}
-## get user IDs of accounts following R Foundation
-R_foundation_flw <- get_followers("_R_Foundation", n = 75000)
-
-## lookup data on those accounts
-R_foundation_flw_data <- lookup_users(R_foundation_flw$user_id)
-```
-
-Or if you really want ALL of their followers:
-```{r, eval=FALSE}
-## how many total follows does R Foundation have?
-R_foundation <- lookup_users("_R_Foundation")
-
-## get them all (this would take a little over 5 days)
-R_foundation_flw <- get_followers(
-  "_R_Foundation", n = R_foundation$followers_count, retryonratelimit = TRUE
-)
-```
-
-### Get timelines
-
-Get the most recent 3,200 tweets from R Foundation.
-```{r, eval=FALSE}
-## get user IDs of accounts followed by R Foundation
-tmls <- get_timelines("_R_Foundation", n = 3200)
-
-## plot the frequency of tweets for each user over time
-if (requireNamespace("dplyr", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)) {
-  tmls %>%
-    dplyr::filter(created_at > "2017-10-29") %>%
-    dplyr::group_by(screen_name) %>%
-    ts_plot("days", trim = 1L) +
-    ggplot2::geom_point() +
-    ggplot2::theme_minimal() +
-    ggplot2::theme(
-      legend.title = ggplot2::element_blank(),
-      legend.position = "bottom",
-      plot.title = ggplot2::element_text(face = "bold")) +
-    ggplot2::labs(
-      x = NULL, y = NULL,
-      title = "Frequency of Twitter statuses posted by news organization",
-      subtitle = "Twitter status (tweet) counts aggregated by day from October/November 2017",
-      caption = "\nSource: Data collected from Twitter's REST API via rtweet"
-    )
-}
-```
-
-### Get favorites
-
-Get the 3,000 most recently favorited statuses by R Foundation.
-```{r, eval=FALSE}
-RFoundation_favs <- get_favorites("_R_Foundation", n = 3000)
-```
-
-### Search users
-
-Search for 1,000 users with the rstats hashtag in their profile bios.
-```{r, eval=FALSE}
-## search for users with #rstats in their profiles
-useRs <- search_users("#rstats", n = 1000)
-useRs
-```
-
-### Get trends
-
-Discover what's currently trending in San Francisco.
-```{r, eval=FALSE}
-sf_trends <- get_trends("san francisco")
-sf_trends
-```
-
-### Lookup users
-
-```{r, eval=FALSE}
-## lookup users by screen_name or user_id
-users <- c("R_Foundation", "rOpenSci", "Bioconductor",
-           "R_Contributors", "rstatstweet", "WeAreRLadies", "rstats_tweets",
-           "rstats4ds", "CRANberriesfeed")
-famous_tweeters <- lookup_users(users)
-
-## preview users data
-famous_tweeters
-
-# extract most recent tweets data from the famous tweeters
-tweets_data(famous_tweeters)
-```
-
-
-### Posting statuses
-
-```{r, eval=FALSE}
-id <- post_tweet("my first rtweet #rstats")
-
-## save a png
-x <- rnorm(300)
-y <- x + rnorm(300, 0, .75)
-tmp <- tempfile(fileext = ".png")
-png(tmp, 6, 6, "in", res = 127.5)
-plot(x, y, xlab = NULL, ylab = NULL, pch = 21, cex = 1,
-     bg = bg, col = col,
-     main = "This image was uploaded by rtweet")
-grid(8, lwd = .15, lty = 2, col = "#00000088")
-dev.off()
-
-id <- post_tweet("my first rtweet #rstats", media = tmp, 
-                 media_alt_text = "Random points generated by R to test posting media and alt text. Image posted with rtweet.")
-```
-
-### Following users
-
-```{r, eval=FALSE}
-## ty for the follow ;)
-post_follow("kearneymw")
-## Unfollow
-post_follow("kearneymw", destroy = TRUE)
+rstats <- jsonlite::stream_in(stream3)
 ```
