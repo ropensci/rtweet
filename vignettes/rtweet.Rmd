@@ -197,6 +197,7 @@ R_foundation_favs <- get_favorites("_R_Foundation", n = 10)
 R_foundation_favs[, c("text", "created_at", "id_str")]
 ```
 
+
 ## Get trends
 
 Discover what's currently trending in San Francisco.
@@ -210,8 +211,29 @@ You can follow users and unfollow them:
 
 ```{r}
 post_follow("_R_Foundation")
-post_unfollow_user("afdsaf")
+post_unfollow_user("rtweet_test")
 ```
+
+## Muting users
+
+You can mute and unmute users:
+
+```{r}
+post_follow("rtweet_test", mute = TRUE)
+post_follow("rtweet_test", mute = FALSE)
+```
+
+
+## Blocking users
+
+You can block users and unblock them:
+
+```{r}
+user_block("rtweet_test")
+user_unblock("rtweet_test")
+```
+
+
 
 ## Rate limits
 
