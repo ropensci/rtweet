@@ -13,7 +13,8 @@
 #' @aliases follow_user
 #' @examples
 #' if (auth_has_default()) {
-#' post_follow("_R_Foundation")
+#'     post_follow("_R_Foundation")
+#'     post_follow("rtweet_test", mute = TRUE) # Mute
 #' }
 #' @family post
 #' @export
