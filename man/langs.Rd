@@ -3,12 +3,9 @@
 \docType{data}
 \name{langs}
 \alias{langs}
-\title{Language codes recognized by Twitter data.}
+\title{Defunct: Language codes recognized by Twitter data.}
 \format{
 A tibble with five variables and 486 observations.
-}
-\usage{
-langs
 }
 \description{
 This data comes from the Library of Congress,
@@ -17,7 +14,3 @@ descriptions and codes associated with internationally recognized languages.
 Variables include translations for each language represented as
 bibliographic, terminologic, alpha, english, and french.
 }
-\examples{
-head(langs)
-}
-\keyword{datasets}

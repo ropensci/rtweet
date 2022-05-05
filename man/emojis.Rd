@@ -3,19 +3,12 @@
 \docType{data}
 \name{emojis}
 \alias{emojis}
-\title{Emojis codes and descriptions data.}
+\title{Defunct: Emojis codes and descriptions data.}
 \format{
 A tibble with two variables and 2,623 observations.
-}
-\usage{
-emojis
 }
 \description{
 This data comes from "Unicode.org",
 \url{http://unicode.org/emoji/charts/full-emoji-list.html}. The data are
 codes and descriptions of Emojis.
 }
-\examples{
-head(emojis)
-}
-\keyword{datasets}

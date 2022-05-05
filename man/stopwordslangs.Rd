@@ -3,12 +3,9 @@
 \docType{data}
 \name{stopwordslangs}
 \alias{stopwordslangs}
-\title{Twitter stop words in multiple languages data.}
+\title{Defunct: Twitter stop words in multiple languages data.}
 \format{
 A tibble with three variables and 24,000 observations
-}
-\usage{
-stopwordslangs
 }
 \description{
 This data comes form a group of Twitter searches conducted at
@@ -21,7 +18,3 @@ normal distribution with higher values meaning the word occurs more
 frequently and lower values meaning the words occur less
 frequently).
 }
-\examples{
-head(stopwordslangs)
-}
-\keyword{datasets}

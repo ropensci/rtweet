@@ -1,5 +1,7 @@
 # rtweet (development version)
 
+- emojis, langs and stopwordslangs data is no longer provided.  
+
 - `auth_setup_default()` will not only authenticate and save but use the default token.
 
 - New `user_block()` and `user_unblock()` to block and unblock users (#593, @simonheb). 
@@ -18,8 +20,6 @@
   argument.
   
 - Message are now properly capitalized (#565, @jsta)  
-
-
 
 - Fields `withheld_scope`, `withheld_copyright`, `withheld_in_countries` are now correctly parsed (#647).
 

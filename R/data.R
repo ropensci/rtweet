@@ -1,4 +1,4 @@
-#' Emojis codes and descriptions data.
+#' Defunct: Emojis codes and descriptions data.
 #'
 #' This data comes from "Unicode.org",
 #' <http://unicode.org/emoji/charts/full-emoji-list.html>. The data are
@@ -7,11 +7,9 @@
 #' @docType data
 #' @name emojis
 #' @format A tibble with two variables and 2,623 observations.
-#' @examples
-#' head(emojis)
-"emojis"
+NULL
 
-#' Language codes recognized by Twitter data.
+#' Defunct: Language codes recognized by Twitter data.
 #'
 #' This data comes from the Library of Congress,
 #' <http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt>. The data are
@@ -22,12 +20,10 @@
 #' @docType data
 #' @name langs
 #' @format A tibble with five variables and 486 observations.
-#' @examples
-#' head(langs)
-"langs"
+NULL
 
 
-#' Twitter stop words in multiple languages data.
+#' Defunct: Twitter stop words in multiple languages data.
 #'
 #' This data comes form a group of Twitter searches conducted at
 #' several times during the calendar year of 2017. The data are
@@ -43,6 +39,4 @@
 #' @docType data
 #' @name stopwordslangs
 #' @format A tibble with three variables and 24,000 observations
-#' @examples
-#' head(stopwordslangs)
-"stopwordslangs"
+NULL
