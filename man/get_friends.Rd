@@ -76,6 +76,10 @@ Generally, you should not need to set \code{n} to more than 5,000 since Twitter
 limits the number of people that you can follow (i.e. to follow more than
 5,000 people at least 5,000 people need to follow you).
 }
+\note{
+If a user is protected the API will omit all requests so you'll need
+to find which user is protected. rtweet will warn you and the output will be \code{NA}.
+}
 \examples{
 if (auth_has_default()) {
 users <- get_friends("ropensci")

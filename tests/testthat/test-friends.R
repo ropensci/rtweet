@@ -56,3 +56,16 @@ test_that("n = Inf works", {
   })
   expect_s3_class(mf, "data.frame")
 })
+
+vcr::use_cassette("friends8", {
+  test_that("n = Inf works", {
+    expect_warning(
+      expect_warning(
+        gf <- rtweet::get_friends(c("fdrennan", "Lluis_Revilla")),
+        "Skipping unauthorized account: fdrennan")
+      )
+    expect_s3_class(gf, "data.frame")
+    expect_true(ncol(gf) == 2)
+    expect_true(all(is.na(gf$to_id)))
+  })
+})

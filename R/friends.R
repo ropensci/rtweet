@@ -6,6 +6,9 @@
 #' Generally, you should not need to set `n` to more than 5,000 since Twitter
 #' limits the number of people that you can follow (i.e. to follow more than
 #' 5,000 people at least 5,000 people need to follow you).
+#' 
+#' @note If a user is protected the API will omit all requests so you'll need 
+#' to find which user is protected. rtweet will warn you and the output will be `NA`. 
 #'
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_followers
@@ -74,6 +77,9 @@ get_friends_user <- function(user, token, ..., parse = TRUE) {
       to_id = unlist(lapply(results, function(x) x$ids), 
                      recursive = FALSE, use.names = FALSE)
     )
+    if (ncol(df) == 1) {
+      df$to_id <- NA
+    }
     results <- copy_cursor(df, results)
   }
   results
