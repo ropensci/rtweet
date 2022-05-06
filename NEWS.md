@@ -1,5 +1,7 @@
 # rtweet (development version)
 
+- `tweet_shot()` is deprecated as the screenshots do not have the tweet (#458).
+
 - emojis, langs and stopwordslangs data is no longer provided.  
 
 - `auth_setup_default()` will not only authenticate and save but use the default token.

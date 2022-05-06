@@ -21,12 +21,16 @@
 #' @examples 
 #' \dontrun{
 #' if (auth_has_default()) {
-#'     tweet_shot("947061504892919808")
-#'     tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
+#'     shot1 <- tweet_shot("947061504892919808")
+#'     plot(shot1)
+#'     shot2 <- tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
+#'     plot(shot2)
 #' }
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   check_installed(c("magick", "webshot"))
+  lifecycle::deprecate_warn("1.0.0", "tweet_shot()", 
+                            details = "The resulting image might not have a screenshot of the tweet")
 
   statusid_or_url <- statusid_or_url[1]
   zoom <- zoom[1]
