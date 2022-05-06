@@ -78,8 +78,9 @@ stream_tweets <- function(q = "",
   ))
   
   if (parse) {
-    df <- jsonlite::stream_in(file(file_name), verbose = FALSE)
-    tibble::as_tibble(df)
+    df <- jsonlite::stream_in(file(file_name), handler = tweets, pagesize = 1, verbose = FALSE)
+    # df <- jsonlite::stream_in(file(file_name), verbose = FALSE)
+    # tibble::as_tibble(df)
   } else {
     invisible(NULL)
   }
@@ -223,9 +224,8 @@ is_user_ids <- function(x) {
 #' @param ... Other arguments passed on to internal data_from_stream
 #'   function.
 #' @export
-#' @keywords internal
 parse_stream <- function(path, ...) {
-  lifecycle::deprecate_stop("1.0.0", "parse_stream()", "jsonlite::stream_in()")
+  jsonlite::stream_in(file(path), handler = tweet, pagesize = 1, verbose = FALSE)
 }
 
 #' A more robust version of stream_tweets
