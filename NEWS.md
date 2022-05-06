@@ -1,5 +1,7 @@
 # rtweet (development version)
 
+- All the functions related to flattening the data (`write_as_csv()`, `save_as_csv()` `flatten()`, `unflatten()`, `read_twitter_csv()`) are deprecated. Users should decide how to flatten the nested structure of the data. 
+
 - `tweet_shot()` is deprecated as the screenshots do not have the tweet (#458).
 
 - emojis, langs and stopwordslangs data is no longer provided.  

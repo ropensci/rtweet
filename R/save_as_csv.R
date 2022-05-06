@@ -50,6 +50,8 @@ save_as_csv <- function(x, file_name,
                         prepend_ids = TRUE,
                         na = "",
                         fileEncoding = "UTF-8") {
+  lifecycle::deprecate_warn("1.0.0", "save_as_csv()", 
+                            details = c(i = "Only works on  rtweet data before 1.0.0 version"))
   write_as_csv(x, file_name, prepend_ids, na, fileEncoding)
 }
 
@@ -86,6 +88,8 @@ save_as_csv <- function(x, file_name,
 #' @rdname flatten
 #' @family datafiles
 flatten <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "flatten()", 
+                            details = c(i = "Only works on  rtweet data before 1.0.0 version"))
   stopifnot(is.data.frame(x))
   lst <- which(vapply(x, is.list,
     FUN.VALUE = logical(1), USE.NAMES = FALSE))
@@ -110,6 +114,8 @@ flatten <- function(x) {
 #' @rdname flatten
 #' @family datafiles
 unflatten <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "unflatten()", 
+                            details = c(i = "Only works on  rtweet data before 1.0.0 version"))
   yes_coords <- c("geo_coords", "coords_coords", "bbox_coords")
   rec_cols <- c("hashtags", "symbols",
     "urls_url", "urls_t.co", "urls_expanded_url", "media_url",
