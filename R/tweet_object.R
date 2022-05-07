@@ -127,14 +127,15 @@ tweet <- function(x) {
 }
 
 parse_entities2 <- function(y) {
-  m <- matrix(nrow = NROW(y), ncol = NCOL(y), dimnames = list(NULL, colnames(y)))
-  df <- as.data.frame(m)
-  for (col in colnames(y)) {
+  l <- vector("list", NROW(y))
+  for (col in seq_len(NCOL(y))) {
     # Look for the function of said object and save it. 
-    fun <- match.fun(col)
-    df[[col]] <- lapply(y[[col]], fun)
+    fun <- match.fun(colnames(y)[col])
+    l[[col]] <- lapply(y[[col]], fun)
   }
-  df
+  # Split and join
+  ll <- transpose_list(l)
+  lapply(ll, `names<-`, value = colnames(y))
 }
 
 # From https://stackoverflow.com/a/54970694/2886003
