@@ -28,12 +28,12 @@ indices_vec <- function(x) {
 # The extended entities is really for media
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/extended-entities>
 media <- function(x) {
-  df <- data.frame(id = NA, id_str = NA, indices = I(list(NA)), 
-                   media_url = NA, media_url_https = NA, 
-                   url = NA, display_url = NA, expanded_url = NA, 
-                   type = NA, sizes = I(list(NA)), ext_alt_text = NA,
-                   stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
+    df <- data.frame(id = NA, id_str = NA, indices = I(list(NA)), 
+                     media_url = NA, media_url_https = NA, 
+                     url = NA, display_url = NA, expanded_url = NA, 
+                     type = NA, sizes = I(list(NA)), ext_alt_text = NA,
+                     stringsAsFactors = FALSE)
     return(df)
   }
   indices <- as.data.frame(t(simplify2array(x$indices)))
@@ -42,21 +42,25 @@ media <- function(x) {
   sizes <- rbind(x$sizes$large, x$sizes$small, x$sizes$thumb, x$sizes$medium)
   sizes$type <- c("large", "small", "thumb", "medium")
   x$sizes <- list(sizes)
-  x[setdiff(colnames(df), colnames(x))] <- rep(NA, nrow(x))
+  df_colnames <- c("id", "id_str", "indices", "media_url", "media_url_https", 
+                   "url", "display_url", "expanded_url", "type", "sizes", 
+                   "ext_alt_text")
+  x[setdiff(df_colnames, colnames(x))] <- rep(NA, nrow(x))
   x
 }
 
 urls <- function(x) {
-  df <- data.frame(url = NA, expanded_url = NA, display_url = NA, 
-                   indices = I(list(NA)), unwound = I(list(NA)), 
-                   stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
+    df <- data.frame(url = NA, expanded_url = NA, display_url = NA, 
+                     indices = I(list(NA)), unwound = I(list(NA)), 
+                     stringsAsFactors = FALSE)
     return(df)
   }
   indices <- as.data.frame(t(simplify2array(x$indices)))
   colnames(indices) <- c("start", "end")
   x$indices <- I(indices)
-  x[setdiff(colnames(df), colnames(x))] <- rep(NA, nrow(x))
+  x[setdiff(c("url", "expanded_url", "display_url", "indices", "unwound"), 
+            colnames(x))] <- rep(NA, nrow(x))
   x
 }
 
@@ -64,15 +68,16 @@ urls <- function(x) {
 # has:mentions
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#mentions>
 user_mentions <- function(x) {
-  df <- data.frame(screen_name = NA, name = NA, id = NA, id_str = NA,
-                   indices = I(list(NA)), stringsAsFactors = FALSE)
   if (NROW(x) == 0) {
+    df <- data.frame(screen_name = NA, name = NA, id = NA, id_str = NA,
+                     indices = I(list(NA)), stringsAsFactors = FALSE)
     return(df)
   }
   indices <- as.data.frame(t(simplify2array(x$indices)))
   colnames(indices) <- c("start", "end")
   x$indices <- indices
-  x[setdiff(colnames(df), colnames(x))] <- rep(NA, nrow(x))
+  df_colnames <- c("screen_name", "name", "id", "id_str", "indices")
+  x[setdiff(df_colnames, colnames(x))] <- rep(NA, nrow(x))
   rownames(x) <- NULL
   x
 }

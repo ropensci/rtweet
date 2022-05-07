@@ -52,7 +52,8 @@ coordinates <- function(x) {
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/geo#place>
 place <- function(x) {
   if (is.null(x) || length(x) == 1 && is.na(x)) {
-    df <- data.frame(geo = I(list(coordinates(NA))), coordinates = I(list(coordinates(NA))),
+    df <- data.frame(geo = I(list(coordinates(NA))), 
+                     coordinates = I(list(coordinates(NA))),
                              place = I(list(NA)))
     return(df)
   }
