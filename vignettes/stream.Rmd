@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE, comment = "#>", collapse = TRUE
 ## Installing and loading package
 
 Prior to streaming, make sure to install and load rtweet. This
-vignette assumes users have already setup user access tokens (see: the "auth" vignette).
+vignette assumes users have already setup user access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
 
 ```{r}
 ## Install rtweet
@@ -45,9 +45,8 @@ q <- "hillaryclinton,imwithher,realdonaldtrump,maga,electionday"
 ## For larger chunks of time, I recommend multiplying 60 by the number
 ## of desired minutes. This method scales up to hours as well
 ## (x * 60 = x mins, x * 60 * 60 = x hours)
-## Stream for 30 minutes
-streamtime <- 30 * 60
-
+## Stream for 30 seconds
+streamtime <- 30 
 ## Filename to save json data (backup)
 filename <- "rtelect.json"
 ```
@@ -64,7 +63,7 @@ streaming ends.
 
 ```{r}
 ## Stream election tweets
-rt <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
+stream <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
 ```
 
 Parsing larger streams can take quite a bit of time (in addition to
@@ -78,13 +77,11 @@ Air, which has 4gb of RAM, about 10 minutes to process.
 Given a lengthy parsing process, users may want to stream tweets into
 json files upfront and parse those files later on. To do this, simply
 add `parse = FALSE` and make sure you provide a path (file name) to a
-location you can find later. To ensure the stream automatically reconnects following
-any interruption prior to the specified stream time, use
-`stream_tweets2()`.
+location you can find later. 
 
 Regardless of whether you decide to setup an organizational system for
 streaming data, the process of streaming a file to disk and parsing it
-at a later point in space-time is the same, as illustrated in the example
+at a later point in time is the same, as illustrated in the example
 below.
 
 ```{r}
