@@ -29,25 +29,28 @@
 #'   The stream can be interrupted at any time, and `file_name` will still be
 #'   valid file.
 #' @param file_name Character with name of file. If not specified,
-#'   will write to `stream_tweets.json` in the current working directory.
+#'   will write to a temporary file `stream_tweets*.json`.
 #' @param append If `TRUE`, will append to the end of `file_name`; if
 #'   `FALSE`, will overwrite.
 #' @param verbose If `TRUE`, display a progress bar.
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
+#' @seealso `parse_stream()`.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
 #'  <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview>
 #' @examples
 #' \dontrun{
-#' # stream tweets mentioning "election" for 10 seconds
-#' e <- stream_tweets("election", timeout = 10)
-#' e
+#' # stream tweets mentioning "#rstats" for 10 seconds
+#' rstats1 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json")
+#' rstats1
 #'
 #' # Download another 10s worth of data to the same file
-#' e <- stream_tweets("election", timeout = 10, append = TRUE)
+#' rstats2 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json", 
+#'                          append = TRUE)
 #'
-#' # stream tweets about continential USA for 5 minutes
-#' usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", timeout = 300)
+#' # stream tweets about continental USA for 10 seconds
+#' usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", 
+#'                      timeout = 10)
 #' 
 #' }
 #' @return A tibble with one row per tweet
@@ -64,7 +67,7 @@ stream_tweets <- function(q = "",
                           append = TRUE,
                           ...) {
   if (is.null(file_name)) {
-    file_name <- "stream_tweets.json"
+    file_name <- tempfile(pattern = "stream_tweets", fileext = ".json")
     inform(paste0("Writing to '", file_name, "'"))
   }
   output <- file(file_name)
@@ -79,8 +82,6 @@ stream_tweets <- function(q = "",
   
   if (parse) {
     df <- parse_stream(file(file_name))
-    # df <- jsonlite::stream_in(file(file_name), verbose = FALSE)
-    # tibble::as_tibble(df)
   } else {
     invisible(NULL)
   }
@@ -212,17 +213,18 @@ is_user_ids <- function(x) {
 
 
 
+#' Parser of stream
+#' 
 #' Converts Twitter stream data (JSON file) into parsed data frame.
-#'
-#'
 #' @param path Character, name of JSON file with data collected by
 #'   [stream_tweets()].
-#' @param ... Keeping it for back compatibility.
+#' @param ... Unused, keeping it for back compatibility.
 #' @export
+#' @seealso `stream_tweets()`
 #' @examples 
-#' \dontrung{
+#' \dontrun{
+#' stream_tweets(timeout = 1, file_name = "stream.json", parse = FALSE)
 #' parse_stream("stream.json")
-#' parse_stream("rtelect.json")
 #' }
 parse_stream <- function(path, ...) {
   if (...length() > 0) {
@@ -236,6 +238,7 @@ parse_stream <- function(path, ...) {
   
   tweets <- jsonlite::stream_in(path, pagesize = 1, verbose = FALSE)
   tweets <- tweet(tweets)
+  tweets$created_at <- format_date(tweets$created_at)
   
   if (has_name_(tweets, "user")) {
     users <- do.call("rbind", tweets[["user"]])
