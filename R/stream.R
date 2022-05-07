@@ -78,7 +78,7 @@ stream_tweets <- function(q = "",
   ))
   
   if (parse) {
-    df <- jsonlite::stream_in(file(file_name), handler = tweets, pagesize = 1, verbose = FALSE)
+    df <- parse_stream(file(file_name))
     # df <- jsonlite::stream_in(file(file_name), verbose = FALSE)
     # tibble::as_tibble(df)
   } else {
@@ -211,23 +211,47 @@ is_user_ids <- function(x) {
 }
 
 
-# Deprecated -----------------------------------------------------------------
 
 #' Converts Twitter stream data (JSON file) into parsed data frame.
 #'
-#' @description 
-#' `r lifecycle::badge("deprecated")`
-#' Please use `jsonlite::stream_in()` instead.
 #'
 #' @param path Character, name of JSON file with data collected by
 #'   [stream_tweets()].
-#' @param ... Other arguments passed on to internal data_from_stream
-#'   function.
+#' @param ... Keeping it for back compatibility.
 #' @export
+#' @examples 
+#' \dontrung{
+#' parse_stream("stream.json")
+#' parse_stream("rtelect.json")
+#' }
 parse_stream <- function(path, ...) {
-  jsonlite::stream_in(file(path), handler = tweet, pagesize = 1, verbose = FALSE)
+  if (...length() > 0) {
+    lifecycle::deprecate_soft("1.0.0", "parse_steam(...)", 
+                              details = c("Parameters ignored"))
+  }
+  
+  if (!is(path, "file")) {
+    path <- file(path)
+  }
+  
+  tweets <- jsonlite::stream_in(path, pagesize = 1, verbose = FALSE)
+  tweets <- tweet(tweets)
+  
+  if (has_name_(tweets, "user")) {
+    users <- do.call("rbind", tweets[["user"]])
+    tweets <- tweets[!colnames(tweets) %in% "user"]
+  } else {
+    users <- user(NULL)
+  }
+  if (nrow(tweets) == 0 || is.null(tweets)) {
+    tweets <- tweet(NULL)[0, ]
+    users <- users[0, ]
+  }
+  structure(tweets, users = users)
 }
 
+
+# Deprecated -----------------------------------------------------------------
 #' A more robust version of stream_tweets
 #'
 #' @description 
