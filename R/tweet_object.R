@@ -27,6 +27,10 @@ tweet <- function(x) {
                       quoted_status_id = NA,
                       quoted_status_id_str = NA, 
                       quoted_status_permalink = NA,
+                      quote_count = NA, 
+                      timestamp_ms = NA,
+                      reply_count = NA,
+                      filter_level = NA,
                       metadata = NA,
                       query = NA,
                       user = I(list(list())),
@@ -83,6 +87,7 @@ tweet <- function(x) {
   } else if (has_name_(x, "full_text")) {
     tb$text <- x$full_text
   }
+  
   user <- user(x[["user"]])
   tb$user <- split_df(user)
   
@@ -110,10 +115,11 @@ tweet <- function(x) {
   } else {
     tb$place <- lapply(x$place, place)
   }
-  
   end <- setdiff(colnames(tb), colnames(empty))
+  # Omit extended tweet info from stream API v1
+  end <- setdiff(end, "extended_tweet")
   if (length(end) != 0) {
-    stop("Unidentified value: ", end, 
+    stop("Unidentified value: ", paste(end, collapse = ", "),
          ".\n\tPlease open an issue and notify the maintainer. Thanks!")
   }
   tb[setdiff(colnames(empty), colnames(tb))] <- NA

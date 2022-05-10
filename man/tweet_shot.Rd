@@ -34,8 +34,10 @@ of the tweet/thread.
 \examples{
 \dontrun{
 if (auth_has_default()) {
-    tweet_shot("947061504892919808")
-    tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
+    shot1 <- tweet_shot("947061504892919808")
+    plot(shot1)
+    shot2 <- tweet_shot("https://twitter.com/ma_salmon/status/947061504892919808")
+    plot(shot2)
 }
 }
 }

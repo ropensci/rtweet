@@ -43,7 +43,7 @@ a single API call. In most cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{file_name}{Character with name of file. If not specified,
-will write to \code{stream_tweets.json} in the current working directory.}
+will write to a temporary file \code{stream_tweets*.json}.}
 
 \item{verbose}{If \code{TRUE}, display a progress bar.}
 
@@ -68,15 +68,17 @@ Learn more in \code{vignette("stream", package = "rtweet")}
 }
 \examples{
 \dontrun{
-# stream tweets mentioning "election" for 10 seconds
-e <- stream_tweets("election", timeout = 10)
-e
+# stream tweets mentioning "#rstats" for 10 seconds
+rstats1 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json")
+rstats1
 
 # Download another 10s worth of data to the same file
-e <- stream_tweets("election", timeout = 10, append = TRUE)
+rstats2 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json", 
+                         append = TRUE)
 
-# stream tweets about continential USA for 5 minutes
-usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", timeout = 300)
+# stream tweets about continental USA for 10 seconds
+usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", 
+                     timeout = 10)
 
 }
 }
@@ -86,4 +88,7 @@ usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", ti
 
 Stream: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample}
 Filter: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/api-reference/post-statuses-filter}
+}
+\seealso{
+\code{parse_stream()}.
 }

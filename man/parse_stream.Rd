@@ -2,7 +2,7 @@
 % Please edit documentation in R/stream.R
 \name{parse_stream}
 \alias{parse_stream}
-\title{Converts Twitter stream data (JSON file) into parsed data frame.}
+\title{Parser of stream}
 \usage{
 parse_stream(path, ...)
 }
@@ -10,11 +10,17 @@ parse_stream(path, ...)
 \item{path}{Character, name of JSON file with data collected by
 \code{\link[=stream_tweets]{stream_tweets()}}.}
 
-\item{...}{Other arguments passed on to internal data_from_stream
-function.}
+\item{...}{Unused, keeping it for back compatibility.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-Please use \code{jsonlite::stream_in()} instead.
+Converts Twitter stream data (JSON file) into parsed data frame.
 }
-\keyword{internal}
+\examples{
+\dontrun{
+stream_tweets(timeout = 1, file_name = "stream.json", parse = FALSE)
+parse_stream("stream.json")
+}
+}
+\seealso{
+\code{stream_tweets()}
+}
