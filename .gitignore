@@ -14,3 +14,6 @@ vignettes/*.R
 rtweet.sublime-project
 rtweet.sublime-workspace
 docs
+*.Rcheck/
+*.RDS
+*.json

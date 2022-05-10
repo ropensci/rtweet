@@ -27,3 +27,6 @@
 ^codemeta\.json$
 ^\.gitattributes$
 ^vignettes/articles$
+^.*\.RDS$
+^.*\.json$
+tarball
