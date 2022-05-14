@@ -1,3 +1,6 @@
+```{r include=FALSE}
+auth_as(rtweet:::rtweet_test())
+```
 
 ## Search tweets
 
@@ -6,7 +9,8 @@ You can search tweets:
 ```{r}
 ## search for 18000 tweets using the rstats hashtag
 rstats <- search_tweets("#rstats", n = 100, include_rts = FALSE)
-rstats
+colnames(rstats)
+rstats[1:5, c("created_at", "text", "id_str")]
 ```
 
 The `include_rts = FALSE` excludes retweets from the search.
@@ -26,7 +30,7 @@ Search by geo-location, for example tweets in the English language sent from the
 # search for tweets sent from the US 
 # lookup_coords requires Google maps API key for maps outside usa, canada and world
 geo_tweets <- search_tweets("lang:en", geocode = lookup_coords("usa"), n = 100)
-geo_tweets
+geo_tweets[1:5, c("created_at", "text", "id_str", "lang", "place")]
 ```
 
 You can check the location of these tweets with `lat_lng()`.
@@ -50,7 +54,7 @@ ts_plot(rstats) +
 You can post tweets with:
 
 ```{r}
-post_tweet(paste0("My first tweet with #rtweet #rstats at ", Sys.Date()))
+post_tweet(paste0("My first tweet with #rtweet #rstats at ", Sys.time()))
 ```
 
 It can include media and alt text:
@@ -99,7 +103,7 @@ R_foundation_fds_data[, c("name", "screen_name", "created_at")]
 
 # Look R Foundation followers
 R_foundation_flw_data <- lookup_users(R_foundation_flw$from_id)
-R_foundation_flw_data[, c("name", "screen_name", "created_at")]
+R_foundation_flw_data[1:5, c("name", "screen_name", "created_at")]
 ```
 
 We have now the information from those followed by the R Foundation and its followers.
@@ -114,14 +118,14 @@ tweets_data(R_foundation_fds_data)[, c("created_at", "text")]
 Search for 1,000 users with the rstats hashtag in their profile bios.
 ```{r}
 ## search for users with #rstats in their profiles
-useRs <- search_users("#rstats", n = 1000)
+useRs <- search_users("#rstats", n = 100)
 useRs[, c("name", "screen_name", "created_at")]
 ```
 
 If we want to know what have they tweeted about we can use `tweets_data()`:
 ```{r}
 useRs_twt <- tweets_data(useRs)
-useRs_twt[, c("id_str", "created_at", "text")]
+useRs_twt[1:5, c("id_str", "created_at", "text")]
 ```
 
 ## Get timelines
