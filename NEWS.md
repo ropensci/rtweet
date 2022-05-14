@@ -1,22 +1,33 @@
 # rtweet (development version)
 
-- All the functions related to flattening the data (`write_as_csv()`, `save_as_csv()` `flatten()`, `unflatten()`, `read_twitter_csv()`) are deprecated. Users should decide how to flatten the nested structure of the data. 
+- All the functions related to flattening the data (`write_as_csv()`, 
+  `save_as_csv()` `flatten()`, `unflatten()`, `read_twitter_csv()`) are 
+  deprecated. Users should decide how to flatten the nested structure of the 
+  data. 
+
+- The vignette and the article now use the same code via `knitr::knit_child()`.
+
+- Document the change of maintainer. 
 
 - `tweet_shot()` is deprecated as the screenshots do not have the tweet (#458).
 
-- emojis, langs and stopwordslangs data is no longer provided.  
+- emojis, langs and stopwordslangs data are no longer provided by rtweet.  
 
-- `auth_setup_default()` will not only authenticate and save but use the default token.
+- `auth_setup_default()` will not only authenticate and save but use the 
+  default token.
 
-- New `user_block()` and `user_unblock()` to block and unblock users (#593, @simonheb). 
+- New `user_block()` and `user_unblock()` to block and unblock users (#593,
+  @simonheb). 
 
 - The default value of `retryonratelimit` comes from the option
   `rtweet.retryonratelimit` so you can globally set it to `TRUE` if desired
   (#173).
   
-- The new `tweet_threading` function is now faster and more reliable (#305, #693). 
+- The new `tweet_threading` function is now faster and more reliable (#305, 
+  #693). 
   
-- `auth_as()` accepts path to an authentication to make it easier to use authentication outside a user account (#602)
+- `auth_as()` accepts path to an authentication to make it easier to use
+  authentication outside a user account (#602)
 
 - All paginated functions that don't return tweets now use a consistent 
   pagination interface. They all store the "next cursor" in an `rtweet_cursor`
@@ -30,10 +41,11 @@
 - Banned or protected accounts now trigger a warning instead of an error (#590)
 
 - `get_friends()` and `get_followers()` return similar formatted output with 
-  two columns "from_id" and "to_id" (#308)
+  two columns "from_id" and "to_id" (#308).
   
 - Functions like `search_tweets()`, `lookup_statuses()` and others return the 
-   appropriate date time format for the right columns (`created_at` mostly) (#653, #657, #660). 
+   appropriate date time format for the right columns (`created_at` mostly) 
+   (#653, #657, #660). 
 
 - `lookup_users()` and `search_users()` now returns a data frame containing
   all information about each user (not their latest tweet). If you want to get 
@@ -73,8 +85,8 @@
 - `get_timelines()` has been deprecated since it does that same thing as
   `get_timeline()` (#509).
 
-- rtweet no longer re-exports the magrittr pipe; if you want to continue using it, you'll
-  need to `library(magrittr)` or `library(dplyr)` (#522).
+- rtweet no longer re-exports the magrittr pipe; if you want to continue using 
+  it, you'll need to `library(magrittr)` or `library(dplyr)` (#522).
 
 - `stream_tweets()` has been overhauled to only write valid data. This obsoletes
   all previous strategy to cleen up bad data after the fact (#350, #356).
@@ -102,7 +114,12 @@
 
 ## Authentication
 
-rtweet's authentication system has been completely written. It is now based around three authentication options: `rtweet_user()`, `rtweet_app()`, and `rtweet_bot()`. Authentication no longer touches `~/.Renviron` file; instead `auth_save()` and `auth_as()` allow you to explicitly save and load authentication mechanisms from a system config directory. See `vignette("auth")` for more details.
+rtweet's authentication system has been completely written. It is now based 
+around three authentication options: `rtweet_user()`, `rtweet_app()`, and
+`rtweet_bot()`. Authentication no longer touches `~/.Renviron` file; instead
+`auth_save()` and `auth_as()` allow you to explicitly save and load 
+authentication mechanisms from a system config directory. See `vignette("auth")`
+for more details.
 
 - The httpuv package is now only suggested, since it's only needed for 
   interactive auth, and you'll be prompted to install it when needed.
