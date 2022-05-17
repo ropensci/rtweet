@@ -98,7 +98,7 @@ To access users data, use the `users_data` function.
 
 ```{r users_data}
 ## Preview users data
-head(users_data(rt))
+head(users_data(stream_rstats))
 ```
 
 ## Plotting
@@ -110,5 +110,5 @@ It'd also be possible to aggregate by the minute, i.e., `by = "mins"`, or by som
 
 ```{r ts_plot}
 ## Plot time series of all tweets aggregated by second
-ts_plot(rt, by = "secs")
+ts_plot(stream_rstats, by = "secs")
 ```
