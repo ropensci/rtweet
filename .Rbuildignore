@@ -30,3 +30,4 @@
 ^.*\.RDS$
 ^.*\.json$
 tarball
+lastMiKTeXException
