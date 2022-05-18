@@ -262,8 +262,7 @@ auth_as <- function(auth = NULL) {
 
 find_auth <- function(auth = NULL) {
   if (is.null(auth)) {
-    developing <- is_testing() || (is_dev_mode() %||% is_rcmd_check())
-    if (developing) {
+    if (is_developing()) {
       rtweet_test() %||% no_token()
     } else{
       default_cached_auth()

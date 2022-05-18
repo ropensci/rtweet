@@ -65,6 +65,14 @@ is_dev_mode <- function() {
   exists(".__DEVTOOLS__", .getNamespace("rtweet"))
 }
 
+is_pkgdown <- function() {
+  identical(Sys.getenv("IN_PKGDOWN"), "true")
+}
+
 is_rcmd_check <- function() {
   identical(Sys.getenv("RTESTS"), "true")  
+}
+
+is_developing <- function() {
+  is_testing() || (is_dev_mode() %||% is_rcmd_check()) || is_pkgdown()
 }
