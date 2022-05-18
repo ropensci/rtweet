@@ -10,20 +10,15 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Madrid                |
-|date     |2022-05-11                   |
+|date     |2022-05-18                   |
 |pandoc   |2.5 @ /usr/bin/pandoc        |
 
 # Dependencies
 
 |package |old   |new        |Δ  |
 |:-------|:-----|:----------|:--|
-|rtweet  |0.7.0 |0.7.0.9024 |*  |
+|rtweet  |0.7.0 |0.7.0.9025 |*  |
+|openssl |NA    |2.0.1      |*  |
 
 # Revdeps
-
-## New problems (1)
-
-|package                    |version |error  |warning |note |
-|:--------------------------|:-------|:------|:-------|:----|
-|[bdpar](problems.md#bdpar) |3.0.1   |__+1__ |        |     |
 
