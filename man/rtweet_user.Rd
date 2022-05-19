@@ -8,14 +8,9 @@
 \usage{
 rtweet_user(api_key = NULL, api_secret = NULL)
 
-rtweet_bot(
-  api_key = ask_pass("API key"),
-  api_secret = ask_pass("API secret"),
-  access_token = ask_pass("access token"),
-  access_secret = ask_pass("access token")
-)
+rtweet_bot(api_key, api_secret, access_token, access_secret)
 
-rtweet_app(bearer_token = ask_pass("bearer token"))
+rtweet_app(bearer_token)
 }
 \arguments{
 \item{api_key, api_secret}{Application API key and secret. These are

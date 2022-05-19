@@ -103,12 +103,22 @@ rtweet_user <- function(api_key = NULL, api_secret = NULL) {
 
 #' @export
 #' @rdname rtweet_user
-rtweet_bot <- function(
-      api_key = ask_pass("API key"),
-      api_secret = ask_pass("API secret"), 
-      access_token = ask_pass("access token"), 
-      access_secret = ask_pass("access token")
-  ) {
+rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
+  
+  if (missing(api_key)) {
+    api_key <- ask_pass("API key")
+  }
+  if (missing(api_secret)) {
+    api_secret <- ask_pass("API secret")
+  }
+  if (missing(access_token)) {
+    access_token <- ask_pass("access token")
+  }
+  if (missing(access_secret)) {
+    access_secret <- ask_pass("access token")
+  }
+  
+  
   stopifnot(is_string(api_key), is_string(api_secret))
   stopifnot(is_string(access_token), is_string(access_secret))
 
@@ -128,7 +138,10 @@ rtweet_bot <- function(
 
 #' @export
 #' @rdname rtweet_user
-rtweet_app <- function(bearer_token = ask_pass("bearer token")) {
+rtweet_app <- function(bearer_token) {
+  if (missing(bearer_token)) {
+    bearer_token <- ask_pass("bearer token")
+  }
   structure(
     list(token = bearer_token),
     class = "rtweet_bearer"
