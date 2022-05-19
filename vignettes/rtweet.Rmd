@@ -19,23 +19,23 @@ This vignette provides a quick tour of the R package.
 library("rtweet")
 ```
 
-
 ## Authenticate
 
-First you should set up your own credentials:
+First you should set up your own credentials, this should be done just once ever:
 
 ```{r, eval=FALSE}
 auth_setup_default()
 ```
 
-Which will look up your account on your browser.
-Next we need to authenticate with it:
+Which will look up your account on your browser and create a token and save it as default.
+From now on, on this R session on others we can use this authentication with:
 
 ```{r, eval=FALSE}
 auth_as("default")
 ```
 
-Then we are ready to use the package with your own authentication.
+Automatically rtweet will use that token in all the API queries it will do in the session.
+
 If you want to set up a bot or collect a lot of information, please read the `vignette("auth", "rtweet")`.
 
 ```{r child, echo=FALSE, results='asis'}
