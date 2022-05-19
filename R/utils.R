@@ -69,10 +69,14 @@ is_pkgdown <- function() {
   identical(Sys.getenv("IN_PKGDOWN"), "true")
 }
 
+is_cran <- function() {
+  identical(Sys.getenv("NOT_CRAN"), "true")
+}
+
 is_rcmd_check <- function() {
   identical(Sys.getenv("RTESTS"), "true")  
 }
 
 is_developing <- function() {
-  is_testing() || (is_dev_mode() %||% is_rcmd_check()) || is_pkgdown()
+  is_testing() || (is_dev_mode() %||% is_rcmd_check()) || !is_cran() || is_pkgdown()
 }
