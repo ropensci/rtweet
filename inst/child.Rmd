@@ -1,4 +1,7 @@
 ```{r include=FALSE}
+library("ggplot2")
+library("dplyr")
+library("rtweet")
 auth_as(rtweet:::rtweet_test())
 ```
 
@@ -36,12 +39,12 @@ geo_tweets[1:5, c("created_at", "text", "id_str", "lang", "place")]
 You can check the location of these tweets with `lat_lng()`.
 Or quickly visualize frequency of tweets over time using `ts_plot()` (if `ggplot2` is installed).
 
-```{r}
+```{r plot1}
 ## plot time series of tweets
 ts_plot(rstats) +
-  ggplot2::theme_minimal() +
-  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
-  ggplot2::labs(
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold")) +
+  labs(
     x = NULL, y = NULL,
     title = "Frequency of #rstats Twitter statuses from past 9 days",
     subtitle = "Twitter status (tweet) counts aggregated using three-hour intervals",
@@ -59,7 +62,7 @@ post_tweet(paste0("My first tweet with #rtweet #rstats at ", Sys.time()))
 
 It can include media and alt text:
 
-```{r}
+```{r baseplot}
 path_file <- tempfile(fileext = ".png")
 png(filename = path_file)
 plot(mpg ~ cyl, mtcars, col = gear, pch = gear)
@@ -98,11 +101,11 @@ As seen above we can use `lookup_users()` to check their
 
 ```{r}
 # Look who is following R Foundation
-R_foundation_fds_data <- lookup_users(R_foundation_fds$to_id)
+R_foundation_fds_data <- lookup_users(R_foundation_fds$to_id, verbose = FALSE)
 R_foundation_fds_data[, c("name", "screen_name", "created_at")]
 
 # Look R Foundation followers
-R_foundation_flw_data <- lookup_users(R_foundation_flw$from_id)
+R_foundation_flw_data <- lookup_users(R_foundation_flw$from_id, verbose = FALSE)
 R_foundation_flw_data[1:5, c("name", "screen_name", "created_at")]
 ```
 
@@ -118,7 +121,7 @@ tweets_data(R_foundation_fds_data)[, c("created_at", "text")]
 Search for 1,000 users with the rstats hashtag in their profile bios.
 ```{r}
 ## search for users with #rstats in their profiles
-useRs <- search_users("#rstats", n = 100)
+useRs <- search_users("#rstats", n = 100, verbose = FALSE)
 useRs[, c("name", "screen_name", "created_at")]
 ```
 
@@ -131,21 +134,21 @@ useRs_twt[1:5, c("id_str", "created_at", "text")]
 ## Get timelines
 
 Get the most recent tweets from R Foundation.
-```{r}
+```{r plot2}
 ## get user IDs of accounts followed by R Foundation
 R_foundation_tline <- get_timeline("_R_Foundation")
 
 ## plot the frequency of tweets for each user over time
 plot <- R_foundation_tline |> 
-  dplyr::filter(created_at > "2017-10-29") |> 
-  ts_plot(by = "month", trim = 1L) +
-  ggplot2::geom_point() +
-  ggplot2::theme_minimal() +
-  ggplot2::theme(
-    legend.title = ggplot2::element_blank(),
+  filter(created_at > "2017-10-29") |> 
+  ts_plot(by = "month", trim = 1L) 
+  geom_point() +
+  theme_minimal() +
+  theme(
+    legend.title = element_blank(),
     legend.position = "bottom",
-    plot.title = ggplot2::element_text(face = "bold")) +
-  ggplot2::labs(
+    plot.title = element_text(face = "bold")) +
+  labs(
     x = NULL, y = NULL,
     title = "Frequency of Twitter statuses posted by the R Foundation",
     subtitle = "Twitter status (tweet) counts aggregated by month from October/November 2017",
@@ -184,7 +187,7 @@ post_unfollow_user("rtweet_test")
 
 You can mute and unmute users:
 
-```{r}
+```{r, eval=FALSE}
 post_follow("rtweet_test", mute = TRUE)
 post_follow("rtweet_test", mute = FALSE)
 ```

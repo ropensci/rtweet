@@ -1,0 +1,209 @@
+---
+title: "Live streaming tweets"
+subtitle: "rtweet: Collecting Twitter Data"
+output: 
+  rmarkdown::html_vignette:
+    self_contained: false
+vignette: >
+  %\VignetteIndexEntry{Live streaming tweets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+## Installing and loading package
+
+Prior to streaming, make sure to install and load rtweet. 
+This vignette assumes users have already setup user access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
+
+
+```r
+## Load rtweet
+library(rtweet)
+```
+
+
+
+## Specifying parameters
+
+In addition to accessing Twitter's REST API (e.g., `search_tweets`, `get_timeline`), rtweet makes it possible to capture live streams of Twitter data using the `stream_tweets()` function. 
+By default, `stream_tweets` will stream for 30 seconds and return a random sample of tweets. 
+To modify the default settings, `stream_tweets` accepts several parameters, including `q` (query used to filter tweets), `timeout` (duration or time of stream), and `file_name` (path name for saving raw json data).
+
+
+```r
+## Stream keywords used to filter tweets
+q <- "#rstats"
+
+## Stream time in seconds so for one minute set timeout = 60
+## For larger chunks of time, I recommend multiplying 60 by the number
+## of desired minutes. This method scales up to hours as well
+## (x * 60 = x mins, x * 60 * 60 = x hours)
+## Stream for 30 seconds
+streamtime <- 30 
+## Filename to save json data (backup)
+filename <- "rstats.json"
+```
+
+## stream_tweets()
+
+Once these parameters are specified, initiate the stream. 
+Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed. 
+It is possible to start a new instance or R ---streaming itself usually isn't very memory intensive--- but operations may drag a bit during the parsing process which takes place immediately after streaming ends.
+
+
+```r
+## Stream election tweets
+stream_rstats <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
+#> Streaming tweets: 5 tweets written / 65.54 kB / 1.34 MB/s / 00:00:00 Streaming tweets: 9
+#> tweets written / 131.07 kB / 8.19 kB/s / 00:00:15
+```
+
+Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object. 
+It is recommended to save the streaming in a file.
+
+## Saving files
+
+Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on. 
+To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later. 
+
+Regardless of whether you decide to setup a system for streaming data, the process of streaming a file to disk and parsing it at a later point in time is the same, as illustrated in the example below.
+
+
+```r
+## No upfront-parse save as json file instead method
+# By default results are appended to the file.
+stream_tweets(
+  q = q,
+  parse = FALSE,
+  timeout = streamtime,
+  file_name = filename
+)
+#> Streaming tweets: 2 tweets written / 65.54 kB / 1.58 MB/s / 00:00:00 Streaming tweets: 6
+#> tweets written / 131.07 kB / 32.39 kB/s / 00:00:04 Streaming tweets: 12 tweets written /
+#> 196.61 kB / 16.56 kB/s / 00:00:11 Streaming tweets: 17 tweets written / 262.14 kB / 15.94
+#> kB/s / 00:00:16 Streaming tweets: 21 tweets written / 327.68 kB / 19.54 kB/s / 00:00:16
+#> Streaming tweets: 23 tweets written / 393.22 kB / 23.31 kB/s / 00:00:16 Streaming
+#> tweets: 28 tweets written / 458.75 kB / 18.50 kB/s / 00:00:24 Streaming tweets: 34 tweets
+#> written / 524.29 kB / 7.14 kB/s / 00:01:13
+
+## Parse from json file
+stream_rstats <- parse_stream(filename)
+```
+
+## Returned data object
+
+The parsed object should be the same whether a user parses up-front or from a json file in a later session. 
+The returned object should be a data frame consisting of tweets data.
+
+
+```r
+## Preview tweets data
+head(stream_rstats)
+#>            created_at           id              id_str
+#> 1 2022-05-16 23:59:00 1.526321e+18 1526321343540695049
+#>                                                                                                                                            text
+#> 1 RT @itsoknottobegay: @CrookedIntriago  Homo-Geneous Like Milk \n#100DaysOfCode #CodeNewbie #WomenWhoCode #Programming #DataScience #Academi…
+#>                                                                               source
+#> 1 <a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>
+#>   truncated in_reply_to_status_id in_reply_to_status_id_str in_reply_to_user_id
+#> 1     FALSE                    NA                      <NA>                  NA
+#>   in_reply_to_user_id_str in_reply_to_screen_name geo coordinates
+#> 1                    <NA>                    <NA>  NA  NA, NA, NA
+#>                        place contributors
+#> 1 NA, NA, NA, NA, NA, NA, NA           NA
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         retweeted_status
+#> 1 Mon May 16 21:33:59 +0000 2022, 1526315046195933184, 1526315046195933188, @CrookedIntriago  Homo-Geneous Like Milk \n#100DaysOfCode #CodeNewbie #WomenWhoCode #Programming #DataScience… https://t.co/rd2TG3V9Ya, 17, 140, <a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>, TRUE, 1526229037265301504, 1526229037265301504, 17323985, 17323985, CrookedIntriago, 1357331606319599616, 1357331606319599619,  Its Ok Not To Be Gay, itsoknottobegay, NA, http://www.projectarachnid.com, 🔗 #CyberSecurity x|x #rapbot, none, FALSE, FALSE, 44, 1, 7, 5744, 10532, Thu Feb 04 14:14:41 +0000 2021, NA, NA, FALSE, NA, FALSE, FALSE, F5F8FA, , , FALSE, 1DA1F2, C0DEED, DDEEF6, 333333, TRUE, http://pbs.twimg.com/profile_images/1515518117774041088/j2eTPX4D_normal.jpg, https://pbs.twimg.com/profile_images/1515518117774041088/j2eTPX4D_normal.jpg, https://pbs.twimg.com/profile_banners/1357331606319599619/1650162834, TRUE, FALSE, NA, NA, NA, NA, NA, NA, NA, 1526313651333914624, 1526313651333914630, Mon May 16 21:28:26 +0000 2022, 1526313651333914624, 1526313651333914630,  Rap Has Become So Gay \n#Python #Roblox #IoT #IIoT #Azure #PyTorch #Cython #RStats #DotNet #CPP #Java #DeFi #ADA… https://t.co/Xf3vKLyH0d, <a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>, TRUE, NA, NA, NA, NA, NA, 1357331606319599616, 1357331606319599619,  Its Ok Not To Be Gay, itsoknottobegay, NA, http://www.projectarachnid.com, 🔗 #CyberSecurity x|x #rapbot, none, FALSE, FALSE, 44, 1, 7, 5744, 10532, Thu Feb 04 14:14:41 +0000 2021, NA, NA, FALSE, NA, FALSE, FALSE, F5F8FA, , , FALSE, 1DA1F2, C0DEED, DDEEF6, 333333, TRUE, http://pbs.twimg.com/profile_images/1515518117774041088/j2eTPX4D_normal.jpg, https://pbs.twimg.com/profile_images/1515518117774041088/j2eTPX4D_normal.jpg, https://pbs.twimg.com/profile_banners/1357331606319599619/1650162834, TRUE, FALSE, NA, NA, NA, NA, NA, NA, NA, 1526229037265301504, 1526229037265301504, TRUE,  Rap Has Become So Gay \n#Python #Roblox #IoT #IIoT #Azure #PyTorch #Cython #RStats #DotNet #CPP #Java #DeFi #ADA #CSharp #Flutter #SQL #TensorFlow #Web3 #JavaScript #ReactJS #Serverless #Linux #Security #NFT #opensource\n#AI #CSS #WordPress #HTML #ETH #DevOps #100DaysOfCode #ADA, 0, 279, Python, Roblox, IoT, IIoT, Azure, PyTorch, Cython, RStats, DotNet, CPP, Java, DeFi, ADA, CSharp, Flutter, SQL, TensorFlow, Web3, JavaScript, ReactJS, Serverless, Linux, Security, NFT, opensource, AI, CSS, WordPress, HTML, ETH, DevOps, 100DaysOfCode, ADA, 25, 32, 33, 40, 41, 45, 46, 51, 52, 58, 59, 67, 68, 75, 76, 83, 84, 91, 92, 96, 97, 102, 103, 108, 109, 113, 114, 121, 122, 130, 131, 135, 136, 147, 148, 153, 154, 165, 166, 174, 175, 186, 187, 193, 194, 203, 204, 208, 209, 220, 221, 224, 225, 229, 230, 240, 241, 246, 247, 251, 252, 259, 260, 274, 275, 279, 2, 0, 14, 7, Python, Roblox, IoT, IIoT, Azure, PyTorch, Cython, RStats, DotNet, CPP, Java, DeFi, ADA, 25, 32, 33, 40, 41, 45, 46, 51, 52, 58, 59, 67, 68, 75, 76, 83, 84, 91, 92, 96, 97, 102, 103, 108, 109, 113, https://t.co/Xf3vKLyH0d, https://twitter.com/i/web/status/1526313651333914630, twitter.com/i/web/status/1…, 115, 138, FALSE, FALSE, low, en, NA, https://t.co/ZK6XOGLGvj, https://twitter.com/itsoknottobegay/status/1526313651333914630, twitter.com/itsoknottobega…, TRUE, @CrookedIntriago  Homo-Geneous Like Milk \n#100DaysOfCode #CodeNewbie #WomenWhoCode #Programming #DataScience #AcademicTwitter #MachineLearning #Serverless #ML #IoTPL #Rstats #tech #Polygon #FutureOfWork #DevOps #bigdata #CyberSecurity #code #BugBounty #Angular #BlackTechTwitter\n#100Devs #a11y https://t.co/z0BrXjh4GO, 17, 294, 100DaysOfCode, CodeNewbie, WomenWhoCode, Programming, DataScience, AcademicTwitter, MachineLearning, Serverless, ML, IoTPL, Rstats, tech, Polygon, FutureOfWork, DevOps, bigdata, CyberSecurity, code, BugBounty, Angular, BlackTechTwitter, 100Devs, a11y, 43, 57, 58, 69, 70, 83, 84, 96, 97, 109, 110, 126, 127, 143, 144, 155, 156, 159, 160, 166, 167, 174, 175, 180, 181, 189, 190, 203, 204, 211, 212, 220, 221, 235, 236, 241, 242, 252, 253, 261, 262, 279, 280, 288, 289, 294, CrookedIntriago, CROOK, 17323985, 17323985, 0, 16, 1526315034040840192, 1526315034045038592, 1526315034040840195, 1526315034045038594, 295, 318, 295, 318, http://pbs.twimg.com/media/FS6Pb8tXsAMIUaq.jpg, http://pbs.twimg.com/media/FS6Pb8uXwAIXRb1.jpg, https://pbs.twimg.com/media/FS6Pb8tXsAMIUaq.jpg, https://pbs.twimg.com/media/FS6Pb8uXwAIXRb1.jpg, https://t.co/z0BrXjh4GO, https://t.co/z0BrXjh4GO, pic.twitter.com/z0BrXjh4GO, pic.twitter.com/z0BrXjh4GO, https://twitter.com/itsoknottobegay/status/1526315046195933188/photo/1, https://twitter.com/itsoknottobegay/status/1526315046195933188/photo/1, photo, photo, 150, 150, 150, 150, crop, crop, 750, 749, 1334, 728, fit, fit, 675, 749, 1200, 728, fit, fit, 382, 680, 680, 661, fit, fit, 1526315034040840192, 1526315034045038592, 1526315034040840195, 1526315034045038594, 295, 318, 295, 318, http://pbs.twimg.com/media/FS6Pb8tXsAMIUaq.jpg, http://pbs.twimg.com/media/FS6Pb8uXwAIXRb1.jpg, https://pbs.twimg.com/media/FS6Pb8tXsAMIUaq.jpg, https://pbs.twimg.com/media/FS6Pb8uXwAIXRb1.jpg, https://t.co/z0BrXjh4GO, https://t.co/z0BrXjh4GO, pic.twitter.com/z0BrXjh4GO, pic.twitter.com/z0BrXjh4GO, https://twitter.com/itsoknottobegay/status/1526315046195933188/photo/1, https://twitter.com/itsoknottobegay/status/1526315046195933188/photo/1, photo, photo, 150, 150, 150, 150, crop, crop, 750, 749, 1334, 728, fit, fit, 675, 749, 1200, 728, fit, fit, 382, 680, 680, 661, fit, fit, 0, 0, 10, 3, 100DaysOfCode, CodeNewbie, WomenWhoCode, Programming, DataScience, 43, 57, 58, 69, 70, 83, 84, 96, 97, 109, https://t.co/rd2TG3V9Ya, https://twitter.com/i/web/status/1526315046195933188, twitter.com/i/web/status/1…, 111, 134, CrookedIntriago, CROOK, 17323985, 17323985, 0, 16, FALSE, FALSE, FALSE, low, en
+#>   quoted_status_id quoted_status_id_str
+#> 1     1.526314e+18  1526313651333914630
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         quoted_status
+#> 1 Mon May 16 21:28:26 +0000 2022, 1526313651333914624, 1526313651333914630,  Rap Has Become So Gay \n#Python #Roblox #IoT #IIoT #Azure #PyTorch #Cython #RStats #DotNet #CPP #Java #DeFi #ADA… https://t.co/Xf3vKLyH0d, <a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>, TRUE, NA, NA, NA, NA, NA, 1357331606319599616, 1357331606319599619,  Its Ok Not To Be Gay, itsoknottobegay, NA, http://www.projectarachnid.com, 🔗 #CyberSecurity x|x #rapbot, none, FALSE, FALSE, 44, 1, 7, 5744, 10532, Thu Feb 04 14:14:41 +0000 2021, NA, NA, FALSE, NA, FALSE, FALSE, F5F8FA, , , FALSE, 1DA1F2, C0DEED, DDEEF6, 333333, TRUE, http://pbs.twimg.com/profile_images/1515518117774041088/j2eTPX4D_normal.jpg, https://pbs.twimg.com/profile_images/1515518117774041088/j2eTPX4D_normal.jpg, https://pbs.twimg.com/profile_banners/1357331606319599619/1650162834, TRUE, FALSE, NA, NA, NA, NA, NA, NA, NA, 1526229037265301504, 1526229037265301504, TRUE,  Rap Has Become So Gay \n#Python #Roblox #IoT #IIoT #Azure #PyTorch #Cython #RStats #DotNet #CPP #Java #DeFi #ADA #CSharp #Flutter #SQL #TensorFlow #Web3 #JavaScript #ReactJS #Serverless #Linux #Security #NFT #opensource\n#AI #CSS #WordPress #HTML #ETH #DevOps #100DaysOfCode #ADA, 0, 279, Python, Roblox, IoT, IIoT, Azure, PyTorch, Cython, RStats, DotNet, CPP, Java, DeFi, ADA, CSharp, Flutter, SQL, TensorFlow, Web3, JavaScript, ReactJS, Serverless, Linux, Security, NFT, opensource, AI, CSS, WordPress, HTML, ETH, DevOps, 100DaysOfCode, ADA, 25, 32, 33, 40, 41, 45, 46, 51, 52, 58, 59, 67, 68, 75, 76, 83, 84, 91, 92, 96, 97, 102, 103, 108, 109, 113, 114, 121, 122, 130, 131, 135, 136, 147, 148, 153, 154, 165, 166, 174, 175, 186, 187, 193, 194, 203, 204, 208, 209, 220, 221, 224, 225, 229, 230, 240, 241, 246, 247, 251, 252, 259, 260, 274, 275, 279, 2, 0, 14, 7, Python, Roblox, IoT, IIoT, Azure, PyTorch, Cython, RStats, DotNet, CPP, Java, DeFi, ADA, 25, 32, 33, 40, 41, 45, 46, 51, 52, 58, 59, 67, 68, 75, 76, 83, 84, 91, 92, 96, 97, 102, 103, 108, 109, 113, https://t.co/Xf3vKLyH0d, https://twitter.com/i/web/status/1526313651333914630, twitter.com/i/web/status/1…, 115, 138, FALSE, FALSE, low, en, NA
+#>                                                                                                quoted_status_permalink
+#> 1 https://t.co/ZK6XOGLGvj, https://twitter.com/itsoknottobegay/status/1526313651333914630, twitter.com/itsoknottobega…
+#>   is_quote_status quote_count reply_count retweet_count favorite_count
+#> 1            TRUE           0           0             0              0
+#>                                                                                                                                                                                                                                                                                                                                                                       entities
+#> 1                                         100DaysOfCode, CodeNewbie, WomenWhoCode, Programming, DataScience, 64, 78, 79, 90, 91, 104, 105, 117, 118, 130, NA, NA, NA, NA, NA, itsoknottobegay, CrookedIntriago,  Its Ok Not To Be Gay, CROOK, 1357331606319599616, 17323985, 1357331606319599619, 17323985, 3, 21, 19, 37, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#>   favorited retweeted filter_level lang  timestamp_ms possibly_sensitive
+#> 1     FALSE     FALSE          low   en 1652738340636                 NA
+#>   extended_tweet.full_text extended_tweet.display_text_range
+#> 1                     <NA>                              NULL
+#>   extended_tweet.entities.hashtags extended_tweet.entities.urls
+#> 1                             NULL                         NULL
+#>   extended_tweet.entities.user_mentions extended_tweet.entities.symbols
+#> 1                                  NULL                            NULL
+#>   extended_tweet.entities.media extended_tweet.media display_text_range
+#> 1                          NULL                 NULL                 NA
+#>   display_text_width full_text favorited_by scopes metadata query withheld_scope
+#> 1                140        NA           NA     NA       NA    NA             NA
+#>   withheld_copyright withheld_in_countries possibly_sensitive_appealable
+#> 1                 NA                    NA                            NA
+#>  [ reached getOption("max.print") -- omitted 1 row ]
+#>  [ reached 'max' / getOption("max.print") -- omitted 4 rows ]
+```
+
+The returned object should also include a data frame of users data, which Twitter's stream API automatically returns along with tweets data. 
+To access users data, use the `users_data` function.
+
+
+```r
+## Preview users data
+head(users_data(stream_rstats))
+#>             id              id_str               name     screen_name
+#> 1 1.095345e+18 1095344818811736066  Alpha Bet i Kill Keyboard_Sniper
+#> 2 1.095345e+18 1095344818811736066  Alpha Bet i Kill Keyboard_Sniper
+#> 3 2.704427e+09          2704427049       Matt Ritchie      mritchieau
+#> 4 1.280936e+18 1280935835789975553   AMachineLearning       AdvanceML
+#>              location                                                          url
+#> 1         Detroit, MI https://instagram.com/mrs_teary_mathers?igshid=1nkca653aaojk
+#> 2         Detroit, MI https://instagram.com/mrs_teary_mathers?igshid=1nkca653aaojk
+#> 3 Melbourne, Victoria                http://www.wehi.edu.au/people/matthew-ritchie
+#> 4           Ghaziabad                               https://github.com/harshita897
+#>                                                                                                                                           description
+#> 1                                                                                                       Go Head Take Your Best Shot @ My Kevlar Cloak
+#> 2                                                                                                       Go Head Take Your Best Shot @ My Kevlar Cloak
+#> 3                                                                    Everything is R-some #rstats #bioconductor #genomics #singlecell #bioinformatics
+#> 4 made by an enthusiast @Enthusiastic97\nFor spreading some informational tweets, \nsupport me for spreading more Informational tweets🕵‍♀️\nThanks All.
+#>   protected verified followers_count friends_count listed_count favourites_count
+#> 1     FALSE    FALSE             256            54            5            24242
+#> 2     FALSE    FALSE             256            54            5            24243
+#> 3     FALSE    FALSE            2151          1854           69            11672
+#> 4     FALSE    FALSE             165            14           10           241433
+#>   statuses_count                     created_at
+#> 1          15949 Tue Feb 12 15:32:10 +0000 2019
+#> 2          15950 Tue Feb 12 15:32:10 +0000 2019
+#> 3           6807 Sat Jul 12 19:59:01 +0000 2014
+#> 4         473889 Wed Jul 08 18:44:54 +0000 2020
+#>                                                        profile_image_url_https
+#> 1 https://pbs.twimg.com/profile_images/1494160125753446406/PDQeNvXC_normal.jpg
+#> 2 https://pbs.twimg.com/profile_images/1494160125753446406/PDQeNvXC_normal.jpg
+#> 3 https://pbs.twimg.com/profile_images/488052996241362944/0k-bFgVH_normal.jpeg
+#> 4 https://pbs.twimg.com/profile_images/1281978210192744449/qMQFGMwB_normal.jpg
+#>                                                     profile_banner_url default_profile
+#> 1 https://pbs.twimg.com/profile_banners/1095344818811736066/1579478086            TRUE
+#> 2 https://pbs.twimg.com/profile_banners/1095344818811736066/1579478086            TRUE
+#> 3          https://pbs.twimg.com/profile_banners/2704427049/1414824913            TRUE
+#> 4 https://pbs.twimg.com/profile_banners/1280935835789975553/1594482401            TRUE
+#>   default_profile_image withheld_in_countries derived withheld_scope entitites
+#> 1                 FALSE                  NULL    <NA>             NA      NULL
+#> 2                 FALSE                  NULL    <NA>             NA      NULL
+#> 3                 FALSE                  NULL    <NA>             NA      NULL
+#> 4                 FALSE                  NULL    <NA>             NA      NULL
+#>  [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
+```
+
+## Plotting
+
+Once parsed, `ts_plot()` provides a quick visual of the frequency of tweets. 
+By default, `ts_plot()` will try to aggregate time by the day. 
+Because I know the stream only lasted 30 minutes, I've opted to aggregate tweets by the second. 
+It'd also be possible to aggregate by the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,`by = "15 secs"`. 
+
+
+```r
+## Plot time series of all tweets aggregated by second
+ts_plot(stream_rstats, by = "secs")
+```
+
+![plot of chunk ts_plot](vignette/articles/figure/ts_plot-1.png)

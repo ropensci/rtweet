@@ -11,7 +11,8 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE,
+                      fig.path = "vignette/articles/figure/")
 ```
 
 ## Installing and loading package
