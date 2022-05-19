@@ -178,6 +178,11 @@ stream_prep <- function(token, q = "", ..., filter_level = "none") {
     path <- "1.1/statuses/filter.json"
     params <- stream_params(q, ..., filter_level = filter_level)
   }
+  # Detect if q is too long in character size (using double of premium limit)
+  # https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction
+  if (any(nchar(params) > 2048)) {
+    warning("Detected a long parameter, this query will probably fail.", call. = FALSE)
+  }
 
   url <- httr::modify_url("https://stream.twitter.com", 
     path = path, 
