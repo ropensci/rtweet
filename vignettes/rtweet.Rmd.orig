@@ -1,3 +1,44 @@
+---
+title: "Intro to rtweet"
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro to rtweet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE,
+  fig.path = "vignettes/files/", root.dir = "vignettes")
+```
+
+This vignette provides a quick tour of the R package.
+
+```{r}
+library("rtweet")
+```
+
+## Authenticate
+
+First you should set up your own credentials, this should be done just once ever:
+
+```{r, eval=FALSE}
+auth_setup_default()
+```
+
+Which will look up your account on your browser and create a token and save it as default.
+From now on, on this R session on others we can use this authentication with:
+
+```{r, eval=FALSE}
+auth_as("default")
+```
+
+Automatically rtweet will use that token in all the API queries it will do in the session.
+
+If you want to set up a bot or collect a lot of information, please read the `vignette("auth", "rtweet")`.
+
 ```{r include=FALSE}
 library("ggplot2")
 library("dplyr")
@@ -141,7 +182,7 @@ R_foundation_tline <- get_timeline("_R_Foundation")
 ## plot the frequency of tweets for each user over time
 plot <- R_foundation_tline |> 
   filter(created_at > "2017-10-29") |> 
-  ts_plot(by = "month", trim = 1L) 
+  ts_plot(by = "month", trim = 1L) +
   geom_point() +
   theme_minimal() +
   theme(
@@ -250,3 +291,15 @@ stream_tweets(
 ## read in the data as a tidy tbl data frame
 rstats <- jsonlite::stream_in(stream3)
 ```
+
+See the vignette on `vignette("stream", "rtweet")`.
+
+## SessionInfo
+
+To provide real examples the vignette is precomputed before submission.
+Also note that results returned by the API will change.
+
+```{r session, class.source = "fold-hide"}
+sessionInfo()
+```
+

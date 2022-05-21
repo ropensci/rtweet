@@ -13,6 +13,12 @@ make.R
 vignettes/*.R
 rtweet.sublime-project
 rtweet.sublime-workspace
+tarball
+revdep/Library/*
+revdep/Outputs/*
+revdep/PACKAGES*
+revdep/*.tar.gz
+revdep/timings.tab
 docs
 *.Rcheck/
 *.RDS

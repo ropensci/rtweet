@@ -27,6 +27,9 @@
 ^codemeta\.json$
 ^\.gitattributes$
 ^vignettes/articles$
+^vignettes/rstats.json$
+^vignettes/*.Rmd.orig$
+^vignettes/precompute.R$
 ^.*\.RDS$
 ^.*\.json$
 tarball
