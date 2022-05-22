@@ -49,3 +49,12 @@ test_that("search_tweets2 works", {
   })
   expect_gt(nrow(st2), 100)
 })
+
+test_that("search_tweets", {
+  vcr::use_cassette("search_tweets5", {
+    st_lang <- search_tweets("advanced_recycling", include_rts = FALSE, 
+                          n = 100, lang = "en")
+  })
+  
+  expect_equal(nrow(st_lang), nrow(users_data(st_lang)))
+})
