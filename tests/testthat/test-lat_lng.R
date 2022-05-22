@@ -10,3 +10,8 @@ test_that("lat_lng works", {
   expect_true(is.numeric(pos$lng))
   expect_gt(ncol(pos), ncol(rt))
 })
+
+test_that("lat_lng works on empty tweet", {
+  expect_error(lat_lng(tweet(NULL)), NA)
+  
+})

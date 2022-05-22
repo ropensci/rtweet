@@ -53,17 +53,44 @@ lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"),
   }
   
   lat_lang <- function(x) {
-    list(long = mean(range(x$long)), lat = mean(range(x$lat)))
+    
+    if (is.null(x)) {
+      return(list(long = NA, lat = NA))
+    }
+    
+    # Protect against AsIs olClass data.frames in a list in x
+    if (is.list(x) && !is.data.frame(x) && length(x) == 1) {
+      x <- as.data.frame(x[[1]])
+    } 
+    
+    list(long = mean(range(x$long)), 
+         lat = mean(range(x$lat)))
   }
   l <- lapply(x$place, function(x) {
+    if (length(x) == 1 && is.na(x)) {
+      empty_coord <- list(long = NA, lat = NA)
+      df <- data.frame(bbox_coords = I(list(empty_coord)),
+                       geo_coords = I(list(empty_coord)),
+                       coords_coords = I(list(empty_coord)))
+      return(df)
+    }
+    
     data.frame(bbox_coords = I(list(lat_lang(x$place$bounding_box[[1]]))),
-               geo_coords = I((list(lat_lang(x$geo)))),
+               geo_coords = I(list(lat_lang(x$geo))),
                coords_coords = I(list(lat_lang(x$coordinates))))
   })
   ll <- do.call("rbind", l)[, coords, drop = FALSE]
   
-  lat <- vapply(ll, extract_coord, numeric(nrow(ll)), coord = "lat")[, prefs]
-  long <- vapply(ll, extract_coord, numeric(nrow(ll)), coord = "long")[, prefs]
+  lat <- vapply(ll, extract_coord, numeric(nrow(ll)), coord = "lat")
+  if (!is.matrix(lat)) {
+    lat <- list2DF(as.list(lat))
+  }
+  lat <- lat[, prefs]
+  long <- vapply(ll, extract_coord, numeric(nrow(ll)), coord = "long")
+  if (!is.matrix(long)) {
+    long <- list2DF(as.list(long))
+    }
+  long <- long[, prefs]
   
   cbind(x, lat = lat, lng = long, ll)
 
@@ -71,6 +98,10 @@ lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"),
 
 
 extract_coord <- function(x, coord) {
+  if (length(x) == 1) {
+    return(x[[1]][[coord]])
+  }
+  
   vapply(x, function(y){
     y[[coord]]
   }, numeric(1L))
