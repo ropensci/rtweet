@@ -53,7 +53,7 @@ test_that("search_tweets2 works", {
 test_that("search_tweets", {
   vcr::use_cassette("search_tweets5", {
     st_lang <- search_tweets("advanced_recycling", include_rts = FALSE, 
-                          n = 100, lang = "en")
+                          n = 1000, lang = "en")
   })
   
   expect_equal(nrow(st_lang), nrow(users_data(st_lang)))
