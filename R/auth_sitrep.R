@@ -160,6 +160,7 @@ handle_bearer <- function(bearers) {
   if (action_bearer) {
     inform("Choose which is the best path of action for the bearer tokens:")
   }
+  rownames(bearers_f) <- tools::file_path_sans_ext(rownames(bearers_f))
   print(bearers_f)
   action_bearer
 }
@@ -186,6 +187,7 @@ handle_token <- function(tokens) {
   if (action_tokens) {
     inform("Choose which is the best path of action for the tokens:")
   }
+  rownames(token) <- tools::file_path_sans_ext(rownames(token))
   print(token)
   action_tokens
 }
