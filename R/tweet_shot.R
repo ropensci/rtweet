@@ -28,7 +28,7 @@
 #' }
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
-  check_installed(c("magick", "webshot"))
+  check_installed(c("magick", "webshot2"))
   lifecycle::deprecate_warn("1.0.0", "tweet_shot()", 
                             details = "The resulting image might not have a screenshot of the tweet")
 
@@ -90,7 +90,9 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   on.exit(unlink(tf), add = TRUE)
 
   ## capture the tweet
-  webshot::webshot(url = x, file = tf, zoom = zoom)
+  webshot2::webshot(url = x, file = tf, zoom = zoom, 
+                    selector = c('article[data-testid="tweet"]'),
+                    delay = 0.5)
 
   ## read the image in
   img <- magick::image_read(tf)

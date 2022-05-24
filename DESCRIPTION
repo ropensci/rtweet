@@ -52,7 +52,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.1.0),
     vcr (>= 0.6.0),
-    webshot
+    webshot2
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
