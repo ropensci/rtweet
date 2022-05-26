@@ -26,12 +26,11 @@ To get the current released version from CRAN:
 install.packages("rtweet")
 ```
 
-<div class="pkgdown-devel">
-
 You can install the development version of rtweet from GitHub with:
-`remotes::install_github("rOpenSci/rtweet")`
 
-</div>
+``` r
+install.packages("rtweet", repos = 'https://ropensci.r-universe.dev')
+```
 
 ## Usage
 
@@ -128,9 +127,16 @@ favs <- get_favorites("_R_Foundation", n = 10)
 ## Contact
 
 Communicating with Twitter’s APIs relies on an internet connection,
-which can sometimes be inconsistent. With that said, if you encounter an
-obvious bug for which there is not already an active
-[issue](https://github.com/ropensci/rtweet/issues), please [create a new
+which can sometimes be inconsistent.
+
+If you have questions, or needs an example or want to share a [use
+case](https://ropensci.org/usecases/), you can post them on [rOpenSci’s
+discuss](https://discuss.ropensci.org/). Were you can [browse uses of
+rtweet](https://discuss.ropensci.org/tags/c/usecases/10/rtweet) too.
+
+With that said, if you encounter an obvious bug for which there is not
+already an active [issue](https://github.com/ropensci/rtweet/issues),
+please [create a new
 issue](https://github.com/ropensci/rtweet/issues/new) with all code used
 (preferably a reproducible example) on Github.
 
