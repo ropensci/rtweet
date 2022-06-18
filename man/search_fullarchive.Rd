@@ -10,7 +10,9 @@ search_fullarchive(
   n = 100,
   fromDate = NULL,
   toDate = NULL,
+  continue = NULL,
   env_name = NULL,
+  premium = FALSE,
   safedir = NULL,
   parse = TRUE,
   token = NULL
@@ -22,6 +24,8 @@ search_30day(
   fromDate = NULL,
   toDate = NULL,
   env_name = NULL,
+  continue = NULL,
+  premium = FALSE,
   safedir = NULL,
   parse = TRUE,
   token = NULL
@@ -51,7 +55,13 @@ searched for.}
 \item{toDate}{Newest date-time (YYYYMMDDHHMM) from which tweets should be
 searched for.}
 
+\item{continue}{A character string with the next results of a query.}
+
 \item{env_name}{Name/label of developer environment to use for the search.}
+
+\item{premium}{A logical value if the environment is paid (TRUE) or
+sandboxed, the default (FALSE). It limits the number of results retrieved so the number
+of API queries needed to retrieve \code{n} results.}
 
 \item{safedir}{Name of directory to which each response object should be
 saved. If the directory doesn't exist, it will be created. If NULL (the
@@ -70,7 +80,8 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 A tibble data frame of Twitter data
 }
 \description{
-Search 30day or fullarchive products
+Search 30day or fullarchive products. As there is no way to know the
+Note: The \code{env_bane} must match the ones you set up for the token you are using.
 }
 \section{Developer Account}{
 
@@ -139,14 +150,14 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 
 \dontrun{
 ## search fullarchive for up to 300 rstats tweets sent in Jan 2014
-rt <- search_fullarchive("#rstats", n = 300, env_name = "research",
+rt <- search_fullarchive("#rstats", n = 300, env_name = "SetYourLabel",
   fromDate = "201401010000", toDate = "201401312359")
 
 toDate <- format(Sys.time() - 60 * 60 * 24 * 7, "\%Y\%m\%d\%H\%M")
 
 ## search 30day for up to 300 rstats tweets sent before the last week
 rt <- search_30day("#rstats", n = 300,
-  env_name = "research", toDate = toDate)
+  env_name = "SetYourLabel", toDate = toDate)
 }
 
 }

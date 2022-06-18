@@ -81,6 +81,15 @@ tweet <- function(x) {
     tb$geo <- split_df(x$geo)
   }
 
+  # If extended_tweet is present it also have the full_text field and extended_entities
+  # Add the columns and use the columns if available
+  # columns: "full_text", "display_text_range", "entities", "extended_entities" 
+  if (has_name_(x, "extended_tweet")) {
+    x <- cbind(x, x[, "extended_tweet"])
+    x[, "extended_tweet"] <- NULL
+    tb$extended_tweet <- NULL
+  }
+  
   if (has_name_(x, "text")) {
     tb$text <- x$text
     tb$display_text_width <- nchar(x$text)
@@ -116,13 +125,15 @@ tweet <- function(x) {
     tb$place <- lapply(x$place, place)
   }
   end <- setdiff(colnames(tb), colnames(empty))
-  # Omit extended tweet info from stream API v1
-  end <- setdiff(end, "extended_tweet")
+  # Omit extended tweet info from stream API v1 and premium API: should be handled now
+  # Omit matching_rules just from premium API v1 (not sure how it works)
+  end <- setdiff(end, c("matching_rules"))
   if (length(end) != 0) {
     stop("Unidentified value: ", paste(end, collapse = ", "),
          ".\n\tPlease open an issue and notify the maintainer. Thanks!")
   }
   tb[setdiff(colnames(empty), colnames(tb))] <- NA
+  rownames(tb) <- NULL
   tb
 }
 

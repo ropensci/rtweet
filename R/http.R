@@ -254,7 +254,7 @@ TWIT_paginate_cursor <- function(token, api, params,
 }
 
 #' @rdname TWIT_paginate_max_id
-#'  
+#' @keywords internal
 TWIT_paginate_chunked <- function(token, api, params_list, 
                                   retryonratelimit = NULL, 
                                   verbose = TRUE) {
@@ -295,11 +295,84 @@ TWIT_paginate_chunked <- function(token, api, params_list,
   results
 }  
 
+#' @rdname TWIT_paginate_max_id
+TWIT_paginate_premium <- function(token, api, params, 
+                                  n = 100,
+                                  page_size = 100, 
+                                  cursor = "next", 
+                                  retryonratelimit = NULL,
+                                  verbose = TRUE) {
+  if (identical(cursor, "next")) {
+    # Last request retrieved all available results
+    cursor <- NULL
+  } else {
+    cursor <- next_cursor(cursor)
+  }
+  params[["next"]] <- cursor
+  
+  # TODO: consider if its worth using fastmap::faststack() here
+  results <- vector("list", ceiling(n/page_size))
+  i <- 1
+  n_seen <- 0
+  
+  if (length(results) > 1) {
+    params[["maxResults"]] <- page_size
+  }
+  
+  if (verbose) {
+    pb <- progress::progress_bar$new(
+      format = "Downloading multiple pages :bar",
+      total = length(results)) 
+    withr::defer(pb$terminate())
+  }
+  
+  repeat({
+    params[["next"]] <- cursor
+    json <- catch_rate_limit(
+      TWIT_get(
+        token, api, params, 
+        retryonratelimit = retryonratelimit,
+        verbose = verbose
+      )
+    )
+    
+    if (is_rate_limit(json)) {
+      if (!is.null(retryonratelimit)){
+        warn_early_term(json, 
+                        hint = paste0("Set `continue = '", cursor, "' to continue."),
+                        hint_if = !identical(cursor, "next")
+        )
+      }
+      break
+    }
+    if (i > length(results)) {
+      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
+      length(results) <- 2 * length(results)
+    }
+    results[[i]] <- json$results
+    if (any(grepl("next", names(json)))) {
+      cursor <- if (!is.null(json[["next"]])) json[["next"]]
+    } 
+    n_seen <- n_seen + nrow(json$results)
+    i <- i + 1
+    empty_response <- !is.null(json$results) && length(json$results) == 0
+    if ( n_seen >= n || empty_response) {
+      break
+    }
+    
+    if (verbose) {
+      pb$update(n_seen / n)
+    }
+  })
+  
+  structure(results, "next" = cursor)
+}
+
 
 # helpers -----------------------------------------------------------------
 
 from_js <- function(resp) {
-  if (!grepl("application/json", resp$headers[["content-type"]])) {
+  if (is.null(resp$headers[["content-type"]]) || !grepl("application/json", resp$headers[["content-type"]])) {
     stop("API did not return json", call. = FALSE)
   }
   resp <- httr::content(resp, as = "text", encoding = "UTF-8")
@@ -367,7 +440,7 @@ warn_early_term <- function(cnd, hint, hint_if) {
 handle_error <- function(x) {
   if (!is.null(x$headers[["content-type"]])) {
     stop("Twitter API failed [", x$status_code, "]\n", 
-         "API did not return json", call. = FALSE)
+         "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting", call. = FALSE)
   }
   json <- from_js(x)
   stop("Twitter API failed [", x$status_code, "]\n",
