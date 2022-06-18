@@ -54,6 +54,7 @@ lists_statuses <- function(list_id = NULL,
   
   if (parse) {
     results <- tweets_with_users(results)
+    results$created_at <- format_date(results$created_at)
   }
   results
 }

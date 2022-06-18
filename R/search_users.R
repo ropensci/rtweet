@@ -52,6 +52,7 @@ search_users <- function(q, n = 100,
   
   if (parse) {
     results <- users_with_tweets(results)
+    results$created_at <- format_date(results$created_at)
   }
   
   results
