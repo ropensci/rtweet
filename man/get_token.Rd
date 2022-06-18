@@ -19,4 +19,3 @@ Other tokens:
 \code{\link{rate_limit}()}
 }
 \concept{tokens}
-\keyword{internal}

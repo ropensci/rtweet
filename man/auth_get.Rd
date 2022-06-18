@@ -6,6 +6,9 @@
 \usage{
 auth_get()
 }
+\value{
+The current token used.
+}
 \description{
 If no authentication has been set up for this session, \code{auth_get()} will
 call \code{\link[=auth_as]{auth_as()}} to set it up.
@@ -23,4 +26,3 @@ Other authentication:
 \code{\link{rtweet_user}()}
 }
 \concept{authentication}
-\keyword{internal}

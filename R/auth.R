@@ -176,10 +176,9 @@ print.rtweet_bearer <- function(x, ...) {
 #' 
 #' If no authentication has been set up for this session, `auth_get()` will 
 #' call [auth_as()] to set it up.
-#' 
-#' @keywords internal
-#' @family authentication
+#' @return  The current token used. 
 #' @export
+#' @family authentication
 #' @examples 
 #' \dontrun{
 #' auth_get()

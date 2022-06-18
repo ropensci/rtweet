@@ -4,7 +4,6 @@
 #' `r lifecycle::badge("deprecated")`
 #' Please use [auth_get()] instead.
 #'
-#' @keywords internal
 #' @family tokens
 #' @export
 get_token <- function() {
