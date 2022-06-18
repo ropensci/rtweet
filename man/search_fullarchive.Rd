@@ -81,7 +81,7 @@ A tibble data frame of Twitter data
 }
 \description{
 Search 30day or fullarchive products. As there is no way to know the
-Note: The \code{env_bane} must match the ones you set up for the token you are using.
+Note: The \code{env_name} must match the ones you set up for the token you are using.
 }
 \section{Developer Account}{
 
