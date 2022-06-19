@@ -159,6 +159,7 @@ search_premium <- function(product, q, n = NULL, fromDate = NULL, toDate = NULL,
   if (parse) {
     cursor <- attr(result, "next")
     result <- tweets_with_users(result)
+    result$created_at <- format_date(result$created_at)
     attr(result, "next") <- cursor
   }
   result

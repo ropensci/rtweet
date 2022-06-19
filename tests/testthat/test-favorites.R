@@ -5,7 +5,7 @@ test_that("can retrieve multiple users", {
     out <- get_favorites(users, n = 20)
   })
   expect_s3_class(out, "data.frame")
-  expect_true(is.character(out$created_at))
+  expect_s3_class(out$created_at, "POSIXct")
   expect_equal(unique(out$favorited_by), users)
 })
 

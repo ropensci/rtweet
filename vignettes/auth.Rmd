@@ -81,7 +81,7 @@ To use app based authentication, run this code:
 auth <- rtweet_app()
 ```
 
-This will prompt you to enter the bearer token that you recorded earlier.
+This will prompt you to enter the *bearer token* that you recorded earlier.
 
 It's good practice to only provide secrets interactively, because that makes it harder to accidentally share them in either your `.Rhistory` or an `.R` file.
 
@@ -93,7 +93,7 @@ Bot based authentication works similarly:
 auth <- rtweet_bot()
 ```
 
-But you'll need more data --- as well as the API key and secret you recorded earlier, you'll also need to generate a "Access token and secret" which you can get by clicking the "Generate" button on the Keys and Tokens page:
+But you'll need more data --- as well as the *API key* and *API secret* you recorded earlier, you'll also need to generate a "*Access token and secret*" which you can get by clicking the "Generate" button on the Keys and Tokens page:
 
 ![](keys-tokens.png){width="362"}
 
