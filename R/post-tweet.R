@@ -290,6 +290,6 @@ check_media <- function(media, alt_text) {
   }
   
   if (any(nchar(alt_text) > 1000)) {
-    stop("Alt text cannot be bigger than 1000 characters.", call. = TRUE)
+    stop("Alt text cannot be longer than 1000 characters.", call. = TRUE)
   }
 }

@@ -59,6 +59,7 @@ get_favorites_user <- function(user, ..., parse = TRUE, token = NULL) {
 
   if (parse) {
     results <- tweets_with_users(results)
+    results$created_at <- format_date(results$created_at)
     results$favorited_by <- rep(user, nrow(results))
   }
   

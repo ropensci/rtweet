@@ -26,6 +26,7 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
   
   if (parse) {
     r <- tweets_with_users(list(r))
+    r$created_at <- format_date(r$created_at)
   }
   r
 }
