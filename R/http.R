@@ -356,7 +356,7 @@ TWIT_paginate_premium <- function(token, api, params,
     n_seen <- n_seen + nrow(json$results)
     i <- i + 1
     empty_response <- !is.null(json$results) && length(json$results) == 0
-    if ( n_seen >= n || empty_response) {
+    if ( length(n_seen) == 0 || n_seen >= n || empty_response) {
       break
     }
     
@@ -455,6 +455,8 @@ handle_protected <- function(resp, params) {
     account <- params$screen_name
     if (is.null(account)) account <- params$user_id
     warning("Skipping unauthorized account: ", account, call. = FALSE)
+  } else {
+    handle_error(resp)
   }
 }
 
