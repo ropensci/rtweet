@@ -82,7 +82,10 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 A tibble data frame of Twitter data.
 }
 \description{
-Search 30day or fullarchive premium products.
+Search 30day or fullarchive premium products. There is a limit of 5000 tweets
+and 25000 for the fullarchive and 30day endpoints respectively. In addition,
+there are some limits in the number of requests that are possible on a
+certain amount of time, this have already been taken into account. See the info provided by Twitter.
 }
 \details{
 Note: The \code{env_name} must match the ones you set up for the token you are using.
@@ -166,6 +169,8 @@ rt <- search_30day("#rstats", n = 300,
 
 }
 \references{
-\url{https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search}
+Endpoint: \url{https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search}
+Full archive limits \url{https://developer.twitter.com/en/pricing/search-fullarchive}
+30day limits \url{https://developer.twitter.com/en/pricing/search-30day}
 }
 \concept{premium endpoints}

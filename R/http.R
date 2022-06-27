@@ -325,8 +325,14 @@ TWIT_paginate_premium <- function(token, api, params,
       total = length(results)) 
     withr::defer(pb$terminate())
   }
-  
+  # Time to sleep avoid hitting the lowest rate limits
+  min_sleep <- 0.9 
+  if (page_size == 500) {
+    min_sleep <- min_sleep * 2
+  }
   repeat({
+    
+    Sys.sleep(min_sleep) 
     params[["next"]] <- cursor
     json <- catch_rate_limit(
       TWIT_get(

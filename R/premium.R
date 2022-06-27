@@ -1,6 +1,9 @@
 #' Premium Twitter searches
 #'
-#' Search 30day or fullarchive premium products. 
+#' Search 30day or fullarchive premium products. There is a limit of 5000 tweets
+#'  and 25000 for the fullarchive and 30day endpoints respectively. In addition, 
+#'  there are some limits in the number of requests that are possible on a 
+#'  certain amount of time, this have already been taken into account. See the info provided by Twitter. 
 #' 
 #' Note: The `env_name` must match the ones you set up for the token you are using.
 #'
@@ -91,7 +94,9 @@
 #' }
 #'
 #' @export
-#' @references <https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search>
+#' @references Endpoint: <https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search>
+#' Full archive limits <https://developer.twitter.com/en/pricing/search-fullarchive>
+#' 30day limits <https://developer.twitter.com/en/pricing/search-30day>
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
                                continue = NULL,
                                env_name = NULL, premium = FALSE, 
