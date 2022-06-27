@@ -21,7 +21,8 @@ tweets_with_users <- function(x) {
   } else {
     users <- user(NULL)[0, ]
   }
-
+  users <- as_tbl(users)
+  tweets <- as_tbl(tweets)
   structure(tweets, users = users)
 }
 
@@ -43,6 +44,8 @@ users_with_tweets <- function(x) {
     tweets <- do.call("rbind", lapply(status, tweet))
   }
   
+  users <- as_tbl(users)
+  tweets <- as_tbl(tweets)
   structure(users, tweets = tweets)
 }
 
