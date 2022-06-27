@@ -20,7 +20,10 @@ next_cursor <- function(x) {
       abort("`cursor` must have a `rtweet_cursor` attribute")
     }
     cursor
-  } else {
+    # Premium APIs 1.1 with environment use next
+  } else if (is.list(x)) {
+    x[["next"]]
+  }  else {
     abort("`cursor` must be a string or data frame")
   }
 }

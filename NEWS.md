@@ -147,6 +147,9 @@ for more details.
 - Functions like `search_tweets()`, `lookup_statuses()` and others return the 
    appropriate date time format for the right columns (`created_at` mostly) 
    (#653, #657, #660, @alexpghayes, @RickPat). 
+   
+- Premium/sandbox environments are supported in `search_fullarchive()` and 
+   `search_30day()` (#578, #713).
 
 - The vignette must be pre-computed before submission (#609, @maelle).
   

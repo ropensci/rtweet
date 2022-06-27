@@ -4,6 +4,7 @@
 \alias{TWIT_paginate_max_id}
 \alias{TWIT_paginate_cursor}
 \alias{TWIT_paginate_chunked}
+\alias{TWIT_paginate_premium}
 \title{Pagination}
 \usage{
 TWIT_paginate_max_id(
@@ -36,6 +37,17 @@ TWIT_paginate_chunked(
   token,
   api,
   params_list,
+  retryonratelimit = NULL,
+  verbose = TRUE
+)
+
+TWIT_paginate_premium(
+  token,
+  api,
+  params,
+  n = 100,
+  page_size = 100,
+  cursor = "next",
   retryonratelimit = NULL,
   verbose = TRUE
 )
