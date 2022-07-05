@@ -3,7 +3,7 @@
 
 ## Breaking changes
 
-- Data returned by rtweet is nested and uses the same names provided bye 
+- Data returned by rtweet is nested and uses the same names provided by 
   the Twitter API. It doesn't compute or add new columns as it did previously. 
 
 - emojis, langs and stopwordslangs data are no longer provided by rtweet.
@@ -44,7 +44,7 @@
   pagination better.
   
 - `tweet_shot()` has been hard deprecated as the screenshots do not have the 
-  tweet it might come back with webshot2 (#458).
+  tweet. It might come back with webshot2 (#458).
 
 - The `home` argument to `get_timeline()` has been deprecated. You can only
   retrieve the home timeline for the logged in user, and that's the job of
