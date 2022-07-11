@@ -367,7 +367,7 @@ TwitterToken1.0 <- R6::R6Class("TwitterToken1.0", inherit = httr::Token1.0, list
   }
 ))
 
-twitter_init_oauth1.0 <- function (endpoint, app, permission = NULL,
+twitter_init_oauth1.0 <- function(endpoint, app, permission = NULL,
                                    is_interactive = interactive(),
                                    private_key = NULL) {
   

@@ -2,7 +2,7 @@
 % Please edit documentation in R/favorites.R
 \name{get_favorites}
 \alias{get_favorites}
-\title{Get tweets favorited by one or more users}
+\title{Get tweets liked/favorited by one or more users}
 \usage{
 get_favorites(
   user,
@@ -66,7 +66,7 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 A tibble with one row for each tweet.
 }
 \description{
-Returns up to 3,000 tweets favorited for each \code{user}.
+Returns up to 3,000 tweets liked/favorited for each \code{user}.
 }
 \examples{
 if (auth_has_default()) {

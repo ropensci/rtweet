@@ -1,7 +1,7 @@
 #' Get mentions for the authenticating user.
 #'
 #' Returns data on up to 200 of the most recent mentions (Tweets
-#' containing a users's screen_name) of the authenticating user.
+#' containing a users' screen_name) of the authenticating user.
 #' The timeline returned is the equivalent of the one seen when you view 
 #' your mentions on twitter.com.
 #'

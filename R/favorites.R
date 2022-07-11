@@ -1,6 +1,6 @@
-#' Get tweets favorited by one or more users
+#' Get tweets liked/favorited by one or more users
 #'
-#' Returns up to 3,000 tweets favorited for each `user`.
+#' Returns up to 3,000 tweets liked/favorited for each `user`.
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams get_timeline

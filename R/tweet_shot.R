@@ -28,9 +28,9 @@
 #' }
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
-  check_installed(c("magick", "webshot"))
   lifecycle::deprecate_warn("1.0.0", "tweet_shot()", 
                             details = "The resulting image might not have a screenshot of the tweet")
+  check_installed(c("magick", "webshot"))
 
   statusid_or_url <- statusid_or_url[1]
   zoom <- zoom[1]

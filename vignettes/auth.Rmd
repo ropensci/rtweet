@@ -71,7 +71,7 @@ If you use rtweet for more than a day or a learning how to use the package it is
 auth_setup_default()
 ```
 
-It will call `rtweet_user()` to use your current logged account on your default browser as the authentication used by `rtweet` and save it as "default" (See [Saving and loading](Saving-and-loading)).
+It will call `rtweet_user()` to use your current logged account on your default browser as the authentication used by `rtweet` and save it as "default" (See [Saving and loading](#save)).
 
 ### Apps
 
@@ -114,7 +114,7 @@ Instead, you can call `auth_as()` to set this as the default for the remainder o
 auth_as(auth)
 ```
 
-## Saving and loading
+## Saving and loading {#save}
 
 `auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_user()`, `rtweet_app()` or `rtweet_bot()`).
 This would be annoying (!) so rtweet also provides a way to save and reload authentications across sessions:
