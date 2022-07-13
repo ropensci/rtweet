@@ -24,6 +24,7 @@
 ^CRAN-RELEASE$
 ^revdep$
 ^CODE_OF_CONDUCT\.md$
+^CITATION.cff
 ^codemeta\.json$
 ^\.gitattributes$
 ^vignettes/articles$
