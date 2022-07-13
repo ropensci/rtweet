@@ -25,7 +25,7 @@ This vignette assumes users have already setup user access tokens (see: the "aut
 library(rtweet)
 ```
 
-```{r auth, include=FALSE}
+```{r auth, include=FALSE, purl=FALSE}
 auth_as(rtweet:::rtweet_test())
 ```
 

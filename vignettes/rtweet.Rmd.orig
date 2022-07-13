@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE,
   fig.path = "vignettes/files/", root.dir = "vignettes")
@@ -40,7 +40,7 @@ Automatically rtweet will use that token in all the API queries it will do in th
 
 If you want to set up a bot or collect a lot of information, please read the `vignette("auth", "rtweet")`.
 
-```{r include=FALSE}
+```{r include=FALSE, purl=FALSE}
 library("ggplot2")
 library("dplyr")
 library("rtweet")
