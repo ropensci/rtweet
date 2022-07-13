@@ -6,7 +6,7 @@ output:
     self_contained: false
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -43,8 +43,8 @@ q <- "#rstats"
 ## For larger chunks of time, I recommend multiplying 60 by the number
 ## of desired minutes. This method scales up to hours as well
 ## (x * 60 = x mins, x * 60 * 60 = x hours)
-## Stream for 30 seconds
-streamtime <- 30 
+## Stream for 5 seconds
+streamtime <- 5 
 ## Filename to save json data (backup)
 filename <- "rstats.json"
 ```

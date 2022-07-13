@@ -1,10 +1,11 @@
 ---
 title: "Intro to rtweet"
 output:
-  rmarkdown::html_vignette
+  rmarkdown::html_vignette:
+    self_contained: false
 vignette: >
   %\VignetteIndexEntry{Intro to rtweet}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -145,8 +146,8 @@ As seen above we can use `lookup_users()` to check their
 R_foundation_fds_data <- lookup_users(R_foundation_fds$to_id, verbose = FALSE)
 R_foundation_fds_data[, c("name", "screen_name", "created_at")]
 
-# Look R Foundation followers
-R_foundation_flw_data <- lookup_users(R_foundation_flw$from_id, verbose = FALSE)
+# Look 100 R Foundation followers
+R_foundation_flw_data <- lookup_users(head(R_foundation_flw$from_id, 100), verbose = FALSE)
 R_foundation_flw_data[1:5, c("name", "screen_name", "created_at")]
 ```
 
