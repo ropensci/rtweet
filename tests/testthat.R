@@ -1,5 +1,8 @@
 # Use conditionally testthat
-if (requireNamespace("rtweet", quietly = TRUE)) {
+tests_are_doable <- requireNamespace("rtweet", quietly = TRUE) && 
+  requireNamespace("testthat", quietly = TRUE) && 
+  requireNamespace("vcr", quietly = TRUE)
+if (tests_are_doable) {
   library(testthat)
   library(rtweet)
   
