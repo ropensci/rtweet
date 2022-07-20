@@ -44,7 +44,7 @@ lists_members <- function(list_id = NULL,
     cursor = cursor,
     retryonratelimit = retryonratelimit,
     verbose = verbose,
-    page_size = 5000,
+    page_size = if (n >= 5000) 5000 else n,
     get_id = function(x) x$users$id_str
   )
   

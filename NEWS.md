@@ -1,5 +1,11 @@
 # rtweet 1.0.1
 
+- Fixed issue with .Rbuilignore and vignettes
+
+- Reduced fixtures sizes by limiting the page size to the number of requests if 
+  it is smaller than the default page size. 
+
+# rtweet 1.0.0
 
 ## Breaking changes
 

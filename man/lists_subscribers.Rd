@@ -8,7 +8,7 @@ lists_subscribers(
   list_id = NULL,
   slug = NULL,
   owner_user = NULL,
-  n = 20,
+  n = 5000,
   cursor = "-1",
   parse = TRUE,
   retryonratelimit = NULL,

@@ -41,7 +41,7 @@ direct_messages <- function(n = 50,
     cursor = cursor,
     retryonratelimit = retryonratelimit,
     verbose = verbose,
-    page_size = 50,
+    page_size = if (n >= 50) 50 else n,
     get_id = function(x) x$events$id
   )
 }
