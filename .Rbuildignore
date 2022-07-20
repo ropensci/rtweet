@@ -7,7 +7,6 @@
 ^\.travis\.yml$
 ^tests/testthat/twitter_tokens.enc$
 ^\.httr-oauth$
-^\.build\.timestamp$
 ^inst/web$
 ^docs$
 ^_pkgdown\.yml$
@@ -35,3 +34,4 @@
 ^.*\.json$
 tarball
 lastMiKTeXException
+^CRAN-SUBMISSION$

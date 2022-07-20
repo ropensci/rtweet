@@ -6,7 +6,7 @@ output:
     self_contained: false
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 

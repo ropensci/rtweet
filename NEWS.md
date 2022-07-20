@@ -1,4 +1,4 @@
-# rtweet 1.0.0
+# rtweet 1.0.1
 
 
 ## Breaking changes

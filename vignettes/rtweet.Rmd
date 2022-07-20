@@ -5,7 +5,7 @@ output:
     self_contained: false
 vignette: >
   %\VignetteIndexEntry{Intro to rtweet}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
