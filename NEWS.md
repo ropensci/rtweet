@@ -1,3 +1,7 @@
+# rtweet 1.0.2
+
+- Exported again `tweets_with_users` and `users_with_tweets` because Twitmo depends on them.
+
 # rtweet 1.0.1
 
 - Fixed issue with .Rbuilignore and vignettes

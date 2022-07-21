@@ -60,6 +60,70 @@ ERROR: lazy loading failed for package ‘needmining’
 
 
 ```
+# saotd
+
+<details>
+
+* Version: 0.3.0
+* GitHub: https://github.com/evan-l-munson/saotd
+* Source code: https://github.com/cran/saotd
+* Date/Publication: 2021-10-13 09:50:02 UTC
+* Number of recursive dependencies: 120
+
+Run `revdep_details(, "saotd")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘saotd’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/home/lluis/Documents/Projects/rtweet/revdep/checks/saotd/new/saotd.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘saotd’ ...
+** package ‘saotd’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/lluis/Documents/Projects/rtweet/revdep/library/saotd/slam/libs/slam.so':
+  libRblas.so: cannot open shared object file: No such file or directory
+Calls: <Anonymous> ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+Execution halted
+ERROR: lazy loading failed for package ‘saotd’
+* removing ‘/home/lluis/Documents/Projects/rtweet/revdep/checks/saotd/new/saotd.Rcheck/saotd’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘saotd’ ...
+** package ‘saotd’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/lluis/Documents/Projects/rtweet/revdep/library/saotd/slam/libs/slam.so':
+  libRblas.so: cannot open shared object file: No such file or directory
+Calls: <Anonymous> ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+Execution halted
+ERROR: lazy loading failed for package ‘saotd’
+* removing ‘/home/lluis/Documents/Projects/rtweet/revdep/checks/saotd/old/saotd.Rcheck/saotd’
+
+
+```
 # Twitmo
 
 <details>
@@ -101,7 +165,7 @@ ERROR: lazy loading failed for package ‘needmining’
 * GitHub: https://github.com/vosonlab/VOSONDash
 * Source code: https://github.com/cran/VOSONDash
 * Date/Publication: 2020-07-27 13:20:02 UTC
-* Number of recursive dependencies: 118
+* Number of recursive dependencies: 119
 
 Run `revdep_details(, "VOSONDash")` for more info
 
@@ -163,7 +227,7 @@ ERROR: lazy loading failed for package ‘VOSONDash’
 * GitHub: https://github.com/vosonlab/vosonSML
 * Source code: https://github.com/cran/vosonSML
 * Date/Publication: 2020-07-18 05:00:03 UTC
-* Number of recursive dependencies: 115
+* Number of recursive dependencies: 117
 
 Run `revdep_details(, "vosonSML")` for more info
 

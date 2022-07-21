@@ -18,4 +18,3 @@ A tweets/users tibble with users/tweets attribute.
 \description{
 For internal use only
 }
-\keyword{internal}
