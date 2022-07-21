@@ -1,3 +1,5 @@
+# rtweet (development version)
+
 # rtweet 1.0.2
 
 - Exported again `tweets_with_users` and `users_with_tweets` because Twitmo depends on them.
