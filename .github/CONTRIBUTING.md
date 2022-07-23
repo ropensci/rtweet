@@ -37,6 +37,8 @@ with test cases included are easier to accept.
 *  For user-facing changes, add a bullet to the top of `NEWS.md` below the
 current development version header describing the changes made followed by your
 GitHub username, and links to relevant issue(s)/PR(s).
+*  Development for next release is in [devel branch](https://github.com/ropensci/rtweet/tree/devel) 
+fixes or typos are okay in the default branch.
 
 ### Code of Conduct
 
@@ -44,5 +46,5 @@ Please note that the rtweet project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
 project you agree to abide by its terms.
 
-### See tidyverse [development contributing guide](https://rstd.io/tidy-contrib)
+See tidyverse [development contributing guide](https://www.tidyverse.org/contribute/)
 for further details.
