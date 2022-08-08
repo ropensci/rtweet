@@ -5,7 +5,7 @@
 format_date <- function(x, format = "%a %b %d %T %z %Y") {
   locale <- Sys.getlocale("LC_TIME")
   on.exit(Sys.setlocale("LC_TIME", locale), add = TRUE)
-  Sys.setlocale("LC_TIME", "C") 
+  Sys.setlocale("LC_TIME", "C")
   as.POSIXct(x, format = format)
 }
 
@@ -66,7 +66,7 @@ is_dev_mode <- function() {
 }
 
 is_rcmd_check <- function() {
-  identical(Sys.getenv("RTESTS"), "true")  
+  identical(Sys.getenv("RTESTS"), "true")
 }
 
 is_developing <- function() {

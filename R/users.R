@@ -1,17 +1,17 @@
 #' Get Twitter users data for given users (user IDs or screen names).
 #'
 #' @inheritParams TWIT_paginate_max_id
-#'   
+#'
 #' @param users User id or screen name of target user.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
-#' 
+#'
 #' @examples
 #'
 #' if (auth_has_default()) {
 #'     users <- c("twitter", "rladiesglobal", "_R_Foundation")
 #'     users <- lookup_users(users)
 #'     users
-#'    
+#'
 #'     # latest tweet from each user
 #'     tweets_data(users)
 #' }
@@ -23,7 +23,7 @@ lookup_users <- function(users, parse = TRUE, token = NULL,
                          retryonratelimit = NULL,
                          verbose = TRUE) {
   type <- user_type(users, "users")
-  
+
   chunks <-  unname(split(users, (seq_along(users) - 1) %/% 100))
   params_list <- lapply(chunks, function(users) {
     params <- list()
@@ -40,6 +40,6 @@ lookup_users <- function(users, parse = TRUE, token = NULL,
     results <- users_with_tweets(results)
     results$created_at <- format_date(results$created_at)
   }
-  
+
   results
 }

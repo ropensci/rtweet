@@ -1,20 +1,20 @@
 #' Premium Twitter searches
 #'
 #' Search 30day or fullarchive premium products. There is a limit of 5000 tweets
-#'  and 25000 for the fullarchive and 30day endpoints respectively. In addition, 
-#'  there are some limits in the number of requests that are possible on a 
-#'  certain amount of time, this have already been taken into account. See the info provided by Twitter. 
-#' 
+#'  and 25000 for the fullarchive and 30day endpoints respectively. In addition,
+#'  there are some limits in the number of requests that are possible on a
+#'  certain amount of time, this have already been taken into account. See the info provided by Twitter.
+#'
 #' Note: The `env_name` must match the ones you set up for the token you are using.
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @param q Search query on which to match/filter tweets. See details for
 #'   information about available search operators.
-#' @param continue A character string with the next results of a query. You 
-#' must make the exact same query as the original, including `q`, `toDate`, 
+#' @param continue A character string with the next results of a query. You
+#' must make the exact same query as the original, including `q`, `toDate`,
 #' and `fromDate`.
-#' @param premium A logical value if the environment is paid (TRUE) or 
-#' sandboxed, the default (FALSE). It limits the number of results retrieved so the number 
+#' @param premium A logical value if the environment is paid (TRUE) or
+#' sandboxed, the default (FALSE). It limits the number of results retrieved so the number
 #' of API queries needed to retrieve `n` results.
 #' @param fromDate Oldest date-time (YYYYMMDDHHMM) from which tweets should be
 #'   searched for.
@@ -99,11 +99,11 @@
 #' 30day limits <https://developer.twitter.com/en/pricing/search-30day>
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
                                continue = NULL,
-                               env_name = NULL, premium = FALSE, 
+                               env_name = NULL, premium = FALSE,
                                safedir = NULL, parse = TRUE, token = NULL) {
-  
-  search_premium("fullarchive", 
-    q = q, 
+
+  search_premium("fullarchive",
+    q = q,
     n = n,
     fromDate = fromDate,
     toDate = toDate,
@@ -119,14 +119,14 @@ search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
 #' @rdname search_fullarchive
 #' @export
 search_30day <- function(q, n = 100, fromDate = NULL, toDate = NULL,
-                         env_name = NULL, 
+                         env_name = NULL,
                          continue = NULL,  premium = FALSE,
                          safedir = NULL,
                          parse = TRUE,
                          token = NULL) {
-  
-  search_premium("30day", 
-    q = q, 
+
+  search_premium("30day",
+    q = q,
     n = n,
     fromDate = fromDate,
     toDate = toDate,
@@ -143,25 +143,25 @@ search_premium <- function(product, q, n = NULL, fromDate = NULL, toDate = NULL,
                           env_name = NULL, continue = NULL, premium = FALSE, safedir = NULL,
                           parse = TRUE,
                           token = NULL) {
-  
+
   if (is.null(env_name)) {
     stop("Must provide dev environment name")
   }
   if (!is.null(safedir)) {
     stop("`safedir` temporarily not supported")
   }
-  
+
   if (!is.logical(premium) && length(premium) != 1) {
     stop("premium must be either TRUE or FALSE.", call. = FALSE)
   }
-  
-  params <- list(query = q, 
+
+  params <- list(query = q,
     maxResults = n,
     fromDate = format_from_to_date(fromDate),
     # tag = ?? Not sure how to support tags or how they are used.
     toDate = format_from_to_date(toDate)
   )
-  
+
   api <- paste0("/1.1/tweets/search/", product, "/", env_name)
   result <- TWIT_paginate_premium(token, api, params, n = n, cursor = continue,
                                   page_size = if (premium) 500 else 100)

@@ -243,7 +243,7 @@ parse_unit <- function(by) {
 #'
 #' ## class date
 #' unique(round_time(seq(Sys.Date(), Sys.Date() + 100, "1 day"), "weeks"))
-#' 
+#'
 #' @export
 round_time <- function(x, n, tz) UseMethod("round_time")
 

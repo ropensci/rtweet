@@ -1,22 +1,22 @@
 tweet <- function(x) {
-  empty <- data.frame(created_at = NA_character_, id = NA_integer_, 
-                      id_str = NA_character_, 
-                      text = NA_character_, 
+  empty <- data.frame(created_at = NA_character_, id = NA_integer_,
+                      id_str = NA_character_,
+                      text = NA_character_,
                       full_text = NA_character_,
-                      truncated = NA, 
-                      entities = I(list(list())), 
-                      source = NA_character_, 
-                      in_reply_to_status_id = NA_integer_, 
-                      in_reply_to_status_id_str = NA_character_, 
+                      truncated = NA,
+                      entities = I(list(list())),
+                      source = NA_character_,
+                      in_reply_to_status_id = NA_integer_,
+                      in_reply_to_status_id_str = NA_character_,
                       in_reply_to_user_id = NA_integer_,
                       in_reply_to_user_id_str = NA_character_,
-                      in_reply_to_screen_name = NA_character_, 
-                      geo = I(list(list())), 
-                      coordinates = NA, place = NA, 
-                      contributors = NA, is_quote_status = NA, 
-                      retweet_count = 0, favorite_count = 0, 
+                      in_reply_to_screen_name = NA_character_,
+                      geo = I(list(list())),
+                      coordinates = NA, place = NA,
+                      contributors = NA, is_quote_status = NA,
+                      retweet_count = 0, favorite_count = 0,
                       favorited = NA, favorited_by = NA,
-                      retweeted = NA, 
+                      retweeted = NA,
                       scopes = I(list(list())),
                       lang = NA_character_,
                       possibly_sensitive = NA,
@@ -25,9 +25,9 @@ tweet <- function(x) {
                       retweeted_status = NA,
                       quoted_status = NA,
                       quoted_status_id = NA,
-                      quoted_status_id_str = NA, 
+                      quoted_status_id_str = NA,
                       quoted_status_permalink = NA,
-                      quote_count = NA, 
+                      quote_count = NA,
                       timestamp_ms = NA,
                       reply_count = NA,
                       filter_level = NA,
@@ -49,19 +49,19 @@ tweet <- function(x) {
   } else {
     tb$possibly_sensitive <- list(NA)
   }
-  
+
   # Recursive and in a loop not good..
   if (has_name_(x, "quoted_status")) {
-    tb$quoted_status <- tweet(x$quoted_status) 
+    tb$quoted_status <- tweet(x$quoted_status)
   } else {
     tb$quoted_status <- list(NA)
   }
-  
+
   if (has_name_(x, "display_text_range")) {
     # Handle missing display_text_range
     tb$display_text_range <- display_text_range(x$display_text_range)
   }
-  
+
   if (has_name_(x, "quoted_status_permalink")){
     tb$quoted_status_permalink <- split_df(x$quoted_status_permalink)
   }
@@ -83,23 +83,23 @@ tweet <- function(x) {
 
   # If extended_tweet is present it also have the full_text field and extended_entities
   # Add the columns and use the columns if available
-  # columns: "full_text", "display_text_range", "entities", "extended_entities" 
+  # columns: "full_text", "display_text_range", "entities", "extended_entities"
   if (has_name_(x, "extended_tweet")) {
     x <- cbind(x, x[, "extended_tweet"])
     x[, "extended_tweet"] <- NULL
     tb$extended_tweet <- NULL
   }
-  
+
   if (has_name_(x, "text")) {
     tb$text <- x$text
     tb$display_text_width <- nchar(x$text)
   } else if (has_name_(x, "full_text")) {
     tb$text <- x$full_text
   }
-  
+
   user <- user(x[["user"]])
   tb$user <- split_df(user)
-  
+
   if (has_name_(x, "entities") && has_name_(x, "extended_entities")) {
     ent <- parse_entities2(x$entities)
     ext_ent <- parse_entities2(x$extended_entities)
@@ -107,7 +107,7 @@ tweet <- function(x) {
     for (i in NROW(x$entities)) {
       ent[[i]][names(x$extended_entities)] <- ext_ent[[i]][names(x$extended_entities)]
     }
-    
+
   } else if (has_name_(x, "entities")) {
     ent <- parse_entities2(x$entities)
   } else if (has_name_(x, "extended_entities")) {
@@ -116,7 +116,7 @@ tweet <- function(x) {
     ent <- vector("list", NROW(x$entities))
   }
   tb$entities <- ent
-  
+
   tb$coordinates <- split_df(coordinates(x$coordinates))
   if (is.data.frame(x$place)) {
     l <- split_df(x$place)
@@ -140,7 +140,7 @@ tweet <- function(x) {
 parse_entities2 <- function(y) {
   l <- vector("list", NROW(y))
   for (col in seq_len(NCOL(y))) {
-    # Look for the function of said object and save it. 
+    # Look for the function of said object and save it.
     fun <- match.fun(colnames(y)[col])
     l[[col]] <- lapply(y[[col]], fun)
   }

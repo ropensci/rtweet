@@ -1,17 +1,17 @@
 #' Get one or more user timelines
 #'
 #' `get_timeline()` returns the timeline of any Twitter user (i.e. what they
-#' have tweeted). `get_my_timeline()` returns the home timeline for the 
+#' have tweeted). `get_my_timeline()` returns the home timeline for the
 #' authenticated user (i.e. the tweets you see when you log into Twitter).
-#' 
+#'
 #' At most up to 3,200 of a user's most recent Tweets can be retrieved.
 #'
 #' @inheritParams TWIT_paginate_max_id
-#' @param user Character vector of screen names or user ids. 
+#' @param user Character vector of screen names or user ids.
 #'   See [as_screenname()] for more details.
 #' @param home Logical, indicating whether to return a "user" timeline
-#'   (the default, what a user has tweeted/retweeted) or a "home" timeline 
-#'   (what the user would see if they logged into twitter). 
+#'   (the default, what a user has tweeted/retweeted) or a "home" timeline
+#'   (what the user would see if they logged into twitter).
 #' @param check `r lifecycle::badge("deprecated")`
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
@@ -20,7 +20,7 @@
 #' if (auth_has_default()) {
 #' tw <- get_timeline("_R_Foundation")
 #' tw
-#' 
+#'
 #' # get tweets that arrived since the last request
 #' get_timeline("_R_Foundation", since_id = tw)
 #' # get earlier tweets
@@ -48,14 +48,14 @@ get_timeline <- function(user = NULL,
   if (!isFALSE(home)) {
     lifecycle::deprecate_stop("1.0.0", "get_timeline(home)")
   }
-  
+
   user <- user %||% api_screen_name()
-  
-  rt <- lapply(user, get_timeline_user, 
-    n = n, 
+
+  rt <- lapply(user, get_timeline_user,
+    n = n,
     since_id = since_id,
     max_id = max_id,
-    home = FALSE, 
+    home = FALSE,
     parse = parse,
     check = check,
     retryonratelimit = retryonratelimit,
@@ -63,13 +63,13 @@ get_timeline <- function(user = NULL,
     token = token,
     ...
   )
-  
+
   if (parse) {
     rt <- do.call("rbind", rt)
     rt <- as_tbl(rt)
     rt$created_at <- format_date(rt$created_at)
-  } 
-  
+  }
+
   rt
 }
 
@@ -114,12 +114,12 @@ get_timeline_user <- function(user,
 
   params <- list(
     # Undocumented parameter https://github.com/ropensci/rtweet/issues/575#issuecomment-829605892
-    tweet_mode = "extended", 
+    tweet_mode = "extended",
     ...
   )
   params[[user_type(user)]] <- user
 
-  result <- TWIT_paginate_max_id(token, api, params, 
+  result <- TWIT_paginate_max_id(token, api, params,
     n = n,
     page_size = 200,
     since_id = since_id,
@@ -127,7 +127,7 @@ get_timeline_user <- function(user,
     retryonratelimit = retryonratelimit,
     verbose = verbose,
   )
-  
+
   if (parse) {
     result <- tweets_with_users(result)
   }
@@ -145,9 +145,9 @@ get_timelines <- function(user,
                           check = TRUE,
                           token = NULL,
                           ...) {
-  
+
   lifecycle::deprecate_warn("1.0.0", "get_timelines()", "get_timeline()")
-  
+
   get_timeline(user, n, max_id = max_id, home = home, parse = parse, token = token, ...)
 }
 
