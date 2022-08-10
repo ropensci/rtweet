@@ -39,15 +39,20 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
   check_installed("ggplot2")
   if (ncol(data) == 3L) {
+    # retrieve group name
+    var <- names(data)[3]
     ggplot2::ggplot(
       data, ggplot2::aes(
-        x = .data[["time"]], y = .data[["n"]], colour = names(.data)[3])
+        x = .data[["time"]], y = .data[["n"]], colour = .data[[var]])
     ) +
     ggplot2::geom_line(...)
   } else if (ncol(data) == 4L) {
+    # retrieve group names
+    var1 <- names(data)[3]
+    var2 <- names(data)[4]
     ggplot2::ggplot(
       data, ggplot2::aes(
-        x = .data[["time"]], y = .data[["n"]], colour = names(.data)[3], linetype = names(.data)[4])
+        x = .data[["time"]], y = .data[["n"]], colour = .data[[var1]], linetype = .data[[var2]])
     ) +
     ggplot2::geom_line(...)
   } else {
@@ -243,7 +248,7 @@ parse_unit <- function(by) {
 #'
 #' ## class date
 #' unique(round_time(seq(Sys.Date(), Sys.Date() + 100, "1 day"), "weeks"))
-#' 
+#'
 #' @export
 round_time <- function(x, n, tz) UseMethod("round_time")
 
