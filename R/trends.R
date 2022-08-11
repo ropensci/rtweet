@@ -58,7 +58,7 @@ get_trends <- function(woeid = 1,
                        exclude_hashtags = FALSE,
                        token = NULL,
                        parse = TRUE) {
-  
+
   if (inherits(woeid, "coords")) {
     lat <- woeid$point[1]
     lng <- woeid$point[2]
@@ -66,7 +66,7 @@ get_trends <- function(woeid = 1,
     lat <- woeid[1]
     lng <- woeid[2]
   }
-  
+
   if (!is.null(lat) && !is.null(lng)) {
     stopifnot(maybe_n(lat), maybe_n(lng))
     woeid <- trends_closest(lat, lng, token = token)
@@ -85,12 +85,12 @@ get_trends <- function(woeid = 1,
     }
     woeid <- check_woeid(woeid)
   }
-  
+
   params <- list(
     id = woeid,
     exclude = if (exclude_hashtags) "hashtags"
   )
-  
+
   gt <- TWIT_get(token, "/1.1/trends/place", params)
   if (parse) {
     gt <- parse_trends(gt)
@@ -216,6 +216,7 @@ match_woeid <- function(x) {
   } else if (tolower(x) %in% c("us", "u.s.", "u s", "usa", "unitedstates")) {
     return("23424977")
   } else {
+    # This function relies on data from WOEID that was last updated in 2012!
     places <- sysdat$woeid[["name"]]
     woeids <- as.character(sysdat$woeid[["woeid"]])
     woeids[tolower(places) == tolower(x)]

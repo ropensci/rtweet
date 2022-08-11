@@ -1,9 +1,9 @@
 test_that("get_trends returns trends data", {
-  
+
   vcr::use_cassette("get_trends1", {
     x <- get_trends()
   })
-  
+
   expect_true(is.data.frame(x))
   expect_named(x)
   expect_true(all(c("trend", "promoted_content") %in% names(x)))
@@ -15,11 +15,11 @@ test_that("get_trends returns trends data", {
 })
 
 test_that("trends_available returns data frame", {
-  
+
   vcr::use_cassette("get_trends2", {
     x <- trends_available()
   })
-  
+
   expect_equal(is.data.frame(x), TRUE)
   expect_named(x)
   expect_true(all(c("name", "woeid") %in% names(x)))
@@ -29,11 +29,11 @@ test_that("trends_available returns data frame", {
 })
 
 test_that("get_trends_closest returns data frame with correct city name", {
-  
+
   vcr::use_cassette("get_trends3", {
     x <- get_trends(lat = 40.7, lng = -74.0)
   })
-  
+
   expect_true(is.data.frame(x))
   expect_named(x)
   expect_true(all(c("trend", "woeid") %in% names(x)))

@@ -6,17 +6,17 @@
 #' "coords" object, which is specifically designed to interact
 #' smoothly with other relevant package functions. NOTE: USE OF THIS FUNCTION
 #' REQUIRES A VALID GOOGLE MAPS API KEY.
-#' 
-#' Since Google Maps implemented stricter API requirements, sending 
+#'
+#' Since Google Maps implemented stricter API requirements, sending
 #' requests to Google's API isn't very convenient. To enable basic uses
 #' without requiring a Google Maps API key, a number of the major cities
-#' throughout the word and the following two larger locations are 
+#' throughout the word and the following two larger locations are
 #' baked into this function: 'world' and 'usa'. If 'world' is supplied then
 #' a bounding box of maximum latitutde/longitude values, i.e.,
-#' `c(-180, -90, 180, 90)`, and a center point `c(0, 0)` are 
-#' returned. If 'usa' is supplied then estimates of the United States' 
+#' `c(-180, -90, 180, 90)`, and a center point `c(0, 0)` are
+#' returned. If 'usa' is supplied then estimates of the United States'
 #' bounding box and mid-point are returned. To specify a city, provide the
-#' city name followed by a space and then the US state abbreviation or 
+#' city name followed by a space and then the US state abbreviation or
 #' country name. To see a list of all included cities, enter
 #' `rtweet:::citycoords` in the R console to see coordinates data.
 #'
@@ -82,8 +82,9 @@ lookup_coords <- function(address, components = NULL, apikey = NULL, ...) {
       lat = 0,
       lng = 0
     )
-  } else if (gsub("\\,\\s?", " ", tolower(address)) %in% c(citycoords$city, 
-    sub("can$", "canada", citycoords$city), 
+    # citycoords is a dataset stored in R/sysdata.rda
+  } else if (gsub("\\,\\s?", " ", tolower(address)) %in% c(citycoords$city,
+    sub("can$", "canada", citycoords$city),
     sub("usa$", "us", citycoords$city))) {
     address <- gsub("\\,\\s?", " ", tolower(address))
     address <- sub("canada", "can", address)
@@ -144,9 +145,9 @@ find_google_geocode_key <- function() {
     p <- p[length(p)]
     key <- Sys.getenv(evs[p])
   } else if (interactive()) {
-    yn <- menuline(c("lookup_users() requires a Google Maps API key.", 
-                     "For instructions on how to acquire one, see: https://developers.google.com/maps/documentation/javascript/tutorial.", 
-                     "Do you have a Google Maps API key you'd like to use?"), 
+    yn <- menuline(c("lookup_users() requires a Google Maps API key.",
+                     "For instructions on how to acquire one, see: https://developers.google.com/maps/documentation/javascript/tutorial.",
+                     "Do you have a Google Maps API key you'd like to use?"),
                    c("Yes", "No"))
     if (yn == 2) {
       stop("sorry, lookup_users() requires a Google Maps API key")
