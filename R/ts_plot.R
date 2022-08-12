@@ -40,19 +40,16 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   check_installed("ggplot2")
   if (ncol(data) == 3L) {
     # retrieve group name
-    var <- names(data)[3]
     ggplot2::ggplot(
       data, ggplot2::aes(
-        x = .data[["time"]], y = .data[["n"]], colour = .data[[var]])
+        x = .data[["time"]], y = .data[["n"]], colour = .data[[names(data)[3]]])
     ) +
     ggplot2::geom_line(...)
   } else if (ncol(data) == 4L) {
     # retrieve group names
-    var1 <- names(data)[3]
-    var2 <- names(data)[4]
     ggplot2::ggplot(
       data, ggplot2::aes(
-        x = .data[["time"]], y = .data[["n"]], colour = .data[[var1]], linetype = .data[[var2]])
+        x = .data[["time"]], y = .data[["n"]], colour = .data[[names(data)[3]]], linetype = .data[[names(data)[4]]])
     ) +
     ggplot2::geom_line(...)
   } else {
