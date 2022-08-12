@@ -16,18 +16,9 @@ test_that("ts_data works", {
 })
 
 test_that("ts_plot grouped works", {
-
+  skip_if_not_installed("dplyr")
   vcr::use_cassette("ts_plot3", {
     rt <- search_tweets("rstats", n = 100)
   })
-  expect_error(ts_plot(dplyr::group_by(rt, screen_name)), NA)
+  expect_error(ts_plot(dplyr::group_by(rt, is_quote_status)), NA)
 })
-
-test_that("ts_data grouped works", {
-
-  vcr::use_cassette("ts_plot4", {
-    rt <- search_tweets("rstats", n = 100)
-  })
-  expect_error(ts_data(dplyr::group_by(rt, screen_name)), NA)
-})
-
