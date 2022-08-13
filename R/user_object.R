@@ -5,7 +5,7 @@ user <- function(x) {
  empty <- data.frame(
    "id" = NA_integer_, "id_str" = NA_character_,
    "name" = NA_character_, "screen_name" = NA_character_,
-   "location" = NA_character_, "derived" = NA_character_,
+   "location" = NA_character_, "derived" = I(list(list())),
    "url" = NA_character_, "description" = NA_character_,
    "protected" = NA, "verified" = NA, "followers_count" = NA_integer_,
    "friends_count" = NA_integer_, "listed_count" = NA_character_,
@@ -14,6 +14,7 @@ user <- function(x) {
    "profile_image_url_https" = NA_character_,
    "default_profile" = NA, "default_profile_image" = NA,
    "withheld_in_countries" = I(list(list())),
+   "entities" = I(list(list())),
    "withheld_scope" = NA, stringsAsFactors = FALSE
  )
  empty <- empty
@@ -33,7 +34,15 @@ user <- function(x) {
  if (has_name_(x, "entities")) {
     y$entities <- parse_entities(x$entities)
  } else {
-    y$entitites <- list(list())
+    y$entities <- list(list())
  }
+
+
+ end <- setdiff(colnames(y), colnames(empty))
+ if (length(end) != 0) {
+   stop("Unidentified value: ", paste(end, collapse = ", "),
+        ".\n\tPlease open an issue and notify the maintainer. Thanks!")
+ }
+
  y
 }
