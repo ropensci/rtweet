@@ -1,6 +1,7 @@
 # rtweet (development version)
 
 - Fixed a logical length 1 in check_media.
+- Argument premium is correctly handled in `search_fullarchive` and `search_30day`.  
 
 # rtweet 1.0.2
 
