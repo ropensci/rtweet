@@ -65,8 +65,11 @@ get_timeline <- function(user = NULL,
   )
 
   if (parse) {
+    ud <- lapply(rt, users_data)
+    udm <- do.call("rbind", ud)
     rt <- do.call("rbind", rt)
     rt <- as_tbl(rt)
+    attr(rt, "users") <- as_tbl(udm)
     rt$created_at <- format_date(rt$created_at)
   }
 
