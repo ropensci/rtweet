@@ -2,6 +2,7 @@
 
 - Fixed a logical length 1 in check_media.
 - Argument premium is correctly handled in `search_fullarchive` and `search_30day`.  
+- ts_plot uses the first two columns of grouped data.frames for plotting.
 
 # rtweet 1.0.2
 
