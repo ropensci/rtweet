@@ -1,8 +1,9 @@
 # rtweet (development version)
 
-- Fixed a logical length 1 in check_media.
-- Argument premium is correctly handled in `search_fullarchive` and `search_30day`.  
-- ts_plot uses the first two columns of grouped data.frames for plotting.
+- Fixed a logical length 1 in check_media when posting multiple media.
+- Argument premium is correctly handled in `search_fullarchive` and `search_30day` (#720).  
+- ts_plot uses the first two columns of grouped data.frames for plotting (#724 and #727).
+- get_timeline returns user data for multiple accounts (#723)
 
 # rtweet 1.0.2
 
