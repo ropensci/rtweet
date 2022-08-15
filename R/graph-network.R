@@ -1,10 +1,10 @@
 #' Network data
-#' 
-#' Retrieve data to know which users are connected to which users. 
 #'
-#' @description 
+#' Retrieve data to know which users are connected to which users.
+#'
+#' @description
 #' * `network_data()` returns a data frame that can easily be converted to
-#'    various network classes. 
+#'    various network classes.
 #' * `network_graph()` returns a igraph object
 #'
 #' @param x Data frame returned by rtweet function
@@ -45,10 +45,10 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   if (isTRUE(e) || (length(e) == 1 && e %in% c("semantics", "all"))) {
     e <- c("mention", "retweet", "reply", "quote")
   }
-  
+
   stopifnot(is.character(e))
   y <- users_data(x)
-  
+
   ids <- character()
   screen_names <- character()
   if ("mention" %in% e) {
@@ -64,14 +64,14 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
     k <- vapply(user_mentions, is.null, logical(1L))
     # If no mention skip
     if (!all(k)) {
-      
-    
+
+
     r <- do.call("rbind", user_mentions[!k])
-    
-    
+
+
     ids <- c(ids, r$id_str, y[!k, "id_str", drop = TRUE])
     screen_names <- c(screen_names, r$screen_name, y[!k, "screen_name", drop = TRUE])
-    
+
     mention <- data.frame(from = rep(y[!k, "id_str", drop = TRUE], times = vapply(user_mentions[!k], nrow, numeric(1L))),
                         to = r$id_str,
                         type = "mention")
@@ -81,46 +81,60 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   } else {
     mention <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }
-  
+
   if ("retweet" %in% e) {
     # Retweets are those that the text start with RT and a mention but are not quoted
     retweets <- startsWith(x$text, "RT @")
     if (any(retweets)) {
       r <- x[retweets, ]
       yr <- y[retweets, ]
-      
+
       user_mentions <- lapply(r$entities, function(x){
         y <- x$user_mentions
         # Pick the first mention that is the one the tweet is quoting
         # Example: 1390785143615467524
         return(y[y$indices$start == 3, c("screen_name", "id_str")])
       })
+
       um <- do.call("rbind", user_mentions)
       ur <- yr[, c("screen_name", "id_str")]
-      
-      ids <- c(ids, ur$id_str, um$id_str)
-      screen_names <- c(screen_names, ur$screen_name, um$screen_name)
-      
-      retweet <- data.frame(from = um$id_str,
-                            to = ur$id_str,
-                            type = "retweet")
+
+      # remove content from deleted users
+      w <- which(lengths(um) == 0)
+      if (length(w) >= 1) {
+        ur <- ur[-w, ]
+      }
+      if (nrow(ur) == 0) {
+        retweet <- data.frame(from = NA_character_,
+                              to = NA_character_,
+                              type = "retweet")
+        retweet <- retweet[rep(1, length(w)), ]
+      } else {
+
+        ids <- c(ids, ur$id_str, um$id_str)
+        screen_names <- c(screen_names, ur$screen_name, um$screen_name)
+
+        retweet <- data.frame(from = um$id_str,
+                              to = ur$id_str,
+                              type = "retweet")
+      }
     } else {
       retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
     }
   } else {
     retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }
-  
+
   if ("reply" %in% e && !all(is.na(x$in_reply_to_user_id_str))) {
     reply_keep <- !is.na(x$in_reply_to_user_id_str)
-    
+
     ids <- c(ids, y[["id_str"]][reply_keep], x[["in_reply_to_user_id_str"]][reply_keep])
     screen_names <- c(screen_names, y[["screen_name"]][reply_keep], x[["in_reply_to_screen_name"]][reply_keep])
-    
+
     reply <- data.frame(from = y[["id_str"]][reply_keep],
                         to = x[["in_reply_to_user_id_str"]][reply_keep],
                         type = "reply")
-    
+
   } else {
     reply <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }
@@ -128,7 +142,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
     r <- x[x$is_quote_status, ]
     yr <- y[x$is_quote_status, c("screen_name", "id_str")]
     # Quotes are from users on entities$user_mentions whose indices start at 3
-    
+
     if (is.data.frame(r$quoted_status$user)) {
       um <- r$quoted_status$user[, c("screen_name", "id_str")]
     } else {
@@ -145,7 +159,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
       yr <- yr[!ums, ]
       ids <- c(ids, um$id_str, yr$id_str)
       screen_names <- c(screen_names, um$screen_name, yr$screen_name)
-      
+
       quote <- data.frame(from = um$id_str,
                           to = yr$id_str,
                           type = "quote")
@@ -155,7 +169,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   } else {
     quote <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }
-  
+
   out <- rbind(mention, retweet, reply, quote)
   out <- out[!is.na(out$type), ]
 
