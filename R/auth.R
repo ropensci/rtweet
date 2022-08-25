@@ -115,7 +115,7 @@ rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
     access_token <- ask_pass("access token")
   }
   if (missing(access_secret)) {
-    access_secret <- ask_pass("access token")
+    access_secret <- ask_pass("access secret")
   }
   
   
