@@ -83,6 +83,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   }
 
   if ("retweet" %in% e) {
+    retweet0 <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
     # Retweets are those that the text start with RT and a mention but are not quoted
     retweets <- startsWith(x$text, "RT @")
     if (any(retweets)) {
@@ -100,27 +101,27 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
       ur <- yr[, c("screen_name", "id_str")]
 
       # remove content from deleted users
-      w <- which(lengths(um) == 0)
-      if (length(w) >= 1) {
-        ur <- ur[-w, ]
-      }
-      if (nrow(ur) == 0) {
-        retweet <- data.frame(from = NA_character_,
-                              to = NA_character_,
-                              type = "retweet")
-        retweet <- retweet[rep(1, length(w)), ]
-      } else {
+      um_r <- vapply(user_mentions, nrow, numeric(1L))
+      removed_users <- which(um_r == 0)
+      for (i in seq_along(ur$id_str)) {
+        if (i %in% removed_users) {
+          to_id <- NA_character_
+          to_screen_name <- NA_character_
+        } else {
+          to_id <- um$id_str[i]
+          to_screen_name <- um$screen_name[i]
+        }
 
-        ids <- c(ids, ur$id_str, um$id_str)
-        screen_names <- c(screen_names, ur$screen_name, um$screen_name)
+        ids <- c(ids, ur$id_str[i], to_id)
+        screen_names <- c(screen_names, ur$screen_name[i], to_screen_name)
 
-        retweet <- data.frame(from = um$id_str,
-                              to = ur$id_str,
+        retweet <- data.frame(from = ur$id_str[i],
+                              to = to_id,
                               type = "retweet")
+        retweet0 <- rbind(retweet0, retweet)
       }
-    } else {
-      retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
     }
+    retweet <- retweet0
   } else {
     retweet <- data.frame(from = NA, to = NA, type = NA)[0, , drop = FALSE]
   }

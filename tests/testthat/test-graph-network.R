@@ -23,8 +23,8 @@ test_that("network_data on retweet quoting", {
 
   vcr::use_cassette("graph-network3", {
     retweet_quoted <- lookup_tweets("1390610121743556609")
-    nd <- network_data(retweet_quoted, "quote")
   })
+  nd <- network_data(retweet_quoted, "quote")
   expect_s3_class(nd, "data.frame")
 })
 
