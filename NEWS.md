@@ -5,6 +5,7 @@
 - ts_plot uses the first two columns of grouped data.frames for plotting (#724 and #727).
 - get_timeline returns user data for multiple accounts (#723)
 - network_data now handles deleted accounts (#730)
+- retryonratelimit works again on paginated endpoints (#732)
 
 # rtweet 1.0.2
 
