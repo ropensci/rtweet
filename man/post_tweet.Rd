@@ -93,8 +93,8 @@ grid(8, lwd = .15, lty = 2, col = "#00000088")
 dev.off()
 
 ## post tweet with media attachment
-post_tweet("a tweet with media attachment", media = tmp, 
-           media_alt_text = "Random  points example of rtweet::post_tweet. 
+post_tweet("a tweet with media attachment", media = tmp,
+           media_alt_text = "Random  points example of rtweet::post_tweet.
            rtweet requires alt text with all media")
 
 # example of replying within a thread
