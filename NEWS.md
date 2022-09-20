@@ -6,6 +6,7 @@
 - get_timeline returns user data for multiple accounts (#723)
 - network_data now handles deleted accounts (#730)
 - retryonratelimit works again on paginated endpoints (#732)
+- Fixed a bug in `auth_sitrep` due to duplicate tokens
 
 # rtweet 1.0.2
 

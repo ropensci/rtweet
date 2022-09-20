@@ -64,7 +64,7 @@ find_old_tokens <- function() {
   many_paths <- c(twitter_pat, home_path, dirname(twitter_pat))
   old_tokens <- lapply(many_paths, list.files, pattern = ".rtweet_token.*rds",
                        full.names = TRUE, all.files = TRUE)
-  unlist(old_tokens, TRUE, FALSE)
+  unique(unlist(old_tokens, TRUE, FALSE))
 }
 
 # Only for those that installed developer version will still using rappdirs.
