@@ -9,6 +9,7 @@
 - Fixed a bug in `auth_sitrep` due to duplicate tokens
 - Provided `rbind` and subsetting methods (`[`) for rtweet new classes
 - Fixed a bug about sending a private message (#735)
+- Provided a function for cleaning entities from the text of tweets (#721)
 
 # rtweet 1.0.2
 
