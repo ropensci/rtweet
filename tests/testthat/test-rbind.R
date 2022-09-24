@@ -5,10 +5,10 @@ test_that("do_call_rbind works", {
   })
 
   rt <- do_call_rbind(lrt)
-
+  nrows <- vapply(lrt, nrow, numeric(1L))
   expect_s3_class(rt, "tweets_with_users")
-  expect_equal(nrow(rt), 200)
-  expect_equal(nrow(users_data(rt)), 200)
+  expect_equal(nrow(rt), sum(nrows))
+  expect_equal(nrow(users_data(rt)), sum(nrows))
 })
 
 test_that("rbind works", {
@@ -17,9 +17,10 @@ test_that("rbind works", {
     lrt <- lapply( c("rstats OR tidyverse", "data science"), search_tweets)
   })
 
+  nrows <- vapply(lrt, nrow, numeric(1L))
   rt <- rbind(lrt[[1]], lrt[[2]])
 
   expect_s3_class(rt, "tweets_with_users")
-  expect_equal(nrow(rt), 200)
-  expect_equal(nrow(users_data(rt)), 200)
+  expect_equal(nrow(rt), sum(nrows))
+  expect_equal(nrow(users_data(rt)), sum(nrows))
 })
