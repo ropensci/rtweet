@@ -37,26 +37,5 @@
 #'
 #' @export
 do_call_rbind <- function(x) {
-  att_df <- lapply(x, extract_att_data)
-  att_df <- do.call("rbind", att_df)
-  if (all(c("text", "hashtags") %in% names(att_df))) {
-    att <- "tweets"
-  } else {
-    att <- "users"
-  }
-  x <- do.call("rbind", x)
-  if (nrow(att_df) > 0) {
-    attr(x, att) <- att_df
-  }
-  x
-}
-
-extract_att_data <- function(df) {
-  if (has_name_(attributes(df), "users") || has_name_(attributes(df), "usr")) {
-    users_data(df)
-  } else if (has_name_(attributes(df), "tweets") || has_name_(attributes(df), "tw")) {
-    tweets_data(df)
-  } else {
-    data.frame()
-  }
+  do.call("rbind", x)
 }
