@@ -10,7 +10,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
   ## get user id
   if (user_type(user) != "user_id") {
     user_id <- lookup_users(user, token = token)
-    user_id <- user_id$user_id[1]
+    user_id <- user_id$id_str[1]
   } else {
     user_id <- user
   }
@@ -27,7 +27,7 @@ post_message <- function(text, user, media = NULL, token = NULL) {
       )
     )
   )
-  
+
   if (!is.null(media)) {
     media_id <- upload_media_to_twitter(media, token = token)
     body$event$message_create$message_data$attachment <- list(
@@ -36,8 +36,8 @@ post_message <- function(text, user, media = NULL, token = NULL) {
     )
   }
 
-  r <- TWIT_post(token, "/1.1/direct_messages/events/new", 
-    body = body, 
+  r <- TWIT_post(token, "/1.1/direct_messages/events/new",
+    body = body,
     encode = "json"
   )
   message("Your DM has been posted!")

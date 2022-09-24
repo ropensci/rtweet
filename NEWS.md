@@ -8,6 +8,7 @@
 - retryonratelimit works again on paginated endpoints (#732)
 - Fixed a bug in `auth_sitrep` due to duplicate tokens
 - Provided `rbind` and subsetting methods (`[`) for rtweet new classes
+- Fixed a bug about sending a private message (#735)
 
 # rtweet 1.0.2
 
