@@ -107,10 +107,10 @@ If you want *all* followers, you'll need you'll need to set `n = Inf` and `retry
 
 ### Get timelines
 
-Get the most recent 200 tweets from R Foundation:
+Get the most recent 100 tweets from R Foundation:
 
 ```{r}
-## get user IDs of accounts followed by R Foundation
+## get most recent 100 tweets from R Foundation
 tmls <- get_timeline("_R_Foundation", n = 100)
 ```
 
