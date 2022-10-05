@@ -24,7 +24,7 @@ tweets_with_users <- function(x) {
   users <- as_tbl(users)
   tweets <- as_tbl(tweets)
   out <- structure(tweets, users = users)
-  class(out) <- c("tweets_with_users", class(out))
+  class(out) <- c("tweets", class(out))
   out
 }
 
@@ -50,7 +50,7 @@ users_with_tweets <- function(x) {
   users <- as_tbl(users)
   tweets <- as_tbl(tweets)
   out <- structure(users, tweets = tweets)
-  class(out) <- c("users_with_tweets", class(out))
+  class(out) <- c("users", class(out))
   out
 }
 

@@ -6,7 +6,7 @@ test_that("do_call_rbind works", {
 
   rt <- do_call_rbind(lrt)
   nrows <- vapply(lrt, nrow, numeric(1L))
-  expect_s3_class(rt, "tweets_with_users")
+  expect_s3_class(rt, "tweets")
   expect_equal(nrow(rt), sum(nrows))
   expect_equal(nrow(users_data(rt)), sum(nrows))
 })
@@ -20,7 +20,7 @@ test_that("rbind works", {
   nrows <- vapply(lrt, nrow, numeric(1L))
   rt <- rbind(lrt[[1]], lrt[[2]])
 
-  expect_s3_class(rt, "tweets_with_users")
+  expect_s3_class(rt, "tweets")
   expect_equal(nrow(rt), sum(nrows))
   expect_equal(nrow(users_data(rt)), sum(nrows))
 })

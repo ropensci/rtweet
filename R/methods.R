@@ -1,6 +1,6 @@
 # rbind ####
 #' @export
-rbind.tweets_with_users <- function(..., deparse.level = 1) {
+rbind.tweets <- function(..., deparse.level = 1) {
   if (...length() == 1) return(..1)
   rt <- list(...)
 
@@ -9,12 +9,12 @@ rbind.tweets_with_users <- function(..., deparse.level = 1) {
   rt <- do.call("rbind.data.frame", rt)
   rt <- as_tbl(rt)
   attr(rt, "users") <- as_tbl(udm)
-  class(rt) <- c("tweets_with_users", class(rt))
+  class(rt) <- c("tweets", class(rt))
   rt
 }
 
 #' @export
-rbind.users_with_tweets <- function(..., deparse.level = 1) {
+rbind.users <- function(..., deparse.level = 1) {
   if (...length() == 1) return(..1)
   rt <- list(...)
 
@@ -23,24 +23,30 @@ rbind.users_with_tweets <- function(..., deparse.level = 1) {
   rt <- do.call("rbind.data.frame", rt)
   rt <- as_tbl(rt)
   attr(rt, "tweets") <- as_tbl(tdm)
-  class(rt) <- c("users_with_tweets", class(rt))
+  class(rt) <- c("users", class(rt))
   rt
 }
 
 
 # subset ####
 #' @export
-`[.tweets_with_users` <- function(x, i, j, ..., drop = TRUE) {
+`[.tweets` <- function(x, i, j, ..., drop) {
   tweets <- NextMethod()
-  users <- users_data(x)[i, ]
-  attr(tweets, "users") <- users
+  keep_users <- missing(drop) || !drop
+  if (keep_users) {
+    users <- users_data(x)[i, ]
+    attr(tweets, "users") <- users
+  }
   tweets
 }
 
 #' @export
-`[.users_with_tweets` <- function(x, i, j, ..., drop = TRUE) {
+`[.users` <- function(x, i, j, ..., drop) {
   users <- NextMethod()
-  tweets <- tweets_data(x)[i, ]
-  attr(users, "tweets") <- tweets
+  keep_tweets <- missing(drop) || !drop
+  if (keep_tweets) {
+    tweets <- tweets_data(x)[i, ]
+    attr(users, "tweets") <- tweets
+  }
   users
 }
