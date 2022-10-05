@@ -482,12 +482,12 @@ warn_early_term <- function(cnd, hint, hint_if) {
 
 # https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
 handle_error <- function(x) {
-  if (!is.null(x$headers[["content-type"]])) {
-    stop("Twitter API failed [", x$status_code, "]\n",
-         "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting", call. = FALSE)
+  chk_message <- "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting"
+  if (is.null(x$headers[["content-type"]])) {
+    stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
   }
   json <- from_js(x)
-  stop("Twitter API failed [", x$status_code, "]\n",
+  stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
        paste0(" * ", json$errors$message, " (", json$errors$code, ")"),
        call. = FALSE)
 }
