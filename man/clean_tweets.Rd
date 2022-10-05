@@ -16,5 +16,15 @@ A vector with the text without the entities selected
 }
 \description{
 Removes from the text, users mentions, hashtags, urls and media.
-Some urls or other text might remain if it is not recognized as an entity by the API.
+Some urls or other text might remain if it is not recognized as an entity by
+the API.
+}
+\examples{
+if (auth_has_default()) {
+tweets <- search_tweets("weather")
+tweets
+
+# tweets
+clean_tweets(tweets)
+}
 }
