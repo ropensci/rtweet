@@ -3,7 +3,8 @@
 #' Search 30day or fullarchive premium products. There is a limit of 5000 tweets
 #'  and 25000 for the fullarchive and 30day endpoints respectively. In addition,
 #'  there are some limits in the number of requests that are possible on a
-#'  certain amount of time, this have already been taken into account. See the info provided by Twitter.
+#'  certain amount of time, this have already been taken into account.
+#'  See the info provided by Twitter and the "Developer Account" section.
 #'
 #' Note: The `env_name` must match the ones you set up for the token you are using.
 #'
