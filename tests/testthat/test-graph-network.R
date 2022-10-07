@@ -82,7 +82,7 @@ test_that("network_data works", {
 })
 
 test_that("network_graph works", {
-
+  skip_if_not_installed("igraph")
   vcr::use_cassette("graph-network8", {
     rstats <- search_tweets("#rstats", n = 20)
 
