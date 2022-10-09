@@ -129,8 +129,8 @@ tweet <- function(x) {
   # Omit matching_rules just from premium API v1 (not sure how it works)
   end <- setdiff(end, c("matching_rules"))
   if (length(end) != 0) {
-    stop("Unidentified value: ", paste(end, collapse = ", "),
-         ".\n\tPlease open an issue and notify the maintainer. Thanks!")
+    warning("Unidentified value: ", paste(end, collapse = ", "),
+         ".\n\tPlease open an issue to notify the maintainer. Thanks!")
   }
   tb[setdiff(colnames(empty), colnames(tb))] <- NA
   rownames(tb) <- NULL

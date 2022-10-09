@@ -40,8 +40,8 @@ user <- function(x) {
 
  end <- setdiff(colnames(y), colnames(empty))
  if (length(end) != 0) {
-   stop("Unidentified value: ", paste(end, collapse = ", "),
-        ".\n\tPlease open an issue and notify the maintainer. Thanks!")
+   warning("Unidentified value: ", paste(end, collapse = ", "),
+        ".\n\tPlease open an issue to notify the maintainer. Thanks!")
  }
 
  y
