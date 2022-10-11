@@ -5,13 +5,13 @@
     Condition
       Warning:
       `get_token()` was deprecated in rtweet 1.0.0.
-      Please use `auth_get()` instead.
+      i Please use `auth_get()` instead.
     Code
       . <- get_tokens()
     Condition
       Warning:
       `get_tokens()` was deprecated in rtweet 1.0.0.
-      Please use `auth_get()` instead.
+      i Please use `auth_get()` instead.
 
 # create_token is deprecated
 
@@ -20,5 +20,5 @@
     Condition
       Warning:
       `create_token()` was deprecated in rtweet 1.0.0.
-      See vignette('auth') for details
+      i See vignette('auth') for details
 
