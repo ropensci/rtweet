@@ -246,7 +246,7 @@ parse_stream <- function(path, ...) {
   tweets$created_at <- format_date(tweets$created_at)
   
   if (has_name_(tweets, "user")) {
-    users <- do.call("rbind", tweets[["user"]])
+    users <- do.call(rbind, tweets[["user"]])
     tweets <- tweets[!colnames(tweets) %in% "user"]
   } else {
     users <- user(NULL)

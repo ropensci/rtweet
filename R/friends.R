@@ -51,7 +51,7 @@ get_friends <- function(users,
     # Can only paginate with cursor if requesting info for single user. 
     # Fortunately, few people follower >5000 users so this should rarely
     # come up in practice.
-    df <- do.call("rbind", results)
+    df <- do.call(rbind, results)
     
     if (length(results) == 1) {
       results <- copy_cursor(df, results[[1]])
@@ -128,7 +128,7 @@ lookup_friendships <- function(source, target, parse = TRUE, token = NULL) {
     MoreArgs = list(parse = parse, token = token)
   )
   if (parse) {
-    fds <- do.call("rbind", fds)
+    fds <- do.call(rbind, fds)
     row.names(fds) <- NULL
   }
   fds

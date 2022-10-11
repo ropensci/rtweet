@@ -37,5 +37,5 @@
 #'
 #' @export
 do_call_rbind <- function(x) {
-  do.call("rbind", x)
+  do.call(rbind, x)
 }

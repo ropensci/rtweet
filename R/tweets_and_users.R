@@ -12,11 +12,11 @@ tweets_with_users <- function(x) {
   if (length(x) == 0) {
     tweets <- tweet(NULL)[0, ]
   } else {
-    tweets <- do.call("rbind", lapply(x, tweet))
+    tweets <- do.call(rbind, lapply(x, tweet))
   }
 
   if (has_name_(tweets, "user")) {
-    users <- do.call("rbind", tweets[["user"]])
+    users <- do.call(rbind, tweets[["user"]])
     tweets <- tweets[!colnames(tweets) %in% "user"]
   } else {
     users <- user(NULL)[0, ]
@@ -37,14 +37,14 @@ users_with_tweets <- function(x) {
   if (length(x) == 0) {
     users <- user(NULL)[0, ]
   } else {
-    users <- do.call("rbind", lapply(x, user))
+    users <- do.call(rbind, lapply(x, user))
   }
 
   if (length(x) == 0) {
     tweets <- tweet(NULL)[0, ]
   } else {
     status <- lapply(x, `[[`, i = "status")
-    tweets <- do.call("rbind", lapply(status, tweet))
+    tweets <- do.call(rbind, lapply(status, tweet))
   }
 
   users <- as_tbl(users)

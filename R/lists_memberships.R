@@ -60,7 +60,7 @@ parse_lists_list <- function(x) {
   lists <- lapply(x, function(x) x$lists)
   dfs <- lapply(lists, wrangle_into_clean_data, type = "list")
   dfs <- lapply(dfs, tibble::as_tibble)
-  df <- do.call("rbind", dfs)
+  df <- do.call(rbind, dfs)
   
   copy_cursor(df, x)
 }

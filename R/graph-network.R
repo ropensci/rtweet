@@ -66,7 +66,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
     if (!all(k)) {
 
 
-    r <- do.call("rbind", user_mentions[!k])
+    r <- do.call(rbind, user_mentions[!k])
 
 
     ids <- c(ids, r$id_str, y[!k, "id_str", drop = TRUE])
@@ -97,7 +97,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
         return(y[y$indices$start == 3, c("screen_name", "id_str")])
       })
 
-      um <- do.call("rbind", user_mentions)
+      um <- do.call(rbind, user_mentions)
       ur <- yr[, c("screen_name", "id_str")]
 
       # remove content from deleted users
@@ -152,7 +152,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
         # Example: 1390785143615467524
         return(x[, c("screen_name", "id_str")])
       })
-      um <- do.call("rbind", user_mentions)
+      um <- do.call(rbind, user_mentions)
     }
     ums <- is.na(um[, 1])
     if (!is.null(nrow(ums))) {

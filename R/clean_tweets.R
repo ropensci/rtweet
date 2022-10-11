@@ -40,7 +40,7 @@ clean_tweets <- function(x, clean = c("users", "hashtags", "urls", "media")) {
     if ("hashtags" %in% clean) {
       hashtags <- x$entities[[tweet_n]][["hashtags"]][["indices"]]
       if (!is.null(hashtags)) {
-        i <- as.data.frame(do.call("rbind", hashtags))
+        i <- as.data.frame(do.call(rbind, hashtags))
 
         start <- c(start, i_type(i))
         end <- c(end, i_type(i, type = "end"))
@@ -50,7 +50,7 @@ clean_tweets <- function(x, clean = c("users", "hashtags", "urls", "media")) {
     if ("media" %in% clean) {
       media <- x$entities[[tweet_n]][["media"]][["indices"]]
       if (!is.null(media)) {
-        i <- as.data.frame(do.call("rbind", media))
+        i <- as.data.frame(do.call(rbind, media))
         start <- c(start, i_type(i))
         end <- c(end, i_type(i, type = "end"))
       }

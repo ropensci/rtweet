@@ -31,7 +31,7 @@
 #' @family ts_data
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
-  do.call("ts_plot_", list(data = data, by = by, trim = trim, tz = tz, ...))
+  do.call(ts_plot_, list(data = data, by = by, trim = trim, tz = tz, ...))
 }
 
 
@@ -93,7 +93,7 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
   args <- list(data = data, by = by, trim = trim, tz = tz)
-  do.call("ts_data_", args)
+  do.call(ts_data_, args)
 }
 
 ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
@@ -292,11 +292,11 @@ trim_ts <- function(data, trim = 1L) {
   if (ncol(data) > 2L) {
     g <- unique(data[[3]])
     g <- lapply(g, function(x) trim_ots(data[data[[3]] == x, ], trim, trim))
-    g <- do.call("rbind", g)
+    g <- do.call(rbind, g)
     if (ncol(data) == 4L) {
       g2 <- unique(data[[4]])
       g2 <- lapply(g2, function(x) trim_ots(data[data[[4]] == x, ], trim, trim))
-      g2 <- do.call("rbind", g2)
+      g2 <- do.call(rbind, g2)
       g <- rbind(g, g2)
     }
     g

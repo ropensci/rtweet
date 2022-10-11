@@ -65,7 +65,7 @@ get_timeline <- function(user = NULL,
   )
 
   if (parse) {
-    rt <- do.call("rbind", rt)
+    rt <- do.call(rbind, rt)
     rt$created_at <- format_date(rt$created_at)
   }
 

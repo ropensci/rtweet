@@ -79,7 +79,7 @@ lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"),
                geo_coords = I(list(lat_lang(x$geo))),
                coords_coords = I(list(lat_lang(x$coordinates))))
   })
-  ll <- do.call("rbind", l)[, coords, drop = FALSE]
+  ll <- do.call(rbind, l)[, coords, drop = FALSE]
   
   lat <- vapply(ll, extract_coord, numeric(nrow(ll)), coord = "lat")
   if (!is.matrix(lat)) {
