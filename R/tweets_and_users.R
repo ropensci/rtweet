@@ -15,14 +15,16 @@ tweets_with_users <- function(x) {
     tweets <- do.call(rbind, lapply(x, tweet))
   }
 
-  if (has_name_(tweets, "user")) {
+  if (has_name_(tweets, "user") && length(tweets$user) != 0) {
     users <- do.call(rbind, tweets[["user"]])
     tweets <- tweets[!colnames(tweets) %in% "user"]
   } else {
     users <- user(NULL)[0, ]
+    users <- users
   }
-  users <- as_tbl(users)
-  tweets <- as_tbl(tweets)
+  users <- as_tbl(users)[, order(colnames(users))]
+  tweets <- as_tbl(tweets)[, order(colnames(tweets))]
+
   out <- structure(tweets, users = users)
   class(out) <- c("tweets", class(out))
   out
@@ -47,8 +49,8 @@ users_with_tweets <- function(x) {
     tweets <- do.call(rbind, lapply(status, tweet))
   }
 
-  users <- as_tbl(users)
-  tweets <- as_tbl(tweets)
+  users <- as_tbl(users)[, order(colnames(users))]
+  tweets <- as_tbl(tweets)[, order(colnames(tweets))]
   out <- structure(users, tweets = tweets)
   class(out) <- c("users", class(out))
   out
