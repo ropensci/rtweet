@@ -9,21 +9,18 @@ tweets_with_users <- function(x) {
   empty_response <- vapply(x, is.null, logical(1L))
   x <- x[!empty_response]
 
-  if (length(x) == 0) {
-    tweets <- tweet(NULL)[0, ]
-  } else {
-    tweets <- do.call(rbind, lapply(x, tweet))
+  tweets <- tweet(NULL)[0, ]
+  if (length(x) != 0) {
+    tweets <- do.call(rbind, lapply(x, tweet))[, colnames(tweets)]
   }
 
-  if (has_name_(tweets, "user") && length(tweets$user) != 0) {
-    users <- do.call(rbind, tweets[["user"]])
-    tweets <- tweets[!colnames(tweets) %in% "user"]
-  } else {
-    users <- user(NULL)[0, ]
-    users <- users
+  users <- user(NULL)[0, ]
+  if (has_name_(tweets, "user") && length(tweets$user) != 0 && all(lengths(tweets$user) != 0)) {
+    users <- do.call(rbind, tweets[["user"]])[, order(colnames(users))]
   }
-  users <- as_tbl(users)[, order(colnames(users))]
-  tweets <- as_tbl(tweets)[, order(colnames(tweets))]
+  tweets <- tweets[!colnames(tweets) %in% "user"]
+  users <- as_tbl(users)
+  tweets <- as_tbl(tweets)
 
   out <- structure(tweets, users = users)
   class(out) <- c("tweets", class(out))
@@ -36,21 +33,19 @@ users_with_tweets <- function(x) {
   empty_response <- vapply(x, is.null, logical(1L))
   x <- x[!empty_response]
 
-  if (length(x) == 0) {
-    users <- user(NULL)[0, ]
-  } else {
-    users <- do.call(rbind, lapply(x, user))
+  users <- user(NULL)[0, ]
+  if (length(x) != 0) {
+    users <- do.call(rbind, lapply(x, user))[, colnames(users)]
   }
 
-  if (length(x) == 0) {
-    tweets <- tweet(NULL)[0, ]
-  } else {
+  tweets <- tweet(NULL)[0, ]
+  if (length(x) != 0) {
     status <- lapply(x, `[[`, i = "status")
-    tweets <- do.call(rbind, lapply(status, tweet))
+    tweets <- do.call(rbind, lapply(status, tweet))[, colnames(tweets)]
   }
-
-  users <- as_tbl(users)[, order(colnames(users))]
-  tweets <- as_tbl(tweets)[, order(colnames(tweets))]
+  tweets <- tweets[!colnames(tweets) %in% "user"]
+  users <- as_tbl(users)
+  tweets <- as_tbl(tweets)
   out <- structure(users, tweets = tweets)
   class(out) <- c("users", class(out))
   out
