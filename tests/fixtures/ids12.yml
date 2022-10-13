@@ -1,0 +1,434 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=X&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      content-disposition: attachment; filename=json.json
+      content-encoding: gzip
+      content-length: '28'
+      content-type: application/json;charset=utf-8
+      date: Thu, 13 Oct 2022 21:10:34 GMT
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      last-modified: Thu, 13 Oct 2022 21:10:34 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      set-cookie:
+      - lang=en; Path=/
+      - guest_id=v1%3A166569543449587300; Max-Age=34214400; Expires=Mon, 13 Nov 2023
+        21:10:34 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None
+      status: 200 OK
+      strict-transport-security: max-age=631138519
+      x-access-level: read-write-directmessages
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+      x-content-type-options: nosniff
+      x-frame-options: SAMEORIGIN
+      x-rate-limit-limit: '900'
+      x-rate-limit-remaining: '899'
+      x-rate-limit-reset: '1665696334'
+      x-response-time: '179'
+      x-transaction: 8932d078b77e08b6
+      x-transaction-id: 8932d078b77e08b6
+      x-twitter-response-tags: BouncerCompliant
+      x-xss-protection: '0'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1580002144631279616&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Thu, 13 Oct 2022 21:10:34 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Thu, 13 Oct 2022 21:10:34 GMT
+      x-transaction: 39248a95ab9307d5
+      content-length: '1313'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-transaction-id: 39248a95ab9307d5
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1665696334'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '898'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '202'
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Wed Oct 12 01:07:20 +0000 2022","id":1580002144631279616,"id_str":"1580002144631279616","full_text":"@todosmath
+        Thank you! As someone who did not attend NCTM partially due to the lack of
+        Covid mitigations as @MathTeach_BEW highlighted elsewhere, I\u2019m truly
+        glad to read this.","truncated":false,"display_text_range":[11,173],"entities":{"hashtags":[],"symbols":[],"user_mentions":[{"screen_name":"todosmath","name":"TODOS","id":1225441411,"id_str":"1225441411","indices":[0,10]},{"screen_name":"MathTeach_BEW","name":"Dr.
+        Brandie E. Waid","id":1109792095013883904,"id_str":"1109792095013883904","indices":[107,121]}],"urls":[]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":1579994767957495808,"in_reply_to_status_id_str":"1579994767957495808","in_reply_to_user_id":1225441411,"in_reply_to_user_id_str":"1225441411","in_reply_to_screen_name":"todosmath","user":{"id":3363010199,"id_str":"3363010199","name":"Sara
+        \ud83c\udf3b\u2728\ud83d\udc1d","screen_name":"arsinoepi","location":"Chicago,
+        IL","description":"Asymptote. Chai Chi-town \ud83d\ude09 Math Ed + GWS PhD
+        Student @UIC_CollegeofEd.  Black Lives Matter. Educator @mathcircchicago.
+        \u0634\u0627\u0639\u0631 .  Free Palestine \ud83c\uddf5\ud83c\uddf8","url":"https:\/\/t.co\/glelnrkQHn","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/glelnrkQHn","expanded_url":"http:\/\/www.sararezvi.com\/","display_url":"sararezvi.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":1608,"friends_count":5003,"listed_count":14,"created_at":"Mon
+        Jul 06 20:23:42 +0000 2015","favourites_count":52317,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":10074,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1543632006550065155\/iBWqMVcH_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1543632006550065155\/iBWqMVcH_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/3363010199\/1656865400","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"7FDBB6","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":1,"favorite_count":13,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1578824308260237312&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Thu, 13 Oct 2022 21:10:35 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Thu, 13 Oct 2022 21:10:35 GMT
+      x-transaction: 3972b68a0b010639
+      content-length: '1503'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-transaction-id: 3972b68a0b010639
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1665696334'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '897'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '208'
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Sat Oct 08 19:07:02 +0000 2022","id":1578824308260237312,"id_str":"1578824308260237312","full_text":"Check
+        out https:\/\/t.co\/1gCeq5ne3i from @NatBanting for fun images to get students
+        reasoning about fractions. #MTBoS #iteachmath https:\/\/t.co\/SZxOcbFJYr","truncated":false,"display_text_range":[0,127],"entities":{"hashtags":[{"text":"MTBoS","indices":[109,115]},{"text":"iteachmath","indices":[116,127]}],"symbols":[],"user_mentions":[{"screen_name":"NatBanting","name":"Nat
+        Banting","id":206843292,"id_str":"206843292","indices":[39,50]}],"urls":[{"url":"https:\/\/t.co\/1gCeq5ne3i","expanded_url":"http:\/\/www.fractiontalks.com\/","display_url":"fractiontalks.com","indices":[10,33]}],"media":[{"id":1578824304401211393,"id_str":"1578824304401211393","indices":[128,151],"media_url":"http:\/\/pbs.twimg.com\/media\/FekcVwKWYAE2Zpe.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/FekcVwKWYAE2Zpe.jpg","url":"https:\/\/t.co\/SZxOcbFJYr","display_url":"pic.twitter.com\/SZxOcbFJYr","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1578824308260237312\/photo\/1","type":"photo","sizes":{"medium":{"w":1004,"h":939,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":1004,"h":939,"resize":"fit"},"small":{"w":680,"h":636,"resize":"fit"}}}]},"extended_entities":{"media":[{"id":1578824304401211393,"id_str":"1578824304401211393","indices":[128,151],"media_url":"http:\/\/pbs.twimg.com\/media\/FekcVwKWYAE2Zpe.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/FekcVwKWYAE2Zpe.jpg","url":"https:\/\/t.co\/SZxOcbFJYr","display_url":"pic.twitter.com\/SZxOcbFJYr","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1578824308260237312\/photo\/1","type":"photo","sizes":{"medium":{"w":1004,"h":939,"resize":"fit"},"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":1004,"h":939,"resize":"fit"},"small":{"w":680,"h":636,"resize":"fit"}},"ext_alt_text":null}]},"source":"\u003ca
+        href=\"http:\/\/meetedgar.com\" rel=\"nofollow\"\u003eMeetEdgar\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":745583288,"id_str":"745583288","name":"Robert
+        Kaplinsky","screen_name":"robertkaplinsky","location":"Long Beach, CA","description":"Math
+        educator. Love helping teachers. @openmiddle co-founder. #OpenMiddleBook author.
+        #ObserveMe creator. @GrassrootsWS Pres. Lessons & ideas: https:\/\/t.co\/njAYgWomXm","url":"http:\/\/t.co\/FvzGSiWfoT","entities":{"url":{"urls":[{"url":"http:\/\/t.co\/FvzGSiWfoT","expanded_url":"http:\/\/robertkaplinsky.com","display_url":"robertkaplinsky.com","indices":[0,22]}]},"description":{"urls":[{"url":"https:\/\/t.co\/njAYgWomXm","expanded_url":"http:\/\/bit.ly\/rkupdates","display_url":"bit.ly\/rkupdates","indices":[143,166]}]}},"protected":false,"followers_count":56266,"friends_count":283,"listed_count":535,"created_at":"Wed
+        Aug 08 17:14:25 +0000 2012","favourites_count":38164,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":21793,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"50B948","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1095794616501035008\/oeZ7e_ul_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1095794616501035008\/oeZ7e_ul_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/745583288\/1482207101","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"2D58A1","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"C0DFEC","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":130,"favorite_count":521,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"}]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1580186891151777792&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Thu, 13 Oct 2022 21:10:35 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Thu, 13 Oct 2022 21:10:35 GMT
+      x-transaction: b12d70bc3b0157e4
+      content-length: '1731'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-transaction-id: b12d70bc3b0157e4
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1665696334'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '896'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '200'
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Wed Oct 12 13:21:27 +0000 2022","id":1580186891151777792,"id_str":"1580186891151777792","full_text":"RT
+        @saravdwerf: Hello Everyone! \n\nYou MUST watch my friend, @robertkaplinsky,
+        #nctmLA22 session titled ''5 Struggles your Foster Students wi\u2026","truncated":false,"display_text_range":[0,140],"entities":{"hashtags":[{"text":"nctmLA22","indices":[78,87]}],"symbols":[],"user_mentions":[{"screen_name":"saravdwerf","name":"Sara
+        VanDerWerf","id":563141821,"id_str":"563141821","indices":[3,14]},{"screen_name":"robertkaplinsky","name":"Robert
+        Kaplinsky","id":745583288,"id_str":"745583288","indices":[60,76]}],"urls":[]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/android\" rel=\"nofollow\"\u003eTwitter
+        for Android\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":618588238,"id_str":"618588238","name":"Lisa
+        Melton Pizzuto","screen_name":"LisaPizzuto","location":"Los Angeles, CA","description":"Educator
+        and life-long learner.  Learning & supporting schools w\/ Math instruction
+        in PK-12.","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":538,"friends_count":794,"listed_count":12,"created_at":"Tue
+        Jun 26 00:53:14 +0000 2012","favourites_count":3465,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":2578,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1193223599328333824\/y8pqBFZM_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1193223599328333824\/y8pqBFZM_normal.jpg","profile_image_extensions_alt_text":null,"profile_link_color":"981CEB","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"retweeted_status":{"created_at":"Mon
+        Oct 10 02:10:20 +0000 2022","id":1579293219883741184,"id_str":"1579293219883741184","full_text":"Hello
+        Everyone! \n\nYou MUST watch my friend, @robertkaplinsky, #nctmLA22 session
+        titled ''5 Struggles your Foster Students wish you knew.'' \n\nIt was THE
+        MOST IMPORTANT SESSION at the conference. So good.\n\nForward to friends.
+        \n\nDownload the PDF takeaways. \n\nhttps:\/\/t.co\/BthdcW9WFw","truncated":false,"display_text_range":[0,277],"entities":{"hashtags":[{"text":"nctmLA22","indices":[62,71]}],"symbols":[],"user_mentions":[{"screen_name":"robertkaplinsky","name":"Robert
+        Kaplinsky","id":745583288,"id_str":"745583288","indices":[44,60]}],"urls":[{"url":"https:\/\/t.co\/BthdcW9WFw","expanded_url":"https:\/\/robertkaplinsky.com\/5-struggles-your-foster-students-wished-you-knew\/","display_url":"robertkaplinsky.com\/5-struggles-yo\u2026","indices":[254,277]}]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":563141821,"id_str":"563141821","name":"Sara
+        VanDerWerf","screen_name":"saravdwerf","location":"Minneapolis, Minnesota","description":"Passionate
+        about encouraging & connecting mathematics teachers. Math Consultant with
+        VanDerWerf Educational Consulting. Curator of a calculator museum.","url":"https:\/\/t.co\/vfd1eqO13C","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/vfd1eqO13C","expanded_url":"https:\/\/linktr.ee\/saravanderwerf","display_url":"linktr.ee\/saravanderwerf","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":16311,"friends_count":2145,"listed_count":166,"created_at":"Wed
+        Apr 25 19:40:38 +0000 2012","favourites_count":21862,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":false,"statuses_count":9400,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1079173951367065600\/yqvBqz9B_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1079173951367065600\/yqvBqz9B_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/563141821\/1421624352","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1B95E0","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":16,"favorite_count":90,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"is_quote_status":false,"retweet_count":16,"favorite_count":0,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1580212580249133056&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Thu, 13 Oct 2022 21:10:35 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Thu, 13 Oct 2022 21:10:35 GMT
+      x-transaction: fbb3cb0e26500a60
+      content-length: '1796'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-transaction-id: fbb3cb0e26500a60
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1665696334'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '895'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '205'
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Wed Oct 12 15:03:32 +0000 2022","id":1580212580249133056,"id_str":"1580212580249133056","full_text":"RT
+        @jillkbroderick: #NCTMLA22 is the cure for the case of the \"we CANTs\" -
+        loved this session on detracking in 5-12! https:\/\/t.co\/tAoAN8k4Sy","truncated":false,"display_text_range":[0,140],"entities":{"hashtags":[{"text":"NCTMLA22","indices":[20,29]}],"symbols":[],"user_mentions":[{"screen_name":"jillkbroderick","name":"jillkbroderick","id":2734074840,"id_str":"2734074840","indices":[3,18]}],"urls":[],"media":[{"id":1575656367146225664,"id_str":"1575656367146225664","indices":[117,140],"media_url":"http:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","url":"https:\/\/t.co\/tAoAN8k4Sy","display_url":"pic.twitter.com\/tAoAN8k4Sy","expanded_url":"https:\/\/twitter.com\/jillkbroderick\/status\/1575656369327263744\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":2048,"h":1536,"resize":"fit"},"small":{"w":680,"h":510,"resize":"fit"},"medium":{"w":1200,"h":900,"resize":"fit"}},"source_status_id":1575656369327263744,"source_status_id_str":"1575656369327263744","source_user_id":2734074840,"source_user_id_str":"2734074840"}]},"extended_entities":{"media":[{"id":1575656367146225664,"id_str":"1575656367146225664","indices":[117,140],"media_url":"http:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","url":"https:\/\/t.co\/tAoAN8k4Sy","display_url":"pic.twitter.com\/tAoAN8k4Sy","expanded_url":"https:\/\/twitter.com\/jillkbroderick\/status\/1575656369327263744\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":2048,"h":1536,"resize":"fit"},"small":{"w":680,"h":510,"resize":"fit"},"medium":{"w":1200,"h":900,"resize":"fit"}},"source_status_id":1575656369327263744,"source_status_id_str":"1575656369327263744","source_user_id":2734074840,"source_user_id_str":"2734074840","ext_alt_text":null}]},"source":"\u003ca
+        href=\"https:\/\/mobile.twitter.com\" rel=\"nofollow\"\u003eTwitter Web App\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":78376782,"id_str":"78376782","name":"Brian
+        R Lawler","screen_name":"blaw0013","location":"Athens, GA","description":"conscious.
+        maths ed professor. change agent. anarkata. joyful. current work https:\/\/t.co\/jsIBgV0m2t
+        & https:\/\/t.co\/QSM95VuViF","url":null,"entities":{"description":{"urls":[{"url":"https:\/\/t.co\/jsIBgV0m2t","expanded_url":"http:\/\/bit.ly\/2UBOEqg","display_url":"bit.ly\/2UBOEqg","indices":[76,99]},{"url":"https:\/\/t.co\/QSM95VuViF","expanded_url":"https:\/\/vimeo.com\/113309118","display_url":"vimeo.com\/113309118","indices":[102,125]}]}},"protected":false,"followers_count":1942,"friends_count":795,"listed_count":82,"created_at":"Tue
+        Sep 29 18:10:33 +0000 2009","favourites_count":14214,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":false,"statuses_count":10660,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme13\/bg.gif","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme13\/bg.gif","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1282361551580733440\/BIDr-h7r_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1282361551580733440\/BIDr-h7r_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/78376782\/1408124928","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"424242","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"retweeted_status":{"created_at":"Fri
+        Sep 30 01:18:47 +0000 2022","id":1575656369327263744,"id_str":"1575656369327263744","full_text":"#NCTMLA22
+        is the cure for the case of the \"we CANTs\" - loved this session on detracking
+        in 5-12! https:\/\/t.co\/tAoAN8k4Sy","truncated":false,"display_text_range":[0,96],"entities":{"hashtags":[{"text":"NCTMLA22","indices":[0,9]}],"symbols":[],"user_mentions":[],"urls":[],"media":[{"id":1575656367146225664,"id_str":"1575656367146225664","indices":[97,120],"media_url":"http:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","url":"https:\/\/t.co\/tAoAN8k4Sy","display_url":"pic.twitter.com\/tAoAN8k4Sy","expanded_url":"https:\/\/twitter.com\/jillkbroderick\/status\/1575656369327263744\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":2048,"h":1536,"resize":"fit"},"small":{"w":680,"h":510,"resize":"fit"},"medium":{"w":1200,"h":900,"resize":"fit"}}}]},"extended_entities":{"media":[{"id":1575656367146225664,"id_str":"1575656367146225664","indices":[97,120],"media_url":"http:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fd3bHiPVUAAO9dl.jpg","url":"https:\/\/t.co\/tAoAN8k4Sy","display_url":"pic.twitter.com\/tAoAN8k4Sy","expanded_url":"https:\/\/twitter.com\/jillkbroderick\/status\/1575656369327263744\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":2048,"h":1536,"resize":"fit"},"small":{"w":680,"h":510,"resize":"fit"},"medium":{"w":1200,"h":900,"resize":"fit"}},"ext_alt_text":null}]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/android\" rel=\"nofollow\"\u003eTwitter
+        for Android\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":2734074840,"id_str":"2734074840","name":"jillkbroderick","screen_name":"jillkbroderick","location":"","description":"International
+        Teacher | Google Certified Educator L1, L2 & Innovator #SWE19 | Taco Bell
+        & Sausage Dog Aficionado | BC Alum \ud83e\udd85","url":null,"entities":{"description":{"urls":[]}},"protected":false,"followers_count":548,"friends_count":675,"listed_count":3,"created_at":"Fri
+        Aug 15 09:46:05 +0000 2014","favourites_count":2458,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":false,"statuses_count":713,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"000000","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme9\/bg.gif","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme9\/bg.gif","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1177633474385207302\/XZR6trXg_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1177633474385207302\/XZR6trXg_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/2734074840\/1529265215","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"000000","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"000000","profile_text_color":"000000","profile_use_background_image":false,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":6,"favorite_count":25,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"is_quote_status":false,"retweet_count":6,"favorite_count":0,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"}]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1580172355699023872&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Thu, 13 Oct 2022 21:10:36 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Thu, 13 Oct 2022 21:10:36 GMT
+      x-transaction: 9060aa826db53b0a
+      content-length: '2569'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-transaction-id: 9060aa826db53b0a
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1665696334'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '894'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '225'
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Wed Oct 12 12:23:42 +0000 2022","id":1580172355699023872,"id_str":"1580172355699023872","full_text":"RT
+        @MrVaudrey: This was\u2014undoubtedly\u2014the most memorable hour of #NCTMLA2022
+        for me.\n\nIt\u2019s definitely worth an hour of your time.","truncated":false,"display_text_range":[0,127],"entities":{"hashtags":[{"text":"NCTMLA2022","indices":[63,74]}],"symbols":[],"user_mentions":[{"screen_name":"MrVaudrey","name":"Matt
+        Vaudrey","id":368401933,"id_str":"368401933","indices":[3,13]}],"urls":[]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/android\" rel=\"nofollow\"\u003eTwitter
+        for Android\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":2840383368,"id_str":"2840383368","name":"LeeanneBranham","screen_name":"LeeanneBranham","location":"Clovis,
+        CA","description":"Secondary math TSA, redistributor of others cool ideas.
+        Finding what I love (making connections, discovering why, creativity) and
+        doing more of that.","url":"https:\/\/t.co\/GXMCANdPVT","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/GXMCANdPVT","expanded_url":"http:\/\/morefertileground.com","display_url":"morefertileground.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":1382,"friends_count":703,"listed_count":58,"created_at":"Sat
+        Oct 04 16:47:33 +0000 2014","favourites_count":52095,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":15497,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"C0DEED","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/932227956285435906\/_RkzJ-I2_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/932227956285435906\/_RkzJ-I2_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/2840383368\/1511094674","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"1DA1F2","profile_sidebar_border_color":"C0DEED","profile_sidebar_fill_color":"DDEEF6","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":true,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"retweeted_status":{"created_at":"Tue
+        Oct 11 22:57:01 +0000 2022","id":1579969347942219776,"id_str":"1579969347942219776","full_text":"This
+        was\u2014undoubtedly\u2014the most memorable hour of #NCTMLA2022 for me.\n\nIt\u2019s
+        definitely worth an hour of your time. https:\/\/t.co\/KnMOXZ4PYq","truncated":false,"display_text_range":[0,112],"entities":{"hashtags":[{"text":"NCTMLA2022","indices":[48,59]}],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/KnMOXZ4PYq","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960","display_url":"twitter.com\/robertkaplinsk\u2026","indices":[113,136]}]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter
+        for iPhone\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":368401933,"id_str":"368401933","name":"Matt
+        Vaudrey","screen_name":"MrVaudrey","location":"Inland Empire, CA","description":"he\/him
+        | Assistant Principal | Educator | Feminist | #BlackLivesMatter | @ClassroomChef
+        | tweets are just me","url":"https:\/\/t.co\/5WtTw4UA7f","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/5WtTw4UA7f","expanded_url":"http:\/\/mrvaudrey.com","display_url":"mrvaudrey.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":10431,"friends_count":546,"listed_count":0,"created_at":"Mon
+        Sep 05 15:44:28 +0000 2011","favourites_count":39150,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":false,"statuses_count":17499,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"253C6B","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme6\/bg.gif","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme6\/bg.gif","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1485764148369575936\/zeQ1QsXv_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1485764148369575936\/zeQ1QsXv_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/368401933\/1585606234","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"C38D82","profile_sidebar_border_color":"FFFFFF","profile_sidebar_fill_color":"A0C5C7","profile_text_color":"333333","profile_use_background_image":false,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":true,"quoted_status_id":1579940665072680960,"quoted_status_id_str":"1579940665072680960","quoted_status_permalink":{"url":"https:\/\/t.co\/KnMOXZ4PYq","expanded":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960","display":"twitter.com\/robertkaplinsk\u2026"},"quoted_status":{"created_at":"Tue
+        Oct 11 21:03:03 +0000 2022","id":1579940665072680960,"id_str":"1579940665072680960","full_text":"I
+        don''t often talk about living in homeless shelters or a group home because
+        they''re not my favorite memories to relive.  However I decided to present
+        about it because knowing stories helps educators better empathize.\n \nYou
+        can watch the presentation here: https:\/\/t.co\/svEaK9rYJu https:\/\/t.co\/BHmtiPdztV","truncated":false,"display_text_range":[0,280],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/svEaK9rYJu","expanded_url":"https:\/\/robertkaplinsky.com\/5-struggles-your-foster-students-wished-you-knew","display_url":"robertkaplinsky.com\/5-struggles-yo\u2026","indices":[257,280]}],"media":[{"id":1579940661914116108,"id_str":"1579940661914116108","indices":[281,304],"media_url":"http:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","url":"https:\/\/t.co\/BHmtiPdztV","display_url":"pic.twitter.com\/BHmtiPdztV","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":1920,"h":1080,"resize":"fit"},"medium":{"w":1200,"h":675,"resize":"fit"},"small":{"w":680,"h":383,"resize":"fit"}}}]},"extended_entities":{"media":[{"id":1579940661914116108,"id_str":"1579940661914116108","indices":[281,304],"media_url":"http:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","url":"https:\/\/t.co\/BHmtiPdztV","display_url":"pic.twitter.com\/BHmtiPdztV","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":1920,"h":1080,"resize":"fit"},"medium":{"w":1200,"h":675,"resize":"fit"},"small":{"w":680,"h":383,"resize":"fit"}},"ext_alt_text":null}]},"source":"\u003ca
+        href=\"http:\/\/meetedgar.com\" rel=\"nofollow\"\u003eMeetEdgar\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":745583288,"id_str":"745583288","name":"Robert
+        Kaplinsky","screen_name":"robertkaplinsky","location":"Long Beach, CA","description":"Math
+        educator. Love helping teachers. @openmiddle co-founder. #OpenMiddleBook author.
+        #ObserveMe creator. @GrassrootsWS Pres. Lessons & ideas: https:\/\/t.co\/njAYgWomXm","url":"http:\/\/t.co\/FvzGSiWfoT","entities":{"url":{"urls":[{"url":"http:\/\/t.co\/FvzGSiWfoT","expanded_url":"http:\/\/robertkaplinsky.com","display_url":"robertkaplinsky.com","indices":[0,22]}]},"description":{"urls":[{"url":"https:\/\/t.co\/njAYgWomXm","expanded_url":"http:\/\/bit.ly\/rkupdates","display_url":"bit.ly\/rkupdates","indices":[143,166]}]}},"protected":false,"followers_count":56267,"friends_count":283,"listed_count":534,"created_at":"Wed
+        Aug 08 17:14:25 +0000 2012","favourites_count":38165,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":21793,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"50B948","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1095794616501035008\/oeZ7e_ul_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1095794616501035008\/oeZ7e_ul_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/745583288\/1482207101","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"2D58A1","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"C0DFEC","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":12,"favorite_count":101,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"retweet_count":1,"favorite_count":14,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"is_quote_status":true,"quoted_status_id":1579940665072680960,"quoted_status_id_str":"1579940665072680960","quoted_status_permalink":{"url":"https:\/\/t.co\/KnMOXZ4PYq","expanded":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960","display":"twitter.com\/robertkaplinsk\u2026"},"retweet_count":1,"favorite_count":0,"favorited":false,"retweeted":false,"lang":"en"}]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/lookup.json?id=1579969347942219776&tweet_mode=extended&include_ext_alt_text=true
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: My oauth token is safe
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      date: Thu, 13 Oct 2022 21:10:36 GMT
+      perf: '7626143928'
+      pragma: no-cache
+      server: tsa_f
+      status: 200 OK
+      expires: Tue, 31 Mar 1981 05:00:00 GMT
+      content-type: application/json;charset=utf-8
+      cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      last-modified: Thu, 13 Oct 2022 21:10:36 GMT
+      x-transaction: 879986d45029ad8b
+      content-length: '2146'
+      x-access-level: read-write-directmessages
+      x-frame-options: SAMEORIGIN
+      content-encoding: gzip
+      x-transaction-id: 879986d45029ad8b
+      x-xss-protection: '0'
+      x-rate-limit-limit: '900'
+      x-rate-limit-reset: '1665696334'
+      content-disposition: attachment; filename=json.json
+      x-content-type-options: nosniff
+      x-rate-limit-remaining: '893'
+      x-twitter-response-tags: BouncerCompliant
+      strict-transport-security: max-age=631138519
+      x-response-time: '207'
+      x-connection-hash: a75469b35545fefb3e87277b4c43bb6635520e1c12f27c1d9d46640e7353f8ca
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created_at":"Tue Oct 11 22:57:01 +0000 2022","id":1579969347942219776,"id_str":"1579969347942219776","full_text":"This
+        was\u2014undoubtedly\u2014the most memorable hour of #NCTMLA2022 for me.\n\nIt\u2019s
+        definitely worth an hour of your time. https:\/\/t.co\/KnMOXZ4PYq","truncated":false,"display_text_range":[0,112],"entities":{"hashtags":[{"text":"NCTMLA2022","indices":[48,59]}],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/KnMOXZ4PYq","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960","display_url":"twitter.com\/robertkaplinsk\u2026","indices":[113,136]}]},"source":"\u003ca
+        href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter
+        for iPhone\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":368401933,"id_str":"368401933","name":"Matt
+        Vaudrey","screen_name":"MrVaudrey","location":"Inland Empire, CA","description":"he\/him
+        | Assistant Principal | Educator | Feminist | #BlackLivesMatter | @ClassroomChef
+        | tweets are just me","url":"https:\/\/t.co\/5WtTw4UA7f","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/5WtTw4UA7f","expanded_url":"http:\/\/mrvaudrey.com","display_url":"mrvaudrey.com","indices":[0,23]}]},"description":{"urls":[]}},"protected":false,"followers_count":10431,"friends_count":546,"listed_count":304,"created_at":"Mon
+        Sep 05 15:44:28 +0000 2011","favourites_count":39150,"utc_offset":null,"time_zone":null,"geo_enabled":true,"verified":false,"statuses_count":17499,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"253C6B","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme6\/bg.gif","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme6\/bg.gif","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1485764148369575936\/zeQ1QsXv_normal.jpg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1485764148369575936\/zeQ1QsXv_normal.jpg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/368401933\/1585606234","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"C38D82","profile_sidebar_border_color":"FFFFFF","profile_sidebar_fill_color":"A0C5C7","profile_text_color":"333333","profile_use_background_image":false,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":true,"quoted_status_id":1579940665072680960,"quoted_status_id_str":"1579940665072680960","quoted_status_permalink":{"url":"https:\/\/t.co\/KnMOXZ4PYq","expanded":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960","display":"twitter.com\/robertkaplinsk\u2026"},"quoted_status":{"created_at":"Tue
+        Oct 11 21:03:03 +0000 2022","id":1579940665072680960,"id_str":"1579940665072680960","full_text":"I
+        don''t often talk about living in homeless shelters or a group home because
+        they''re not my favorite memories to relive.  However I decided to present
+        about it because knowing stories helps educators better empathize.\n \nYou
+        can watch the presentation here: https:\/\/t.co\/svEaK9rYJu https:\/\/t.co\/BHmtiPdztV","truncated":false,"display_text_range":[0,280],"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/svEaK9rYJu","expanded_url":"https:\/\/robertkaplinsky.com\/5-struggles-your-foster-students-wished-you-knew","display_url":"robertkaplinsky.com\/5-struggles-yo\u2026","indices":[257,280]}],"media":[{"id":1579940661914116108,"id_str":"1579940661914116108","indices":[281,304],"media_url":"http:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","url":"https:\/\/t.co\/BHmtiPdztV","display_url":"pic.twitter.com\/BHmtiPdztV","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":1920,"h":1080,"resize":"fit"},"medium":{"w":1200,"h":675,"resize":"fit"},"small":{"w":680,"h":383,"resize":"fit"}}}]},"extended_entities":{"media":[{"id":1579940661914116108,"id_str":"1579940661914116108","indices":[281,304],"media_url":"http:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","media_url_https":"https:\/\/pbs.twimg.com\/media\/Fe0TqT-WIAwDkBw.jpg","url":"https:\/\/t.co\/BHmtiPdztV","display_url":"pic.twitter.com\/BHmtiPdztV","expanded_url":"https:\/\/twitter.com\/robertkaplinsky\/status\/1579940665072680960\/photo\/1","type":"photo","sizes":{"thumb":{"w":150,"h":150,"resize":"crop"},"large":{"w":1920,"h":1080,"resize":"fit"},"medium":{"w":1200,"h":675,"resize":"fit"},"small":{"w":680,"h":383,"resize":"fit"}},"ext_alt_text":null}]},"source":"\u003ca
+        href=\"http:\/\/meetedgar.com\" rel=\"nofollow\"\u003eMeetEdgar\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":745583288,"id_str":"745583288","name":"Robert
+        Kaplinsky","screen_name":"robertkaplinsky","location":"Long Beach, CA","description":"Math
+        educator. Love helping teachers. @openmiddle co-founder. #OpenMiddleBook author.
+        #ObserveMe creator. @GrassrootsWS Pres. Lessons & ideas: https:\/\/t.co\/njAYgWomXm","url":"http:\/\/t.co\/FvzGSiWfoT","entities":{"url":{"urls":[{"url":"http:\/\/t.co\/FvzGSiWfoT","expanded_url":"http:\/\/robertkaplinsky.com","display_url":"robertkaplinsky.com","indices":[0,22]}]},"description":{"urls":[{"url":"https:\/\/t.co\/njAYgWomXm","expanded_url":"http:\/\/bit.ly\/rkupdates","display_url":"bit.ly\/rkupdates","indices":[143,166]}]}},"protected":false,"followers_count":56266,"friends_count":283,"listed_count":535,"created_at":"Wed
+        Aug 08 17:14:25 +0000 2012","favourites_count":38164,"utc_offset":null,"time_zone":null,"geo_enabled":false,"verified":false,"statuses_count":21793,"lang":null,"contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"50B948","profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme15\/bg.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1095794616501035008\/oeZ7e_ul_normal.png","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1095794616501035008\/oeZ7e_ul_normal.png","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/745583288\/1482207101","profile_image_extensions_alt_text":null,"profile_banner_extensions_alt_text":null,"profile_link_color":"2D58A1","profile_sidebar_border_color":"000000","profile_sidebar_fill_color":"C0DFEC","profile_text_color":"333333","profile_use_background_image":true,"has_extended_profile":false,"default_profile":false,"default_profile_image":false,"following":false,"follow_request_sent":false,"notifications":false,"translator_type":"none","withheld_in_countries":[]},"geo":null,"coordinates":null,"place":null,"contributors":null,"is_quote_status":false,"retweet_count":12,"favorite_count":101,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"},"retweet_count":1,"favorite_count":14,"favorited":false,"retweeted":false,"possibly_sensitive":false,"lang":"en"}]'
+  recorded_at: 2022-10-13 21:10:36 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.2
