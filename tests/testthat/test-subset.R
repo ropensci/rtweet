@@ -39,7 +39,7 @@ test_that("[.users works", {
 
   y <- expect_error(st[seq_len(nrows), 1:3], NA)
   expect_equal(ncol(y), 3)
-  expect_equal(ncol(tweets_data(y)), 44)
+  expect_equal(ncol(tweets_data(y)), ncol(tweet(NULL)) - 1)
 
   y <- st[c(1, 2), "name", drop = TRUE]
   expect_true(is.character(y))
