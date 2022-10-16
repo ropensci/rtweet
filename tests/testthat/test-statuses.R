@@ -112,28 +112,30 @@ test_that(" Check output is in the same order #740", {
 
   vcr::use_cassette("ids12", {
     ## Empty dataframe
-    names0a <- names(rtweet::lookup_tweets("X"))
+    names0a <- names(lookup_tweets("X"))
 
     ## Group 1 with same variables
-    names1a <- names(rtweet::lookup_tweets("1580002144631279616"))
+    names1a <- names(lookup_tweets("1580002144631279616"))
 
     ## Group 2 with same variables
-    names2a <- names(rtweet::lookup_tweets("1578824308260237312"))
+    names2a <- names(lookup_tweets("1578824308260237312"))
 
     ## Group 3 with same variables
-    names3a <- names(rtweet::lookup_tweets("1580186891151777792"))
+    names3a <- names(lookup_tweets("1580186891151777792"))
 
     ## Group 4 with same variables
-    names4a <- names(rtweet::lookup_tweets("1580212580249133056"))
+    names4a <- names(lookup_tweets("1580212580249133056"))
 
     ## Group 5 with same variables
-    names5a <- names(rtweet::lookup_tweets("1580172355699023872"))
+    names5a <- names(lookup_tweets("1580172355699023872"))
 
     ## Group 6 with same variables
-    names6a <- names(rtweet::lookup_tweets("1579969347942219776"))
+    names6a <- names(lookup_tweets("1579969347942219776"))
+
+    names7a <- names(get_favorites("KFC"))
   })
 
-  a <- tibble::tibble(names0a, names1a, names2a, names3a, names4a, names5a, names6a)
+  a <- tibble::tibble(names0a, names1a, names2a, names3a, names4a, names5a, names6a, names7a)
   b <- apply(a, 1, function(x){length(unique(x))})
   expect_true(all(b == 1))
 })
