@@ -45,17 +45,17 @@ as.data.frame.lists_users <- function(x) {
   if (has_name_(x, "lists")) {
     x <- x[["lists"]]
   }
-  out <- as_tbl(
+  out <- tibble::as_tibble(
     wrangle_into_clean_data(x, "list")
   )
   if (has_name_(x, "user")) {
-    users <- as_tbl(
+    users <- tibble::as_tibble(
       wrangle_into_clean_data(x$user, "user")
     )
     attr(out, "users") <- users
   }
   if (has_name_(x, "status")) {
-    tweets <- as_tbl(
+    tweets <- tibble::as_tibble(
       wrangle_into_clean_data(x$status, "status")
     )
     attr(out, "tweets") <- tweets

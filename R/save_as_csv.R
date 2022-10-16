@@ -215,5 +215,5 @@ read_twitter_csv <- function(file, unflatten = FALSE) {
   if (unflatten) {
     x <- unflatten(x)
   }
-  as_tbl(x)
+  tibble::as_tibble(x)
 }

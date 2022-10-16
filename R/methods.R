@@ -7,8 +7,8 @@ rbind.tweets <- function(..., deparse.level = 1) {
   ud <- lapply(rt, users_data)
   udm <- do.call(rbind, ud)
   rt <- do.call(rbind.data.frame, rt)
-  rt <- as_tbl(rt)
-  attr(rt, "users") <- as_tbl(udm)
+  rt <- tibble::as_tibble(rt)
+  attr(rt, "users") <- tibble::as_tibble(udm)
   class(rt) <- c("tweets", class(rt))
   rt
 }
@@ -21,8 +21,8 @@ rbind.users <- function(..., deparse.level = 1) {
   td <- lapply(rt, tweets_data)
   tdm <- do.call(rbind, td)
   rt <- do.call(rbind.data.frame, rt)
-  rt <- as_tbl(rt)
-  attr(rt, "tweets") <- as_tbl(tdm)
+  rt <- tibble::as_tibble(rt)
+  attr(rt, "tweets") <- tibble::as_tibble(tdm)
   class(rt) <- c("users", class(rt))
   rt
 }

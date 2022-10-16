@@ -19,8 +19,8 @@ tweets_with_users <- function(x) {
     users <- do.call(rbind, tweets[["user"]])[, order(colnames(users))]
   }
   tweets <- tweets[!colnames(tweets) %in% "user"]
-  users <- as_tbl(users)
-  tweets <- as_tbl(tweets)
+  users <- tibble::as_tibble(users)
+  tweets <- tibble::as_tibble(tweets)
 
   out <- structure(tweets, users = users)
   class(out) <- c("tweets", class(out))
@@ -44,16 +44,11 @@ users_with_tweets <- function(x) {
     tweets <- do.call(rbind, lapply(status, tweet))[, colnames(tweets)]
   }
   tweets <- tweets[!colnames(tweets) %in% "user"]
-  users <- as_tbl(users)
-  tweets <- as_tbl(tweets)
+  users <- tibble::as_tibble(users)
+  tweets <- tibble::as_tibble(tweets)
   out <- structure(users, tweets = tweets)
   class(out) <- c("users", class(out))
   out
-}
-
-
-as_tbl <- function(x, ...) {
-  tibble::as_tibble(x, ...)
 }
 
 clean_source <- function(s) {

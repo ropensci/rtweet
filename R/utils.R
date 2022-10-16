@@ -42,8 +42,6 @@ is.na.quiet <- function(x) {
   suppressWarnings(is.na(x))
 }
 
-as_tbl <- tibble::as_tibble
-
 is_n <- function(n) {
   if (is.character(n)) {
     n <- suppressWarnings(as.numeric(n))
