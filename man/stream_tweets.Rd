@@ -73,11 +73,11 @@ rstats1 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json")
 rstats1
 
 # Download another 10s worth of data to the same file
-rstats2 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json", 
+rstats2 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json",
                          append = TRUE)
 
 # stream tweets about continental USA for 10 seconds
-usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json", 
+usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json",
                      timeout = 10)
 
 }

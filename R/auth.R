@@ -1,18 +1,18 @@
 #' Set up default authentication
-#' 
-#' You'll need to run this function once per computer so that rtweet can use 
-#' your personal Twitter account. See [rtweet_app()]/[rtweet_bot] and 
+#'
+#' You'll need to run this function once per computer so that rtweet can use
+#' your personal Twitter account. See [rtweet_app()]/[rtweet_bot] and
 #' [auth_save()] for other authentication options.
-#' 
-#' It will use the current logged in account on the default browser to detect 
-#' the credentials needed for rtweet and save them as "default". 
-#' If a default is found it will use it instead. 
-#' @return 
+#'
+#' It will use the current logged in account on the default browser to detect
+#' the credentials needed for rtweet and save them as "default".
+#' If a default is found it will use it instead.
+#' @return
 #' `auth_setup_default()`: Invisibly returns the previous authentication mechanism.
 #' `auth_has_default()`: A logical value `TRUE` if there is a default authentication.
 #' @export
 #' @family authentication
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if (!auth_has_default() && interactive()) {
 #'    auth_setup_default()
@@ -29,74 +29,80 @@ auth_setup_default <- function() {
 }
 
 #' Authentication options
-#' 
+#'
 #' Authenticate methods to use the Twitter API.
-#' 
-#' @description 
+#'
+#' @description
 #' There are three ways that you can authenticate with the Twitter API:
-#' 
-#' * `rtweet_user()` interactively authenticates an existing Twitter user. 
+#'
+#' * `rtweet_user()` interactively authenticates an existing Twitter user.
 #'   This form is most appropriate if you want rtweet to control your
-#'   Twitter account. 
-#'   
-#' * `rtweet_app()` authenticates as a Twitter application. An application can't 
-#'    perform actions (i.e. it can't tweet) but otherwise has generally higher 
+#'   Twitter account.
+#'
+#' * `rtweet_app()` authenticates as a Twitter application. An application can't
+#'    perform actions (i.e. it can't tweet) but otherwise has generally higher
 #'    rate limits (i.e. you can do more searches). See details
 #'    at <https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits>.
-#'    This form is most appropriate if you are collecting data. 
-#'    
+#'    This form is most appropriate if you are collecting data.
+#'
 #' * `rtweet_bot()` authenticates as bot that takes actions on behalf of an app.
 #'    This form is most appropriate if you want to create a Twitter account that
 #'    is run by a computer, rather than a human.
-#'    
-#' To use `rtweet_app()` or `rtweet_bot()` you will need to create your own 
+#'
+#' To use `rtweet_app()` or `rtweet_bot()` you will need to create your own
 #' Twitter app following the instructions in `vignette("auth.Rmd")`.
 #' `rtweet_user()` _can be_ used with your own app, but generally there is
 #' no need to because it uses the Twitter app provided by rtweet.
-#' 
-#' Use [auth_as()] to set the default auth mechanism for the current session, 
+#'
+#' Use [auth_as()] to set the default auth mechanism for the current session,
 #' and [auth_save()] to save an auth mechanism for use in future sessions.
-#' 
+#'
 #' # Security
-#' 
-#' All of the arguments to these functions are roughly equivalent to 
+#'
+#' All of the arguments to these functions are roughly equivalent to
 #' passwords so should generally not be typed into the console (where they
 #' the will be recorded in `.Rhistory`) or recorded in a script (which is
 #' easy to accidentally share). Instead, call these functions without arguments
-#' since the default behaviour is to use ask_pass that if possible uses 
+#' since the default behaviour is to use ask_pass that if possible uses
 #' [askpass::askpass()] to interactively safely prompt you for the values.
-#' 
-#' @param api_key,api_secret Application API key and secret. These are 
-#'   generally not required for `tweet_user()` since the defaults will use
-#'   the built-in rtweet app. 
+#'
+#' @param client_id,client_secret Application OAuth client ID and client Secret.
+#' These are generally not required for `tweet_user()` since the defaults will use
+#' the built-in rtweet app.
 #' @param access_token,access_secret Access token and secret.
+#' @param api_key,api_secret API key and secret. Deprecated in favor of `client_*` arguments.
 #' @param bearer_token App bearer token.
+#' @return If the validation is successful the OAuth token.
+#' For rtweet_app a rtweet_bearer.
 #' @family authentication
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' rtweet_user()
 #' rtweet_bot()
 #' rtweet_app()
 #' }
-rtweet_user <- function(api_key = NULL, api_secret = NULL) {
+rtweet_user <- function(client_id = NULL, client_secret = NULL,
+                        api_key = client_id, api_secret = client_secret) {
   check_installed("httpuv")
-  
-  if (is.null(api_key) && is.null(api_secret)) {
+
+  if (is.null(client_id) && is.null(client_secret)) {
     decrypt <- function(x) {
       rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
     }
     api_key <- decrypt(sysdat$DYKcJfBkgMnGveI)
     api_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
   } else {
-    stopifnot(is_string(api_key), is_string(api_secret))
+    stopifnot(is_string(client_id), is_string(client_secret))
   }
-
-  app <- httr::oauth_app("rtweet", key = api_key, secret = api_secret)
+  # From oauth_app help page
+  # key: consumer key or client ID
+  # secret: consumer secret, or client secret
+  app <- httr::oauth_app("rtweet", key = client_id, secret = client_secret)
   TwitterToken1.0$new(
     app = app,
     endpoint = httr::oauth_endpoints("twitter"),
-    params = list(as_header = TRUE), 
+    params = list(as_header = TRUE),
     cache_path = FALSE
   )
 }
@@ -104,7 +110,7 @@ rtweet_user <- function(api_key = NULL, api_secret = NULL) {
 #' @export
 #' @rdname rtweet_user
 rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
-  
+
   if (missing(api_key)) {
     api_key <- ask_pass("API key")
   }
@@ -117,8 +123,8 @@ rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
   if (missing(access_secret)) {
     access_secret <- ask_pass("access secret")
   }
-  
-  
+
+
   stopifnot(is_string(api_key), is_string(api_secret))
   stopifnot(is_string(access_token), is_string(access_secret))
 
@@ -130,8 +136,8 @@ rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
   httr::Token1.0$new(
     app = app,
     endpoint = httr::oauth_endpoints("twitter"),
-    params = list(as_header = TRUE), 
-    credentials = credentials, 
+    params = list(as_header = TRUE),
+    credentials = credentials,
     cache_path = FALSE
   )
 }
@@ -150,7 +156,7 @@ rtweet_app <- function(bearer_token) {
 
 ask_pass <- function(type) {
   check_installed("askpass")
-  
+
   message <- paste0("Please enter your ", type, ": ")
   val <- askpass::askpass(message)
   if (is.null(val)) {
@@ -173,13 +179,13 @@ print.rtweet_bearer <- function(x, ...) {
 # Get default auth --------------------------------------------------------
 
 #' Get the current authentication mechanism
-#' 
-#' If no authentication has been set up for this session, `auth_get()` will 
+#'
+#' If no authentication has been set up for this session, `auth_get()` will
 #' call [auth_as()] to set it up.
-#' @return  The current token used. 
+#' @return  The current token used.
 #' @export
 #' @family authentication
-#' @examples 
+#' @examples
 #' \dontrun{
 #' auth_get()
 #' }
@@ -193,25 +199,25 @@ auth_get <- function() {
 # Save authentication across sessions -------------------------------------
 
 #' Save an authentication mechanism for use in a future session
-#' 
-#' Use `auth_save()` with [auth_as()] to avoid repeatedly entering app 
+#'
+#' Use `auth_save()` with [auth_as()] to avoid repeatedly entering app
 #' credentials, making it easier to share auth between projects.
 #' Use `auth_list()` to list all saved credentials.
-#' 
-#' The tokens are saved on `tools::R_user_dir("rtweet", "config")`. 
-#' 
+#'
+#' The tokens are saved on `tools::R_user_dir("rtweet", "config")`.
+#'
 #' @param auth One of [rtweet_app()], [rtweet_bot()], or [rtweet_user()].
 #' @param name Name of the file to use.
 #' @return Invisible the path where the authentication is saved.
 #' @family authentication
 #' @seealso [auth_sitrep()] to help finding and managing authentications.
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # save app auth for use in other sessions
 #' auth <- rtweet_app()
 #' auth_save(auth, "my-app")
-#' 
+#'
 #' # later, in a different session...
 #' auth_as("my-app")
 #' # Show all authentications stored
@@ -219,10 +225,10 @@ auth_get <- function() {
 #' }
 auth_save <- function(auth, name) {
   stopifnot(is_auth(auth), is_string(name))
-  
+
   path <- auth_path(paste0(name, ".rds"))
   inform(paste0("Saving auth to '", path, "'"))
-  
+
   dir.create(auth_path(), showWarnings = FALSE, recursive = TRUE)
   saveRDS(auth, path)
   invisible(path)
@@ -238,31 +244,31 @@ auth_list <- function() {
 # Set default auth -------------------------------------------------------------
 
 #' Set default authentication for the current session
-#' 
-#' `auth_as()` sets up the default authentication mechanism used by all 
+#'
+#' `auth_as()` sets up the default authentication mechanism used by all
 #' rtweet API calls. See [rtweet_user()] to learn more about the three
 #' available authentication options.
-#' 
+#'
 #' @param auth One of the following options:
-#'   * `NULL`, the default, will look for rtweet's "default" authentication 
-#'      which uses your personal Twitter account. If it's not found, it will 
+#'   * `NULL`, the default, will look for rtweet's "default" authentication
+#'      which uses your personal Twitter account. If it's not found, it will
 #'      call [auth_setup_default()] to set it up.
 #'   * A string giving the name of a saved auth file made by [auth_save()].
-#'   * An auth object created by [rtweet_app()], [rtweet_bot()], or 
+#'   * An auth object created by [rtweet_app()], [rtweet_bot()], or
 #'     [rtweet_user()].
 #' @return Invisibly returns the previous authentication mechanism.
 #' @seealso [auth_sitrep()] to help finding and managing authentications.
 #' @family authentication
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # Use app auth for the remainder of this session:
 #' my_app <- rtweet_app()
 #' auth_as(my_app)
-#' 
+#'
 #' # Switch back to the default user based auth
 #' auth_as()
-#' 
+#'
 #' # Load auth saved by auth_save()
 #' auth_as("my-saved-app")
 #' }
@@ -299,7 +305,7 @@ find_auth <- function(auth = NULL) {
 
 default_cached_auth <- function() {
   default <- auth_path("default.rds")
-  
+
   if (file.exists(default)) {
     readRDS(default)
   } else {
@@ -333,11 +339,11 @@ no_token <- function() {
 rtweet_test <- function() {
   access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
   access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
-  
+
   if (identical(access_token, "") || identical(access_secret, "")) {
     return()
   }
-  
+
   rtweet_bot(
     "7rX1CfEYOjrtZenmBhjljPzO3",
     "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
@@ -354,12 +360,13 @@ local_auth <- function(env = parent.frame()) {
 # Twitter Token -----------------------------------------------------------
 
 # Twitter requires a callback url that uses 127.0.0.1 rather than localhost
-# so we temporarily override HTTR_SERVER during initialisation.
+# so we temporarily override HTTR_SERVER during initialization.
+# <https://developer.twitter.com/en/docs/apps/callback-urls>
 
 TwitterToken1.0 <- R6::R6Class("TwitterToken1.0", inherit = httr::Token1.0, list(
   init_credentials = function(force = FALSE) {
     self$credentials <- twitter_init_oauth1.0(
-      self$endpoint, 
+      self$endpoint,
       self$app,
       permission = self$params$permission,
       private_key = self$private_key
@@ -370,13 +377,13 @@ TwitterToken1.0 <- R6::R6Class("TwitterToken1.0", inherit = httr::Token1.0, list
 twitter_init_oauth1.0 <- function(endpoint, app, permission = NULL,
                                    is_interactive = interactive(),
                                    private_key = NULL) {
-  
+
   withr::local_envvar("HTTR_SERVER" = "127.0.0.1")
   httr::init_oauth1.0(
-    endpoint, 
-    app, 
-    permission = permission, 
-    is_interactive = is_interactive, 
+    endpoint,
+    app,
+    permission = permission,
+    is_interactive = is_interactive,
     private_key = private_key
   )
 }

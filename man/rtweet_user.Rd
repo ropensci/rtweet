@@ -6,20 +6,31 @@
 \alias{rtweet_app}
 \title{Authentication options}
 \usage{
-rtweet_user(api_key = NULL, api_secret = NULL)
+rtweet_user(
+  client_id = NULL,
+  client_secret = NULL,
+  api_key = client_id,
+  api_secret = client_secret
+)
 
 rtweet_bot(api_key, api_secret, access_token, access_secret)
 
 rtweet_app(bearer_token)
 }
 \arguments{
-\item{api_key, api_secret}{Application API key and secret. These are
-generally not required for \code{tweet_user()} since the defaults will use
+\item{client_id, client_secret}{Application OAuth client ID and client Secret.
+These are generally not required for \code{tweet_user()} since the defaults will use
 the built-in rtweet app.}
+
+\item{api_key, api_secret}{API key and secret. Deprecated in favor of \verb{client_*} arguments.}
 
 \item{access_token, access_secret}{Access token and secret.}
 
 \item{bearer_token}{App bearer token.}
+}
+\value{
+If the validation is successful the OAuth token.
+For rtweet_app a rtweet_bearer.
 }
 \description{
 There are three ways that you can authenticate with the Twitter API:
