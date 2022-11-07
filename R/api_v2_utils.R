@@ -45,15 +45,19 @@ check_token_v2 <- function(token = NULL) {
   if (!inherits(token, "rtweet_bearer")) {
     abort("A bearer `token` is needed for API v2")
   }
+  token
 }
 
 # General function to create the requests for Twitter API v2 with retry limits
 # and error handling
-req_v2 <- function(token = NULL, method = "POST") {
+req_v2 <- function(token = NULL) {
 
   token <- check_token_v2(token)
   req <- httr2::request("https://api.twitter.com/2")
-  req_headers <- httr2::req_headers(req, Authorization = paste0("Bearer ", token$token))
+  req_headers <- httr2::req_headers(req,
+                                    `Content-type` = "application/json",
+                                    Authorization = paste0("Bearer ", token$token)
+                                    )
   req_try <- httr2::req_retry(req_headers,
                               is_transient = twitter_is_transient,
                               after = twitter_after)
@@ -90,8 +94,8 @@ resp <- function(obj) {
 
 
 twitter_is_transient <- function(resp) {
-  resp_status(resp) %in% c(403, 503) &&
-    identical(resp_header(resp, "x-rate-limit-remaining"), "0")
+  httr2::resp_status(resp) %in% c(403, 503) &&
+    identical(httr2::resp_header(resp, "x-rate-limit-remaining"), "0")
 }
 twitter_after <- function(resp) {
   when <- as.numeric(resp_header(resp, "x-rate-limit-reset"))

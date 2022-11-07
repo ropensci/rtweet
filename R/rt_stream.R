@@ -25,11 +25,17 @@
 #' @seealso Filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule>
 #' @rdname stream
 #' @examples
+#' # List current rules
 #' stream_add_rule(NULL)
-#' stream_add_rule(list(value = "testing rules", tag = "ts"))
-#' filtered_stream(tempfile())
-#' stream_rm_rule("1564729327710879747")
-#' sample_stream(tempfile())
+#' # Add new rule
+#' stream_add_rule(list(value = "testing rules rtweet", tag = "tsrt"))
+#' (rm <- stream_add_rule(NULL))
+#' # Open filtered streaming connection for 30s
+#' filtered_stream(tempfile(), 30)
+#' # Remove rule
+#' stream_rm_rule(df$id[df$tag == "ts"])
+#' # Open random streaming connection
+#' sample_stream(tempfile(), 3)
 NULL
 
 #' @export
@@ -68,14 +74,17 @@ stream_add_rule <- function(query, dry = FALSE, token = NULL) {
   if (!is.null(query)) {
     query <- list(add = list(check_stream_add(query)))
   }
-  if (isTRUE(dry)) {
-    query <- c(query, dry_run = dry)
-  }
   streaming <- stream_rules(query, token, auto_unbox = TRUE, pretty = FALSE)
+  if (isTRUE(dry)) {
+    streaming <- httr2::req_body_form(streaming, dry_run = dry)
+  }
   out <- httr2::req_perform(streaming)
-  httr2::resp_body_json(out)
-  # do.call(rbind, lapply(out$data, list2DF))
-  # Add meta properties as attributes
+  out <- httr2::resp_body_json(out)
+
+  df <- do.call(rbind, lapply(out$data, list2DF))
+  attr(df, "meta") <- out$meta
+  class(df) <- c("rules", class(df))
+  df
 }
 
 #' @describeIn stream Remove rules from the filtered streaming
