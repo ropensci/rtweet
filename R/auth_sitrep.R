@@ -88,7 +88,7 @@ bearer_auth <- function(bearer) {
   tok <- as.factor(tok)
   levels(tok) <- LETTERS[seq_along(unique(tok))]
   df <- data.frame(token = tok)
-  rownames(df) <- bearer
+  rownames(df) <- names(bearer)
   df
 }
 
