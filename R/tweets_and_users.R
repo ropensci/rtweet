@@ -16,7 +16,7 @@ tweets_with_users <- function(x) {
 
   users <- user(NULL)[0, ]
   if (has_name_(tweets, "user") && length(tweets$user) != 0 && all(lengths(tweets$user) != 0)) {
-    users <- do.call(rbind, tweets[["user"]])[, order(colnames(users))]
+    users <- do.call(rbind, tweets[["user"]])[, colnames(users)]
   }
   tweets <- tweets[!colnames(tweets) %in% "user"]
   users <- tibble::as_tibble(users)
