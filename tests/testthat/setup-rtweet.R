@@ -5,7 +5,8 @@ if (requireNamespace("vcr", quietly = TRUE)) {
     filter_request_headers = list(Authorization = "My oauth token is safe",
                                   GOOGLE_KEY = "My google key is safe.",
                                   GOOGLE_MAPS_KEY = "My google key is safe."),
-    filter_query_parameters = c(status = "status message")
+    filter_query_parameters = c(status = "status message"),
+    serialize_with = "json"
   ))
   vcr::check_cassette_names()
 }
