@@ -11,6 +11,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/fields>
 #' @seealso [Expansions]
 #' @name Fields
+#' @aliases fields
 #' @examples
 #' media_fields
 #' place_fields
@@ -46,9 +47,42 @@ tweet_fields <- c(
   # "promoted_metrics",
   # "organic_metrics" #needs user context authentication.
 )
+
 #' @export
 #' @name Fields
 user_fields <- c("created_at", "description", "entities", "id", "location",
                   "name", "pinned_tweet_id", "profile_image_url", "protected",
                   "public_metrics", "url", "username", "verified", "withheld")
+
+#' @export
+#' @name Fields
 metrics_fields <- c("public_metrics", "non_public_metrics", "organic_metrics", "promoted_metrics")
+
+
+check_fields <- function(fields,
+                         media_fields = NULL,
+                         place_fields = NULL,
+                         poll_fields = NULL,
+                         tweet_fields = NULL,
+                         user_fields = NULL,
+                         metrics_fields = NULL) {
+  error <- c(
+    check_field_helper(fields, media_fields, "media"),
+    check_field_helper(fields, media_fields, "place"),
+    check_field_helper(fields, media_fields, "poll"),
+    check_field_helper(fields, media_fields, "tweet"),
+    check_field_helper(fields, media_fields, "user"),
+    check_field_helper(fields, media_fields, "metrics")
+  )
+  stop(error, call. = FALSE)
+}
+
+
+check_field_helper <- function(passed, allowed, name) {
+  y <- passed[[name]]
+  if (is.null(allowed) && !is.null(y)) {
+    return("No media allowed")
+  }
+  wrong <- setdiff(y, allowed)
+  paste("Fields", paste(wrong, collapse = ", "), " are not allowed or valid.\n")
+}
