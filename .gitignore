@@ -22,4 +22,3 @@ revdep/timings.tab
 docs
 *.Rcheck/
 *.RDS
-*.json
