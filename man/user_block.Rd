@@ -25,10 +25,10 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \code{user_unblock(...)} is synonymous to \code{user_block(..., unblock=TRUE)}.
 }
 \examples{
-\dontrun{
-user_block("rtweet_test")
-user_unblock("rtweet_test")
-user_block("rtweet_test", unblock=TRUE) #<-same as the above
+if (auth_has_default()) {
+  user_block("rtweet")
+  user_unblock("rtweet")
+  user_block("rtweet", unblock=TRUE) #<-same as the above
 }
 }
 \references{

@@ -73,11 +73,11 @@ your mentions on twitter.com.
 }
 \examples{
 if (auth_has_default()) {
-tw <- get_mentions()
-tw
+  tw <- get_mentions()
+  tw
 
-# newer mentions
-get_mentions(since_id = tw)
+  # newer mentions
+  get_mentions(since_id = tw)
 }
 }
 \references{

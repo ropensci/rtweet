@@ -3,6 +3,7 @@
 \name{Expansions}
 \alias{Expansions}
 \alias{tweet_expansions}
+\alias{expansions}
 \alias{user_expansions}
 \title{Expansions}
 \usage{

@@ -19,23 +19,26 @@
 #'  - In stream_add_rule it should be a list of value and tag.
 #'  - In stream_rm_rule it should be a vector of ids of rules to be removed
 #' @param dry Check if the addition or removal of the rule works.
-#' @para ... Other parameters passed to the body of the request.
+#' @param ... Other parameters passed to the body of the request.
 #'
 #' @return The path to the file with the tweets of the streaming.
 #' @seealso Filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule>
 #' @rdname stream
+#' @name stream
 #' @examples
-#' # List current rules
-#' stream_add_rule(NULL)
-#' # Add new rule
-#' stream_add_rule(list(value = "testing rules rtweet", tag = "tsrt"))
-#' (rm <- stream_add_rule(NULL))
-#' # Open filtered streaming connection for 30s
-#' filtered_stream(tempfile(), 30)
-#' # Remove rule
-#' stream_rm_rule(df$id[df$tag == "ts"])
-#' # Open random streaming connection
-#' sample_stream(tempfile(), 3)
+#' # Requires a bearer token
+#' if (FALSE) {
+#'   stream_add_rule(NULL)
+#'   # Add new rule
+#'   stream_add_rule(list(value = "testing rules rtweet", tag = "tsrt"))
+#'   (rm <- stream_add_rule(NULL))
+#'   # Open filtered streaming connection for 30s
+#'   filtered_stream(tempfile(), 30)
+#'   # Remove rule
+#'   stream_rm_rule(df$id[df$tag == "ts"])
+#'   # Open random streaming connection
+#'   sample_stream(tempfile(), 3)
+#' }
 NULL
 
 #' @export
@@ -64,7 +67,7 @@ stream <- function(req, file, append, timeout) {
     TRUE
   }
 
-  a <- req_stream(req, callback, timeout_sec = timeout)
+  a <- httr2::req_stream(req, callback, timeout_sec = timeout)
   file
 }
 

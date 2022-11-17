@@ -3,11 +3,13 @@
 \docType{data}
 \name{Fields}
 \alias{Fields}
+\alias{fields}
 \alias{media_fields}
 \alias{place_fields}
 \alias{poll_fields}
 \alias{tweet_fields}
 \alias{user_fields}
+\alias{metrics_fields}
 \title{Fields}
 \format{
 An object of class \code{character} of length 13.
@@ -19,6 +21,8 @@ An object of class \code{character} of length 5.
 An object of class \code{character} of length 17.
 
 An object of class \code{character} of length 14.
+
+An object of class \code{character} of length 4.
 }
 \usage{
 media_fields
@@ -30,6 +34,8 @@ poll_fields
 tweet_fields
 
 user_fields
+
+metrics_fields
 }
 \description{
 Arguments of expansion that select which values are returned.

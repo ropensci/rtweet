@@ -8,15 +8,15 @@
 #'
 #' @examples
 #' if (auth_has_default()) {
-#' # find users from tweets
-#' tweets <- search_tweets("r")
-#' users_data(tweets)
-#' full_search <- cbind(tweets, users_data(tweets))
+#'   # find users from tweets
+#'   tweets <- search_tweets("r")
+#'   users_data(tweets)
+#'   full_search <- cbind(tweets, users_data(tweets))
 #'
-#' # from tweets from users
-#' users <- search_users("r")
-#' tweets_data(users)
-#' full_users <- cbind(users, tweets_data(users))
+#'   # from tweets from users
+#'   users <- search_users("r")
+#'   tweets_data(users)
+#'   full_users <- cbind(users, tweets_data(users))
 #' }
 #' @return `user_data()` returns a data frame of users; `tweets_data()`
 #'   returns a data frame of tweets.

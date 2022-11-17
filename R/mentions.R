@@ -2,7 +2,7 @@
 #'
 #' Returns data on up to 200 of the most recent mentions (Tweets
 #' containing a users' screen_name) of the authenticating user.
-#' The timeline returned is the equivalent of the one seen when you view 
+#' The timeline returned is the equivalent of the one seen when you view
 #' your mentions on twitter.com.
 #'
 #' @inheritParams TWIT_paginate_max_id
@@ -12,11 +12,11 @@
 #' @family tweets
 #' @examples
 #' if (auth_has_default()) {
-#' tw <- get_mentions()
-#' tw
-#' 
-#' # newer mentions
-#' get_mentions(since_id = tw)
+#'   tw <- get_mentions()
+#'   tw
+#'
+#'   # newer mentions
+#'   get_mentions(since_id = tw)
 #' }
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @export
@@ -37,7 +37,7 @@ get_mentions <- function(n = 200,
     retryonratelimit = retryonratelimit,
     verbose = verbose
   )
-  
+
   if (parse) {
     r <- tweets_with_users(r)
     r$created_at <- format_date(r$created_at)

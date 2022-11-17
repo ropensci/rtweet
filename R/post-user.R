@@ -14,11 +14,11 @@
 #' @examples
 #' if (auth_has_default()) {
 #'     post_follow("_R_Foundation")
-#'     post_follow("rtweet_test", mute = TRUE) # Mute
+#'     post_follow("rtweet", mute = TRUE) # Mute
 #' }
 #' @family post
 #' @export
-#' @references 
+#' @references
 #' Update: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update>
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create>
 #' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy>

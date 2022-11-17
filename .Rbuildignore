@@ -30,7 +30,7 @@
 ^vignettes/rstats.json$
 ^vignettes/*.Rmd.orig$
 ^vignettes/precompute.R$
-^.*\.json$
 tarball
 lastMiKTeXException
 ^CRAN-SUBMISSION$
+hidden_tokens_consumers.txt
