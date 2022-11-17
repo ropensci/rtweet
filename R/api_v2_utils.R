@@ -1,48 +1,38 @@
-check_fields <- function(fields,
-                         media_fields = NULL,
-                         place_fields = NULL,
-                         poll_fields = NULL,
-                         tweet_fields = NULL,
-                         user_fields = NULL,
-                         metrics_fields = NULL) {
-  error <- c(
-    check_field_helper(fields, media_fields, "media"),
-    check_field_helper(fields, media_fields, "place"),
-    check_field_helper(fields, media_fields, "poll"),
-    check_field_helper(fields, media_fields, "tweet"),
-    check_field_helper(fields, media_fields, "user"),
-    check_field_helper(fields, media_fields, "metrics")
-  )
-  stop(error, call. = FALSE)
-}
-
-
-check_field_helper <- function(passed, allowed, name) {
-  y <- passed[[name]]
-  if (is.null(allowed) && !is.null(y)) {
-    return("No media allowed")
-  }
-  wrong <- setdiff(y, allowed)
-  paste("Fields", paste(wrong, collapse = ", "), " are not allowed or valid.\n")
-}
-
-check_extensions <- function(passed, allowed) {
-  within <- passed %in% allowed
-  if (length(passed) > 10 || any(within)) {
-    extensions <- passed[within]
-    stop("These extensions are now allowed: ",
-         paste(extensions, collapse = ", "), call. = FALSE)
-  }
-}
-
 prepare_params <- function(x) {
   lapply(x, paste, collapse = ",")
 }
 
-check_token_v2 <- function(token = NULL) {
+auth_is_bearer <- function(token = NULL) {
+
+  if (is.null(token)) {
+    token <- auth_get()
+  }
+  inherits(token, "rtweet_bearer")
+}
+
+
+# Check token readiness for API v2
+#
+# Check if current authentication is ready for API v2 usage.
+# @param token The token to check if can be used for API v2.
+# @param mechanism Which flavor of authentication must be used.
+#
+# The authentication method required for each endpoint might change, this is a
+# helper for examples.
+#
+# @return If no issue is found the original token, if something is amiss it raises an error.
+# @export
+#
+# @examples
+#  if (auth_has_default()) {
+#     tryCatch(check_token_v2())
+#  }
+
+check_token_v2 <- function(token = NULL, mechanism = "bearer") {
+
   token <- token %||% auth_get()
 
-  if (!inherits(token, "rtweet_bearer")) {
+  if (mechanism == "bearer" && auth_is_bearer(token)) {
     abort("A bearer `token` is needed for API v2")
   }
   token
@@ -66,7 +56,7 @@ req_v2 <- function(token = NULL) {
 }
 
 error_body <- function(resp) {
-  resp_body_json(resp)
+  httr2::resp_body_json(resp)
 }
 
 endpoint_v2 <- function(token, path, throttle) {
@@ -98,6 +88,6 @@ twitter_is_transient <- function(resp) {
     identical(httr2::resp_header(resp, "x-rate-limit-remaining"), "0")
 }
 twitter_after <- function(resp) {
-  when <- as.numeric(resp_header(resp, "x-rate-limit-reset"))
+  when <- as.numeric(httr2::resp_header(resp, "x-rate-limit-reset"))
   when - unclass(Sys.time())
 }

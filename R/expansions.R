@@ -1,4 +1,3 @@
-
 #' Expansions
 #'
 #' Twitter parameters to add more fields on the returned values.
@@ -13,6 +12,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/expansions>
 #' @seealso [Fields]
 #' @name Expansions
+#' @aliases expansions
 #' @examples
 #' tweet_expansions()
 #' user_expansions()
@@ -34,4 +34,13 @@ tweet_expansions <- function(attachments = TRUE, referenced_tweets = TRUE) {
 #' @name Expansions
 user_expansions <- function() {
   "pinned_tweet_id"
+}
+
+check_expansions <- function(passed, allowed) {
+  within <- passed %in% allowed
+  if (length(passed) > 10 || any(within)) {
+    extensions <- passed[within]
+    stop("These extensions are now allowed: ",
+         paste(extensions, collapse = ", "), call. = FALSE)
+  }
 }
