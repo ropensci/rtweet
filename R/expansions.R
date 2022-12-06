@@ -37,10 +37,15 @@ user_expansions <- function() {
 }
 
 check_expansions <- function(passed, allowed) {
-  within <- passed %in% allowed
+  if (is.null(passed)) {
+    return(list(expansions = allowed))
+  }
+
+  within <- !passed %in% allowed
   if (length(passed) > 10 || any(within)) {
     extensions <- passed[within]
-    stop("These extensions are now allowed: ",
+    stop("These extensions are not allowed: ",
          paste(extensions, collapse = ", "), call. = FALSE)
   }
+  list(expansions = passed)
 }

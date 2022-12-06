@@ -34,8 +34,7 @@ rbind.users <- function(..., deparse.level = 1) {
   tweets <- NextMethod()
   keep_users <- missing(drop) || !drop
   if (keep_users) {
-    users <- users_data(x)[i, ]
-    attr(tweets, "users") <- users
+    attr(tweets, "users") <- users_data(x)[i, ]
   }
   tweets
 }
@@ -45,8 +44,7 @@ rbind.users <- function(..., deparse.level = 1) {
   users <- NextMethod()
   keep_tweets <- missing(drop) || !drop
   if (keep_tweets) {
-    tweets <- tweets_data(x)[i, ]
-    attr(users, "tweets") <- tweets
+    attr(users, "tweets") <- tweets_data(x)[i, ]
   }
   users
 }

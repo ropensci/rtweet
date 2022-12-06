@@ -66,23 +66,49 @@ check_fields <- function(fields,
                          tweet_fields = NULL,
                          user_fields = NULL,
                          metrics_fields = NULL) {
+  n_fields <- names(fields)
+  valid_fields <- c("media", "place", "poll", "tweet", "user", "metrics")
+  valid_fields <- paste0(valid_fields, ".fields")
+
+  # If null use all the allowed fields
+  if (is.null(fields)) {
+      fields <- list("media.fields" = media_fields, "place.fields" = place_fields,
+                     "poll.fields" = poll_fields, "tweet.fields" = tweet_fields,
+                     "user.fields" = user_fields, "metrics.fields" = metrics_fields)
+      return(fields[lengths(fields) > 0])
+  }
+
+  if (length(setdiff(n_fields, valid_fields)) >= 1) {
+    warning("Invalid fields provided, they are omitted", call. = FALSE)
+  }
+
+  fields <- fields[intersect(n_fields, valid_fields)]
+
   error <- c(
     check_field_helper(fields, media_fields, "media"),
-    check_field_helper(fields, media_fields, "place"),
-    check_field_helper(fields, media_fields, "poll"),
-    check_field_helper(fields, media_fields, "tweet"),
-    check_field_helper(fields, media_fields, "user"),
-    check_field_helper(fields, media_fields, "metrics")
+    check_field_helper(fields, place_fields, "place"),
+    check_field_helper(fields, poll_fields, "poll"),
+    check_field_helper(fields, tweet_fields, "tweet"),
+    check_field_helper(fields, user_fields, "user"),
+    check_field_helper(fields, metrics_fields, "metrics")
   )
-  stop(error, call. = FALSE)
+  if (!is.null(error)) {
+    stop(error, call. = FALSE)
+  }
+  fields
 }
 
 
 check_field_helper <- function(passed, allowed, name) {
   y <- passed[[name]]
   if (is.null(allowed) && !is.null(y)) {
-    return("No media allowed")
+    return(paste0("No ", name, " field allowed"))
   }
   wrong <- setdiff(y, allowed)
-  paste("Fields", paste(wrong, collapse = ", "), " are not allowed or valid.\n")
+  if (length(wrong) >= 1) {
+    paste("Fields", paste(wrong, collapse = ", "), "are not allowed or valid.\n")
+  } else {
+    return(NULL)
+  }
+
 }
