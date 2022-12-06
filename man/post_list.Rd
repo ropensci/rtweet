@@ -54,9 +54,7 @@ users <- c("_R_Foundation", "R_dev_news", "rweekly_live", "RConsortium", "rstats
 (r_lst <- post_list(users,
   "r-accounts", description = "R related accounts"))
 
-## view list in browser
-browseURL(sprintf("https://twitter.com/\%s/lists/r-accounts",
-  rtweet:::api_screen_name()))
+## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
 
 ## search for more rstats users
 r_users <- search_users("rstats", n = 200)
@@ -68,8 +66,7 @@ more_users <- r_users$screen_name[r_users$verified]
 post_list(users = more_users, slug = "r-accounts")
 
 ## view updated list in browser (should be around 100 users)
-browseURL(sprintf("https://twitter.com/\%s/lists/r-accounts",
-  rtweet:::api_screen_name()))
+## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
 
 drop_users <- "icymi_r"
 
@@ -78,8 +75,7 @@ post_list(users = drop_users, slug = "r-accounts",
   destroy = TRUE)
 
 ## view updated list in browser (should be around 100 users)
-browseURL(sprintf("https://twitter.com/\%s/lists/r-accounts",
-  rtweet:::api_screen_name()))
+## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
 
 ## delete list entirely
 post_list(slug = "r-accounts", destroy = TRUE)

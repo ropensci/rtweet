@@ -25,9 +25,7 @@
 #' (r_lst <- post_list(users,
 #'   "r-accounts", description = "R related accounts"))
 #'
-#' ## view list in browser
-#' browseURL(sprintf("https://twitter.com/%s/lists/r-accounts",
-#'   rtweet:::api_screen_name()))
+#' ## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
 #'
 #' ## search for more rstats users
 #' r_users <- search_users("rstats", n = 200)
@@ -39,28 +37,26 @@
 #' post_list(users = more_users, slug = "r-accounts")
 #'
 #' ## view updated list in browser (should be around 100 users)
-#' browseURL(sprintf("https://twitter.com/%s/lists/r-accounts",
-#'   rtweet:::api_screen_name()))
+#' ## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
 #'
 #' drop_users <- "icymi_r"
-#' 
+#'
 #' ## drop these users from the R list
 #' post_list(users = drop_users, slug = "r-accounts",
 #'   destroy = TRUE)
 #'
 #' ## view updated list in browser (should be around 100 users)
-#' browseURL(sprintf("https://twitter.com/%s/lists/r-accounts",
-#'   rtweet:::api_screen_name()))
+#' ## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
 #'
 #' ## delete list entirely
 #' post_list(slug = "r-accounts", destroy = TRUE)
 #'
 #' }
 #' @export
-#' @references  
+#' @references
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-create>
 #' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy>
-#' Add users: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create>, 
+#' Add users: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create>,
 #' <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create_all>
 #' Remove users: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy>,
 #' <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all>
@@ -134,7 +130,7 @@ post_list_add_one <- function(user,
       call. = FALSE)
     user <- user[1]
   }
-  
+
   params <- my_list_params(token,
     users = user,
     list_id = list_id,
@@ -147,7 +143,7 @@ post_list_add_one <- function(user,
 post_list_destroy <- function(list_id = NULL,
                               slug = NULL,
                               token = NULL) {
-  
+
   params <- my_list_params(token,
     list_id = list_id,
     slug = slug
@@ -165,7 +161,7 @@ post_list_create_all <- function(users,
       call. = FALSE)
     users <- users[1:100]
   }
-  
+
   params <- my_list_params(token,
     users = users,
     list_id = list_id,
@@ -178,7 +174,7 @@ post_list_destroy_all <- function(users,
                                   list_id = NULL,
                                   slug = NULL,
                                   token = NULL) {
-  
+
   stopifnot(is.character(users))
   if (length(users) > 100) {
     warning("Can only drop 100 users at a time. Dropping users[1:100]...",
@@ -196,20 +192,20 @@ post_list_destroy_all <- function(users,
 
 my_list_params <- function(token, slug = NULL, list_id = NULL, ..., users = NULL) {
   params <- list(...)
-  
+
   if (!is.null(list_id) && is.null(slug)) {
     stopifnot(is.atomic(list_id), length(list_id) == 1)
-    
+
     params$list_id <- list_id
   } else if (is.null(slug) && !is.null(list_id)) {
     stopifnot(is.atomic(slug), length(slug) == 1)
-    
+
     params$slug <- slug
     params$owner_screen_name = api_screen_name(token)
   } else {
     abort("Must supply exactly one of `list_id` or `slug` to identify a list")
-  } 
-  
+  }
+
   if (!is.null(users)) {
     params[[user_type(users, "users")]] <- paste0(users, collapse = ",")
   }
