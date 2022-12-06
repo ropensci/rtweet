@@ -1,7 +1,4 @@
-prepare_params <- function(x) {
-  lapply(x, paste, collapse = ",")
-}
-
+# Creating requests ####
 auth_is_bearer <- function(token = NULL) {
 
   if (is.null(token)) {
@@ -27,13 +24,12 @@ auth_is_bearer <- function(token = NULL) {
 #  if (auth_has_default()) {
 #     tryCatch(check_token_v2())
 #  }
-
 check_token_v2 <- function(token = NULL, mechanism = "bearer") {
 
   token <- token %||% auth_get()
 
-  if (mechanism == "bearer" && auth_is_bearer(token)) {
-    abort("A bearer `token` is needed for API v2")
+  if (mechanism == "bearer" && !auth_is_bearer(token)) {
+    abort("A bearer `token` is needed for this endpoint.")
   }
   token
 }
@@ -51,13 +47,19 @@ req_v2 <- function(token = NULL) {
   req_try <- httr2::req_retry(req_headers,
                               is_transient = twitter_is_transient,
                               after = twitter_after)
-  # httr2::req_error(req_try, body = error_body)
   req_try
 }
 
-error_body <- function(resp) {
-  httr2::resp_body_json(resp)
+twitter_is_transient <- function(resp) {
+  httr2::resp_status(resp) %in% c(403, 503) &&
+    identical(httr2::resp_header(resp, "x-rate-limit-remaining"), "0")
 }
+
+twitter_after <- function(resp) {
+  when <- as.numeric(httr2::resp_header(resp, "x-rate-limit-reset"))
+  when - unclass(Sys.time())
+}
+
 
 endpoint_v2 <- function(token, path, throttle) {
 
@@ -65,6 +67,11 @@ endpoint_v2 <- function(token, path, throttle) {
   httr2::req_throttle(req, throttle, realm = path)
 }
 
+prepare_params <- function(x) {
+  lapply(x, paste, collapse = ",")
+}
+
+# Handling responses ####
 parsing <- function(x) {
   if (!is.logical(x) || any(is.na(x))) {
     stop("parse should be either TRUE or FALSE", call. = FALSE)
@@ -73,21 +80,42 @@ parsing <- function(x) {
     stop("parse should be of length 1", call. = FALSE)
   }
   if (isTRUE(x)) {
-    stop("Parsing for the rtweet API is not yet implemented", call. = FALSE)
+    stop("Parsing for the rtweet API v2 is not yet implemented", call. = FALSE)
   }
 }
 
+l_minus <- function(l, minus) {
+  keep <- setdiff(names(l), minus)
+  l[keep]
+}
+
 # Handle the response and give attributes
-resp <- function(obj) {
+resp <- function(obj, type = "json", ...) {
+  out <- switch(type,
+                "json" = httr2::resp_body_json(obj, ...),
+                "html" = httr2::resp_body_html(obj, ...),
+                "xml" = httr2::resp_body_xml(obj, ...))
+  class(out) <- c("Twitter_resp", class(out))
 
+  if (has_name_(out, "meta")) {
+    meta <- data.frame(sent = strptime(out$meta$sent, tz = "UTC",
+                                       format = "%Y-%m-%dT%H:%M:%OS"))
+    if (has_name_(out$meta, "summary")) {
+      meta <- cbind(meta, list2DF(out$meta$summary))
+    }
+    rest <- list2DF(l_minus(out$meta, c("summary", "sent")))
+    if (ncol(rest) >= 1 && nrow(rest) == 1) {
+      meta <- cbind(meta, rest)
+    } else if (nrow(rest) > 1) {
+      stop("Please check")
+    }
+    out$meta <- meta
+  }
+
+  if (has_name_(out, "errors")) {
+    out$errors <- do.call(rbind, lapply(out$errors, list2DF))
+  }
+  out
 }
 
 
-twitter_is_transient <- function(resp) {
-  httr2::resp_status(resp) %in% c(403, 503) &&
-    identical(httr2::resp_header(resp, "x-rate-limit-remaining"), "0")
-}
-twitter_after <- function(resp) {
-  when <- as.numeric(httr2::resp_header(resp, "x-rate-limit-reset"))
-  when - unclass(Sys.time())
-}

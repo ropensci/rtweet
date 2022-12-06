@@ -75,19 +75,15 @@ stream <- function(req, file, append, timeout) {
 #' @export
 stream_add_rule <- function(query, dry = FALSE, token = NULL) {
   if (!is.null(query)) {
-    query <- list(add = list(check_stream_add(query)))
+    query <- list(add = check_stream_add(query))
   }
   streaming <- stream_rules(query, token, auto_unbox = TRUE, pretty = FALSE)
   if (isTRUE(dry)) {
     streaming <- httr2::req_body_form(streaming, dry_run = dry)
   }
   out <- httr2::req_perform(streaming)
-  out <- httr2::resp_body_json(out)
-
-  df <- do.call(rbind, lapply(out$data, list2DF))
-  attr(df, "meta") <- out$meta
-  class(df) <- c("rules", class(df))
-  df
+  out <- resp(out)
+  handle_rules_resp(out)
 }
 
 #' @describeIn stream Remove rules from the filtered streaming
@@ -101,7 +97,47 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
     rm_rule <- httr2::req_body_form(rm_rule, dry_run = dry)
   }
   out <- httr2::req_perform(rm_rule)
-  httr2::resp_body_json(out)
+  out <- resp(out)
+  handle_rules_resp(out)
+}
+
+handle_rules_resp <- function(x) {
+  if (has_name_(x, "errors")) {
+    warning("There are errors in the requests: ",
+            x$errors$title,
+            "\nCheck the returned object for more details.", call. = FALSE)
+    return(x)
+  }
+  df <- x$meta
+
+  rules <- do.call(rbind, lapply(x$data, list2DF))
+  # Ensure that the same order is always used
+  if (!is.null(rules)) {
+    rules <- rules[, c("id", "value", "tag")]
+  }
+  attr(df, "rules") <- rules
+  class(df) <- c("rules", class(df))
+  df
+}
+
+#' @export
+rules <- function(x, ...) {
+  UseMethod("rules")
+}
+
+#' @export
+ids <- function(x, ...) {
+  UseMethod("ids")
+}
+
+#' @export
+rules.rules <- function(x, ...) {
+  attr(x, "rules")
+}
+
+#' @export
+ids.rules <- function(x, ...) {
+  rules(x)$id
 }
 
 stream_rules <- function(query = NULL, token = NULL, ...) {
@@ -113,15 +149,9 @@ stream_rules <- function(query = NULL, token = NULL, ...) {
   req
 }
 
-
-check_stream_add <- function(q) {
-
-  # Empty rules is asking for existing rules
-  if (is.null(q)) {
-    return(NULL)
-  }
+is_rule <- function(q) {
   if (!has_name(q, "value")) {
-    stop("Please add streaing for filtering and a tag", call. = FALSE)
+    stop("Please add value for filtering and a tag", call. = FALSE)
   }
   nc <- nchar(q[["value"]])
   if (any(nc > 1024)) {
@@ -141,13 +171,19 @@ check_stream_add <- function(q) {
          call. = FALSE)
   }
   q
+}
+
+check_stream_add <- function(q) {
+  if (any(lengths(q) == 1)) {
+    out <- list(is_rule(q))
+  } else {
+    out <- lapply(q, is_rule)
+  }
+  out
 
 }
 
 check_stream_remove <- function(q) {
-  if (is.null(q)) {
-    return(q)
-  }
   if (is.numeric(q)) {
     q <- as.character(q)
   }
@@ -155,7 +191,11 @@ check_stream_remove <- function(q) {
   if (!any(grepl("^[0-9]{19}$", q))) {
     stop("Streaming ids should be 19 numbers long", call. = FALSE)
   }
-  list(delete = list(ids = list(q)))
+  if (length(q) == 1) {
+    list(delete = list(ids = list(q)))
+  } else {
+    list(delete = list(ids = q))
+  }
 }
 
 
