@@ -130,7 +130,7 @@ tweet <- function(x) {
   end <- setdiff(end, c("matching_rules"))
   if (length(end) != 0) {
     warning("Unidentified value: ", paste(end, collapse = ", "),
-         ".\n\tPlease open an issue to notify the maintainer. Thanks!")
+         ".\n\tPlease open an issue to notify the maintainer. Thanks!", call. = FALSE)
   }
   tb[setdiff(colnames(empty), colnames(tb))] <- NA
   rownames(tb) <- NULL
