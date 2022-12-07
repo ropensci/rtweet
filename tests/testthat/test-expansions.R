@@ -6,7 +6,7 @@ test_that("check_expansions works", {
   # Present and not present
   expect_error(check_expansions(c("a", "b"), "b"))
   # Present
-  expect_equal(check_expansions("a", "a"), "a")
+  expect_equal(check_expansions("a", "a"), list(expansions = "a"))
   # NULL returns the allowed fields
-  expect_equal(check_expansions(NULL, "a"), "a")
+  expect_equal(check_expansions(NULL, "a"), list(expansions = "a"))
 })

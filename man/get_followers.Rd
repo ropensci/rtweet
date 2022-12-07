@@ -72,11 +72,11 @@ user.
 }
 \examples{
 if (auth_has_default()) {
-users <- get_followers("_R_Foundation")
-users
+  users <- get_followers("_R_Foundation")
+  users
 
-# use `cursor` to find the next "page" of results
-more_users <- get_followers("_R_Foundation", cursor = users)
+  # use `cursor` to find the next "page" of results
+  more_users <- get_followers("_R_Foundation", cursor = users)
 
 }
 }

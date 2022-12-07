@@ -9,10 +9,10 @@
 \title{Streaming}
 \usage{
 filtered_stream(
-  file,
   timeout,
+  file = tempfile(),
   expansions = c(),
-  fields = c(),
+  fields = list(),
   ...,
   token = NULL,
   append = TRUE
@@ -23,21 +23,20 @@ stream_add_rule(query, dry = FALSE, token = NULL)
 stream_rm_rule(query, dry = FALSE, token = NULL)
 
 sample_stream(
-  file,
   timeout,
-  expansions = c("attachments.poll_ids", "attachments.media_keys", "author_id",
-    "edit_history_tweet_ids", "entities.mentions.username", "geo.place_id",
-    "in_reply_to_user_id", "referenced_tweets.id", "referenced_tweets.id.author_id"),
-  fields = c(),
+  file = tempfile(),
+  expansions = c(),
+  fields = list(),
+  ...,
   token = NULL,
   parse = TRUE,
   append = TRUE
 )
 }
 \arguments{
-\item{file}{Path to a file where the raw streaming should be stored.}
-
 \item{timeout}{time, in seconds, of the recording stream.}
+
+\item{file}{Path to a file where the raw streaming should be stored.}
 
 \item{expansions}{Expansions you want to use see \code{\link[=tweet_expansions]{tweet_expansions()}}.}
 
@@ -91,18 +90,22 @@ One tweet might belong to multiple rules.
 \examples{
 # Requires a bearer token
 if (FALSE) {
+  # How many rules do we have
   stream_add_rule(NULL)
   # Add new rule
-  stream_add_rule(list(value = "testing rules rtweet", tag = "tsrt"))
-  (rm <- stream_add_rule(NULL))
+  new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
+  new_rule
   # Open filtered streaming connection for 30s
-  filtered_stream(tempfile(), 30)
+  filtered_stream(file = tempfile(), timeout = 30)
   # Remove rule
-  stream_rm_rule(df$id[df$tag == "ts"])
+  stream_rm_rule(ids(new_rules))
   # Open random streaming connection
-  sample_stream(tempfile(), 3)
+  sample_stream(file = tempfile(), timeout = 3)
 }
 }
 \seealso{
-Filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule}
+Rules for filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule}
+Sampled stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream}
+Filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream}
+\link{ids}
 }

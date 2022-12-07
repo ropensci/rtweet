@@ -1,14 +1,14 @@
 #' Get user IDs of accounts followed by target user(s).
 #'
 #' Returns a list of user IDs for the accounts following BY one or
-#' more specified users. 
-#' 
+#' more specified users.
+#'
 #' Generally, you should not need to set `n` to more than 5,000 since Twitter
 #' limits the number of people that you can follow (i.e. to follow more than
 #' 5,000 people at least 5,000 people need to follow you).
-#' 
-#' @note If a user is protected the API will omit all requests so you'll need 
-#' to find which user is protected. rtweet will warn you and the output will be `NA`. 
+#'
+#' @note If a user is protected the API will omit all requests so you'll need
+#' to find which user is protected. rtweet will warn you and the output will be `NA`.
 #'
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_followers
@@ -32,27 +32,27 @@ get_friends <- function(users,
                         verbose = TRUE,
                         token = NULL,
                         page = lifecycle::deprecated()) {
-  
+
   if (lifecycle::is_present(page)) {
     lifecycle::deprecate_warn("1.0.0", "get_friends(page)", "get_friends(cursor)")
     cursor <- page
   }
 
-  results <- lapply(users, get_friends_user, 
-    n = n, 
+  results <- lapply(users, get_friends_user,
+    n = n,
     retryonratelimit = retryonratelimit,
     cursor = cursor,
     parse = parse,
     verbose = verbose,
     token = token
   )
-  
+
   if (parse) {
-    # Can only paginate with cursor if requesting info for single user. 
+    # Can only paginate with cursor if requesting info for single user.
     # Fortunately, few people follower >5000 users so this should rarely
     # come up in practice.
     df <- do.call(rbind, results)
-    
+
     if (length(results) == 1) {
       results <- copy_cursor(df, results[[1]])
     } else {
@@ -65,7 +65,7 @@ get_friends <- function(users,
 get_friends_user <- function(user, token, ..., parse = TRUE) {
   params <- list(stringify_ids = TRUE)
   params[[user_type(user)]] <- user
-  
+
   results <- TWIT_paginate_cursor(token, "/1.1/friends/ids", params,
     page_size = 5000,
     ...
@@ -74,13 +74,14 @@ get_friends_user <- function(user, token, ..., parse = TRUE) {
   if (parse) {
     df <- tibble::tibble(
       from_id = user,
-      to_id = unlist(lapply(results, function(x) x$ids), 
+      to_id = unlist(lapply(results, function(x) x$ids),
                      recursive = FALSE, use.names = FALSE)
     )
     if (ncol(df) == 1) {
       df$to_id <- NA
     }
     results <- copy_cursor(df, results)
+    class(results) <- c("friends", class(results))
   }
   results
 }
@@ -98,11 +99,11 @@ get_friends_user <- function(user, token, ..., parse = TRUE) {
 my_friendships <- function(user,
                            parse = FALSE,
                            token = NULL) {
-  
+
   if (!isFALSE(parse)) {
     abort("`my_friendships()` can only return unparsed data")
   }
-  
+
   params <- list()
   params[[user_type(user)]] <- paste0(user, collapse = ",")
   TWIT_get(token, "/1.1/friendships/lookup", params)

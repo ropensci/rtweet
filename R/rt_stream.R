@@ -88,6 +88,7 @@ stream <- function(req, file, timeout) {
   }
 
   a <- httr2::req_stream(req, callback, timeout_sec = timeout)
+
   if (file.exists(file)) {
     out <- clean_streaming_file(file)
   }
@@ -149,26 +150,6 @@ handle_rules_resp <- function(x) {
   attr(df, "rules") <- rules
   class(df) <- c("rules", class(df))
   df
-}
-
-#' @export
-rules <- function(x, ...) {
-  UseMethod("rules")
-}
-
-#' @export
-ids <- function(x, ...) {
-  UseMethod("ids")
-}
-
-#' @export
-rules.rules <- function(x, ...) {
-  attr(x, "rules")
-}
-
-#' @export
-ids.rules <- function(x, ...) {
-  rules(x)$id
 }
 
 stream_rules <- function(query = NULL, token = NULL, ...) {

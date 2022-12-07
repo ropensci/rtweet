@@ -9,11 +9,11 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
 #' if (auth_has_default()) {
-#' users <- get_followers("_R_Foundation")
-#' users
+#'   users <- get_followers("_R_Foundation")
+#'   users
 #'
-#' # use `cursor` to find the next "page" of results
-#' more_users <- get_followers("_R_Foundation", cursor = users)
+#'   # use `cursor` to find the next "page" of results
+#'   more_users <- get_followers("_R_Foundation", cursor = users)
 #'
 #' }
 #' @return A tibble data frame with one column named "from_id" with the
@@ -49,6 +49,7 @@ get_followers <- function(user, n = 5000,
     df <- tibble::tibble(from_id = unlist(lapply(results, function(x) x$ids)),
                          to_id = user)
     results <- copy_cursor(df, results)
+    class(results) <- c("followers", class(results))
   }
   results
 }
