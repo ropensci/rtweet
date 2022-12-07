@@ -1,10 +1,9 @@
 test_that("can follow and unfollow", {
-  skip("requires manual testing")
   vcr::use_cassette("post_follow1", {
     pf <- post_follow("BarackObama")
   })
   expect_equal(httr::status_code(pf), 200L)
-  
+
   vcr::use_cassette("post_follow2", {
     pf <- post_follow("BarackObama", destroy = TRUE)
   })
@@ -12,12 +11,11 @@ test_that("can follow and unfollow", {
 })
 
 test_that("can follow and unfollow with notifications", {
-  skip("requires manual testing")
   vcr::use_cassette("post_follow3", {
     pf <- post_follow("BarackObama", notify = TRUE)
   })
   expect_equal(httr::status_code(pf), 200L)
-  
+
   vcr::use_cassette("post_follow4", {
     pf <- post_follow("BarackObama", destroy = TRUE)
   })
@@ -25,9 +23,9 @@ test_that("can follow and unfollow with notifications", {
 })
 
 test_that("Muting  #467", {
-  
+
   vcr::use_cassette("post_follow5", {
-    pf <- post_follow("hlynur", destroy = TRUE, mute = TRUE, notify = TRUE) 
+    pf <- post_follow("hlynur", destroy = TRUE, mute = TRUE, notify = TRUE)
   })
   expect_equal(httr::status_code(pf), 200L)
   # Unmutting without following
