@@ -6,15 +6,15 @@
 #' @examples
 #'
 #' if (auth_has_default()) {
-#' statuses <- c(
-#'   "567053242429734913",
-#'   "266031293945503744",
-#'   "440322224407314432"
-#' )
+#'   statuses <- c(
+#'     "567053242429734913",
+#'     "266031293945503744",
+#'     "440322224407314432"
+#'   )
 #'
-#' ## lookup tweets data for given statuses
-#' tw <- lookup_tweets(statuses)
-#' tw
+#'   ## lookup tweets data for given statuses
+#'   tw <- lookup_tweets(statuses)
+#'   tw
 #' }
 #' @return A tibble of tweets data.
 #' @family tweets
@@ -29,7 +29,7 @@ lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
       include_ext_alt_text = "true"
     )
   })
-  
+
   results <- TWIT_paginate_chunked(token, "/1.1/statuses/lookup", params_list,
     retryonratelimit = retryonratelimit,
     verbose = verbose
@@ -38,9 +38,9 @@ lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
   if (parse) {
     results <- tweets_with_users(results)
     results$created_at <- format_date(results$created_at)
-    # Reorder to match input, skip NA if the status is not found. 
+    # Reorder to match input, skip NA if the status is not found.
     m <- match(statuses, results$id_str)
-    m <- m[!is.na(m)] 
+    m <- m[!is.na(m)]
     results <- results[m, ]
     attr(results, "users") <- users_data(results)[m, ]
   }
@@ -52,7 +52,7 @@ lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
 #' @usage NULL
 lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
   lifecycle::deprecate_warn("1.0.0", "lookup_statuses()", "lookup_tweets()")
-  
+
   lookup_tweets(statuses = statuses, parse = parse, token = token)
 }
 

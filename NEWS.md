@@ -1,17 +1,23 @@
 # rtweet (development version)
 
-- Fixed a logical length 1 in check_media when posting multiple media.
+- Fixed a bug that prevented posting multiple media in the same tweet.
 - Argument premium is correctly handled in `search_fullarchive` and `search_30day` (#720).  
 - ts_plot uses the first two columns of grouped data.frames for plotting (#724 and #727).
 - get_timeline returns user data for multiple accounts (#723).
 - network_data now handles deleted accounts (#730).
 - retryonratelimit works again on paginated endpoints (#732).
-- Fixed a bug in `auth_sitrep` due to duplicate tokens.
+- Fixed multiple bugs that prevented `auth_sitrep()` to work in some cases. 
 - Provided `rbind` and subsetting methods (`[`) for rtweet new classes.
 - Fixed a bug about sending a private message (#735).
-- Provided a function for cleaning entities from the text of tweets (#721).
-- Columns of the parsed output are now in the same order always (#740).
-- Fix an error that prevented `auth_sitrep()` to work in some cases. 
+- Provided a function `clean_tweets()` for cleaning entities from the text of tweets (#721).
+- New helper methods for extracting data from entities in tweets: `urls()`, 
+  `hashtags()`, `symbols()`, `user_mentions()`, `media()`.
+- Columns of the parsed output are now always in the same order (#740).
+- New methods to retrieve `ids()` from multiple classes and print nicer in `post_tweet()` (#452).
+- `post_tweet()` now invisible returns the tweet information.
+- Provides initial support for API v2 for streaming endpoints: 
+  `filtered_stream()` and `sample_stream()`, including adding rules 
+  `stream_add_rules()` and `stream_rm_rules()`.
 
 # rtweet 1.0.2
 
