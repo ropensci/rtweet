@@ -33,5 +33,5 @@ test_that("TWIT_paginte_cursor respects cursor", {
   vcr::use_cassette("http5", {
     page2 <- get_followers("JustinBieber", cursor = page1)
   })
-  expect_length(intersect(page1$from_id, page2$from_id), 1)
+  expect_length(intersect(page1$from_id, page2$from_id), 0)
 })
