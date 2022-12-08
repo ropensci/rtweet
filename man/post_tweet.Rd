@@ -99,13 +99,9 @@ post_tweet("a tweet with media attachment", media = tmp,
 
 # example of replying within a thread
 ## first post
-post_tweet(status="first in a thread")
+pt <- post_tweet(status="first in a thread")
 
-## lookup status_id
-my_timeline <- get_my_timeline()
-
-## ID for reply
-reply_id <- my_timeline$id_str[1]
+reply_id <- ids(pt)
 
 ## post reply
 post_tweet("second in the thread",

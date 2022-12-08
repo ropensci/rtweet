@@ -20,9 +20,8 @@ Deletes a status of user's profile.
 }
 \examples{
 if (auth_has_default()) {
-pt <- post_tweet("Running #rtweet examples")
-crt <- httr::content(pt)
-post_destroy(crt$id_str)
+  pt <- post_tweet("Running #rtweet examples")
+  post_destroy(ids(pt))
 }
 }
 \references{

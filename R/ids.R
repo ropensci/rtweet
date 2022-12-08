@@ -46,9 +46,9 @@ ids.friends <- function(x, ...) {
 
 #' @export
 ids.post_tweet <- function(x, ...) {
-  if (httr::status_code(pt) != 200L) {
+  if (httr::status_code(x) != 200L) {
     stop("Your message has not been posted!", call. = FALSE)
   }
-  cpt <- httr::content(pt)
+  cpt <- httr::content(x)
   cpt$id_str
 }
