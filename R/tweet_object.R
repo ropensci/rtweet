@@ -124,24 +124,35 @@ tweet <- function(x) {
   } else {
     tb$place <- lapply(x$place, place)
   }
-  end <- setdiff(colnames(tb), colnames(empty))
+
+
+  end <- setdiff(names(tb), colnames(empty))
   # Omit extended tweet info from stream API v1 and premium API: should be handled now
   # Omit matching_rules just from premium API v1 (not sure how it works)
   end <- setdiff(end, c("matching_rules"))
-  if (length(end) != 0) {
+  if (is.data.frame(x) && length(end) != 0) {
     warning("Unidentified value: ", paste(end, collapse = ", "),
          ".\n\tPlease open an issue to notify the maintainer. Thanks!", call. = FALSE)
   }
-  tb[setdiff(colnames(empty), colnames(tb))] <- NA
+  tb[setdiff(names(empty), names(tb))] <- NA
   rownames(tb) <- NULL
+  if (!is.data.frame(tb)) {
+    k <- lengths(tb) == 0
+    tb[names(k)[k]] <- empty[names(k)[k]]
+    tb <- list2DF(tb[names(empty)])
+  }
   tb
 }
 
 parse_entities2 <- function(y) {
-  l <- vector("list", NROW(y))
-  for (col in seq_len(NCOL(y))) {
+  if (!is.data.frame(y) && is.list(y)) {
+    l <- vector("list", length(y))
+  } else {
+    l <- vector("list", NROW(y))
+  }
+  for (col in seq_along(y)) {
     # Look for the function of said object and save it.
-    fun <- match.fun(colnames(y)[col])
+    fun <- match.fun(names(y)[col])
     l[[col]] <- lapply(y[[col]], fun)
   }
   # Split and join
@@ -159,6 +170,9 @@ transpose_list <- function(l) {
 
 
 split_df <- function(x) {
+  if (is.null(nrow(x))) {
+    return(list(list()))
+  }
   l <- split(x, seq_len(NROW(x)))
   names(l) <- NULL
   l

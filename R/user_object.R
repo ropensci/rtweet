@@ -22,11 +22,15 @@ user <- function(x) {
     return(empty)
  }
 
- # Ignoring status, as it holds tweets
- y <- x[ , colnames(x) %in% colnames(empty)]
-
+ if (!is.data.frame(x) && is.list(x)) {
+      y <- list2DF(x[lengths(x) == 1])
+ } else {
+   # Ignoring status, as it holds tweets
+   y <- x[ , colnames(x) %in% colnames(empty)]
+ }
  # Adding missing values.
  missing <- setdiff(colnames(empty), colnames(y))
+
  if (length(missing) != 0 ) {
     y[ , missing] <- empty[rep(1, nrow(y)), missing]
  }
@@ -39,7 +43,7 @@ user <- function(x) {
 
 
  end <- setdiff(colnames(y), colnames(empty))
- if (length(end) != 0) {
+ if (is.data.frame(x) && length(end) != 0) {
    warning("Unidentified value: ", paste(end, collapse = ", "),
         ".\n\tPlease open an issue to notify the maintainer. Thanks!")
  }
