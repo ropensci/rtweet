@@ -12,9 +12,10 @@
 #' }
 post_destroy <- function(destroy_id, token = NULL) {
   stopifnot(is.character(destroy_id) && length(destroy_id) == 1)
-  
+
   query <- sprintf("/1.1/statuses/destroy/%s", destroy_id)
   r <- TWIT_post(token, query)
+  class(r) <- c("post_tweet", class(r))
   message("Your tweet has been deleted!")
   return(invisible(r))
 }

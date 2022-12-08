@@ -43,3 +43,12 @@ ids.followers <- function(x, ...) {
 ids.friends <- function(x, ...) {
   x$to_id
 }
+
+#' @export
+ids.post_tweet <- function(x, ...) {
+  if (httr::status_code(pt) != 200L) {
+    stop("Your message has not been posted!", call. = FALSE)
+  }
+  cpt <- httr::content(pt)
+  cpt$id_str
+}
