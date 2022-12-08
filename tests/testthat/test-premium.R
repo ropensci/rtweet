@@ -7,9 +7,10 @@ test_that("search_fullarchive works", {
     skip("Requires different authentication")
   }
   auth_as("bearer_testing_app")
-  df <- search_fullarchive( q = '#covid place:UK OR place:GB OR place:"United Kindom"',
-                            n = 20, env_name = 'fullArchive',
-                            fromDate = "201810010000")
+  expect_snapshot(
+    df <- search_fullarchive( q = '#covid place:UK OR place:GB OR place:"United Kindom"',
+                              n = 20, env_name = 'fullArchive',
+                              fromDate = "201810010000"))
   expect_equal(nrow(df), 20)
 })
 
@@ -22,8 +23,9 @@ test_that("search_fullarchive queries bigger than page size work", {
     skip("Requires different authentication")
   }
   auth_as("bearer_testing_app")
-  df <- search_fullarchive( q = '#covid place:UK OR place:GB OR place:"United Kindom"',
-                            n = 20, env_name = 'fullArchive',
-                            fromDate = "201810010000")
+  expect_snapshot(
+    df <- search_fullarchive( q = '#covid place:UK OR place:GB OR place:"United Kindom"',
+                              n = 20, env_name = 'fullArchive',
+                              fromDate = "201810010000"))
   expect_equal(nrow(df), 20)
 })
