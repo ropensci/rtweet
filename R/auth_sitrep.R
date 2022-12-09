@@ -18,9 +18,8 @@
 #' auth_sitrep()
 auth_sitrep <- function() {
   old_tokens <- find_old_tokens()
-  rappdirs_tokens <- find_rappdirs_tokens()
   tools_tokens <- find_tools_tokens()
-  all_tokens_files <- c(old_tokens, rappdirs_tokens, tools_tokens)
+  all_tokens_files <- c(old_tokens, tools_tokens)
 
   if (is.null(all_tokens_files)) {
     inform("No tokens were found! See ?auth_as for more details.")
@@ -37,10 +36,7 @@ auth_sitrep <- function() {
 
     change_old <- auth_check(read_tokens(old_tokens))
   }
-  if (length(rappdirs_tokens) != 0) {
-    inform(paste0("Tokens found on ", unique(dirname(rappdirs_tokens)), ":"))
-    change_rappdirs <- auth_check(read_tokens(rappdirs_tokens))
-  }
+
   if (length(tools_tokens) != 0) {
     inform(paste0("Tokens found on ", unique(dirname(tools_tokens)), ":"))
     change_tools <- auth_check(read_tokens(tools_tokens))
@@ -49,7 +45,7 @@ auth_sitrep <- function() {
   if (change_old || change_rappdirs || change_tools) {
     change <- TRUE
   }
-  if (change_old || change_rappdirs) {
+  if (change_old) {
     inform(paste0("All tokens should be moved to ", auth_path()))
   }
 
@@ -65,17 +61,6 @@ find_old_tokens <- function() {
   old_tokens <- lapply(many_paths, list.files, pattern = ".rtweet_token.*rds",
                        full.names = TRUE, all.files = TRUE)
   unique(unlist(old_tokens, TRUE, FALSE))
-}
-
-# Only for those that installed developer version will still using rappdirs.
-find_rappdirs_tokens <- function() {
-  if (!requireNamespace("rappdirs", quietly = TRUE)) {
-    return()
-  }
-  rappdirs_path <- getOption("rtweet:::config_dir",
-                             rappdirs::user_config_dir("rtweet"))
-  list.files(rappdirs_path, pattern = "*.rds",
-             all.files = TRUE, full.names = TRUE)
 }
 
 find_tools_tokens <- function() {

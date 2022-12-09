@@ -49,7 +49,6 @@ Suggests:
     magick (>= 2.7.3),
     maps (>= 3.4.0),
     openssl (>= 2.0.2),
-    rappdirs (>= 0.3.3),
     rmarkdown (>= 2.14),
     testthat (>= 3.1.0),
     vcr (>= 0.6.0),
