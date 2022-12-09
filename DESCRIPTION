@@ -1,7 +1,7 @@
 Type: Package
 Package: rtweet
 Title: Collecting Twitter Data
-Version: 1.0.2.9014
+Version: 1.0.2.9015
 Authors@R: c(
     person("Michael W.", "Kearney", , "kearneymw@missouri.edu", role = "aut",
            comment = c(ORCID = "0000-0002-0730-4694")),
