@@ -18,6 +18,16 @@ ids <- function(x, ...) {
   UseMethod("ids")
 }
 
+#' @export
+ids.default <- function(x, ...) {
+  out <- x[["id_str"]]
+  if (is.null(out)) {
+    stop("Ids are not present. Are you sure this is a rtweet object?",
+         call. = FALSE)
+  }
+  out
+}
+
 
 #' @export
 ids.rules <- function(x, ...) {

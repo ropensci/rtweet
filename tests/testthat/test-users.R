@@ -1,5 +1,5 @@
 test_that("lookup_users returns users data", {
-  
+
   vcr::use_cassette("lookup_users1", {
     x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
   })
@@ -8,7 +8,7 @@ test_that("lookup_users returns users data", {
 })
 
 test_that("lookup_users works", {
-  
+
   users <- c(
     "potus", "hillaryclinton", "realdonaldtrump",
     "fivethirtyeight", "cnn", "espn", "twitter"
@@ -23,21 +23,32 @@ test_that("lookup_users works", {
 
 
 test_that("users with same information, #654", {
-  
+
   vcr::use_cassette("lookup_users3", {
     a <- lookup_users("alexpghayes")
   })
   vcr::use_cassette("lookup_users4", {
     d <- lookup_users("Corey_Yanofsky")
   })
-  
+
   expect_length(setdiff(colnames(a), colnames(d)), 0)
 })
 
 test_that("Users with date formatting, #653", {
-  
+
   vcr::use_cassette("lookup_users5", {
     x <- lookup_users("alexpghayes")
   })
   expect_s3_class(x$created_at, "POSIXct")
+})
+
+test_that("lookup_users only works with ids", {
+  vcr::use_cassette("lookup_users1", {
+    x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
+  })
+
+  twd <- tweets_data(x)
+  expect_error(b <- lookup_tweets(twd), NA)
+  expect_s3_class(b, "users")
+
 })

@@ -6,7 +6,9 @@ if (requireNamespace("vcr", quietly = TRUE)) {
                                   GOOGLE_KEY = "My google key is safe.",
                                   GOOGLE_MAPS_KEY = "My google key is safe."),
     filter_query_parameters = c(status = "status message"),
-    serialize_with = "json"
+    serialize_with = "json",
+    warn_on_empty_cassette = TRUE
+
   ))
-  vcr::check_cassette_names()
+  vcr::check_cassette_names(allowed_duplicates = "lookup_users1")
 }

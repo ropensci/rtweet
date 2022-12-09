@@ -21,6 +21,10 @@
 #' @export
 lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
                           retryonratelimit = NULL, verbose = TRUE) {
+  # Prevents problems if someone passes a full table.
+  if (is.data.frame(statuses)) {
+    statuses <- ids(statuses)
+  }
   chunks <- unname(split(statuses, (seq_along(statuses) - 1) %/% 100))
   params_list <- lapply(chunks, function(id) {
     list(
