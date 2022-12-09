@@ -49,6 +49,6 @@ test_that("lookup_users only works with ids", {
 
   twd <- tweets_data(x)
   expect_error(b <- lookup_tweets(twd), NA)
-  expect_s3_class(b, "users")
+  expect_s3_class(b, "tweets")
 
 })
