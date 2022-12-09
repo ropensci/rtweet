@@ -1,6 +1,6 @@
 #' @export
 print.post_tweet <- function(x, ...) {
-  if (httr::status_code(pt) != 200L) {
+  if (httr::status_code(x) != 200L) {
     cat("Your message has not been posted!", call. = FALSE)
   }
   ct <- httr::content(x)
@@ -9,7 +9,7 @@ print.post_tweet <- function(x, ...) {
 
 #' @export
 print.tweet_deleted <- function(x, ...) {
-  if (httr::status_code(pt) != 200L) {
+  if (httr::status_code(x) != 200L) {
     cat("Your message has not been deleted!", call. = FALSE)
   }
   ct <- httr::content(x)

@@ -21,12 +21,26 @@ media(x)
 }
 \arguments{
 \item{x}{A tweets object of the rtweet package.}
-
-\item{...}{Other arguments currently unused.}
+}
+\value{
+Some information about those entities and the tweet id it comes from.
 }
 \description{
-Extract entities of the tweets.
+Extract entities of the tweets linked to a tweet id.
 }
+\section{Functions}{
+\itemize{
+\item \code{urls()}: Extract urls.
+
+\item \code{hashtags()}: Extract hashtags.
+
+\item \code{symbols()}: Extract symbols.
+
+\item \code{user_mentions()}: Extract user_mentions.
+
+\item \code{media()}: Extract media.
+
+}}
 \examples{
 if (auth_has_default()) {
   statuses <- c(
