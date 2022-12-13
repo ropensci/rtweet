@@ -17,3 +17,15 @@ print.tweet_deleted <- function(x, ...) {
   cat("Tweet", ct$id_str, "deleted from", ct$user$screen_name,
       "\nCreated at", as.character(created), ":", ct$text)
 }
+
+#' @export
+print.tweets <- function(x, ...) {
+  cat("Users data at users_data()\n")
+  NextMethod(x)
+}
+
+#' @export
+print.users <- function(x, ...) {
+  cat("Tweets data at tweets_data()")
+  NextMethod(x)
+}

@@ -129,12 +129,16 @@ tweet <- function(x) {
   end <- setdiff(names(tb), colnames(empty))
   # Omit extended tweet info from stream API v1 and premium API: should be handled now
   # Omit matching_rules just from premium API v1 (not sure how it works)
-  end <- setdiff(end, c("matching_rules"))
+  # Omit edit fields as they will be handled in API v2
+  edits <- c("edit_history", "edit_controls", "editable")
+  end <- setdiff(end, c(edits, "matching_rules"))
   if (is.data.frame(x) && length(end) != 0) {
     warning("Unidentified value: ", paste(end, collapse = ", "),
          ".\n\tPlease open an issue to notify the maintainer. Thanks!", call. = FALSE)
   }
   tb[setdiff(names(empty), names(tb))] <- NA
+  # Skip this new fields I will
+  tb[, edits] <- NULL
   rownames(tb) <- NULL
   if (!is.data.frame(tb)) {
     k <- lengths(tb) == 0

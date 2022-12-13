@@ -487,8 +487,9 @@ handle_error <- function(x) {
     stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
   }
   json <- from_js(x)
+  error <- if (!is.null(json$error)) json$error else json$errors
   stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
-       paste0(" * ", json$errors$message, " (", json$errors$code, ")"),
+       paste0(" * ", error$message, " (", error$code, ")"),
        call. = FALSE)
 }
 
