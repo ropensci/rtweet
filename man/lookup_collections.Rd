@@ -20,7 +20,6 @@ get_collections(
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{get_collections()} and \code{lookup_collections()} have been deprecated
-since the underlying Twitter API has been deprecated:
-\url{https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/collection}.
+since the underlying Twitter API has been deprecated.
 }
 \keyword{internal}

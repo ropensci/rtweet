@@ -1,11 +1,10 @@
-#' Collections API 
-#' 
-#' @description 
+#' Collections API
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
+#'
 #' `get_collections()` and `lookup_collections()` have been deprecated
-#' since the underlying Twitter API has been deprecated:
-#' <https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/collection>.
+#' since the underlying Twitter API has been deprecated.
 #'
 #' @keywords internal
 #' @export
@@ -24,6 +23,6 @@ get_collections <- function(user = NULL,
                             cursor = NULL,
                             parse = TRUE,
                             token = NULL) {
-  
+
   lifecycle::deprecate_stop("1.0.0", "get_collections()")
 }

@@ -11,11 +11,12 @@
 filtered_stream(
   timeout,
   file = tempfile(),
-  expansions = c(),
-  fields = list(),
+  expansions = NA,
+  fields = NA,
   ...,
   token = NULL,
-  append = TRUE
+  append = TRUE,
+  parse = TRUE
 )
 
 stream_add_rule(query, dry = FALSE, token = NULL)
@@ -25,8 +26,8 @@ stream_rm_rule(query, dry = FALSE, token = NULL)
 sample_stream(
   timeout,
   file = tempfile(),
-  expansions = c(),
-  fields = list(),
+  expansions = NA,
+  fields = NA,
   ...,
   token = NULL,
   parse = TRUE,
@@ -38,9 +39,12 @@ sample_stream(
 
 \item{file}{Path to a file where the raw streaming should be stored.}
 
-\item{expansions}{Expansions you want to use see \code{\link[=tweet_expansions]{tweet_expansions()}}.}
+\item{expansions}{Expansions you want to use see \code{\link[=tweet_expansions]{tweet_expansions()}}.
+Use NULL to get all expansions, use NA to not use any field, or a vector
+with the fields you want.}
 
-\item{fields}{Fields you want to retrieve see \link{Fields}.}
+\item{fields}{Fields you want to retrieve see \link{Fields}. Use NULL to get all
+allowed fields, use NA to not use any field, pass a list with the fields you want.}
 
 \item{...}{Other parameters passed to the body of the request.}
 
@@ -51,6 +55,10 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \item{append}{Append streaming to the file? Default does but it is
 recommended to have a new file for each call.}
 
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
+
 \item{query}{If \code{NULL} returns the current rules, else depending:
 \itemize{
 \item In stream_add_rule it should be a list of value and tag.
@@ -58,10 +66,6 @@ recommended to have a new file for each call.}
 }}
 
 \item{dry}{Check if the addition or removal of the rule works.}
-
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
 }
 \value{
 The records in the streaming.
