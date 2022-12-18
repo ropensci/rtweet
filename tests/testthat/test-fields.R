@@ -5,6 +5,14 @@ test_that("check_field_helper works", {
   expect_length(check_field_helper(list(media = c("b", "c")), c("b", "c"), "media"), 0L)
   expect_length(check_field_helper(list(media = c("b", "c")), c("b", "c"), "test"), 0L)
   expect_length(check_field_helper(list(media = c("b", "c")), NULL, "media"), 1L)
+  expect_equal(check_field_helper(list(media = c("b", "c")), NULL, "media"), "No media field allowed")
+
+  # NULL returns the allowed fields
+  expect_equal(check_field_helper(NULL, "a", "media"), NULL)
+  # Empty vector returns allowed
+  expect_equal(check_field_helper(c(),  "a", "media"), NULL)
+  # Empty list returns empty expansions
+  expect_equal(check_field_helper(list(), "a", "media"), NULL)
 })
 
 test_that("check_fields works", {
@@ -31,5 +39,35 @@ test_that("check_fields works", {
                       user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
                       metrics_fields = NULL)
   expect_equal(out, out_null)
+
+  out_3 <- check_fields(list(),
+                        media_fields = "a",
+                        place_fields = "b",
+                        poll_fields = "c",
+                        tweet_fields = "d",
+                        user_fields = "e",
+                        metrics_fields = "f"
+  )
+  expect_equal(out_3, NULL)
+  out_3 <- check_fields(NA,
+                        media_fields = "a",
+                        place_fields = "b",
+                        poll_fields = "c",
+                        tweet_fields = "d",
+                        user_fields = "e",
+                        metrics_fields = "f"
+  )
+  expect_equal(out_3, NULL)
+  out_4 <- check_fields(c(),
+                        media_fields = "a",
+                        place_fields = "b",
+                        poll_fields = "c",
+                        tweet_fields = "d",
+                        user_fields = "e",
+                        metrics_fields = "f"
+  )
+  expect_equal(out_4, list(media.fields = "a", place.fields = "b",
+                           poll.fields = "c", tweet.fields = "d",
+                           user.fields = "e", metrics.fields = "f"))
 
 })

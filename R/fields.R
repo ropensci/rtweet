@@ -66,23 +66,29 @@ check_fields <- function(fields,
                          tweet_fields = NULL,
                          user_fields = NULL,
                          metrics_fields = NULL) {
+
+  # If null use all the allowed fields
+  if (is.null(fields)) {
+    fields <- list("media.fields" = media_fields, "place.fields" = place_fields,
+                   "poll.fields" = poll_fields, "tweet.fields" = tweet_fields,
+                   "user.fields" = user_fields, "metrics.fields" = metrics_fields)
+    return(fields[lengths(fields) > 0])
+  }
+  # Empty or NA return NULL to disable the field
+  empty_list <- is.list(fields) && length(fields) == 0
+  na <- length(fields) == 1L && is.na(fields)
+  if ( empty_list || na) {
+    return(NULL)
+  }
+
+  # Check the fields on each one:
   n_fields <- names(fields)
   valid_fields <- c("media", "place", "poll", "tweet", "user", "metrics")
   valid_fields <- paste0(valid_fields, ".fields")
 
-  # If null use all the allowed fields
-  if (is.null(fields)) {
-      fields <- list("media.fields" = media_fields, "place.fields" = place_fields,
-                     "poll.fields" = poll_fields, "tweet.fields" = tweet_fields,
-                     "user.fields" = user_fields, "metrics.fields" = metrics_fields)
-      return(fields[lengths(fields) > 0])
-  }
-
   if (length(setdiff(n_fields, valid_fields)) >= 1) {
     warning("Invalid fields provided, they are omitted", call. = FALSE)
   }
-
-  fields <- fields[intersect(n_fields, valid_fields)]
 
   error <- c(
     check_field_helper(fields, media_fields, "media"),
@@ -95,6 +101,8 @@ check_fields <- function(fields,
   if (!is.null(error)) {
     stop(error, call. = FALSE)
   }
+
+  fields <- fields[intersect(n_fields, valid_fields)]
   fields
 }
 

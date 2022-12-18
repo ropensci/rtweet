@@ -41,6 +41,13 @@ check_expansions <- function(passed, allowed) {
     return(list(expansions = allowed))
   }
 
+  # Empty list or NA return NULL to disable the expansions
+  empty_list <- is.list(passed) && length(passed) == 0
+  na <- length(passed) == 1L && is.na(passed)
+  if ( empty_list || na) {
+    return(NULL)
+  }
+
   within <- !passed %in% allowed
   if (length(passed) > 10 || any(within)) {
     extensions <- passed[within]
