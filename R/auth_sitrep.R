@@ -210,9 +210,8 @@ auth_check <- function(tokens) {
 auth_helper <- function() {
 
   old_tokens <- find_old_tokens()
-  rappdirs_tokens <- find_rappdirs_tokens()
   tools_tokens <- find_tools_tokens()
-  all_tokens_files <- c(old_tokens, rappdirs_tokens, tools_tokens)
+  all_tokens_files <- c(old_tokens, tools_tokens)
 
   final_path <- auth_path()
   all_tokens_files <- move_tokens(all_tokens_files, final_path)
