@@ -1,24 +1,24 @@
 # Platform
 
-|field    |value                                     |
-|:--------|:-----------------------------------------|
-|version  |R version 4.2.2 (2022-10-31)              |
-|os       |Ubuntu 22.04.1 LTS                        |
-|system   |x86_64, linux-gnu                         |
-|ui       |RStudio                                   |
-|language |(EN)                                      |
-|collate  |en_US.UTF-8                               |
-|ctype    |en_US.UTF-8                               |
-|tz       |Europe/Madrid                             |
-|date     |2022-12-09                                |
-|rstudio  |2022.07.2+576 Spotted Wakerobin (desktop) |
-|pandoc   |2.9.2.1 @ /usr/bin/pandoc                 |
+|field    |value                                    |
+|:--------|:----------------------------------------|
+|version  |R version 4.2.2 (2022-10-31)             |
+|os       |Ubuntu 22.04.1 LTS                       |
+|system   |x86_64, linux-gnu                        |
+|ui       |RStudio                                  |
+|language |(EN)                                     |
+|collate  |en_US.UTF-8                              |
+|ctype    |en_US.UTF-8                              |
+|tz       |Europe/Madrid                            |
+|date     |2022-12-18                               |
+|rstudio  |2022.12.0+353 Elsbeth Geranium (desktop) |
+|pandoc   |2.9.2.1 @ /usr/bin/pandoc                |
 
 # Dependencies
 
 |package     |old   |new        |Δ  |
 |:-----------|:-----|:----------|:--|
-|rtweet      |1.0.2 |1.0.2.9015 |*  |
+|rtweet      |1.0.2 |1.0.2.9016 |*  |
 |askpass     |1.1   |1.1        |   |
 |bit         |4.0.5 |4.0.5      |   |
 |bit64       |4.0.5 |4.0.5      |   |
@@ -50,6 +50,13 @@
 |withr       |2.5.0 |2.5.0      |   |
 
 # Revdeps
+
+## Failed to check (2)
+
+|package   |version |error |warning |note |
+|:---------|:-------|:-----|:-------|:----|
+|epitweetr |?       |      |        |     |
+|Twitmo    |?       |      |        |     |
 
 ## New problems (1)
 
