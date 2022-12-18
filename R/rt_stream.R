@@ -12,7 +12,10 @@
 #' @inheritParams TWIT_paginate_max_id
 #' @param timeout time, in seconds, of the recording stream.
 #' @param expansions Expansions you want to use see [tweet_expansions()].
-#' @param fields Fields you want to retrieve see [Fields].
+#' Use NULL to get all expansions, use NA to not use any field, or a vector
+#' with the fields you want.
+#' @param fields Fields you want to retrieve see [Fields]. Use NULL to get all
+#' allowed fields, use NA to not use any field, pass a list with the fields you want.
 #' @param append Append streaming to the file? Default does but it is
 #' recommended to have a new file for each call.
 #' @param query If `NULL` returns the current rules, else depending:
@@ -21,7 +24,7 @@
 #' @param dry Check if the addition or removal of the rule works.
 #' @param ... Other parameters passed to the body of the request.
 #'
-#' @return The path to the file with the tweets of the streaming.
+#' @return The records in the streaming.
 #' @seealso
 #' Rules for filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule>
 #' Sampled stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream>
@@ -48,13 +51,14 @@ NULL
 
 #' @export
 #' @describeIn stream Start a filtered stream according to the rules.
-filtered_stream <- function(timeout, file = tempfile(), expansions = c(), fields = list(), ...,
-                            token = NULL, append = TRUE) {
+filtered_stream <- function(timeout, file = tempfile(), expansions = NA, fields = NA, ...,
+                            token = NULL, append = TRUE, parse = TRUE) {
   allowed_expansions <- c("attachments.poll_ids",  "attachments.media_keys",
                           "author_id", "edit_history_tweet_ids",
                           "entities.mentions.username", "geo.place_id",
                           "in_reply_to_user_id", "referenced_tweets.id",
                           "referenced_tweets.id.author_id")
+  parsing(parse)
   fields <- check_fields(fields,
                          media_fields = c("duration_ms", "height", "media_key",
                                           "preview_image_url", "type", "url", "width",
@@ -64,6 +68,7 @@ filtered_stream <- function(timeout, file = tempfile(), expansions = c(), fields
                          tweet_fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
                          user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
                          metrics_fields = NULL)
+
   expansions <- check_expansions(expansions, allowed_expansions)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
   data <- c(expansions, fields, ...)
@@ -73,7 +78,6 @@ filtered_stream <- function(timeout, file = tempfile(), expansions = c(), fields
     stop("File already exists and append = FALSE", call. = FALSE)
   }
   out <- stream(req_stream, file, timeout = timeout)
-  jsonlite::write_json(out, file)
   return(out)
 }
 
@@ -87,20 +91,31 @@ stream <- function(req, file, timeout) {
     TRUE
   }
 
-  a <- httr2::req_stream(req, callback, timeout_sec = timeout)
+  resp <- httr2::req_stream(req, callback, timeout_sec = timeout)
 
-  if (file.exists(file)) {
-    out <- clean_streaming_file(file)
+  if (!file.exists(file_tmp)) {
+    warning("No matching tweets with streaming rules were found in the time provided.",
+            call. = FALSE)
+    return(NULL)
   }
-  out
-}
 
-clean_streaming_file <- function(file) {
-  a <- readLines(file, warn = FALSE)
-  pi <- paste(a[c(-1, -length(a))], collapse = "\n")
-  a <- jsonlite::stream_in(textConnection(pi),
-                           simplifyVector = FALSE, flatten = FALSE)
-  a
+  # Create a json file but each line is a datapoint in the ndjson format
+  # This makes it appendable to other times.
+  text_json <- readLines(file_tmp, warn = FALSE)
+  # Skip the first and last lines as most probably they are faulty:
+  # httr2 doesn't wait for a line to close the connection.
+  good_json <- text_json[c(-1, -length(text_json))]
+  if (is.null(good_json) || length(good_json) == 0) {
+    warning("No matching tweets with streaming rules were found in the time provided.",
+            call. = FALSE)
+    return(NULL)
+  }
+  cat(good_json, file = file, append = TRUE, sep = "\n")
+  readable_json <- paste(good_json, collapse = "\n")
+  text_c <- textConnection(readable_json)
+  out <- jsonlite::stream_in(text_c, simplifyVector = FALSE, flatten = FALSE)
+  close.connection(text_c)
+  out
 }
 
 #' @describeIn stream Add rules for the filtered streaming.
@@ -258,7 +273,7 @@ split_stream <- function(file, path) {
 #' @describeIn stream Retrieve a sample of the tweets posted.
 #' @export
 sample_stream <- function(timeout, file = tempfile(),
-                          expansions = c(), fields = list(), ...,
+                          expansions = NA, fields = NA, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
   fields <- check_fields(fields,
                         media_fields = c("duration_ms", "height", "media_key", "preview_image_url", "type", "url", "width", "public_metrics", "alt_text", "variants"),
@@ -268,7 +283,7 @@ sample_stream <- function(timeout, file = tempfile(),
                         user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld")
   )
   expansions <- check_expansions(expansions, c("attachments.poll_ids", "attachments.media_keys", "author_id", "edit_history_tweet_ids", "entities.mentions.username", "geo.place_id", "in_reply_to_user_id", "referenced_tweets.id", "referenced_tweets.id.author_id"))
-
+  parsing(parse)
 
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))
 
@@ -279,6 +294,5 @@ sample_stream <- function(timeout, file = tempfile(),
     stop("File already exists and append = FALSE", call. = FALSE)
   }
   out <- stream(req_stream, file, timeout = timeout)
-  jsonlite::write_json(out, file)
   return(out)
 }

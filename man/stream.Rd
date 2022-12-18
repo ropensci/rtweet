@@ -64,7 +64,7 @@ to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 }
 \value{
-The path to the file with the tweets of the streaming.
+The records in the streaming.
 }
 \description{
 Open a streaming connection with Twitter and stores tweets for as long as you
