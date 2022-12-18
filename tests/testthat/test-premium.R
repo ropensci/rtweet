@@ -36,5 +36,5 @@ test_that("search_fullarchive does not return duplicate tweets", {
                                        fromDate = "202202080000", toDate = "202205100000",
                                        parse = TRUE)
   )
-  expect_equal(nrow(df), 450)
+  expect_gt(nrow(df), 450)
 })
