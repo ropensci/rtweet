@@ -37,7 +37,7 @@ entity.default <- function(x, entity, ...) {
 
 
 #' @export
-entity.tweets <- function(x, entity) {
+entity.tweets <- function(x, entity, ...) {
   entity <- match.arg(entity, c("urls", "hashtags", "symbols",
                                 "user_mentions", "media"))
 
