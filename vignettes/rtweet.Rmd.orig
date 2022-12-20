@@ -235,14 +235,15 @@ With `clean_tweets()` you can remove users mentions, hashtags, urls and media to
 clean_tweets(head(R_foundation_favs), clean = c("users", "hashtags", "urls", "media"))
 ```
 
-With `urls()`, `ids()`[^1], `hashtags()`, `symbols()`, `user_mentions()` and `media()` you can access that data from tweets. They return the id of the tweet and the corresponding data field in entities.
+With `entity()` you can access any entity of the tweets.
+It returns the id of the tweet and the corresponding data field in the selected entity.
 
 ```{r helpers}
-urls(head(R_foundation_favs))
-hashtags(head(R_foundation_favs))
-symbols(head(R_foundation_favs))
-user_mentions(head(R_foundation_favs))
-media(head(R_foundation_favs))
+head(entity(R_foundation_favs, "urls"))
+head(entity(R_foundation_favs, "hashtags"))
+head(entity(R_foundation_favs, "symbols"))
+head(entity(R_foundation_favs, "user_mentions"))
+head(entity(R_foundation_favs, "media"))
 ```
 
 To avoid having two columns with the same name, `user_mentions()` renames to  the ids  from "id" and "id_str" to "user_id" and "user_id_str".
