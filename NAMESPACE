@@ -3,6 +3,7 @@
 S3method("[",rtweet_screen_name)
 S3method("[",tweets)
 S3method("[",users)
+S3method(entity,default)
 S3method(entity,tweets)
 S3method(ids,default)
 S3method(ids,followers)
