@@ -17,6 +17,7 @@
 - Provides initial support for API v2 for streaming endpoints: 
   `filtered_stream()` and `sample_stream()`, including adding rules 
   `stream_add_rules()` and `stream_rm_rules()`.
+- Deprecated old stream function. 
 - Handle more graciously if a whole data.frame is used for `lookup_tweets()`.
 
 # rtweet 1.0.2
