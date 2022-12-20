@@ -39,11 +39,16 @@ easiest way to authenticate is to use your personal twitter account -
 this will happen automatically (via a browser popup) the first time you
 use an rtweet function. See `auth_setup_default()` for details. Using
 your personal account is fine for casual use, but if you are trying to
-collect a lot of data it’s a good idea to authenticate with your own
+collect a lot of data it’s a good idea to authentication with your own
 Twitter “app”. See `vignette("auth", package = "rtweet")` for details.
 
 ``` r
 library(rtweet)
+#> 
+#> Attaching package: 'rtweet'
+#> The following object is masked from 'package:graphics':
+#> 
+#>     symbols
 ```
 
 rtweet should be used in strict accordance with Twitter’s [developer
@@ -103,16 +108,16 @@ R_Foundation_flw <- get_followers("_R_Foundation", n = 100)
 R_Foundation_flw_data <- lookup_users(R_Foundation_flw$from_id)
 ```
 
-If you want *all* followers, you'll need to set `n = Inf`
+If you want *all* followers, you’ll need you’ll need to set `n = Inf`
 and `retryonratelimit = TRUE` but be warned that this might take a
 *long* time.
 
 ### Get timelines
 
-Get the most recent 200 tweets from R Foundation:
+Get the most recent 100 tweets from R Foundation:
 
 ``` r
-## get user IDs of accounts followed by R Foundation
+## get most recent 100 tweets from R Foundation
 tmls <- get_timeline("_R_Foundation", n = 100)
 ```
 
@@ -129,9 +134,9 @@ favs <- get_favorites("_R_Foundation", n = 10)
 Communicating with Twitter’s APIs relies on an internet connection,
 which can sometimes be inconsistent.
 
-If you have questions, or need an example or want to share a [use
+If you have questions, or needs an example or want to share a [use
 case](https://ropensci.org/usecases/), you can post them on [rOpenSci’s
-discuss](https://discuss.ropensci.org/). Where you can [browse uses of
+discuss](https://discuss.ropensci.org/). Were you can [browse uses of
 rtweet](https://discuss.ropensci.org/tags/c/usecases/10/rtweet) too.
 
 With that said, if you encounter an obvious bug for which there is not
