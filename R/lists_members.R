@@ -12,11 +12,11 @@
 #' if (auth_has_default()) {
 #'
 #' ## get list members for a list of rstats experts using list_id
-#' (rstats <- lists_members("785434502382383105"))
+#' (rstats <- lists_members("1260528710559694850"))
 #'
 #' ## get list members for an rstats list using list topic slug
 #' ## list owner's screen name
-#' rstats <- lists_members(slug = "rstats", owner_user = "scultrera")
+#' rstats <- lists_members(slug = "r-people", owner_user = "Lluis_Revilla")
 #' rstats
 #'
 #' }
@@ -47,7 +47,7 @@ lists_members <- function(list_id = NULL,
     page_size = if (n >= 5000) 5000 else n,
     get_id = function(x) x$users$id_str
   )
-  
+
   if (parse) {
     r <- parse_lists_users(r)
   }

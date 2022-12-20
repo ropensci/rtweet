@@ -47,7 +47,7 @@ cases, but sometimes includes an otherwise puzzling result.
 if (auth_has_default()) {
 
 ## stream tweets sent from the US
-rt <- stream_tweets(lookup_coords("usa"), timeout = 10)
+rt <- search_tweets(geocode = lookup_coords("usa"))
 
 ## use lat_lng to recover full information geolocation data
 rtl_loc <- lat_lng(rt)
