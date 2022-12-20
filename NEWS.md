@@ -1,4 +1,4 @@
-# rtweet (development version)
+# rtweet 1.1.0
 
 - Fixed a bug that prevented posting multiple media in the same tweet.
 - Argument premium is correctly handled in `search_fullarchive` and `search_30day` (#720).  
@@ -10,8 +10,7 @@
 - Provided `rbind` and subsetting methods (`[`) for rtweet new classes.
 - Fixed a bug about sending a private message (#735).
 - Provided a function `clean_tweets()` for cleaning entities from the text of tweets (#721).
-- New helper methods for extracting data from entities in tweets: `urls()`, 
-  `hashtags()`, `symbols()`, `user_mentions()`, `media()`.
+- New helper methods for extracting data from entities in tweets: `entity()`.
 - Columns of the parsed output are now always in the same order (#740).
 - New methods to retrieve `ids()` from multiple classes and print nicer in `post_tweet()` (#452).
 - `post_tweet()` now invisible returns the tweet information.
