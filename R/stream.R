@@ -66,6 +66,8 @@ stream_tweets <- function(q = "",
                           verbose = TRUE,
                           append = TRUE,
                           ...) {
+  lifecycle::deprecate_stop("1.1.0", "stream_tweets()", "filtered_stream()",
+                            details = "The streaming endpoint it used does no longer work.")
   if (is.null(file_name)) {
     file_name <- tempfile(pattern = "stream_tweets", fileext = ".json")
     inform(paste0("Writing to '", file_name, "'"))
