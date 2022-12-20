@@ -20,6 +20,9 @@ reference:
   - my_friendships
   - starts_with("post")
   - stream_tweets
+  - filtered_stream
+  - sample_stream
+  - rules
   - trends_available
   - starts_with("tweet")
   - ends_with("block")
@@ -35,32 +38,35 @@ reference:
   desc: Find which are the rate limits set by Twitter.
   contents:
     - rate_limit
-  
+
 - title: Authentication
-  desc: Manage your authentications. 
+  desc: Manage your authentications.
   contents:
-  - starts_with("auth")
   - rtweet_user
+  - starts_with("auth")
 
 - title: Data
   contents:
   - emojis
   - langs
   - stopwordslangs
-  
+
 - title: Data manipulation
   contents:
-  - as_screenname
-  - do_call_rbind
-  - flatten
-  - lat_lng
-  - network_data
-  - round_time
+  - users_data
+  - entity
+  - ids
   - parse_stream
+  - clean_tweets
+  - as_screenname
+  - network_data
+  - ts_plot
+  - ts_data
+  - do_call_rbind
+  - lat_lng
+  - flatten
+  - round_time
   - plain_tweets
   - read_twitter_csv
-  - ts_data
-  - ts_plot
-  - users_data
   - write_as_csv
-  
+
