@@ -43,7 +43,7 @@
 #'   # Open filtered streaming connection for 30s
 #'   filtered_stream(file = tempfile(), timeout = 30)
 #'   # Remove rule
-#'   stream_rm_rule(ids(new_rules))
+#'   stream_rm_rule(ids(new_rule))
 #'   # Open random streaming connection
 #'   sample_stream(file = tempfile(), timeout = 3)
 #' }
