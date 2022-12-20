@@ -22,3 +22,4 @@ revdep/timings.tab
 docs
 *.Rcheck/
 *.RDS
+rstats.json

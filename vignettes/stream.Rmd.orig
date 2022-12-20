@@ -1,7 +1,7 @@
 ---
 title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
-output: 
+output:
   rmarkdown::html_vignette:
     self_contained: false
 vignette: >
@@ -17,99 +17,126 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE,
 
 ## Installing and loading package
 
-Prior to streaming, make sure to install and load rtweet. 
-This vignette assumes users have already setup user access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
+Prior to streaming, make sure to install and load rtweet.
+This vignette assumes users have already setup app access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
 
-```{r library} 
+```{r library}
 ## Load rtweet
 library(rtweet)
 ```
 
-```{r auth, include=FALSE, purl=FALSE}
-auth_as(rtweet:::rtweet_test())
+```{r auth, include=FALSE, purl=FALSE, message=FALSE}
+auth_as(rtweet::auth_as("RTAA"))
 ```
 
-## Specifying parameters
+## Overview
 
-In addition to accessing Twitter's REST API (e.g., `search_tweets`, `get_timeline`), rtweet makes it possible to capture live streams of Twitter data using the `stream_tweets()` function. 
-By default, `stream_tweets` will stream for 30 seconds and return a random sample of tweets. 
-To modify the default settings, `stream_tweets` accepts several parameters, including `q` (query used to filter tweets), `timeout` (duration or time of stream), and `file_name` (path name for saving raw json data).
+In addition to accessing Twitter's REST API (e.g., `search_tweets`, `get_timeline`), rtweet makes it possible to capture live streams of Twitter data[^1]. This requires an app authentication see `vignette("auth", package = "rtweet")`.
+
+[^1]: Till November 2022 it was possible with API v1.1, currently this is no longer possible and uses API v2.
+
+There are two ways of having a stream:
+
+-   [A stream collecting data from a set of rules](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream), which can be collected via `filtered_stream()`.
+
+-   [A stream of a 1% of tweets published](https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream), which can be collected via `sample_stream()`.
+
+In either case we need to choose how long should the streaming connection hold, and in which file it should be saved to.
 
 ```{r stream-setup}
-## Stream keywords used to filter tweets
-q <- "#rstats"
-
 ## Stream time in seconds so for one minute set timeout = 60
 ## For larger chunks of time, I recommend multiplying 60 by the number
 ## of desired minutes. This method scales up to hours as well
 ## (x * 60 = x mins, x * 60 * 60 = x hours)
 ## Stream for 5 seconds
-streamtime <- 5 
+streamtime <- 5
 ## Filename to save json data (backup)
 filename <- "rstats.json"
 ```
 
-## stream_tweets()
+## Filtered stream
 
-Once these parameters are specified, initiate the stream. 
-Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed. 
+The filtered stream collects tweets for all rules that are currently active, not just one rule or query.
+
+### Ceating rules
+
+Streaming rules in rtweet need a value and a tag.
+The value is the query to be performed, and the tag is the name to identify tweets that match a query.
+You can use multiple words and hashtags as value, please [read the official documentation](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule).
+Multiple rules can match to a single tweet.
+
+```{r stream-add-rule}
+## Stream rules used to filter tweets
+new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
+```
+
+### Listing rules
+
+To know current rules you can use `stream_add_rule()` to know if any rule is currently active:
+
+```{r stream-list-rule}
+rules <- stream_add_rule(NULL)
+rules
+rules(rules)
+```
+
+With the help of `rules()` the id, value and tag of each rule is provided.
+
+### Removing rules
+
+To remove rules use `stream_rm_rule()`
+
+```{r stream-rm-rule, eval = FALSE}
+# Not evaluated now
+stream_rm_rule(ids(new_rule))
+```
+
+Note, if the rules are not used for some time, Twitter warns you that they will be removed.
+But given that `filtered_stream()` collects tweets for all rules, it is advisable to keep the rules list short and clean.
+
+### filtered_stream()
+
+Once these parameters are specified, initiate the stream.
+Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed.
 It is possible to start a new instance or R ---streaming itself usually isn't very memory intensive--- but operations may drag a bit during the parsing process which takes place immediately after streaming ends.
 
 ```{r stream-rstats}
 ## Stream election tweets
-stream_rstats <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
+stream_rstats <- filtered_stream(timeout = streamtime, file = filename, parse = FALSE)
 ```
 
-Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object. 
-It is recommended to save the streaming in a file.
+If no tweet matching the rules is detected a warning will be issued.
+
+Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object.
+
+Don't forget to clean the streaming rules:
+
+```{r stream-rm-rule-real}
+stream_rm_rule(ids(new_rule))
+```
+
+## Sample stream
+
+The `sample_stream()` function doesn't need rules or anything.
+
+```{r sample_stream}
+stream_random <- sample_stream(timeout = streamtime, file = filename, parse = FALSE)
+length(stream_random)
+```
+
 
 ## Saving files
 
-Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on. 
-To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later. 
+Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on.
+To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later.
 
-Regardless of whether you decide to setup a system for streaming data, the process of streaming a file to disk and parsing it at a later point in time is the same, as illustrated in the example below.
+You can also use `append = TRUE` to continue recording a stream into an already existing file.
 
-```{r stream-append}
-## No upfront-parse save as json file instead method
-# By default results are appended to the file.
-stream_tweets(
-  q = q,
-  parse = FALSE,
-  timeout = streamtime,
-  file_name = filename
-)
-
-## Parse from json file
-stream_rstats <- parse_stream(filename)
-```
+Currently parsing the streaming data is not functional.
+However, you can read it back in with `jsonlite::stream_in(file)` .
 
 ## Returned data object
 
-The parsed object should be the same whether a user parses up-front or from a json file in a later session. 
-The returned object should be a data frame consisting of tweets data.
+The parsed object should be the same whether a user parses up-front or from a json file in a later session.
 
-```{r stream-tweets}
-## Preview tweets data
-head(stream_rstats)
-```
-
-The returned object should also include a data frame of users data, which Twitter's stream API automatically returns along with tweets data. 
-To access users data, use the `users_data` function.
-
-```{r users_data}
-## Preview users data
-head(users_data(stream_rstats))
-```
-
-## Plotting
-
-Once parsed, `ts_plot()` provides a quick visual of the frequency of tweets. 
-By default, `ts_plot()` will try to aggregate time by the day. 
-Because I know the stream only lasted 30 minutes, I've opted to aggregate tweets by the second. 
-It'd also be possible to aggregate by the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,`by = "15 secs"`. 
-
-```{r ts_plot}
-## Plot time series of all tweets aggregated by second
-ts_plot(stream_rstats, by = "secs")
-```
+Currently the returned object is a raw conversion of the feed into a nested list depending on the fields and extensions requested.

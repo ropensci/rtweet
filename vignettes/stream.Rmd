@@ -1,7 +1,7 @@
 ---
 title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
-output: 
+output:
   rmarkdown::html_vignette:
     self_contained: false
 vignette: >
@@ -14,8 +14,8 @@ vignette: >
 
 ## Installing and loading package
 
-Prior to streaming, make sure to install and load rtweet. 
-This vignette assumes users have already setup user access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
+Prior to streaming, make sure to install and load rtweet.
+This vignette assumes users have already setup app access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
 
 
 ```r
@@ -25,166 +25,130 @@ library(rtweet)
 
 
 
-## Specifying parameters
+## Overview
 
-In addition to accessing Twitter's REST API (e.g., `search_tweets`, `get_timeline`), rtweet makes it possible to capture live streams of Twitter data using the `stream_tweets()` function. 
-By default, `stream_tweets` will stream for 30 seconds and return a random sample of tweets. 
-To modify the default settings, `stream_tweets` accepts several parameters, including `q` (query used to filter tweets), `timeout` (duration or time of stream), and `file_name` (path name for saving raw json data).
+In addition to accessing Twitter's REST API (e.g., `search_tweets`, `get_timeline`), rtweet makes it possible to capture live streams of Twitter data[^1]. This requires an app authentication see `vignette("auth", package = "rtweet")`.
+
+[^1]: Till November 2022 it was possible with API v1.1, currently this is no longer possible and uses API v2.
+
+There are two ways of having a stream:
+
+-   [A stream collecting data from a set of rules](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream), which can be collected via `filtered_stream()`.
+
+-   [A stream of a 1% of tweets published](https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream), which can be collected via `sample_stream()`.
+
+In either case we need to choose how long should the streaming connection hold, and in which file it should be saved to.
 
 
 ```r
-## Stream keywords used to filter tweets
-q <- "#rstats"
-
 ## Stream time in seconds so for one minute set timeout = 60
 ## For larger chunks of time, I recommend multiplying 60 by the number
 ## of desired minutes. This method scales up to hours as well
 ## (x * 60 = x mins, x * 60 * 60 = x hours)
-## Stream for 30 seconds
-streamtime <- 30 
+## Stream for 5 seconds
+streamtime <- 5
 ## Filename to save json data (backup)
 filename <- "rstats.json"
 ```
 
-## stream_tweets()
+## Filtered stream
 
-Once these parameters are specified, initiate the stream. 
-Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed. 
+The filtered stream collects tweets for all rules that are currently active, not just one rule or query.
+
+### Ceating rules
+
+Streaming rules in rtweet need a value and a tag.
+The value is the query to be performed, and the tag is the name to identify tweets that match a query.
+You can use multiple words and hashtags as value, please [read the official documentation](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule).
+Multiple rules can match to a single tweet.
+
+
+```r
+## Stream rules used to filter tweets
+new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
+```
+
+### Listing rules
+
+To know current rules you can use `stream_add_rule()` to know if any rule is currently active:
+
+
+```r
+rules <- stream_add_rule(NULL)
+rules
+#>                  sent result_count
+#> 1 2022-12-19 23:24:51            1
+rules(rules)
+#>                    id   value    tag
+#> 1 1604981106868211713 #rstats rstats
+```
+
+With the help of `rules()` the id, value and tag of each rule is provided.
+
+### Removing rules
+
+To remove rules use `stream_rm_rule()`
+
+
+```r
+# Not evaluated now
+stream_rm_rule(ids(new_rule))
+```
+
+Note, if the rules are not used for some time, Twitter warns you that they will be removed.
+But given that `filtered_stream()` collects tweets for all rules, it is advisable to keep the rules list short and clean.
+
+### filtered_stream()
+
+Once these parameters are specified, initiate the stream.
+Note: Barring any disconnection or disruption of the API, streaming will occupy your current instance of R until the specified time has elapsed.
 It is possible to start a new instance or R ---streaming itself usually isn't very memory intensive--- but operations may drag a bit during the parsing process which takes place immediately after streaming ends.
 
 
 ```r
 ## Stream election tweets
-stream_rstats <- stream_tweets(q = q, timeout = streamtime, file_name = filename)
-#> Streaming tweets: 7 tweets written / 65.54 kB / 888.99 kB/s / 00:00:00
+stream_rstats <- filtered_stream(timeout = streamtime, file = filename, parse = FALSE)
+#> Warning: No matching tweets with streaming rules were found in the time provided.
 ```
 
-Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object. 
-It is recommended to save the streaming in a file.
+If no tweet matching the rules is detected a warning will be issued.
+
+Parsing larger streams can take quite a bit of time (in addition to time spent streaming) due to a somewhat time-consuming simplifying process used to convert a json file into an R object.
+
+Don't forget to clean the streaming rules:
+
+
+```r
+stream_rm_rule(ids(new_rule))
+#>                  sent deleted not_deleted
+#> 1 2022-12-19 23:25:07       1           0
+```
+
+## Sample stream
+
+The `sample_stream()` function doesn't need rules or anything.
+
+
+```r
+stream_random <- sample_stream(timeout = streamtime, file = filename, parse = FALSE)
+#>  Found 289 records... Imported 289 records. Simplifying...
+length(stream_random)
+#> [1] 289
+```
+
 
 ## Saving files
 
-Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on. 
-To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later. 
+Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on.
+To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later.
 
-Regardless of whether you decide to setup a system for streaming data, the process of streaming a file to disk and parsing it at a later point in time is the same, as illustrated in the example below.
+You can also use `append = TRUE` to continue recording a stream into an already existing file.
 
-
-```r
-## No upfront-parse save as json file instead method
-# By default results are appended to the file.
-stream_tweets(
-  q = q,
-  parse = FALSE,
-  timeout = streamtime,
-  file_name = filename
-)
-#> Streaming tweets: 8 tweets written / 65.54 kB / 2.19 MB/s / 00:00:00 Streaming tweets: 14 tweets written / 131.07 kB / 16.21 kB/s /
-#> 00:00:08
-
-## Parse from json file
-stream_rstats <- parse_stream(filename)
-```
+Currently parsing the streaming data is not functional.
+However, you can read it back in with `jsonlite::stream_in(file)` .
 
 ## Returned data object
 
-The parsed object should be the same whether a user parses up-front or from a json file in a later session. 
-The returned object should be a data frame consisting of tweets data.
+The parsed object should be the same whether a user parses up-front or from a json file in a later session.
 
-
-```r
-## Preview tweets data
-head(stream_rstats)
-#>            created_at           id              id_str
-#> 1 2022-05-21 11:46:55 1.527949e+18 1527949049319530496
-#> 2 2022-05-21 11:47:01 1.527949e+18 1527949070827933704
-#>                                                                                                                                             text
-#> 1       #Infographic: Types of \nhttps://t.co/Gdq7B6vFwY\n\n#MachineLearning\n#DataScience #programming #DataScientists… https://t.co/KTlhlz9euO
-#> 2 RT @KirkDBorne: #DataScience Theories, Models, #Algorithms, and Analytics: https://t.co/w704rhiLS8 (FREE PDF Download, 462 pages)\n—————\n#Bi…
-#>                                                                                 source truncated in_reply_to_status_id
-#> 1 <a href="http://twitter.com/download/android" rel="nofollow">Twitter for Android</a>      TRUE                    NA
-#> 2 <a href="http://twitter.com/download/android" rel="nofollow">Twitter for Android</a>     FALSE                    NA
-#>   in_reply_to_status_id_str in_reply_to_user_id in_reply_to_user_id_str in_reply_to_screen_name geo coordinates
-#> 1                        NA                  NA                      NA                      NA  NA  NA, NA, NA
-#> 2                        NA                  NA                      NA                      NA  NA  NA, NA, NA
-#>                        place contributors is_quote_status quote_count reply_count retweet_count favorite_count
-#> 1 NA, NA, NA, NA, NA, NA, NA           NA           FALSE           0           0             0              0
-#> 2 NA, NA, NA, NA, NA, NA, NA           NA           FALSE           0           0             0              0
-#>                                                                                                                                                                                                                                                                                                                                            entities
-#> 1 Infographic, MachineLearning, DataScience, programming, DataScientists, 0, 12, 49, 65, 66, 78, 79, 91, 92, 107, https://t.co/Gdq7B6vFwY, https://t.co/KTlhlz9euO, https://bit.ly/3oZvkPU, https://twitter.com/i/web/status/1527949049319530496, bit.ly/3oZvkPU, twitter.com/i/web/status/1…, 24, 109, 47, 132, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> 2                                                                                                                                                                  DataScience, Algorithms, 16, 28, 47, 58, https://t.co/w704rhiLS8, http://bit.ly/3vZqiYr, bit.ly/3vZqiYr, 75, 98, NA, KirkDBorne, Kirk Borne, 534563976, 534563976, 3, 14, NA, NA
-#>   favorited retweeted possibly_sensitive filter_level lang  timestamp_ms
-#> 1     FALSE     FALSE              FALSE          low   en 1653126415935
-#> 2     FALSE     FALSE              FALSE          low   en 1653126421063
-#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              retweeted_status
-#> 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> 2 Sat May 21 03:15:01 +0000 2022, 1527850420793663488, 1527850420793663488, #DataScience Theories, Models, #Algorithms, and Analytics: https://t.co/w704rhiLS8 (FREE PDF Download, 462 pages)\n—… https://t.co/VR6LqqMuQu, 0, 140, <a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>, TRUE, NA, NA, NA, NA, NA, 534563976, 534563976, Kirk Borne, KirkDBorne, Maryland, USA, http://www.linkedin.com/in/kirkdborne, Data Scientist, Chief ScienceOfficer @DataPrime_ai. Global Speaker. Founder @LeadershipData. Top #BigData #DataScience #AI #IoT #ML Influencer. PhD Astrophysics, none, FALSE, TRUE, 314491, 8615, 8768, 215023, 153655, Fri Mar 23 16:35:17 +0000 2012, NA, NA, FALSE, NA, FALSE, FALSE, C0DEED, http://abs.twimg.com/images/themes/theme1/bg.png, https://abs.twimg.com/images/themes/theme1/bg.png, TRUE, 0084B4, FFFFFF, DDEEF6, 333333, TRUE, http://pbs.twimg.com/profile_images/1112733580948635648/s-8d1avb_normal.jpg, https://pbs.twimg.com/profile_images/1112733580948635648/s-8d1avb_normal.jpg, https://pbs.twimg.com/profile_banners/534563976/1651617018, FALSE, FALSE, NA, NA, NA, NA, NA, NA, NA, FALSE, #DataScience Theories, Models, #Algorithms, and Analytics: https://t.co/w704rhiLS8 (FREE PDF Download, 462 pages)\n—————\n#BigData #AI #MachineLearning #DataScientists #Mathematics #Statistics #Rstats #Coding #NetworkScience #NeuralNetworks #100DaysOfCode https://t.co/mncH2ANBoc, 0, 253, DataScience, Algorithms, BigData, AI, MachineLearning, DataScientists, Mathematics, Statistics, Rstats, Coding, NetworkScience, NeuralNetworks, 100DaysOfCode, 0, 12, 31, 42, 120, 128, 129, 132, 133, 149, 150, 165, 166, 178, 179, 190, 191, 198, 199, 206, 207, 222, 223, 238, 239, 253, https://t.co/w704rhiLS8, http://bit.ly/3vZqiYr, bit.ly/3vZqiYr, 59, 82, 1527850418260348928, 1527850418260348932, 254, 277, http://pbs.twimg.com/media/FTQD3EpXEAQSWRu.jpg, https://pbs.twimg.com/media/FTQD3EpXEAQSWRu.jpg, https://t.co/mncH2ANBoc, pic.twitter.com/mncH2ANBoc, https://twitter.com/KirkDBorne/status/1527850420793663488/photo/1, photo, 1074, 1390, fit, 927, 1200, fit, 150, 150, crop, 525, 680, fit, 1527850418260348928, 1527850418260348932, 254, 277, http://pbs.twimg.com/media/FTQD3EpXEAQSWRu.jpg, https://pbs.twimg.com/media/FTQD3EpXEAQSWRu.jpg, https://t.co/mncH2ANBoc, pic.twitter.com/mncH2ANBoc, https://twitter.com/KirkDBorne/status/1527850420793663488/photo/1, photo, 1074, 1390, fit, 927, 1200, fit, 150, 150, crop, 525, 680, fit, 0, 1, 25, 43, DataScience, Algorithms, 0, 12, 31, 42, https://t.co/w704rhiLS8, https://t.co/VR6LqqMuQu, http://bit.ly/3vZqiYr, https://twitter.com/i/web/status/1527850420793663488, bit.ly/3vZqiYr, twitter.com/i/web/status/1…, 59, 82, 117, 140, FALSE, FALSE, FALSE, low, en, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#>   quoted_status_id quoted_status_id_str
-#> 1               NA                 <NA>
-#> 2               NA                 <NA>
-#>                                                                                                                                                                                                                                                                quoted_status
-#> 1 NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> 2 NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#>   quoted_status_permalink display_text_width full_text favorited_by scopes display_text_range metadata query withheld_scope
-#> 1              NA, NA, NA                132        NA           NA     NA                 NA       NA    NA             NA
-#> 2              NA, NA, NA                140        NA           NA     NA                 NA       NA    NA             NA
-#>   withheld_copyright withheld_in_countries possibly_sensitive_appealable
-#> 1                 NA                    NA                            NA
-#> 2                 NA                    NA                            NA
-#>  [ reached 'max' / getOption("max.print") -- omitted 4 rows ]
-```
-
-The returned object should also include a data frame of users data, which Twitter's stream API automatically returns along with tweets data. 
-To access users data, use the `users_data` function.
-
-
-```r
-## Preview users data
-head(users_data(stream_rstats))
-#>             id              id_str             name   screen_name                 location                    url
-#> 1 2.553201e+09          2553201139      Hameed Kahn   hameeduom41                Islamabad https://bit.ly/3oZvkPU
-#> 2 3.622639e+07            36226389  rosangela maria      MMAPULLA Campo Grande, MS, Brazil                   <NA>
-#> 3 9.716201e+17  971620109197312000   Serverless Fan ServerlessFan                Sri Lanka                   <NA>
-#> 4 1.437729e+18 1437728609909706753 Developer Bot 🤖       GoaiDev                    India   https://thebotman.co
-#>                                                                                                                                                    description
-#> 1 Using suitable technologies, we create secure, scalable software solutions that integrate with new and legacy systems to drive business growth & innovation.
-#> 2        meu perfil @MMAPULLA, para quem não  sabe, se deve a um apelido carinhoso que recebi em minha última viagem a Botswana. trad. aquela que traz a chuva
-#> 3                                                                                                                                       #Serverless #Computing
-#> 4                                                                                    I do retweet #javascript.\nCreated by @rahul05ranjan.\nDM for any query!!
-#>   protected verified followers_count friends_count listed_count favourites_count statuses_count                     created_at
-#> 1     FALSE    FALSE             526          1817            0             3296           5141 Sat Jun 07 19:40:16 +0000 2014
-#> 2     FALSE    FALSE             138           530            0            37369           8574 Wed Apr 29 00:24:15 +0000 2009
-#> 3     FALSE    FALSE            4012             6          145                7         533557 Thu Mar 08 05:34:20 +0000 2018
-#> 4     FALSE    FALSE            1803            14           32           246879         508947 Tue Sep 14 10:43:25 +0000 2021
-#>                                                        profile_image_url_https
-#> 1 https://pbs.twimg.com/profile_images/1526660385306443776/VljjOVKm_normal.jpg
-#> 2 https://pbs.twimg.com/profile_images/1319402128968945667/BMkHmXJp_normal.jpg
-#> 3  https://pbs.twimg.com/profile_images/973611685822058497/yRRo9D52_normal.jpg
-#> 4 https://pbs.twimg.com/profile_images/1459402333201199104/skHuHVT9_normal.jpg
-#>                                                    profile_banner_url default_profile default_profile_image withheld_in_countries
-#> 1         https://pbs.twimg.com/profile_banners/2553201139/1652988231            TRUE                 FALSE                  NULL
-#> 2           https://pbs.twimg.com/profile_banners/36226389/1456327757           FALSE                 FALSE                  NULL
-#> 3 https://pbs.twimg.com/profile_banners/971620109197312000/1525426121           FALSE                 FALSE                  NULL
-#> 4                                                                <NA>            TRUE                 FALSE                  NULL
-#>   derived withheld_scope entitites
-#> 1    <NA>             NA      NULL
-#> 2    <NA>             NA      NULL
-#> 3    <NA>             NA      NULL
-#> 4    <NA>             NA      NULL
-#>  [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
-```
-
-## Plotting
-
-Once parsed, `ts_plot()` provides a quick visual of the frequency of tweets. 
-By default, `ts_plot()` will try to aggregate time by the day. 
-Because I know the stream only lasted 30 minutes, I've opted to aggregate tweets by the second. 
-It'd also be possible to aggregate by the minute, i.e., `by = "mins"`, or by some value of seconds, e.g.,`by = "15 secs"`. 
-
-
-```r
-## Plot time series of all tweets aggregated by second
-ts_plot(stream_rstats, by = "secs")
-```
-
-![plot of chunk ts_plot](vignettes/files/ts_plot-1.png)
+Currently the returned object is a raw conversion of the feed into a nested list depending on the fields and extensions requested.
