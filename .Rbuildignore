@@ -34,4 +34,4 @@ tarball
 lastMiKTeXException
 ^CRAN-SUBMISSION$
 hidden_tokens_consumers.txt
-^rstats\.json$
+^rstats
