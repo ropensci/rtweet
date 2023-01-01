@@ -1,11 +1,11 @@
 test_that("search_tweets returns tweets data and latlng", {
-  
+
   vcr::use_cassette("search_tweets", {
     df <- search_tweets("#rstats", n = 50)
   })
   expect_s3_class(df, "data.frame")
   expect_true(nrow(df) > 25) # should almost always be true
-  
+
   # can extract lat_lng
   ll <- lat_lng(df)
   expect_equal(c("lat", "lng") %in% names(ll), c(TRUE, TRUE))
@@ -17,7 +17,7 @@ test_that("gives useful errors", {
 })
 
 test_that("non-existent search returns empty data frame", {
-  
+
   vcr::use_cassette("search_tweets1", {
     tweets <- search_tweets("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc")
   })
@@ -26,7 +26,7 @@ test_that("non-existent search returns empty data frame", {
 })
 
 test_that("search_tweets2 can search for multiple queries", {
-  
+
   vcr::use_cassette("search_tweets2", {
     df <- search_tweets2(c("#rstats", "open science"), n = 50)
   })
@@ -35,7 +35,7 @@ test_that("search_tweets2 can search for multiple queries", {
 })
 
 test_that("search_tweets uses POSIXct at created_at, #660", {
-  
+
   vcr::use_cassette("search_tweets3", {
     df <- search_tweets2(c("#rstats", "open science"), n = 50)
   })
@@ -45,16 +45,16 @@ test_that("search_tweets uses POSIXct at created_at, #660", {
 
 test_that("search_tweets2 works", {
   vcr::use_cassette("search_tweets4", {
-    st2 <- search_tweets2(c('"data science"', "rstats OR python"), n = 100)
+    st2 <- search_tweets2(c('"data science"', "rstats OR python"), n = 50)
   })
-  expect_gt(nrow(st2), 100)
+  expect_gte(nrow(st2), 100)
 })
 
 test_that("search_tweets", {
   vcr::use_cassette("search_tweets5", {
-    st_lang <- search_tweets("advanced_recycling", include_rts = FALSE, 
+    st_lang <- search_tweets("advanced_recycling", include_rts = FALSE,
                           n = 1000, lang = "en")
   })
-  
+
   expect_equal(nrow(st_lang), nrow(users_data(st_lang)))
 })

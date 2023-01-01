@@ -1,7 +1,7 @@
 test_that("do_call_rbind works", {
   ## lapply through three different search queries
   vcr::use_cassette("do_call_rbind", {
-    lrt <- lapply( c("rstats OR tidyverse", "data science"), search_tweets)
+    lrt <- lapply( c("rstats OR tidyverse", "data science"), search_tweets, n = 10)
   })
 
   rt <- do_call_rbind(lrt)
@@ -14,7 +14,7 @@ test_that("do_call_rbind works", {
 test_that("rbind works", {
   ## lapply through three different search queries
   vcr::use_cassette("rbind", {
-    lrt <- lapply( c("rstats OR tidyverse", "data science"), search_tweets)
+    lrt <- lapply( c("rstats OR tidyverse", "data science"), search_tweets, n = 10)
   })
 
   nrows <- vapply(lrt, nrow, numeric(1L))

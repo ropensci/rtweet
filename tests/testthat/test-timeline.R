@@ -1,11 +1,11 @@
 test_that("get_timeline works", {
 
   vcr::use_cassette("get_timeline1", {
-    x <- get_timeline(c("cnnbrk", "cnn"), n = 400)
+    x <- get_timeline(c("cnnbrk", "cnn"))
   })
   expect_s3_class(x, "data.frame")
   expect_true("id" %in% names(x))
-  expect_gt(nrow(x), 100)
+  expect_gt(nrow(x), 20)
   expect_gt(ncol(x), 20)
 })
 

@@ -53,7 +53,7 @@ test_that("network_data on many", {
 test_that("graphing functions work", {
   skip_if_not_installed("igraph")
   vcr::use_cassette("graph-network6", {
-    x <- search_tweets("twitter filter:verified", n = 200)
+    x <- search_tweets("twitter filter:verified")
     d <- network_data(x)
   })
   expect_true(
