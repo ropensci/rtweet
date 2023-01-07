@@ -20,12 +20,12 @@ print.tweet_deleted <- function(x, ...) {
 
 #' @export
 print.tweets <- function(x, ...) {
-  cat("Users data at users_data()\n")
   NextMethod(x)
+  rlang::inform(c("i" = "Users data at users_data()\n"))
 }
 
 #' @export
 print.users <- function(x, ...) {
-  cat("Tweets data at tweets_data()")
   NextMethod(x)
+  rlang::inform(c("i" = "Tweets data at tweets_data()"))
 }
