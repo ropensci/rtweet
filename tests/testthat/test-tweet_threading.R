@@ -35,14 +35,7 @@ test_that("tweet_threading works", {
   tw <- lookup_tweets(thread[1])
   tw_thread <- tweet_threading(tw)
   expect_s3_class(tw_thread, "data.frame")
-  delete_thread(thread)
-})
 
-
-
-test_that("tweet_threading works fast", {
-  skip_if_offline()
-  thread <- write_thread()
   tw <- lookup_tweets(thread)
   tw_thread1 <- tweet_threading(tw[1, ])
   expect_s3_class(tw_thread1, "data.frame")
@@ -54,14 +47,7 @@ test_that("tweet_threading works fast", {
   expect_s3_class(tw_thread4, "data.frame")
   expect_equal(order(tw_thread1$created_at)[1:4], 1:4)
   expect_equal(order(tw_thread4$created_at)[1:4], 1:4)
-  delete_thread(thread)
-})
 
-test_that("tweet_threading works with id and tweets", {
-  skip_if_offline()
-  thread <- write_thread()
-
-  tw <- lookup_tweets(thread)
   tw <- tw[match(thread, tw$id_str), ]
 
   th1_id <- tweet_threading(thread[1], traverse = "backwards")
@@ -70,14 +56,7 @@ test_that("tweet_threading works with id and tweets", {
   th10_id <- tweet_threading(thread[10], traverse = "backwards")
   th10_tw <- tweet_threading(tw[10, ], traverse = "backwards")
   expect_equal(nrow(th10_id), nrow(th10_tw))
-  delete_thread(thread)
-})
 
-test_that("tweet_threading works forwards", {
-  skip_if_offline()
-  thread <- write_thread()
-
-  tw <- lookup_tweets(thread)
   tw <- tw[match(thread, tw$id_str), ]
   th1_id <- tweet_threading(thread[1], traverse = "forwards")
   expect_equal(nrow(th1_id), 10)
@@ -88,13 +67,6 @@ test_that("tweet_threading works forwards", {
   expect_equal(nrow(th10_id), 1)
   th10_tw <- tweet_threading(tw[10, ], traverse = "forwards")
   expect_equal(nrow(th10_id), nrow(th10_tw))
-
-  delete_thread(thread)
-})
-
-test_that("tweet_threading works forwards and backwards", {
-  skip_if_offline()
-  thread <- write_thread()
 
   t1f <- tweet_threading(thread[1], traverse = "forwards")
   expect_equal(nrow(t1f), 10)

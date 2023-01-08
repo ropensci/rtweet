@@ -12,7 +12,7 @@ test_that("stream_tweets returns tweets data", {
 })
 
 
-test_that("", {
+test_that("Stream for 30 seconds", {
   skip_if_offline()
   if (!"RTAA" %in% auth_list()) {
     skip("Requires different authentication")
