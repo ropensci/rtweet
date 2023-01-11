@@ -1,7 +1,12 @@
 ---
 title: "Authentication with rtweet"
 output:
-  rmarkdown::html_vignette
+  rmarkdown::html_vignette:
+    fig_caption: true
+    code_folding: show
+    toc_float:
+      collapsed: true
+      toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Authentication with rtweet}
   %\VignetteEngine{knitr::rmarkdown}

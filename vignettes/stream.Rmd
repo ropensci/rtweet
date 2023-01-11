@@ -3,7 +3,11 @@ title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
 output:
   rmarkdown::html_vignette:
-    self_contained: false
+    fig_caption: true
+    code_folding: show
+    toc_float:
+      collapsed: true
+      toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
   %\VignetteEngine{knitr::rmarkdown}
@@ -66,6 +70,8 @@ Multiple rules can match to a single tweet.
 ```r
 ## Stream rules used to filter tweets
 new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
+#> Warning: There are errors in the requests: DuplicateRule
+#> Check the returned object for more details.
 ```
 
 ### Listing rules
@@ -77,10 +83,10 @@ To know current rules you can use `stream_add_rule()` to know if any rule is cur
 rules <- stream_add_rule(NULL)
 rules
 #>                  sent result_count
-#> 1 2022-12-19 23:24:51            1
+#> 1 2023-01-11 19:35:42            1
 rules(rules)
 #>                    id   value    tag
-#> 1 1604981106868211713 #rstats rstats
+#> 1 1613258283833344002 #rstats rstats
 ```
 
 With the help of `rules()` the id, value and tag of each rule is provided.
@@ -120,8 +126,7 @@ Don't forget to clean the streaming rules:
 
 ```r
 stream_rm_rule(ids(new_rule))
-#>                  sent deleted not_deleted
-#> 1 2022-12-19 23:25:07       1           0
+#> Error: Ids are not present. Are you sure this is a rtweet object?
 ```
 
 ## Sample stream
@@ -131,9 +136,9 @@ The `sample_stream()` function doesn't need rules or anything.
 
 ```r
 stream_random <- sample_stream(timeout = streamtime, file = filename, parse = FALSE)
-#>  Found 289 records... Imported 289 records. Simplifying...
+#>  Found 307 records... Imported 307 records. Simplifying...
 length(stream_random)
-#> [1] 289
+#> [1] 307
 ```
 
 

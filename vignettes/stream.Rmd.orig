@@ -3,7 +3,11 @@ title: "Live streaming tweets"
 subtitle: "rtweet: Collecting Twitter Data"
 output:
   rmarkdown::html_vignette:
-    self_contained: false
+    fig_caption: true
+    code_folding: show
+    toc_float:
+      collapsed: true
+      toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Live streaming tweets}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,8 +15,11 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE,
-                      fig.path = "vignettes/files/", root.dir = "vignettes")
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#>",
+    collapse = TRUE, fig.path = "vignettes/", fig.process = function(x) {
+    basename(x)
+    })
+knitr::opts_knit$set(root.dir = "vignettes")
 ```
 
 ## Installing and loading package
@@ -26,7 +33,7 @@ library(rtweet)
 ```
 
 ```{r auth, include=FALSE, purl=FALSE, message=FALSE}
-auth_as(rtweet::auth_as("RTAA"))
+rtweet::auth_as("RTAA")
 ```
 
 ## Overview

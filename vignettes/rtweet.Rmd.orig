@@ -2,7 +2,11 @@
 title: "Intro to rtweet"
 output:
   rmarkdown::html_vignette:
-    self_contained: false
+    fig_caption: true
+    code_folding: show
+    toc_float:
+      collapsed: true
+      toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Intro to rtweet}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,9 +14,11 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE, eval = TRUE, comment = "#>", collapse = TRUE,
-  fig.path = "vignettes/files/", root.dir = "vignettes")
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#>",
+    collapse = TRUE, fig.path = "vignettes/", fig.process = function(x) {
+    basename(x)
+    })
+knitr::opts_knit$set(root.dir = "vignettes")
 ```
 
 This vignette provides a quick tour of the R package.
