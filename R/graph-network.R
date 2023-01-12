@@ -187,12 +187,7 @@ network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
 #' @rdname network_data
 #' @export
 network_graph <- function(x, e = c("mention", "retweet", "reply", "quote")) {
-  if (!requireNamespace("igraph", quietly = TRUE)) {
-    stop(
-      "Please install the {igraph} package to use this function",
-      call. = FALSE
-    )
-  }
+  check_installed("igraph")
   nd <- network_data(x = x, e = e)
   idsn <- attr(nd, "idsn")
   g <- igraph::make_empty_graph(n = 0, directed = TRUE)
