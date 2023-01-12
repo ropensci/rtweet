@@ -307,17 +307,17 @@ default_cached_auth <- function() {
   default <- auth_path("default.rds")
 
   if (file.exists(default)) {
-    readRDS(default)
+    return(readRDS(default))
+  }
+
+  names <- auth_list()
+  if (length(names) == 0) {
+    abort("No default authentication found. Please call `auth_setup_default()`")
   } else {
-    names <- auth_list()
-    if (length(names) == 0) {
-      abort("No default authentication found. Please call `auth_setup_default()`")
-    } else {
-      abort(c(
-        "No default authentication found. Pick existing auth with:",
-        paste0("auth_as('", names, "')")
-      ))
-    }
+    abort(c(
+      "No default authentication found. Pick existing auth with:",
+      paste0("auth_as('", names, "')")
+    ))
   }
 }
 
@@ -327,11 +327,11 @@ auth_has_default <- function() {
   file.exists(auth_path("default.rds"))
 }
 
-no_token <- function() {
+no_token <- function(call = caller_env()) {
   if (is_testing()) {
     testthat::skip("Auth not available")
   } else {
-    stop("Could not authenticate", call. = FALSE)
+    abort("Could not authenticate", call = call)
   }
 }
 # Internal function to generate the bot used for testing
@@ -352,6 +352,7 @@ rtweet_test <- function() {
   )
 }
 
+# Helper function for testing
 local_auth <- function(env = parent.frame()) {
   auth <- auth_get()
   withr::defer(auth_as(auth), envir = env)

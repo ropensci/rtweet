@@ -19,7 +19,7 @@ test_that("can save and reload auth", {
   suppressMessages({
     auth_save(auth1, "test")
     auth2 <- find_auth("test")
-  })  
+  })
   expect_equal(auth1, auth2)
 })
 
@@ -34,10 +34,10 @@ test_that("find auth errors politely", {
 test_that("default_cached_auth() handles 0, 1, and n saved", {
   withr::local_options("rtweet:::config_dir" = tempfile())
   auth <- rtweet_app("abc")
-  
+
   # Error if no default auth set up
   expect_snapshot(default_cached_auth(), error = TRUE)
-  
+
   # Listing options if available
   suppressMessages(auth_save(auth, "test1"))
   suppressMessages(auth_save(auth, "test2"))
@@ -46,4 +46,8 @@ test_that("default_cached_auth() handles 0, 1, and n saved", {
   # Uses default if present
   suppressMessages(auth_save(auth, "default"))
   expect_equal(default_cached_auth(), auth)
+})
+
+test_that("is_developing works", {
+  expect_true(is_developing())
 })

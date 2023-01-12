@@ -5,7 +5,8 @@ test_that("check_field_helper works", {
   expect_length(check_field_helper(list(media = c("b", "c")), c("b", "c"), "media"), 0L)
   expect_length(check_field_helper(list(media = c("b", "c")), c("b", "c"), "test"), 0L)
   expect_length(check_field_helper(list(media = c("b", "c")), NULL, "media"), 1L)
-  expect_equal(check_field_helper(list(media = c("b", "c")), NULL, "media"), "No media field allowed")
+  expect_equal(check_field_helper(list(media = c("b", "c")), NULL, "media"),
+               c(x = "No media field allowed"))
 
   # NULL returns the allowed fields
   expect_equal(check_field_helper(NULL, "a", "media"), NULL)

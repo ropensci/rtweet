@@ -65,7 +65,8 @@ check_fields <- function(fields,
                          poll_fields = NULL,
                          tweet_fields = NULL,
                          user_fields = NULL,
-                         metrics_fields = NULL) {
+                         metrics_fields = NULL,
+                         call = caller_env()) {
 
   # If null use all the allowed fields
   if (is.null(fields)) {
@@ -99,7 +100,7 @@ check_fields <- function(fields,
     check_field_helper(fields, metrics_fields, "metrics")
   )
   if (!is.null(error)) {
-    stop(error, call. = FALSE)
+    abort(error, call = call)
   }
 
   fields <- fields[intersect(n_fields, valid_fields)]
@@ -110,11 +111,11 @@ check_fields <- function(fields,
 check_field_helper <- function(passed, allowed, name) {
   y <- passed[[name]]
   if (is.null(allowed) && !is.null(y)) {
-    return(paste0("No ", name, " field allowed"))
+    return(c("x" = paste0("No ", name, " field allowed")))
   }
   wrong <- setdiff(y, allowed)
   if (length(wrong) >= 1) {
-    paste("Fields", paste(wrong, collapse = ", "), "are not allowed or valid.\n")
+    c("x" = paste("Fields", paste(wrong, collapse = ", "), "are not allowed or valid.\n"))
   } else {
     return(NULL)
   }

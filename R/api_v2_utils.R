@@ -24,12 +24,12 @@ auth_is_bearer <- function(token = NULL) {
 #  if (auth_has_default()) {
 #     tryCatch(check_token_v2())
 #  }
-check_token_v2 <- function(token = NULL, mechanism = "bearer") {
+check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env()) {
 
   token <- token %||% auth_get()
 
   if (mechanism == "bearer" && !auth_is_bearer(token)) {
-    abort("A bearer `token` is needed for this endpoint.")
+    abort("A bearer `token` is needed for this endpoint.", call = call)
   }
   token
 }
@@ -72,15 +72,15 @@ prepare_params <- function(x) {
 }
 
 # Handling responses ####
-parsing <- function(x) {
+parsing <- function(x, call = caller_env()) {
   if (!is.logical(x) || any(is.na(x))) {
-    stop("parse should be either TRUE or FALSE", call. = FALSE)
+    abort("parse should be either TRUE or FALSE", call = call)
   }
   if (length(x) > 1) {
-    stop("parse should be of length 1", call. = FALSE)
+    abort("parse should be of length 1", call = call)
   }
   if (isTRUE(x)) {
-    stop("Parsing for the rtweet API v2 is not yet implemented", call. = FALSE)
+    abort("Parsing for the rtweet API v2 is not yet implemented", call = call)
   }
 }
 
@@ -107,7 +107,7 @@ resp <- function(obj, type = "json", ...) {
     if (ncol(rest) >= 1 && nrow(rest) == 1) {
       meta <- cbind(meta, rest)
     } else if (nrow(rest) > 1) {
-      stop("Please check")
+      abort("Please check", call = call)
     }
     out$meta <- meta
   }
