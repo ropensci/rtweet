@@ -13,11 +13,7 @@ test_that("stream_tweets returns tweets data", {
 
 
 test_that("Stream for 30 seconds", {
-  skip_if_offline()
-  if (!"RTAA" %in% auth_list()) {
-    skip("Requires different authentication")
-  }
-  auth_as("RTAA")
+  testing_with_authentication()
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
   # Open filtered streaming connection for 30s
   tmp <- tempfile()
