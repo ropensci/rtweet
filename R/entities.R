@@ -28,7 +28,6 @@ entity <- function(x, entity, ...) {
 
 #' @export
 entity.default <- function(x, entity, ...) {
-  is(x, "tweets")
   entity <- match.arg(entity, c("urls", "hashtags", "symbols",
                                 "user_mentions", "media"))
   l <- lapply(x, function(x){x[[entity]]})
