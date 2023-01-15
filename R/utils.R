@@ -71,7 +71,20 @@ is_developing <- function() {
   is_testing() || (is_dev_mode() %||% is_rcmd_check())
 }
 
-
 release_bullets <- function() {
-  c("Run vignette/precompute.R and move images")
+  c("Run vignette/precompute.R")
+}
+
+check_interval <- function(value, min, max, call = caller_env()) {
+  if (value < min) {
+    warn(paste0("Using minimal value ", min, " instead of ", value),
+         call = call)
+    return(min)
+  }
+  if (value > max) {
+    warn(paste0("Using max value ", min, " instead of ", value),
+         call = call)
+    return(max)
+  }
+  value
 }
