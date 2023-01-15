@@ -60,3 +60,30 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
   lookup_tweets(statuses = statuses, parse = parse, token = token)
 }
 
+#' @references
+#' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
+#' Multiple tweets: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets>
+#' get_tweet("567053242429734913", parse = FALSE)
+#' get_tweet(c("567053242429734913", "567053242429734913"), parse = FALSE)
+#' get_tweet(c("567053242429734913", "567053242429734913"), expansions = NULL, fields = NULL, parse = FALSE)
+get_tweet <- function(id, expansions = NA, fields = NA, ..., token = NULL,
+                      parse = TRUE) {
+  fields <- check_fields(fields, metrics.fields = NULL)
+  expansions <- check_expansions(expansions, tweet_expansions())
+  parsing(parse)
+  data <- c(expansions, fields, ...)
+  data <- unlist(prepare_params(data), recursive = FALSE)
+  if (length(id) == 1) {
+    url <- paste0("tweets/", id)
+  } else {
+    data <- c(ids = paste(id, collapse = ","), data)
+    url <- "tweets"
+  }
+  # Rates from the website app and user limits
+  rate <- max(300/(60*15), 900/(60*15))
+
+  req_archive <- endpoint_v2(token, url, rate)
+  req_final <- httr2::req_url_query(req_archive, !!!data)
+  resp <- httr2::req_perform(req_final)
+  httr2::resp_body_json(resp)
+}
