@@ -1,3 +1,11 @@
+test_that("make_fields works", {
+  expect_null(set_fields(NULL, NULL, NULL, NULL, NULL))
+  expect_type(set_fields(NULL, NULL, NULL, NULL), "list")
+  expect_error(set_fields(NULL, NULL, NULL, NULL, 1), "characters")
+  expect_error(set_fields(NULL, NULL, NULL, NULL, "a"), "Invalid")
+})
+
+
 test_that("check_field_helper works", {
   expect_length(check_field_helper(list(media = "a"), "b", "media"), 1L)
   expect_length(check_field_helper(list(media = "a"), c("b", "c"), "media"), 1L)
@@ -6,7 +14,7 @@ test_that("check_field_helper works", {
   expect_length(check_field_helper(list(media = c("b", "c")), c("b", "c"), "test"), 0L)
   expect_length(check_field_helper(list(media = c("b", "c")), NULL, "media"), 1L)
   expect_equal(check_field_helper(list(media = c("b", "c")), NULL, "media"),
-               c(x = "No media field allowed"))
+               c(x = "Invalid media.\n"))
 
   # NULL returns the allowed fields
   expect_equal(check_field_helper(NULL, "a", "media"), NULL)
@@ -19,56 +27,39 @@ test_that("check_field_helper works", {
 test_that("check_fields works", {
   # If null allow all the fields
   out_null <- check_fields(NULL,
-    media.fields = c(
+    media = c(
       "duration_ms", "height", "media_key",
       "preview_image_url", "type", "url", "width",
       "public_metrics", "alt_text", "variants"
     ),
-    place.fields = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-    poll.fields = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-    tweet.fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-    user.fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
-    metrics.fields = NULL
+    place = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
+    poll = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
+    tweet = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
+    user = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
+    metrics = NULL
   )
-  expect_named(out_null, c("media.fields", "place.fields", "poll.fields", "tweet.fields",
-                           "user.fields"))
+  expect_null(out_null)
+
   # If already provided just check
-  out <- check_fields(out_null,
-                      place.fields = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-                      poll.fields = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-                      tweet.fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-                      user.fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
-                      metrics.fields = NULL)
-  expect_equal(out, out_null)
+  out <- check_fields(set_fields(),
+                      place = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
+                      poll = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
+                      tweet = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
+                      user = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
+                      metrics = NULL)
+  expect_equal(out, set_fields())
 
-  out_3 <- check_fields(list(),
-                        media.fields = "a",
-                        place.fields = "b",
-                        poll.fields = "c",
-                        tweet.fields = "d",
-                        user.fields = "e",
-                        metrics.fields = "f"
-  )
+  out_3 <- check_fields(list(), media = "a", place = "b", poll = "c",
+                        tweet = "d", user = "e", metrics = "f")
   expect_equal(out_3, NULL)
-  out_3 <- check_fields(NA,
-                        media.fields = "a",
-                        place.fields = "b",
-                        poll.fields = "c",
-                        tweet.fields = "d",
-                        user.fields = "e",
-                        metrics.fields = "f"
-  )
+  out_3 <- check_fields(NA, media = "a", place = "b", poll = "c", tweet = "d",
+                        user = "e", metrics = "f")
   expect_equal(out_3, NULL)
-  out_4 <- check_fields(c(),
-                        media.fields = "a",
-                        place.fields = "b",
-                        poll.fields = "c",
-                        tweet.fields = "d",
-                        user.fields = "e",
-                        metrics.fields = "f"
-  )
-  expect_equal(out_4, list(media.fields = "a", place.fields = "b",
-                           poll.fields = "c", tweet.fields = "d",
-                           user.fields = "e", metrics.fields = "f"))
+  out_4 <- check_fields(c(), media = "a", place = "b", poll = "c", tweet = "d",
+                        user = "e", metrics = "f")
+  expect_equal(out_4, NULL)
 
+  out_5 <- check_fields(list(media.fields  = "a"), media = "a", place = "b",
+                        poll = "c", tweet = "d", user = "e", metrics = "f")
+  expect_equal(out_5, list(media.fields  = "a"))
 })

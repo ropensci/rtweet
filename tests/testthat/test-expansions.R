@@ -6,13 +6,13 @@ test_that("check_expansions works", {
   # Present and not present
   expect_error(check_expansions(c("a", "b"), "b"))
   # Present
-  expect_equal(check_expansions("a", "a"), list(expansions = "a"))
+  expect_equal(check_expansions("a", "a"), "a")
 
-  # NULL returns the allowed fields
-  expect_equal(check_expansions(NULL, "a"), list(expansions = "a"))
-  # Empty vector returns allowed
-  expect_equal(check_expansions(c(), "a"), list(expansions = "a"))
-  # Empty list returns empty expansions
+  # NULL returns NULL
+  expect_equal(check_expansions(NULL, "a"), NULL)
+  # Empty vector returns NULL
+  expect_equal(check_expansions(c(), "a"), NULL)
+  # Empty list returns NULL
   expect_equal(check_expansions(list(), "a"), NULL)
   expect_equal(check_expansions(NA, "a"), NULL)
 })

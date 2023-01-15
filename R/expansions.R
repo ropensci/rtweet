@@ -36,23 +36,38 @@ user_expansions <- function() {
   "pinned_tweet_id"
 }
 
-check_expansions <- function(passed, allowed = NULL, call = caller_env()) {
-  if (is.null(passed)) {
-    return(list(expansions = allowed))
+#' Set expansions
+#'
+#' Select which expansions do you want
+set_expansions <- function(tweet = tweet_expansions(),
+                           user = user_expansions()) {
+
+  if (is.numeric(tweet)) {
+    abort("Invalid tweet expansions.")
+  }
+  if (is.numeric(user)) {
+    abort("Invalid user expansions.")
   }
 
+
+  expansions <- c(tweet, user)
+
+  check_expansions(expansions, c(tweet_expansions(), user_expansions()))
+}
+
+check_expansions <- function(passed, allowed = NULL, call = caller_env()) {
   # Empty list or NA return NULL to disable the expansions
   empty_list <- is.list(passed) && length(passed) == 0
   na <- length(passed) == 1L && is.na(passed)
-  if ( empty_list || na) {
+  if (is.null(passed) || empty_list || na) {
     return(NULL)
   }
 
   within <- !passed %in% allowed
-  if (length(passed) > 10 || any(within)) {
+  if (any(within)) {
     extensions <- passed[within]
     abort("These extensions are not allowed: ",
          paste(extensions, collapse = ", "), call = call)
   }
-  list(expansions = passed)
+  passed
 }
