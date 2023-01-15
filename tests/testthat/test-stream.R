@@ -22,7 +22,7 @@ test_that("Stream for 30 seconds", {
     f2 <- filtered_stream(file = tmp, timeout = 30, parse = FALSE)
   }, NA)
   # Remove rule
-  stream_rm_rule(ids(new_rules))
+  stream_rm_rule(ids(new_rule))
   # Open random streaming connection
   sample_stream(file = tempfile(), timeout = 3)
 })
