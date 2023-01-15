@@ -60,19 +60,19 @@ metrics_fields <- c("public_metrics", "non_public_metrics", "organic_metrics", "
 
 
 check_fields <- function(fields,
-                         media_fields = NULL,
-                         place_fields = NULL,
-                         poll_fields = NULL,
-                         tweet_fields = NULL,
-                         user_fields = NULL,
-                         metrics_fields = NULL,
+                         media.fields = media_fields,
+                         place.fields = place_fields,
+                         poll.fields = poll_fields,
+                         tweet.fields = tweet_fields,
+                         user.fields = user_fields,
+                         metrics.fields = metrics_fields,
                          call = caller_env()) {
 
   # If null use all the allowed fields
   if (is.null(fields)) {
-    fields <- list("media.fields" = media_fields, "place.fields" = place_fields,
-                   "poll.fields" = poll_fields, "tweet.fields" = tweet_fields,
-                   "user.fields" = user_fields, "metrics.fields" = metrics_fields)
+    fields <- list("media.fields" = media.fields, "place.fields" = place.fields,
+                   "poll.fields" = poll.fields, "tweet.fields" = tweet.fields,
+                   "user.fields" = user.fields, "metrics.fields" = metrics.fields)
     return(fields[lengths(fields) > 0])
   }
   # Empty or NA return NULL to disable the field
@@ -92,12 +92,12 @@ check_fields <- function(fields,
   }
 
   error <- c(
-    check_field_helper(fields, media_fields, "media"),
-    check_field_helper(fields, place_fields, "place"),
-    check_field_helper(fields, poll_fields, "poll"),
-    check_field_helper(fields, tweet_fields, "tweet"),
-    check_field_helper(fields, user_fields, "user"),
-    check_field_helper(fields, metrics_fields, "metrics")
+    check_field_helper(fields, media.fields, "media"),
+    check_field_helper(fields, place.fields, "place"),
+    check_field_helper(fields, poll.fields, "poll"),
+    check_field_helper(fields, tweet.fields, "tweet"),
+    check_field_helper(fields, user.fields, "user"),
+    check_field_helper(fields, metrics.fields, "metrics")
   )
   if (!is.null(error)) {
     abort(error, call = call)
