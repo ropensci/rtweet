@@ -36,7 +36,7 @@ user_expansions <- function() {
   "pinned_tweet_id"
 }
 
-check_expansions <- function(passed, allowed, call = caller_env()) {
+check_expansions <- function(passed, allowed = NULL, call = caller_env()) {
   if (is.null(passed)) {
     return(list(expansions = allowed))
   }

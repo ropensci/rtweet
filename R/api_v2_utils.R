@@ -7,6 +7,13 @@ auth_is_bearer <- function(token = NULL) {
   inherits(token, "rtweet_bearer")
 }
 
+auth_is_pkce <- function(token = NULL) {
+  if (is.null(token)) {
+    token <- auth_get()
+  }
+  inherits(token, "Token2.0")
+}
+
 
 # Check token readiness for API v2
 #
@@ -29,16 +36,23 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   token <- token %||% auth_get()
 
   if (mechanism == "bearer" && !auth_is_bearer(token)) {
-    abort("A bearer `token` is needed for this endpoint.", call = call)
+    abort(c("x" = "A bearer `token` is needed for this endpoint.",
+            "i" = "Get one via rtweet_app()"),
+          call = call)
+  }
+  if (mechanism == "pkce" && !auth_is_pkce(token)) {
+    abort(c("x" = "An OAuth 2.0  is needed for this endpoint.",
+            "i" = "Get one via rtweet_*() "),
+          call = call)
   }
   token
 }
 
 # General function to create the requests for Twitter API v2 with retry limits
 # and error handling
-req_v2 <- function(token = NULL) {
+req_v2 <- function(token = NULL, call = caller_env()) {
 
-  token <- check_token_v2(token)
+  token <- check_token_v2(token, call)
   req <- httr2::request("https://api.twitter.com/2")
   req_headers <- httr2::req_headers(req,
                                     `Content-type` = "application/json",
@@ -61,9 +75,9 @@ twitter_after <- function(resp) {
 }
 
 
-endpoint_v2 <- function(token, path, throttle) {
+endpoint_v2 <- function(token, path, throttle, call = caller_call()) {
 
-  req <- httr2::req_url_path_append(req_v2(token), path)
+  req <- httr2::req_url_path_append(req_v2(token, call), path)
   httr2::req_throttle(req, throttle, realm = path)
 }
 
