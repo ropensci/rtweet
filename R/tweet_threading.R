@@ -28,7 +28,7 @@ tweet_threading <- function(tw, traverse = c("backwards", "forwards"), verbose =
   if (is.character(tw)) {
     tw <- lookup_tweets(tw[1])
   }
-  stopifnot(is.logical(verbose))
+  stopifnot(is_logical(verbose))
 
   # Prevent a forwards, backwards order
   if (length(unique(traverse)) == 2 && all(c("backwards", "forwards") %in% traverse)) {

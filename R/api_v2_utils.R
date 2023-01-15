@@ -87,12 +87,10 @@ prepare_params <- function(x) {
 
 # Handling responses ####
 parsing <- function(x, call = caller_env()) {
-  if (!is.logical(x) || any(is.na(x))) {
+  if (is_logical(x)) {
     abort("parse should be either TRUE or FALSE", call = call)
   }
-  if (length(x) > 1) {
-    abort("parse should be of length 1", call = call)
-  }
+
   if (isTRUE(x)) {
     abort("Parsing for the rtweet API v2 is not yet implemented", call = call)
   }

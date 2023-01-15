@@ -132,7 +132,7 @@ post_tweet <- function(status = "my first rtweet #rstats",
     if (!is.numeric(lat)) stop("`lat` must be numeric.")
     if (!is.numeric(long)) stop("`long` must be numeric.")
 
-    if (!is.logical(display_coordinates)) {
+    if (!is_logical(display_coordinates)) {
       stop("`display_coordinates` must be TRUE/FALSE.")
     }
 

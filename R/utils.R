@@ -75,6 +75,10 @@ release_bullets <- function() {
   c("Run vignette/precompute.R")
 }
 
+is_logical <- function(x) {
+  isFALSE(x) || isTRUE(x)
+}
+
 check_interval <- function(value, min, max, call = caller_env()) {
   if (value < min) {
     warn(paste0("Using minimal value ", min, " instead of ", value),
