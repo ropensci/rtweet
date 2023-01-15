@@ -5,7 +5,6 @@ test_that("bearer token doesn't accidentally expose secrets", {
 })
 
 test_that("can set and reset auth", {
-  local_auth()
 
   auth <- auth_get()
   old <- auth_as(rtweet_app("abc"))
