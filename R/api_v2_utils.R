@@ -87,7 +87,7 @@ prepare_params <- function(x) {
 
 # Handling responses ####
 parsing <- function(x, call = caller_env()) {
-  if (is_logical(x)) {
+  if (!is_logical(x)) {
     abort("parse should be either TRUE or FALSE", call = call)
   }
 

@@ -24,5 +24,5 @@ test_that("Stream for 30 seconds", {
   # Remove rule
   stream_rm_rule(ids(new_rule))
   # Open random streaming connection
-  sample_stream(file = tempfile(), timeout = 3)
+  sample_stream(file = tempfile(), timeout = 3, parse = FALSE)
 })

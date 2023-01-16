@@ -60,18 +60,18 @@ filtered_stream <- function(timeout, file = tempfile(), expansions = NA, fields 
                           "referenced_tweets.id.author_id")
   parsing(parse)
   fields <- check_fields(fields,
-                         media_fields = c("duration_ms", "height", "media_key",
+                         media = c("duration_ms", "height", "media_key",
                                           "preview_image_url", "type", "url", "width",
                                           "public_metrics", "alt_text", "variants"),
-                         place_fields = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-                         poll_fields = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-                         tweet_fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-                         user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
-                         metrics_fields = NULL)
+                         place = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
+                         poll = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
+                         tweet = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
+                         user = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
+                         metrics = NULL)
 
   expansions <- check_expansions(expansions, allowed_expansions)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
-  data <- c(expansions, fields, ...)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
   if (file.exists(file) && isFALSE(append)) {
@@ -276,18 +276,18 @@ sample_stream <- function(timeout, file = tempfile(),
                           expansions = NA, fields = NA, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
   fields <- check_fields(fields,
-                        media_fields = c("duration_ms", "height", "media_key", "preview_image_url", "type", "url", "width", "public_metrics", "alt_text", "variants"),
-                        place_fields = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-                        poll_fields = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-                        tweet_fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-                        user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld")
+                        media = c("duration_ms", "height", "media_key", "preview_image_url", "type", "url", "width", "public_metrics", "alt_text", "variants"),
+                        place = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
+                        poll = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
+                        tweet = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
+                        user = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld")
   )
   expansions <- check_expansions(expansions, c("attachments.poll_ids", "attachments.media_keys", "author_id", "edit_history_tweet_ids", "entities.mentions.username", "geo.place_id", "in_reply_to_user_id", "referenced_tweets.id", "referenced_tweets.id.author_id"))
   parsing(parse)
 
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))
 
-  data <- c(expansions, fields, ...)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
   if (file.exists(file) && isFALSE(append)) {
