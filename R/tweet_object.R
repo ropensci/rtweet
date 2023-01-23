@@ -188,3 +188,15 @@ display_text_range <- function(x) {
   dtr[ldtr != 0] <- vapply(x[ldtr != 0], `[`, numeric(1), i = 2)
   dtr
 }
+
+
+# Parses a tweet from the API v2
+parse_tweet <- function(x, expansions = NA, fields = NA) {
+  if (is.na(expansions) && is.na(fields)) {
+    tweets_list <- lapply(x, list2DF)
+    tweets_df <- do.call(rbind, tweets_list)
+    tweets_df <- tibble::as_tibble(tweets_df)
+  }
+  class(tweets_df) <- c("tweets_v2", "tweets", class(tweets_df))
+  tweets_df
+}
