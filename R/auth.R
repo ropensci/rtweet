@@ -296,7 +296,9 @@ find_auth <- function(auth = NULL) {
         abort(paste0("Can't find saved auth with name '", auth, "'"))
       }
     }
-    inform(paste0("Reading auth from '", path, "'"))
+    if (!is_developing()) {
+      inform(paste0("Reading auth from '", path, "'"))
+    }
     readRDS(path)
   } else {
     abort("Unrecognised input to `auth`")
