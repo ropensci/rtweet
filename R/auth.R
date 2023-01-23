@@ -98,7 +98,7 @@ rtweet_user <- function(client_id = NULL, client_secret = NULL,
   # From oauth_app help page
   # key: consumer key or client ID
   # secret: consumer secret, or client secret
-  app <- httr::oauth_app("rtweet", key = client_id, secret = client_secret)
+  app <- httr::oauth_app("rtweet", key = api_key, secret = api_secret)
   TwitterToken1.0$new(
     app = app,
     endpoint = httr::oauth_endpoints("twitter"),
