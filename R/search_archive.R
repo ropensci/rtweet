@@ -3,8 +3,8 @@
 #' search_archive("#rtweet", parse = FALSE)
 search_archive <- function(query, max_results = 500, expansions = NA, fields = NA,
                            ..., token = NULL, parse = TRUE) {
-  fields <- check_fields(fields, metrics.fields = NULL)
-  expansions <- check_expansions(expansions, tweet_expansions())
+  fields <- check_fields(fields, metrics = NULL)
+  expansions <- check_expansions(expansions)
 
   parsing(parse)
   max_results <- check_interval(max_results, 10, 500)
@@ -25,8 +25,8 @@ search_archive <- function(query, max_results = 500, expansions = NA, fields = N
 #' search_recent("#rtweet", parse = FALSE)
 search_recent <- function(query, max_results = 100, expansions = NA, fields = NA,
                           ..., token = NULL, parse = TRUE) {
-    fields <- check_fields(fields, metrics.fields = NULL)
-    expansions <- check_expansions(expansions, tweet_expansions())
+    fields <- check_fields(fields, metrics = NULL)
+    expansions <- check_expansions(expansions)
     parsing(parse)
     max_results <- check_interval(max_results, 10, 100)
     data <- c(expansions, fields, ...)

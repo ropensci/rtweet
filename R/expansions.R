@@ -55,7 +55,7 @@ set_expansions <- function(tweet = tweet_expansions(),
   check_expansions(expansions, c(tweet_expansions(), user_expansions()))
 }
 
-check_expansions <- function(passed, allowed = NULL, call = caller_env()) {
+check_expansions <- function(passed, allowed = tweet_expansions(), call = caller_env()) {
   # Empty list or NA return NULL to disable the expansions
   empty_list <- is.list(passed) && length(passed) == 0
   na <- length(passed) == 1L && is.na(passed)

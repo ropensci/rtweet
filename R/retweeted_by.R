@@ -9,11 +9,8 @@
 #' rb <- retweeted_by("567053242429734913", parse = FALSE)
 retweeted_by <- function(id, n = 100, expansions = NA, fields = NA, ...,
                       token = NULL, parse = TRUE) {
-  fields <- check_fields(fields, media.fields = NULL,
-                         place.fields = NULL,
-                         poll.fields = NULL,
-                         metrics.fields = NULL)
-  expansions <- check_expansions(expansions, user_expansions())
+  fields <- check_fields(fields, metrics = NULL)
+  expansions <- check_expansions(expansions)
   parsing(parse)
   data <- c(expansions, fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)

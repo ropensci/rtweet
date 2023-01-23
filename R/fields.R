@@ -124,6 +124,7 @@ set_fields <- function(media = media_fields,
   fields
 }
 
+# To disable a field use NULL
 check_fields <- function(fields,
                          media = media_fields,
                          place = place_fields,
