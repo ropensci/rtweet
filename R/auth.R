@@ -109,7 +109,7 @@ rtweet_user <- function(client_id = NULL, client_secret = NULL,
 
 #' @export
 #' @rdname rtweet_user
-rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
+rtweet_bot <- function(api_key, api_secret, access_token, access_secret, app = "rtweet") {
 
   if (missing(api_key)) {
     api_key <- ask_pass("API key")
@@ -128,7 +128,7 @@ rtweet_bot <- function(api_key, api_secret, access_token, access_secret) {
   stopifnot(is_string(api_key), is_string(api_secret))
   stopifnot(is_string(access_token), is_string(access_secret))
 
-  app <- httr::oauth_app("rtweet", key = api_key, secret = api_secret)
+  app <- httr::oauth_app(app, key = api_key, secret = api_secret)
   credentials <- list(
     oauth_token = access_token,
     oauth_token_secret = access_secret

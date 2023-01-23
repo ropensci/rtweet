@@ -50,3 +50,15 @@ test_that("default_cached_auth() handles 0, 1, and n saved", {
 test_that("is_developing works", {
   expect_true(is_developing())
 })
+
+test_that("rtweet_user works", {
+  skip("requires manual testing")
+  # Avoid saving it but check that it is redirected in the browser.
+  expect_error(rtweet_user(), NA)
+})
+
+test_that("rtweet_bot works", {
+  skip("requires manual testing")
+  # Avoid saving it but check that it is redirected in the browser.
+  expect_error(rtweet_bot(), NA)
+})
