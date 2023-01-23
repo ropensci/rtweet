@@ -1,7 +1,13 @@
+#' Retweets
+#'
+#' Looks up who have retweeted a given id.
+#' @inheritParams stream_filter
+#' @inheritParams get_retweeters
+#' @export
 #' @references https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/get-tweets-id-retweeted_by
 #' @examples
 #' rb <- retweeted_by("567053242429734913", parse = FALSE)
-retweeted_by <- function(id, max_results = 100, expansions = NA, fields = NA, ...,
+retweeted_by <- function(id, n = 100, expansions = NA, fields = NA, ...,
                       token = NULL, parse = TRUE) {
   fields <- check_fields(fields, media.fields = NULL,
                          place.fields = NULL,
@@ -16,7 +22,7 @@ retweeted_by <- function(id, max_results = 100, expansions = NA, fields = NA, ..
   }
   url <- paste0("tweets/", id, "/retweeted_by")
 
-  max_results <- check_interval(max_results, 10, 100)
+  max_results <- check_interval(n, 10, 100)
   data <- c(max_results = max_results, data)
 
   # Rates from the website app and user limits
