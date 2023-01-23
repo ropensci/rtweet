@@ -154,7 +154,7 @@ search_premium <- function(product, q, n = NULL, fromDate = NULL, toDate = NULL,
     stop("`safedir` temporarily not supported")
   }
 
-  if (!isFALSE(premium) || !isTRUE(premium)) {
+  if (!is_logical(premium)) {
     stop("premium must be either TRUE or FALSE.", call. = FALSE)
   }
 
