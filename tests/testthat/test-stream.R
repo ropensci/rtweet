@@ -13,16 +13,16 @@ test_that("stream_tweets returns tweets data", {
 
 
 test_that("Stream for 30 seconds", {
-  testing_with_authentication()
+  testing_with_authentication("RTAA")
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
   # Open filtered streaming connection for 30s
   tmp <- tempfile()
   expect_error({
-    f <- filtered_stream(file = tmp, timeout = 30, parse = FALSE)
-    f2 <- filtered_stream(file = tmp, timeout = 30, parse = FALSE)
+    f <- filtered_stream(file = tmp, timeout = 10, parse = FALSE)
+    f2 <- filtered_stream(file = tmp, timeout = 10, parse = FALSE)
   }, NA)
   # Remove rule
   stream_rm_rule(ids(new_rule))
   # Open random streaming connection
-  sample_stream(file = tempfile(), timeout = 3, parse = FALSE)
+  expect_error(sample_stream(file = tempfile(), timeout = 10, parse = FALSE), NA)
 })
