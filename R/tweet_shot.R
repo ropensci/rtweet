@@ -39,7 +39,7 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   if (zoom <= 1) {
     stop("zoom must be a positive number, >= 1", call. = FALSE)
   }
-  if (is_logical(scale)) {
+  if (!is_logical(scale)) {
     stop("scale must be TRUE/FALSE", call. = FALSE)
   }
 
