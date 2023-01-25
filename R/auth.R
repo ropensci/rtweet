@@ -87,6 +87,7 @@ rtweet_user <- function(client_id = NULL, client_secret = NULL,
   check_installed("httpuv")
 
   if (is.null(client_id) && is.null(client_secret)) {
+    check_installed("openssl") # Suggested!
     decrypt <- function(x) {
       rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
     }
