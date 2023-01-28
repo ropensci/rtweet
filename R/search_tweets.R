@@ -1,7 +1,7 @@
 #' Get tweets data on statuses identified via search query.
 #'
 #' Returns Twitter statuses matching a user provided search
-#' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. 
+#' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS.
 #'
 #' @param q Query to be searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
@@ -61,16 +61,16 @@
 #' if (auth_has_default()) {
 #' tweets <- search_tweets("weather")
 #' tweets
-#' 
+#'
 #' # data about the users who made those tweets
 #' users_data(tweets)
-#' 
+#'
 #' # Retrieve all the tweets made since the previous request
 #' # (there might not be any if people aren't tweeting about the weather)
 #' newer <- search_tweets("weather", since_id = tweets)
 #' # Retrieve tweets made before the previous request
 #' older <- search_tweets("weather", max_id = tweets)
-#' 
+#'
 #' # Restrict to English only, and ignore retweets
 #' tweets2 <- search_tweets("weather", lang = "en", include_rts = FALSE)
 #' }
@@ -90,14 +90,14 @@ search_tweets <- function(q, n = 100,
                           retryonratelimit = NULL,
                           verbose = TRUE,
                           ...) {
-  
-  params <- search_params(q, 
+  stopifnot(is_n(n))
+  params <- search_params(q,
     type = type,
     include_rts = include_rts,
     geocode = geocode,
     ...
   )
-  
+
   result <- TWIT_paginate_max_id(token, "/1.1/search/tweets", params,
     get_id = function(x) x$statuses$id_str,
     page_size = 100,
@@ -127,8 +127,8 @@ search_params <- function(q,
   }
   stopifnot(is.atomic(q), length(q) == 1L, is.atomic(max_id))
   type <- arg_match(type)
-  
-  ## validate query length–char count might not always be same here as with 
+
+  ## validate query length–char count might not always be same here as with
   ## Twitter, so set this to 600 and let Twitter reject others
   if (nchar(q) > 600) {
     stop("q cannot exceed 600 characters.", call. = FALSE)
@@ -139,13 +139,13 @@ search_params <- function(q,
 
   if (!is.null(geocode) && inherits(geocode, "coords")) {
     mls1 <- abs(geocode$box[2] - geocode$box[4]) * 69
-    mls2 <- abs(geocode$box[1] - geocode$box[3]) * 
+    mls2 <- abs(geocode$box[1] - geocode$box[3]) *
       (69 - abs(.093 * geocode$point[1])^2)
     mls <- (mls1/1.8 + mls2/1.8) / 1.8
     mls <- round(mls, 3)
     geocode <- paste0(paste(geocode$point, collapse = ","), ",", mls, "mi")
   }
-  
+
   list(
     q = q,
     result_type = type,

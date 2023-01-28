@@ -63,27 +63,31 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
 #' Multiple tweets: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets>
+#' @examples
 #' get_tweet("567053242429734913", parse = FALSE)
 #' get_tweet(c("567053242429734913", "567053242429734913"), parse = FALSE)
 #' get_tweet(c("567053242429734913", "567053242429734913"), expansions = NULL, fields = NULL, parse = FALSE)
-get_tweet <- function(id, expansions = NA, fields = NA, ..., token = NULL,
+get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
                       parse = TRUE) {
   fields <- check_fields(fields, metrics = NULL)
   expansions <- check_expansions(expansions)
   parsing(parse)
   data <- c(expansions, fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
+  stopifnot("Requires valid ids." = is_id(id))
   if (length(id) == 1) {
     url <- paste0("tweets/", id)
-  } else {
+  } else if (length(id) <= 100 ) {
     data <- c(ids = paste(id, collapse = ","), data)
     url <- "tweets"
+  } else {
+    abort("Only 100 tweets can be processed at once")
   }
-  # Rates from the website app and user limits
-  rate <- max(300/(60*15), 900/(60*15))
 
+  # Rates from the website app and user limits
+  token <- check_token_v2(token, c("bearer", "pkce"))
+  rate <- check_rate(token, 300/(60*15), 900/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  resp <- httr2::req_perform(req_final)
-  httr2::resp_body_json(resp)
+  pagination(req_final, 1)
 }

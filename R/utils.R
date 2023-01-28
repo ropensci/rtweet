@@ -24,17 +24,17 @@ has_name_children <- function(x, name, children) {
 }
 
 is_n <- function(n) {
+  if (!is.numeric(n)) {
+    n <- suppressWarnings(as.numeric(n))
+  }
+  length(n) == 1L && !is.na(n) && n > 0L && (is.infinite(n) || n %% 1 == 0)
+}
+
+maybe_n <- function(n) {
   if (is.character(n)) {
     n <- suppressWarnings(as.numeric(n))
   }
-  length(n) == 1L && is.numeric(n) && !is.na(n) && n > 0L
-}
-
-maybe_n <- function(x) {
-  if (is.character(x)) {
-    x <- suppressWarnings(as.numeric(x))
-  }
-  length(x) == 1L && is.numeric(x) && !is.na(x)
+  length(n) == 1L && is.numeric(n) && !is.na(n)
 }
 
 is_testing <- function() {
@@ -73,8 +73,4 @@ check_interval <- function(value, min, max) {
 
 is_id <- function(x) {
   is.character(x) && all(nchar(x) == 18) || is.numeric(x)
-}
-
-is_positive <- function(x) {
-  is.numeric(x) && x > 0 && x %% 1 == 0
 }
