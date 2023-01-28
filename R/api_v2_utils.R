@@ -96,7 +96,7 @@ parsing <- function(x, call = caller_env()) {
   }
 }
 
-l_minus <- function(l, minus) {
+list_minus <- function(l, minus) {
   keep <- setdiff(names(l), minus)
   l[keep]
 }
@@ -115,7 +115,7 @@ resp <- function(obj, type = "json", ...) {
     if (has_name_(out$meta, "summary")) {
       meta <- cbind(meta, list2DF(out$meta$summary))
     }
-    rest <- list2DF(l_minus(out$meta, c("summary", "sent")))
+    rest <- list2DF(list_minus(out$meta, c("summary", "sent")))
     if (ncol(rest) >= 1 && nrow(rest) == 1) {
       meta <- cbind(meta, rest)
     } else if (nrow(rest) > 1) {

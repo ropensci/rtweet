@@ -50,7 +50,7 @@ entity.tweets <- function(x, entity, ...) {
 
 .entity <- function(x, name = "urls") {
   ids <- ids(x)
-  ent <- lapply(x$entities, function(x) {l_minus(x[[name]], "indices")})
+  ent <- lapply(x$entities, function(x) {list_minus(x[[name]], "indices")})
   n_ent <- vapply(ent, NROW, numeric(1L))
   ids <- rep(ids, n_ent)
   ent <- do.call(rbind, ent)
