@@ -1,11 +1,11 @@
 test_that("Request all current rule ", {
-  testing_with_authentication()
-  expect_error(rt <- stream_add_rule(NULL), NA)
+  testing_with_authentication("bearer_testing_app")
+  rt <- expect_error(stream_add_rule(NULL), NA)
   expect_equal(rt$result_count, 0)
 })
 
 test_that("Add a streaming rule ", {
-  testing_with_authentication()
+  testing_with_authentication("bearer_testing_app")
   expect_error(rt0 <- stream_add_rule(list(value = "testing rules", tag = "ts")), NA)
   expect_equal(rt0$created, 1)
   expect_equal(rt0$valid, 1)
@@ -15,7 +15,7 @@ test_that("Add a streaming rule ", {
 })
 
 test_that("Handle adding duplicate streaming rules ", {
-  testing_with_authentication()
+  testing_with_authentication("bearer_testing_app")
   rt0 <- stream_add_rule(list(value = "testing rules", tag = "ts"))
   expect_warning(rt <- stream_add_rule(list(value = "testing rules", tag = "ts")))
 
@@ -25,7 +25,7 @@ test_that("Handle adding duplicate streaming rules ", {
 
 
 test_that("Handle multiple streaming rules ", {
-  testing_with_authentication()
+  testing_with_authentication("bearer_testing_app")
   tags2 <- stream_add_rule(list(
     list(value = "testing rules rtweet1", tag = "tsrt"),
     list(value = "testing rules rtweet2", tag = "tsrt2"))
