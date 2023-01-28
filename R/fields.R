@@ -9,7 +9,7 @@
 #'  - [Polls](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
 #'  - [Places](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place)
 #' @references <https://developer.twitter.com/en/docs/twitter-api/fields>
-#' @seealso [Expansions], `make_fields()`
+#' @seealso [Expansions], [`set_fields()`]
 #' @name Fields
 #' @aliases fields
 #' @examples
@@ -70,6 +70,7 @@ metrics_fields <- c("public_metrics", "non_public_metrics", "organic_metrics", "
 #' @param user The fields you want from `user_fields`.
 #' @return A list with the fields requested ready to be used in your requests to
 #' the API.
+#' @seealso Fields
 #' @export
 #' @examples
 #' set_fields()

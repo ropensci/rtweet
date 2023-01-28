@@ -59,6 +59,6 @@ user_fields
 \url{https://developer.twitter.com/en/docs/twitter-api/fields}
 }
 \seealso{
-\link{Expansions}
+\link{Expansions}, \code{\link[=set_fields]{set_fields()}}
 }
 \keyword{datasets}

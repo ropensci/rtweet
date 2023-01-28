@@ -5,39 +5,39 @@
 \alias{tweet_expansions}
 \alias{expansions}
 \alias{user_expansions}
+\alias{set_expansions}
 \title{Expansions}
 \usage{
 tweet_expansions(attachments = TRUE, referenced_tweets = TRUE)
 
 user_expansions()
+
+set_expansions(tweet = tweet_expansions(), user = user_expansions())
 }
 \arguments{
 \item{attachments}{Add attachments values? Default yes.}
 
 \item{referenced_tweets}{Add referenced_tweets values? Default yes.}
+
+\item{tweet, user}{\verb{tweet_expansions())} and \code{user_expansions()}.}
 }
 \value{
-A character with the characters of valid expanions.
+A character with the characters of valid expansions.
 }
 \description{
 Twitter parameters to add more fields on the returned values.
-Main ones:
-\itemize{
-\item Tweet
-\itemize{
-\item Referenced tweets
-\item Attachments
 }
-\item User
-}
+\details{
+The \code{set_expansions} can be used to prepare the arguments for other rtweet functions.
 }
 \examples{
 tweet_expansions()
 user_expansions()
+set_expansions()
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/expansions}
 }
 \seealso{
-\link{Fields}
+\link{Fields}, \code{\link[=set_fields]{set_fields()}}
 }

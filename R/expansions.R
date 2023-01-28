@@ -1,21 +1,21 @@
 #' Expansions
 #'
 #' Twitter parameters to add more fields on the returned values.
-#' Main ones:
-#'  - Tweet
-#'    - Referenced tweets
-#'    - Attachments
-#'  - User
+#'
+#' The `set_expansions` can be used to prepare the arguments for other rtweet functions.
+#'
 #' @param attachments Add attachments values? Default yes.
 #' @param referenced_tweets Add referenced_tweets values? Default yes.
-#' @return A character with the characters of valid expanions.
+#' @param tweet,user `tweet_expansions())` and `user_expansions()`.
+#' @return A character with the characters of valid expansions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/expansions>
-#' @seealso [Fields]
+#' @seealso [Fields], [`set_fields()`]
 #' @name Expansions
 #' @aliases expansions
 #' @examples
 #' tweet_expansions()
 #' user_expansions()
+#' set_expansions()
 #' @export
 tweet_expansions <- function(attachments = TRUE, referenced_tweets = TRUE) {
   expansions <- c("author_id", "in_reply_to_user_id", "geo.place_id",
@@ -36,9 +36,8 @@ user_expansions <- function() {
   "pinned_tweet_id"
 }
 
-#' Set expansions
-#'
-#' Select which expansions do you want
+#' @export
+#' @name Expansions
 set_expansions <- function(tweet = tweet_expansions(),
                            user = user_expansions()) {
 
@@ -48,7 +47,6 @@ set_expansions <- function(tweet = tweet_expansions(),
   if (is.numeric(user)) {
     abort("Invalid user expansions.")
   }
-
 
   expansions <- c(tweet, user)
 
