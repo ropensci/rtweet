@@ -13,7 +13,7 @@ rtweet_user(
   api_secret = client_secret
 )
 
-rtweet_bot(api_key, api_secret, access_token, access_secret)
+rtweet_bot(api_key, api_secret, access_token, access_secret, app = "rtweet")
 
 rtweet_app(bearer_token)
 }
@@ -25,6 +25,8 @@ the built-in rtweet app.}
 \item{api_key, api_secret}{API key and secret. Deprecated in favor of \verb{client_*} arguments.}
 
 \item{access_token, access_secret}{Access token and secret.}
+
+\item{app}{Name of the application you are building.}
 
 \item{bearer_token}{App bearer token.}
 }

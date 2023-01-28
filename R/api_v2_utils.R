@@ -14,7 +14,6 @@ auth_is_pkce <- function(token = NULL) {
   inherits(token, "httr2_token")
 }
 
-
 # Check token readiness for API v2
 #
 # Check if current authentication is ready for API v2 usage.
@@ -200,4 +199,9 @@ resp <- function(obj, type = "json", ...) {
   out
 }
 
-
+check_rate <- function(token, rate_app, rate_user) {
+  switch(is(token),
+         rtweet_bearer = rate_app,
+         httr2_token =  rate_user,
+         NULL)
+}
