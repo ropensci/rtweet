@@ -51,11 +51,21 @@ NULL
 
 #' @export
 #' @describeIn stream Start a filtered stream according to the rules.
-filtered_stream <- function(timeout, file = tempfile(), expansions = NA, fields = NA, ...,
-                            token = NULL, append = TRUE, parse = TRUE) {
+filtered_stream <- function(timeout, file = tempfile(),
+                            expansions = NULL, fields = NULL,
+                            ...,  token = NULL, append = TRUE, parse = TRUE) {
   parsing(parse)
-  fields <- check_fields(fields, metrics = NULL)
-  expansions <- check_expansions(expansions)
+  if (is.logical(expansions) && !isFALSE(expansions)) {
+    expansions <- set_expansions()
+  } else {
+    expansions <- check_expansions(expansions)
+  }
+
+  if (is.logical(fields) && !isFALSE(fields)) {
+    fields <- set_fields()
+  } else {
+    fields <- check_fields(fields, metrics = NULL)
+  }
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
   data <- c(list(expansions = expansions), fields, ...)
@@ -113,7 +123,7 @@ stream_add_rule <- function(query, dry = FALSE, token = NULL) {
   }
   streaming <- stream_rules(query, token, auto_unbox = TRUE, pretty = FALSE)
   if (isTRUE(dry)) {
-    streaming <- httr2::req_body_form(streaming, dry_run = dry)
+    streaming <- httr2::req_url_query(streaming, dry_run = dry)
   }
   out <- httr2::req_perform(streaming)
   out <- resp(out)
@@ -128,7 +138,7 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
   }
   rm_rule <- stream_rules(query, token, pretty = FALSE, auto_unbox = TRUE)
   if (isTRUE(dry)) {
-    rm_rule <- httr2::req_body_form(rm_rule, dry_run = dry)
+    rm_rule <- httr2::req_url_query(rm_rule, dry_run = dry)
   }
   out <- httr2::req_perform(rm_rule)
   out <- resp(out)
@@ -262,8 +272,17 @@ split_stream <- function(file, path) {
 sample_stream <- function(timeout, file = tempfile(),
                           expansions = NA, fields = NA, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
-  fields <- check_fields(fields, metrics = NULL)
-  expansions <- check_expansions(expansions)
+  if (is.logical(expansions) && !isFALSE(expansions)) {
+    expansions <- set_expansions()
+  } else {
+    expansions <- check_expansions(expansions)
+  }
+
+  if (is.logical(fields) && !isFALSE(fields)) {
+    fields <- set_fields()
+  } else {
+    fields <- check_fields(fields, metrics = NULL)
+  }
   parsing(parse)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))

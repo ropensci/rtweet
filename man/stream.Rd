@@ -11,8 +11,8 @@
 filtered_stream(
   timeout,
   file = tempfile(),
-  expansions = NA,
-  fields = NA,
+  expansions = NULL,
+  fields = NULL,
   ...,
   token = NULL,
   append = TRUE,
