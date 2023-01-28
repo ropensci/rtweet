@@ -167,7 +167,7 @@ ask_pass <- function(type) {
 }
 
 is_auth <- function(x) {
-  inherits(x, "Token") || inherits(x, "rtweet_bearer")
+  inherits(x, "Token") || inherits(x, "rtweet_bearer") || inherits(x, "httr2_token")
 }
 
 #' @export
@@ -415,57 +415,32 @@ oauth2_pkce <- function(client_id = "Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ") {
   # https://developer.twitter.com/en/docs/authentication/guides/v2-authentication-mapping
   # Useful questions: https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/14
   # Tutorial confirming the urls: https://developer.twitter.com/en/docs/tutorials/tweet-to-super-followers-with-postman--oauth-2-0-and-manage-twee
-  #
-  # There's a problem see https://github.com/r-lib/httr2/issues/193
-  oa_flow <- oauth_flow_auth_code(client,
+  oa_flow <- httr2::oauth_flow_auth_code(client,
                        auth_url = "https://twitter.com/i/oauth2/authorize",
                        pkce = TRUE, # Needed to have a code_challenge but sets code_challenge_method to S265 which should work
-                       scope = paste(check_scopes(), collapse = " "),
+                       scope = paste(all_scopes, collapse = " "),
                        host_name = "127.0.0.1",
                        port = 1410
                        )
-  # grant_type = c("grant_token"),
-  # code_challange_method = "plain"
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=M1M5R3BMVy13QmpScXkzTUt5OE46MTpjaQ&redirect_uri=https://www.example.com         &scope=tweet.read%20users.read%20offline.access                &state=state                                      &code_challenge=challenge&code_challenge_method=plain
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2Flocalhost%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=t-8Jyr75Mn_W3oRYVBrJU8bFM5dSgaqT18NYmjvab3M&grant_type=grant_token&code_challange_method=plain&code_challenge=1-zcQTpp2EzpXdpI2LLl2dhoBPpHz2JS8hWtxdhZNUg&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2Flocalhost%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=FOtz56gDvSuoWIm83X2tbsj7QwdIuSpiOaqMmUI-aFI
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2Flocalhost%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=LInXYZOragmAZCQYRfAgEOvB6E3q6ItYklBkWHkkkNE&code_challenge=j5AcuCjYFFvbFJ48JCKlr6hpl0mHl6DNTucN6-vCFkY&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2Flocalhost%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=IV-tnYdVOEItuv5xuHdzEzGxa9rn7hHTzrFD5ihYZaY&code_challange_method=plain&code_challenge=8xoevTrp1OdaZuTAg0TJdIw2tiZRxr0BR51_Ty6h0tE&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2Flocalhost%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=_1rgJaxG4DKHIgeJnEnkaJHDzTsgU2jVSnPEueQsf9w&grant_type=grant_token
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2Flocalhost%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=dWDWHW1Y8awylS7D58-CxQPMux8yXtSmNBL74XGY1fo&grant_type=grant_token&code_challange_method=plain
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=Uyu6z7BR8YYfw6_nxpzFGDOmUsePaV6Hgj8ZdLrFIc8&code_challenge=9N7FXcCTOGhR4qDpUEMXj1SgXyCV3KYSqHImp6_LPAI&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=632Bzm25ygvt4NzUheIApjncLG09Nrjb5dnHahTOoVE&code_challenge=EkHl1eJ8QnL8CYQPX0gdCRbuWFt9N-RS3_yG7PWEncA&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=offline.access%20tweet.read%20users.read%20bookmark.read&state=Q6QLQXbtpM0GPRh0yAod7uoEXW2Ge7VQPUGh3PVn4_U&code_challenge=ErlCL3Lpwj_hhGyksvdg2pNR51zXlNOJ3Zu8zZGK5bE&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=&state=huIWC4od850lqQBwAiMGBjUcCcpHcBAnzS-8_Zf1O4s&code_challenge=mZYX-rjJyNndfw4PMuuQRPc_9GjmXdBq1P5FFDtrm0c&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=&state=2EL_expI0FOtc8eo0SaxTdvbVKQLMfOoc4cst5Lylds&code_challenge=yZpfy7t9WTfUV07GiFzW9uDeU-q9RZG24NnHJyPp_ls&code_challenge_method=S256
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=tweet.read%20tweet.write%20tweet.moderate.write%20users.read%20follows.read%20follows.write%20offline.access%20space.read%20mute.read%20mute.write%20like.read%20like.write%20list.read%20list.write%20block.read%20block.write%20bookmark.read%20bookmark.write&state=eJVFLfXYGX34EblJV6BhPGVeO9Hsx_j_55AqFHnLzNo&code_challenge=bAPV1-GUJjdOYMbA5QNWqmWfxxgWOU6lqd1p5Ev8bAo&code_challenge_method=S256
-  # Works!! redirect url should not be encoded and added a / at the end in form of %2F
-  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http://127.0.0.1:1410&scope=tweet.read%20tweet.write%20tweet.moderate.write%20users.read%20follows.read%20follows.write%20offline.access%20space.read%20mute.read%20mute.write%20like.read%20like.write%20list.read%20list.write%20block.read%20block.write%20bookmark.read%20bookmark.write&state=eJVFLfXYGX34EblJV6BhPGVeO9Hsx_j_55AqFHnLzNo&code_challenge=bAPV1-GUJjdOYMbA5QNWqmWfxxgWOU6lqd1p5Ev8bAo&code_challenge_method=S256
 }
 
-check_scopes <- function(scopes = NULL) {
-  all_scopes <- c(
-    tweet.read = "All the Tweets you can view, including Tweets from protected accounts.",
-    tweet.write = "Tweet and Retweet for you.",
-    tweet.moderate.write = "Hide and unhide replies to your Tweets.",
-    users.read = "Any account you can view, including protected accounts.",
-    follows.read = "People who follow you and people who you follow.",
-    follows.write = "Follow and unfollow people for you.",
-    offline.access = "Stay connected to your account until you revoke access.",
-    space.read = "All the Spaces you can view.",
-    mute.read = "Accounts you’ve muted.",
-    mute.write = "Mute and unmute accounts for you.",
-    like.read = "Tweets you’ve liked and likes you can view.",
-    like.write = "Like and un-like Tweets for you.",
-    list.read = "Lists, list members, and list followers of lists you’ve created or are a member of, including private lists.",
-    list.write = "Create and manage Lists for you.",
-    block.read = "Accounts you’ve blocked.",
-    block.write = "Block and unblock accounts for you.",
-    bookmark.read = "Get Bookmarked Tweets from an authenticated user.",
-    bookmark.write = "Bookmark and remove Bookmarks from Tweets."
-  )
-  if (is.null(scopes)) {
-    return(names(all_scopes))
+all_scopes <- c("tweet.read", "tweet.write", "tweet.moderate.write", "users.read",
+               "follows.read", "follows.write", "offline.access", "space.read",
+               "mute.read", "mute.write", "like.read", "like.write", "list.read",
+               "list.write", "block.read", "block.write", "bookmark.read", "bookmark.write"
+)
+
+check_scopes <- function(token, required = NULL, call = caller_env()) {
+  token <- check_token_v2(token, "kpce", call)
+  if (is.null(required)) {
+    return(TRUE)
   }
-  scopes <- match.arg(scopes, names(all_scopes), several.ok = TRUE)
+  scopes <- strsplit(token$scope, " ")[[1]]
+  missing <- setdiff(required, scopes)
+  if (length(missing) != 0) {
+    msg <- paste0("This endpoint requires missing ",
+                  paste0(missing, collapse = ", "), " scopes")
+    abort(msg, call = call)
+  }
+  TRUE
 }

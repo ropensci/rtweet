@@ -11,7 +11,7 @@ auth_is_pkce <- function(token = NULL) {
   if (is.null(token)) {
     token <- auth_get()
   }
-  inherits(token, "Token2.0")
+  inherits(token, "httr2_token")
 }
 
 
@@ -35,6 +35,13 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
 
   token <- token %||% auth_get()
 
+  mechanism <- match.arg(mechanism, c("bearer", "pkce"), several.ok = TRUE)
+
+  # For endpoints that accept both authentications methods
+  if (length(mechanism) == 2 && (auth_is_bearer(token) || auth_is_pkce(token))) {
+    return(token)
+  }
+
   if (mechanism == "bearer" && !auth_is_bearer(token)) {
     abort(c("x" = "A bearer `token` is needed for this endpoint.",
             "i" = "Get one via rtweet_app()"),
@@ -48,17 +55,24 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   token
 }
 
+# Provides the required method for the token type
+req_auth <- function(req, token) {
+  if (auth_is_bearer(token)) {
+    token <- token$token
+  } else if (auth_is_pkce(token)) {
+    token <- token$access_token
+  }
+  httr2::req_auth_bearer_token(req, token)
+}
+
 # General function to create the requests for Twitter API v2 with retry limits
 # and error handling
 req_v2 <- function(token = NULL, call = caller_env()) {
 
   token <- check_token_v2(token, call)
   req <- httr2::request("https://api.twitter.com/2")
-  req_headers <- httr2::req_headers(req,
-                                    `Content-type` = "application/json",
-                                    Authorization = paste0("Bearer ", token$token)
-                                    )
-  req_try <- httr2::req_retry(req_headers,
+  req_authorized <- req_auth(req, token)
+  req_try <- httr2::req_retry(req_authorized,
                               is_transient = twitter_is_transient,
                               after = twitter_after)
   req_try
