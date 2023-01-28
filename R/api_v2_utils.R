@@ -60,7 +60,7 @@ req_auth <- function(req, token) {
   if (auth_is_bearer(token)) {
     token <- token$token
   } else if (auth_is_pkce(token)) {
-    token <- token$access_token
+    token <- token$refresh_token
   }
   httr2::req_auth_bearer_token(req, token)
 }
@@ -68,11 +68,12 @@ req_auth <- function(req, token) {
 # General function to create the requests for Twitter API v2 with retry limits
 # and error handling
 req_v2 <- function(token = NULL, call = caller_env()) {
-
-  token <- check_token_v2(token, call)
   req <- httr2::request("https://api.twitter.com/2")
-  req_authorized <- req_auth(req, token)
-  req_try <- httr2::req_retry(req_authorized,
+  req_agent <- httr2::req_user_agent(req, "rtweet (https://docs.ropensci.org/rtweet)")
+  req_authorized <- req_auth(req_agent, token)
+  req_content <- httr2::req_headers(req_authorized,
+                             `Content-type` = "application/json")
+  req_try <- httr2::req_retry(req_content,
                               is_transient = twitter_is_transient,
                               after = twitter_after)
   req_try
@@ -96,7 +97,7 @@ endpoint_v2 <- function(token, path, throttle, call = caller_call()) {
 }
 
 prepare_params <- function(x) {
-  lapply(x, paste, collapse = ",")
+  lapply(x, paste0, collapse = ",")
 }
 
 # Handling responses ####
@@ -115,8 +116,63 @@ list_minus <- function(l, minus) {
   l[keep]
 }
 
+# Pagination should be consistent across API v2
+# <https://developer.twitter.com/en/docs/twitter-api/pagination>
+pagination <- function(req, n_pages, verbose = TRUE) {
+  if (is.infinite(n_pages)) {
+    n_pages <- 8
+  }
+  # Temporary file to store data in case of troubles
+  tmp <- tempfile("rtweet_tmp", fileext = ".rds")
+
+  all_results <- vector("list", length = n_pages)
+  resp <- httr2::req_perform(req)
+  x0 <- httr2::resp_body_json(resp)
+  all_results[[1]] <- x0
+  i <- 2
+  next_pag_token <- x0$meta$next_token
+
+  # If already got what we need stop
+  if (n_pages == 1) {
+    return(list(x0))
+  }
+
+  if (verbose)  {
+    pb <- progress::progress_bar$new(
+      format = "Downloading paginated request :bar")
+    withr::defer(pb$terminate())
+  }
+
+  while (!is.null(next_pag_token)) {
+    req <- httr2::req_url_query(req, pagination_token = next_pag_token)
+    resp <- httr2::req_perform(req)
+    cnt <- httr2::resp_body_json(resp)
+    if (i > length(all_results)) {
+      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
+      length(all_results) <- 2 * length(all_results)
+    }
+    # Save temporary data: https://github.com/ropensci/rtweet/issues/531
+    all_results[[i]] <- cnt
+    saveRDS(all_results, tmp)
+    if (verbose) {
+      inform(paste0("Saving temporary data to ", tmp))
+      pb$tick()
+    }
+    i <- i + 1
+    next_pag_token <- cnt$meta$next_token
+  }
+  empty <- vapply(all_results, is.null, logical(1L))
+  all_results[!empty]
+}
+
 # Handle the response and give attributes
 resp <- function(obj, type = "json", ...) {
+
+  # For each element in the pagination
+  # data: Tidy
+  # meta: Tidy and add it to the attributes
+  # errors: Tidy and What??
+
   out <- switch(type,
                 "json" = httr2::resp_body_json(obj, ...),
                 "html" = httr2::resp_body_html(obj, ...),
