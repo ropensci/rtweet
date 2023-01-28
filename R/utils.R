@@ -9,16 +9,8 @@ format_date <- function(x, format = "%a %b %d %T %z %Y") {
   as.POSIXct(x, format = format)
 }
 
-
 convert_tz <- function(x, tz) {
   as.POSIXct(as.POSIXlt(x, tz = tz))
-}
-##----------------------------------------------------------------------------##
-##                            fetch/return features                           ##
-##----------------------------------------------------------------------------##
-
-last <- function(x) {
-  x[[length(x)]]
 }
 
 ##----------------------------------------------------------------------------##
@@ -29,17 +21,6 @@ has_name_ <- function(x, name) isTRUE(name %in% names(x))
 
 has_name_children <- function(x, name, children) {
   has_name_(x, name) && has_name_(x[[name]], children)
-}
-
-any_recursive <- function(x) {
-  if (!is.recursive(x)) {
-    return(FALSE)
-  }
-  any(vapply(x, is.recursive, logical(1)))
-}
-
-is.na.quiet <- function(x) {
-  suppressWarnings(is.na(x))
 }
 
 is_n <- function(n) {
@@ -87,4 +68,13 @@ check_interval <- function(value, min, max) {
     return(max)
   }
   value
+}
+
+
+is_id <- function(x) {
+  is.character(x) && all(nchar(x) == 18) || is.numeric(x)
+}
+
+is_positive <- function(x) {
+  is.numeric(x) && x > 0 && x %% 1 == 0
 }
