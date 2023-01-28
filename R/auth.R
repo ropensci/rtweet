@@ -72,6 +72,7 @@ auth_setup_default <- function() {
 #' @param access_token,access_secret Access token and secret.
 #' @param api_key,api_secret API key and secret. Deprecated in favor of `client_*` arguments.
 #' @param bearer_token App bearer token.
+#' @param app Name of the application you are building.
 #' @return If the validation is successful the OAuth token.
 #' For rtweet_app a rtweet_bearer.
 #' @family authentication
@@ -85,14 +86,12 @@ auth_setup_default <- function() {
 rtweet_user <- function(client_id = NULL, client_secret = NULL,
                         api_key = client_id, api_secret = client_secret) {
   check_installed("httpuv")
+  client <- default_client(client_id, client_secret)
 
   if (is.null(client_id) && is.null(client_secret)) {
-    check_installed("openssl") # Suggested!
-    decrypt <- function(x) {
-      rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
-    }
-    api_key <- decrypt(sysdat$DYKcJfBkgMnGveI)
-    api_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
+    client <- default_client(client_id, client_secret)
+    api_key <- client["id"]
+    api_secret <- client["secret"]
   } else {
     stopifnot(is_string(client_id), is_string(client_secret))
   }
@@ -398,17 +397,25 @@ auth_path <- function(...) {
 # Some endpoints require OAuth2.0 with PKCE
 # https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code
 
-oauth2_pkce <- function(client_id = "Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ") {
+rtweet_oauth2 <- function(client_id = NULL, client_secret = NULL,
+                        scopes = NULL, app = "rtweet") {
+  if (is.null(client_id) && is.null(client_secret)) {
+    client <- default_client(client_id, client_secret)
+    client_id <- client["id"]
+    client_secret <- client["secret"]
+  }
+
+  if (is.null(scopes)) {
+    scopes <- all_scopes
+  } else {
+    scopes <- check_scopes(scopes)
+  }
 
   client <- httr2::oauth_client(
     id = client_id,
-    secret = obfuscated(paste0(
-      "m3grxV6HQ2Yud-izF0r-",
-      "RdaVKXq2vFWcF5rDGjAeHu80O_",
-      "Cehg"
-    )),
+    secret = client_secret,
     token_url = "https://api.twitter.com/2/oauth2/token",
-    name = "rtweet_academic_dev")
+    name = app)
   # Guide to all urls for OAuth 2
   # https://developer.twitter.com/en/docs/authentication/api-reference
   # Guide of which endpoints require KPCE authentication
@@ -417,8 +424,8 @@ oauth2_pkce <- function(client_id = "Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ") {
   # Tutorial confirming the urls: https://developer.twitter.com/en/docs/tutorials/tweet-to-super-followers-with-postman--oauth-2-0-and-manage-twee
   oa_flow <- httr2::oauth_flow_auth_code(client,
                        auth_url = "https://twitter.com/i/oauth2/authorize",
-                       pkce = TRUE, # Needed to have a code_challenge but sets code_challenge_method to S265 which should work
-                       scope = paste(all_scopes, collapse = " "),
+                       pkce = TRUE,
+                       scope = paste(scopes, collapse = " "),
                        host_name = "127.0.0.1",
                        port = 1410
                        )
@@ -430,12 +437,21 @@ all_scopes <- c("tweet.read", "tweet.write", "tweet.moderate.write", "users.read
                "list.write", "block.read", "block.write", "bookmark.read", "bookmark.write"
 )
 
-check_scopes <- function(token, required = NULL, call = caller_env()) {
-  token <- check_token_v2(token, "kpce", call)
+
+get_scopes <- function(token, call = caller_env()) {
+  token <- check_token_v2(token, "pkce", call)
+  strsplit(token$scope, " ")[[1]]
+}
+
+check_scopes <- function(scopes, required = NULL, call = caller_env()) {
   if (is.null(required)) {
-    return(TRUE)
+    diff <- setdiff(scopes, all_scopes)
+    if (length(diff) != 0) {
+      msg <- paste0("Scopes required are not valid: ",
+                    paste0(diff, collapse = ", "))
+      abort(msg, call = call)
+    }
   }
-  scopes <- strsplit(token$scope, " ")[[1]]
   missing <- setdiff(required, scopes)
   if (length(missing) != 0) {
     msg <- paste0("This endpoint requires missing ",
@@ -443,4 +459,20 @@ check_scopes <- function(token, required = NULL, call = caller_env()) {
     abort(msg, call = call)
   }
   TRUE
+}
+
+
+default_client <- function(client_id = NULL, client_secret = NULL) {
+  if (is.null(client_id) && is.null(client_secret)) {
+    check_installed("openssl") # Suggested!
+    decrypt <- function(x) {
+      rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
+    }
+    # The sysdat file is in #./R and loaded automagically
+    client_id <- decrypt(sysdat$DYKcJfBkgMnGveI)
+    client_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
+  } else {
+    stopifnot(is_string(client_id), is_string(client_secret))
+  }
+  return(c(id = client_id, secret = client_secret))
 }
