@@ -79,15 +79,11 @@ is_logical <- function(x) {
   isFALSE(x) || isTRUE(x)
 }
 
-check_interval <- function(value, min, max, call = caller_env()) {
+check_interval <- function(value, min, max) {
   if (value < min) {
-    warn(paste0("Using minimal value ", min, " instead of ", value),
-         call = call)
     return(min)
   }
   if (value > max) {
-    warn(paste0("Using max value ", min, " instead of ", value),
-         call = call)
     return(max)
   }
   value
