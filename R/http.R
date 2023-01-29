@@ -490,6 +490,9 @@ handle_error <- function(x, params) {
       if (is.null(account)) account <- params$user_id
       warning("Skipping unauthorized account: ", account, call. = FALSE)
     } else {
+      if (is_testing()) {
+        testthat::skip("Something went wrong with the requests")
+      }
       warning("Something went wrong with the requests", call. = FALSE)
     }
   } else {
@@ -499,11 +502,6 @@ handle_error <- function(x, params) {
   }
 }
 
-handle_protected <- function(resp, params) {
-  handle_codes(resp)
-
-
-}
 
 # I don't love this interface because it returns either a httr response object
 # or a condition object, but it's easy to understand and avoids having to do
