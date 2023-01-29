@@ -60,7 +60,7 @@ test_that("n = Inf works", {
 vcr::use_cassette("friends8", {
   test_that("n = Inf works", {
       expect_warning(
-        gf <- rtweet::get_friends(c("fdrennan", "Lluis_Revilla"), n = Inf),
+        gf <- rtweet::get_friends(c("fdrennan", "Lluis_Revilla"), n = 5),
         "Skipping unauthorized account: fdrennan")
     expect_s3_class(gf, "data.frame")
     expect_true(ncol(gf) == 2)

@@ -33,7 +33,6 @@ test_that("check_media handles well multiple files", {
 
 })
 
-
 test_that("can set alt text", {
 
   vcr::use_cassette("upload_media_to_twitter4", {
@@ -41,7 +40,6 @@ test_that("can set alt text", {
   })
   expect_type(id, "character")
 })
-
 
 test_that("post_tweet works", {
   skip_if_offline() # destroy id changes on each test
@@ -89,6 +87,3 @@ test_that("Check geo-related inputs for post_tweet", {
     post_tweet(msg, lat = 0, long = 0, display_coordinates = "error")
   })
 })
-
-
-
