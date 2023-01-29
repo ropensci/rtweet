@@ -484,21 +484,24 @@ handle_error <- function(x, params) {
   }
   json <- from_js(x)
   error <- if (!is.null(json$error)) json$error else json$errors
-  if (is.null(json$message)) {
+  if (length(error) == 1) {
     if (any(c("screen_name", "user_id") %in% names(params))) {
       account <- params$screen_name
       if (is.null(account)) account <- params$user_id
       warning("Skipping unauthorized account: ", account, call. = FALSE)
     } else {
-      if (is_testing()) {
-        testthat::skip("Something went wrong with the requests")
-      }
-      warning("Something went wrong with the requests", call. = FALSE)
+      warning("Something went wrong with the authentication:\n\t",
+        error, call. = FALSE)
     }
-  } else {
+  } else if (length(error) == 2) {
     stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
          paste0(" * ", error$message, " (", error$code, ")"),
          call. = FALSE)
+  } else {
+    if (is_testing()) {
+      testthat::skip("Something went wrong with the requests")
+    }
+    warning("Something went wrong with the requests", call. = FALSE)
   }
 }
 
