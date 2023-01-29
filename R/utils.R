@@ -1,6 +1,4 @@
-##----------------------------------------------------------------------------##
-##                                 format_date                                ##
-##----------------------------------------------------------------------------#
+# format_date ####
 
 format_date <- function(x, format = "%a %b %d %T %z %Y") {
   locale <- Sys.getlocale("LC_TIME")
@@ -13,9 +11,7 @@ convert_tz <- function(x, tz) {
   as.POSIXct(as.POSIXlt(x, tz = tz))
 }
 
-##----------------------------------------------------------------------------##
-##                                 check data                                 ##
-##----------------------------------------------------------------------------##
+# check data ####
 
 has_name_ <- function(x, name) isTRUE(name %in% names(x))
 
@@ -37,25 +33,6 @@ maybe_n <- function(n) {
   length(n) == 1L && is.numeric(n) && !is.na(n)
 }
 
-is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true") && requireNamespace("testthat", quietly = TRUE)
-}
-is_dev_mode <- function() {
-  exists(".__DEVTOOLS__", .getNamespace("rtweet"))
-}
-
-is_rcmd_check <- function() {
-  identical(Sys.getenv("RTESTS"), "true")
-}
-
-is_developing <- function() {
-  is_testing() || (is_dev_mode() %||% is_rcmd_check())
-}
-
-release_bullets <- function() {
-  c("Run vignette/precompute.R")
-}
-
 is_logical <- function(x) {
   isFALSE(x) || isTRUE(x)
 }
@@ -73,4 +50,25 @@ check_interval <- function(value, min, max) {
 
 is_id <- function(x) {
   is.character(x) && all(nchar(x) == 18) || is.numeric(x)
+}
+
+# check environment ####
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true") && requireNamespace("testthat", quietly = TRUE)
+}
+is_dev_mode <- function() {
+  exists(".__DEVTOOLS__", .getNamespace("rtweet"))
+}
+
+is_rcmd_check <- function() {
+  identical(Sys.getenv("RTESTS"), "true")
+}
+
+is_developing <- function() {
+  is_testing() || (is_dev_mode() %||% is_rcmd_check())
+}
+
+release_bullets <- function() {
+  c("Run vignette/precompute.R")
 }
