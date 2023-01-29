@@ -31,21 +31,16 @@
 #' @family ts_data
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
-  ts_plot_(data = data, by = by, trim = trim, tz = tz, ...)
-}
-
-
-ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
   check_installed("ggplot2")
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = .data[["time"]], y = .data[["n"]]))
   if (ncol(data) == 3L) {
     # retrieve group name
-    p + ggplot2::geom_line(colour = .data[[names(data)[3]]], ...)
+    p + ggplot2::geom_line(ggplot2::aes(colour = .data[[names(data)[3]]]), ...)
   } else if (ncol(data) == 4L) {
-    p + ggplot2::geom_line(colour = .data[[names(data)[3]]],
-                           linetype = .data[[names(data)[4]]], ...)
+    p + ggplot2::geom_line(ggplot2::aes(colour = .data[[names(data)[3]]],
+                                        linetype = .data[[names(data)[4]]]), ...)
   } else {
      p + ggplot2::geom_line(...)
   }
@@ -84,10 +79,6 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #'
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
-  ts_data_(data = data, by = by, trim = trim, tz = tz)
-}
-
-ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   stopifnot(is.data.frame(data), is.atomic(by))
   if (has_name_(data, "created_at")) {
     dtvar <- "created_at"
