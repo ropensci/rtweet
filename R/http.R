@@ -42,13 +42,12 @@ TWIT_method <- function(method, token, api,
 
   switch(resp_type(resp),
          ok = NULL,
-         protected = handle_protected(resp, params),
          rate_limit = handle_rate_limit(
            resp, api,
            retryonratelimit = retryonratelimit,
            verbose = verbose
          ),
-         error = handle_error(resp)
+         error = handle_error(resp, params)
   )
 
   resp
@@ -424,12 +423,11 @@ from_js <- function(resp) {
 }
 
 resp_type <- function(resp) {
-  x <- resp$status_code
-  if (x == 429) {
+  status <- httr::status_code(resp)
+  content <- httr::content(resp)
+  if (status == 429) {
     "rate_limit"
-  } else if (x == 401) {
-    "protected"
-  } else if (x >= 400) {
+  } else if (status >= 400) {
     "error"
   } else {
     "ok"
@@ -462,6 +460,51 @@ handle_rate_limit <- function(x, api, retryonratelimit = NULL, verbose = TRUE) {
   }
 }
 
+# Function for responses that might be errors
+# Depending on the internal error code it is provided to the users as a warning or error
+handle_codes <- function(x) {
+  if ("errors" %in% names(httr::content(x))) {
+    errors <- httr::content(x)$errors[[1]]
+    for (e in seq_len(max(lengths(errors)))) {
+      funct <- switch(as.character(errors$code[e]),
+                      "89" = stop,
+                      warning)
+      funct(paste0(errors$message[e], " (", errors$code[e], ")"),
+            call. = FALSE)
+
+    }
+  }
+}
+
+# https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
+handle_error <- function(x, params) {
+  chk_message <- "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting"
+  if (is.null(x$headers[["content-type"]])) {
+    stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
+  }
+  json <- from_js(x)
+  error <- if (!is.null(json$error)) json$error else json$errors
+  if (is.null(json$message)) {
+    if (any(c("screen_name", "user_id") %in% names(params))) {
+      account <- params$screen_name
+      if (is.null(account)) account <- params$user_id
+      warning("Skipping unauthorized account: ", account, call. = FALSE)
+    } else {
+      warning("Something went wrong with the requests", call. = FALSE)
+    }
+  } else {
+    stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
+         paste0(" * ", error$message, " (", error$code, ")"),
+         call. = FALSE)
+  }
+}
+
+handle_protected <- function(resp, params) {
+  handle_codes(resp)
+
+
+}
+
 # I don't love this interface because it returns either a httr response object
 # or a condition object, but it's easy to understand and avoids having to do
 # anything exotic to break from the correct frame.
@@ -478,31 +521,6 @@ warn_early_term <- function(cnd, hint, hint_if) {
     i = if (hint_if) hint,
     i = "Set `retryonratelimit = TRUE` to automatically wait for reset"
   ))
-}
-
-# https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
-handle_error <- function(x) {
-  chk_message <- "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting"
-  if (is.null(x$headers[["content-type"]])) {
-    stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
-  }
-  json <- from_js(x)
-  error <- if (!is.null(json$error)) json$error else json$errors
-  stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
-       paste0(" * ", error$message, " (", error$code, ")"),
-       call. = FALSE)
-}
-
-handle_protected <- function(resp, params) {
-  handle_codes(resp)
-
-  if (any(c("screen_name", "user_id") %in% names(params))) {
-    account <- params$screen_name
-    if (is.null(account)) account <- params$user_id
-    warning("Skipping unauthorized account: ", account, call. = FALSE)
-  } else {
-    handle_error(resp)
-  }
 }
 
 check_status <- function(x, api) {
@@ -522,21 +540,5 @@ check_token <- function(token = NULL) {
     httr::add_headers(Authorization = paste0("Bearer ", token$token))
   } else {
     abort("`token` is not a valid access token")
-  }
-}
-
-# Function for responses that might be errors
-# Depending on the internal error code it is provided to the users as a warning or error
-handle_codes <- function(x) {
-  if ("errors" %in% names(httr::content(x))) {
-    errors <- httr::content(x)$errors[[1]]
-    for (e in seq_len(max(lengths(errors)))) {
-      funct <- switch(as.character(errors$code[e]),
-                      "89" = stop,
-                      warning)
-      funct(paste0(errors$message[e], " (", errors$code[e], ")"),
-           call. = FALSE)
-
-    }
   }
 }
