@@ -21,20 +21,13 @@ bearer_token <- function(token = NULL) {
 #' Invalidation of the bearer token is no longer the responsibility of rtweet.
 #' This is something you should instead perform in the [Twitter developer
 #' portal](https://developer.twitter.com/en/portal/projects-and-apps).
+#' @inheritParams rtweet_user
 #' @references <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token>
 #' <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token>
 #' @keywords internal
 #' @export
 invalidate_bearer <- function(api_key, api_secret, token = NULL) {
   lifecycle::deprecate_stop("1.0.0", "invalidate_bearer()")
-
-  request("https://api.twitter.com/oauth/invalidate_token.json") |>
-    req_method("POST") |>
-    req_headers(
-      Authorization = "OAuth oauth_consumer_key=$oauth_consumer_key\", oauth_nonce=\"$oauth_nonce\", oauth_signature=\"$oauth_signature\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$timestamp\", oauth_version=\"1.0",
-    ) %>%
-    req_perform()
-
 
   token <- auth_get(token)
 

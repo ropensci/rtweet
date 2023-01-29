@@ -6,6 +6,9 @@
 \usage{
 invalidate_bearer(api_key, api_secret, token = NULL)
 }
+\arguments{
+\item{api_key, api_secret}{API key and secret. Deprecated in favor of \verb{client_*} arguments.}
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Invalidation of the bearer token is no longer the responsibility of rtweet.

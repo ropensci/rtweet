@@ -60,6 +60,9 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
   lookup_tweets(statuses = statuses, parse = parse, token = token)
 }
 
+#' Get tweet information
+#' @inheritParams search_recent
+#' @param id A tweet id.
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
 #' Multiple tweets: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets>
