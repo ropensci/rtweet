@@ -41,11 +41,11 @@
 #'   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
 #'   new_rule
 #'   # Open filtered streaming connection for 30s
-#'   filtered_stream(file = tempfile(), timeout = 30)
+#'   filtered_stream(file = tempfile(), timeout = 30, parse = FALSE)
 #'   # Remove rule
 #'   stream_rm_rule(ids(new_rule))
 #'   # Open random streaming connection
-#'   sample_stream(file = tempfile(), timeout = 3)
+#'   sample_stream(file = tempfile(), timeout = 3, parse = FALSE)
 #' }
 NULL
 
@@ -66,6 +66,7 @@ filtered_stream <- function(timeout, file = tempfile(),
   } else {
     fields <- check_fields(fields, metrics = NULL)
   }
+  token <- auth_get(token)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
   data <- c(list(expansions = expansions), fields, ...)
@@ -165,6 +166,7 @@ handle_rules_resp <- function(x) {
 }
 
 stream_rules <- function(query = NULL, token = NULL, ...) {
+  token <- auth_get(token)
   req <- endpoint_v2(token, "tweets/search/stream/rules", 450 / (15 * 60))
 
   if (!is.null(query)) {
@@ -285,6 +287,7 @@ sample_stream <- function(timeout, file = tempfile(),
   }
   parsing(parse)
   token <- check_token_v2(token)
+  token <- auth_get(token)
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))
 
   data <- c(list(expansions = expansions), fields, ...)
