@@ -7,6 +7,13 @@ auth_is_bearer <- function(token = NULL) {
   inherits(token, "rtweet_bearer")
 }
 
+prepare_bearer <- function(x, y) {
+  token_credentials <- paste0(x, ":", y, collapse = "")
+
+  check_installed("openssl")
+  openssl::base64_encode(token_credentials)
+}
+
 auth_is_pkce <- function(token = NULL) {
   if (is.null(token)) {
     token <- auth_get()
@@ -59,7 +66,10 @@ req_auth <- function(req, token) {
   if (auth_is_bearer(token)) {
     token <- token$token
   } else if (auth_is_pkce(token)) {
-    token <- token$refresh_token
+    if (.POSIXct(token[["expires_at"]]) <= Sys.time()) {
+      token <- auth_renew(token$access_token)
+    }
+    token <- token$access_token
   }
   httr2::req_auth_bearer_token(req, token)
 }
