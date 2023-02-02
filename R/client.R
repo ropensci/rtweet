@@ -87,7 +87,13 @@ find_client <- function(client = NULL) {
 rtweet_client <- function(client_id, client_secret,
                             scopes = NULL, app = "rtweet") {
 
-    if (is.null(scopes)) {
+  if (missing(client_id) && missing(client_secret)) {
+    client_default <- rtweet_client(decrypt(sysdat$DYKcJfBkgMnGveI),
+                  decrypt(sysdat$MRsnZtaKXqGYHju))
+    client_save(client_default)
+    return(client_default)
+  }
+  if (is.null(scopes)) {
       scopes <- all_scopes
     } else {
       scopes <- check_scopes(scopes)
