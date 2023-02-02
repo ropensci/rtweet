@@ -350,7 +350,8 @@ rtweet_test <- function() {
     "7rX1CfEYOjrtZenmBhjljPzO3",
     "rM3HOLDqmjWzr9UN4cvscchlkFprPNNg99zJJU5R8iYtpC0P0q",
     access_token,
-    access_secret
+    access_secret,
+    app = "rtweet_hadley"
   )
 }
 
@@ -393,17 +394,10 @@ auth_path <- function(...) {
   file.path(path, ...)
 }
 
-
 # Some endpoints require OAuth2.0 with PKCE
 # https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code
-
-rtweet_oauth2 <- function(client_id = NULL, client_secret = NULL,
-                        scopes = NULL, app = "rtweet") {
-  if (is.null(client_id) && is.null(client_secret)) {
-    client <- default_client(client_id, client_secret)
-    client_id <- client["id"]
-    client_secret <- client["secret"]
-  }
+rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
+  client <- client_as(client)
 
   if (is.null(scopes)) {
     scopes <- all_scopes
@@ -411,24 +405,22 @@ rtweet_oauth2 <- function(client_id = NULL, client_secret = NULL,
     scopes <- check_scopes(scopes)
   }
 
-  client <- httr2::oauth_client(
-    id = client_id,
-    secret = client_secret,
-    token_url = "https://api.twitter.com/2/oauth2/token",
-    name = app)
   # Guide to all urls for OAuth 2
   # https://developer.twitter.com/en/docs/authentication/api-reference
   # Guide of which endpoints require KPCE authentication
   # https://developer.twitter.com/en/docs/authentication/guides/v2-authentication-mapping
   # Useful questions: https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/14
   # Tutorial confirming the urls: https://developer.twitter.com/en/docs/tutorials/tweet-to-super-followers-with-postman--oauth-2-0-and-manage-twee
-  oa_flow <- httr2::oauth_flow_auth_code(client,
+  token <- httr2::oauth_flow_auth_code(client,
                        auth_url = "https://twitter.com/i/oauth2/authorize",
                        pkce = TRUE,
                        scope = paste(scopes, collapse = " "),
                        host_name = "127.0.0.1",
                        port = 1410
                        )
+  inform("Requires confirming permissions to the app (client) every two hours!")
+  attr(token, "app") <- attr(client, "app")
+  token
 }
 
 all_scopes <- c("tweet.read", "tweet.write", "tweet.moderate.write", "users.read",
@@ -436,7 +428,6 @@ all_scopes <- c("tweet.read", "tweet.write", "tweet.moderate.write", "users.read
                "mute.read", "mute.write", "like.read", "like.write", "list.read",
                "list.write", "block.read", "block.write", "bookmark.read", "bookmark.write"
 )
-
 
 get_scopes <- function(token, call = caller_env()) {
   token <- check_token_v2(token, "pkce", call)
@@ -461,13 +452,8 @@ check_scopes <- function(scopes, required = NULL, call = caller_env()) {
   TRUE
 }
 
-
 default_client <- function(client_id = NULL, client_secret = NULL) {
   if (is.null(client_id) && is.null(client_secret)) {
-    check_installed("openssl") # Suggested!
-    decrypt <- function(x) {
-      rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
-    }
     # The sysdat file is in #./R and loaded automagically
     client_id <- decrypt(sysdat$DYKcJfBkgMnGveI)
     client_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
@@ -475,4 +461,40 @@ default_client <- function(client_id = NULL, client_secret = NULL) {
     stopifnot(is_string(client_id), is_string(client_secret))
   }
   return(c(id = client_id, secret = client_secret))
+}
+
+#' Renew token if needed
+#'
+#' Makes the assumption that the right app is still in the user computer
+auth_renew <- function(token, scopes = NULL) {
+  stopifnot(auth_is_pkce(token))
+
+  if (!is.null(scopes) && check_scopes(scopes)) {
+    scopes <- paste0(scopes, " ")
+  } else if (is.null(scopes)) {
+    scopes <- token$scope
+  } else {
+    abort("Scopes is not in the right format")
+  }
+
+  if (.POSIXct(token$expires_at) >= Sys.time()) {
+    return(token)
+  }
+
+  client_as(attr(token, "app", TRUE))
+  client <- client_get()
+
+  inform("You'll need to give again permissions to the app every two hours!")
+  token <- rtweet_oauth2(client, scopes)
+  # The provided refresh token can only be used once:
+  # https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/16
+  # token <- httr2:::token_refresh(client, refresh_token = token$refresh_token,
+  #                                scope = paste(scopes, collapse = " "))
+  token
+}
+
+
+decrypt <- function(x) {
+  check_installed("openssl") # Suggested!
+  rawToChar(openssl::rsa_decrypt(x[[2]], x[[1]]))
 }
