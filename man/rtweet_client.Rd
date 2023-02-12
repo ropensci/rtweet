@@ -4,21 +4,21 @@
 \alias{rtweet_client}
 \title{Client}
 \usage{
-rtweet_client(client_id, client_secret, scopes = NULL, app = "rtweet")
+rtweet_client(client_id, client_secret, app, scopes = NULL)
 }
 \arguments{
 \item{client_id, client_secret}{Application OAuth client ID and client Secret.
 These are generally not required for \code{tweet_user()} since the defaults will use
 the built-in rtweet app.}
 
-\item{scopes}{Scopes allowed for this client. Leave NULL to use all.}
-
 \item{app}{Name of the client, it helps if you make it match with the name of your app.
 On the Twitter app must be "http://127.0.0.1:1410/" (the trailing / must be
 included)}
+
+\item{scopes}{Scopes allowed for this client. Leave NULL to use all.}
 }
 \description{
-Set up your client mechanism for rtweet.
+Set up your client mechanism for rtweet API loking with KPCE.
 }
 \examples{
 rtweet_client()
