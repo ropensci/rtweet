@@ -54,11 +54,11 @@ client_list <- function() {
   paths <- dir(client_path(), pattern = "\\.rds$")
   tools::file_path_sans_ext(paths)
 }
+
 find_client <- function(client = NULL) {
     if (is.null(client)) {
       if (is_developing()) {
-        rtweet_client(decrypt(sysdat$DYKcJfBkgMnGveI),
-                      decrypt(sysdat$MRsnZtaKXqGYHju))
+        client_default
       } else{
         default_cached_client()
       }
@@ -82,14 +82,22 @@ find_client <- function(client = NULL) {
     }
   }
 
+#' Client
+#'
+#' Set up your client mechanism for rtweet.
+#' @inheritParams rtweet_user
+#' @param scopes Scopes allowed for this client. Leave NULL to use all.
+#' @param app Name of the client, it helps if you make it match with the name of your app.
 #' On the Twitter app must be "http://127.0.0.1:1410/" (the trailing / must be
 #' included)
+#' @seealso scopes
+#' @export
+#' @examples
+#' rtweet_client()
 rtweet_client <- function(client_id, client_secret,
                             scopes = NULL, app = "rtweet") {
 
   if (missing(client_id) && missing(client_secret)) {
-    client_default <- rtweet_client(decrypt(sysdat$DYKcJfBkgMnGveI),
-                  decrypt(sysdat$MRsnZtaKXqGYHju))
     client_save(client_default)
     return(client_default)
   }
@@ -109,3 +117,6 @@ rtweet_client <- function(client_id, client_secret,
     client
 }
 
+
+client_default <- rtweet_client(decrypt(sysdat$DYKcJfBkgMnGveI),
+                                decrypt(sysdat$MRsnZtaKXqGYHju))
