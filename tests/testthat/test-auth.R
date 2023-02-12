@@ -54,11 +54,13 @@ test_that("is_developing works", {
 test_that("rtweet_user works", {
   skip("requires manual testing")
   # Avoid saving it but check that it is redirected in the browser.
+  withr::local_options("rtweet:::config_dir" = tempfile())
   expect_error(rtweet_user(), NA)
 })
 
 test_that("rtweet_bot works", {
   skip("requires manual testing")
   # Avoid saving it but check that it is redirected in the browser.
+  withr::local_options("rtweet:::config_dir" = tempfile())
   expect_error(rtweet_bot(), NA)
 })

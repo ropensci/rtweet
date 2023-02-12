@@ -31,6 +31,7 @@ delete_thread <- function(ids) {
 
 test_that("tweet_threading works", {
   skip_if_offline()
+  auth_as()
   thread <- write_thread()
   tw <- lookup_tweets(thread[1])
   tw_thread <- tweet_threading(tw)
