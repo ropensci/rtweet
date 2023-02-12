@@ -463,11 +463,14 @@ default_client <- function(client_id = NULL, client_secret = NULL) {
   return(c(id = client_id, secret = client_secret))
 }
 
-#' Renew token if needed
-#'
-#' Makes the assumption that the right app is still in the user computer
+# Renew token if needed
+# Makes the assumption that the right app is still in the user computer
 auth_renew <- function(token, scopes = NULL) {
   stopifnot(auth_is_pkce(token))
+
+  if (.POSIXct(token$expires_at) >= Sys.time()) {
+    return(token)
+  }
 
   if (!is.null(scopes) && check_scopes(scopes)) {
     scopes <- paste0(scopes, " ")
@@ -477,14 +480,10 @@ auth_renew <- function(token, scopes = NULL) {
     abort("Scopes is not in the right format")
   }
 
-  if (.POSIXct(token$expires_at) >= Sys.time()) {
-    return(token)
-  }
-
   client_as(attr(token, "app", TRUE))
   client <- client_get()
 
-  inform("You'll need to give again permissions to the app every two hours!")
+  # inform("You'll need to give again permissions to the app every two hours!")
   token <- rtweet_oauth2(client, scopes)
   # The provided refresh token can only be used once:
   # https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/16
