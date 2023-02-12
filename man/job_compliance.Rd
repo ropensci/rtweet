@@ -6,6 +6,17 @@
 \usage{
 job_compliance(ids, name, type, resumable = TRUE, token = NULL)
 }
+\arguments{
+\item{ids}{Ids of tweets or users to check.}
+
+\item{name}{Name of the job.}
+
+\item{type}{Type of ids: either 'tweets' or 'users'.}
+
+\item{resumable}{A logical value if the job is resumable.}
+
+\item{token}{Bearer token used.}
+}
 \description{
 Job compliance
 }

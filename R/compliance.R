@@ -1,5 +1,11 @@
 #' Job compliance
 #'
+#' @param ids Ids of tweets or users to check.
+#' @param name Name of the job.
+#' @param type Type of ids: either 'tweets' or 'users'.
+#' @param resumable A logical value if the job is resumable.
+#' @param token Bearer token used.
+#'
 #' @references <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference>
 #' Submit job: <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/post-compliance-jobs>
 #' Job status: <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs-id>
@@ -7,11 +13,13 @@
 job_compliance <- function(ids, name, type, resumable = TRUE, token = NULL) {
 
   type <- match.arg(type, c("tweets", "users"))
+  stopifnot(is_logical(resumable))
+  stopifnot(is.character(name) && length(name) == 1)
+  token <- check_token_v2(token)
 
   rate <- 150/(60*15)
-  token <- check_token_v2(token)
   req_jobs <- endpoint_v2(token, "compliance/jobs", rate)
-  resp <- req_perform(req_archive)
+  resp <- httr2::req_perform(req_jobs)
 }
 
 # Check guide if resumable = FALSE requires different handling

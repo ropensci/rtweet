@@ -37,10 +37,12 @@ Twitter API.}
 Look up tweets up to 100 at the same time.
 }
 \examples{
-get_tweet("567053242429734913", parse = FALSE)
-get_tweet(c("567053242429734913", "567053242429734913"), parse = FALSE)
-get_tweet(c("567053242429734913", "567053242429734913"),
-     expansions = NULL, fields = NULL, parse = FALSE)
+if (auth_has_default()){
+ get_tweet("567053242429734913", parse = FALSE)
+ get_tweet(c("567053242429734913", "567053242429734913"), parse = FALSE)
+ get_tweet(c("567053242429734913", "567053242429734913"),
+   expansions = NULL, fields = NULL, parse = FALSE)
+}
 }
 \references{
 One tweet: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id}
