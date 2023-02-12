@@ -1,5 +1,8 @@
 # rtweet (development version)
 
+- Fixed a bug that prevented `auth_setup_default()` to work (#756 and #744)
+- Fixed a bug so that the streaming functions use the current token. 
+
 # rtweet 1.1.0
 
 - Fixed a bug that prevented posting multiple media in the same tweet.
