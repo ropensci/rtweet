@@ -27,8 +27,11 @@
 #' @return The records in the streaming.
 #' @seealso
 #' Rules for filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule>
+#'
 #' Sampled stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream>
+#'
 #' Filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream>
+#'
 #' [ids]
 #' @rdname stream
 #' @name stream
@@ -149,7 +152,7 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
 handle_rules_resp <- function(x) {
   if (has_name_(x, "errors")) {
     warning("There are errors in the requests: ",
-            x$errors$title,
+            paste(x$errors$title, collapse = ", "),
             "\nCheck the returned object for more details.", call. = FALSE)
     return(x)
   }
@@ -166,7 +169,7 @@ handle_rules_resp <- function(x) {
 }
 
 stream_rules <- function(query = NULL, token = NULL, ...) {
-  token <- auth_get(token)
+  token <- check_token_v2(token)
   req <- endpoint_v2(token, "tweets/search/stream/rules", 450 / (15 * 60))
 
   if (!is.null(query)) {
