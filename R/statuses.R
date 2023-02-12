@@ -61,15 +61,21 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 }
 
 #' Get tweet information
+#'
+#' Look up tweets up to 100 at the same time.
 #' @inheritParams search_recent
 #' @param id A tweet id.
+#' @seealso [lookup_tweets()]
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
+#'
 #' Multiple tweets: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets>
+#' @export
 #' @examples
 #' get_tweet("567053242429734913", parse = FALSE)
 #' get_tweet(c("567053242429734913", "567053242429734913"), parse = FALSE)
-#' get_tweet(c("567053242429734913", "567053242429734913"), expansions = NULL, fields = NULL, parse = FALSE)
+#' get_tweet(c("567053242429734913", "567053242429734913"),
+#'      expansions = NULL, fields = NULL, parse = FALSE)
 get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
                       parse = TRUE) {
   fields <- check_fields(fields, metrics = NULL)
