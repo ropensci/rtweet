@@ -100,16 +100,19 @@ if (FALSE) {
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
   new_rule
   # Open filtered streaming connection for 30s
-  filtered_stream(file = tempfile(), timeout = 30)
+  filtered_stream(file = tempfile(), timeout = 30, parse = FALSE)
   # Remove rule
   stream_rm_rule(ids(new_rule))
   # Open random streaming connection
-  sample_stream(file = tempfile(), timeout = 3)
+  sample_stream(file = tempfile(), timeout = 3, parse = FALSE)
 }
 }
 \seealso{
 Rules for filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule}
+
 Sampled stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream}
+
 Filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream}
+
 \link{ids}
 }
