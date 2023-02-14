@@ -55,20 +55,11 @@ NULL
 #' @export
 #' @describeIn stream Start a filtered stream according to the rules.
 filtered_stream <- function(timeout, file = tempfile(),
-                            expansions = NULL, fields = NULL,
+                            expansions = NA, fields = NA,
                             ...,  token = NULL, append = TRUE, parse = TRUE) {
   parsing(parse)
-  if (is.logical(expansions) && !isFALSE(expansions)) {
-    expansions <- set_expansions()
-  } else {
-    expansions <- check_expansions(expansions)
-  }
-
-  if (is.logical(fields) && !isFALSE(fields)) {
-    fields <- set_fields()
-  } else {
-    fields <- check_fields(fields, metrics = NULL)
-  }
+  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  fields <- check_expansions(arg_def(fields, set_fields()))
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
   data <- c(list(expansions = expansions), fields, ...)
@@ -167,8 +158,8 @@ handle_rules_resp <- function(x) {
   df
 }
 
-stream_rules <- function(query = NULL, token = NULL, ...) {
-  token <- check_token_v2(token)
+stream_rules <- function(query = NULL, token = NULL, ..., call = caller_env()) {
+  token <- check_token_v2(token, call = call)
   req <- endpoint_v2(token, "tweets/search/stream/rules", 450 / (15 * 60))
 
   if (!is.null(query)) {
@@ -276,17 +267,10 @@ split_stream <- function(file, path) {
 sample_stream <- function(timeout, file = tempfile(),
                           expansions = NA, fields = NA, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
-  if (is.logical(expansions) && !isFALSE(expansions)) {
-    expansions <- set_expansions()
-  } else {
-    expansions <- check_expansions(expansions)
-  }
 
-  if (is.logical(fields) && !isFALSE(fields)) {
-    fields <- set_fields()
-  } else {
-    fields <- check_fields(fields, metrics = NULL)
-  }
+  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  fields <- check_expansions(arg_def(fields, set_fields()))
+
   parsing(parse)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))

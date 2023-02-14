@@ -215,3 +215,20 @@ check_rate <- function(token, rate_app, rate_user) {
          httr2_token =  rate_user,
          NULL)
 }
+
+# Function to set fields and expansions:
+#  - NA is reference (aka, all possibilities via set_*)
+#  - NULL is NULL
+#  - other are the ones provided via argument
+arg_def <- function(argument, reference) {
+
+  if (length(argument) >= 1 && !anyNA(argument)) {
+    return(argument)
+  }
+
+  if (is.null(argument)) {
+    return(NULL)
+  }
+
+  reference
+}

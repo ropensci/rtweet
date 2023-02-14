@@ -22,5 +22,5 @@ parse_stream("stream.json")
 }
 }
 \seealso{
-\code{stream_tweets()}
+\code{\link[=stream_tweets]{stream_tweets()}}
 }
