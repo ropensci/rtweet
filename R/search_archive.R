@@ -7,17 +7,9 @@
 #' sa <- search_archive("#rtweet", parse = FALSE)
 search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
                            ..., token = NULL, parse = TRUE, verbose = TRUE) {
-  if (is.logical(expansions) && !isFALSE(expansions)) {
-    expansions <- set_expansions()
-  } else {
-    expansions <- check_expansions(expansions)
-  }
 
-  if (is.logical(fields) && !isFALSE(fields)) {
-    fields <- set_fields()
-  } else {
-    fields <- check_fields(fields, metrics = NULL)
-  }
+  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
 
   parsing(parse)
   stopifnot(is_n(n))
@@ -44,17 +36,8 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
 #' sr <- search_recent("#rtweet", parse = FALSE)
 search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = TRUE) {
-  if (is.logical(expansions) && !isFALSE(expansions)) {
-    expansions <- set_expansions()
-  } else {
-    expansions <- check_expansions(expansions)
-  }
-
-  if (is.logical(fields) && !isFALSE(fields)) {
-    fields <- set_fields()
-  } else {
-    fields <- check_fields(fields, metrics = NULL)
-  }
+  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
   parsing(parse)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, 100)
