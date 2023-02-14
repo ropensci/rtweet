@@ -9,20 +9,15 @@
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/get-tweets-id-retweeted_by>
 #' @examples
+#' if (FALSE) {
 #' rb <- retweeted_by("567053242429734913", parse = FALSE)
+#' }
 retweeted_by <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                       token = NULL, parse = TRUE, verbose = TRUE) {
-  if (is.logical(expansions) && !isFALSE(expansions)) {
-    expansions <- set_expansions()
-  } else {
-    expansions <- check_expansions(expansions)
-  }
 
-  if (is.logical(fields) && !isFALSE(fields)) {
-    fields <- set_fields()
-  } else {
-    fields <- check_fields(fields, metrics = NULL)
-  }
+  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  fields <- check_fields(arg_def(expansions, fields()), metrics = NULL)
+
   parsing(parse)
   stopifnot(is_n(n))
   if (length(id) != 1 || !is_id(id)) {
