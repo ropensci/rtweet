@@ -12,8 +12,7 @@ test_that("stream_tweets returns tweets data", {
 })
 
 
-test_that("Stream for 30 seconds", {
-  skip("skip just for test")
+test_that("Stream for 10 seconds", {
   testing_with_authentication("bearer_testing_app")
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
   # Open filtered streaming connection for 30s

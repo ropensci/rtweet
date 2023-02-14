@@ -10,8 +10,8 @@ client_has_default()
 client_setup_default()
 }
 \value{
-\code{auth_setup_default()}: Invisibly returns the previous authentication mechanism.
-\code{auth_has_default()}: A logical value \code{TRUE} if there is a default authentication.
+\code{client_setup_default()}: Invisibly returns the previous authentication mechanism.
+\code{client_has_default()}: A logical value \code{TRUE} if there is a default authentication.
 }
 \description{
 You'll need to run this function once per computer so that rtweet can use
@@ -25,8 +25,8 @@ If a default is found it will use it instead.
 }
 \examples{
 \dontrun{
-if (!auth_has_default() && interactive()) {
-   auth_setup_default()
+if (!client_has_default() && interactive()) {
+   client_setup_default()
 }
 }
 }
@@ -36,7 +36,6 @@ Other authentication:
 \code{\link{auth_get}()},
 \code{\link{auth_save}()},
 \code{\link{auth_setup_default}()},
-\code{\link{client_save}()},
 \code{\link{rtweet_user}()}
 }
 \concept{authentication}

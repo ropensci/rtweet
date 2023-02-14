@@ -1,3 +1,8 @@
+# This is almost a copy of auth.R file but for clients
+# Only wto tweaks:
+# - the default client is provided by rtweet and stored as rtweet.
+# - the path to save clients is under a directory clients
+
 #' Set default client for the current session
 #'
 #' `client_as()` sets up the default client used by rtweet API calls with PKCE. See [rtweet_user()] to learn more about the three
@@ -8,7 +13,7 @@
 #'      which uses your personal default Twitter client. If it's not found, it will
 #'      call [client_setup_default()] to set it up.
 #'   * A string giving the name of a saved auth file made by [client_save()].
-#'   * An auth object created by [rtweet_client()].
+#'   * A client object created by [rtweet_client()].
 #' @return Invisibly returns the previous authentication mechanism.
 #' @family client
 #' @export
@@ -40,6 +45,17 @@ client_path <- function(...) {
     file.path(path, "clients", ...)
 }
 
+#' Get the current client
+#'
+#' If no client has been set up for this session, `client_get()` will
+#' call [client_as()] to set it up.
+#' @return  The current client used.
+#' @export
+#' @family client
+#' @examples
+#' \dontrun{
+#' client_get()
+#' }
 client_get <- function() {
   if (is.null(.state$client)) {
     client_as()
@@ -49,6 +65,17 @@ client_get <- function() {
 
 is_client <- function(client) {
   inherits(client, "httr2_oauth_client")
+}
+
+default_client <- function(client_id = NULL, client_secret = NULL) {
+  if (is.null(client_id) && is.null(client_secret)) {
+    # The sysdat file is in #./R and loaded automagically
+    client_id <- decrypt(sysdat$DYKcJfBkgMnGveI)
+    client_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
+  } else {
+    stopifnot(is_string(client_id), is_string(client_secret))
+  }
+  return(c(id = client_id, secret = client_secret))
 }
 
 default_cached_client <- function() {
@@ -75,11 +102,11 @@ default_cached_client <- function() {
 #' credentials, making it easier to share auth between projects.
 #' Use `client_list()` to list all saved credentials.
 #'
-#' The tokens are saved on `tools::R_user_dir("rtweet", "config")`.
+#' The tokens are saved on the clients folder in `tools::R_user_dir("rtweet", "config")`.
 #'
 #' @param client A client [rtweet_client()].
 #' @return Invisible the path where the client is saved.
-#' @family authentication
+#' @family client
 #' @seealso [auth_sitrep()] to help finding and managing authentications.
 #' @export
 #' @examples
@@ -174,24 +201,22 @@ rtweet_client <- function(client_id, client_secret,
 
 
 
-#' Set up default authentication
+#' Set up default client
 #'
 #' You'll need to run this function once per computer so that rtweet can use
-#' your personal Twitter account. See [rtweet_app()]/[rtweet_bot] and
-#' [auth_save()] for other authentication options.
+#' your client.
 #'
-#' It will use the current logged in account on the default browser to detect
-#' the credentials needed for rtweet and save them as "default".
+#' It will use the current default account for rtweet and save them as "rtweet".
 #' If a default is found it will use it instead.
 #' @return
-#' `auth_setup_default()`: Invisibly returns the previous authentication mechanism.
-#' `auth_has_default()`: A logical value `TRUE` if there is a default authentication.
+#' `client_setup_default()`: Invisibly returns the previous authentication mechanism.
+#' `client_has_default()`: A logical value `TRUE` if there is a default authentication.
 #' @export
-#' @family authentication
+#' @family client
 #' @examples
 #' \dontrun{
-#' if (!auth_has_default() && interactive()) {
-#'    auth_setup_default()
+#' if (!client_has_default() && interactive()) {
+#'    client_setup_default()
 #' }
 #' }
 client_setup_default <- function() {

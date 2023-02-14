@@ -1,5 +1,5 @@
 # rtweet (development version)
-
+- Small breaking change: `expansions` and `fields` arguments now use `NA` for all and `NULL` for none.
 - Fixed a bug that prevented `auth_setup_default()` to work (#756 and #744)
 - Fixed a bug so that the streaming functions use the current token. 
 

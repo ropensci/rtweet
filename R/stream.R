@@ -35,7 +35,7 @@
 #' @param verbose If `TRUE`, display a progress bar.
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
-#' @seealso `parse_stream()`.
+#' @seealso [parse_stream()].
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
 #'  <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview>
 #' @examples
@@ -227,7 +227,7 @@ is_user_ids <- function(x) {
 #'   [stream_tweets()].
 #' @param ... Unused, keeping it for back compatibility.
 #' @export
-#' @seealso `stream_tweets()`
+#' @seealso [stream_tweets()]
 #' @examples
 #' \dontrun{
 #' stream_tweets(timeout = 1, file_name = "stream.json", parse = FALSE)

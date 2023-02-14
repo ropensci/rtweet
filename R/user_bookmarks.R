@@ -1,4 +1,20 @@
+#' Retrieve user bookmarks
+#'
+#' Collects the 800 most recent bookmarked tweets of a user.
+#' @note This endpoint requires a OAuth2.0 authentication, with tweet.read, users.read and bookmark.read permissions.
+#' @param id Twitter user id: character string identifying your account.
+#' @param n Number of tweets to retrieve.
+#' @param ... Other arguments currently ignored.
+#' @inheritParams sample_stream
+#' @seealso [rtweet_oauth2()]
+#' @export
+#' @returns The tweets.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks>
+#' @examplesIf
+#' if (FALSE) {
+#'    # Requires token_oa2
+#'    ub <- user_bookmarks("123456789", parse = FALSE, n = Inf, token = token_oa2)
+#' }
 user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
                            parse = TRUE, token = NULL) {
   parsing(parse)

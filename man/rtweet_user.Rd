@@ -4,6 +4,7 @@
 \alias{rtweet_user}
 \alias{rtweet_bot}
 \alias{rtweet_app}
+\alias{rtweet_oauth2}
 \title{Authentication options}
 \usage{
 rtweet_user(
@@ -16,6 +17,8 @@ rtweet_user(
 rtweet_bot(api_key, api_secret, access_token, access_secret, app = "rtweet")
 
 rtweet_app(bearer_token)
+
+rtweet_oauth2(client = NULL, scopes = NULL)
 }
 \arguments{
 \item{client_id, client_secret}{Application OAuth client ID and client Secret.
@@ -29,6 +32,10 @@ the built-in rtweet app.}
 \item{app}{Name of the application you are building.}
 
 \item{bearer_token}{App bearer token.}
+
+\item{client}{Which client app will be used.}
+
+\item{scopes}{The permissions of the app, see \code{\link[=scopes]{scopes()}}.}
 }
 \value{
 If the validation is successful the OAuth token.
@@ -57,6 +64,9 @@ no need to because it uses the Twitter app provided by rtweet.
 
 Use \code{\link[=auth_as]{auth_as()}} to set the default auth mechanism for the current session,
 and \code{\link[=auth_save]{auth_save()}} to save an auth mechanism for use in future sessions.
+
+Some endpoints require OAuth 2.0 with specific permissions in order to work.
+In order to work, the developer must configure the app with  callback url: \verb{http://127.0.0.1:1410}
 }
 \details{
 Authenticate methods to use the Twitter API.
@@ -77,13 +87,17 @@ rtweet_bot()
 rtweet_app()
 }
 }
+\references{
+\url{https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code}
+}
 \seealso{
+\code{\link[=client]{client()}}
+
 Other authentication: 
 \code{\link{auth_as}()},
 \code{\link{auth_get}()},
 \code{\link{auth_save}()},
 \code{\link{auth_setup_default}()},
-\code{\link{client_has_default}()},
-\code{\link{client_save}()}
+\code{\link{client_has_default}()}
 }
 \concept{authentication}

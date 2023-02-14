@@ -9,7 +9,7 @@
 #'  - [Polls](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
 #'  - [Places](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place)
 #' @references <https://developer.twitter.com/en/docs/twitter-api/fields>
-#' @seealso [Expansions], [`set_fields()`]
+#' @seealso [Expansions], [set_fields()]
 #' @name Fields
 #' @aliases fields
 #' @examples

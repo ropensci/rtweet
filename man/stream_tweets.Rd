@@ -90,5 +90,5 @@ Stream: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-
 Filter: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/api-reference/post-statuses-filter}
 }
 \seealso{
-\code{parse_stream()}.
+\code{\link[=parse_stream]{parse_stream()}}.
 }

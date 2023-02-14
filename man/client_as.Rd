@@ -13,7 +13,7 @@ client_as(client = NULL)
 which uses your personal default Twitter client. If it's not found, it will
 call \code{\link[=client_setup_default]{client_setup_default()}} to set it up.
 \item A string giving the name of a saved auth file made by \code{\link[=client_save]{client_save()}}.
-\item An auth object created by \code{\link[=rtweet_client]{rtweet_client()}}.
+\item A client object created by \code{\link[=rtweet_client]{rtweet_client()}}.
 }}
 }
 \value{
@@ -33,5 +33,9 @@ auth_as(my_app)
 client_as()
 client_list()
 }
+}
+\seealso{
+Other client: 
+\code{\link{client_save}()}
 }
 \concept{client}

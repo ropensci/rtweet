@@ -6,10 +6,10 @@
 #'
 #' @param attachments Add attachments values? Default yes.
 #' @param referenced_tweets Add referenced_tweets values? Default yes.
-#' @param tweet,user `tweet_expansions())` and `user_expansions()`.
+#' @param tweet,user [tweet_expansions()] and [user_expansions()].
 #' @return A character with the characters of valid expansions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/expansions>
-#' @seealso [Fields], [`set_fields()`]
+#' @seealso [Fields], [set_fields()]
 #' @name Expansions
 #' @aliases expansions
 #' @examples
@@ -17,6 +17,23 @@
 #' user_expansions()
 #' set_expansions()
 #' @export
+set_expansions <- function(tweet = tweet_expansions(),
+                           user = user_expansions()) {
+
+  if (is.numeric(tweet)) {
+    abort("Invalid tweet expansions.")
+  }
+  if (is.numeric(user)) {
+    abort("Invalid user expansions.")
+  }
+
+  expansions <- c(tweet, user)
+
+  check_expansions(expansions, c(tweet_expansions(), user_expansions()))
+}
+
+#' @export
+#' @name Expansions
 tweet_expansions <- function(attachments = TRUE, referenced_tweets = TRUE) {
   expansions <- c("author_id", "in_reply_to_user_id", "geo.place_id",
                   "entities.mentions.username",  "edit_history_tweet_ids")
@@ -36,24 +53,8 @@ user_expansions <- function() {
   "pinned_tweet_id"
 }
 
-#' @export
-#' @name Expansions
-set_expansions <- function(tweet = tweet_expansions(),
-                           user = user_expansions()) {
-
-  if (is.numeric(tweet)) {
-    abort("Invalid tweet expansions.")
-  }
-  if (is.numeric(user)) {
-    abort("Invalid user expansions.")
-  }
-
-  expansions <- c(tweet, user)
-
-  check_expansions(expansions, c(tweet_expansions(), user_expansions()))
-}
-
-check_expansions <- function(passed, allowed = tweet_expansions(), call = caller_env()) {
+check_expansions <- function(passed, allowed = tweet_expansions(),
+                             call = caller_env()) {
   # Empty list or NA return NULL to disable the expansions
   empty_list <- is.list(passed) && length(passed) == 0
   na <- length(passed) == 1L && is.na(passed)
@@ -64,8 +65,8 @@ check_expansions <- function(passed, allowed = tweet_expansions(), call = caller
   within <- !passed %in% allowed
   if (any(within)) {
     extensions <- passed[within]
-    abort("These extensions are not allowed: ",
-         paste(extensions, collapse = ", "), call = call)
+    abort(paste0("These extensions are not allowed: ",
+         paste(extensions, collapse = ", ")), call = call)
   }
   passed
 }

@@ -1,4 +1,4 @@
-test_that("make_fields works", {
+test_that("set_fields works", {
   expect_null(set_fields(NULL, NULL, NULL, NULL, NULL))
   expect_type(set_fields(NULL, NULL, NULL, NULL), "list")
   expect_error(set_fields(NULL, NULL, NULL, NULL, 1), "characters")

@@ -19,7 +19,7 @@ set_expansions(tweet = tweet_expansions(), user = user_expansions())
 
 \item{referenced_tweets}{Add referenced_tweets values? Default yes.}
 
-\item{tweet, user}{\verb{tweet_expansions())} and \code{user_expansions()}.}
+\item{tweet, user}{\code{\link[=tweet_expansions]{tweet_expansions()}} and \code{\link[=user_expansions]{user_expansions()}}.}
 }
 \value{
 A character with the characters of valid expansions.

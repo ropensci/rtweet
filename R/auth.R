@@ -395,7 +395,16 @@ auth_path <- function(...) {
 }
 
 # Some endpoints require OAuth2.0 with PKCE
-# https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code
+#' Authenticate using OAuth 2.0
+#'
+#' Some endpoints require OAuth 2.0 with specific permissions in order to work.
+#' In order to work, the developer must configure the app with  callback url: `http://127.0.0.1:1410`
+#' @param client Which client app will be used.
+#' @param scopes The permissions of the app, see [scopes()].
+#' @seealso [client()]
+#' @references <https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code>
+#' @export
+#' @rdname rtweet_user
 rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
   client <- client_as(client)
 
@@ -421,46 +430,6 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
   inform("Requires confirming permissions to the app (client) every two hours!")
   attr(token, "app") <- attr(client, "app")
   token
-}
-
-all_scopes <- c("tweet.read", "tweet.write", "tweet.moderate.write", "users.read",
-               "follows.read", "follows.write", "offline.access", "space.read",
-               "mute.read", "mute.write", "like.read", "like.write", "list.read",
-               "list.write", "block.read", "block.write", "bookmark.read", "bookmark.write"
-)
-
-get_scopes <- function(token, call = caller_env()) {
-  token <- check_token_v2(token, "pkce", call)
-  strsplit(token$scope, " ")[[1]]
-}
-
-check_scopes <- function(scopes, required = NULL, call = caller_env()) {
-  if (is.null(required)) {
-    diff <- setdiff(scopes, all_scopes)
-    if (length(diff) != 0) {
-      msg <- paste0("Scopes required are not valid: ",
-                    paste0(diff, collapse = ", "))
-      abort(msg, call = call)
-    }
-  }
-  missing <- setdiff(required, scopes)
-  if (length(missing) != 0) {
-    msg <- paste0("This endpoint requires missing ",
-                  paste0(missing, collapse = ", "), " scopes")
-    abort(msg, call = call)
-  }
-  TRUE
-}
-
-default_client <- function(client_id = NULL, client_secret = NULL) {
-  if (is.null(client_id) && is.null(client_secret)) {
-    # The sysdat file is in #./R and loaded automagically
-    client_id <- decrypt(sysdat$DYKcJfBkgMnGveI)
-    client_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
-  } else {
-    stopifnot(is_string(client_id), is_string(client_secret))
-  }
-  return(c(id = client_id, secret = client_secret))
 }
 
 # Renew token if needed
