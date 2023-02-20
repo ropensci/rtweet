@@ -21,7 +21,7 @@ user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
   max_results <- check_interval(n, 1, 100)
   n_pages <- n %/% max_results
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   data <- c(expansions, fields, max_results = max_results, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   url <- paste0("users/", id,"/bookmarks")

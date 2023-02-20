@@ -29,7 +29,7 @@ set_expansions <- function(tweet = tweet_expansions(),
 
   expansions <- c(tweet, user)
 
-  check_expansions(expansions, c(tweet_expansions(), user_expansions()))
+  check_expansions(expansions)
 }
 
 #' @export
@@ -53,7 +53,7 @@ user_expansions <- function() {
   "pinned_tweet_id"
 }
 
-check_expansions <- function(passed, allowed = tweet_expansions(),
+check_expansions <- function(passed, allowed = c(tweet_expansions(), user_expansions()),
                              call = caller_env()) {
   # Empty list or NA return NULL to disable the expansions
   empty_list <- is.list(passed) && length(passed) == 0

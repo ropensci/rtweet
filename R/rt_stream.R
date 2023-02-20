@@ -55,11 +55,11 @@ NULL
 #' @export
 #' @describeIn stream Start a filtered stream according to the rules.
 filtered_stream <- function(timeout, file = tempfile(),
-                            expansions = NA, fields = NA,
+                            expansions = NULL, fields = NULL,
                             ...,  token = NULL, append = TRUE, parse = TRUE) {
   parsing(parse)
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
   data <- c(list(expansions = expansions), fields, ...)
@@ -265,11 +265,11 @@ split_stream <- function(file, path) {
 #' @describeIn stream Retrieve a sample of the tweets posted.
 #' @export
 sample_stream <- function(timeout, file = tempfile(),
-                          expansions = NA, fields = NA, ...,
+                          expansions = NULL, fields = NULL, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
 
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
 
   parsing(parse)
   token <- check_token_v2(token)

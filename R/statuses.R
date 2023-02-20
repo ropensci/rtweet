@@ -81,7 +81,7 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
                       parse = TRUE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   parsing(parse)
   data <- c(expansions, fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)

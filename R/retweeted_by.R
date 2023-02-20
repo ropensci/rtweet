@@ -16,7 +16,7 @@ retweeted_by <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                       token = NULL, parse = TRUE, verbose = TRUE) {
 
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(expansions, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
 
   parsing(parse)
   stopifnot(is_n(n))

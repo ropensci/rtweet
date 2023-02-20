@@ -9,7 +9,7 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
                            ..., token = NULL, parse = TRUE, verbose = TRUE) {
 
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
 
   parsing(parse)
   stopifnot(is_n(n))
@@ -37,7 +37,7 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
 search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = TRUE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
-  fields <- check_fields(arg_def(fields, fields()), metrics = NULL)
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   parsing(parse)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, 100)
