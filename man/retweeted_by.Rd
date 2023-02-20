@@ -43,7 +43,9 @@ Twitter API.}
 Looks up who have retweeted a given id.
 }
 \examples{
+if (FALSE) {
 rb <- retweeted_by("567053242429734913", parse = FALSE)
+}
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/get-tweets-id-retweeted_by}

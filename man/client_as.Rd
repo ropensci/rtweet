@@ -36,6 +36,8 @@ client_list()
 }
 \seealso{
 Other client: 
+\code{\link{client_get}()},
+\code{\link{client_has_default}()},
 \code{\link{client_save}()}
 }
 \concept{client}

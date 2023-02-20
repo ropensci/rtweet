@@ -2,24 +2,24 @@
 % Please edit documentation in R/expansions.R
 \name{Expansions}
 \alias{Expansions}
-\alias{tweet_expansions}
-\alias{expansions}
-\alias{user_expansions}
 \alias{set_expansions}
+\alias{expansions}
+\alias{tweet_expansions}
+\alias{user_expansions}
 \title{Expansions}
 \usage{
+set_expansions(tweet = tweet_expansions(), user = user_expansions())
+
 tweet_expansions(attachments = TRUE, referenced_tweets = TRUE)
 
 user_expansions()
-
-set_expansions(tweet = tweet_expansions(), user = user_expansions())
 }
 \arguments{
+\item{tweet, user}{\code{\link[=tweet_expansions]{tweet_expansions()}} and \code{\link[=user_expansions]{user_expansions()}}.}
+
 \item{attachments}{Add attachments values? Default yes.}
 
 \item{referenced_tweets}{Add referenced_tweets values? Default yes.}
-
-\item{tweet, user}{\code{\link[=tweet_expansions]{tweet_expansions()}} and \code{\link[=user_expansions]{user_expansions()}}.}
 }
 \value{
 A character with the characters of valid expansions.

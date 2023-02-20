@@ -23,7 +23,6 @@ Other authentication:
 \code{\link{auth_as}()},
 \code{\link{auth_save}()},
 \code{\link{auth_setup_default}()},
-\code{\link{client_has_default}()},
 \code{\link{rtweet_user}()}
 }
 \concept{authentication}

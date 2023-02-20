@@ -26,8 +26,8 @@ stream_rm_rule(query, dry = FALSE, token = NULL)
 sample_stream(
   timeout,
   file = tempfile(),
-  expansions = NA,
-  fields = NA,
+  expansions = NULL,
+  fields = NULL,
   ...,
   token = NULL,
   parse = TRUE,

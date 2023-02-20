@@ -3,7 +3,7 @@
 \name{client_has_default}
 \alias{client_has_default}
 \alias{client_setup_default}
-\title{Set up default authentication}
+\title{Set up default client}
 \usage{
 client_has_default()
 
@@ -15,12 +15,10 @@ client_setup_default()
 }
 \description{
 You'll need to run this function once per computer so that rtweet can use
-your personal Twitter account. See \code{\link[=rtweet_app]{rtweet_app()}}/\link{rtweet_bot} and
-\code{\link[=auth_save]{auth_save()}} for other authentication options.
+your client.
 }
 \details{
-It will use the current logged in account on the default browser to detect
-the credentials needed for rtweet and save them as "default".
+It will use the current default account for rtweet and save them as "rtweet".
 If a default is found it will use it instead.
 }
 \examples{
@@ -31,11 +29,9 @@ if (!client_has_default() && interactive()) {
 }
 }
 \seealso{
-Other authentication: 
-\code{\link{auth_as}()},
-\code{\link{auth_get}()},
-\code{\link{auth_save}()},
-\code{\link{auth_setup_default}()},
-\code{\link{rtweet_user}()}
+Other client: 
+\code{\link{client_as}()},
+\code{\link{client_get}()},
+\code{\link{client_save}()}
 }
-\concept{authentication}
+\concept{client}

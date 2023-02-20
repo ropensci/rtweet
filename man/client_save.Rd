@@ -21,7 +21,7 @@ credentials, making it easier to share auth between projects.
 Use \code{client_list()} to list all saved credentials.
 }
 \details{
-The tokens are saved on \code{tools::R_user_dir("rtweet", "config")}.
+The tokens are saved on the clients folder in \code{tools::R_user_dir("rtweet", "config")}.
 }
 \examples{
 \dontrun{
@@ -39,6 +39,8 @@ client_list()
 \code{\link[=auth_sitrep]{auth_sitrep()}} to help finding and managing authentications.
 
 Other client: 
-\code{\link{client_as}()}
+\code{\link{client_as}()},
+\code{\link{client_get}()},
+\code{\link{client_has_default}()}
 }
 \concept{client}
