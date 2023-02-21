@@ -65,7 +65,7 @@ filename <- "rstats.json"
 
 The filtered stream collects tweets for all rules that are currently active, not just one rule or query.
 
-### Ceating rules
+### Creating rules
 
 Streaming rules in rtweet need a value and a tag.
 The value is the query to be performed, and the tag is the name to identify tweets that match a query.
