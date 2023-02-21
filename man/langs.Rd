@@ -12,5 +12,5 @@ This data comes from the Library of Congress,
 \url{http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt}. The data are
 descriptions and codes associated with internationally recognized languages.
 Variables include translations for each language represented as
-bibliographic, terminologic, alpha, english, and french.
+bibliographic, terminological, alpha, English, and French.
 }

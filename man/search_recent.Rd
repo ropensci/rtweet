@@ -47,7 +47,7 @@ Twitter API.}
 Search recent tweets
 }
 \examples{
-sr <- search_recent("#rtweet", parse = FALSE)
+# sr <- search_recent("#rtweet", parse = FALSE)
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent}

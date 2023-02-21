@@ -7,7 +7,8 @@
 #' @param entity A entity to extract data from.
 #' @param ... Other possible arguments currently ignored.
 #' @return Some information about those entities and the tweet id it comes from.
-#' for users mentions the ids of the mentioned users are "user_id", "user_id_str" (not id_str)
+#' for users mentions the ids of the mentioned users are "user_id", "user_id_str"
+#' (not "id_str")
 #' @export
 #' @examples
 #' if (auth_has_default()) {

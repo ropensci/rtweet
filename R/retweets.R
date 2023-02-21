@@ -1,7 +1,7 @@
 #' Get the most recent retweets/retweeters
 #'
 #' `get_retweets()` returns the 100 most recent retweets of a tweet;
-#' `get_retweeters()` retursn the 100 most recent users who retweeted them.
+#' `get_retweeters()` returns the 100 most recent users who retweeted them.
 #'
 #' @inheritParams lookup_users
 #' @param status_id Tweet/status id.

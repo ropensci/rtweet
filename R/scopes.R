@@ -12,8 +12,8 @@ all_scopes <- c("tweet.read", "tweet.write", "tweet.moderate.write", "users.read
 #' @param token An authentication mechanism. Preferably set via [auth_as()]
 #' @returns A character with all the possible scopes.
 #' @examples
-#' scopes(NULL)
-scopes <- function(token = NULL) {
+#' set_scopes(NULL)
+set_scopes <- function(token = NULL) {
   if (is.null(token)) {
     return(all_scopes)
   }

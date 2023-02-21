@@ -91,7 +91,7 @@ that point. The default value, \code{NULL}, consults the option
 if desired.
 
 If you expect a query to take hours or days to perform, you should not
-rely soley on \code{retryonratelimit} because it does not handle other common
+rely solely on \code{retryonratelimit} because it does not handle other common
 failure modes like temporarily losing your internet connection.}
 
 \item{verbose}{Show progress bars and other messages indicating current

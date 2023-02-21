@@ -46,12 +46,10 @@ Collects the 800 most recent bookmarked tweets of a user.
 This endpoint requires a OAuth2.0 authentication, with tweet.read, users.read and bookmark.read permissions.
 }
 \examples{
-\dontshow{if () (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 if (FALSE) {
    # Requires token_oa2
    ub <- user_bookmarks("123456789", parse = FALSE, n = Inf, token = token_oa2)
 }
-\dontshow{\}) # examplesIf}
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks}

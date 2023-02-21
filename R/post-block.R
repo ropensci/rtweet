@@ -7,15 +7,15 @@
 #' @param unblock Logical indicating whether to unblock the intended
 #'   friend.
 #' @aliases user_unblock
+#' @export
+#' @references
+#' Block: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create>
 #' @examples
 #' if (auth_has_default()) {
 #'   user_block("rtweet")
 #'   user_unblock("rtweet")
 #'   user_block("rtweet", unblock=TRUE) #<-same as the above
 #' }
-#' @export
-#' @references
-#' Block: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create>
 user_block <- function(user,
                       unblock = FALSE,
                       token = NULL) {

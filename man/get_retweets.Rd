@@ -30,7 +30,7 @@ Tweets data of the most recent retweets/retweeters of a given status
 }
 \description{
 \code{get_retweets()} returns the 100 most recent retweets of a tweet;
-\code{get_retweeters()} retursn the 100 most recent users who retweeted them.
+\code{get_retweeters()} returns the 100 most recent users who retweeted them.
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweets-id}

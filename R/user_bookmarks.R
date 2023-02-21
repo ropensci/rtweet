@@ -10,7 +10,7 @@
 #' @export
 #' @returns The tweets.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks>
-#' @examplesIf
+#' @examples
 #' if (FALSE) {
 #'    # Requires token_oa2
 #'    ub <- user_bookmarks("123456789", parse = FALSE, n = Inf, token = token_oa2)

@@ -4,7 +4,7 @@
 #'
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-all>
 #' @examples
-#' sa <- search_archive("#rtweet", parse = FALSE)
+#' # sa <- search_archive("#rtweet", parse = FALSE)
 search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
                            ..., token = NULL, parse = TRUE, verbose = TRUE) {
 
@@ -33,7 +33,7 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
 #' @inheritParams search_archive
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent>
 #' @examples
-#' sr <- search_recent("#rtweet", parse = FALSE)
+#' # sr <- search_recent("#rtweet", parse = FALSE)
 search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = TRUE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))

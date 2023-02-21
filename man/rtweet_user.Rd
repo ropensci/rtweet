@@ -22,7 +22,7 @@ rtweet_oauth2(client = NULL, scopes = NULL)
 }
 \arguments{
 \item{client_id, client_secret}{Application OAuth client ID and client Secret.
-These are generally not required for \code{tweet_user()} since the defaults will use
+These are generally not required for \code{rtweet_user()} since the defaults will use
 the built-in rtweet app.}
 
 \item{api_key, api_secret}{API key and secret. Deprecated in favor of \verb{client_*} arguments.}
@@ -33,9 +33,9 @@ the built-in rtweet app.}
 
 \item{bearer_token}{App bearer token.}
 
-\item{client}{Which client app will be used.}
+\item{client}{Which client app will be used, see \code{\link[=rtweet_client]{rtweet_client()}} for details.}
 
-\item{scopes}{The permissions of the app, see \code{\link[=scopes]{scopes()}}.}
+\item{scopes}{The permissions of the app, see \code{\link[=set_scopes]{set_scopes()}} for details.}
 }
 \value{
 If the validation is successful the OAuth token.
@@ -91,7 +91,7 @@ rtweet_app()
 \url{https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code}
 }
 \seealso{
-\code{\link[=client]{client()}}
+\code{\link[=rtweet_client]{rtweet_client()}}
 
 Other authentication: 
 \code{\link{auth_as}()},

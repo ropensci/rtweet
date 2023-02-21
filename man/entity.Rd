@@ -15,7 +15,8 @@ entity(x, entity, ...)
 }
 \value{
 Some information about those entities and the tweet id it comes from.
-for users mentions the ids of the mentioned users are "user_id", "user_id_str" (not id_str)
+for users mentions the ids of the mentioned users are "user_id", "user_id_str"
+(not "id_str")
 }
 \description{
 Extract entities of the tweets linked to a tweet id.

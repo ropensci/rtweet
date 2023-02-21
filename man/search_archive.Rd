@@ -47,7 +47,7 @@ Twitter API.}
 Search in the Twitter archive
 }
 \examples{
-sa <- search_archive("#rtweet", parse = FALSE)
+# sa <- search_archive("#rtweet", parse = FALSE)
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-all}
