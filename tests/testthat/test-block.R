@@ -1,4 +1,5 @@
 test_that("blocking and unblocking users", {
+  skip_if_offline()
   auth_as()
   pf <- user_block("s_hesz")
   expect_equal(httr::status_code(pf), 200L)

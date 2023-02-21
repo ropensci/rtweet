@@ -1,4 +1,5 @@
 test_that("search_fullarchive works", {
+  skip_if_offline()
   # Use app with a premium account that matches the env_names
   testing_with_authentication("bearer_testing_app")
   expect_snapshot(
@@ -9,6 +10,7 @@ test_that("search_fullarchive works", {
 })
 
 test_that("search_fullarchive queries bigger than page size work", {
+  skip_if_offline()
   # Use app with a premium account that matches the env_names
   testing_with_authentication("bearer_testing_app")
   expect_snapshot(
@@ -19,6 +21,7 @@ test_that("search_fullarchive queries bigger than page size work", {
 })
 
 test_that("search_fullarchive does not return duplicate tweets", {
+  skip_if_offline()
   # Use app with a premium account that matches the env_names
   testing_with_authentication("bearer_testing_app")
   expect_snapshot(
