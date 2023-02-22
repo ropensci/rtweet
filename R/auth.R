@@ -67,7 +67,7 @@ auth_setup_default <- function() {
 #' [askpass::askpass()] to interactively safely prompt you for the values.
 #'
 #' @param client_id,client_secret Application OAuth client ID and client Secret.
-#' These are generally not required for `tweet_user()` since the defaults will use
+#' These are generally not required for `rtweet_user()` since the defaults will use
 #' the built-in rtweet app.
 #' @param access_token,access_secret Access token and secret.
 #' @param api_key,api_secret API key and secret. Deprecated in favor of `client_*` arguments.
@@ -89,7 +89,7 @@ rtweet_user <- function(client_id = NULL, client_secret = NULL,
   client <- default_client(client_id, client_secret)
 
   if (is.null(client_id) && is.null(client_secret)) {
-    client <- default_client(client_id, client_secret)
+    client <- client_as(client)
     api_key <- client["id"]
     api_secret <- client["secret"]
   } else {
@@ -337,7 +337,7 @@ no_token <- function(call = caller_env()) {
   }
 }
 # Internal function to generate the bot used for testing
-# Do not forget to later us auth_as(rtweet_test())
+# Do not forget to later us auth_as()
 rtweet_test <- function() {
   access_token <- Sys.getenv("RTWEET_ACCESS_TOKEN")
   access_secret <- Sys.getenv("RTWEET_ACCESS_SECRET")
@@ -399,9 +399,9 @@ auth_path <- function(...) {
 #'
 #' Some endpoints require OAuth 2.0 with specific permissions in order to work.
 #' In order to work, the developer must configure the app with  callback url: `http://127.0.0.1:1410`
-#' @param client Which client app will be used.
-#' @param scopes The permissions of the app, see [scopes()].
-#' @seealso [client()]
+#' @param client Which client app will be used, see [rtweet_client()] for details.
+#' @param scopes The permissions of the app, see [set_scopes()] for details.
+#' @seealso [rtweet_client()]
 #' @references <https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code>
 #' @export
 #' @rdname rtweet_user

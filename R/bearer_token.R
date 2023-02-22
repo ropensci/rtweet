@@ -22,24 +22,30 @@ bearer_token <- function(token = NULL) {
 #' This is something you should instead perform in the [Twitter developer
 #' portal](https://developer.twitter.com/en/portal/projects-and-apps).
 #' @inheritParams rtweet_user
+#' @param token Expert use only. Use this to invalidate a specific bearer token
+#' created with [rtweet_app()]. If `NULL` the default authentication mechanism is invalidated.
 #' @references <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token>
 #' <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token>
-#' @keywords internal
 #' @export
-invalidate_bearer <- function(api_key, api_secret, token = NULL) {
-  lifecycle::deprecate_stop("1.0.0", "invalidate_bearer()")
+invalidate_bearer <- function(api_key, api_secret, client = NULL, token = NULL) {
 
-  token <- auth_get(token)
-
-  if (missing(api_key)) {
+  if (is.null(client)) {
+    client <- client_as(client)
+    api_key <- client["id"]
+    api_secret <- client["secret"]
+  } else {
+    stopifnot(is_string(api_key), is_string(api_secret))
+  }
+  if (is.null(client) && missing(api_key)) {
     api_key <- ask_pass("API key")
   }
-  if (missing(api_secret)) {
+  if (is.null(client) &&  missing(api_secret)) {
     api_key <- ask_pass("API secret")
   }
+  token <- check_token_v2(token)
   httr2::request("https://api.twitter.com/oauth2/invalidate_token") |>
     httr2::req_url_query(access_token = token) |>
     httr2::req_method("POST") |>
-    httr2::req_auth_basic(api_key, api_secret_key) |>
+    httr2::req_auth_basic(api_key, api_secret) |>
     httr2::req_perform()
 }

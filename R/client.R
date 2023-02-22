@@ -40,9 +40,9 @@ client_has_default <- function() {
 }
 
 client_path <- function(...) {
-    # Use private option to make testing easier
-    path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
-    file.path(path, "clients", ...)
+  # Use private option to make testing easier
+  path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
+  file.path(path, "clients", ...)
 }
 
 #' Get the current client
@@ -79,10 +79,8 @@ default_client <- function(client_id = NULL, client_secret = NULL) {
 }
 
 default_cached_client <- function() {
-  default <- client_path("rtweet.rds")
-
-  if (file.exists(default)) {
-    return(readRDS(default))
+  if (client_has_default()) {
+    return(readRDS(client_path("rtweet.rds")))
   }
 
   names <- client_list()
@@ -90,8 +88,8 @@ default_cached_client <- function() {
     abort("No default client found. Please call `client_setup_default()`")
   } else {
     abort(c(
-      "No default client found. Pick existing cleint with:",
-      paste0("cleint_as('", names, "')")
+      "No default client found. Pick existing client with:",
+      paste0("client_as('", names, "')")
     ))
   }
 }
@@ -138,65 +136,75 @@ client_list <- function() {
 }
 
 find_client <- function(client = NULL) {
-    if (is.null(client)) {
-      if (is_developing()) {
-        find_client("academic_dev")
-      } else{
-        default_cached_client()
-      }
-    } else if (is_client(client)) {
-      client
-    } else if (is_string(client)) {
-      if (file.exists(client)) {
-        path <- client
-      } else {
-        path <- client_path(paste0(client, ".rds"))
-        if (!file.exists(path)) {
-          abort(paste0("Can't find saved client with name '", client, "'"))
-        }
-      }
-      if (!is_developing()) {
-        inform(paste0("Reading client from '", path, "'"))
-      }
-      readRDS(path)
-    } else {
-      abort("Unrecognised input to `client`")
+  if (is.null(client)) {
+    if (is_developing()) {
+      readRDS(client_path("academic_dev.rds")) %||% no_client()
+    } else{
+      default_cached_client()
     }
+  } else if (is_client(client)) {
+    client
+  } else if (is_string(client)) {
+    if (file.exists(client) && !dir.exists(client)) {
+      path <- client
+    } else {
+      path <- client_path(paste0(client, ".rds"))
+      if (!file.exists(path)) {
+        abort(paste0("Can't find saved client with name '", client, "'"))
+      }
+    }
+    inform(paste0("Reading client from2 '", path, "'"))
+
+    if (!is_developing()) {
+      inform(paste0("Reading client from '", path, "'"))
+    }
+    readRDS(path)
+  } else {
+    abort("Unrecognised input to `client`")
   }
+}
+
+no_client <- function(call = caller_env()) {
+  if (is_testing()) {
+    testthat::skip("Client not available")
+  } else {
+    abort("Could not find client", call = call)
+  }
+}
 
 #' Client
 #'
-#' Set up your client mechanism for rtweet API loking with KPCE.
+#' Set up your client mechanism for the Twitter API.
 #' @inheritParams rtweet_user
-#' @param scopes Scopes allowed for this client. Leave NULL to use all.
+#' @param scopes Scopes allowed for this client. Leave `NULL` to use all.
 #' @param app Name of the client, it helps if you make it match with the name of your app.
 #' On the Twitter app must be "http://127.0.0.1:1410/" (the trailing / must be
-#' included)
+#' included).
 #' @seealso scopes
 #' @export
 #' @examples
 #' rtweet_client()
 rtweet_client <- function(client_id, client_secret,
-                            app, scopes = NULL) {
+                          app, scopes = NULL) {
 
   if (missing(client_id) && missing(client_secret)) {
     client_setup_default()
     return(client_get())
   }
   if (is.null(scopes)) {
-      scopes <- all_scopes
-    } else {
-      scopes <- check_scopes(scopes)
-    }
+    scopes <- all_scopes
+  } else {
+    scopes <- check_scopes(scopes)
+  }
 
-    client <- httr2::oauth_client(
-      id = client_id,
-      secret = client_secret,
-      token_url = "https://api.twitter.com/2/oauth2/token",
-      auth = "header",
-      name = app)
-    attr(client, "app") <- app
-    client
+  client <- httr2::oauth_client(
+    id = client_id,
+    secret = client_secret,
+    token_url = "https://api.twitter.com/2/oauth2/token",
+    auth = "header",
+    name = app)
+  attr(client, "app") <- app
+  client
 }
 
 
@@ -224,8 +232,8 @@ client_setup_default <- function() {
     inform("Using default client available.")
   } else {
     client <- rtweet_client(decrypt(sysdat$DYKcJfBkgMnGveI),
-                          decrypt(sysdat$MRsnZtaKXqGYHju),
-                          app = "rtweet")
+                            decrypt(sysdat$MRsnZtaKXqGYHju),
+                            app = "rtweet")
     client_save(client)
   }
   client_as("rtweet")
