@@ -31,9 +31,9 @@ auth_setup_default <- function() {
 #' Authentication options
 #'
 #' Authenticate methods to use the Twitter API.
+#' See the instructions in `vignette("auth", package = "rtweet")`.
 #'
-#' @description
-#' There are three ways that you can authenticate with the Twitter API:
+#' There are four ways that you can authenticate with the Twitter API:
 #'
 #' * `rtweet_user()` interactively authenticates an existing Twitter user.
 #'   This form is most appropriate if you want rtweet to control your
@@ -49,8 +49,12 @@ auth_setup_default <- function() {
 #'    This form is most appropriate if you want to create a Twitter account that
 #'    is run by a computer, rather than a human.
 #'
-#' To use `rtweet_app()` or `rtweet_bot()` you will need to create your own
-#' Twitter app following the instructions in `vignette("auth.Rmd")`.
+#' * `rtweet_oauth2()` authenticates as a user using a client.
+#'    This authentication is required in some endpoints.
+#'
+#' To use `rtweet_app()`, `rtweet_bot()`  or `rtweet_oauth2()` you will need to
+#' create your own Twitter app following the instructions in
+#' `vignette("auth", package = "rtweet")`.
 #' `rtweet_user()` _can be_ used with your own app, but generally there is
 #' no need to because it uses the Twitter app provided by rtweet.
 #'
@@ -74,8 +78,9 @@ auth_setup_default <- function() {
 #' @param bearer_token App bearer token.
 #' @param app Name of the application you are building.
 #' @return If the validation is successful the OAuth token.
-#' For rtweet_app a rtweet_bearer.
+#' For `rtweet_app()` a `rtweet_bearer`.
 #' @family authentication
+#' @seealso [rtweet_client()]
 #' @export
 #' @examples
 #' \dontrun{
@@ -394,14 +399,10 @@ auth_path <- function(...) {
   file.path(path, ...)
 }
 
-# Some endpoints require OAuth2.0 with PKCE
-#' Authenticate using OAuth 2.0
-#'
 #' Some endpoints require OAuth 2.0 with specific permissions in order to work.
 #' In order to work, the developer must configure the app with  callback url: `http://127.0.0.1:1410`
 #' @param client Which client app will be used, see [rtweet_client()] for details.
 #' @param scopes The permissions of the app, see [set_scopes()] for details.
-#' @seealso [rtweet_client()]
 #' @references <https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code>
 #' @export
 #' @rdname rtweet_user
@@ -460,7 +461,6 @@ auth_renew <- function(token, scopes = NULL) {
   #                                scope = paste(scopes, collapse = " "))
   token
 }
-
 
 decrypt <- function(x) {
   check_installed("openssl") # Suggested!

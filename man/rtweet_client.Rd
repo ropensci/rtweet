@@ -21,7 +21,9 @@ included).}
 Set up your client mechanism for the Twitter API.
 }
 \examples{
-rtweet_client()
+if (!client_has_default()) {
+  rtweet_client()
+}
 }
 \seealso{
 scopes

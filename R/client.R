@@ -138,7 +138,7 @@ client_list <- function() {
 find_client <- function(client = NULL) {
   if (is.null(client)) {
     if (is_developing()) {
-      readRDS(client_path("academic_dev.rds")) %||% no_client()
+      readRDS(client_path("rtweet_hadley.rds")) %||% no_client()
     } else{
       default_cached_client()
     }
@@ -183,7 +183,9 @@ no_client <- function(call = caller_env()) {
 #' @seealso scopes
 #' @export
 #' @examples
-#' rtweet_client()
+#' if (!client_has_default()) {
+#'   rtweet_client()
+#' }
 rtweet_client <- function(client_id, client_secret,
                           app, scopes = NULL) {
 

@@ -39,10 +39,14 @@ the built-in rtweet app.}
 }
 \value{
 If the validation is successful the OAuth token.
-For rtweet_app a rtweet_bearer.
+For \code{rtweet_app()} a \code{rtweet_bearer}.
 }
 \description{
-There are three ways that you can authenticate with the Twitter API:
+Authenticate methods to use the Twitter API.
+See the instructions in \code{vignette("auth", package = "rtweet")}.
+}
+\details{
+There are four ways that you can authenticate with the Twitter API:
 \itemize{
 \item \code{rtweet_user()} interactively authenticates an existing Twitter user.
 This form is most appropriate if you want rtweet to control your
@@ -55,21 +59,18 @@ This form is most appropriate if you are collecting data.
 \item \code{rtweet_bot()} authenticates as bot that takes actions on behalf of an app.
 This form is most appropriate if you want to create a Twitter account that
 is run by a computer, rather than a human.
+\item \code{rtweet_oauth2()} authenticates as a user using a client.
+This authentication is required in some endpoints.
 }
 
-To use \code{rtweet_app()} or \code{rtweet_bot()} you will need to create your own
-Twitter app following the instructions in \code{vignette("auth.Rmd")}.
+To use \code{rtweet_app()}, \code{rtweet_bot()}  or \code{rtweet_oauth2()} you will need to
+create your own Twitter app following the instructions in
+\code{vignette("auth", package = "rtweet")}.
 \code{rtweet_user()} \emph{can be} used with your own app, but generally there is
 no need to because it uses the Twitter app provided by rtweet.
 
 Use \code{\link[=auth_as]{auth_as()}} to set the default auth mechanism for the current session,
 and \code{\link[=auth_save]{auth_save()}} to save an auth mechanism for use in future sessions.
-
-Some endpoints require OAuth 2.0 with specific permissions in order to work.
-In order to work, the developer must configure the app with  callback url: \verb{http://127.0.0.1:1410}
-}
-\details{
-Authenticate methods to use the Twitter API.
 }
 \section{Security}{
 All of the arguments to these functions are roughly equivalent to

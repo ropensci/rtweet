@@ -7,7 +7,7 @@
 #' method of generating a bearer token. Instead, use [rtweet_app()], copying
 #' in the bearer token directly from the
 #' [Twitter developer portal](https://developer.twitter.com/en/portal/projects-and-apps).
-#' See `vignette("auth")` for full details.
+#' See `vignette("auth", package = "rtweet")` for full details.
 #' @keywords internal
 #' @export
 bearer_token <- function(token = NULL) {
