@@ -44,7 +44,7 @@ search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = TRUE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
-  # parsing(parse)
+  parsing(parse)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, formals()$n)
   n_pages <- n %/% max_results

@@ -72,7 +72,10 @@ filtered_stream <- function(timeout, file = tempfile(),
     stop("File already exists and append = FALSE", call. = FALSE)
   }
   out <- stream(req_stream, file, timeout = timeout)
-  return(out)
+  if (!parse) {
+    return(out)
+  }
+  parse(out, expansions, fields)
 }
 
 stream <- function(req, file, timeout) {
@@ -285,5 +288,8 @@ sample_stream <- function(timeout, file = tempfile(),
     stop("File already exists and append = FALSE", call. = FALSE)
   }
   out <- stream(req_stream, file, timeout = timeout)
-  return(out)
+  if (!parse) {
+    return(out)
+  }
+  parse(out, expansions, fields)
 }

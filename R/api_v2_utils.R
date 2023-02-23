@@ -119,10 +119,9 @@ parsing <- function(x, call = caller_env()) {
   if (!is_logical(x)) {
     abort("parse should be either TRUE or FALSE", call = call)
   }
-
-  if (isTRUE(x)) {
-    abort("Parsing for the rtweet API v2 is not yet implemented", call = call)
-  }
+  # if (isTRUE(x)) {
+  #   abort("Parsing for the rtweet API v2 is not yet implemented", call = call)
+  # }
 }
 
 list_minus <- function(l, minus) {
