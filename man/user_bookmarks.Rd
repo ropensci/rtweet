@@ -21,20 +21,19 @@ user_bookmarks(
 
 \item{...}{Other arguments currently ignored.}
 
-\item{expansions}{Expansions you want to use see \code{\link[=tweet_expansions]{tweet_expansions()}}.
-Use NULL to get all expansions, use NA to not use any field, or a vector
-with the fields you want.}
+\item{expansions}{Set \code{NULL} to not use any expansion, set \code{NA} to get all
+expansions, or provide a vector with the expansions you want (create it with
+\code{\link[=set_expansions]{set_expansions()}}).}
 
-\item{fields}{Fields you want to retrieve see \link{Fields}. Use NULL to get all
-allowed fields, use NA to not use any field, pass a list with the fields you want.}
+\item{fields}{Set \code{NULL} to not use any field, get all allowed fields with \code{NA},
+provide a list with the fields you want (create it with \code{\link[=set_fields]{set_fields()}}).}
 
 \item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
+\item{token}{This endpoint only accept a OAuth2.0 authentication (can be
+created via \code{\link[=rtweet_oauth]{rtweet_oauth()}}).}
 }
 \value{
 The tweets.

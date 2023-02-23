@@ -1,7 +1,8 @@
 #' Search in the Twitter archive
-#' @inheritParams filtered_stream
 #' @inheritParams retweeted_by
-#'
+#' @inheritParams get_tweet
+#' @param query One query for matching Tweets.
+#' @note OAuth2.0 requires tweet.read and users.read permissions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-all>
 #' @examples
 #' # sa <- search_archive("#rtweet", parse = FALSE)

@@ -5,6 +5,8 @@
 #' @param id Twitter user id: character string identifying your account.
 #' @param n Number of tweets to retrieve.
 #' @param ... Other arguments currently ignored.
+#' @param token This endpoint only accept a OAuth2.0 authentication (can be
+#' created via [rtweet_oauth()]).
 #' @inheritParams sample_stream
 #' @seealso [rtweet_oauth2()]
 #' @export

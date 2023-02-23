@@ -9,13 +9,16 @@
 #' One tweet might belong to multiple rules.
 #'
 #' @param file Path to a file where the raw streaming should be stored.
+#' @param token These endpoints only accept a bearer token (can be created via
+#' [rtweet_app()]). In most cases you
+#' are better of changing the default for all calls via [auth_as()].
 #' @inheritParams TWIT_paginate_max_id
 #' @param timeout time, in seconds, of the recording stream.
-#' @param expansions Expansions you want to use see [tweet_expansions()].
-#' Use NULL to get all expansions, use NA to not use any field, or a vector
-#' with the fields you want.
-#' @param fields Fields you want to retrieve see [Fields]. Use NULL to get all
-#' allowed fields, use NA to not use any field, pass a list with the fields you want.
+#' @param expansions Set `NULL` to not use any expansion, set `NA` to get all
+#' expansions, or provide a vector with the expansions you want (create it with
+#' [set_expansions()]).
+#' @param fields Set `NULL` to not use any field, get all allowed fields with `NA`,
+#' provide a list with the fields you want (create it with [set_fields()]).
 #' @param append Append streaming to the file? Default does but it is
 #' recommended to have a new file for each call.
 #' @param query If `NULL` returns the current rules, else depending:
@@ -32,7 +35,7 @@
 #'
 #' Filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream>
 #'
-#' [ids]
+#' [ids()]
 #' @rdname stream
 #' @name stream
 #' @examples

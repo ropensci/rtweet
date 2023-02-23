@@ -63,7 +63,9 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' Get tweet information
 #'
 #' Look up tweets up to 100 at the same time.
-#' @inheritParams search_recent
+#' @inheritParams stream
+#' @param token This endpoint accepts a OAuth2.0 authentication (can be
+#' created via [rtweet_oauth()]) or a bearer token (can be created via [rtweet_app()]).
 #' @param id A tweet id.
 #' @seealso [lookup_tweets()]
 #' @references

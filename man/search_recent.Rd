@@ -16,35 +16,29 @@ search_recent(
 )
 }
 \arguments{
-\item{query}{If \code{NULL} returns the current rules, else depending:
-\itemize{
-\item In stream_add_rule it should be a list of value and tag.
-\item In stream_rm_rule it should be a vector of ids of rules to be removed
-}}
+\item{query}{One query for matching Tweets.}
 
-\item{n}{Number of results to retrieve. Must be <= 100.}
+\item{expansions}{Set \code{NULL} to not use any expansion, set \code{NA} to get all
+expansions, or provide a vector with the expansions you want (create it with
+\code{\link[=set_expansions]{set_expansions()}}).}
 
-\item{expansions}{Expansions you want to use see \code{\link[=tweet_expansions]{tweet_expansions()}}.
-Use NULL to get all expansions, use NA to not use any field, or a vector
-with the fields you want.}
-
-\item{fields}{Fields you want to retrieve see \link{Fields}. Use NULL to get all
-allowed fields, use NA to not use any field, pass a list with the fields you want.}
+\item{fields}{Set \code{NULL} to not use any field, get all allowed fields with \code{NA},
+provide a list with the fields you want (create it with \code{\link[=set_fields]{set_fields()}}).}
 
 \item{...}{Other parameters passed to the body of the request.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
+\item{token}{This endpoint accepts a OAuth2.0 authentication (can be
+created via \code{\link[=rtweet_oauth]{rtweet_oauth()}}) or a bearer token (can be created via \code{\link[=rtweet_app]{rtweet_app()}}).}
 
 \item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
-
-\item{verbose}{A logical value to provide more information about paginated queries.}
 }
 \description{
-Search recent tweets
+Look up tweets from the last seven days that match a search query.
+}
+\note{
+OAuth2.0 requires tweet.read and users.read permissions.
 }
 \examples{
 # sr <- search_recent("#rtweet", parse = FALSE)
