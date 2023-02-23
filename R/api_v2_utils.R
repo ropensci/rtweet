@@ -46,6 +46,11 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   # For endpoints that accept both authentications methods
   if (length(mechanism) == 2 && (auth_is_bearer(token) || auth_is_pkce(token))) {
     return(token)
+  } else if (length(mechanism) == 2) {
+    abort(c(
+      "x" = "You must use a token accepted by the endpoints v2.",
+      "i" = "Check the `vignette('auth', package = 'rtweet')` about how to get them."),
+      call = call)
   }
 
   if (mechanism == "bearer" && !auth_is_bearer(token)) {
@@ -156,7 +161,6 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
   }
 
   while (!is.null(next_pag_token) && i <= n_pages) {
-    message(i, "   ", n_pages)
     req <- httr2::req_url_query(req, pagination_token = next_pag_token)
     resp <- httr2::req_perform(req)
     cnt <- httr2::resp_body_json(resp)
@@ -174,7 +178,7 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
     total <- total + cnt$meta$result_count
     next_pag_token <- cnt$meta$next_token
   }
-  if (total <= count) {
+  if (total < count) {
     warn("The API returned less results than requested and possible.")
   }
   if (verbose && !is.null(next_pag_token)) {

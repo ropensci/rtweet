@@ -20,5 +20,5 @@
     Condition
       Warning:
       `create_token()` was deprecated in rtweet 1.0.0.
-      i See vignette('auth') for details
+      i See vignette('auth', package = 'rtweet') for details
 
