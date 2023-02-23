@@ -79,7 +79,7 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #'    expansions = NULL, fields = NULL, parse = FALSE)
 #' }
 get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
-                      parse = TRUE) {
+                      parse = TRUE, verbose = TRUE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   parsing(parse)
@@ -100,5 +100,9 @@ get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
   rate <- check_rate(token, 300/(60*15), 900/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  pagination(req_final, 1)
+  p <- pagination(req_final, 1, length(ids), verbose = verbose)
+  if (!parse) {
+    return(p)
+  }
+  parse(p, expansions, fields)
 }

@@ -13,7 +13,7 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
 
   parsing(parse)
   stopifnot(is_n(n))
-  max_results <- check_interval(n, 10, 500)
+  max_results <- check_interval(n, 10, formals()$n)
   n_pages <- n %/% max_results
   data <- c(expansions, fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
@@ -23,14 +23,19 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
   rate <- max(300/(60*15), 1)
   req_archive <- endpoint_v2(token, "tweets/search/all", rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  p <- pagination(req_final, n_pages, verbose)
+  p <- pagination(req_final, n_pages, n, verbose)
   if (!parse) {
     return(p)
   }
+  parse(p, expansions, fields)
 }
 
 #' Search recent tweets
-#' @inheritParams search_archive
+#'
+#' Look up tweets from the last seven days that match a search query.
+#' @inheritParams get_tweet
+#' @param query One query for matching Tweets.
+#' @note OAuth2.0 requires tweet.read and users.read permissions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent>
 #' @examples
 #' # sr <- search_recent("#rtweet", parse = FALSE)
@@ -38,9 +43,9 @@ search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = TRUE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
-  parsing(parse)
+  # parsing(parse)
   stopifnot(is_n(n))
-  max_results <- check_interval(n, 10, 100)
+  max_results <- check_interval(n, 10, formals()$n)
   n_pages <- n %/% max_results
   data <- c(expansions, fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
@@ -50,9 +55,9 @@ search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
   rate <- check_rate(token, 450/(15*60), 180/(15*60))
   req_archive <- endpoint_v2(token, "tweets/search/recent", rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  p <- pagination(req_final, n_pages, verbose)
+  p <- pagination(req_final, n_pages, n, verbose)
   if (!parse) {
     return(p)
   }
-
+  parse(p, expansions, fields)
 }

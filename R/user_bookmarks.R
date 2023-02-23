@@ -29,5 +29,9 @@ user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
   check_scopes(get_scopes(token), c("tweet.read", "users.read", "bookmark.read"))
   req_bookmarks <- endpoint_v2(token, url, 180 / (60*15))
   req_final <- httr2::req_url_query(req_bookmarks, !!!data)
-  pagination(req_final, n_pages, verbose = TRUE)
+  p <- pagination(req_final, n_pages, n, verbose)
+  if (!parse) {
+    return(p)
+  }
+  parse(p, expansions, fields)
 }

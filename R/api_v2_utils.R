@@ -127,7 +127,7 @@ list_minus <- function(l, minus) {
 
 # Pagination should be consistent across API v2
 # <https://developer.twitter.com/en/docs/twitter-api/pagination>
-pagination <- function(req, n_pages, verbose = TRUE) {
+pagination <- function(req, n_pages, count, verbose = TRUE) {
   if (is.infinite(n_pages)) {
     n_pages <- 8
   }
@@ -139,6 +139,7 @@ pagination <- function(req, n_pages, verbose = TRUE) {
   x0 <- httr2::resp_body_json(resp)
   all_results[[1]] <- x0
   i <- 2
+  total <- x0$meta$result_count
   next_pag_token <- x0$meta$next_token
 
   # If already got what we need stop
@@ -148,11 +149,14 @@ pagination <- function(req, n_pages, verbose = TRUE) {
 
   if (verbose)  {
     pb <- progress::progress_bar$new(
-      format = "Downloading paginated request :bar")
+      format = "Downloading paginated request :bar",
+      total = n_pages)
+    pb$message(paste0("Saving temporary data to ", tmp))
     withr::defer(pb$terminate())
   }
 
-  while (!is.null(next_pag_token)) {
+  while (!is.null(next_pag_token) && i <= n_pages) {
+    message(i, "   ", n_pages)
     req <- httr2::req_url_query(req, pagination_token = next_pag_token)
     resp <- httr2::req_perform(req)
     cnt <- httr2::resp_body_json(resp)
@@ -162,13 +166,19 @@ pagination <- function(req, n_pages, verbose = TRUE) {
     }
     # Save temporary data: https://github.com/ropensci/rtweet/issues/531
     all_results[[i]] <- cnt
-    saveRDS(all_results, tmp)
     if (verbose) {
-      inform(paste0("Saving temporary data to ", tmp))
       pb$tick()
     }
+    saveRDS(all_results, tmp)
     i <- i + 1
+    total <- total + cnt$meta$result_count
     next_pag_token <- cnt$meta$next_token
+  }
+  if (total <= count) {
+    warn("The API returned less results than requested and possible.")
+  }
+  if (verbose && !is.null(next_pag_token)) {
+    inform("The API might allow you to continue the same query via the `next_token`.")
   }
   empty <- vapply(all_results, is.null, logical(1L))
   all_results[!empty]
