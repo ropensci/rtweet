@@ -1,4 +1,4 @@
-# Creating requests ####
+# Checking tokens ####
 auth_is_bearer <- function(token = NULL) {
 
   if (is.null(token)) {
@@ -79,6 +79,8 @@ req_auth <- function(req, token) {
   httr2::req_auth_bearer_token(req, token)
 }
 
+
+# Prepare the requests ####
 # General function to create the requests for Twitter API v2 with retry limits
 # and error handling
 req_v2 <- function(token = NULL, call = caller_env()) {
@@ -110,116 +112,9 @@ endpoint_v2 <- function(token, path, throttle, call = caller_call()) {
   httr2::req_throttle(req, throttle, realm = path)
 }
 
+# Help with the arguments of the requests ####
 prepare_params <- function(x) {
   lapply(x, paste0, collapse = ",")
-}
-
-# Handling responses ####
-parsing <- function(x, call = caller_env()) {
-  if (!is_logical(x)) {
-    abort("parse should be either TRUE or FALSE", call = call)
-  }
-  # if (isTRUE(x)) {
-  #   abort("Parsing for the rtweet API v2 is not yet implemented", call = call)
-  # }
-}
-
-list_minus <- function(l, minus) {
-  keep <- setdiff(names(l), minus)
-  l[keep]
-}
-
-# Pagination should be consistent across API v2
-# <https://developer.twitter.com/en/docs/twitter-api/pagination>
-pagination <- function(req, n_pages, count, verbose = TRUE) {
-  if (is.infinite(n_pages)) {
-    n_pages <- 8
-  }
-  # Temporary file to store data in case of troubles
-  tmp <- tempfile("rtweet_tmp", fileext = ".rds")
-
-  all_results <- vector("list", length = n_pages)
-  resp <- httr2::req_perform(req)
-  x0 <- httr2::resp_body_json(resp)
-  all_results[[1]] <- x0
-  i <- 2
-  total <- x0$meta$result_count
-  next_pag_token <- x0$meta$next_token
-
-  # If already got what we need stop
-  if (n_pages == 1) {
-    return(list(x0))
-  }
-
-  if (verbose)  {
-    pb <- progress::progress_bar$new(
-      format = "Downloading paginated request :bar",
-      total = n_pages)
-    pb$message(paste0("Saving temporary data to ", tmp))
-    withr::defer(pb$terminate())
-  }
-
-  while (!is.null(next_pag_token) && i <= n_pages) {
-    req <- httr2::req_url_query(req, pagination_token = next_pag_token)
-    resp <- httr2::req_perform(req)
-    cnt <- httr2::resp_body_json(resp)
-    if (i > length(all_results)) {
-      # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
-      length(all_results) <- 2 * length(all_results)
-    }
-    # Save temporary data: https://github.com/ropensci/rtweet/issues/531
-    all_results[[i]] <- cnt
-    if (verbose) {
-      pb$tick()
-    }
-    saveRDS(all_results, tmp)
-    i <- i + 1
-    total <- total + cnt$meta$result_count
-    next_pag_token <- cnt$meta$next_token
-  }
-  if (total < count) {
-    warn("The API returned less results than requested and possible.")
-  }
-  if (verbose && !is.null(next_pag_token)) {
-    inform("The API might allow you to continue the same query via the `next_token`.")
-  }
-  empty <- vapply(all_results, is.null, logical(1L))
-  all_results[!empty]
-}
-
-# Handle the response and give attributes
-resp <- function(obj, type = "json", ...) {
-
-  # For each element in the pagination
-  # data: Tidy
-  # meta: Tidy and add it to the attributes
-  # errors: Tidy and What??
-
-  out <- switch(type,
-                "json" = httr2::resp_body_json(obj, ...),
-                "html" = httr2::resp_body_html(obj, ...),
-                "xml" = httr2::resp_body_xml(obj, ...))
-  class(out) <- c("Twitter_resp", class(out))
-
-  if (has_name_(out, "meta")) {
-    meta <- data.frame(sent = strptime(out$meta$sent, tz = "UTC",
-                                       format = "%Y-%m-%dT%H:%M:%OS"))
-    if (has_name_(out$meta, "summary")) {
-      meta <- cbind(meta, list2DF(out$meta$summary))
-    }
-    rest <- list2DF(list_minus(out$meta, c("summary", "sent")))
-    if (ncol(rest) >= 1 && nrow(rest) == 1) {
-      meta <- cbind(meta, rest)
-    } else if (nrow(rest) > 1) {
-      abort("Please check", call = call)
-    }
-    out$meta <- meta
-  }
-
-  if (has_name_(out, "errors")) {
-    out$errors <- do.call(rbind, lapply(out$errors, list2DF))
-  }
-  out
 }
 
 check_rate <- function(token, rate_app, rate_user) {
