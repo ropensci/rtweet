@@ -47,6 +47,12 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   if (length(mechanism) == 2 && (auth_is_bearer(token) || auth_is_pkce(token))) {
     return(token)
   } else if (length(mechanism) == 2) {
+    # To make it easier testing interactively
+    if (is_developing()) {
+      auth_as("bearer_academic_dev")
+      return(auth_get())
+    }
+
     abort(c(
       "x" = "You must use a token accepted by the endpoints v2.",
       "i" = "Check the `vignette('auth', package = 'rtweet')` about how to get them."),
@@ -54,11 +60,21 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   }
 
   if (mechanism == "bearer" && !auth_is_bearer(token)) {
+    # To make it easier testing interactively
+    if (is_developing()) {
+      auth_as("bearer_academic_dev")
+      return(auth_get())
+    }
     abort(c("x" = "A bearer `token` is needed for this endpoint.",
             "i" = "Get one via rtweet_app()"),
           call = call)
   }
   if (mechanism == "pkce" && !auth_is_pkce(token)) {
+    # To make it easier testing interactively
+    if (is_developing()) {
+      auth_as("oauth2_academic")
+      return(auth_get())
+    }
     abort(c("x" = "An OAuth 2.0  is needed for this endpoint.",
             "i" = "Get one via rtweet_*() "),
           call = call)
