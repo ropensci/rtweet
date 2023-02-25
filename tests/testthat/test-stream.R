@@ -11,12 +11,11 @@ test_that("stream_tweets returns tweets data", {
   expect_true(nrow(x2) > nrow(x1))
 })
 
-
 test_that("Stream for 10 seconds", {
   skip_if_offline()
   testing_with_authentication("bearer_testing_app")
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
-  # Open filtered streaming connection for 30s
+  # Open filtered streaming connection for 20s
   tmp <- tempfile()
   expect_error({
     f <- filtered_stream(file = tmp, timeout = 10, parse = FALSE)

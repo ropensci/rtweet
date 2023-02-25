@@ -8,6 +8,7 @@ test_that("Request all current rule ", {
 test_that("Add a streaming rule ", {
   skip_if_offline()
   testing_with_authentication("bearer_testing_app")
+  strea_rm_rule(ids(stream_add_rule(NULL)))
   expect_error(rt0 <- stream_add_rule(list(value = "testing rules", tag = "ts")), NA)
   expect_equal(rt0$created, 1)
   expect_equal(rt0$valid, 1)
@@ -19,6 +20,7 @@ test_that("Add a streaming rule ", {
 test_that("Handle adding duplicate streaming rules ", {
   skip_if_offline()
   testing_with_authentication("bearer_testing_app")
+  strea_rm_rule(ids(stream_add_rule(NULL)))
   rt0 <- stream_add_rule(list(value = "testing rules", tag = "ts"))
   expect_warning(rt <- stream_add_rule(list(value = "testing rules", tag = "ts")))
 
@@ -30,6 +32,7 @@ test_that("Handle adding duplicate streaming rules ", {
 test_that("Handle multiple streaming rules ", {
   skip_if_offline()
   testing_with_authentication("bearer_testing_app")
+  strea_rm_rule(ids(stream_add_rule(NULL)))
   tags2 <- stream_add_rule(list(
     list(value = "testing rules rtweet1", tag = "tsrt"),
     list(value = "testing rules rtweet2", tag = "tsrt2"))
