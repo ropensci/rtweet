@@ -109,7 +109,7 @@ c_f_e <- function(expansions, e, fields, f) {
   if (is.null(fields[[f]])) {
     return(NULL)
   }
-  if (all(e %in% expansions) || is.null(expansions)) {
+  if (!all(e %in% expansions) || is.null(expansions)) {
     f <- gsub("\\.fields", "", f, fixed = TRUE)
     return(c("*" = sQuote(e, "'")))
   }

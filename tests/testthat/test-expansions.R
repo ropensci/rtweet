@@ -28,7 +28,7 @@ test_that("set_expansions works", {
 
 test_that("expansions and fields work together", {
   expect_error(expansions_for_fields(NULL, fields = set_fields()),
-               "Missing expansions for the fields provided:")
+               "Missing expansions for the fields provided.")
   expect_true(expansions_for_fields(NULL,
                                     fields = set_fields(poll = NULL,
                                                         tweet = NULL,
@@ -59,4 +59,9 @@ test_that("expansions and fields work together", {
                                                         place = NULL,
                                                         media = NULL)),
                "Add at least one of")
+  expect_error(
+    expansions_for_fields(
+      expansion = 'attachments.media_keys',
+      fields = set_fields(media = "alt_text", NULL, NULL, NULL, NULL)),
+    NA)
 })
