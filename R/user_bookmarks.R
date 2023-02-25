@@ -4,9 +4,10 @@
 #' @note This endpoint requires a OAuth2.0 authentication, with tweet.read, users.read and bookmark.read permissions.
 #' @param id Twitter user id: character string identifying your account.
 #' @param n Number of tweets to retrieve.
-#' @param ... Other arguments currently ignored.
+#' @param ... Other arguments passed down to the API.
+#' @param verbose A logical value
 #' @param token This endpoint only accept a OAuth2.0 authentication (can be
-#' created via [rtweet_oauth()]).
+#' created via [rtweet_oauth2()]).
 #' @inheritParams sample_stream
 #' @seealso [rtweet_oauth2()]
 #' @export

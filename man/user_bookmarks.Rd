@@ -11,7 +11,8 @@ user_bookmarks(
   expansions = NA,
   fields = NA,
   parse = TRUE,
-  token = NULL
+  token = NULL,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -19,7 +20,7 @@ user_bookmarks(
 
 \item{n}{Number of tweets to retrieve.}
 
-\item{...}{Other arguments currently ignored.}
+\item{...}{Other arguments passed down to the API.}
 
 \item{expansions}{Set \code{NULL} to not use any expansion, set \code{NA} to get all
 expansions, or provide a vector with the expansions you want (create it with
@@ -33,7 +34,9 @@ to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
 \item{token}{This endpoint only accept a OAuth2.0 authentication (can be
-created via \code{\link[=rtweet_oauth]{rtweet_oauth()}}).}
+created via \code{\link[=rtweet_oauth2]{rtweet_oauth2()}}).}
+
+\item{verbose}{A logical value}
 }
 \value{
 The tweets.
