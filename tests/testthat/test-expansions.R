@@ -25,3 +25,38 @@ test_that("set_expansions works", {
   expect_error(set_expansions("a"), "These extensions are not allowed: a")
   expect_error(set_expansions(user = "a"), "These extensions are not allowed: a")
 })
+
+test_that("expansions and fields work together", {
+  expect_error(expansions_for_fields(NULL, fields = set_fields()),
+               "Missing expansions for the fields provided:")
+  expect_true(expansions_for_fields(NULL,
+                                    fields = set_fields(poll = NULL,
+                                                        tweet = NULL,
+                                                        media = NULL,
+                                                        place = NULL,
+                                                        user = NULL)))
+  expect_error(expansions_for_fields(NULL,
+                                    fields = set_fields(poll = NULL,
+                                                        tweet = NULL,
+                                                        place = NULL,
+                                                        user = NULL)),
+               "attachments.media_keys")
+  expect_error(expansions_for_fields(NULL,
+                                    fields = set_fields(poll = NULL,
+                                                        tweet = NULL,
+                                                        media = NULL,
+                                                        user = NULL)),
+               "geo.place_id")
+  expect_error(expansions_for_fields(NULL,
+                                    fields = set_fields(tweet = NULL,
+                                                        place = NULL,
+                                                        media = NULL,
+                                                        user = NULL)),
+               "attachments.poll_ids")
+  expect_error(expansions_for_fields(NULL,
+                                    fields = set_fields(poll = NULL,
+                                                        tweet = NULL,
+                                                        place = NULL,
+                                                        media = NULL)),
+               "Add at least one of")
+})

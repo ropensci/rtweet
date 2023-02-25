@@ -70,3 +70,48 @@ check_expansions <- function(passed, allowed = c(tweet_expansions(), user_expans
   }
   passed
 }
+
+# According to https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets
+# attachments.media_keys is required for any media.fields (go to includes)
+# geo.place_id is required for any place.fields (go to includes)
+# attachments.poll_ids is required by any poll.fields (go to includes)
+# referenced_tweets.id is required by any tweet.fields (go to includes)
+# author_id, entities.mentions.username, in_reply_to_user_id, referenced_tweets.id.author_id is required by any user.fields (go to includes)
+expansions_for_fields <- function(expansion, fields, call = caller_env()) {
+  # Empty fields but might be expansions: no problem
+  if (is.null(fields)) {
+    return(TRUE)
+  }
+  msg <- c("Missing expansions for the fields provided.",
+           "i" = "Add to expansions:")
+  msg2 <- c_f_e(expansion, "attachments.media_keys", fields, "media.fields")
+  msg3 <- c_f_e(expansion, "geo.place_id", fields, "place.fields")
+  msg4 <- c_f_e(expansion, "attachments.poll_ids", fields, "poll.fields")
+  # if (!is.null(fields[["tweet.fields"]]) && "referenced_tweets.id" %in% expansion) {
+  #   problem <- TRUE
+  # }
+  a <- c("author_id", "entities.mentions.username", "in_reply_to_user_id",
+         "referenced_tweets.id.author_id")
+  if (!is.null(fields[["user.fields"]]) && !any(a %in% expansion)) {
+    msg5 <- c("*" = paste0("Add at least one of: ",
+                           paste0(sQuote(a, "'"), collapse = ", ")))
+  } else {
+    msg5 <- NULL
+  }
+  if (length(c(msg2, msg3, msg4, msg5)) >= 1) {
+    abort(c(msg, msg2, msg3, msg4, msg5), call = call)
+  }
+  TRUE
+}
+
+# Check fields and expansions
+c_f_e <- function(expansions, e, fields, f) {
+  if (is.null(fields[[f]])) {
+    return(NULL)
+  }
+  if (all(e %in% expansions) || is.null(expansions)) {
+    f <- gsub("\\.fields", "", f, fixed = TRUE)
+    return(c("*" = sQuote(e, "'")))
+  }
+  return(NULL)
+}
