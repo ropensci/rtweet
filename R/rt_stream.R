@@ -63,6 +63,7 @@ filtered_stream <- function(timeout, file = tempfile(),
   parsing(parse)
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions_for_fields(expansions, fields)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
   data <- c(list(expansions = expansions), fields, ...)
@@ -146,12 +147,6 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
 }
 
 handle_rules_resp <- function(x) {
-  if (has_name_(x, "errors")) {
-    warning("There are errors in the requests: ",
-            paste(x$errors$title, collapse = ", "),
-            "\nCheck the returned object for more details.", call. = FALSE)
-    return(x)
-  }
   df <- x$meta
 
   rules <- do.call(rbind, lapply(x$data, list2DF))
@@ -276,7 +271,7 @@ sample_stream <- function(timeout, file = tempfile(),
 
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
-
+  expansions_for_fields(expansions, fields)
   parsing(parse)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))

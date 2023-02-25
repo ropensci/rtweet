@@ -1,22 +1,27 @@
 #' Search in the Twitter archive
-#' @inheritParams retweeted_by
-#' @inheritParams get_tweet
+#' @inheritParams tweet_retweeted_by
+#' @inheritParams tweet_get
 #' @param query One query for matching Tweets.
 #' @note OAuth2.0 requires tweet.read and users.read permissions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-all>
 #' @examples
-#' # sa <- search_archive("#rtweet", parse = FALSE)
-search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
-                           ..., token = NULL, parse = TRUE, verbose = TRUE) {
+#' if (FALSE) {
+#'   sa <- tweet_search_all("#rtweet", parse = FALSE)
+#' }
+tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
+                           ..., token = NULL, parse = TRUE, verbose = FALSE) {
 
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
-
+  expansions_for_fields(expansions, fields)
+  if (!is_logical(verbose)) {
+    abort("`verbose` must be either `TRUE` or `FALSE`.")
+  }
   parsing(parse)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, formals()$n)
-  n_pages <- n %/% max_results
-  data <- c(expansions, fields, ...)
+  n_pages <- ceiling(n / max_results)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- c(query = query, max_results = max_results, data)
   # Rates from the website app and user limits
@@ -34,21 +39,28 @@ search_archive <- function(query, n = 500, expansions = NULL, fields = NULL,
 #' Search recent tweets
 #'
 #' Look up tweets from the last seven days that match a search query.
-#' @inheritParams get_tweet
+#' @inheritParams tweet_retweeted_by
+#' @inheritParams tweet_get
 #' @param query One query for matching Tweets.
 #' @note OAuth2.0 requires tweet.read and users.read permissions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent>
 #' @examples
-#' # sr <- search_recent("#rtweet", parse = FALSE)
-search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
-                          ..., token = NULL, parse = TRUE, verbose = TRUE) {
+#' if (FALSE) {
+#'   sr <- tweet_search_recent("#rtweet", n = 250, parse = TRUE)
+#' }
+tweet_search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
+                          ..., token = NULL, parse = TRUE, verbose = FALSE) {
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions_for_fields(expansions, fields)
+  if (!is_logical(verbose)) {
+    abort("`verbose` must be either `TRUE` or `FALSE`.")
+  }
   parsing(parse)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, formals()$n)
-  n_pages <- n %/% max_results
-  data <- c(expansions, fields, ...)
+  n_pages <- ceiling(n / max_results)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- c(query = query, max_results = max_results, data)
   # Rates from the website app and user limits

@@ -19,13 +19,17 @@
 #'    ub <- user_bookmarks("123456789", parse = FALSE, n = Inf, token = token_oa2)
 #' }
 user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
-                           parse = TRUE, token = NULL) {
+                           parse = TRUE, token = NULL, verbose = FALSE) {
   parsing(parse)
-  max_results <- check_interval(n, 1, 100)
-  n_pages <- n %/% max_results
+  if (!is_logical(verbose)) {
+    abort("`verbose` must be either `TRUE` or `FALSE`.")
+  }
+  max_results <- check_interval(n, 1, formals()$n)
+  n_pages <- ceiling(n / max_results)
   expansions <- check_expansions(arg_def(expansions, set_expansions()))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
-  data <- c(expansions, fields, max_results = max_results, ...)
+  expansions_for_fields(expansions, fields)
+  data <- c(list(expansions = expansions), fields, max_results = max_results, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   url <- paste0("users/", id,"/bookmarks")
   token <- check_token_v2(token, mechanism = "pkce")

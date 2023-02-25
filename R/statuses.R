@@ -63,10 +63,11 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' Get tweet information
 #'
 #' Look up tweets up to 100 at the same time.
+#' @inheritParams tweet_retweeted_by
 #' @inheritParams stream
 #' @param token This endpoint accepts a OAuth2.0 authentication (can be
-#' created via [rtweet_oauth()]) or a bearer token (can be created via [rtweet_app()]).
-#' @param id A tweet id.
+#' created via [rtweet_oauth2()]) or a bearer token (can be created via [rtweet_app()]).
+#' @param id At least a tweet id.
 #' @seealso [lookup_tweets()]
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
@@ -75,17 +76,17 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' @export
 #' @examples
 #' if (auth_has_default()){
-#'  get_tweet("567053242429734913", parse = FALSE)
-#'  get_tweet(c("567053242429734913", "567053242429734913"), parse = FALSE)
-#'  get_tweet(c("567053242429734913", "567053242429734913"),
-#'    expansions = NULL, fields = NULL, parse = FALSE)
+#'  tweet_get("567053242429734913", parse = FALSE)
+#'  tweet_get(c("567053242429734913", "567053242429734913"), parse = FALSE)
+#'  tweet_get(c("567053242429734913", "567053242429734913"), parse = TRUE)
 #' }
-get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
-                      parse = TRUE, verbose = TRUE) {
-  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
+                      parse = TRUE, verbose = FALSE) {
+  expansions <- check_expansions(arg_def(expansions, set_expansions(user = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions_for_fields(expansions, fields)
   parsing(parse)
-  data <- c(expansions, fields, ...)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   stopifnot("Requires valid ids." = is_id(id))
   if (length(id) == 1) {
@@ -94,7 +95,7 @@ get_tweet <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
     data <- c(ids = paste(id, collapse = ","), data)
     url <- "tweets"
   } else {
-    abort("Only 100 tweets can be processed at once")
+    abort("Only 100 tweets can be processed at once.")
   }
 
   # Rates from the website app and user limits
