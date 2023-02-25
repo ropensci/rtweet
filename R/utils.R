@@ -49,7 +49,7 @@ check_interval <- function(value, min, max) {
 
 
 is_id <- function(x) {
-  is.character(x) && all(nchar(x) == 18) || is.numeric(x)
+  is.character(x) && all(nchar(x) >= 18) || is.numeric(x)
 }
 
 # check environment ####
