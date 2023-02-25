@@ -24,7 +24,7 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
 
   all_results <- vector("list", length = n_pages)
   resp <- httr2::req_perform(req)
-  x0 <- handle_error_resp(resp)
+  x0 <- resp(resp)
   all_results[[1]] <- x0
   i <- 2
   total <- x0$meta$result_count
@@ -46,7 +46,7 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
   while (!is.null(next_pag_token) && i <= n_pages) {
     req <- httr2::req_url_query(req, pagination_token = next_pag_token)
     resp <- httr2::req_perform(req)
-    cnt <- resp(handle_error_resp(resp))
+    cnt <- resp(resp)
     if (i > length(all_results)) {
       # double length per https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
       length(all_results) <- 2 * length(all_results)
@@ -72,7 +72,17 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
 }
 
 # Initial conversion of data about the requests returned by the API
-resp <- function(out, ...) {
+resp <- function(x, ...) {
+  out <- httr2::resp_body_json(x)
+  class(out) <- c("Twitter_resp", class(out))
+
+  if (has_name_(out, "errors")) {
+    errors <- do.call(rbind, lapply(out$errors, list2DF))
+    message <- c("There are errors in the requests: ",
+                 ">" = paste(errors$title, collapse = ", "),
+                 "i" = "Use `retrieve_errors()` for more details returned by the API.")
+    abort(message, class = "rtweet_API_errors", errors = errors, call. = FALSE)
+  }
 
   if (has_name_(out, "meta")) {
     # Summary and sent are fields in some endpoints:
@@ -94,23 +104,6 @@ resp <- function(out, ...) {
       abort("Please check", call = call)
     }
     out$meta <- rest
-  }
-  out
-}
-
-# errors: Tidy and raise them (should be )
-handle_error_resp <- function(x, type = "json") {
-  out <- switch(type,
-                "json" = httr2::resp_body_json(x),
-                "html" = httr2::resp_body_html(x),
-                "xml" = httr2::resp_body_xml(x))
-  class(out) <- c("Twitter_resp", class(out))
-  if (has_name_(out, "errors")) {
-    errors <- do.call(rbind, lapply(out$errors, list2DF))
-    message <- c("There are errors in the requests: ",
-                 ">" = paste(errors$title, collapse = ", "),
-                 "i" = "Use `retrieve_errors()` for more details returned by the API.")
-    abort(message, class = "rtweet_API_errors", errors = errors, call. = FALSE)
   }
   out
 }
