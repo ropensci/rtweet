@@ -82,9 +82,12 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' }
 tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
                       parse = TRUE, verbose = FALSE) {
-  expansions <- check_expansions(arg_def(expansions, set_expansions(user = NULL, list = NULL)),
-                                 set_expansions(user = NULL))
-  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions <- check_expansions(
+    arg_def(expansions,
+            set_expansions(user = NULL, list = NULL)),
+    set_expansions(user = NULL, list = NULL))
+  fields <- check_fields(arg_def(fields, set_fields(list = NULL)),
+                         metrics = NULL, list = NULL)
   expansions_for_fields(expansions, fields)
   parsing(parse)
   data <- c(list(expansions = expansions), fields, ...)
