@@ -26,15 +26,15 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
   resp <- httr2::req_perform(req)
   x0 <- resp(resp)
   all_results[[1]] <- x0
-  i <- 2
-  # counts in the tweet/counts/* endpoints return total_tweet_count
-  total <- x0$meta[[names(x0$meta)[endsWith(names(x0$meta), "_count")]]]
-  next_pag_token <- x0$meta$next_token
 
   # If already got what we need stop
+  next_pag_token <- x0$meta$next_token
   if (n_pages == 1 || is.null(next_pag_token)) {
     return(list(x0))
   }
+  i <- 2
+  # counts in the tweet/counts/* endpoints return total_tweet_count
+  total <- x0$meta[[names(x0$meta)[endsWith(names(x0$meta), "_count")]]]
 
   if (verbose)  {
     pb <- progress::progress_bar$new(
