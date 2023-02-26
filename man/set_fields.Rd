@@ -9,7 +9,8 @@ set_fields(
   poll = poll_fields,
   tweet = tweet_fields,
   place = place_fields,
-  user = user_fields
+  user = user_fields,
+  list = list_fields
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ set_fields(
 \item{place}{The fields you want from \code{place_fields}.}
 
 \item{user}{The fields you want from \code{user_fields}.}
+
+\item{list}{The fields you want from \code{list_fields}.}
 }
 \value{
 A list with the fields requested ready to be used in your requests to

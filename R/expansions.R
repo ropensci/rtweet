@@ -6,7 +6,7 @@
 #'
 #' @param attachments Add attachments values? Default yes.
 #' @param referenced_tweets Add referenced_tweets values? Default yes.
-#' @param tweet,user [tweet_expansions()] and [user_expansions()].
+#' @param tweet,user,list [tweet_expansions()], [user_expansions()] and [tweet_expansions()].
 #' @return A character with the characters of valid expansions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/expansions>
 #' @seealso [Fields], [set_fields()]

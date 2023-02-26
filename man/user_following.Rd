@@ -29,7 +29,7 @@ user_following(
 \arguments{
 \item{id}{A user id string.}
 
-\item{n}{Number of tweets to query.}
+\item{n}{Number of users to query.}
 
 \item{expansions}{Set \code{NULL} to not use any expansion, set \code{NA} to get all
 expansions, or provide a vector with the expansions you want (create it with

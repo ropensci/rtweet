@@ -6,6 +6,7 @@
 \usage{
 user_lists(
   ids,
+  n = 100,
   expansions = NULL,
   fields = NULL,
   ...,
@@ -17,6 +18,8 @@ user_lists(
 \arguments{
 \item{ids}{A user name string or up to 100.}
 
+\item{n}{Number of users to query.}
+
 \item{expansions}{Set \code{NULL} to not use any expansion, set \code{NA} to get all
 expansions, or provide a vector with the expansions you want (create it with
 \code{\link[=set_expansions]{set_expansions()}}).}
@@ -24,7 +27,7 @@ expansions, or provide a vector with the expansions you want (create it with
 \item{fields}{Set \code{NULL} to not use any field, get all allowed fields with \code{NA},
 provide a list with the fields you want (create it with \code{\link[=set_fields]{set_fields()}}).}
 
-\item{...}{Other arguments passed to the API.}
+\item{...}{Other parameters passed to the body of the request.}
 
 \item{token}{These endpoints only accept a bearer token (can be created via
 \code{\link[=rtweet_app]{rtweet_app()}}). In most cases you
@@ -41,8 +44,7 @@ Looks up users by their username.
 }
 \examples{
 if (FALSE) {
-  user_lists("rOpenSci")
-  user_lists(c("Bioconductor", "R_Contributors"))
+  ul <- user_lists("1051050384")
 }
 }
 \references{

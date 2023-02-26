@@ -6,16 +6,23 @@
 \alias{expansions}
 \alias{tweet_expansions}
 \alias{user_expansions}
+\alias{list_expansions}
 \title{Expansions}
 \usage{
-set_expansions(tweet = tweet_expansions(), user = user_expansions())
+set_expansions(
+  tweet = tweet_expansions(),
+  user = user_expansions(),
+  list = list_expansions()
+)
 
 tweet_expansions(attachments = TRUE, referenced_tweets = TRUE)
 
 user_expansions()
+
+list_expansions()
 }
 \arguments{
-\item{tweet, user}{\code{\link[=tweet_expansions]{tweet_expansions()}} and \code{\link[=user_expansions]{user_expansions()}}.}
+\item{tweet, user, list}{\code{\link[=tweet_expansions]{tweet_expansions()}}, \code{\link[=user_expansions]{user_expansions()}} and \code{\link[=tweet_expansions]{tweet_expansions()}}.}
 
 \item{attachments}{Add attachments values? Default yes.}
 

@@ -7,6 +7,7 @@
 \alias{media_fields}
 \alias{place_fields}
 \alias{poll_fields}
+\alias{list_fields}
 \alias{tweet_fields}
 \alias{user_fields}
 \alias{metrics_fields}
@@ -17,6 +18,8 @@ An object of class \code{character} of length 13.
 An object of class \code{character} of length 8.
 
 An object of class \code{character} of length 5.
+
+An object of class \code{character} of length 6.
 
 An object of class \code{character} of length 18.
 
@@ -30,6 +33,8 @@ media_fields
 place_fields
 
 poll_fields
+
+list_fields
 
 tweet_fields
 
@@ -46,6 +51,7 @@ Fields are possible for:
 \item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media}{Media}
 \item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll}{Polls}
 \item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place}{Places}
+\item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/lists}{Lists}
 }
 }
 \examples{

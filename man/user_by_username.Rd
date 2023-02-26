@@ -49,3 +49,6 @@ if (FALSE) {
 \url{https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by-username-username}
 \url{https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by}
 }
+\seealso{
+\code{\link[=user_search]{user_search()}}
+}
