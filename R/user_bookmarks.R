@@ -31,8 +31,8 @@ user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
   expansions_for_fields(expansions, fields)
   data <- c(list(expansions = expansions), fields, max_results = max_results, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
-  if (!is_id("bassamstreet")) {
-    abort(c("Please introduce a valid user id",
+  if (!is_user_id(id)) {
+    abort(c("Please introduce a valid user id.",
             "i" = "Have you introduced your user name instead of your code number 123456789?"))
   }
   url <- paste0("users/", id,"/bookmarks")

@@ -49,7 +49,11 @@ check_interval <- function(value, min, max) {
 
 
 is_id <- function(x) {
-  is.character(x) && all(nchar(x) >= 18) || is.numeric(x)
+  is.character(x) && all(nchar(x) >= 18) && all(grepl("[0-9]{18,}", x)) || is.numeric(x)
+}
+
+is_user_id <- function(x, call = caller_env()) {
+    is.character(x) && all(nchar(x) >= 8) && all(grepl("[0-9]{8,}", x)) || is.numeric(x)
 }
 
 # check environment ####

@@ -39,7 +39,7 @@ tweet_retweeted_by <- function(id, n = 100, expansions = NULL, fields = NULL, ..
   rate <- check_rate(token, 75/(60*15), 75/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  p <- pagination(req_final, n_pages, n)
+  p <- pagination(req_final, n_pages, n, verbose)
   if (!parse) {
     return(p)
   }
