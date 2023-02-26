@@ -156,7 +156,11 @@ parse_entities2 <- function(y) {
   }
   for (col in seq_along(y)) {
     # Look for the function of said object and save it.
-    fun <- match.fun(names(y)[col])
+    if (names(y)[col] != "user_mentions")  {
+      fun <- match.fun(names(y)[col])
+    } else {
+      fun <- match.fun("user_mention")
+    }
     l[[col]] <- lapply(y[[col]], fun)
   }
   # Split and join
