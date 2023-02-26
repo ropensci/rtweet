@@ -71,7 +71,7 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' @seealso [lookup_tweets()]
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
-#' 
+#'
 #' Multiple tweets: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets>
 #' @export
 #' @examples
@@ -82,7 +82,7 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' }
 tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
                       parse = TRUE, verbose = FALSE) {
-  expansions <- check_expansions(arg_def(expansions, set_expansions(user = NULL)),
+  expansions <- check_expansions(arg_def(expansions, set_expansions(user = NULL, list = NULL)),
                                  set_expansions(user = NULL))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)

@@ -18,7 +18,8 @@
 #' set_expansions()
 #' @export
 set_expansions <- function(tweet = tweet_expansions(),
-                           user = user_expansions()) {
+                           user = user_expansions(),
+                           list = list_expansions()) {
 
   if (is.numeric(tweet)) {
     abort("Invalid tweet expansions.")
@@ -52,8 +53,14 @@ tweet_expansions <- function(attachments = TRUE, referenced_tweets = TRUE) {
 user_expansions <- function() {
   "pinned_tweet_id"
 }
+#' @export
+#' @name Expansions
+list_expansions <- function() {
+  "owner_id"
+}
 
-check_expansions <- function(passed, allowed = c(tweet_expansions(), user_expansions()),
+check_expansions <- function(passed,
+                             allowed = c(tweet_expansions(), user_expansions(), list_expansions()),
                              call = caller_env()) {
   # Empty list or NA return NULL to disable the expansions
   empty_list <- is.list(passed) && length(passed) == 0
@@ -91,7 +98,7 @@ expansions_for_fields <- function(expansion, fields, call = caller_env()) {
   #   problem <- TRUE
   # }
   a <- c("author_id", "entities.mentions.username", "in_reply_to_user_id",
-         "referenced_tweets.id.author_id")
+         "referenced_tweets.id.author_id", "owner_id")
   if (!is.null(fields[["user.fields"]]) && !any(a %in% expansion)) {
     msg5 <- c("*" = paste0("Add at least one of: ",
                            paste0(sQuote(a, "'"), collapse = ", ")))

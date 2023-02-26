@@ -61,7 +61,7 @@ filtered_stream <- function(timeout, file = tempfile(),
                             expansions = NULL, fields = NULL,
                             ...,  token = NULL, append = TRUE, parse = TRUE) {
   parsing(parse)
-  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   token <- check_token_v2(token)
@@ -269,7 +269,7 @@ sample_stream <- function(timeout, file = tempfile(),
                           expansions = NULL, fields = NULL, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
 
-  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   parsing(parse)

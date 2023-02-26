@@ -11,7 +11,7 @@
 tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
                            ..., token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   if (!is_logical(verbose)) {
@@ -50,7 +50,7 @@ tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
 #' }
 tweet_search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = FALSE) {
-  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   if (!is_logical(verbose)) {

@@ -26,7 +26,7 @@ user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
   }
   max_results <- check_interval(n, 1, formals()$n)
   n_pages <- ceiling(n / max_results)
-  expansions <- check_expansions(arg_def(expansions, set_expansions()))
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   data <- c(list(expansions = expansions), fields, max_results = max_results, ...)
