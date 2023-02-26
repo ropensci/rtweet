@@ -23,12 +23,12 @@ test_that("get_tweets works with expansions and fields", {
   expect_error(
     gt4 <- tweet_get("1615009611186069504",
                      expansions = 'attachments.media_keys',
-                     fields = set_fields(media = "alt_text", NULL, NULL, NULL, NULL),
+                     fields = set_fields(media = "alt_text", NULL, NULL, NULL, NULL, NULL),
                      parse = FALSE), NA)
   expect_equal(gt4[[1]]$includes$media[[1]]$alt_text, "sort 893")
   expect_error(
     tweet_get("1615009611186069504",
-              fields = set_fields(media = "alt_text", NULL, NULL, NULL, NULL),
+              fields = set_fields(media = "alt_text", NULL, NULL, NULL, NULL, NULL),
               parse = FALSE))
   expect_error(
     tweet_get("1615009611186069504",
