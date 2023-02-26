@@ -46,7 +46,7 @@ tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent>
 #' @examples
 #' if (FALSE) {
-#'   sr <- tweet_search_recent("#rtweet", n = 250, parse = TRUE)
+#'   sr <- tweet_search_recent("#rtweet", sort_order = "relevancy", parse = FALSE)
 #' }
 tweet_search_recent <- function(query, n = 100, expansions = NULL, fields = NULL,
                           ..., token = NULL, parse = TRUE, verbose = FALSE) {

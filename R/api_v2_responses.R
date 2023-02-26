@@ -27,11 +27,12 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
   x0 <- resp(resp)
   all_results[[1]] <- x0
   i <- 2
-  total <- x0$meta$result_count
+  # counts in the tweet/counts/* endpoints return total_tweet_count
+  total <- x0$meta[[names(x0$meta)[endsWith(names(x0$meta), "_count")]]]
   next_pag_token <- x0$meta$next_token
 
   # If already got what we need stop
-  if (n_pages == 1) {
+  if (n_pages == 1 || is.null(next_pag_token)) {
     return(list(x0))
   }
 
@@ -55,13 +56,15 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
     all_results[[i]] <- cnt
     if (verbose) {
       pb$tick()
+      # Only save the data if verbose (assuming non verbose output will be quick)
+      # Also to avoid a verbose and save argument.
+      saveRDS(all_results, tmp)
     }
-    saveRDS(all_results, tmp)
     i <- i + 1
-    total <- total + cnt$meta$result_count
+    total <- total + cnt$meta[[names(cnt$meta)[endsWith(names(cnt$meta), "_count")]]]
     next_pag_token <- cnt$meta$next_token
   }
-  if (total < count) {
+  if (!is.infinite(count) && total < count) {
     warn("The API returned less results than requested and possible.")
   }
   if (verbose && !is.null(next_pag_token)) {
