@@ -16,11 +16,7 @@ bearer_token <- function(token = NULL) {
 
 #' Invalidate bearer token
 #'
-#' @description
-#' `r lifecycle::badge("deprecated")`
-#' Invalidation of the bearer token is no longer the responsibility of rtweet.
-#' This is something you should instead perform in the [Twitter developer
-#' portal](https://developer.twitter.com/en/portal/projects-and-apps).
+#' Invalidate the bearer token
 #' @inheritParams rtweet_user
 #' @param token Expert use only. Use this to invalidate a specific bearer token
 #' created with [rtweet_app()]. If `NULL` the default authentication mechanism is invalidated.

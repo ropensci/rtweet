@@ -34,11 +34,12 @@ place_fields <- c("contained_within", "country", "country_code",
 #' @name Fields
 poll_fields <- c("duration_minutes", "end_datetime", "id", "options",
                  "voting_status")
+
 #' @export
 #' @name Fields
 tweet_fields <- c(
   "attachments", "author_id", "context_annotations",
-  "conversation_id", "created_at", "entities",
+  "conversation_id", "created_at", "entities", "edit_controls",
   "geo", "id", "in_reply_to_user_id", "lang", "public_metrics",
   "possibly_sensitive", "referenced_tweets", "reply_settings",
   "source", "text", "withheld"
@@ -51,8 +52,9 @@ tweet_fields <- c(
 #' @export
 #' @name Fields
 user_fields <- c("created_at", "description", "entities", "id", "location",
-                  "name", "pinned_tweet_id", "profile_image_url", "protected",
-                  "public_metrics", "url", "username", "verified", "withheld")
+                 "verified_type", "name", "pinned_tweet_id", "profile_image_url",
+                 "protected", "public_metrics", "url", "username", "verified",
+                 "withheld")
 
 #' @export
 #' @name Fields

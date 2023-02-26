@@ -39,7 +39,7 @@ Twitter API.}
 Look up tweets up to 100 at the same time.
 }
 \examples{
-if (auth_has_default()){
+if (FALSE){
  tweet_get("567053242429734913", parse = FALSE)
  tweet_get(c("567053242429734913", "567053242429734913"), parse = FALSE)
  tweet_get(c("567053242429734913", "567053242429734913"), parse = TRUE)

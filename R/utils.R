@@ -7,8 +7,18 @@ format_date <- function(x, format = "%a %b %d %T %z %Y") {
   as.POSIXct(x, format = format)
 }
 
+format_date_precison <- function(x) {
+  strptime(x, tz = "UTC", format = "%FT%H:%M:%OS")
+}
+
 convert_tz <- function(x, tz) {
   as.POSIXct(as.POSIXlt(x, tz = tz))
+}
+
+format_iso_date <- function(x) {
+  # YYYY-MM-DDTHH:mm:ssZ (ISO 8601/RFC 3339)
+  # %F        T%T      Z
+  format_date(x, "%FT%TZ")
 }
 
 # check data ####

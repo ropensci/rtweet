@@ -202,7 +202,7 @@ stream_params <- function(stream, ...) {
     params <- list(locations = paste(stream$box, collapse = ","))
   } else if ((length(stream) %% 4 == 0) && is.numeric(stream)) {
     params <- list(locations = paste(stream, collapse = ","))
-  } else if (is_user_ids(stream)) {
+  } else if (is_user_id(stream)) {
     params <- list(follow = stream, ...)
   } else {
     params <- list(track = stream, ...)
@@ -210,14 +210,6 @@ stream_params <- function(stream, ...) {
 
   params
 }
-
-is_user_ids <- function(x) {
-  if (length(x) == 1L && grepl(",", x)) {
-    x <- strsplit(x, "\\,")[[1]]
-  }
-  isTRUE(all(!is.na(suppressWarnings(as.numeric(x)))))
-}
-
 
 
 #' Parser of stream

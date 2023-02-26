@@ -1,6 +1,6 @@
 #' Count tweets
 #'
-#' @inheritParams tweet_search
+#' @inheritParams tweet_search_recent
 #' @returns The number of tweets for a given granularity
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-all>
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-recent>

@@ -15,7 +15,8 @@
 tweet_liking_users <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                                token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"))
+  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"), 
+                                 "pinned_tweet_id")
   fields <- check_fields(arg_def(fields, set_fields()),
                          metrics = NULL,
                          place = NULL,

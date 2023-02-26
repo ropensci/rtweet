@@ -88,7 +88,7 @@ req_auth <- function(req, token) {
     token <- token$token
   } else if (auth_is_pkce(token)) {
     if (.POSIXct(token[["expires_at"]]) <= Sys.time()) {
-      token <- auth_renew(token$access_token)
+      token <- auth_renew(token)
     }
     token <- token$access_token
   }

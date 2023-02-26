@@ -71,18 +71,19 @@ lookup_statuses <- function(statuses, parse = TRUE, token = NULL) {
 #' @seealso [lookup_tweets()]
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id>
-#'
+#' 
 #' Multiple tweets: <https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets>
 #' @export
 #' @examples
-#' if (auth_has_default()){
+#' if (FALSE){
 #'  tweet_get("567053242429734913", parse = FALSE)
 #'  tweet_get(c("567053242429734913", "567053242429734913"), parse = FALSE)
 #'  tweet_get(c("567053242429734913", "567053242429734913"), parse = TRUE)
 #' }
 tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
                       parse = TRUE, verbose = FALSE) {
-  expansions <- check_expansions(arg_def(expansions, set_expansions(user = NULL)))
+  expansions <- check_expansions(arg_def(expansions, set_expansions(user = NULL)),
+                                 set_expansions(user = NULL))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   parsing(parse)

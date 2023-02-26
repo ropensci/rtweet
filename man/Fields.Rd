@@ -18,9 +18,9 @@ An object of class \code{character} of length 8.
 
 An object of class \code{character} of length 5.
 
-An object of class \code{character} of length 17.
+An object of class \code{character} of length 18.
 
-An object of class \code{character} of length 14.
+An object of class \code{character} of length 15.
 
 An object of class \code{character} of length 4.
 }

@@ -44,7 +44,7 @@ Looks up who have liked a given tweet.
 }
 \examples{
 if (FALSE) {
-  tlu <- tweet_liking_users("567053242429734913")
+  tlu <- tweet_liking_users("567053242429734913", n = Inf, verbose = TRUE)
 }
 }
 \references{

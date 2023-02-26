@@ -95,7 +95,7 @@ resp <- function(x, ...) {
     rest <- rest[1, seq_len(NCOL(rest)), drop = FALSE]
     rownames(rest) <- NULL
     if (has_name_(out$meta, "sent")) {
-      sent <- strptime(out$meta$sent, tz = "UTC", format = "%Y-%m-%dT%H:%M:%OS")
+      sent <- format_date_precison(out$meta$sent)
       rest$sent <- sent
     }
 

@@ -443,9 +443,9 @@ auth_renew <- function(token, scopes = NULL) {
   }
 
   if (!is.null(scopes) && check_scopes(scopes)) {
-    scopes <- paste0(scopes, " ")
+    scopes <- scopes
   } else if (is.null(scopes)) {
-    scopes <- token$scope
+    scopes <- strsplit(token$scope, " ", fixed = TRUE)[[1]]
   } else {
     abort("Scopes is not in the right format")
   }
