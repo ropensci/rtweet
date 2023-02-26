@@ -8,6 +8,7 @@
 #'  - [Media](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media)
 #'  - [Polls](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
 #'  - [Places](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place)
+#'  - [Lists](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/lists)
 #' @references <https://developer.twitter.com/en/docs/twitter-api/fields>
 #' @seealso [Expansions], [set_fields()]
 #' @name Fields
@@ -34,6 +35,11 @@ place_fields <- c("contained_within", "country", "country_code",
 #' @name Fields
 poll_fields <- c("duration_minutes", "end_datetime", "id", "options",
                  "voting_status")
+
+#' @export
+#' @name Fields
+list_fields <- c("created_at", "follower_count", "member_count",
+                 "private", "description", "owner_id")
 
 #' @export
 #' @name Fields
@@ -70,6 +76,7 @@ metrics_fields <- c("public_metrics", "non_public_metrics", "organic_metrics", "
 #' @param tweet The fields you want from `tweet_fields`.
 #' @param place The fields you want from `place_fields`.
 #' @param user The fields you want from `user_fields`.
+#' @param list The fields you want from `list_fields`.
 #' @return A list with the fields requested ready to be used in your requests to
 #' the API.
 #' @seealso Fields
@@ -82,7 +89,8 @@ set_fields <- function(media = media_fields,
                        poll = poll_fields,
                        tweet = tweet_fields,
                        place = place_fields,
-                       user = user_fields) {
+                       user = user_fields,
+                       list = list_fields) {
 
   if (length(media)  == 1 && is.na(media)) {
     media <- NULL
@@ -100,9 +108,10 @@ set_fields <- function(media = media_fields,
     user <- NULL
   }
 
+
   fields <- list("media.fields" = media, "place.fields" = place,
                  "poll.fields" = poll, "tweet.fields" = tweet,
-                 "user.fields" = user)
+                 "user.fields" = user, "list.fields" = list)
   if (sum(lengths(fields) > 0) == 0) {
     return(NULL)
   }
@@ -118,7 +127,8 @@ set_fields <- function(media = media_fields,
     check_field_helper(fields, place_fields, "place.fields"),
     check_field_helper(fields, poll_fields, "poll.fields"),
     check_field_helper(fields, tweet_fields, "tweet.fields"),
-    check_field_helper(fields, user_fields, "user.fields")
+    check_field_helper(fields, user_fields, "user.fields"),
+    check_field_helper(fields, list_fields, "list.fields")
   )
   if (!is.null(error)) {
     abort(error)
@@ -127,6 +137,7 @@ set_fields <- function(media = media_fields,
   fields
 }
 
+
 # To disable a field use NULL
 check_fields <- function(fields,
                          media = media_fields,
@@ -134,6 +145,7 @@ check_fields <- function(fields,
                          poll = poll_fields,
                          tweet = tweet_fields,
                          user = user_fields,
+                         list = list_fields,
                          metrics = metrics_fields,
                          call = caller_env()) {
 
