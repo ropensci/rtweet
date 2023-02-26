@@ -2,8 +2,8 @@ parse <- function(x, expansions, fields) {
 
   if (is.null(fields) && is.null(expansions)) {
     if (length(x) == 1) {
-      return(parse_page(x, expansions, fields))
-    }    
+      return(parse_page(x[[1]], expansions, fields))
+    }
     pages <- lapply(x, parse_page, expansions = expansions, fields = fields)
     return(do.call(rbind, pages))
   }

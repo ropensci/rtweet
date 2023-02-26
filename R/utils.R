@@ -66,6 +66,10 @@ is_user_id <- function(x, call = caller_env()) {
     is.character(x) && all(nchar(x) >= 8) && all(grepl("[0-9]{8,}", x)) || is.numeric(x)
 }
 
+is_list_id <- function(x, call = caller_env()) {
+    is.character(x) && all(nchar(x) >= 17) && all(grepl("[0-9]{17,}", x)) || is.numeric(x)
+}
+
 # check environment ####
 
 is_testing <- function() {

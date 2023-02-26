@@ -7,6 +7,7 @@
 #' @param ids A user id string or up to 100.
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions>
+#' #' @seealso [user_by_username()]
 #' @examples
 #' if (FALSE) {
 #'   ut <- user_search(c("1599030512919650304", "2244994945"), verbose = TRUE)
@@ -14,7 +15,7 @@
 user_search <- function(ids, expansions = NULL, fields = NULL, ...,
                           token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"), 
+  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"),
                                  "pinned_tweet_id")
   fields <- check_fields(arg_def(fields, set_fields(media = NULL,
                                                     poll = NULL,

@@ -3,7 +3,7 @@
 #' List of users the specified user ID is following.
 #' @inheritParams filtered_stream
 #' @param ... Other arguments passed to the API.
-#' @param n Number of tweets to query.
+#' @param n Number of users to query.
 #' @param verbose A logical value to provide more information about paginated queries.
 #' @param id A user id string.
 #' @export

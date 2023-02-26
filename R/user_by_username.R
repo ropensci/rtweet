@@ -8,6 +8,7 @@
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by-username-username>
 #' <https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by>
+#' @seealso [user_search()]
 #' @examples
 #' if (FALSE) {
 #'   user_by_username("rOpenSci")
