@@ -147,8 +147,11 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
 }
 
 handle_rules_resp <- function(x) {
-  df <- x$meta
-
+  if (!is.null(x$meta$summary)) {
+    df <- cbind.data.frame(sent = x$meta$sent, x$meta$summary)
+  } else {
+    df <- x$meta
+  }
   rules <- do.call(rbind, lapply(x$data, list2DF))
   # Ensure that the same order is always used
   if (!is.null(rules)) {

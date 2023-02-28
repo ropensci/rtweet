@@ -20,9 +20,9 @@ test_that("Add a streaming rule ", {
 test_that("Handle adding duplicate streaming rules ", {
   skip_if_offline()
   testing_with_authentication("bearer_testing_app")
-  strea_rm_rule(ids(stream_add_rule(NULL)))
+  stream_rm_rule(ids(stream_add_rule(NULL)))
   rt0 <- stream_add_rule(list(value = "testing rules", tag = "ts"))
-  expect_warning(rt <- stream_add_rule(list(value = "testing rules", tag = "ts")))
+  expect_error(rt <- stream_add_rule(list(value = "testing rules", tag = "ts")))
 
   # Clean up
   expect_equal(stream_rm_rule(rt$errors$id)$deleted, 1)
