@@ -158,7 +158,7 @@ check_fields <- function(fields,
 
   # Check the fields on each one:
   n_fields <- names(fields)
-  valid_fields <- c("media", "place", "poll", "tweet", "user", "metrics")
+  valid_fields <- c("media", "place", "poll", "tweet", "user", "list", "metrics")
   valid_fields <- paste0(valid_fields, ".fields")
 
   if (length(setdiff(n_fields, valid_fields)) >= 1) {

@@ -28,7 +28,7 @@ set_expansions <- function(tweet = tweet_expansions(),
     abort("Invalid user expansions.")
   }
 
-  expansions <- c(tweet, user)
+  expansions <- c(tweet, user, list)
 
   check_expansions(expansions)
 }
