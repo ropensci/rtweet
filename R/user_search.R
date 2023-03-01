@@ -7,7 +7,7 @@
 #' @param ids A user id string or up to 100.
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions>
-#' #' @seealso [user_by_username()]
+#' @seealso [user_by_username()]
 #' @examples
 #' if (FALSE) {
 #'   ut <- user_search(c("1599030512919650304", "2244994945"), verbose = TRUE)

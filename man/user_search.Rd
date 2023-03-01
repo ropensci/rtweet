@@ -46,5 +46,7 @@ if (FALSE) {
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions}
-#' @seealso \code{\link[=user_by_username]{user_by_username()}}
+}
+\seealso{
+\code{\link[=user_by_username]{user_by_username()}}
 }

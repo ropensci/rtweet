@@ -42,6 +42,7 @@ Twitter API.}
 \value{
 A data.frame with the user information of who is included in the list:
 id, name, and username.
+
 Other information depends on the \code{expansions} and \code{fields} requested.
 Accepted values are:
 \itemize{
