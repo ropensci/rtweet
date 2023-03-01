@@ -25,7 +25,7 @@ test_that("Handle adding duplicate streaming rules ", {
   expect_error(rt <- stream_add_rule(list(value = "testing rules", tag = "ts")))
 
   # Clean up
-  expect_equal(stream_rm_rule(rt$errors$id)$deleted, 1)
+  expect_equal(stream_rm_rule(ids(rt0)), 1)
 })
 
 
