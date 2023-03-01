@@ -428,6 +428,9 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
                        host_name = "127.0.0.1",
                        port = 1410
                        )
+  # Example of valid url for authorization (created via client_as("academic_dev");rtweet_oauth2() )
+  # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=tweet.read%20tweet.write%20tweet.moderate.write%20users.read%20follows.read%20follows.write%20offline.access%20space.read%20mute.read%20mute.write%20like.read%20like.write%20list.read%20list.write%20block.read%20block.write%20bookmark.read%20bookmark.write&state=PVgWK3MviQ5MBsfj0Iy5D89HBFR4mPwTl0yumjSPlWo&code_challenge=FNcGvupIzNIbWOL8rdJOrxsVS_b2R01vIbynF_iQIMQ&code_challenge_method=S256
+  # # Note that the cliend_id should match in the url
   inform("Requires confirming permissions to the app (client) every two hours!")
   attr(token, "app") <- attr(client, "app")
   token
@@ -452,7 +455,9 @@ auth_renew <- function(token, scopes = NULL) {
 
   client_as(attr(token, "app", TRUE))
   client <- client_get()
-
+  if (!interactive()) {
+    abort("Impossible to renew the authentication without interactive usage.")
+  }
   # inform("You'll need to give again permissions to the app every two hours!")
   token <- rtweet_oauth2(client, scopes)
   # The provided refresh token can only be used once:
