@@ -9,6 +9,7 @@ test_that("can set and reset auth", {
   auth <- auth_get()
   old <- auth_as(rtweet_app("abc"))
   expect_equal(old, auth)
+  auth_as(auth)
 })
 
 test_that("can save and reload auth", {

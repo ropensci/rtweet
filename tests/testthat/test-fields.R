@@ -46,12 +46,7 @@ test_that("check_fields works", {
   expect_null(out_null)
 
   # If already provided just check
-  out <- check_fields(set_fields(),
-                      place = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-                      poll = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-                      tweet = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-                      user = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
-                      metrics = NULL)
+  out <- check_fields(set_fields())
   expect_equal(out, set_fields())
 
   out_3 <- check_fields(list(), media = "a", place = "b", poll = "c",

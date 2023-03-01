@@ -20,8 +20,8 @@ test_that("check_expansions works", {
 test_that("set_expansions works", {
   expect_error(set_expansions(), NA)
   expect_error(set_expansions(NULL), NA)
-  expect_null(set_expansions(NULL, NULL))
-  expect_null(set_expansions(NULL, c()))
+  expect_null(set_expansions(NULL, NULL, NULL))
+  expect_null(set_expansions(NULL, NULL, c()))
   expect_error(set_expansions("a"), "These extensions are not allowed: a")
   expect_error(set_expansions(user = "a"), "These extensions are not allowed: a")
 })
