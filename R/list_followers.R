@@ -4,6 +4,12 @@
 #' Looks up the followers of a list.
 #' @inheritParams list_get
 #' @export
+#' @returns A data.frame with the user information of who is following the list:
+#' id, name, and username.
+#' Other information depends on the `expansions` and `fields` requested.
+#' Accepted values are:
+#' - Expansions: `set_expansions(tweet = NULL, list = NULL)`.
+#' - Fields: `set_fields(media = NULL, poll = NULL, place = NULL, list = NULL)`.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/get-lists-id-followers>
 #' @examples
 #' if (FALSE) {
@@ -12,12 +18,15 @@
 list_followers <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
                          token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"),
-                                 "pinned_tweet_id")
+
+  expansions <- check_expansions(
+    arg_def(expansions,
+            set_expansions(tweet = NULL, list = NULL)),
+    set_expansions(tweet = NULL, list = NULL))
   fields <- check_fields(
     arg_def(fields,
-            set_fields(place = NULL, poll = NULL, media = NULL, list = NULL)),
-    metrics = NULL, place = NULL, poll = NULL, media = NULL, list = NULL)
+            set_fields(place = NULL, poll = NULL, list = NULL)),
+    metrics = NULL, place = NULL, poll = NULL, list = NULL)
   expansions_for_fields(expansions, fields)
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")

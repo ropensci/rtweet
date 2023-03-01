@@ -24,6 +24,7 @@ tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
   data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- c(query = query, max_results = max_results, data)
+  data <- data[data != ""]
   # Rates from the website app and user limits
   token <- check_token_v2(token)
   rate <- max(300/(60*15), 1)
@@ -63,6 +64,7 @@ tweet_search_recent <- function(query, n = 100, expansions = NULL, fields = NULL
   data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- c(query = query, max_results = max_results, data)
+  data <- data[data != ""]
   # Rates from the website app and user limits
   token <- check_token_v2(token, c("bearer", "pkce"))
   rate <- check_rate(token, 450/(15*60), 180/(15*60))

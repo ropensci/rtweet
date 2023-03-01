@@ -39,8 +39,19 @@ Twitter API.}
 
 \item{verbose}{A logical value to provide more information about paginated queries.}
 }
+\value{
+A data.frame with information of the list:
+id, name.
+
+Other information depends on the \code{expansions} and \code{fields} requested.
+Accepted values are:
+\itemize{
+\item Expansions: \code{set_expansions(tweet = NULL, user = NULL)}.
+\item Fields: \code{set_fields(place = NULL, poll = NULL, media = NULL)}.
+}
+}
 \description{
-Looks up users by their username.
+Lists a specified user is a member of.
 }
 \examples{
 if (FALSE) {

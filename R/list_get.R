@@ -5,6 +5,13 @@
 #' @inheritParams user_following
 #' @param ids A list id.
 #' @export
+#' @returns A data.frame with the user information of who is included in the list:
+#' id, name, and username.
+#'
+#' Other information depends on the `expansions` and `fields` requested.
+#' Accepted values are:
+#' - Expansions: `set_expansions(tweet = NULL, user = NULL)`
+#' - Fields: `set_fields(place = NULL, poll = NULL, media = NULL, tweet = NULL)`.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-lists-id>
 #' @examples
 #' if (FALSE) {

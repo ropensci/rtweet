@@ -33,7 +33,8 @@ created via \code{\link[=rtweet_oauth2]{rtweet_oauth2()}}) or a bearer token (ca
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
-\item{verbose}{A logical value to provide more information about paginated queries.}
+\item{verbose}{A logical value to provide more information about the
+paginated queries (if any) and to store the data of each page.}
 }
 \description{
 Look up tweets up to 100 at the same time.

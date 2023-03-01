@@ -37,7 +37,8 @@ are better of changing the default for all calls via \code{\link[=auth_as]{auth_
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
-\item{verbose}{A logical value to provide more information about paginated queries.}
+\item{verbose}{A logical value to provide more information about the
+paginated queries (if any) and to store the data of each page.}
 }
 \description{
 Look up tweets from the last seven days that match a search query.

@@ -1,9 +1,16 @@
 
 #' Lists a specified user is a member of.
 #'
-#' Looks up users by their username.
+#' Lists a specified user is a member of.
 #' @inheritParams list_get
 #' @export
+#' @returns A data.frame with information of the list:
+#' id, name.
+#'
+#' Other information depends on the `expansions` and `fields` requested.
+#' Accepted values are:
+#' - Expansions: `set_expansions(tweet = NULL, user = NULL)`.
+#' - Fields: `set_fields(place = NULL, poll = NULL, media = NULL)`.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-lists-id>
 #' @examples
 #' if (FALSE) {
@@ -12,8 +19,8 @@
 list_membership <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
                          token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"),
-                                 "pinned_tweet_id")
+  expansions <- check_expansions(arg_def(expansions, "owner_id"),
+                                 "owner_id")
   fields <- check_fields(
     arg_def(fields,
             set_fields(place = NULL, poll = NULL, media = NULL)),

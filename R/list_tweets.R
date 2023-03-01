@@ -1,30 +1,25 @@
-
-#' List of members from a specified List
+#' Lists tweets of a specified list
 #'
-#' Looks up the users of a list.
+#' Looks up the followers of a list.
 #' @inheritParams list_get
 #' @export
-#' @returns A data.frame with the user information of who is included in the list:
-#' id, name, and username.
-#'
+#' @returns A data.frame with the user information of who is following the list:
+#' edit_history_tweet_ids, id and text.
 #' Other information depends on the `expansions` and `fields` requested.
 #' Accepted values are:
-#' - Expansions: `set_expansions(tweet = NULL, list = NULL)`
-#' - Fields: `set_fields(place = NULL, poll = NULL, media = NULL, list = NULL)`.
-#' @references <https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-lists-id>
+#' - Expansions: `set_expansions(list = NULL)`.
+#' - Fields: `set_fields(list = NULL)`.
+#' @references <https://developer.twitter.com/en/docs/twitter-api/lists/list-tweets/api-reference/get-lists-id-tweets>
 #' @examples
 #' if (FALSE) {
-#'   lm <- list_members("1306285118877831168")
+#'   lt <- list_tweets("1150793074420998146")
 #' }
-list_members <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
-                     token = NULL, parse = TRUE, verbose = FALSE) {
+list_tweets <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
+                           token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, user_expansions()),
-                                 user_expansions())
-  fields <- check_fields(
-    arg_def(fields,
-            set_fields(place = NULL, poll = NULL, media = NULL, list = NULL)),
-    metrics = NULL, place = NULL, poll = NULL, media = NULL, list = NULL)
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)),
+                                 set_expansions(list = NULL))
+  fields <- check_fields(arg_def(fields, set_fields(list = NULL)), list = NULL)
   expansions_for_fields(expansions, fields)
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
@@ -35,7 +30,7 @@ list_members <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
   }
 
   data <- c(list(expansions = expansions), fields, ...)
-  url <- paste0("lists/", ids, "/members")
+  url <- paste0("lists/", ids, "/tweets")
 
   max_results <- check_interval(n, 1, formals()$n)
   n_pages <- ceiling(n / max_results)
