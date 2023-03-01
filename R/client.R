@@ -153,7 +153,6 @@ find_client <- function(client = NULL) {
         abort(paste0("Can't find saved client with name '", client, "'"))
       }
     }
-    inform(paste0("Reading client from2 '", path, "'"))
 
     if (!is_developing()) {
       inform(paste0("Reading client from '", path, "'"))
