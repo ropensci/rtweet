@@ -464,6 +464,10 @@ auth_renew <- function(token, scopes = NULL) {
   # https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/16
   # token <- httr2:::token_refresh(client, refresh_token = token$refresh_token,
   #                                scope = paste(scopes, collapse = " "))
+  auth_save(token, "tmp_oauth2_token")
+  inform(c("Renewed token saved as 'tmp_oauth2_token'.",
+           i = "Rename the token to one informative name?",
+           ">" = "Perhaps the same name as the token being renewed?"))
   token
 }
 

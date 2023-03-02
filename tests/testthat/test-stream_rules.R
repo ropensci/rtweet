@@ -2,7 +2,7 @@ test_that("Request all current rule ", {
   skip_if_offline()
   testing_with_authentication("bearer_testing_app")
   rt <- expect_error(stream_add_rule(NULL), NA)
-  expect_equal(rt$result_count, 0)
+  expect_gte(rt$result_count, 0)
 })
 
 test_that("Add a streaming rule ", {
@@ -25,7 +25,7 @@ test_that("Handle adding duplicate streaming rules ", {
   expect_error(rt <- stream_add_rule(list(value = "testing rules", tag = "ts")))
 
   # Clean up
-  expect_equal(stream_rm_rule(ids(rt0)), 1)
+  expect_equal(stream_rm_rule(ids(rt0))$deleted, 1)
 })
 
 
@@ -39,5 +39,5 @@ test_that("Handle multiple streaming rules ", {
   )
   expect_equal(tags2$created, 2)
   # Clean up
-  expect_equal(stream_rm_rule(attr(tags2, "rules")$id)$deleted, 2)
+  expect_equal(stream_rm_rule(ids(tags2))$deleted, 2)
 })

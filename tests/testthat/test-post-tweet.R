@@ -43,6 +43,7 @@ test_that("can set alt text", {
 
 test_that("post_tweet works", {
   skip_if_offline() # destroy id changes on each test
+  auth_as()
   msg <- paste("test", Sys.time()) # To avoid having duplicated status
 
   expect_message(pt <- post_tweet(msg), "Your tweet has been posted!")
