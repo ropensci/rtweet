@@ -41,6 +41,7 @@ list_tweets <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
 
   # Rates from the website app and user limits
   token <- check_token_v2(token, c("bearer", "pkce"))
+  check_scopes_token(token, c("tweet.read", "users.read", "list.read"))
   rate <- check_rate(token, 900/(60*15), 900/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)

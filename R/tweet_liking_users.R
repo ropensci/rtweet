@@ -15,7 +15,7 @@
 tweet_liking_users <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                                token = NULL, parse = TRUE, verbose = FALSE) {
 
-  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"), 
+  expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"),
                                  "pinned_tweet_id")
   fields <- check_fields(arg_def(fields, set_fields()),
                          metrics = NULL,
@@ -41,6 +41,7 @@ tweet_liking_users <- function(id, n = 100, expansions = NULL, fields = NULL, ..
 
   # Rates from the website app and user limits
   token <- check_token_v2(token, c("bearer", "pkce"))
+  check_scopes_token(token, c("tweet.read", "users.read", "like.read"))
   rate <- check_rate(token, 75/(60*15), 75/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)

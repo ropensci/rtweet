@@ -37,7 +37,7 @@ user_bookmarks <- function(id, n = 100, ..., expansions = NA, fields = NA,
   }
   url <- paste0("users/", id,"/bookmarks")
   token <- check_token_v2(token, mechanism = "pkce")
-  check_scopes(get_scopes(token), c("tweet.read", "users.read", "bookmark.read"))
+  check_scopes_token(token, c("tweet.read", "users.read", "bookmark.read"))
   req_bookmarks <- endpoint_v2(token, url, 180 / (60*15))
   req_final <- httr2::req_url_query(req_bookmarks, !!!data)
   p <- pagination(req_final, n_pages, n, verbose)
