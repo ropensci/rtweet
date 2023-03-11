@@ -9,7 +9,6 @@
 #'   tcr <- tweet_counts_recent(query = "#rtweet", parse = FALSE)
 #'   tca <- tweet_counts_all(query = "#rtweet", parse = FALSE)
 #' }
-#' To paginate the next_token is passed as an argument to the query!
 tweet_counts_recent <- function(query, ..., token = NULL, parse = TRUE,
                                 verbose = FALSE) {
   if (!is_logical(verbose)) {

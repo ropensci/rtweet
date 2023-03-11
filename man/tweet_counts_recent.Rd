@@ -33,7 +33,6 @@ if (FALSE) {
   tcr <- tweet_counts_recent(query = "#rtweet", parse = FALSE)
   tca <- tweet_counts_all(query = "#rtweet", parse = FALSE)
 }
-To paginate the next_token is passed as an argument to the query!
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-all}
