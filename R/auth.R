@@ -411,8 +411,8 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
 
   if (is.null(scopes)) {
     scopes <- all_scopes
-  } else {
-    scopes <- check_scopes(scopes)
+  } else if (!check_scopes(scopes)) {
+    abort("Scopes is not in the right format.")
   }
 
   # Guide to all urls for OAuth 2
@@ -445,29 +445,35 @@ auth_renew <- function(token, scopes = NULL) {
     return(token)
   }
 
+  if (!interactive()) {
+    abort("Impossible to renew the authentication without interactive usage.")
+  }
+
   if (!is.null(scopes) && check_scopes(scopes)) {
     scopes <- scopes
   } else if (is.null(scopes)) {
     scopes <- strsplit(token$scope, " ", fixed = TRUE)[[1]]
   } else {
-    abort("Scopes is not in the right format")
+    abort("Scopes is not in the right format.")
   }
-
-  client_as(attr(token, "app", TRUE))
+  client_name <- attr(token, "app", TRUE)
+  inform(c("i" = paste0("Using client as ", sQuote(client_name))))
+  client_as(client_name)
   client <- client_get()
-  if (!interactive()) {
-    abort("Impossible to renew the authentication without interactive usage.")
-  }
+
   # inform("You'll need to give again permissions to the app every two hours!")
   token <- rtweet_oauth2(client, scopes)
   # The provided refresh token can only be used once:
   # https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/16
   # token <- httr2:::token_refresh(client, refresh_token = token$refresh_token,
   #                                scope = paste(scopes, collapse = " "))
-  auth_save(token, "tmp_oauth2_token")
-  inform(c("Renewed token saved as 'tmp_oauth2_token'.",
-           i = "Rename the token to one informative name?",
-           ">" = "Perhaps the same name as the token being renewed?"))
+
+  # Save token in the environment
+  # It could be that token is not from the environment, but this feel safer than saving it in a file directly.
+  auth_as(token)
+  inform(c("i" = "Using renewed token",
+           "Save your new oauth2 token with the appropriate name:",
+           ">" = "`auth_save(auth_get(), 'renewed_token')`"))
   token
 }
 
