@@ -410,7 +410,7 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
   client <- client_as(client)
 
   if (is.null(scopes)) {
-    scopes <- all_scopes
+    scopes <- client_scopes(client)
   } else if (!check_scopes(scopes)) {
     abort("Scopes is not in the right format.")
   }
