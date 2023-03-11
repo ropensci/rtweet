@@ -473,7 +473,7 @@ auth_renew <- function(token, scopes = NULL) {
   auth_as(token)
   inform(c("i" = "Using renewed token",
            "Save your new oauth2 token with the appropriate name:",
-           ">" = "`auth_save(auth_get(), 'renewed_token')`"))
+           "`auth_save(auth_get(), 'renewed_token')`"))
   token
 }
 
