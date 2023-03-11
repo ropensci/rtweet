@@ -205,6 +205,7 @@ rtweet_client <- function(client_id, client_secret,
     auth = "header",
     name = app)
   attr(client, "app") <- app
+  attr(client, "scopes") <- scopes
   client
 }
 
@@ -238,5 +239,16 @@ client_setup_default <- function() {
     client_save(client)
   }
   client_as("rtweet")
+  invisible(client)
 }
 
+
+client_scopes <- function(client) {
+  stopifnot(is_client(client))
+  attr(client, "scopes", exact = TRUE)
+}
+
+client_app <- function(client) {
+  stopifnot(is_client(client))
+  attr(client, "app", exact = TRUE)
+}
