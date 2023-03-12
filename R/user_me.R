@@ -4,6 +4,12 @@
 #' @inheritParams filtered_stream
 #' @param ... Other arguments passed to the API.
 #' @param verbose A logical value to provide more information about paginated queries.
+#' @returns
+#' A data.frame with the id, name and username of the authenticated user.
+#' Other information depends on the `expansions` and `fields` requested.
+#' Accepted values are:
+#' - Expansions: `set_expansions(tweet = NULL, list = NULL)`.
+#' - Fields: `set_fields(media = NULL, poll = NULL, place = NULL)`
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me>
 #' @examples
