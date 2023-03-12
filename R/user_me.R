@@ -40,7 +40,7 @@ user_self <- function(expansions = NULL, fields = NULL, ...,
   check_scopes_token(token, c("tweet.read", "users.read"))
   req_archive <- endpoint_v2(token, url, 75/(60*15))
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  p <- httr2::req_perform(req_final)
+  p <- pagination(req_final, 1, 1, verbose)
   if (!parse) {
     return(p)
   }
