@@ -30,12 +30,13 @@ user_search <- function(ids, expansions = NULL, fields = NULL, ...,
     abort("Please introduce at least a valid user id")
   }
   if (length(ids) > 1) {
-    data <- c(list(id = ids, expansions = expansions), fields, ...)
+    data <- c(list(ids = ids, expansions = expansions), fields, ...)
     url <- "users"
   } else {
     data <- c(list(expansions = expansions), fields, ...)
     url <- paste0("users/", ids)
   }
+
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- data[data != ""]
 
@@ -45,14 +46,9 @@ user_search <- function(ids, expansions = NULL, fields = NULL, ...,
   rate <- check_rate(token, 300/(60*15), 900/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  resp <- httr2::req_perform(req_final)
-  p <- resp(resp)
+  p <- pagination(req_final, 1, 1, verbose)
   if (!parse) {
     return(p)
   }
-  if (url == "users/") {
-    parse(p, expansions, fields)
-  } else {
-   list2DF(p$data)
-  }
+  parse(p, expansions, fields)
 }
