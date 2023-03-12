@@ -5,8 +5,15 @@
 #' @param ... Other arguments passed to the API.
 #' @param verbose A logical value to provide more information about paginated queries.
 #' @param ids A user id string or up to 100.
+#' @returns
+#' A data.frame with the id, name and username of the accounts.
+#' Other information depends on the `expansions` and `fields` requested.
+#' Accepted values are:
+#' - Expansions: `set_expansions(tweet = NULL, list = NULL)`.
+#' - Fields: `set_fields(media = NULL, poll = NULL, place = NULL)`.
 #' @export
-#' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions>
+#' @references <https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id>
+#' <https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users>
 #' @seealso [user_by_username()]
 #' @examples
 #' if (FALSE) {
