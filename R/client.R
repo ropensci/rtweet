@@ -145,22 +145,28 @@ find_client <- function(client = NULL) {
   } else if (is_client(client)) {
     client
   } else if (is_string(client)) {
-    if (file.exists(client) && !dir.exists(client)) {
-      path <- client
-    } else {
-      path <- client_path(paste0(client, ".rds"))
-      if (!file.exists(path)) {
-        abort(paste0("Can't find saved client with name '", client, "'"))
-      }
-    }
-
-    if (!is_developing()) {
-      inform(paste0("Reading client from '", path, "'"))
-    }
-    readRDS(path)
+    load_client(client)
   } else {
     abort("Unrecognised input to `client`")
   }
+}
+
+
+load_client <- function(client_name) {
+
+  if (file.exists(client_name) && !dir.exists(client_name)) {
+    path <- client_name
+  } else {
+    path <- client_path(paste0(client_name, ".rds"))
+  }
+  if (!file.exists(path)) {
+    abort(paste0("Can't find saved client with name '", client_name, "'"))
+  }
+
+  if (!is_developing()) {
+    inform(paste0("Reading client from '", path, "'"))
+  }
+  readRDS(path)
 }
 
 no_client <- function(call = caller_env()) {
@@ -239,7 +245,7 @@ client_setup_default <- function() {
     client_save(client)
   }
   client_as("rtweet")
-  invisible(client)
+  invisible(client_name)
 }
 
 
