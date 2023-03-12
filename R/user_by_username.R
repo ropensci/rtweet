@@ -29,7 +29,7 @@ user_by_username <- function(username, expansions = NULL, fields = NULL, ...,
   }
   parsing(parse)
   if (length(username) > 100 || !is_user_id(username) && length(username) == 0) {
-    abort("Please introduce at least a valid user id")
+    abort("Please introduce less than 100 valid user ids.")
   }
   if (length(username) > 1) {
     data <- c(list(usernames = username, expansions = expansions), fields, ...)
@@ -47,14 +47,9 @@ user_by_username <- function(username, expansions = NULL, fields = NULL, ...,
   rate <- check_rate(token, 300/(60*15), 900/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  resp <- httr2::req_perform(req_final)
-  p <- resp(resp)
+  p <- pagination(req_final, 1, 1, verbose)
   if (!parse) {
     return(p)
   }
-  if (url == "users/by") {
-    do.call(rbind, lapply(p$data, list2DF))
-  } else {
-    list2DF(p$data)
-  }
+  parse(p, expansions, fields)
 }
