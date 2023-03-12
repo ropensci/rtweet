@@ -284,7 +284,7 @@ auth_as <- function(auth = NULL) {
   invisible(old)
 }
 
-find_auth <- function(auth = NULL) {
+find_auth <- function(auth = NULL, call = caller_env()) {
   if (is.null(auth)) {
     if (is_developing()) {
       rtweet_test() %||% no_token()
@@ -294,22 +294,29 @@ find_auth <- function(auth = NULL) {
   } else if (is_auth(auth)) {
     auth
   } else if (is_string(auth)) {
-    if (file.exists(auth)) {
-      path <- auth
-    } else {
-      path <- auth_path(paste0(auth, ".rds"))
-      if (!file.exists(path)) {
-        abort(paste0("Can't find saved auth with name '", auth, "'"))
-      }
-    }
-    if (!is_developing()) {
-      inform(paste0("Reading auth from '", path, "'"))
-    }
-    readRDS(path)
+    load_token(auth, call)
   } else {
-    abort("Unrecognised input to `auth`")
+    abort("Unrecognised input to `auth`",
+          call = call)
   }
 }
+
+load_token <- function(auth_name, call = caller_env) {
+  if (file.exists(auth_name)) {
+    path <- auth_name
+  } else {
+    path <- auth_path(paste0(auth_name, ".rds"))
+  }
+  if (!file.exists(path)) {
+    abort(paste0("Can't find saved auth with name '", auth_name, "'"),
+          call = call)
+  }
+  if (!is_developing()) {
+    inform(paste0("Reading auth from '", path, "'"))
+  }
+  readRDS(path)
+}
+
 
 default_cached_auth <- function() {
   default <- auth_path("default.rds")
@@ -458,16 +465,15 @@ auth_renew <- function(token, scopes = NULL) {
     abort("Scopes is not in the right format.")
   }
   client_name <- attr(token, "app", TRUE)
-  inform(c("i" = paste0("Using client as ", sQuote(client_name))))
-  client_as(client_name)
-  client <- client_get()
+  client <- load_client(client_name)
 
   # inform("You'll need to give again permissions to the app every two hours!")
   token <- rtweet_oauth2(client, scopes)
   # The provided refresh token can only be used once:
   # https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/16
   # token <- httr2:::token_refresh(client, refresh_token = token$refresh_token,
-  #                                scope = paste(scopes, collapse = " "))
+  #                                scope = token$scopes)
+  # This is reported to upstream: https://github.com/r-lib/httr2/issues/197
 
   # Save token in the environment
   # It could be that token is not from the environment, but this feel safer than saving it in a file directly.
