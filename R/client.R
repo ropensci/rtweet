@@ -245,7 +245,7 @@ client_setup_default <- function() {
     client_save(client)
   }
   client_as("rtweet")
-  invisible(client_name)
+  invisible(client_get())
 }
 
 
