@@ -44,7 +44,7 @@ Looks up to 800 tweets mentioning a user.
 }
 \examples{
 if (FALSE) {
-  ut <- user_mentions("1599030512919650304", verbose = TRUE)
+  um <- user_mentions("1599030512919650304", verbose = TRUE)
 }
 }
 \references{

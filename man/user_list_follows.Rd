@@ -44,7 +44,7 @@ Looks up lists a user follows.
 }
 \examples{
 if (FALSE) {
-  lf <- user_list_follows("1051050384")
+  ulf <- user_list_follows("1051050384")
 }
 }
 \references{

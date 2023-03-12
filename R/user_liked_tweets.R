@@ -10,7 +10,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets>
 #' @examples
 #' if (FALSE) {
-#'    <- user_liked_tweets("1599030512919650304", verbose = TRUE)
+#'   ult <- user_liked_tweets("1599030512919650304", verbose = TRUE)
 #' }
 user_liked_tweets <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                                token = NULL, parse = TRUE, verbose = FALSE) {

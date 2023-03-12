@@ -24,6 +24,8 @@ New endpoints to retrieve data from twitter, no action is performed (no blocking
 - New user endpoints: `user_blocked()`,`user_bookmarks()`,`user_by_username()`,
   `user_following()`, `user_liked_tweets()`, `user_list_follows()`, `user_lists()`,
   `user_mentions()`, `user_search()`, `user_self()`, `user_timeline()`, `user_tweets()`.
+  
+- New statistic endpoints: `tweet_counts_recent()`, `tweet_counts_all()`.
 
 ## Other changes
 

@@ -10,7 +10,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions>
 #' @examples
 #' if (FALSE) {
-#'   ut <- user_mentions("1599030512919650304", verbose = TRUE)
+#'   um <- user_mentions("1599030512919650304", verbose = TRUE)
 #' }
 user_mentions <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                         token = NULL, parse = TRUE, verbose = FALSE) {

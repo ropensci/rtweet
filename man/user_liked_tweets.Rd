@@ -44,7 +44,7 @@ Looks up tweets liked by a user.
 }
 \examples{
 if (FALSE) {
-   <- user_liked_tweets("1599030512919650304", verbose = TRUE)
+  ult <- user_liked_tweets("1599030512919650304", verbose = TRUE)
 }
 }
 \references{

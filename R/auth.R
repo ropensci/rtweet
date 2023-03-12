@@ -114,7 +114,8 @@ rtweet_user <- function(client_id = NULL, client_secret = NULL,
 
 #' @export
 #' @rdname rtweet_user
-rtweet_bot <- function(api_key, api_secret, access_token, access_secret, app = "rtweet") {
+rtweet_bot <- function(api_key, api_secret, access_token, access_secret,
+                       app = "rtweet") {
 
   if (missing(api_key)) {
     api_key <- ask_pass("API key")

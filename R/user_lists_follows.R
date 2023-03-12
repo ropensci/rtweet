@@ -7,7 +7,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/get-lists-id-followers>
 #' @examples
 #' if (FALSE) {
-#'   lf <- user_list_follows("1051050384")
+#'   ulf <- user_list_follows("1051050384")
 #' }
 user_list_follows <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
                            token = NULL, parse = TRUE, verbose = FALSE) {

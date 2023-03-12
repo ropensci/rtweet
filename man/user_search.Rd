@@ -41,7 +41,7 @@ Looks up users.
 }
 \examples{
 if (FALSE) {
-  ut <- user_search(c("1599030512919650304", "2244994945"), verbose = TRUE)
+  us <- user_search(c("1599030512919650304", "2244994945"), verbose = TRUE)
 }
 }
 \references{

@@ -10,7 +10,7 @@
 #' @seealso [user_by_username()]
 #' @examples
 #' if (FALSE) {
-#'   ut <- user_search(c("1599030512919650304", "2244994945"), verbose = TRUE)
+#'   us <- user_search(c("1599030512919650304", "2244994945"), verbose = TRUE)
 #' }
 user_search <- function(ids, expansions = NULL, fields = NULL, ...,
                           token = NULL, parse = TRUE, verbose = FALSE) {
