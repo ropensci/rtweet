@@ -8,8 +8,8 @@ user_bookmarks(
   id,
   n = 100,
   ...,
-  expansions = NA,
-  fields = NA,
+  expansions = NULL,
+  fields = NULL,
   parse = TRUE,
   token = NULL,
   verbose = FALSE
@@ -39,7 +39,14 @@ created via \code{\link[=rtweet_oauth2]{rtweet_oauth2()}}).}
 \item{verbose}{A logical value}
 }
 \value{
-The tweets.
+A data.frame with the user information of who is following the list:
+edit_history_tweet_ids, id and text.
+Other information depends on the \code{expansions} and \code{fields} requested.
+Accepted values are:
+\itemize{
+\item Expansions: \code{set_expansions(list = NULL)}.
+\item Fields: \code{set_fields(list = NULL)}.
+}
 }
 \description{
 Collects the 800 most recent bookmarked tweets of a user.
@@ -50,12 +57,12 @@ This endpoint requires a OAuth2.0 authentication, with tweet.read, users.read an
 \examples{
 if (FALSE) {
    # Requires token_oa2
-   ub <- user_bookmarks("123456789", parse = FALSE, n = Inf, token = token_oa2)
+   ub <- user_bookmarks(user_self()$id, parse = FALSE, n = Inf, token = token_oa2)
 }
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks}
 }
 \seealso{
-\code{\link[=rtweet_oauth2]{rtweet_oauth2()}}
+\code{\link[=rtweet_oauth2]{rtweet_oauth2()}}, \code{\link[=user_self]{user_self()}}
 }

@@ -36,6 +36,15 @@ Twitter API.}
 
 \item{verbose}{A logical value to provide more information about paginated queries.}
 }
+\value{
+A data.frame with the id, name and username of the accounts.
+Other information depends on the \code{expansions} and \code{fields} requested.
+Accepted values are:
+\itemize{
+\item Expansions: \code{set_expansions(tweet = NULL, list = NULL)}.
+\item Fields: \code{set_fields(media = NULL, poll = NULL, place = NULL)}.
+}
+}
 \description{
 Looks up users.
 }
@@ -45,7 +54,8 @@ if (FALSE) {
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions}
+\url{https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id}
+\url{https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users}
 }
 \seealso{
 \code{\link[=user_by_username]{user_by_username()}}
