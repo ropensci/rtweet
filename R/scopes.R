@@ -47,7 +47,7 @@ check_scopes_token <- function(token, required, call = caller_env()) {
   if (!auth_is_pkce(token)) {
     return(TRUE)
   }
-  check_scopes(required, call)
-  check_scopes(get_scopes(token), required, call)
+  check_scopes(required, call = call)
+  check_scopes(get_scopes(token), required, call = call)
   TRUE
 }
