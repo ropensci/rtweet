@@ -49,8 +49,7 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   } else if (length(mechanism) == 2) {
     # To make it easier testing interactively
     if (is_developing()) {
-      auth_as("bearer_academic_dev")
-      return(auth_get())
+      return(load_token("bearer_academic_dev", call = call))
     }
 
     abort(c(
@@ -62,8 +61,7 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   if (mechanism == "bearer" && !auth_is_bearer(token)) {
     # To make it easier testing interactively
     if (is_developing()) {
-      auth_as("bearer_academic_dev")
-      return(auth_get())
+      return(load_token("bearer_academic_dev", call = call))
     }
     abort(c("x" = "A bearer `token` is needed for this endpoint.",
             "i" = "Get one via rtweet_app()"),
@@ -72,8 +70,7 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
   if (mechanism == "pkce" && !auth_is_pkce(token)) {
     # To make it easier testing interactively
     if (is_developing()) {
-      auth_as("oauth2_academic")
-      return(auth_get())
+      return(load_token("renewed_token", call = call))
     }
     abort(c("x" = "An OAuth 2.0  is needed for this endpoint.",
             "i" = "Get one via rtweet_*() "),
@@ -87,9 +84,7 @@ req_auth <- function(req, token) {
   if (auth_is_bearer(token)) {
     token <- token$token
   } else if (auth_is_pkce(token)) {
-    if (.POSIXct(token[["expires_at"]]) <= Sys.time()) {
-      token <- auth_renew(token)
-    }
+    token <- auth_renew(token)
     token <- token$access_token
   }
   httr2::req_auth_bearer_token(req, token)
