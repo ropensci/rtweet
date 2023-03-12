@@ -46,7 +46,7 @@ list_get <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
   rate <- check_rate(token, 75/(60*15), 75/(60*15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
-  p <- resp(httr2::req_perform(req_final))
+  p <- pagination(req_final, 1, 1, verbose = verbose)
   if (!parse) {
     return(p)
   }
