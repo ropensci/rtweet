@@ -16,6 +16,8 @@ parse_page <- function(page, expansions, fields) {
   if (is.null(fields) && is.null(expansions)) {
     if (is.null(page$data)) {
       dcr <- list2DF(page)
+    } else if (!is.null(names(page$data))) {
+      dcr <- list2DF(page$data)
     } else {
       ldf <- lapply(page$data, list2DF)
       dcr <- do.call(rbind, ldf)
