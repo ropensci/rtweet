@@ -4,6 +4,7 @@
 #' @returns The number of tweets for a given granularity
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-all>
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-recent>
+#' @export
 #' @examples
 #' if (FALSE) {
 #'   tcr <- tweet_counts_recent(query = "#rtweet", parse = FALSE)
@@ -31,6 +32,8 @@ tweet_counts_recent <- function(query, ..., token = NULL, parse = TRUE,
   }
 }
 
+#' @export
+#' @rdname tweet_counts_recent
 tweet_counts_all <- function(query, ..., token = NULL, parse = TRUE,
                              verbose = FALSE) {
   if (!is_logical(verbose)) {

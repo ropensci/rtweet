@@ -2,9 +2,12 @@
 % Please edit documentation in R/tweet_counts.R
 \name{tweet_counts_recent}
 \alias{tweet_counts_recent}
+\alias{tweet_counts_all}
 \title{Count tweets}
 \usage{
 tweet_counts_recent(query, ..., token = NULL, parse = TRUE, verbose = FALSE)
+
+tweet_counts_all(query, ..., token = NULL, parse = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{query}{One query for matching Tweets.}
