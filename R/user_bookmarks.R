@@ -21,8 +21,7 @@
 #' @examples
 #' if (FALSE) {
 #'    # Requires token_oa2
-#'    # Requires knowing your own user id
-#'    ub <- user_bookmarks("123456789", parse = FALSE, n = Inf, token = token_oa2)
+#'    ub <- user_bookmarks(user_self()$id, parse = FALSE, n = Inf, token = token_oa2)
 #' }
 user_bookmarks <- function(id, n = 100, ..., expansions = NULL, fields = NULL,
                            parse = TRUE, token = NULL, verbose = FALSE) {
