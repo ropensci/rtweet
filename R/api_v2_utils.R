@@ -64,7 +64,7 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
       return(load_token("bearer_academic_dev", call = call))
     }
     abort(c("x" = "A bearer `token` is needed for this endpoint.",
-            "i" = "Get one via rtweet_app()"),
+            "i" = "Get one via `rtweet_app()`"),
           call = call)
   }
   if (mechanism == "pkce" && !auth_is_pkce(token)) {
@@ -72,8 +72,16 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer", call = caller_env
     if (is_developing()) {
       return(load_token("renewed_token", call = call))
     }
+    client <- client_get()
+    if (!is_client(client)) {
+      msg <- c(">" = "Check the vignette('auth', 'rtweet')",
+      "i" = "Get a client with `rtweet_client()`")
+    } else {
+      msg <- NULL
+    }
     abort(c("x" = "An OAuth 2.0  is needed for this endpoint.",
-            "i" = "Get one via rtweet_*() "),
+            msg,
+            "i" = "Get the authorization via `rtweet_oauth2()`"),
           call = call)
   }
   token
