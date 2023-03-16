@@ -193,11 +193,13 @@ no_client <- function(call = caller_env()) {
 #' }
 rtweet_client <- function(client_id, client_secret,
                           app, scopes = NULL) {
-
-  if (missing(client_id) && missing(client_secret)) {
-    client_setup_default()
-    return(client_get())
+  if (missing(client_id)) {
+    client_id <- ask_pass("client ID key")
   }
+  if (missing(client_secret)) {
+    client_secret <- ask_pass("client secret")
+  }
+
   if (is.null(scopes)) {
     scopes <- all_scopes
   } else {
