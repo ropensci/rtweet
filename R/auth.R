@@ -160,8 +160,8 @@ rtweet_app <- function(bearer_token) {
   )
 }
 
-ask_pass <- function(type) {
-  check_installed("askpass")
+ask_pass <- function(type, call = caller_env()) {
+  check_installed("askpass", call = call)
 
   message <- paste0("Please enter your ", type, ": ")
   val <- askpass::askpass(message)
