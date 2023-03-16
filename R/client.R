@@ -138,7 +138,7 @@ client_list <- function() {
 find_client <- function(client = NULL) {
   if (is.null(client)) {
     if (is_developing()) {
-      readRDS(client_path("rtweet_hadley.rds")) %||% no_client()
+      load_client("academic_dev") %||% no_client()
     } else{
       default_cached_client()
     }
@@ -181,7 +181,8 @@ no_client <- function(call = caller_env()) {
 #'
 #' Set up your client mechanism for the Twitter API.
 #' @inheritParams rtweet_user
-#' @param scopes Scopes allowed for this client. Leave `NULL` to use all.
+#' @param scopes Default scopes allowed for users using this client.
+#' Leave `NULL` to allow everything or choose yours with `set_scopes()`.
 #' @param app Name of the client, it helps if you make it match with the name of your app.
 #' On the Twitter app must be "http://127.0.0.1:1410/" (the trailing / must be
 #' included).
@@ -251,8 +252,12 @@ client_setup_default <- function() {
 }
 
 
-client_scopes <- function(client) {
-  stopifnot(is_client(client))
+client_scopes <- function(client, call = caller_env()) {
+  if (!is_client(client)) {
+    abort(c("Missing client.",
+            ">" = "Check the vignette('auth', 'rtweet')",
+            "i" = "Get one with `rtweet_client()`"), call = call)
+  }
   attr(client, "scopes", exact = TRUE)
 }
 
