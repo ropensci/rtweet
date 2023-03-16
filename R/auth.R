@@ -411,6 +411,7 @@ auth_path <- function(...) {
 #' In order to work, the developer must configure the app with  callback url: `http://127.0.0.1:1410`
 #' @param client Which client app will be used, see [rtweet_client()] for details.
 #' @param scopes The permissions of the app, see [set_scopes()] for details.
+#' By default it uses the client's scopes. Provided here in case you want to modify them.
 #' @references <https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code>
 #' @export
 #' @rdname rtweet_user
@@ -446,7 +447,7 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
 
 # Renew token if needed
 # Makes the assumption that the right app is still in the user computer
-auth_renew <- function(token, scopes = NULL) {
+auth_renew <- function(token, scopes = NULL, call = caller_env()) {
   stopifnot(auth_is_pkce(token))
 
   if (.POSIXct(token$expires_at) >= Sys.time()) {
@@ -467,6 +468,15 @@ auth_renew <- function(token, scopes = NULL) {
   client_name <- attr(token, "app", TRUE)
   client <- load_client(client_name)
 
+  # TODO: once it is possible to silently update the token (see https://github.com/r-lib/httr2/issues/197)
+  # activate this branch to reauthorize the app
+  if (FALSE ) {
+    !any(grepl("offline.access", scopes, fixed = TRUE))
+    abort(c("Not possible to update the client"))
+    token <- rtweet_oauth2(client, scopes)
+    return(token)
+  }
+
   # inform("You'll need to give again permissions to the app every two hours!")
   token <- rtweet_oauth2(client, scopes)
   # The provided refresh token can only be used once:
@@ -479,7 +489,7 @@ auth_renew <- function(token, scopes = NULL) {
   # It could be that token is not from the environment, but this feel safer than saving it in a file directly.
   auth_as(token)
   inform(c("i" = "Using renewed token",
-           "Save your new oauth2 token with the appropriate name:",
+           "!" = "Save your new oauth2 token with the appropriate name:",
            "`auth_save(auth_get(), 'renewed_token')`"))
   token
 }

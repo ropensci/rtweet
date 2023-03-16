@@ -15,7 +15,8 @@ the built-in rtweet app.}
 On the Twitter app must be "http://127.0.0.1:1410/" (the trailing / must be
 included).}
 
-\item{scopes}{Scopes allowed for this client. Leave \code{NULL} to use all.}
+\item{scopes}{Default scopes allowed for users using this client.
+Leave \code{NULL} to allow everything or choose yours with \code{set_scopes()}.}
 }
 \description{
 Set up your client mechanism for the Twitter API.

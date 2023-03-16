@@ -35,7 +35,8 @@ the built-in rtweet app.}
 
 \item{client}{Which client app will be used, see \code{\link[=rtweet_client]{rtweet_client()}} for details.}
 
-\item{scopes}{The permissions of the app, see \code{\link[=set_scopes]{set_scopes()}} for details.}
+\item{scopes}{The permissions of the app, see \code{\link[=set_scopes]{set_scopes()}} for details.
+By default it uses the client's scopes. Provided here in case you want to modify them.}
 }
 \value{
 If the validation is successful the OAuth token.
