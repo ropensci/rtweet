@@ -26,8 +26,8 @@ post_tweet(
 up-to length 4 character vector with file paths to static images to be included in tweet.
 \strong{The caller is responsible for managing this.}}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{in_reply_to_status_id}{Status ID of tweet to which you'd like to reply.

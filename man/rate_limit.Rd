@@ -16,8 +16,8 @@ rate_limit_wait(endpoint, token = NULL)
 \item{resource_match}{An optional regular expression used to filter the
 resources listed in returned rate limit data.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{endpoint}{Name of Twitter endpoint like \code{"lookup/users"},

@@ -81,8 +81,8 @@ failure modes like temporarily losing your internet connection.}
 \item{verbose}{Show progress bars and other messages indicating current
 progress?}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{...}{Further arguments passed on as parameters in API query.}

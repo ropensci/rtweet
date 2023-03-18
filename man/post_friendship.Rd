@@ -18,8 +18,8 @@ to false.}
 \item{retweets}{Logical indicating whether to enable or disable
 retweets from target user behaviors. Defaults to false.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{

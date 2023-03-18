@@ -60,8 +60,8 @@ TWIT_method <- function(method, token, api,
 #' These are internal functions used for pagination inside of rtweet.
 #'
 #' @keywords internal
-#' @param token Expert use only. Use this to override authentication for
-#'   a single API call. In most cases you are better off changing the
+#' @param token Use this to override authentication for
+#'   a single API call. In many cases you are better off changing the
 #'   default for all calls. See [auth_as()] for details.
 #' @param n Desired number of results to return. Results are downloaded
 #'   in pages when `n` is large; the default value will download a single
