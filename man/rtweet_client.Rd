@@ -22,7 +22,7 @@ Leave \code{NULL} to allow everything or choose yours with \code{set_scopes()}.}
 Set up your client mechanism for the Twitter API.
 }
 \examples{
-if (interactive()) {
+if (!client_has_default()) {
   rtweet_client()
 }
 }
