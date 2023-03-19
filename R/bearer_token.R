@@ -16,12 +16,15 @@ bearer_token <- function(token = NULL) {
 
 #' Invalidate bearer token
 #'
-#' Invalidate the bearer token
+#' Invalidate the bearer token automatically if you know the API key and API secret.
+#'
+#' @note Not tested!
 #' @inheritParams rtweet_user
 #' @param token Expert use only. Use this to invalidate a specific bearer token
 #' created with [rtweet_app()]. If `NULL` the default authentication mechanism is invalidated.
 #' @references <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token>
 #' <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token>
+#' @keywords internal
 #' @export
 invalidate_bearer <- function(api_key, api_secret, client = NULL, token = NULL) {
 
@@ -39,9 +42,10 @@ invalidate_bearer <- function(api_key, api_secret, client = NULL, token = NULL) 
     api_key <- ask_pass("API secret")
   }
   token <- check_token_v2(token)
-  httr2::request("https://api.twitter.com/oauth2/invalidate_token") |>
-    httr2::req_url_query(access_token = token) |>
-    httr2::req_method("POST") |>
-    httr2::req_auth_basic(api_key, api_secret) |>
-    httr2::req_perform()
+  req1 <- httr2::request("https://api.twitter.com/oauth2/invalidate_token")
+  req2 <- httr2::req_url_query(req1, access_token = token)
+  req3 <- httr2::req_method(req2, "POST")
+  req4 <- httr2::req_auth_basic(req3, api_key, api_secret)
+  resp <- httr2::req_perform(req4)
+  resp
 }

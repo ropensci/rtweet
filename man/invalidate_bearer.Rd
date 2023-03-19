@@ -15,9 +15,13 @@ invalidate_bearer(api_key, api_secret, client = NULL, token = NULL)
 created with \code{\link[=rtweet_app]{rtweet_app()}}. If \code{NULL} the default authentication mechanism is invalidated.}
 }
 \description{
-Invalidate the bearer token
+Invalidate the bearer token automatically if you know the API key and API secret.
+}
+\note{
+Not tested!
 }
 \references{
 \url{https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token}
 \url{https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token}
 }
+\keyword{internal}
