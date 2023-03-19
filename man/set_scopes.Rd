@@ -11,7 +11,7 @@ set_scopes(read = TRUE, write = TRUE, tweet_moderate = TRUE, regenerate = TRUE)
 
 \item{write}{Allow to write/manage?}
 
-\item{tweet_moderate}{Allow to hide and unhide replies to your Tweets.}
+\item{tweet_moderate}{Allow to hide or show replies to your Tweets.}
 
 \item{regenerate}{Allow to use the token for more than 2 hours.}
 }

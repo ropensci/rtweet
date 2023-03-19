@@ -14,7 +14,7 @@ endpoints <- c("tweet", "users", "follows", "space", "mute", "like", "list", "bl
 #' @export
 #' @param read Allow to read.
 #' @param write Allow to write/manage?
-#' @param tweet_moderate Allow to hide and unhide replies to your Tweets.
+#' @param tweet_moderate Allow to hide or show replies to your Tweets.
 #' @param regenerate Allow to use the token for more than 2 hours.
 #' @returns A character with all the possible scopes or those allowed.
 #' @references <https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code>
