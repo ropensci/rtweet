@@ -91,12 +91,10 @@ auth_setup_default <- function() {
 rtweet_user <- function(client_id = NULL, client_secret = NULL,
                         api_key = client_id, api_secret = client_secret) {
   check_installed("httpuv")
-  client <- default_client(client_id, client_secret)
-
   if (is.null(client_id) && is.null(client_secret)) {
-    client <- client_as(client)
-    api_key <- client["id"]
-    api_secret <- client["secret"]
+    client <- default_cached_client()
+    api_key <- client$id
+    api_secret <- client$secret
   } else {
     stopifnot(is_string(client_id), is_string(client_secret))
   }

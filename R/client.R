@@ -83,15 +83,10 @@ default_cached_client <- function() {
     return(readRDS(client_path("rtweet.rds")))
   }
 
-  names <- client_list()
-  if (length(names) == 0) {
-    abort("No default client found. Please call `client_setup_default()`")
-  } else {
-    abort(c(
-      "No default client found. Pick existing client with:",
-      paste0("client_as('", names, "')")
-    ))
-  }
+  inform(c("Using default rtweet client",
+         "x" = "It doesn't work with the API v2!"))
+  client_str <- default_client()
+  rtweet_client(client_str["id"], client_str["secret"], "rtweet")
 }
 
 #' Save an authentication mechanism for use in a future session
