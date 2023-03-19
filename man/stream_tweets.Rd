@@ -86,8 +86,7 @@ usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json",
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample},
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview}
 
-Stream: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample}
-Filter: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/api-reference/post-statuses-filter}
+The webpages describing how it used to work were removed.
 }
 \seealso{
 \code{\link[=parse_stream]{parse_stream()}}.

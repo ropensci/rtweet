@@ -96,8 +96,6 @@
 #'
 #' @export
 #' @references Endpoint: <https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search>
-#' Full archive limits <https://developer.twitter.com/en/pricing/search-fullarchive>
-#' 30day limits <https://developer.twitter.com/en/pricing/search-30day>
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
                                continue = NULL,
                                env_name = NULL, premium = FALSE,

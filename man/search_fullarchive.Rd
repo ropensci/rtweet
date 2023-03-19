@@ -171,7 +171,5 @@ rt <- search_30day("#rstats", n = 300,
 }
 \references{
 Endpoint: \url{https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search}
-Full archive limits \url{https://developer.twitter.com/en/pricing/search-fullarchive}
-30day limits \url{https://developer.twitter.com/en/pricing/search-30day}
 }
 \concept{premium endpoints}
