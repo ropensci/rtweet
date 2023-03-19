@@ -10,6 +10,7 @@
 #' Submit job: <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/post-compliance-jobs>
 #' Job status: <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs-id>
 #' Jobs list: <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs>
+#' @keywords internal
 job_compliance <- function(ids, name, type, resumable = TRUE, token = NULL) {
 
   type <- match.arg(type, c("tweets", "users"))
