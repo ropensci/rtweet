@@ -19,6 +19,7 @@ revdep/Outputs/*
 revdep/PACKAGES*
 revdep/*.tar.gz
 revdep/timings.tab
+pkgdown/*
 docs
 *.Rcheck/
 *.RDS

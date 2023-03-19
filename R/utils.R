@@ -88,5 +88,8 @@ is_developing <- function() {
 }
 
 release_bullets <- function() {
-  c("Run vignette/precompute.R")
+  c("Run vignette/precompute.R",
+    "Check spelling with: `spelling::spell_check_package()`",
+    "Run manual tests.",
+    "Add link to blog post to _pkgdown.yml")
 }
