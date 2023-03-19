@@ -52,6 +52,11 @@ library(rtweet)
 
 rtweet should be used in strict accordance with Twitter's [developer  terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
 
+```{r include=FALSE}
+auth_as(rtweet:::rtweet_test())
+```
+
+
 ### Search tweets or users
 
 Search for up to 1000 tweets containing #rstats, the common hashtag used to refer to the R language, excluding retweets:

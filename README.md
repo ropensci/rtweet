@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ropensci/rtweet/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rtweet/actions)
+[![R-CMD-check](https://github.com/ropensci/rtweet/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rtweet/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
 [![Coverage
@@ -44,11 +44,6 @@ Twitter “app”. See `vignette("auth", package = "rtweet")` for details.
 
 ``` r
 library(rtweet)
-#> 
-#> Attaching package: 'rtweet'
-#> The following object is masked from 'package:graphics':
-#> 
-#>     symbols
 ```
 
 rtweet should be used in strict accordance with Twitter’s [developer
