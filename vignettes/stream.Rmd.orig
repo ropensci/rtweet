@@ -33,7 +33,7 @@ library(rtweet)
 ```
 
 ```{r auth, include=FALSE, purl=FALSE, message=FALSE}
-rtweet::auth_as("RTAA")
+rtweet::auth_as("bearer_academic_dev")
 ```
 
 ## Overview
@@ -134,13 +134,13 @@ length(stream_random)
 
 ## Saving files
 
-Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on.
+Users may want to stream tweets into json files upfront and parse those files later on.
 To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later.
 
 You can also use `append = TRUE` to continue recording a stream into an already existing file.
 
-Currently parsing the streaming data is not functional.
-However, you can read it back in with `jsonlite::stream_in(file)` .
+Currently parsing the streaming data file with `parse_stream()` is not functional.
+However, you can read it back in with `jsonlite::stream_in(file)`.
 
 ## Returned data object
 

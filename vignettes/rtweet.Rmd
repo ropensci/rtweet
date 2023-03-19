@@ -54,37 +54,30 @@ You can search tweets:
 ## search for 18000 tweets using the rstats hashtag
 rstats <- search_tweets("#rstats", n = 100, include_rts = FALSE)
 colnames(rstats)
-#>  [1] "created_at"                    "id"                           
-#>  [3] "id_str"                        "text"                         
-#>  [5] "full_text"                     "truncated"                    
-#>  [7] "entities"                      "source"                       
-#>  [9] "in_reply_to_status_id"         "in_reply_to_status_id_str"    
-#> [11] "in_reply_to_user_id"           "in_reply_to_user_id_str"      
-#> [13] "in_reply_to_screen_name"       "geo"                          
-#> [15] "coordinates"                   "place"                        
-#> [17] "contributors"                  "is_quote_status"              
-#> [19] "retweet_count"                 "favorite_count"               
-#> [21] "favorited"                     "favorited_by"                 
-#> [23] "retweeted"                     "scopes"                       
-#> [25] "lang"                          "possibly_sensitive"           
-#> [27] "display_text_width"            "display_text_range"           
-#> [29] "retweeted_status"              "quoted_status"                
-#> [31] "quoted_status_id"              "quoted_status_id_str"         
-#> [33] "quoted_status_permalink"       "quote_count"                  
-#> [35] "timestamp_ms"                  "reply_count"                  
-#> [37] "filter_level"                  "metadata"                     
-#> [39] "query"                         "withheld_scope"               
-#> [41] "withheld_copyright"            "withheld_in_countries"        
+#>  [1] "created_at"                    "id"                            "id_str"                       
+#>  [4] "text"                          "full_text"                     "truncated"                    
+#>  [7] "entities"                      "source"                        "in_reply_to_status_id"        
+#> [10] "in_reply_to_status_id_str"     "in_reply_to_user_id"           "in_reply_to_user_id_str"      
+#> [13] "in_reply_to_screen_name"       "geo"                           "coordinates"                  
+#> [16] "place"                         "contributors"                  "is_quote_status"              
+#> [19] "retweet_count"                 "favorite_count"                "favorited"                    
+#> [22] "favorited_by"                  "retweeted"                     "scopes"                       
+#> [25] "lang"                          "possibly_sensitive"            "display_text_width"           
+#> [28] "display_text_range"            "retweeted_status"              "quoted_status"                
+#> [31] "quoted_status_id"              "quoted_status_id_str"          "quoted_status_permalink"      
+#> [34] "quote_count"                   "timestamp_ms"                  "reply_count"                  
+#> [37] "filter_level"                  "metadata"                      "query"                        
+#> [40] "withheld_scope"                "withheld_copyright"            "withheld_in_countries"        
 #> [43] "possibly_sensitive_appealable"
 rstats[1:5, c("created_at", "text", "id_str")]
 #> # A tibble: 5 × 3
-#>   created_at          text                                                                  id_str
-#>   <dttm>              <chr>                                                                 <chr> 
-#> 1 2023-01-10 10:00:22 "Mastering Deep Learning with Python: 2 Manuscripts in 1. #BigData #… 16127…
-#> 2 2023-01-10 08:26:02 "Difference Between Deep Learning and Machine Learning. #BigData #An… 16127…
-#> 3 2023-01-10 20:21:19 "The incredible graphic folks over at @FiveThirtyEight (e.g., @ryana… 16128…
-#> 4 2023-01-11 20:28:18 "Science job l#DataScience #Cybersecurity #Analytics #AI #IIoT #Pyth… 16132…
-#> 5 2023-01-11 20:24:59 "Day 70 of #100DaysOfCode \nFocused on how to interpret data plots w… 16132…
+#>   created_at          text                                                                        id_str
+#>   <dttm>              <chr>                                                                       <chr> 
+#> 1 2023-03-18 19:26:00 "Top Free Data Science Online Courses for 2023! @kdnuggets #BigData #Analy… 16371…
+#> 2 2023-03-18 21:00:26 "Free e-Books for Data Science! #BigData #Analytics #DataScience #IoT #IIo… 16371…
+#> 3 2023-03-18 21:00:00 "Data Visualization! #BigData #Analytics #DataScience #AI #MachineLearning… 16371…
+#> 4 2023-03-19 23:21:02 "Fundamental #Statistics Concepts for #DataScientists! #BigData #Analytics… 16375…
+#> 5 2023-03-19 23:10:01 "How to Become #PowerBI  Expert? #BigData #Analytics #DataScience #AI #Mac… 16375…
 #> ℹ Users data at users_data()
 ```
 
@@ -109,13 +102,13 @@ Search by geo-location, for example tweets in the English language sent from the
 geo_tweets <- search_tweets("lang:en", geocode = lookup_coords("usa"), n = 100)
 geo_tweets[1:5, c("created_at", "text", "id_str", "lang", "place")]
 #> # A tibble: 5 × 5
-#>   created_at          text                                                      id_str lang  place
-#>   <dttm>              <chr>                                                     <chr>  <chr> <lis>
-#> 1 2023-01-11 20:31:41 Me these past few weeks..🥲 https://t.co/dSXK3TzFu1       16132… en    <df> 
-#> 2 2023-01-11 20:31:41 @tommybrooker This is our season! #BugNation https://t.c… 16132… en    <df> 
-#> 3 2023-01-11 20:31:41 This team is fun https://t.co/tFbQZ5763P                  16132… en    <df> 
-#> 4 2023-01-11 20:31:41 Uh oh...@LowCarbBeast already up to mischief...           16132… en    <df> 
-#> 5 2023-01-11 20:31:41 coachella gon be crazyyyyy 🤝                             16132… en    <df>
+#>   created_at          text                                                            id_str lang  place
+#>   <dttm>              <chr>                                                           <chr>  <chr> <lis>
+#> 1 2023-03-19 23:21:50 @ms_sunflowerxo Hi ho hi ho where shall we go...???             16375… en    <df> 
+#> 2 2023-03-19 23:21:50 Why can’t @RickWareRacing Fords run up front with RFK? I guess… 16375… en    <df> 
+#> 3 2023-03-19 23:21:49 @SpaceIDProtocol @binance I’m in Ontario how can I use it if @… 16375… en    <df> 
+#> 4 2023-03-19 23:21:49 @ChristoHoss @krassenstein Explain how it’s “wrongful” to pay … 16375… en    <df> 
+#> 5 2023-03-19 23:21:49 First #FlosClamShack run of the year! https://t.co/ELOPuXmtpb   16375… en    <df>
 #> ℹ Users data at users_data()
 ```
 
@@ -130,13 +123,13 @@ ts_plot(rstats) +
   theme(plot.title = element_text(face = "bold")) +
   labs(
     x = NULL, y = NULL,
-    title = "Frequency of #rstats Twitter statuses from past 9 days",
+    title = "Frequency of #rstats Twitter statuses from past days",
     subtitle = "Twitter status (tweet) counts aggregated using three-hour intervals",
     caption = "Source: Data collected from Twitter's REST API via rtweet"
   )
 ```
 
-![plot of chunk plot1](plot1-1.png)
+![Last 100 tweets by hour.](plot1-1.png)
 
 ## Posting statuses
 
@@ -197,10 +190,11 @@ If you really want all the users that follow the account we can use `get_followe
 ```r
 R_foundation_flw <- get_followers("_R_Foundation", n = 30000,
                                   retryonratelimit = TRUE)
-#> Downloading multiple pages ======================>----------------------------------------------
-#> Downloading multiple pages =================================>-----------------------------------
-#> Downloading multiple pages =============================================>-----------------------
-#> Downloading multiple pages =========================================================>-----------
+#> Downloading multiple pages
+#> ========================>--------------------------------------------------Downloading multiple pages
+#> =====================================>-------------------------------------Downloading multiple pages
+#> =================================================>-------------------------Downloading multiple pages
+#> =============================================================>-------------
 ```
 
 Note that the `retryonratelimit` option is intended for when you need more queries than provided by Twitter on a given period.
@@ -217,18 +211,18 @@ As seen above we can use `lookup_users()` to check their
 R_foundation_fds_data <- lookup_users(R_foundation_fds$to_id, verbose = FALSE)
 R_foundation_fds_data[, c("name", "screen_name", "created_at")]
 #> # A tibble: 30 × 3
-#>    name                                           screen_name     created_at         
-#>    <chr>                                          <chr>           <dttm>             
-#>  1 R Contributors                                 R_Contributors  2021-10-14 21:15:12
-#>  2 Sebastian Meyer                                bastistician    2017-07-25 11:22:43
-#>  3 Naras                                          b_naras         2013-03-25 19:48:12
-#>  4 useR! 2022                                     _useRconf       2020-07-08 10:22:55
-#>  5 useR2021zrh                                    useR2021zrh     2020-02-17 15:54:39
-#>  6 useR2020muc                                    useR2020muc     2019-11-22 14:50:55
-#>  7 useR! 2020                                     useR2020stl     2019-03-05 03:52:58
-#>  8 Roger Bivand @rsbivand@fosstodon.org           RogerBivand     2013-07-01 18:19:42
-#>  9 Henrik Bengtsson                               henrikbengtsson 2009-06-13 02:11:14
-#> 10 Gabriela de Queiroz ☁️ 🥑 (fosstodon.org/@kroz) gdequeiroz      2008-09-14 18:55:29
+#>    name                                 screen_name     created_at         
+#>    <chr>                                <chr>           <dttm>             
+#>  1 R Contributors                       R_Contributors  2021-10-14 21:15:12
+#>  2 Sebastian Meyer                      bastistician    2017-07-25 11:22:43
+#>  3 Naras                                b_naras         2013-03-25 19:48:12
+#>  4 useR! 2022                           _useRconf       2020-07-08 10:22:55
+#>  5 useR2021zrh                          useR2021zrh     2020-02-17 15:54:39
+#>  6 useR2020muc                          useR2020muc     2019-11-22 14:50:55
+#>  7 useR! 2020                           useR2020stl     2019-03-05 03:52:58
+#>  8 Roger Bivand @rsbivand@fosstodon.org RogerBivand     2013-07-01 18:19:42
+#>  9 Henrik Bengtsson                     henrikbengtsson 2009-06-13 02:11:14
+#> 10 Gabriela de Queiroz ☁️ 🥑             gdequeiroz      2008-09-14 18:55:29
 #> # … with 20 more rows
 #> ℹ Tweets data at tweets_data()
 
@@ -236,13 +230,13 @@ R_foundation_fds_data[, c("name", "screen_name", "created_at")]
 R_foundation_flw_data <- lookup_users(head(R_foundation_flw$from_id, 100), verbose = FALSE)
 R_foundation_flw_data[1:5, c("name", "screen_name", "created_at")]
 #> # A tibble: 5 × 3
-#>   name                              screen_name     created_at         
-#>   <chr>                             <chr>           <dttm>             
-#> 1 Junho CHOI                        econjunho       2021-05-06 07:31:25
-#> 2 Ricardo Junqueira                 Ricardo25486602 2021-01-30 17:41:32
-#> 3 lucapiov                          lukeorainy      2021-04-01 15:17:37
-#> 4 Vipra Sharma                      ProtVipra       2022-09-24 09:14:18
-#> 5 TRINQUE À LA NUIT COMME À LA MORT DarkblooM_SR    2020-07-14 18:42:30
+#>   name           screen_name   created_at         
+#>   <chr>          <chr>         <dttm>             
+#> 1 Joshua Nowak   josh_nwk      2022-12-28 17:19:51
+#> 2 kennnto        kkennn_to     2022-03-28 17:04:29
+#> 3 Manuel Spínola mspinola10    2018-02-23 21:26:52
+#> 4 snzp           1SUNZP        2011-12-21 19:55:37
+#> 5 Kirstin Lyon   kirstin_lyon_ 2023-03-19 06:26:53
 #> ℹ Tweets data at tweets_data()
 ```
 
@@ -253,18 +247,18 @@ We can retrieve their latest tweets from these users:
 ```r
 tweets_data(R_foundation_fds_data)[, c("created_at", "text")]
 #> # A tibble: 30 × 2
-#>    created_at                     text                                                            
-#>    <chr>                          <chr>                                                           
-#>  1 Mon Jan 09 11:13:53 +0000 2023 "Two (independent) sessions on Thursday Jan 9th:\n\n- 10am-11am…
-#>  2 Wed Sep 28 15:06:22 +0000 2022 "RT @pdalgd: #rstats 4.2.2 \"Innocent and Trusting\"  scheduled…
-#>  3 Tue Nov 29 15:55:04 +0000 2022 "@stevenstrogatz Terry Tao also posted a nice note recently htt…
-#>  4 Sat Nov 12 16:06:40 +0000 2022 "RT @HeathrTurnr: Wondering about setting up a data science/ope…
-#>  5 Fri Jul 29 05:30:06 +0000 2022 "RT @kidssindwichtig: Wenn du in deiner Arbeitszeit noch nie ei…
-#>  6 Fri Apr 16 11:03:21 +0000 2021 "RT @_useRconf: It is a good time to remember some of our keyda…
-#>  7 Mon Jan 18 17:36:22 +0000 2021 "Give us a follow at @_useRconf to stay updated on *all* future…
-#>  8 Thu Jan 05 12:26:46 +0000 2023 "RT @GdalOrg: GDAL 3.6.2 is released: https://t.co/MxQYuXgrdU"  
-#>  9 Wed Jan 11 05:27:35 +0000 2023 "{progressr} 0.13.0 on CRAN. Setting\n\noptions(cli.progress_ha…
-#> 10 Tue Jan 10 20:51:48 +0000 2023 "RT @WirelessLife: Developers, learn how to avoid the limits on…
+#>    created_at                     text                                                                  
+#>    <chr>                          <chr>                                                                 
+#>  1 Thu Mar 09 14:52:35 +0000 2023 "Reminder that the deadline for applications to participate in R Proj…
+#>  2 Wed Sep 28 15:06:22 +0000 2022 "RT @pdalgd: #rstats 4.2.2 \"Innocent and Trusting\"  scheduled for O…
+#>  3 Sat Mar 18 16:48:39 +0000 2023 "@HewittJSB Ditto. See you in Palo Alto."                             
+#>  4 Sat Nov 12 16:06:40 +0000 2022 "RT @HeathrTurnr: Wondering about setting up a data science/open scie…
+#>  5 Fri Jul 29 05:30:06 +0000 2022 "RT @kidssindwichtig: Wenn du in deiner Arbeitszeit noch nie einen Le…
+#>  6 Fri Apr 16 11:03:21 +0000 2021 "RT @_useRconf: It is a good time to remember some of our keydates!\n…
+#>  7 Mon Jan 18 17:36:22 +0000 2021 "Give us a follow at @_useRconf to stay updated on *all* future useR!…
+#>  8 Mon Mar 06 19:42:31 +0000 2023 "@RConsortium @RConsortium It would be super-useful to have the missi…
+#>  9 Mon Feb 13 14:58:52 +0000 2023 "RT @AliciaOshlack: Delighted that Lorne Genome has recognised Gordon…
+#> 10 Thu Mar 16 18:31:21 +0000 2023 "Sure, transcribing audio to text is becoming better and better but f…
 #> # … with 20 more rows
 ```
 
@@ -279,13 +273,13 @@ useRs[, c("name", "screen_name", "created_at")]
 #> # A tibble: 100 × 3
 #>    name                         screen_name    created_at         
 #>    <chr>                        <chr>          <dttm>             
-#>  1 Rstats                       rstatstweet    2018-06-27 05:45:02
-#>  2 R for Data Science           rstats4ds      2018-12-18 13:55:25
+#>  1 R for Data Science           rstats4ds      2018-12-18 13:55:25
+#>  2 Rstats                       rstatstweet    2018-06-27 05:45:02
 #>  3 FC rSTATS                    FC_rstats      2018-02-08 21:03:08
 #>  4 #RStats Question A Day       data_question  2019-10-21 19:15:24
-#>  5 R Tweets                     rstats_tweets  2020-09-17 18:12:09
-#>  6 Ramiro Bentes                NbaInRstats    2019-11-05 03:44:32
-#>  7 Data Science with R          Rstats4Econ    2012-04-21 04:37:12
+#>  5 Data Science with R          Rstats4Econ    2012-04-21 04:37:12
+#>  6 R Tweets                     rstats_tweets  2020-09-17 18:12:09
+#>  7 Ramiro Bentes                NbaInRstats    2019-11-05 03:44:32
 #>  8 Baseball with R              BaseballRstats 2013-11-02 16:07:05
 #>  9 Will                         steelRstats    2019-07-23 16:48:00
 #> 10 LIRR Statistics (Unofficial) LIRRstats      2017-01-25 00:31:55
@@ -299,13 +293,13 @@ If we want to know what have they tweeted about we can use `tweets_data()`:
 useRs_twt <- tweets_data(useRs)
 useRs_twt[1:5, c("id_str", "created_at", "text")]
 #> # A tibble: 5 × 3
-#>   id_str              created_at                     text                                         
-#>   <chr>               <chr>                          <chr>                                        
-#> 1 1613255835848945665 Wed Jan 11 19:25:38 +0000 2023 "RT @JosechOpula: Day 70 of #100DaysOfCode \…
-#> 2 1613256982135185418 Wed Jan 11 19:30:12 +0000 2023 "RT @amitisinvesting: Palantir &amp; Posit, …
-#> 3 1612766122084036610 Tue Jan 10 10:59:41 +0000 2023 "yep @petermckeever doing his thing https://…
-#> 4 1613151454860283905 Wed Jan 11 12:30:52 +0000 2023 "4. 1 would give \"n\" \"n\" \"p\" and 2 wou…
-#> 5 1613254456774107137 Wed Jan 11 19:20:09 +0000 2023 "RT @EconomicsShiny: Uncertainty Update: VIX…
+#>   id_str              created_at                     text                                               
+#>   <chr>               <chr>                          <chr>                                              
+#> 1 1637574717518356481 Sun Mar 19 22:00:11 +0000 2023 "RT @ronaldher97: In the Shiny gallery you can fin…
+#> 2 1637048744481812481 Sat Mar 18 11:10:10 +0000 2023 "RT @JoachimSchork: How to remove highly correlate…
+#> 3 1637572493748600833 Sun Mar 19 21:51:21 +0000 2023 "what a belter https://t.co/QhR5CNR2aG"            
+#> 4 1637431439145984001 Sun Mar 19 12:30:51 +0000 2023 "Sharpen your programming skills with a question a…
+#> 5 1439147110360760321 Sat Sep 18 08:39:43 +0000 2021 "RT @CatherineAdenle: Infographic: The 5 Key Aspec…
 ```
 
 ## Get timelines
@@ -332,7 +326,10 @@ plot <- R_foundation_tline |>
     subtitle = "Twitter status (tweet) counts aggregated by month from October/November 2017",
     caption = "Source: Data collected from Twitter's REST API via rtweet"
   )
+plot
 ```
+
+![Frequency of Twitter statuses posted by the R Foundation since 2017](plot2-1.png)
 
 ## Get favorites
 
@@ -343,18 +340,18 @@ Get the 10 recently favorited statuses by R Foundation.
 R_foundation_favs <- get_favorites("_R_Foundation", n = 10)
 R_foundation_favs[, c("text", "created_at", "id_str")]
 #> # A tibble: 10 × 3
-#>    text                                                                 created_at          id_str
-#>    <chr>                                                                <dttm>              <chr> 
-#>  1 "We're into August, which hopefully means you've had time to enjoy … 2020-08-03 09:51:33 12901…
-#>  2 "Gret meeting of #useR2020 passing the torch to #useR2021! 🔥 \nTha… 2020-07-16 17:14:25 12837…
-#>  3 "Also thanks to the @_R_Foundation, @R_Forwards, @RLadiesGlobal, Mi… 2020-05-28 08:57:24 12658…
-#>  4 "Such an honour to be acknowledged this way at #useR2019. I'm happy… 2019-07-12 18:36:27 11497…
-#>  5 "R-3.4.4 Windows installer is on CRAN now: https://t.co/h35EcsIEuF … 2018-03-15 18:16:13 97433…
-#>  6 "Gala dinner with a table with people in cosmology, finance, psycho… 2017-07-07 09:10:41 88322…
-#>  7 "AMAZING #RLadies at #useR2017 💜🌍 inspiring #rstats work around t… 2017-07-05 13:25:27 88256…
-#>  8 "Fame at last: https://t.co/x4wIePKR6b -- it's always nice to get a… 2017-06-07 23:25:37 87256…
-#>  9 "We are excited to let you know that the full Conference Program is… 2017-05-31 14:37:23 86989…
-#> 10 ". @statsYSS and @RSSGlasgow1  to hold joint event celebrating 20 y… 2017-04-10 10:50:11 85135…
+#>    text                                                                       created_at          id_str
+#>    <chr>                                                                      <dttm>              <chr> 
+#>  1 "We're into August, which hopefully means you've had time to enjoy conten… 2020-08-03 09:51:33 12901…
+#>  2 "Gret meeting of #useR2020 passing the torch to #useR2021! 🔥 \nThank you… 2020-07-16 17:14:25 12837…
+#>  3 "Also thanks to the @_R_Foundation, @R_Forwards, @RLadiesGlobal, MiR and … 2020-05-28 08:57:24 12658…
+#>  4 "Such an honour to be acknowledged this way at #useR2019. I'm happy that … 2019-07-12 18:36:27 11497…
+#>  5 "R-3.4.4 Windows installer is on CRAN now: https://t.co/h35EcsIEuF https:… 2018-03-15 18:16:13 97433…
+#>  6 "Gala dinner with a table with people in cosmology, finance, psychology, … 2017-07-07 09:10:41 88322…
+#>  7 "AMAZING #RLadies at #useR2017 💜🌍 inspiring #rstats work around the wor… 2017-07-05 13:25:27 88256…
+#>  8 "Fame at last: https://t.co/x4wIePKR6b -- it's always nice to get a bit o… 2017-06-07 23:25:37 87256…
+#>  9 "We are excited to let you know that the full Conference Program is onlin… 2017-05-31 14:37:23 86989…
+#> 10 ". @statsYSS and @RSSGlasgow1  to hold joint event celebrating 20 years o… 2017-04-10 10:50:11 85135…
 #> ℹ Users data at users_data()
 ```
 
@@ -367,18 +364,18 @@ Discover what's currently trending in San Francisco.
 world <- get_trends("world")
 world
 #> # A tibble: 50 × 9
-#>    trend           url   promo…¹ query tweet…² place woeid as_of               created_at         
-#>    <chr>           <chr> <lgl>   <chr>   <int> <chr> <int> <dttm>              <dttm>             
-#>  1 #BecasEdomex    http… NA      %23B…   49048 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  2 #iHeartAwards   http… NA      %23i…  746169 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  3 #BestMusicVideo http… NA      %23B…  374249 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  4 #BestFanArmy    http… NA      %23B…  215723 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  5 LOVE YOU ALBA   http… NA      %22L…   67091 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  6 #Louies         http… NA      %23L…   46855 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  7 Sara Manuela    http… NA      %22S…      NA Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  8 FELiPLAY LEVEL… http… NA      %22F…   17419 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#>  9 Naomi Osaka     http… NA      %22N…      NA Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
-#> 10 Shakira         http… NA      Shak…  212478 Worl…     1 2023-01-11 19:31:58 2023-01-10 13:39:07
+#>    trend               url     promo…¹ query tweet…² place woeid as_of               created_at         
+#>    <chr>               <chr>   <lgl>   <chr>   <int> <chr> <int> <dttm>              <dttm>             
+#>  1 Barça               http:/… NA      Bar%…  210889 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  2 #ElClasico          http:/… NA      %23E…  174158 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  3 Benzema             http:/… NA      Benz…   50612 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  4 Barcelona           http:/… NA      Barc…  245318 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  5 Madrid              http:/… NA      Madr…  394890 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  6 #برشلونه_ريال_مدريد http:/… NA      %23%…   29788 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  7 Carvajal            http:/… NA      Carv…   19419 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  8 Kessie              http:/… NA      Kess…   58212 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#>  9 Sergi Roberto       http:/… NA      %22S…   40524 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
+#> 10 Asensio             http:/… NA      Asen…   17847 Worl…     1 2023-03-19 22:22:07 2023-03-18 09:59:44
 #> # … with 40 more rows, and abbreviated variable names ¹​promoted_content, ²​tweet_volume
 ```
 
@@ -390,13 +387,13 @@ You can follow users and unfollow them:
 ```r
 post_follow("_R_Foundation")
 #> Response [https://api.twitter.com/1.1/friendships/create.json?notify=FALSE&screen_name=_R_Foundation]
-#>   Date: 2023-01-11 19:31
+#>   Date: 2023-03-19 22:22
 #>   Status: 200
 #>   Content-Type: application/json;charset=utf-8
-#>   Size: 2.76 kB
+#>   Size: 4.08 kB
 post_unfollow_user("rtweet_test")
 #> Response [https://api.twitter.com/1.1/friendships/destroy.json?notify=FALSE&screen_name=rtweet_test]
-#>   Date: 2023-01-11 19:31
+#>   Date: 2023-03-19 22:22
 #>   Status: 200
 #>   Content-Type: application/json;charset=utf-8
 #>   Size: 3.3 kB
@@ -425,27 +422,20 @@ It returns the id of the tweet and the corresponding data field in the selected 
 
 ```r
 head(entity(R_foundation_favs, "urls"))
-#>                id_str                     url
-#> 1 1290193576169803776 https://t.co/HYLl6rMySc
-#> 2 1283782043021774850                    <NA>
-#> 3 1265899960228360195                    <NA>
-#> 4 1149719180314316800 https://t.co/dg2Dh49tug
-#> 5  974333459085672448 https://t.co/h35EcsIEuF
-#> 6  974333459085672448 https://t.co/7xko0aUS2w
-#>                                                expanded_url                        display_url
-#> 1                              http://bit.ly/useR2020survey              bit.ly/useR2020survey
-#> 2                                                      <NA>                               <NA>
-#> 3                                                      <NA>                               <NA>
-#> 4 https://twitter.com/alice_data/status/1149680375817494529        twitter.com/alice_data/sta…
-#> 5              https://cran.r-project.org/bin/windows/base/ cran.r-project.org/bin/windows/ba…
-#> 6      https://twitter.com/pdalgd/status/974214402097508353        twitter.com/pdalgd/status/…
-#>   unwound
-#> 1      NA
-#> 2      NA
-#> 3      NA
-#> 4      NA
-#> 5      NA
-#> 6      NA
+#>                id_str                     url                                              expanded_url
+#> 1 1290193576169803776 https://t.co/HYLl6rMySc                              http://bit.ly/useR2020survey
+#> 2 1283782043021774850                    <NA>                                                      <NA>
+#> 3 1265899960228360195                    <NA>                                                      <NA>
+#> 4 1149719180314316800 https://t.co/dg2Dh49tug https://twitter.com/alice_data/status/1149680375817494529
+#> 5  974333459085672448 https://t.co/h35EcsIEuF              https://cran.r-project.org/bin/windows/base/
+#> 6  974333459085672448 https://t.co/7xko0aUS2w      https://twitter.com/pdalgd/status/974214402097508353
+#>                          display_url unwound
+#> 1              bit.ly/useR2020survey      NA
+#> 2                               <NA>      NA
+#> 3                               <NA>      NA
+#> 4        twitter.com/alice_data/sta…      NA
+#> 5 cran.r-project.org/bin/windows/ba…      NA
+#> 6        twitter.com/pdalgd/status/…      NA
 head(entity(R_foundation_favs, "hashtags"))
 #>                id_str     text
 #> 1 1290193576169803776 useR2020
@@ -478,20 +468,20 @@ head(entity(R_foundation_favs, "user_mentions"))
 #> 5 1197874989367779328
 #> 6           507582860
 head(entity(R_foundation_favs, "media"))
-#>                id_str id id_str media_url media_url_https  url display_url expanded_url type
-#> 1 1290193576169803776 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>
-#> 2 1283782043021774850 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>
-#> 3 1265899960228360195 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>
-#> 4 1149719180314316800 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>
-#> 5  974333459085672448 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>
-#> 6  883221715777720320 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>
-#>   sizes ext_alt_text
-#> 1    NA           NA
-#> 2    NA           NA
-#> 3    NA           NA
-#> 4    NA           NA
-#> 5    NA           NA
-#> 6    NA           NA
+#>                id_str id id_str media_url media_url_https  url display_url expanded_url type sizes
+#> 1 1290193576169803776 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>    NA
+#> 2 1283782043021774850 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>    NA
+#> 3 1265899960228360195 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>    NA
+#> 4 1149719180314316800 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>    NA
+#> 5  974333459085672448 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>    NA
+#> 6  883221715777720320 NA   <NA>      <NA>            <NA> <NA>        <NA>         <NA> <NA>    NA
+#>   ext_alt_text
+#> 1           NA
+#> 2           NA
+#> 3           NA
+#> 4           NA
+#> 5           NA
+#> 6           NA
 ```
 
 To avoid having two columns with the same name, `user_mentions()` renames to  the ids  from "id" and "id_str" to "user_id" and "user_id_str".
@@ -517,13 +507,13 @@ You can block users and unblock them:
 ```r
 user_block("RTweetTest1")
 #> Response [https://api.twitter.com/1.1/blocks/create.json?screen_name=RTweetTest1]
-#>   Date: 2023-01-11 19:31
+#>   Date: 2023-03-19 22:22
 #>   Status: 200
 #>   Content-Type: application/json;charset=utf-8
 #>   Size: 1.35 kB
 user_unblock("RTweetTest1")
 #> Response [https://api.twitter.com/1.1/blocks/destroy.json?screen_name=RTweetTest1]
-#>   Date: 2023-01-11 19:31
+#>   Date: 2023-03-19 22:22
 #>   Status: 200
 #>   Content-Type: application/json;charset=utf-8
 #>   Size: 1.35 kB
@@ -542,27 +532,27 @@ rate_limit()
 #> # A tibble: 263 × 5
 #>    resource                 limit remaining reset_at            reset  
 #>    <chr>                    <int>     <int> <dttm>              <drtn> 
-#>  1 /lists/list                 15        15 2023-01-11 20:46:59 15 mins
-#>  2 /lists/:id/tweets&GET      900       900 2023-01-11 20:46:59 15 mins
-#>  3 /lists/:id/followers&GET   180       180 2023-01-11 20:46:59 15 mins
-#>  4 /lists/memberships          75        75 2023-01-11 20:46:59 15 mins
-#>  5 /lists/:id&DELETE          300       300 2023-01-11 20:46:59 15 mins
-#>  6 /lists/subscriptions        15        15 2023-01-11 20:46:59 15 mins
-#>  7 /lists/members             900       900 2023-01-11 20:46:59 15 mins
-#>  8 /lists/:id&GET              75        75 2023-01-11 20:46:59 15 mins
-#>  9 /lists/subscribers/show     15        15 2023-01-11 20:46:59 15 mins
-#> 10 /lists/:id&PUT             300       300 2023-01-11 20:46:59 15 mins
+#>  1 /lists/list                 15        15 2023-03-19 23:37:09 15 mins
+#>  2 /lists/:id/tweets&GET      900       900 2023-03-19 23:37:09 15 mins
+#>  3 /lists/:id/followers&GET   180       180 2023-03-19 23:37:09 15 mins
+#>  4 /lists/memberships          75        75 2023-03-19 23:37:09 15 mins
+#>  5 /lists/:id&DELETE          300       300 2023-03-19 23:37:09 15 mins
+#>  6 /lists/subscriptions        15        15 2023-03-19 23:37:09 15 mins
+#>  7 /lists/members             900       900 2023-03-19 23:37:09 15 mins
+#>  8 /lists/:id&GET              75        75 2023-03-19 23:37:09 15 mins
+#>  9 /lists/subscribers/show     15        15 2023-03-19 23:37:09 15 mins
+#> 10 /lists/:id&PUT             300       300 2023-03-19 23:37:09 15 mins
 #> # … with 253 more rows
 # Search only those related to followers
 rate_limit("followers")
 #> # A tibble: 5 × 5
 #>   resource                               limit remaining reset_at            reset  
 #>   <chr>                                  <int>     <int> <dttm>              <drtn> 
-#> 1 /lists/:id/followers&GET                 180       180 2023-01-11 20:47:00 15 mins
-#> 2 /users/:id/followers                      15        15 2023-01-11 20:47:00 15 mins
-#> 3 /users/by/username/:username/followers    15        15 2023-01-11 20:47:00 15 mins
-#> 4 /followers/ids                            15         3 2023-01-11 20:40:32  9 mins
-#> 5 /followers/list                           15        15 2023-01-11 20:47:00 15 mins
+#> 1 /lists/:id/followers&GET                 180       180 2023-03-19 23:37:09 15 mins
+#> 2 /users/:id/followers                      15        15 2023-03-19 23:37:09 15 mins
+#> 3 /users/by/username/:username/followers    15        15 2023-03-19 23:37:09 15 mins
+#> 4 /followers/ids                            15         9 2023-03-19 23:36:54 15 mins
+#> 5 /followers/list                           15        15 2023-03-19 23:37:09 15 mins
 ```
 
 The remaining column shows the number of times that you can call and endpoint (not the numbers of followers you can search).
@@ -584,7 +574,7 @@ Also note that results returned by the API will change.
 sessionInfo()
 #> R version 4.2.2 (2022-10-31)
 #> Platform: x86_64-pc-linux-gnu (64-bit)
-#> Running under: Ubuntu 22.04.1 LTS
+#> Running under: Ubuntu 22.04.2 LTS
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -600,27 +590,26 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] dplyr_1.0.10        ggplot2_3.4.0       rtweet_1.1.0.9000   BiocManager_1.30.19
-#> [5] cyclocomp_1.1.0     testthat_3.1.5      devtools_2.4.5      usethis_2.1.6      
+#> [1] dplyr_1.1.0         ggplot2_3.4.1       rtweet_1.1.0.9010   BiocManager_1.30.20 cyclocomp_1.1.0    
+#> [6] testthat_3.1.7      devtools_2.4.5      usethis_2.1.6      
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] fs_1.5.2          bit64_4.0.5       progress_1.2.2    httr_1.4.4        rprojroot_2.0.3  
-#>  [6] tools_4.2.2       profvis_0.3.7     utf8_1.2.2        R6_2.5.1          DBI_1.1.3        
-#> [11] colorspace_2.0-3  urlchecker_1.0.1  withr_2.5.0       tidyselect_1.2.0  prettyunits_1.1.1
-#> [16] processx_3.8.0    bit_4.0.5         curl_4.3.3        compiler_4.2.2    httr2_0.2.2      
-#> [21] cli_3.4.1         webmockr_0.8.2    desc_1.4.2        labeling_0.4.2    triebeard_0.3.0  
-#> [26] scales_1.2.1      callr_3.7.3       askpass_1.1       rappdirs_0.3.3    stringr_1.5.0    
-#> [31] digest_0.6.30     rmarkdown_2.19    base64enc_0.1-3   pkgconfig_2.0.3   htmltools_0.5.3  
-#> [36] sessioninfo_1.2.2 highr_0.9         fastmap_1.1.0     htmlwidgets_1.5.4 rlang_1.0.6      
-#> [41] rstudioapi_0.14   httpcode_0.3.0    shiny_1.7.3       generics_0.1.3    farver_2.1.1     
-#> [46] jsonlite_1.8.4    magrittr_2.0.3    fauxpas_0.5.0     Rcpp_1.0.9        munsell_0.5.0    
-#> [51] fansi_1.0.3       lifecycle_1.0.3   stringi_1.7.8     whisker_0.4.1     yaml_2.3.6       
-#> [56] brio_1.1.3        pkgbuild_1.4.0    grid_4.2.2        promises_1.2.0.1  crayon_1.5.2     
-#> [61] miniUI_0.1.1.1    hms_1.1.2         knitr_1.41        ps_1.7.2          pillar_1.8.1     
-#> [66] pkgload_1.3.2     crul_1.3          glue_1.6.2        evaluate_0.18     remotes_2.4.2    
-#> [71] vctrs_0.5.1       httpuv_1.6.6      urltools_1.7.3    gtable_0.3.1      openssl_2.0.5    
-#> [76] purrr_0.3.5       assertthat_0.2.1  cachem_1.0.6      xfun_0.35         mime_0.12        
-#> [81] xtable_1.8-4      later_1.3.0       vcr_1.2.0         tibble_3.1.8      memoise_2.0.1    
-#> [86] ellipsis_0.3.2
+#>  [1] fs_1.6.1          bit64_4.0.5       progress_1.2.2    httr_1.4.5        rprojroot_2.0.3  
+#>  [6] hunspell_3.0.2    tools_4.2.2       profvis_0.3.7     bslib_0.4.2       utf8_1.2.3       
+#> [11] R6_2.5.1          colorspace_2.1-0  urlchecker_1.0.1  withr_2.5.0       tidyselect_1.2.0 
+#> [16] prettyunits_1.1.1 processx_3.8.0    downlit_0.4.2     bit_4.0.5         curl_5.0.0       
+#> [21] compiler_4.2.2    spelling_2.2      httr2_0.2.2       cli_3.6.0         xml2_1.3.3       
+#> [26] desc_1.4.2        labeling_0.4.2    sass_0.4.5        scales_1.2.1      callr_3.7.3      
+#> [31] askpass_1.1       rappdirs_0.3.3    pkgdown_2.0.7     commonmark_1.8.1  stringr_1.5.0    
+#> [36] digest_0.6.31     rmarkdown_2.20    pkgconfig_2.0.3   htmltools_0.5.4   sessioninfo_1.2.2
+#> [41] fastmap_1.1.1     highr_0.10        htmlwidgets_1.6.1 rlang_1.1.0       rstudioapi_0.14  
+#> [46] shiny_1.7.4       jquerylib_0.1.4   generics_0.1.3    farver_2.1.1      jsonlite_1.8.4   
+#> [51] magrittr_2.0.3    Rcpp_1.0.10       munsell_0.5.0     fansi_1.0.4       lifecycle_1.0.3  
+#> [56] stringi_1.7.12    whisker_0.4.1     yaml_2.3.7        brio_1.1.3        pkgbuild_1.4.0   
+#> [61] grid_4.2.2        promises_1.2.0.1  crayon_1.5.2      miniUI_0.1.1.1    hms_1.1.2        
+#> [66] knitr_1.42        ps_1.7.2          pillar_1.8.1      pkgload_1.3.2     glue_1.6.2       
+#> [71] evaluate_0.20     remotes_2.4.2     vctrs_0.5.2       httpuv_1.6.9      gtable_0.3.1     
+#> [76] openssl_2.0.6     purrr_1.0.1       cachem_1.0.7      xfun_0.37         mime_0.12        
+#> [81] xtable_1.8-4      later_1.3.0       tibble_3.2.0      memoise_2.0.1     ellipsis_0.3.2
 ```
 

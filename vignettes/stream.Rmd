@@ -59,7 +59,7 @@ filename <- "rstats.json"
 
 The filtered stream collects tweets for all rules that are currently active, not just one rule or query.
 
-### Ceating rules
+### Creating rules
 
 Streaming rules in rtweet need a value and a tag.
 The value is the query to be performed, and the tag is the name to identify tweets that match a query.
@@ -70,8 +70,6 @@ Multiple rules can match to a single tweet.
 ```r
 ## Stream rules used to filter tweets
 new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
-#> Warning: There are errors in the requests: DuplicateRule
-#> Check the returned object for more details.
 ```
 
 ### Listing rules
@@ -82,11 +80,11 @@ To know current rules you can use `stream_add_rule()` to know if any rule is cur
 ```r
 rules <- stream_add_rule(NULL)
 rules
-#>                  sent result_count
-#> 1 2023-01-11 19:35:42            1
+#>   result_count                sent
+#> 1            1 2023-03-19 22:04:29
 rules(rules)
 #>                    id   value    tag
-#> 1 1613258283833344002 #rstats rstats
+#> 1 1637575790693842952 #rstats rstats
 ```
 
 With the help of `rules()` the id, value and tag of each rule is provided.
@@ -126,7 +124,8 @@ Don't forget to clean the streaming rules:
 
 ```r
 stream_rm_rule(ids(new_rule))
-#> Error: Ids are not present. Are you sure this is a rtweet object?
+#>                  sent deleted not_deleted
+#> 1 2023-03-19 22:04:51       1           0
 ```
 
 ## Sample stream
@@ -136,21 +135,21 @@ The `sample_stream()` function doesn't need rules or anything.
 
 ```r
 stream_random <- sample_stream(timeout = streamtime, file = filename, parse = FALSE)
-#>  Found 307 records... Imported 307 records. Simplifying...
+#>  Found 316 records... Imported 316 records. Simplifying...
 length(stream_random)
-#> [1] 307
+#> [1] 316
 ```
 
 
 ## Saving files
 
-Given a lengthy parsing process, users may want to stream tweets into json files upfront and parse those files later on.
+Users may want to stream tweets into json files upfront and parse those files later on.
 To do this, simply add `parse = FALSE` and make sure you provide a path (file name) to a location you can find later.
 
 You can also use `append = TRUE` to continue recording a stream into an already existing file.
 
-Currently parsing the streaming data is not functional.
-However, you can read it back in with `jsonlite::stream_in(file)` .
+Currently parsing the streaming data file with `parse_stream()` is not functional.
+However, you can read it back in with `jsonlite::stream_in(file)`.
 
 ## Returned data object
 
