@@ -83,8 +83,7 @@ usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json",
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample},
-\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview}
+They were removed from the website.
 
 The webpages describing how it used to work were removed.
 }

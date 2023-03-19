@@ -36,8 +36,8 @@
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
 #' @seealso [parse_stream()].
-#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
-#'  <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview>
+#' @references
+#' They were removed from the website.
 #' @examples
 #' \dontrun{
 #' # stream tweets mentioning "#rstats" for 10 seconds
