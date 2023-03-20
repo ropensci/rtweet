@@ -414,8 +414,11 @@ auth_path <- function(...) {
 #' @export
 #' @rdname rtweet_user
 rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
-  client <- client_as(client)
-
+  client <- client %||% client_get()
+  if (!is_client(client)) {
+    abort(c("Client not valid",
+          i = "Check out the `vignette('auth', 'rtweet')`."))
+  }
   if (is.null(scopes)) {
     scopes <- client_scopes(client)
   } else if (!check_scopes(scopes)) {
