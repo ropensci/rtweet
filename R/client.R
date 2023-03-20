@@ -70,8 +70,12 @@ is_client <- function(client) {
 default_client <- function(client_id = NULL, client_secret = NULL) {
   if (is.null(client_id) && is.null(client_secret)) {
     # The sysdat file is in #./R and loaded automagically
-    client_id <- decrypt(sysdat$DYKcJfBkgMnGveI)
-    client_secret <- decrypt(sysdat$MRsnZtaKXqGYHju)
+    # Uses an
+    # id: 1355953759982120964
+    # account username: app_rtweet
+    # name: rtweet_app
+    client_id <- decrypt(sysdat$e914c55d2f)
+    client_secret <- decrypt(sysdat$d5571d4003)
   } else {
     stopifnot(is_string(client_id), is_string(client_secret))
   }
@@ -82,9 +86,6 @@ default_cached_client <- function() {
   if (client_has_default()) {
     return(readRDS(client_path("rtweet.rds")))
   }
-
-  inform(c("Using default rtweet client",
-         "x" = "It doesn't work with the API v2!"))
   client_str <- default_client()
   rtweet_client(client_str["id"], client_str["secret"], "rtweet")
 }
