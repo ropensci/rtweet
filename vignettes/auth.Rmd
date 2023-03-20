@@ -85,7 +85,13 @@ This functions will need you to first set up a client, which requires your clien
 
 [^1]: Called [OAuth 2](https://aaronparecki.com/oauth-2-simplified/)
 
-You can get them in your [developer dashboard](https://developer.twitter.com/en/portal/dashboard) after selecting your project.
+You can get them in your [developer dashboard](https://developer.twitter.com/en/portal/dashboard) after selecting your app, you first need to fill the details of the "User authentication settings":
+
+**App permissions**: Read, Read and write, or Read and write and Direct message
+**Type of App**: Native app
+**App info**
+Callback URI: http://127.0.0.1:1410/
+
 The clients are under "Key and tokens" tab, check the top.
 At the last section of the tab, there is the section \"Auth 2.0 Client ID and Client Secret\":
 
