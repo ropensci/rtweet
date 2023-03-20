@@ -30,7 +30,7 @@ user_self <- function(expansions = NULL, fields = NULL, ...,
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   url <- paste0("users/me")

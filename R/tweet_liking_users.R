@@ -26,7 +26,7 @@ tweet_liking_users <- function(id, n = 100, expansions = NULL, fields = NULL, ..
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   stopifnot(is_n(n))
   if (length(id) != 1 || !is_id(id)) {
     abort("Please introduce a single valid id")

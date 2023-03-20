@@ -60,7 +60,7 @@ NULL
 filtered_stream <- function(timeout, file = tempfile(),
                             expansions = NULL, fields = NULL,
                             ...,  token = NULL, append = TRUE, parse = TRUE) {
-  parsing(parse)
+  parsing(parse, expansions, fields)
   expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
@@ -275,7 +275,7 @@ sample_stream <- function(timeout, file = tempfile(),
   expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
-  parsing(parse)
+  parsing(parse, expansions, fields)
   token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))
 

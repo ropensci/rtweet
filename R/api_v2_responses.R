@@ -1,11 +1,12 @@
 # Handling responses ####
-parsing <- function(x, call = caller_env()) {
+parsing <- function(x, expansions, fields, call = caller_env()) {
   if (!is_logical(x)) {
     abort("parse should be either TRUE or FALSE", call = call)
   }
-  # if (isTRUE(x)) {
-  #   abort("Parsing for the rtweet API v2 is not yet implemented", call = call)
-  # }
+  if (!is.null(expansions) && !is.null(fields))  {
+    abort(c("Not yet implemented!",
+            i = "Stay tuned for further updates or use `parse = FALSE`"))
+  }
 }
 
 list_minus <- function(l, minus) {

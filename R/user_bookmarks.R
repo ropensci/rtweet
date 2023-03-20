@@ -25,7 +25,7 @@
 #' }
 user_bookmarks <- function(id, n = 100, ..., expansions = NULL, fields = NULL,
                            parse = TRUE, token = NULL, verbose = FALSE) {
-  parsing(parse)
+  parsing(parse, expansions, fields)
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }

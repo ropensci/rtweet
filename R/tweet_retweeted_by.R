@@ -25,7 +25,7 @@ tweet_retweeted_by <- function(ids, n = 100, expansions = NULL, fields = NULL, .
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   stopifnot(is_n(n))
   if (length(ids) != 1 || !is_id(ids)) {
     abort("Please introduce a single valid id")

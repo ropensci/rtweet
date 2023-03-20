@@ -89,7 +89,7 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
   fields <- check_fields(arg_def(fields, set_fields(list = NULL)),
                          metrics = NULL, list = NULL)
   expansions_for_fields(expansions, fields)
-  parsing(parse)
+  parsing(parse, expansions, fields)
   data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   stopifnot("Requires valid ids." = is_id(id))

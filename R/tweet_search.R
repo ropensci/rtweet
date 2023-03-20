@@ -17,7 +17,7 @@ tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, formals()$n)
   n_pages <- ceiling(n / max_results)
@@ -57,7 +57,7 @@ tweet_search_recent <- function(query, n = 100, expansions = NULL, fields = NULL
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   stopifnot(is_n(n))
   max_results <- check_interval(n, 10, formals()$n)
   n_pages <- ceiling(n / max_results)

@@ -27,7 +27,7 @@ user_by_username <- function(username, expansions = NULL, fields = NULL, ...,
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   if (length(username) > 100 || !is_user_id(username) && length(username) == 0) {
     abort("Please introduce less than 100 valid user ids.")
   }

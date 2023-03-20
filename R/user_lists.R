@@ -21,7 +21,7 @@ user_lists <- function(ids, n = 100, expansions = NULL, fields = NULL, ...,
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   if (length(ids) != 1 || !is_user_id(ids) && length(ids) == 0) {
     abort("Please introduce at least a valid user id")
   }

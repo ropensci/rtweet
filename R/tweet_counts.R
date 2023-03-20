@@ -15,7 +15,7 @@ tweet_counts_recent <- function(query, ..., token = NULL, parse = TRUE,
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   data <- list(...)
   if (!is.null(data$granularity)) {
     data$granularity <- match.arg(data$granularity, c("minute", "hour", "day"))
@@ -39,7 +39,7 @@ tweet_counts_all <- function(query, ..., token = NULL, parse = TRUE,
   if (!is_logical(verbose)) {
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
-  parsing(parse)
+  parsing(parse, expansions, fields)
   data <- list(...)
   if (!is.null(data$granularity)) {
     data$granularity <- match.arg(data$granularity, c("minute", "hour", "day"))
