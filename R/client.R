@@ -133,9 +133,9 @@ client_list <- function() {
 find_client <- function(client = NULL) {
   if (is.null(client)) {
     if (is_developing()) {
-      load_client("academic_dev") %||% no_client()
+      client_get() %||% load_client("academic_dev") %||% no_client()
     } else{
-      default_cached_client()
+      client_get() %||% default_cached_client()
     }
   } else if (is_client(client)) {
     client
