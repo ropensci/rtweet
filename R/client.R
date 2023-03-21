@@ -134,9 +134,9 @@ client_list <- function() {
 find_client <- function(client = NULL) {
   if (is.null(client)) {
     if (is_developing()) {
-      client_get() %||% load_client("academic_dev") %||% no_client()
+      load_client("academic_dev") %||% no_client()
     } else{
-      client_get() %||% default_cached_client()
+      default_cached_client()
     }
   } else if (is_client(client)) {
     client
@@ -155,8 +155,10 @@ load_client <- function(client_name) {
   } else {
     path <- client_path(paste0(client_name, ".rds"))
   }
-  if (!file.exists(path)) {
+  if (!file.exists(path) && !is_developing()) {
     abort(paste0("Can't find saved client with name '", client_name, "'"))
+  } else if (!file.exists(path)) {
+    return(NULL)
   }
 
   if (!is_developing()) {
@@ -185,17 +187,26 @@ no_client <- function(call = caller_env()) {
 #' @seealso scopes
 #' @export
 #' @examples
-#' if (interactive() && !client_has_default()) {
+#' if (!client_has_default()) {
 #'   rtweet_client()
 #' }
 rtweet_client <- function(client_id, client_secret,
                           app, scopes = NULL) {
+  if (missing(client_id) && missing(client_secret) ) {
+    dc <- default_client()
+    client_id <- dc[1]
+    client_secret <- dc[2]
+    app <- "rtweet"
+  }
+
   if (missing(client_id) && interactive()) {
     client_id <- ask_pass("client ID key")
   }
   if (missing(client_secret) && interactive()) {
     client_secret <- ask_pass("client secret")
   }
+
+  stopifnot(is_string(client_id), is_string(client_secret))
 
   if (is.null(scopes)) {
     scopes <- all_scopes
