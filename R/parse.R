@@ -12,14 +12,21 @@ parse <- function(x, expansions, fields) {
           i = "Stay tuned for further updates or use `parse = FALSE`"))
 }
 
+enlist <- function(x) {
+  # Going through lapply and converting it to a list
+  # This works for matrices or data.frames
+  x[lengths(x) > 1] <- lapply(x[lengths(x) > 1], function(x){list(x)})
+  x
+}
+
 parse_page <- function(page, expansions, fields) {
   if (is.null(fields) && is.null(expansions)) {
     if (is.null(page$data)) {
       dcr <- list2DF(page)
     } else if (!is.null(names(page$data))) {
-      dcr <- list2DF(page$data)
+      dcr <- list2DF(enlist(page$data))
     } else {
-      ldf <- lapply(page$data, list2DF)
+      ldf <- lapply(page$data, function(x){list2DF(enlist(x))})
       dcr <- do.call(rbind, ldf)
     }
     # User search do not return meta
