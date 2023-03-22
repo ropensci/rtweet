@@ -77,7 +77,9 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
 
 # Initial conversion of data about the requests returned by the API
 resp <- function(x, ...) {
-  out <- httr2::resp_body_json(x)
+  # Simplify so that a list is converted to a vector and that there are data.frames
+  # Might make it harder when a tweet has some data and others don't!
+  out <- httr2::resp_body_json(x, simplifyVector = TRUE, flatten = TRUE)
   class(out) <- c("Twitter_resp", class(out))
 
   if (has_name_(out, "errors")) {
