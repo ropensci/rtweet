@@ -10,9 +10,9 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers>
 #' @examples
 #' if (FALSE) {
-#'   uf <- user_following("1599030512919650304", verbose = TRUE)
+#'   uf <- user_followers("1599030512919650304", verbose = TRUE)
 #' }
-user_following <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
+user_followers <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
                            token = NULL, parse = TRUE, verbose = FALSE) {
 
   expansions <- check_expansions(arg_def(expansions, "pinned_tweet_id"),
