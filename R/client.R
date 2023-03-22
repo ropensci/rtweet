@@ -70,10 +70,6 @@ is_client <- function(client) {
 default_client <- function(client_id = NULL, client_secret = NULL) {
   if (is.null(client_id) && is.null(client_secret)) {
     # The sysdat file is in #./R and loaded automagically
-    # Uses an
-    # id: 1355953759982120964
-    # account username: app_rtweet
-    # name: rtweet_app
     client_id <- decrypt(sysdat$e914c55d2f)
     client_secret <- decrypt(sysdat$d5571d4003)
   } else {
