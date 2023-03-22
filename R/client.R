@@ -237,7 +237,7 @@ rtweet_client <- function(client_id, client_secret,
 #' @family client
 #' @examples
 #' \dontrun{
-#' if (!client_has_default() && interactive()) {
+#' if (!client_has_default()) {
 #'    client_setup_default()
 #' }
 #' }

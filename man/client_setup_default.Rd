@@ -23,7 +23,7 @@ If a default is found it will use it instead.
 }
 \examples{
 \dontrun{
-if (!client_has_default() && interactive()) {
+if (!client_has_default()) {
    client_setup_default()
 }
 }
