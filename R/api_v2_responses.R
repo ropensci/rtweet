@@ -3,7 +3,7 @@ parsing <- function(x, expansions, fields, call = caller_env()) {
   if (!is_logical(x)) {
     abort("parse should be either TRUE or FALSE", call = call)
   }
-  if (!is.null(expansions) && !is.null(fields))  {
+  if (isTRUE(x) && (!is.null(expansions) || !is.null(fields))) {
     abort(c("Not yet implemented!",
             i = "Stay tuned for further updates or use `parse = FALSE`"))
   }
