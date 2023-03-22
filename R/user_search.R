@@ -33,8 +33,11 @@ user_search <- function(ids, expansions = NULL, fields = NULL, ...,
     abort("`verbose` must be either `TRUE` or `FALSE`.")
   }
   parsing(parse, expansions, fields)
-  if (length(ids) > 100 || !is_user_id(ids) && length(ids) == 0) {
-    abort("Please introduce at least a valid user id")
+  if (length(ids) > 0 || !is_user_id(ids) && length(ids) == 0) {
+    abort("Please introduce at least a valid user id.")
+  }
+  if (length(ids) > 100) {
+    abort("Too many ids provided.")
   }
   if (length(ids) > 1) {
     data <- c(list(ids = ids, expansions = expansions), fields, ...)
