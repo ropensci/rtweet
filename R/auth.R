@@ -482,7 +482,7 @@ auth_renew <- function(token, scopes = NULL, call = caller_env()) {
   token <- rtweet_oauth2(client, scopes)
   # The provided refresh token can only be used once:
   # https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123/16
-  # token <- httr2:::token_refresh(client, refresh_token = token$refresh_token,
+  # token <- httr2::oauth_flow_refresh(client, refresh_token = token$refresh_token,
   #                                scope = token$scopes)
   # This is reported to upstream: https://github.com/r-lib/httr2/issues/197
 
