@@ -152,8 +152,9 @@ handle_rules_resp <- function(x) {
   } else {
     df <- x$meta
   }
-  rules <- do.call(rbind, lapply(x$data, list2DF))
-  # Ensure that the same order is always used
+  rules <- x$data
+
+    # Ensure that the same order is always used
   if (!is.null(rules)) {
     rules <- rules[, c("id", "value", "tag")]
   }
