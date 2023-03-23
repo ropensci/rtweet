@@ -22,8 +22,12 @@ test_that("set_expansions works", {
   expect_error(set_expansions(NULL), NA)
   expect_null(set_expansions(NULL, NULL, NULL))
   expect_null(set_expansions(NULL, NULL, c()))
-  expect_error(set_expansions("a"), "These extensions are not allowed: a")
-  expect_error(set_expansions(user = "a"), "These extensions are not allowed: a")
+  expect_error(set_expansions("a"),
+               "These extensions are not allowed: a",
+               fixed = TRUE)
+  expect_error(set_expansions(user = "a"),
+               "These extensions are not allowed: a",
+               fixed = TRUE)
 })
 
 test_that("expansions and fields work together", {
@@ -40,25 +44,25 @@ test_that("expansions and fields work together", {
                                                         tweet = NULL,
                                                         place = NULL,
                                                         user = NULL)),
-               "attachments.media_keys")
+               "attachments.media_keys", fixed = TRUE)
   expect_error(expansions_for_fields(NULL,
                                     fields = set_fields(poll = NULL,
                                                         tweet = NULL,
                                                         media = NULL,
                                                         user = NULL)),
-               "geo.place_id")
+               "geo.place_id", fixed = TRUE)
   expect_error(expansions_for_fields(NULL,
                                     fields = set_fields(tweet = NULL,
                                                         place = NULL,
                                                         media = NULL,
                                                         user = NULL)),
-               "attachments.poll_ids")
+               "attachments.poll_ids", fixed = TRUE)
   expect_error(expansions_for_fields(NULL,
                                     fields = set_fields(poll = NULL,
                                                         tweet = NULL,
                                                         place = NULL,
                                                         media = NULL)),
-               "Add at least one of")
+               "Add at least one of", fixed = TRUE)
   expect_error(
     expansions_for_fields(
       expansion = 'attachments.media_keys',
