@@ -79,15 +79,11 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
 resp <- function(x, ...) {
   # Simplify so that a list is converted to a vector and that there are data.frames
   # Might make it harder when a tweet has some data and others don't!
-  out <- httr2::resp_body_json(x, simplifyVector = TRUE, flatten = TRUE)
+  out <- httr2::resp_body_json(x, simplifyVector = TRUE, flatten = FALSE)
   class(out) <- c("Twitter_resp", class(out))
 
   if (has_name_(out, "errors")) {
-    errors <- do.call(rbind, lapply(out$errors, list2DF))
-    message <- c("There are errors in the requests: ",
-                 ">" = paste(errors$title, collapse = ", "),
-                 "i" = "Use `retrieve_errors()` for more details returned by the API.")
-    abort(message, class = "rtweet_API_errors", errors = errors, call. = FALSE)
+    abort(req_errors(out), call = NULL)
   }
 
   if (has_name_(out, "meta")) {
@@ -137,6 +133,5 @@ retrieve_errors <- function(expr = NULL) {
   }
   # This is experimental on the rlang side!
   try_fetch(expr, error = function(cnd){cnd$errors}
-
   )
 }

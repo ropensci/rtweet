@@ -98,6 +98,35 @@ req_auth <- function(req, token) {
   httr2::req_auth_bearer_token(req, token)
 }
 
+req_is_error <- function(resp) {
+  if (is(resp, "httr2_response")) {
+    r <- httr2::resp_body_json(resp, simplifyVector = TRUE, flatten = FALSE)
+  } else {
+    r <- resp
+  }
+  has_name_(r, "errors")
+}
+
+req_errors <- function(resp) {
+  if (is(resp, "httr2_response")) {
+    r <- httr2::resp_body_json(resp, simplifyVector = TRUE, flatten = FALSE)
+  } else {
+    r <- resp
+  }
+
+  if (any(lengths(r$errors) > 1)) {
+    errors <- do.call(rbind, lapply(r$errors, list2DF))
+  }  else {
+    errors <- r$errors
+  }
+
+  if (has_name_(errors, "message")) {
+    return(errors$message)
+  }
+  if (has_name_(errors, "title")) {
+    return(paste0(errors$title, " with value: ", errors$value))
+  }
+}
 
 # Prepare the requests ####
 # General function to create the requests for Twitter API v2 with retry limits
@@ -111,7 +140,8 @@ req_v2 <- function(token = NULL, call = caller_env()) {
   req_try <- httr2::req_retry(req_content,
                               is_transient = twitter_is_transient,
                               after = twitter_after)
-  req_try
+  req <- httr2::req_error(req_try, is_error = req_is_error, body = req_errors)
+  req
 }
 
 twitter_is_transient <- function(resp) {
