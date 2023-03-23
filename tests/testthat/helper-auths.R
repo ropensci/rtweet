@@ -5,6 +5,7 @@ testing_with_authentication <- function(auth) {
   if (!auth %in% auth_list()) {
     skip("Requires a different authentication")
   }
-  suppressMessages(auth_as(auth))
+  withr::defer_parent(auth_as(auth_get()))
+  auth_as(auth)
 }
 
