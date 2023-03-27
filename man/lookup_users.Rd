@@ -19,8 +19,8 @@ lookup_users(
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
@@ -32,7 +32,7 @@ that point. The default value, \code{NULL}, consults the option
 if desired.
 
 If you expect a query to take hours or days to perform, you should not
-rely soley on \code{retryonratelimit} because it does not handle other common
+rely solely on \code{retryonratelimit} because it does not handle other common
 failure modes like temporarily losing your internet connection.}
 
 \item{verbose}{Show progress bars and other messages indicating current

@@ -67,7 +67,7 @@ urls <- function(x) {
 # PowerTrack @ screen_name
 # has:mentions
 # <https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities#mentions>
-user_mentions <- function(x) {
+user_mention <- function(x) {
   if (NROW(x) == 0) {
     df <- data.frame(screen_name = NA, name = NA, id = NA, id_str = NA,
                      indices = I(list(NA)), stringsAsFactors = FALSE)

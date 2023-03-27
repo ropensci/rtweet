@@ -2,8 +2,8 @@
 #' past 30 days
 #'
 #' Returns all Direct Message events (both sent and received) within the last 30
-#' days. Sorted in reverse-chronological order. Includes detailed information 
-#' about the sender and recipient. 
+#' days. Sorted in reverse-chronological order. Includes detailed information
+#' about the sender and recipient.
 #'
 #' @inheritParams TWIT_paginate_cursor
 #' @param next_cursor `r lifecycle::badge("deprecated")` Use `cursor` instead.
@@ -27,16 +27,16 @@ direct_messages <- function(n = 50,
                             token = NULL,
                             retryonratelimit = NULL,
                             verbose = TRUE) {
-  
+
   if (!is.null(next_cursor)) {
-    lifecycle::deprecate_warn("1.0.0", 
-      "direct_messages(next_cursor)", 
+    lifecycle::deprecate_warn("1.0.0",
+      "direct_messages(next_cursor)",
       "direct_messages(cursor)"
     )
     cursor <- next_cursor
   }
-  
-  TWIT_paginate_cursor(token, "/1.1/direct_messages/events/list", list(), 
+
+  TWIT_paginate_cursor(token, "/1.1/direct_messages/events/list", list(),
     n = n,
     cursor = cursor,
     retryonratelimit = retryonratelimit,
@@ -84,7 +84,7 @@ direct_messages_received <- function(since_id = NULL,
                                      n = 200,
                                      parse = TRUE,
                                      token = NULL) {
-  stop("The endpoint for `direct_messages_received()` no longer exists. ",
+  abort("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
 }
 
@@ -95,6 +95,6 @@ direct_messages_sent <- function(since_id = NULL,
                                  n = 200,
                                  parse = TRUE,
                                  token = NULL) {
-  stop("The endpoint for `direct_messages_received()` no longer exists. ",
+  abort("The endpoint for `direct_messages_received()` no longer exists. ",
     "Please use `direct_messages()` instead.")
 }

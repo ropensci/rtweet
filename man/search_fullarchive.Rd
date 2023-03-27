@@ -74,8 +74,8 @@ override/deactivate safedir set this to FALSE.}
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \value{
@@ -171,7 +171,5 @@ rt <- search_30day("#rstats", n = 300,
 }
 \references{
 Endpoint: \url{https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search}
-Full archive limits \url{https://developer.twitter.com/en/pricing/search-fullarchive}
-30day limits \url{https://developer.twitter.com/en/pricing/search-30day}
 }
 \concept{premium endpoints}

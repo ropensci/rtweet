@@ -1,7 +1,7 @@
 #' Get the most recent retweets/retweeters
 #'
 #' `get_retweets()` returns the 100 most recent retweets of a tweet;
-#' `get_retweeters()` retursn the 100 most recent users who retweeted them.
+#' `get_retweeters()` returns the 100 most recent users who retweeted them.
 #'
 #' @inheritParams lookup_users
 #' @param status_id Tweet/status id.
@@ -12,8 +12,8 @@
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweets-id>
 get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
-  stopifnot(is.character(status_id), length(status_id) == 1L)
-  
+  stopifnot(is.character(status_id), length(status_id) == 1L, is_n(n))
+
   query <- sprintf("/1.1/statuses/retweets/%s", status_id)
   params <- list(
     id = status_id,
@@ -23,7 +23,7 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
     ...
   )
   r <- TWIT_get(token, query, params)
-  
+
   if (parse) {
     r <- tweets_with_users(list(r))
     r$created_at <- format_date(r$created_at)
@@ -35,13 +35,14 @@ get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids>
 #' @rdname get_retweets
 get_retweeters <- function(status_id, n = 100, parse = TRUE, token = NULL) {
+  stopifnot(is_n(n))
   params <- list(
     id = status_id,
     count = n,
     stringify_ids = TRUE
   )
   r <- TWIT_get(token, "/1.1/statuses/retweeters/ids", params)
-  
+
   if (parse) {
     r <- tibble::tibble(user_id = r$ids)
   }

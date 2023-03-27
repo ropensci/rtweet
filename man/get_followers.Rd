@@ -46,7 +46,7 @@ that point. The default value, \code{NULL}, consults the option
 if desired.
 
 If you expect a query to take hours or days to perform, you should not
-rely soley on \code{retryonratelimit} because it does not handle other common
+rely solely on \code{retryonratelimit} because it does not handle other common
 failure modes like temporarily losing your internet connection.}
 
 \item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
@@ -56,8 +56,8 @@ Twitter API.}
 \item{verbose}{Show progress bars and other messages indicating current
 progress?}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{page}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{cursor} instead.}

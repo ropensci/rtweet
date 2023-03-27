@@ -10,7 +10,7 @@ tweet_threading(tw, traverse = c("backwards", "forwards"), verbose = FALSE)
 \item{tw}{\code{\link[=lookup_tweets]{lookup_tweets()}} output containing
 at least the last status in the thread or an id of a tweet.}
 
-\item{traverse}{character, direction to traverse from origin status in tw.
+\item{traverse}{character, direction to traverse from origin status in \code{tw}.
 It is not recommended to change the default if you don't know at which point of a thread you are starting.}
 
 \item{verbose}{logical, output to console status of traverse.}

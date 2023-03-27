@@ -31,31 +31,18 @@
 #' @family ts_data
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
-  do.call(ts_plot_, list(data = data, by = by, trim = trim, tz = tz, ...))
-}
-
-
-ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   data <- ts_data(data, by, trim, tz)
   check_installed("ggplot2")
+
+  p <- ggplot2::ggplot(data, ggplot2::aes(x = .data[["time"]], y = .data[["n"]]))
   if (ncol(data) == 3L) {
     # retrieve group name
-    ggplot2::ggplot(
-      data, ggplot2::aes(
-        x = .data[["time"]], y = .data[["n"]], colour = .data[[names(data)[3]]])
-    ) +
-    ggplot2::geom_line(...)
+    p + ggplot2::geom_line(ggplot2::aes(colour = .data[[names(data)[3]]]), ...)
   } else if (ncol(data) == 4L) {
-    # retrieve group names
-    ggplot2::ggplot(
-      data, ggplot2::aes(
-        x = .data[["time"]], y = .data[["n"]], colour = .data[[names(data)[3]]], linetype = .data[[names(data)[4]]])
-    ) +
-    ggplot2::geom_line(...)
+    p + ggplot2::geom_line(ggplot2::aes(colour = .data[[names(data)[3]]],
+                                        linetype = .data[[names(data)[4]]]), ...)
   } else {
-    ggplot2::ggplot(
-      data, ggplot2::aes(x = .data[["time"]], y = .data[["n"]])) +
-      ggplot2::geom_line(...)
+     p + ggplot2::geom_line(...)
   }
 }
 
@@ -92,11 +79,6 @@ ts_plot_ <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #'
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
-  args <- list(data = data, by = by, trim = trim, tz = tz)
-  do.call(ts_data_, args)
-}
-
-ts_data_ <- function(data, by = "days", trim = 0L, tz = "UTC") {
   stopifnot(is.data.frame(data), is.atomic(by))
   if (has_name_(data, "created_at")) {
     dtvar <- "created_at"

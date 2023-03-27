@@ -100,7 +100,7 @@ post_list_create <- function(name,
                              private = FALSE,
                              token = NULL) {
 
-  stopifnot(is.atomic(name), length(name) == 1, is.logical(private))
+  stopifnot(is.atomic(name), length(name) == 1, is_logical(private))
 
   if (private) {
     mode <- "private"

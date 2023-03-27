@@ -4,11 +4,24 @@
 \alias{invalidate_bearer}
 \title{Invalidate bearer token}
 \usage{
-invalidate_bearer(token = NULL)
+invalidate_bearer(api_key, api_secret, client = NULL, token = NULL)
+}
+\arguments{
+\item{api_key, api_secret}{API key and secret. Deprecated in favor of \verb{client_*} arguments.}
+
+\item{client}{Which client app will be used, see \code{\link[=rtweet_client]{rtweet_client()}} for details.}
+
+\item{token}{Expert use only. Use this to invalidate a specific bearer token
+created with \code{\link[=rtweet_app]{rtweet_app()}}. If \code{NULL} the default authentication mechanism is invalidated.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-Invalidation of the bearer token is no longer the responsibility of rtweet.
-This is something you should instead perform in the \href{https://developer.twitter.com/en/portal/projects-and-apps}{Twitter developer portal}.
+Invalidate the bearer token automatically if you know the API key and API secret.
+}
+\note{
+Not tested!
+}
+\references{
+\url{https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token}
+\url{https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token}
 }
 \keyword{internal}

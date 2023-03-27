@@ -7,7 +7,8 @@
 #' @param entity A entity to extract data from.
 #' @param ... Other possible arguments currently ignored.
 #' @return Some information about those entities and the tweet id it comes from.
-#' for users mentions the ids of the mentioned users are "user_id", "user_id_str" (not id_str)
+#' for users mentions the ids of the mentioned users are "user_id", "user_id_str"
+#' (not "id_str")
 #' @export
 #' @examples
 #' if (auth_has_default()) {
@@ -28,7 +29,6 @@ entity <- function(x, entity, ...) {
 
 #' @export
 entity.default <- function(x, entity, ...) {
-  is(x, "tweets")
   entity <- match.arg(entity, c("urls", "hashtags", "symbols",
                                 "user_mentions", "media"))
   l <- lapply(x, function(x){x[[entity]]})
@@ -51,7 +51,7 @@ entity.tweets <- function(x, entity, ...) {
 
 .entity <- function(x, name = "urls") {
   ids <- ids(x)
-  ent <- lapply(x$entities, function(x) {l_minus(x[[name]], "indices")})
+  ent <- lapply(x$entities, function(x) {list_minus(x[[name]], "indices")})
   n_ent <- vapply(ent, NROW, numeric(1L))
   ids <- rep(ids, n_ent)
   ent <- do.call(rbind, ent)

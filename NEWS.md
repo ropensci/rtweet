@@ -1,5 +1,44 @@
 # rtweet (development version)
 
+## Authentication changes
+
+- New `client_*` functions to save, set and use a client app using Twitter API 
+  via the new authentication mechanism `rtweet_oauth2()` (see below).
+  It has a helper function for the scopes the client is allowed to do `set_scopes()`.
+  Endpoint have different scope requirements. 
+
+- New authentication mechanism `rtweet_oauth2()` required by some endpoints.
+  Only valid for 2 hours until it is automatically renewed, but it is left to 
+  the user to save it every time it is renewed.
+
+
+## New endpoints using API v2
+
+New endpoints to retrieve data from twitter, no action is performed (no blocking, muting, posting new tweets...):
+
+- New list endpoints: `list_expansions()`, `list_fields()`, `list_followers()`, 
+  `list_get()`, `list_members()`, `list_membership()`, `list_tweets()`.
+  
+- New tweet endpoints: `tweet_get()`, `tweet_liking_users()`, `tweet_retweeted_by()`.
+
+- New user endpoints: `user_blocked()`,`user_bookmarks()`,`user_by_username()`,
+  `user_following()`, `user_followers()`, `user_liked_tweets()`, 
+  `user_list_follows()`, `user_lists()`, `user_mentions()`, `user_search()`, 
+  `user_self()`, `user_timeline()`, `user_tweets()`.
+  
+- New statistic endpoints: `tweet_counts_recent()`, `tweet_counts_all()`.
+
+## Other changes
+
+  
+- Small breaking change: `expansions` and `fields` arguments now use `NA` for all and `NULL` for none.
+
+- New functions to set expansions and fields for the new functions: `set_expansions()`, `set_fields()`.
+
+- Fixed a bug that prevented `auth_setup_default()` to work (#756 and #744)
+
+- Fixed a bug so that the streaming functions use the current token. 
+
 # rtweet 1.1.0
 
 - Fixed a bug that prevented posting multiple media in the same tweet.

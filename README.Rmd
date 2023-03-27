@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # rtweet <img src="man/figures/logo.png" width="160px" align="right" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ropensci/rtweet/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rtweet/actions)
+[![R-CMD-check](https://github.com/ropensci/rtweet/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rtweet/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/rtweet)](https://cran.r-project.org/package=rtweet)
 [![Coverage Status](https://codecov.io/gh/ropensci/rtweet/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/rtweet?branch=master)
 ![Downloads](https://cranlogs.r-pkg.org/badges/rtweet)
@@ -51,6 +51,11 @@ library(rtweet)
 ```
 
 rtweet should be used in strict accordance with Twitter's [developer  terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
+
+```{r include=FALSE}
+auth_as(rtweet:::rtweet_test())
+```
+
 
 ### Search tweets or users
 

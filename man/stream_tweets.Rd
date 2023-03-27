@@ -38,8 +38,8 @@ valid file.}
 
 \item{parse}{Use \code{FALSE} to opt-out of parsing the tweets.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{file_name}{Character with name of file. If not specified,
@@ -83,12 +83,10 @@ usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json",
 }
 }
 \references{
-\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample},
-\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview}
+They were removed from the website.
 
-Stream: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample}
-Filter: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/api-reference/post-statuses-filter}
+The webpages describing how it used to work were removed.
 }
 \seealso{
-\code{parse_stream()}.
+\code{\link[=parse_stream]{parse_stream()}}.
 }

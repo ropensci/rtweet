@@ -10,12 +10,12 @@
     Code
       find_auth(1:10)
     Condition
-      Error in `find_auth()`:
+      Error:
       ! Unrecognised input to `auth`
     Code
       find_auth("not-present")
     Condition
-      Error in `find_auth()`:
+      Error:
       ! Can't find saved auth with name 'not-present'
 
 # default_cached_auth() handles 0, 1, and n saved

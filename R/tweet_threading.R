@@ -12,7 +12,7 @@
 #' The forwards method is limited by the timeline API (See [get_timeline()]).
 #' @param tw [lookup_tweets()] output containing
 #'  at least the last status in the thread or an id of a tweet.
-#' @param traverse character, direction to traverse from origin status in tw.
+#' @param traverse character, direction to traverse from origin status in `tw`.
 #' It is not recommended to change the default if you don't know at which point of a thread you are starting.
 #' @param verbose logical, output to console status of traverse.
 #' @return Tweets in a structure like [lookup_tweets()].
@@ -28,7 +28,7 @@ tweet_threading <- function(tw, traverse = c("backwards", "forwards"), verbose =
   if (is.character(tw)) {
     tw <- lookup_tweets(tw[1])
   }
-  stopifnot(is.logical(verbose))
+  stopifnot(is_logical(verbose))
 
   # Prevent a forwards, backwards order
   if (length(unique(traverse)) == 2 && all(c("backwards", "forwards") %in% traverse)) {

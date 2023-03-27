@@ -11,10 +11,7 @@ test_that("get_timeline works", {
 
 test_that("get_my_timeline() works", {
   # Use a user account
-  if (!"default" %in% auth_list()) {
-    skip("Requires different authentication")
-  }
-  auth_as("default")
+  testing_with_authentication("default")
   # Use user identification not the bot
   vcr::use_cassette("get_timeline2", {
     gmt <- get_my_timeline()

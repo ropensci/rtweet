@@ -88,13 +88,14 @@ You can check the location of these tweets with `lat_lng()`.
 Or quickly visualize frequency of tweets over time using `ts_plot()` (if `ggplot2` is installed).
 
 ```{r plot1}
+#| fig.cap: "Last 100 tweets by hour."
 ## plot time series of tweets
 ts_plot(rstats) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold")) +
   labs(
     x = NULL, y = NULL,
-    title = "Frequency of #rstats Twitter statuses from past 9 days",
+    title = "Frequency of #rstats Twitter statuses from past days",
     subtitle = "Twitter status (tweet) counts aggregated using three-hour intervals",
     caption = "Source: Data collected from Twitter's REST API via rtweet"
   )
@@ -183,6 +184,8 @@ useRs_twt[1:5, c("id_str", "created_at", "text")]
 
 Get the most recent tweets from R Foundation.
 ```{r plot2}
+#| fig.cap: "Frequency of Twitter statuses posted by the R Foundation since 2017"
+#| eval: requireNamespace("ggplot2", quietly = TRUE)
 ## get user IDs of accounts followed by R Foundation
 R_foundation_tline <- get_timeline("_R_Foundation")
 
@@ -202,6 +205,7 @@ plot <- R_foundation_tline |>
     subtitle = "Twitter status (tweet) counts aggregated by month from October/November 2017",
     caption = "Source: Data collected from Twitter's REST API via rtweet"
   )
+plot
 ```
 
 ## Get favorites

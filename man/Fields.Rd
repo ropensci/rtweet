@@ -7,6 +7,7 @@
 \alias{media_fields}
 \alias{place_fields}
 \alias{poll_fields}
+\alias{list_fields}
 \alias{tweet_fields}
 \alias{user_fields}
 \alias{metrics_fields}
@@ -18,9 +19,11 @@ An object of class \code{character} of length 8.
 
 An object of class \code{character} of length 5.
 
-An object of class \code{character} of length 17.
+An object of class \code{character} of length 6.
 
-An object of class \code{character} of length 14.
+An object of class \code{character} of length 18.
+
+An object of class \code{character} of length 15.
 
 An object of class \code{character} of length 4.
 }
@@ -30,6 +33,8 @@ media_fields
 place_fields
 
 poll_fields
+
+list_fields
 
 tweet_fields
 
@@ -46,6 +51,7 @@ Fields are possible for:
 \item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media}{Media}
 \item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll}{Polls}
 \item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place}{Places}
+\item \href{https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/lists}{Lists}
 }
 }
 \examples{
@@ -59,6 +65,6 @@ user_fields
 \url{https://developer.twitter.com/en/docs/twitter-api/fields}
 }
 \seealso{
-\link{Expansions}
+\link{Expansions}, \code{\link[=set_fields]{set_fields()}}
 }
 \keyword{datasets}

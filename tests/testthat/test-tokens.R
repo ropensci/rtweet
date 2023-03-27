@@ -6,15 +6,14 @@ test_that("get_token() and get_tokens() are deprecated", {
 })
 
 test_that("create_token is deprecated", {
-  local_auth()  
-  
+
   path <- tempfile()
   withr::local_options("rtweet:::config_dir" = path)
   expect_snapshot(token <- suppressMessages(create_token("my-app", "x", "x", "y", "y")))
-  
+
   # still sets as default
   expect_equal(auth_get(), token)
-  
+
   # and saves in config dir
   expect_equal(dir(path), "create_token.rds")
 })

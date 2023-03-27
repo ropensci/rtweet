@@ -18,8 +18,8 @@ get_retweeters(status_id, n = 100, parse = TRUE, token = NULL)
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{...}{Other arguments used as parameters in the query sent to
@@ -30,7 +30,7 @@ Tweets data of the most recent retweets/retweeters of a given status
 }
 \description{
 \code{get_retweets()} returns the 100 most recent retweets of a tweet;
-\code{get_retweeters()} retursn the 100 most recent users who retweeted them.
+\code{get_retweeters()} returns the 100 most recent users who retweeted them.
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweets-id}

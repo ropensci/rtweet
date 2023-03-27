@@ -1,0 +1,45 @@
+#Default rstats2twitter:
+Client_id=6j7Ig4xzHlBr8uUJ5A4Ym0NTf
+secret=k8njuFVfXaeZK86xDGDUgEqNvSXf5VGM1VwHHnAFeGS4HqhTfo 
+
+
+API_key=6N7mJPGnMG3DbNhXTixLMzoYp
+API_secret=hG94XZt5cyk5PSfgk47BfIPHztMk5dGc4qi7Zow65AxVYSlfbF
+
+
+Client ID=M3B6QmxUaDQ3RXM5YjQwODd4ZXo6MTpjaQ
+Client Secret=Ni1tW0C4X1Lxlg3Sf33QiXIX-5EwxL1tvvElWfDL5zbmJJ9kAC
+Client Secret=Ni1tW0C4X1Lxlg3Sf33QiXIX-5EwxL1tvvElWfDL5zbmJJ9kAC
+
+
+hG94XZt5cyk5PSfgk47BfIPHztMk5dGc4qi7Zow65AxVYSlfbF
+Ni1tW0C4X1Lxlg3Sf33QiXIX-5EwxL1tvvElWfDL5zbmJJ9kAC
+
+
+
+# RTWEET Academic_Dev; RTAA in the computer
+Consumer keys
+API key= rBPCP0Be89L5BedK5qiPVY9eS
+API key secret= lQq3y411lKZnbUOD389QvtbXe6ltciVueXkk8bEOp1fMGbWlFC
+
+Bearer= AAAAAAAAAAAAAAAAAAAAAG1SgQEAAAAAMr7FcR2fjPueTR5BjXx2E4935X4%3DQqttEAaWW4jJNP2Wn7BH2RYgSL2kHx0C1KA9RmNPim27f7Ydx4
+
+Client ID=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ
+Client Secret=QMqKZxAL6MGoK40OWNoUuSFDRckLPC-TzXicQ5cw0irfu0ORhX
+
+
+
+
+
+rtweet_oauth2("Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ", "m3grxV6HQ2Yud-izF0r-RdaVKXq2vFWcF5rDGjAeHu80O_Cehg")
+rtweet_oauth2("rBPCP0Be89L5BedK5qiPVY9eS", "lQq3y411lKZnbUOD389QvtbXe6ltciVueXkk8bEOp1fMGbWlFC")
+
+
+
+
+
+Rtweet_development
+Client ID=ZUh0YTlQa1BFZmdtOEJzVzhDa2w6MTpjaQ
+Client Secret SzA-5IcXsgtLgNkkp6TgqHVoLLtYvORmE6fD_L6BdW9CsZKf97
+
+1051050384

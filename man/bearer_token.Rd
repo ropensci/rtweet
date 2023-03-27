@@ -13,6 +13,6 @@ bearer_token(token = NULL)
 method of generating a bearer token. Instead, use \code{\link[=rtweet_app]{rtweet_app()}}, copying
 in the bearer token directly from the
 \href{https://developer.twitter.com/en/portal/projects-and-apps}{Twitter developer portal}.
-See \code{vignette("auth")} for full details.
+See \code{vignette("auth", package = "rtweet")} for full details.
 }
 \keyword{internal}

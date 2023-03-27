@@ -11,22 +11,18 @@ test_that("stream_tweets returns tweets data", {
   expect_true(nrow(x2) > nrow(x1))
 })
 
-
-test_that("Stream for 30 seconds", {
+test_that("Stream for 10 seconds", {
   skip_if_offline()
-  if (!"RTAA" %in% auth_list()) {
-    skip("Requires different authentication")
-  }
-  auth_as("RTAA")
+  testing_with_authentication("bearer_testing_app")
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
-  # Open filtered streaming connection for 30s
+  # Open filtered streaming connection for 20s
   tmp <- tempfile()
   expect_error({
-    f <- filtered_stream(file = tmp, timeout = 30, parse = FALSE)
-    f2 <- filtered_stream(file = tmp, timeout = 30, parse = FALSE)
+    f <- filtered_stream(file = tmp, timeout = 10, parse = FALSE)
+    f2 <- filtered_stream(file = tmp, timeout = 10, parse = FALSE)
   }, NA)
   # Remove rule
-  stream_rm_rule(ids(new_rules))
+  stream_rm_rule(ids(new_rule))
   # Open random streaming connection
-  sample_stream(file = tempfile(), timeout = 3)
+  expect_error(sample_stream(file = tempfile(), timeout = 10, parse = FALSE), NA)
 })

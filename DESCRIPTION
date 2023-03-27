@@ -1,7 +1,7 @@
 Type: Package
 Package: rtweet
 Title: Collecting Twitter Data
-Version: 1.1.0.9001
+Version: 1.1.0.9011
 Authors@R: c(
     person("Michael W.", "Kearney", , "kearneymw@missouri.edu", role = "aut",
            comment = c(ORCID = "0000-0002-0730-4694")),
@@ -50,6 +50,7 @@ Suggests:
     maps (>= 3.4.0),
     openssl (>= 2.0.2),
     rmarkdown (>= 2.14),
+    spelling,
     testthat (>= 3.1.0),
     vcr (>= 0.6.0),
     webshot (>= 0.5.3)
@@ -58,4 +59,5 @@ VignetteBuilder:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
+Language: en-US

@@ -4,6 +4,7 @@
 \alias{rtweet_user}
 \alias{rtweet_bot}
 \alias{rtweet_app}
+\alias{rtweet_oauth2}
 \title{Authentication options}
 \usage{
 rtweet_user(
@@ -13,27 +14,40 @@ rtweet_user(
   api_secret = client_secret
 )
 
-rtweet_bot(api_key, api_secret, access_token, access_secret)
+rtweet_bot(api_key, api_secret, access_token, access_secret, app = "rtweet")
 
 rtweet_app(bearer_token)
+
+rtweet_oauth2(client = NULL, scopes = NULL)
 }
 \arguments{
 \item{client_id, client_secret}{Application OAuth client ID and client Secret.
-These are generally not required for \code{tweet_user()} since the defaults will use
+These are generally not required for \code{rtweet_user()} since the defaults will use
 the built-in rtweet app.}
 
 \item{api_key, api_secret}{API key and secret. Deprecated in favor of \verb{client_*} arguments.}
 
 \item{access_token, access_secret}{Access token and secret.}
 
+\item{app}{Name of the application you are building.}
+
 \item{bearer_token}{App bearer token.}
+
+\item{client}{Which client app will be used, see \code{\link[=rtweet_client]{rtweet_client()}} for details.}
+
+\item{scopes}{The permissions of the app, see \code{\link[=set_scopes]{set_scopes()}} for details.
+By default it uses the client's scopes. Provided here in case you want to modify them.}
 }
 \value{
 If the validation is successful the OAuth token.
-For rtweet_app a rtweet_bearer.
+For \code{rtweet_app()} a \code{rtweet_bearer}.
 }
 \description{
-There are three ways that you can authenticate with the Twitter API:
+Authenticate methods to use the Twitter API.
+See the instructions in \code{vignette("auth", package = "rtweet")}.
+}
+\details{
+There are four ways that you can authenticate with the Twitter API:
 \itemize{
 \item \code{rtweet_user()} interactively authenticates an existing Twitter user.
 This form is most appropriate if you want rtweet to control your
@@ -46,18 +60,18 @@ This form is most appropriate if you are collecting data.
 \item \code{rtweet_bot()} authenticates as bot that takes actions on behalf of an app.
 This form is most appropriate if you want to create a Twitter account that
 is run by a computer, rather than a human.
+\item \code{rtweet_oauth2()} authenticates as a user using a client.
+This authentication is required in some endpoints.
 }
 
-To use \code{rtweet_app()} or \code{rtweet_bot()} you will need to create your own
-Twitter app following the instructions in \code{vignette("auth.Rmd")}.
+To use \code{rtweet_app()}, \code{rtweet_bot()}  or \code{rtweet_oauth2()} you will need to
+create your own Twitter app following the instructions in
+\code{vignette("auth", package = "rtweet")}.
 \code{rtweet_user()} \emph{can be} used with your own app, but generally there is
 no need to because it uses the Twitter app provided by rtweet.
 
 Use \code{\link[=auth_as]{auth_as()}} to set the default auth mechanism for the current session,
 and \code{\link[=auth_save]{auth_save()}} to save an auth mechanism for use in future sessions.
-}
-\details{
-Authenticate methods to use the Twitter API.
 }
 \section{Security}{
 All of the arguments to these functions are roughly equivalent to
@@ -75,7 +89,12 @@ rtweet_bot()
 rtweet_app()
 }
 }
+\references{
+\url{https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code}
+}
 \seealso{
+\code{\link[=rtweet_client]{rtweet_client()}}
+
 Other authentication: 
 \code{\link{auth_as}()},
 \code{\link{auth_get}()},

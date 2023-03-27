@@ -5,6 +5,15 @@ development:
   mode: auto
 # navbar: used without anything else by rOpenSci
 
+# News with links to blogposts
+news:
+ releases:
+ - text: "rtweet 1.0.0"
+   href: https://ropensci.org/blog/2022/07/21/rtweet-1-0-0/
+ - text: "rtweet 1.2.0"
+   href: https://llrs.dev/tags/rtweet/
+
+
 authors:
   Michael W. Kearney:
     href: https://mikewk.com
@@ -20,12 +29,10 @@ reference:
   - my_friendships
   - starts_with("post")
   - stream_tweets
-  - filtered_stream
-  - sample_stream
-  - rules
   - trends_available
   - starts_with("tweet")
   - ends_with("block")
+
 - subtitle: Lists
   desc: Manage lists.
   contents:
@@ -44,6 +51,12 @@ reference:
   contents:
   - rtweet_user
   - starts_with("auth")
+
+- title: Client
+  desc: Manage your clients.
+  contents:
+  - starts_with("client")
+  - rtweet_client
 
 - title: Data
   contents:
@@ -69,4 +82,30 @@ reference:
   - plain_tweets
   - read_twitter_csv
   - write_as_csv
+
+- title: Retrieve tweets
+  desc: Use API v2
+  contents:
+  - starts_with("tweet_")
+  - filtered_stream
+  - sample_stream
+
+- title: Retrieve users
+  desc: Use API v2
+  contents:
+  - starts_with("user_")
+
+- title: Retrieve lists
+  desc: Use API v2
+  contents:
+  - starts_with("list_")
+
+- title: Helpers for the API v2
+  contents:
+  - starts_with("set_")
+  - retrieve_errors
+  - links
+  - rules
+  - ids
+
 

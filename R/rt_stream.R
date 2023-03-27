@@ -9,13 +9,16 @@
 #' One tweet might belong to multiple rules.
 #'
 #' @param file Path to a file where the raw streaming should be stored.
+#' @param token These endpoints only accept a bearer token (can be created via
+#' [rtweet_app()]). In most cases you
+#' are better of changing the default for all calls via [auth_as()].
 #' @inheritParams TWIT_paginate_max_id
 #' @param timeout time, in seconds, of the recording stream.
-#' @param expansions Expansions you want to use see [tweet_expansions()].
-#' Use NULL to get all expansions, use NA to not use any field, or a vector
-#' with the fields you want.
-#' @param fields Fields you want to retrieve see [Fields]. Use NULL to get all
-#' allowed fields, use NA to not use any field, pass a list with the fields you want.
+#' @param expansions Set `NULL` to not use any expansion, set `NA` to get all
+#' expansions, or provide a vector with the expansions you want (create it with
+#' [set_expansions()]).
+#' @param fields Set `NULL` to not use any field, get all allowed fields with `NA`,
+#' provide a list with the fields you want (create it with [set_fields()]).
 #' @param append Append streaming to the file? Default does but it is
 #' recommended to have a new file for each call.
 #' @param query If `NULL` returns the current rules, else depending:
@@ -27,9 +30,12 @@
 #' @return The records in the streaming.
 #' @seealso
 #' Rules for filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule>
+#'
 #' Sampled stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream>
+#'
 #' Filtered stream: <https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream>
-#' [ids]
+#'
+#' [ids()]
 #' @rdname stream
 #' @name stream
 #' @examples
@@ -41,44 +47,36 @@
 #'   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
 #'   new_rule
 #'   # Open filtered streaming connection for 30s
-#'   filtered_stream(file = tempfile(), timeout = 30)
+#'   filtered_stream(file = tempfile(), timeout = 30, parse = FALSE)
 #'   # Remove rule
 #'   stream_rm_rule(ids(new_rule))
 #'   # Open random streaming connection
-#'   sample_stream(file = tempfile(), timeout = 3)
+#'   sample_stream(file = tempfile(), timeout = 3, parse = FALSE)
 #' }
 NULL
 
 #' @export
 #' @describeIn stream Start a filtered stream according to the rules.
-filtered_stream <- function(timeout, file = tempfile(), expansions = NA, fields = NA, ...,
-                            token = NULL, append = TRUE, parse = TRUE) {
-  allowed_expansions <- c("attachments.poll_ids",  "attachments.media_keys",
-                          "author_id", "edit_history_tweet_ids",
-                          "entities.mentions.username", "geo.place_id",
-                          "in_reply_to_user_id", "referenced_tweets.id",
-                          "referenced_tweets.id.author_id")
-  parsing(parse)
-  fields <- check_fields(fields,
-                         media_fields = c("duration_ms", "height", "media_key",
-                                          "preview_image_url", "type", "url", "width",
-                                          "public_metrics", "alt_text", "variants"),
-                         place_fields = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-                         poll_fields = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-                         tweet_fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-                         user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld"),
-                         metrics_fields = NULL)
-
-  expansions <- check_expansions(expansions, allowed_expansions)
+filtered_stream <- function(timeout, file = tempfile(),
+                            expansions = NULL, fields = NULL,
+                            ...,  token = NULL, append = TRUE, parse = TRUE) {
+  parsing(parse, expansions, fields)
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions_for_fields(expansions, fields)
+  token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
-  data <- c(expansions, fields, ...)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
   if (file.exists(file) && isFALSE(append)) {
     stop("File already exists and append = FALSE", call. = FALSE)
   }
   out <- stream(req_stream, file, timeout = timeout)
-  return(out)
+  if (!parse) {
+    return(out)
+  }
+  parse(out, expansions, fields)
 }
 
 stream <- function(req, file, timeout) {
@@ -126,7 +124,7 @@ stream_add_rule <- function(query, dry = FALSE, token = NULL) {
   }
   streaming <- stream_rules(query, token, auto_unbox = TRUE, pretty = FALSE)
   if (isTRUE(dry)) {
-    streaming <- httr2::req_body_form(streaming, dry_run = dry)
+    streaming <- httr2::req_url_query(streaming, dry_run = dry)
   }
   out <- httr2::req_perform(streaming)
   out <- resp(out)
@@ -141,7 +139,7 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
   }
   rm_rule <- stream_rules(query, token, pretty = FALSE, auto_unbox = TRUE)
   if (isTRUE(dry)) {
-    rm_rule <- httr2::req_body_form(rm_rule, dry_run = dry)
+    rm_rule <- httr2::req_url_query(rm_rule, dry_run = dry)
   }
   out <- httr2::req_perform(rm_rule)
   out <- resp(out)
@@ -149,16 +147,14 @@ stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
 }
 
 handle_rules_resp <- function(x) {
-  if (has_name_(x, "errors")) {
-    warning("There are errors in the requests: ",
-            x$errors$title,
-            "\nCheck the returned object for more details.", call. = FALSE)
-    return(x)
+  if (!is.null(x$meta$summary)) {
+    df <- cbind.data.frame(sent = x$meta$sent, x$meta$summary)
+  } else {
+    df <- x$meta
   }
-  df <- x$meta
+  rules <- x$data
 
-  rules <- do.call(rbind, lapply(x$data, list2DF))
-  # Ensure that the same order is always used
+    # Ensure that the same order is always used
   if (!is.null(rules)) {
     rules <- rules[, c("id", "value", "tag")]
   }
@@ -167,7 +163,8 @@ handle_rules_resp <- function(x) {
   df
 }
 
-stream_rules <- function(query = NULL, token = NULL, ...) {
+stream_rules <- function(query = NULL, token = NULL, ..., call = caller_env()) {
+  token <- check_token_v2(token, call = call)
   req <- endpoint_v2(token, "tweets/search/stream/rules", 450 / (15 * 60))
 
   if (!is.null(query)) {
@@ -273,26 +270,25 @@ split_stream <- function(file, path) {
 #' @describeIn stream Retrieve a sample of the tweets posted.
 #' @export
 sample_stream <- function(timeout, file = tempfile(),
-                          expansions = NA, fields = NA, ...,
+                          expansions = NULL, fields = NULL, ...,
                           token = NULL, parse = TRUE, append = TRUE) {
-  fields <- check_fields(fields,
-                        media_fields = c("duration_ms", "height", "media_key", "preview_image_url", "type", "url", "width", "public_metrics", "alt_text", "variants"),
-                        place_fields = c("contained_within", "country", "country_code", "full_name", "geo", "id", "name", "place_type"),
-                        poll_fields = c("duration_minutes", "end_datetime", "id", "options", "voting_status"),
-                        tweet_fields = c("attachments", "author_id", "context_annotations", "conversation_id", "created_at", "edit_controls", "entities", "geo", "id", "in_reply_to_user_id", "lang", "public_metrics", "possibly_sensitive", "referenced_tweets", "reply_settings", "source", "text", "withheld"),
-                        user_fields = c("created_at", "description", "entities", "id", "location", "name", "pinned_tweet_id", "profile_image_url", "protected", "public_metrics", "url", "username", "verified", "withheld")
-  )
-  expansions <- check_expansions(expansions, c("attachments.poll_ids", "attachments.media_keys", "author_id", "edit_history_tweet_ids", "entities.mentions.username", "geo.place_id", "in_reply_to_user_id", "referenced_tweets.id", "referenced_tweets.id.author_id"))
-  parsing(parse)
 
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions_for_fields(expansions, fields)
+  parsing(parse, expansions, fields)
+  token <- check_token_v2(token)
   req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))
 
-  data <- c(expansions, fields, ...)
+  data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
   if (file.exists(file) && isFALSE(append)) {
     stop("File already exists and append = FALSE", call. = FALSE)
   }
   out <- stream(req_stream, file, timeout = timeout)
-  return(out)
+  if (!parse) {
+    return(out)
+  }
+  parse(out, expansions, fields)
 }

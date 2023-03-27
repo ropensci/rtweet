@@ -35,8 +35,8 @@ function will coerce the second value to longitude.}
 exclude hashtags. Defaults to FALSE--meaning, hashtags are
 included in returned trends.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 
 \item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}

@@ -35,9 +35,9 @@
 #' @param verbose If `TRUE`, display a progress bar.
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
-#' @seealso `parse_stream()`.
-#' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>,
-#'  <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/overview>
+#' @seealso [parse_stream()].
+#' @references
+#' They were removed from the website.
 #' @examples
 #' \dontrun{
 #' # stream tweets mentioning "#rstats" for 10 seconds
@@ -56,8 +56,7 @@
 #' @return A tibble with one row per tweet
 #' @export
 #' @references
-#' Stream: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample>
-#' Filter: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/filter-realtime/api-reference/post-statuses-filter>
+#' The webpages describing how it used to work were removed.
 stream_tweets <- function(q = "",
                           timeout = 30,
                           parse = TRUE,
@@ -202,7 +201,7 @@ stream_params <- function(stream, ...) {
     params <- list(locations = paste(stream$box, collapse = ","))
   } else if ((length(stream) %% 4 == 0) && is.numeric(stream)) {
     params <- list(locations = paste(stream, collapse = ","))
-  } else if (is_user_ids(stream)) {
+  } else if (is_user_id(stream)) {
     params <- list(follow = stream, ...)
   } else {
     params <- list(track = stream, ...)
@@ -210,14 +209,6 @@ stream_params <- function(stream, ...) {
 
   params
 }
-
-is_user_ids <- function(x) {
-  if (length(x) == 1L && grepl(",", x)) {
-    x <- strsplit(x, "\\,")[[1]]
-  }
-  isTRUE(all(!is.na(suppressWarnings(as.numeric(x)))))
-}
-
 
 
 #' Parser of stream
@@ -227,7 +218,7 @@ is_user_ids <- function(x) {
 #'   [stream_tweets()].
 #' @param ... Unused, keeping it for back compatibility.
 #' @export
-#' @seealso `stream_tweets()`
+#' @seealso [stream_tweets()]
 #' @examples
 #' \dontrun{
 #' stream_tweets(timeout = 1, file_name = "stream.json", parse = FALSE)

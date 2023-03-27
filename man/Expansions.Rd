@@ -2,42 +2,49 @@
 % Please edit documentation in R/expansions.R
 \name{Expansions}
 \alias{Expansions}
-\alias{tweet_expansions}
+\alias{set_expansions}
 \alias{expansions}
+\alias{tweet_expansions}
 \alias{user_expansions}
+\alias{list_expansions}
 \title{Expansions}
 \usage{
+set_expansions(
+  tweet = tweet_expansions(),
+  user = user_expansions(),
+  list = list_expansions()
+)
+
 tweet_expansions(attachments = TRUE, referenced_tweets = TRUE)
 
 user_expansions()
+
+list_expansions()
 }
 \arguments{
+\item{tweet, user, list}{\code{\link[=tweet_expansions]{tweet_expansions()}}, \code{\link[=user_expansions]{user_expansions()}} and \code{\link[=tweet_expansions]{tweet_expansions()}}.}
+
 \item{attachments}{Add attachments values? Default yes.}
 
 \item{referenced_tweets}{Add referenced_tweets values? Default yes.}
 }
 \value{
-A character with the characters of valid expanions.
+A character with the characters of valid expansions.
 }
 \description{
 Twitter parameters to add more fields on the returned values.
-Main ones:
-\itemize{
-\item Tweet
-\itemize{
-\item Referenced tweets
-\item Attachments
 }
-\item User
-}
+\details{
+The \code{set_expansions} can be used to prepare the arguments for other rtweet functions.
 }
 \examples{
 tweet_expansions()
 user_expansions()
+set_expansions()
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/expansions}
 }
 \seealso{
-\link{Fields}
+\link{Fields}, \code{\link[=set_fields]{set_fields()}}
 }

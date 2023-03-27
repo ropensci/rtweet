@@ -11,8 +11,8 @@
 filtered_stream(
   timeout,
   file = tempfile(),
-  expansions = NA,
-  fields = NA,
+  expansions = NULL,
+  fields = NULL,
   ...,
   token = NULL,
   append = TRUE,
@@ -26,8 +26,8 @@ stream_rm_rule(query, dry = FALSE, token = NULL)
 sample_stream(
   timeout,
   file = tempfile(),
-  expansions = NA,
-  fields = NA,
+  expansions = NULL,
+  fields = NULL,
   ...,
   token = NULL,
   parse = TRUE,
@@ -39,18 +39,18 @@ sample_stream(
 
 \item{file}{Path to a file where the raw streaming should be stored.}
 
-\item{expansions}{Expansions you want to use see \code{\link[=tweet_expansions]{tweet_expansions()}}.
-Use NULL to get all expansions, use NA to not use any field, or a vector
-with the fields you want.}
+\item{expansions}{Set \code{NULL} to not use any expansion, set \code{NA} to get all
+expansions, or provide a vector with the expansions you want (create it with
+\code{\link[=set_expansions]{set_expansions()}}).}
 
-\item{fields}{Fields you want to retrieve see \link{Fields}. Use NULL to get all
-allowed fields, use NA to not use any field, pass a list with the fields you want.}
+\item{fields}{Set \code{NULL} to not use any field, get all allowed fields with \code{NA},
+provide a list with the fields you want (create it with \code{\link[=set_fields]{set_fields()}}).}
 
 \item{...}{Other parameters passed to the body of the request.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
-default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
+\item{token}{These endpoints only accept a bearer token (can be created via
+\code{\link[=rtweet_app]{rtweet_app()}}). In most cases you
+are better of changing the default for all calls via \code{\link[=auth_as]{auth_as()}}.}
 
 \item{append}{Append streaming to the file? Default does but it is
 recommended to have a new file for each call.}
@@ -100,16 +100,19 @@ if (FALSE) {
   new_rule <- stream_add_rule(list(value = "#rstats", tag = "rstats"))
   new_rule
   # Open filtered streaming connection for 30s
-  filtered_stream(file = tempfile(), timeout = 30)
+  filtered_stream(file = tempfile(), timeout = 30, parse = FALSE)
   # Remove rule
   stream_rm_rule(ids(new_rule))
   # Open random streaming connection
-  sample_stream(file = tempfile(), timeout = 3)
+  sample_stream(file = tempfile(), timeout = 3, parse = FALSE)
 }
 }
 \seealso{
 Rules for filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule}
+
 Sampled stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream}
+
 Filtered stream: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream}
-\link{ids}
+
+\code{\link[=ids]{ids()}}
 }

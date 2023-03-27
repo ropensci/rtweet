@@ -26,7 +26,38 @@ rbind.users <- function(..., deparse.level = 1) {
   class(rt) <- c("users", class(rt))
   rt
 }
+#' @export
+rbind.page <- function(..., deparse.level = 1) {
+  if (...length() == 1) return(..1)
+  rt <- list(...)
 
+  tdm <- do.call(rbind.data.frame, rt)
+
+  m <- lapply(rt, attr, which = "meta", exact  = TRUE)
+  coln <- lapply(m, colnames)
+  coln <- unique(unlist(coln, FALSE, FALSE))
+  mm <- matrix(nrow = length(m), ncol = length(coln))
+  colnames(mm) <- coln
+  mm <- as.data.frame(mm)
+  for (i in seq_along(m)) {
+    mm[i, colnames(m[[i]])] <- m[[i]][1, ]
+  }
+  attr(tdm, "meta") <- as.data.frame(mm)
+
+  m <- lapply(rt, attr, which = "summary", exact  = TRUE)
+  coln <- lapply(m, colnames)
+  coln <- unique(unlist(coln, FALSE, FALSE))
+  mm <- matrix(nrow = length(m), ncol = length(coln))
+  colnames(mm) <- coln
+  mm <- as.data.frame(mm)
+  for (i in seq_along(m)) {
+    mm[i, colnames(m[[i]])] <- m[[i]][1, ]
+  }
+  attr(tdm, "summary") <- as.data.frame(mm)
+
+  class(tdm) <- c("result", class(tdm))
+  return(tdm)
+}
 
 # subset ####
 #' @export

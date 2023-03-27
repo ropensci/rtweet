@@ -15,8 +15,8 @@ See \code{\link[=as_screenname]{as_screenname()}} for more details.}
 \item{media}{File path to image or video media to be
 included in tweet.}
 
-\item{token}{Expert use only. Use this to override authentication for
-a single API call. In most cases you are better off changing the
+\item{token}{Use this to override authentication for
+a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{

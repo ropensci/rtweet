@@ -18,7 +18,7 @@
 #'     own image manipulation.
 #' @return `magick` object
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if (auth_has_default()) {
 #'     shot1 <- tweet_shot("947061504892919808")
@@ -28,7 +28,7 @@
 #' }
 #' }
 tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
-  lifecycle::deprecate_warn("1.0.0", "tweet_shot()", 
+  lifecycle::deprecate_warn("1.0.0", "tweet_shot()",
                             details = "The resulting image might not have a screenshot of the tweet")
   check_installed(c("magick", "webshot"))
 
@@ -39,7 +39,7 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
   if (zoom <= 1) {
     stop("zoom must be a positive number, >= 1", call. = FALSE)
   }
-  if (!is.logical(scale)) {
+  if (!is_logical(scale)) {
     stop("scale must be TRUE/FALSE", call. = FALSE)
   }
 
@@ -81,7 +81,7 @@ tweet_shot <- function(statusid_or_url, zoom = 3, scale = TRUE) {
     ## make a mobile URL
     x <- sprintf("https://mobile.twitter.com/%s/status/%s",
                  users_data(x)$screen_name, x$id_str)
-    
+
   }
 
   ## keep the filesystem clean

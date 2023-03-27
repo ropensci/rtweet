@@ -1,5 +1,5 @@
 test_that("lookup_users returns users data", {
-
+  auth_as()
   vcr::use_cassette("lookup_users1", {
     x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
   })
@@ -48,6 +48,7 @@ test_that("lookup_users only works with ids", {
   })
 
   twd <- tweets_data(x)
+  skip_if_offline()
   expect_error(b <- lookup_tweets(twd), NA)
   expect_s3_class(b, "tweets")
 
