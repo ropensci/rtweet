@@ -188,11 +188,10 @@ Get the most recent tweets from R Foundation.
 #| eval: requireNamespace("ggplot2", quietly = TRUE)
 ## get user IDs of accounts followed by R Foundation
 R_foundation_tline <- get_timeline("_R_Foundation")
+latest_R_tweets <- filter(R_foundation_tline, created_at > "2017-10-29")
 
 ## plot the frequency of tweets for each user over time
-plot <- R_foundation_tline |>
-  filter(created_at > "2017-10-29") |>
-  ts_plot(by = "month", trim = 1L) +
+plot <- ts_plot(latest_R_tweets, by = "month", trim = 1L) +
   geom_point() +
   theme_minimal() +
   theme(
