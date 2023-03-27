@@ -57,7 +57,7 @@ You'll only see this once, so make sure to record it in a secure location.
 ![](app-info.png){width="548"}
 
 Don't worry if you forget to save this data: you can always regenerate new values by clicking the "regenerate" button on the "keys and tokens" page.
-If you regenerate the previous values will cease to work, so do not use it to get different credentials for an authentication already in use. 
+If you regenerate the previous values will cease to work, so do not use it to get different credentials for an authentication already in use.
 
 ## Setup
 
@@ -67,7 +67,7 @@ You'll use either `rtweet_app()` or `rtweet_bot()` depending on whether you want
 ### User
 
 By default `rtweet` uses a common user for all the users.
-Using the default authentication might cause problems while using rtweet. 
+Using the default authentication might cause problems while using rtweet.
 You are sharing the same resource with many people!
 
 If you use rtweet for more than a day or a learning how to use the package it is recommended to set up your own authentication and you don't want to set up a bot or an app you can use `auth_setup_default()`:
@@ -77,6 +77,49 @@ auth_setup_default()
 ```
 
 It will call `rtweet_user()` to use your current logged account on your default browser as the authentication used by `rtweet` and save it as "default" (See [Saving and loading](#save)).
+
+#### Alternative authorization protocol
+
+Some new functions require a different authentication mechanism[^1].
+This functions will need you to first set up a client, which requires your client id and secret.
+
+[^1]: Called [OAuth 2](https://aaronparecki.com/oauth-2-simplified/)
+
+You can get them in your [developer dashboard](https://developer.twitter.com/en/portal/dashboard) after selecting your app, you first need to fill the details of the "User authentication settings":
+
+**App permissions**: Read, Read and write, or Read and write and Direct message
+**Type of App**: Native app
+**App info**
+Callback URI: http://127.0.0.1:1410/
+
+The clients are under "Key and tokens" tab, check the top.
+At the last section of the tab, there is the section \"Auth 2.0 Client ID and Client Secret\":
+
+![Screenshoot showing what to look to get the OAuth credentials](oauth2.png){width="548"}
+
+Use them to set up your client app:
+
+```{r client}
+client <- rtweet_client()
+client_save(client)
+client_as(client)
+```
+
+Once you get your client you'll need to tell rtweet to use it (that's why we use `client_as()`).
+But first you'll need to authorize it via `rtweet_oauth2()`: 
+It will ask your default browser to authorize the client.
+You should have a Twitter session to authorize rtweet.
+
+```{r rtweet_oauth2}
+user_oauth2 <- rtweet_oauth2()
+## Waiting for authentication in browser...
+## Press Esc/Ctrl + C to abort
+auth_as(user_oauth2)
+auth_save(user_oauth2, "oauth2_authentication")
+```
+
+This authentication only last for 2 hours.
+You'll be asked to renew the authorization if it is expired. 
 
 ### Apps
 
@@ -139,7 +182,7 @@ You can see all the authentication options you have saved with `auth_list()`.
 `auth_list()` reports all the available authentications at the default location (See `auth_save()` details).
 If you use an authentication saved on a different path you can directly use it `auth_as("../authentications/rtweet.rds")`
 
-`auth_setup_default()` saves the authentication as default. 
+`auth_setup_default()` saves the authentication as default.
 So, after your initial setup you can start all your scripts with `auth_as("default")` to load it.
 
 ### On continuous integration workflows
@@ -153,7 +196,7 @@ You will need to provide a name of your variable, try to be informative (RTWEET_
 
 Usually you later need to load them from the environmental variables and create the token on the CI:
 
-```r
+``` r
 app <- rtweet_app(bearer_token = Sys.getenv("RTWEET_BEARER"))
 auth_as(app)
 ```
@@ -163,12 +206,11 @@ Also do not print RTWEET_BEARER or other secrets.
 
 ## Authentications sitrep
 
-On the rtweet 1.0.0 version there were some changes on the default location of the tokens. 
+On the rtweet 1.0.0 version there were some changes on the default location of the tokens.
 
 If you upgrade or want a complete check up of your authentications you can use `auth_sitrep()`.
 It can help when regenerating credentials and to follow best practices when upgrading rtweet.
 It will print something like these:
-
 
 ```{r, eval = FALSE}
 auth_sitrep()
@@ -189,8 +231,8 @@ auth_sitrep()
 ## All tokens should be moved to /home/user/.config/R/rtweet
 ```
 
-First looks up old authentications rtweet saved at your home directory (`~`, or `$HOME`) as it did on rtweet < 1.0.0.
-Then it reports the authentications found on the new location (rtweet >= 1.0.0).
+First looks up old authentications rtweet saved at your home directory (`~`, or `$HOME`) as it did on rtweet \< 1.0.0.
+Then it reports the authentications found on the new location (rtweet \>= 1.0.0).
 For each folder it reports apps and then users and bots authentications.
 It is safe to use in public, as instead of the tokens or keys it reports a letter.
 For users authentications it reports the user_id, so that you can check who is that user (`search_users("1251053384")`).

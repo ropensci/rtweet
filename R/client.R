@@ -183,7 +183,7 @@ no_client <- function(call = caller_env()) {
 #' @seealso scopes
 #' @export
 #' @examples
-#' if (!client_has_default()) {
+#' if (interactive()) {
 #'   rtweet_client()
 #' }
 rtweet_client <- function(client_id, client_secret,
