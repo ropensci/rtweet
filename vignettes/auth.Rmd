@@ -87,10 +87,11 @@ This functions will need you to first set up a client, which requires your clien
 
 You can get them in your [developer dashboard](https://developer.twitter.com/en/portal/dashboard) after selecting your app, you first need to fill the details of the "User authentication settings":
 
-**App permissions**: Read, Read and write, or Read and write and Direct message
-**Type of App**: Native app
-**App info**
-Callback URI: http://127.0.0.1:1410/
+Choose one of the **App permissions**: Read, Read and write, or Read and write and Direct message  
+In **Type of App** select Native app  
+In **App info**  set the callback URI to: http://127.0.0.1:1410/
+
+The callback URI is important as this is what rtweet will use to validate.
 
 The clients are under "Key and tokens" tab, check the top.
 At the last section of the tab, there is the section \"Auth 2.0 Client ID and Client Secret\":
@@ -99,10 +100,8 @@ At the last section of the tab, there is the section \"Auth 2.0 Client ID and Cl
 
 Use them to set up your client app:
 
-```{r client}
-client <- rtweet_client()
-client_save(client)
-client_as(client)
+```{r client, eval = FALSE}
+client <- rtweet_client(app = "my app")
 ```
 
 Once you get your client you'll need to tell rtweet to use it (that's why we use `client_as()`).
@@ -147,7 +146,7 @@ But you'll need more data --- as well as the *API key* and *API secret* you reco
 
 Again, you'll want to record this data in a secure place because you only get to see it once.
 
-## Default auth
+## Default
 
 Now you have an auth object that you can provide to the `token` argument of any rtweet function:
 
@@ -161,6 +160,13 @@ Instead, you can call `auth_as()` to set this as the default for the remainder o
 ```{r, eval = FALSE}
 auth_as(auth)
 ```
+
+Similarly you can use by default a client.
+
+```{r, eval = FALSE}
+client_as(client)
+```
+
 
 ## Saving and loading {#save}
 
@@ -184,6 +190,14 @@ If you use an authentication saved on a different path you can directly use it `
 
 `auth_setup_default()` saves the authentication as default.
 So, after your initial setup you can start all your scripts with `auth_as("default")` to load it.
+
+Clients work similarly, but the client will be saved with the name of the app you provided:
+
+```{r, eval=FALSE}
+client_save(client)
+client_as("myapp")
+```
+
 
 ### On continuous integration workflows
 
