@@ -1,3 +1,5 @@
+# rtweet (development version)
+
 # rtweet 1.2.0
 
 ## Authentication changes
