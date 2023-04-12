@@ -15,7 +15,9 @@ parse <- function(x, expansions, fields) {
 enlist <- function(x) {
   # Going through lapply and converting it to a list
   # This works for matrices or data.frames
-  x[lengths(x) > 1] <- lapply(x[lengths(x) > 1], function(x){list(x)})
+  if (!is.data.frame(x)) {
+    x[lengths(x) > 1] <- lapply(x[lengths(x) > 1], function(x){list(x)})
+  }
   x
 }
 

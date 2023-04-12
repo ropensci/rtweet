@@ -36,4 +36,5 @@ test_that("parse with multiple edits", {
   testing_with_authentication("bearer_testing_app")
   out <- tweet_get("1638199517878140929")
   expect_s3_class(out, "data.frame")
+  expect_true(nrow(out) == 1)
 })
