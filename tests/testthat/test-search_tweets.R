@@ -1,5 +1,4 @@
 test_that("search_tweets returns tweets data and latlng", {
-  auth_as()
   vcr::use_cassette("search_tweets", {
     df <- search_tweets("#rstats", n = 50)
   })
