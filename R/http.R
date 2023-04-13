@@ -424,7 +424,6 @@ from_js <- function(resp) {
 
 resp_type <- function(resp) {
   status <- httr::status_code(resp)
-  content <- httr::content(resp)
   if (status == 429) {
     "rate_limit"
   } else if (status >= 400) {

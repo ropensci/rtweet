@@ -82,9 +82,9 @@ stream_tweets <- function(q = "",
   ))
 
   if (parse) {
-    df <- parse_stream(file(file_name))
+    return(parse_stream(file(file_name)))
   } else {
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
 
