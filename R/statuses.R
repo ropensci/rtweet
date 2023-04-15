@@ -105,7 +105,7 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
   # Rates from the website app and user limits
   token <- check_token_v2(token, c("bearer", "pkce"))
   check_scopes_token(token, c("tweet.read", "users.read"))
-  rate <- check_rate(token, 300/(60*15), 900/(60*15))
+  rate <- check_rate(token, 300 /( 60 * 15), 900 / (60 * 15))
   req_archive <- endpoint_v2(token, url, rate)
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, 1, length(ids), verbose = verbose)
@@ -113,4 +113,47 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
     return(p)
   }
   parse(p, expansions, fields)
+}
+
+
+#' @export
+tweet_post <- function(text, ..., token = NULL) {
+
+  options <- list(text = text, ...)
+
+  if (sum(c("media", "quote_tweet_id", "poll") %in% names(options) ) > 1) {
+    abort(c("media and quoting a tweet are excluse",
+            i = "Chose one or the other."))
+  }
+
+  if ("for_super_followers_only" %in% names(options) && !is_logical(options[["for_super_followers_only"]])) {
+      abort("Provide only TRUE or FALSE for for_super_followers_only")
+  }
+  if (check_reply_settings(options)) {
+    abort(c("Provide a valid reply_setting option:",
+          i = "If not provided it is open to everybody, or choose from:",
+          "*" = "mentionedUsers",
+          "*" = "following"
+          ))
+  }
+
+  # Rates from the website app and user limits
+  token <- check_token_v2(token, "pkce")
+  check_scopes_token(token, c("tweet.read", "users.read", "tweet.write"))
+  rate <- check_rate(token, 200/(60*15), 200/(60*15))
+  req_archive <- endpoint_v2(token, "tweets", rate)
+  req_final <- httr2::req_body_json(req_archive, options)
+  resp <- httr2::req_perform(req_final)
+  resp(resp)
+}
+
+check_reply_settings <- function(options) {
+  included <- "reply_settings" %in% options
+  length1 <- length(options[["reply_settings"]]) >1
+  valid <- options[["reply_settings"]] %in% c("mentionedUsers")
+  included && length1 && valid
+}
+#' @export
+tweet_delete <- function (variables) {
+  code
 }
