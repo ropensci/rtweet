@@ -69,7 +69,10 @@ find_tools_tokens <- function() {
 }
 
 bearer_auth <- function(bearer) {
-  tok <- vapply(bearer, function(x){x$token}, character(1L))
+  oauth2 <- vapply(bearer, has_name_, name = "access_token", logical(1L))
+
+  tok <- c(vapply(bearer[!oauth2], function(x){x$token}, character(1L)),
+           vapply(bearer[oauth2], function(x){x$access_token}, character(1L)))
   tok <- as.factor(tok)
   levels(tok) <- LETTERS[seq_along(unique(tok))]
   df <- data.frame(token = tok)
@@ -83,11 +86,9 @@ token_auth <- function(tokens) {
   df <- data.frame(app = character(n),
                    user_id = character(n),
                    key = character(n))
-  for (i in seq_along(tokens)) {
-    token <- tokens[[i]]
-    df[i, names(token)] <- token
-  }
+  df <- as.data.frame(t(list2DF(tokens)))
   rownames(df) <- names(tokens)
+  colnames(df) <- c("app", "user_id", "key")
   uk <- unique(df$key)
   length_levels <- length(uk) - sum(any(uk == ""))
   df$key <- factor(df$key, labels = LETTERS[seq_len(length_levels)], exclude = "")
