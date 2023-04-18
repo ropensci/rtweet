@@ -1,5 +1,9 @@
 # rtweet (development version)
 
+* Fix `auth_sitrep()` to work well with OAuth2 tokens.
+
+# rtweet 1.2.0
+
 ## Authentication changes
 
 - New `client_*` functions to save, set and use a client app using Twitter API 

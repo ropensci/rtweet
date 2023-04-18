@@ -1,5 +1,4 @@
 test_that("lookup_users returns users data", {
-  auth_as()
   vcr::use_cassette("lookup_users1", {
     x <- lookup_users(c("cnn", "potus", "twitter", "kearneymw"))
   })

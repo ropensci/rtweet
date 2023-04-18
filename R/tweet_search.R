@@ -1,8 +1,10 @@
 #' Search in the Twitter archive
+#'
 #' @inheritParams tweet_retweeted_by
 #' @inheritParams tweet_get
 #' @param query One query for matching Tweets.
 #' @note OAuth2.0 requires tweet.read and users.read permissions.
+#' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-all>
 #' @examples
 #' if (FALSE) {
@@ -43,6 +45,7 @@ tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
 #' @inheritParams tweet_retweeted_by
 #' @inheritParams tweet_get
 #' @param query One query for matching Tweets.
+#' @export
 #' @note OAuth2.0 requires tweet.read and users.read permissions.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent>
 #' @examples

@@ -89,7 +89,7 @@ stream <- function(req, file, timeout) {
     TRUE
   }
 
-  resp <- httr2::req_stream(req, callback, timeout_sec = timeout)
+  httr2::req_stream(req, callback, timeout_sec = timeout)
 
   if (!file.exists(file_tmp)) {
     warning("No matching tweets with streaming rules were found in the time provided.",
@@ -230,7 +230,6 @@ split_stream <- function(file, path) {
   lines <- rL[-length(rL)]
   cat(paste0(lines, "\n"), file = file, fill = FALSE)
   # Fix stream
-  json <- jsonlite::stream_in(file(file), pagesize = 1, verbose = FALSE)
   lines <- lines[nzchar(lines)]
   tags <- character(length(lines))
   for (i  in seq_along(tags)) {

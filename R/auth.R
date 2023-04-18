@@ -92,6 +92,10 @@ rtweet_user <- function(client_id = NULL, client_secret = NULL,
                         api_key = client_id, api_secret = client_secret) {
   check_installed("httpuv")
   if (is.null(client_id) && is.null(client_secret)) {
+    # See https://github.com/ropensci/rtweet/issues/756#issuecomment-1497464678
+    # https://github.com/ropensci/rtweet/issues/761#issuecomment-1497468605
+    abort(c("The default authentication was suspended.",
+            i = "Please provide your own authentication see: `vignette('auth', 'rtweet')`"))
     client <- default_cached_client()
     api_key <- client$id
     api_secret <- client$secret

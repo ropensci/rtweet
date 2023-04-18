@@ -20,7 +20,7 @@ auth_sitrep <- function() {
   old_tokens <- find_old_tokens()
   tools_tokens <- find_tools_tokens()
   all_tokens_files <- c(old_tokens, tools_tokens)
-
+  # FIXME: Deal with Oauth2 tokens
   if (is.null(all_tokens_files)) {
     inform("No tokens were found! See ?auth_as for more details.")
     return(NULL)
@@ -222,21 +222,23 @@ auth_helper <- function() {
 
   if (any(type_auth == "bearer")) {
     bearer_summary <- bearer_auth(tokens[type_auth == "bearer"])
+    # Delete any duplicated bearer
+    unlink(rownames(bearer_summary)[duplicated(bearer_summary)])
   }
   if (any(type_auth == "token")) {
     token_summary <- token_auth(tokens[type_auth == "token"])
-  }
-  # Delete any "token" without key
-  unlink(rownames(token_summary)[is.na(token_summary$key)])
-  # Delete any "token" without user_id
-  unlink(rownames(token_summary)[is.na(token_summary$user_id)])
 
-  if (anyDuplicated(token_summary$key) != 0) {
-    for (key in token_summary$key) {
-      unlink(rownames(token_summary)[token_summary$key == key][-1])
+    # Delete any "token" without key
+    unlink(rownames(token_summary)[is.na(token_summary$key)])
+    # Delete any "token" without user_id
+    unlink(rownames(token_summary)[is.na(token_summary$user_id)])
+
+    if (anyDuplicated(token_summary$key) != 0) {
+      for (key in token_summary$key) {
+        unlink(rownames(token_summary)[token_summary$key == key][-1])
+      }
     }
   }
-
   auth_sitrep()
 }
 
