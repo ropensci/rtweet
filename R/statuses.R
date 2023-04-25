@@ -116,7 +116,20 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
 }
 
 
+#' Post a tweet
+#'
+#' This function uses the API v2 to post tweets.
+#' @param text Text of the tweet.
+#' @param ... Other accepted arguments.
+#' @inheritParams tweet_get
 #' @export
+#' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets>
+#' @examples
+#' if (FALSE) {
+#'  # It reqruires the Oauth2.0 Authentication
+#'   tp_id <- tweet_post("Posting from #rtweet with the basic plan")
+#'   tweet_post()
+#' }
 tweet_post <- function(text, ..., token = NULL) {
 
   options <- list(text = text, ...)
@@ -144,16 +157,100 @@ tweet_post <- function(text, ..., token = NULL) {
   req_archive <- endpoint_v2(token, "tweets", rate)
   req_final <- httr2::req_body_json(req_archive, options)
   resp <- httr2::req_perform(req_final)
-  resp(resp)
+  r <- resp(resp)
+  parse(r, NULL, NULL)
 }
 
 check_reply_settings <- function(options) {
   included <- "reply_settings" %in% options
-  length1 <- length(options[["reply_settings"]]) >1
+  length1 <- length(options[["reply_settings"]]) > 1
   valid <- options[["reply_settings"]] %in% c("mentionedUsers")
   included && length1 && valid
 }
+
+#' Delete tweet
+#'
+#' Will delete a tweet
+#' @inheritParams tweet_get
+#' @seealso [tweet_post()], [tweet_search_recent()], [user_timeline()]
 #' @export
-tweet_delete <- function (variables) {
-  code
+#' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id>
+#' @examples
+#' if (FALSE) {
+#'   # It requires Oauth authentication
+#'   tp <- tweet_post("Running examples of #rtweet")
+#'   td <- tweet_delete(tp$id)
+#' }
+#'
+tweet_delete <- function(id, verbose = FALSE, token = NULL) {
+  stopifnot("Requires valid ids." = is_id(id))
+  if (length(id) == 1) {
+    url <- paste0("tweets/", id)
+  }  else {
+    abort("Only 1 tweets can be processed at once.")
+  }
+
+  # Rates from the website app and user limits
+  token <- check_token_v2(token, "pkce")
+  check_scopes_token(token, c("tweet.read", "users.read", "tweet.write"))
+  rate <- 50 / (60 * 15)
+  req_archive <- endpoint_v2(token, url, rate)
+  req_final <- httr2::req_url_query(req_archive)
+
+  r <- httr2::req_perform(httr2::req_method(req_final, "DELETE"))
+  resp <- resp(r)
+  resp$data$deleted
+}
+
+
+
+#' Get quoted tweet information
+#'
+#' Look up tweets quoting that tweet id.
+#' @inheritParams tweet_get
+#' @inheritParams tweet_search_recent
+#' @param id At least a tweet id.
+#' @seealso [lookup_tweets()] [tweet_get()]
+#' @references
+#' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/quote-tweets/api-reference/get-tweets-id-quote_tweets>
+#' @export
+#' @examples
+#' if (FALSE){
+#'  tweet_quoted("1631945769748930561", parse = FALSE)
+#' }
+tweet_quoted <- function(id, n = 100, expansions = NULL, fields = NULL, ..., token = NULL,
+                         parse = TRUE, verbose = FALSE) {
+  expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
+  fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
+  expansions_for_fields(expansions, fields)
+  if (!is_logical(verbose)) {
+    abort("`verbose` must be either `TRUE` or `FALSE`.")
+  }
+  parsing(parse, expansions, fields)
+  stopifnot(is_n(n))
+  max_results <- check_interval(n, 10, formals()$n)
+  n_pages <- ceiling(n / max_results)
+  data <- c(list(expansions = expansions), fields, ...)
+  data <- unlist(prepare_params(data), recursive = FALSE)
+  data <- c(max_results = max_results, data)
+  data <- data[data != ""]
+
+  stopifnot("Requires valid ids." = is_id(id))
+  if (length(id) == 1) {
+    url <- paste0("tweets/", id, "/quote_tweets")
+  } else {
+    abort("Only 1 tweet can be processed at once.")
+  }
+
+  # Rates from the website app and user limits
+  token <- check_token_v2(token, c("bearer", "pkce"))
+  check_scopes_token(token, c("tweet.read", "users.read"))
+  rate <- check_rate(token, 75 / ( 60 * 15), 75 / (60 * 15))
+  req_archive <- endpoint_v2(token, url, rate)
+  req_final <- httr2::req_url_query(req_archive, !!!data)
+  p <- pagination(req_final, n_pages, n, verbose = verbose)
+  if (!parse) {
+    return(p)
+  }
+  parse(p, expansions, fields)
 }

@@ -2,6 +2,10 @@
 
 * Fix `auth_sitrep()` to work well with OAuth2 tokens.
 
+* Added new function `tweet_quoted()` to search who tweets quoting a tweet.
+
+* New `tweet_post()` and `tweet_delete()` to post and delete tweets to work with the [free product](https://developer.twitter.com/en/portal/products/free).
+
 # rtweet 1.2.0
 
 ## Authentication changes
