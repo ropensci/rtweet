@@ -2,14 +2,14 @@ test_that("set_fields works", {
   expect_null(set_fields(NULL, NULL, NULL, NULL, NULL, NULL))
   expect_error(set_fields(NULL, NULL, NULL, NULL, NULL, list = "a"))
   expect_error(set_fields(NULL, NULL, NULL, NULL, "created_at", list = "a"),
-               "Invalid", fixed = TRUE)
+               "Invalid")
   expect_equal(set_fields(NULL, NULL, NULL, NULL, "created_at",
                           list = list_fields),
                list(user.fields = "created_at",
                     list.fields = list_fields))
   expect_type(set_fields(NULL, NULL, NULL, NULL), "list")
-  expect_error(set_fields(NULL, NULL, NULL, NULL, 1), "characters", fixed = TRUE)
-  expect_error(set_fields(NULL, NULL, NULL, NULL, "a"), "Invalid", fixed = TRUE)
+  expect_error(set_fields(NULL, NULL, NULL, NULL, 1), "characters")
+  expect_error(set_fields(NULL, NULL, NULL, NULL, "a"), "Invalid")
 })
 
 test_that("check_field_helper works", {

@@ -31,7 +31,10 @@ delete_thread <- function(ids) {
 
 test_that("tweet_threading works", {
   skip_if_offline()
-  thread <- write_thread()
+
+  tryCatch(thread <- write_thread(), error = function(x){
+    skip("Not able to post.")
+  })
   tw <- lookup_tweets(thread[1])
   tw_thread <- tweet_threading(tw)
   expect_s3_class(tw_thread, "data.frame")
