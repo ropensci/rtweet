@@ -458,9 +458,11 @@ auth_renew <- function(token, scopes = NULL, call = caller_env()) {
   if (.POSIXct(token$expires_at) >= Sys.time()) {
     return(token)
   }
-
-  if (!interactive()) {
-    abort("Impossible to renew the authentication without interactive usage.")
+  msg <- "Impossible to renew the authentication without interactive usage."
+  if (!interactive()  && is_testing()) {
+    testthat::skip(msg)
+  } else if (!interactive()  && !is_developing()) {
+    abort(msg)
   }
 
   if (!is.null(scopes) && check_scopes(scopes)) {
