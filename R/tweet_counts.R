@@ -30,6 +30,7 @@ tweet_counts_recent <- function(query, ..., token = NULL, parse = TRUE,
   if (!parse) {
     return(p)
   }
+  parse(p, NULL, NULL)
 }
 
 #' @export
@@ -54,4 +55,5 @@ tweet_counts_all <- function(query, ..., token = NULL, parse = TRUE,
   if (!parse) {
     return(p)
   }
+  parse(p, NULL, NULL)
 }
