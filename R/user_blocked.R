@@ -1,6 +1,6 @@
-#' Find followers.
+#' Find users blocked.
 #'
-#' List of users that follow the specified user ID.
+#' List of users that are blocked.
 #' @inheritParams filtered_stream
 #' @param ... Other arguments passed to the API.
 #' @param n Number of tweets to query.

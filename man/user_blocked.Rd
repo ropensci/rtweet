@@ -2,7 +2,7 @@
 % Please edit documentation in R/user_blocked.R
 \name{user_blocked}
 \alias{user_blocked}
-\title{Find followers.}
+\title{Find users blocked.}
 \usage{
 user_blocked(
   id,
@@ -40,7 +40,7 @@ Twitter API.}
 \item{verbose}{A logical value to provide more information about paginated queries.}
 }
 \description{
-List of users that follow the specified user ID.
+List of users that are blocked.
 }
 \examples{
 if (FALSE) {
