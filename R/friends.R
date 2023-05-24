@@ -101,7 +101,7 @@ my_friendships <- function(user,
                            token = NULL) {
 
   if (!isFALSE(parse)) {
-    abort("`my_friendships()` can only return unparsed data")
+    abort("`my_friendships()` can only return unparsed data", call = current_call())
   }
 
   params <- list()

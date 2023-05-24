@@ -119,7 +119,7 @@ set_fields <- function(media = media_fields,
 
   fields_c <- vapply(fields, is.character, logical(1L))
   if (any(!fields_c)) {
-    abort("There is a field without characters.")
+    abort("There is a field without characters.", call = current_call())
   }
 
   error <- c(
@@ -146,8 +146,7 @@ check_fields <- function(fields,
                          tweet = tweet_fields,
                          user = user_fields,
                          list = list_fields,
-                         metrics = metrics_fields,
-                         call = caller_env()) {
+                         metrics = metrics_fields) {
 
   # If null, empty list or NA return NULL to disable the fields
   empty_list <- is.list(fields) && length(fields) == 0
@@ -162,7 +161,7 @@ check_fields <- function(fields,
   valid_fields <- paste0(valid_fields, ".fields")
 
   if (length(setdiff(n_fields, valid_fields)) >= 1) {
-    warning("Invalid fields provided, they are omitted", call. = FALSE)
+    warn("Invalid fields provided, they are omitted")
   }
 
   error <- c(
@@ -174,7 +173,7 @@ check_fields <- function(fields,
     check_field_helper(fields, metrics, "metrics.fields")
   )
   if (!is.null(error)) {
-    abort(error, call = call)
+    abort(error, call = current_call())
   }
 
   fields <- fields[intersect(n_fields, valid_fields)]

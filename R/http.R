@@ -479,7 +479,8 @@ handle_codes <- function(x) {
 handle_error <- function(x, params) {
   chk_message <- "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting"
   if (is.null(x$headers[["content-type"]])) {
-    stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
+    abort(paste0("Twitter API failed [", x$status_code, "]\n", chk_message),
+          call = caller_call())
   }
   json <- from_js(x)
   error <- if (!is.null(json$error)) json$error else json$errors
@@ -487,20 +488,19 @@ handle_error <- function(x, params) {
     if (any(c("screen_name", "user_id") %in% names(params))) {
       account <- params$screen_name
       if (is.null(account)) account <- params$user_id
-      warning("Skipping unauthorized account: ", account, call. = FALSE)
+      warn(paste0("Skipping unauthorized account: ", account))
     } else {
-      warning("Something went wrong with the authentication:\n\t",
-        error, call. = FALSE)
+      warn(paste0("Something went wrong with the authentication:\n\t", error))
     }
   } else if (length(error) == 2) {
-    stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
+    abort(paste0("Twitter API failed [", x$status_code, "]:\n"),
          paste0(" * ", error$message, " (", error$code, ")"),
-         call. = FALSE)
+         call. = caller_call())
   } else {
     if (is_testing()) {
       testthat::skip("Something went wrong with the requests")
     }
-    warning("Something went wrong with the requests", call. = FALSE)
+    warn("Something went wrong with the requests")
   }
 }
 

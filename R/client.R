@@ -71,7 +71,8 @@ default_client <- function(client_id = NULL, client_secret = NULL) {
   if (is.null(client_id) && is.null(client_secret)) {
     # The sysdat file is in #./R and loaded automagically
     abort(c("The default rtweet client is no longer authorized.",
-            i = "You'll need to register as developer in order to use the Twitter API."))
+            i = "You'll need to register as developer in order to use the Twitter API."),
+          call = current_call())
     client_id <- decrypt(sysdat$e914c55d2f)
     client_secret <- decrypt(sysdat$d5571d4003)
   } else {
@@ -141,7 +142,7 @@ find_client <- function(client = NULL) {
   } else if (is_string(client)) {
     load_client(client)
   } else {
-    abort("Unrecognised input to `client`")
+    abort("Unrecognised input to `client`", call = current_call())
   }
 }
 
@@ -154,7 +155,8 @@ load_client <- function(client_name) {
     path <- client_path(paste0(client_name, ".rds"))
   }
   if (!file.exists(path) && !is_developing()) {
-    abort(paste0("Can't find saved client with name '", client_name, "'"))
+    abort(paste0("Can't find saved client with name '", client_name, "'"),
+          call = current_call())
   } else if (!file.exists(path)) {
     return(NULL)
   }
@@ -169,7 +171,7 @@ no_client <- function(call = caller_env()) {
   if (is_testing()) {
     testthat::skip("Client not available")
   } else {
-    abort("Could not find client", call = call)
+    abort("Could not find client", call = current_call())
   }
 }
 
@@ -248,7 +250,8 @@ client_setup_default <- function() {
     inform("Using default client available.")
   } else {
     abort(c("The default rtweet client is no longer authorized.",
-            i = "You'll need to register as developer in order to use the Twitter API."))
+            i = "You'll need to register as developer in order to use the Twitter API."),
+          call = current_call())
     client <- rtweet_client(decrypt(sysdat$DYKcJfBkgMnGveI),
                             decrypt(sysdat$MRsnZtaKXqGYHju),
                             app = "rtweet")
@@ -259,7 +262,7 @@ client_setup_default <- function() {
 }
 
 
-client_scopes <- function(client, call = caller_env()) {
+client_scopes <- function(client) {
   if (!is_client(client)) {
     abort(c("Missing client.",
             ">" = "Check the vignette('auth', 'rtweet')",

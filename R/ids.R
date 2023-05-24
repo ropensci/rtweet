@@ -23,7 +23,7 @@ ids.default <- function(x, ...) {
   out <- x[["id_str"]]
   if (is.null(out)) {
     stop("Ids are not present. Are you sure this is a rtweet object?",
-         call. = FALSE)
+         call = caller_call())
   }
   out
 }
@@ -62,7 +62,7 @@ ids.page <- function(x, ...) {
 #' @export
 ids.post_tweet <- function(x, ...) {
   if (httr::status_code(x) != 200L) {
-    stop("Your message has not been posted!", call. = FALSE)
+    abort("Your message has not been posted!", call = caller_call())
   }
   cpt <- httr::content(x)
   cpt$id_str

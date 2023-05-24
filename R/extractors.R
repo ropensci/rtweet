@@ -25,7 +25,7 @@
 users_data <- function(tweets) {
   users <- attr(tweets, "users", exact = TRUE)
   if (is.null(users)) {
-    abort("`tweets` does not have a `users` attribute")
+    abort("`tweets` does not have a `users` attribute", call = current_call())
   }
   users
 }
@@ -36,7 +36,7 @@ users_data <- function(tweets) {
 tweets_data <- function(users) {
   tweets <- attr(users, "tweets", exact = TRUE)
   if (is.null(tweets)) {
-    abort("`users` does not have a `tweets` attribute")
+    abort("`users` does not have a `tweets` attribute", call = current_call())
   }
   tweets
 }

@@ -1,11 +1,12 @@
 # Handling responses ####
-parsing <- function(x, expansions, fields, call = caller_env()) {
+parsing <- function(x, expansions, fields) {
   if (!is_logical(x)) {
-    abort("parse should be either TRUE or FALSE", call = call)
+    abort("parse should be either TRUE or FALSE", call = current_call())
   }
   if (isTRUE(x) && (!is.null(expansions) || !is.null(fields))) {
     abort(c("Not yet implemented!",
-            i = "Stay tuned for further updates or use `parse = FALSE`"))
+            i = "Stay tuned for further updates or use `parse = FALSE`"),
+          call = current_call())
   }
 }
 
@@ -83,7 +84,7 @@ resp <- function(x, ...) {
   class(out) <- c("Twitter_resp", class(out))
 
   if (has_name_(out, "errors")) {
-    abort(req_errors(out), call = NULL)
+    abort(req_errors(out), call = current_call())
   }
 
   if (has_name_(out, "meta")) {
@@ -103,7 +104,7 @@ resp <- function(x, ...) {
     }
 
     if (nrow(rest) > 1) {
-      abort("Please check", call = call)
+      abort("Please check", call = current_call())
     }
     out$meta <- rest
   }

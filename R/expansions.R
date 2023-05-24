@@ -22,10 +22,10 @@ set_expansions <- function(tweet = tweet_expansions(),
                            list = list_expansions()) {
 
   if (is.numeric(tweet)) {
-    abort("Invalid tweet expansions.")
+    abort("Invalid tweet expansions.", call = current_call())
   }
   if (is.numeric(user)) {
-    abort("Invalid user expansions.")
+    abort("Invalid user expansions.", call = current_call())
   }
 
   expansions <- c(tweet, user, list)
@@ -60,8 +60,7 @@ list_expansions <- function() {
 }
 
 check_expansions <- function(passed,
-                             allowed = c(tweet_expansions(), user_expansions(), list_expansions()),
-                             call = caller_env()) {
+                             allowed = c(tweet_expansions(), user_expansions(), list_expansions())) {
   # Empty list or NA return NULL to disable the expansions
   empty_list <- is.list(passed) && length(passed) == 0
   na <- length(passed) == 1L && is.na(passed)
@@ -73,7 +72,7 @@ check_expansions <- function(passed,
   if (any(within)) {
     extensions <- passed[within]
     abort(paste0("These extensions are not allowed: ",
-         paste(extensions, collapse = ", ")), call = call)
+         paste(extensions, collapse = ", ")), call = current_call())
   }
   passed
 }
@@ -84,7 +83,7 @@ check_expansions <- function(passed,
 # attachments.poll_ids is required by any poll.fields (go to includes)
 # referenced_tweets.id is required by any tweet.fields (go to includes)
 # author_id, entities.mentions.username, in_reply_to_user_id, referenced_tweets.id.author_id is required by any user.fields (go to includes)
-expansions_for_fields <- function(expansion, fields, call = caller_env()) {
+expansions_for_fields <- function(expansion, fields) {
   # Empty fields but might be expansions: no problem
   if (is.null(fields)) {
     return(TRUE)
@@ -106,7 +105,7 @@ expansions_for_fields <- function(expansion, fields, call = caller_env()) {
     msg5 <- NULL
   }
   if (length(c(msg2, msg3, msg4, msg5)) >= 1) {
-    abort(c(msg, msg2, msg3, msg4, msg5), call = call)
+    abort(c(msg, msg2, msg3, msg4, msg5), call = current_call())
   }
   TRUE
 }

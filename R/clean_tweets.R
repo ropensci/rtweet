@@ -17,7 +17,8 @@
 #' }
 clean_tweets <- function(x, clean = c("users", "hashtags", "urls", "media")) {
   if (is.character(x)) {
-    abort("You should provide tweets with all the users and hashtags information")
+    abort("You should provide tweets with all the users and hashtags information",
+          call = current_call())
   }
 
   tweets <- nrow(x)

@@ -85,7 +85,7 @@ direct_messages_received <- function(since_id = NULL,
                                      parse = TRUE,
                                      token = NULL) {
   abort("The endpoint for `direct_messages_received()` no longer exists. ",
-    "Please use `direct_messages()` instead.")
+    "Please use `direct_messages()` instead.", call = current_call())
 }
 
 #' @export
@@ -96,5 +96,5 @@ direct_messages_sent <- function(since_id = NULL,
                                  parse = TRUE,
                                  token = NULL) {
   abort("The endpoint for `direct_messages_received()` no longer exists. ",
-    "Please use `direct_messages()` instead.")
+    "Please use `direct_messages()` instead.", call = current_call())
 }
