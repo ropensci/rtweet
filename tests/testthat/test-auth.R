@@ -20,7 +20,7 @@ test_that("can save and reload auth", {
     auth_save(auth1, "test")
     auth2 <- find_auth("test")
   })
-  expect_equal(auth1, auth2)
+  expect_equal(auth1, auth2, ignore_attr = TRUE)
 })
 
 test_that("find auth errors politely", {

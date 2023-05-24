@@ -6,6 +6,9 @@
 
 * New `tweet_post()` and `tweet_delete()` to post and delete tweets to work with the [free product](https://developer.twitter.com/en/portal/products/free).
 
+* Since httr2 > 0.2.3, rtweet refreshes OAuth 2.0 tokens automatically, 
+  also if possible, replacing the file where they are saved. 
+
 # rtweet 1.2.0
 
 ## Authentication changes
