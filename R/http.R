@@ -483,7 +483,7 @@ handle_error <- function(x, params) {
           call = caller_call())
   }
   json <- from_js(x)
-  error <- if (!is.null(json$error)) json$error else json$errors
+  error <- if (!is.null(json[["error"]])) json[["error"]] else json[["errors"]]
   if (length(error) == 1) {
     if (any(c("screen_name", "user_id") %in% names(params))) {
       account <- params$screen_name
@@ -493,8 +493,8 @@ handle_error <- function(x, params) {
       warn(paste0("Something went wrong with the authentication:\n\t", error))
     }
   } else if (length(error) == 2) {
-    abort(paste0("Twitter API failed [", x$status_code, "]:\n"),
-         paste0(" * ", error$message, " (", error$code, ")"),
+    abort(c(paste0("Twitter API failed [", x$status_code, "]:"),
+         paste0(error$message, " (", error$code, ")")),
          call. = caller_call())
   } else {
     if (is_testing()) {
@@ -536,9 +536,13 @@ check_token <- function(token = NULL) {
 
   if (inherits(token, "Token1.0")) {
     token
-  } else if (inherits(token, "rtweet_bearer")) {
+  } else if (auth_is_bearer(token)) {
     httr::add_headers(Authorization = paste0("Bearer ", token$token))
+  } else if (auth_is_pkce(token)) {
+    abort(c("This OAuth 2.0 `token` is not a valid access token",
+            "i" = "Please use a bearer token via `rtweet_app()`."),
+          call = caller_call())
   } else {
-    abort("`token` is not a valid access token")
+    abort("`token` is not a valid access token", call = caller_call())
   }
 }
