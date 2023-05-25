@@ -9,6 +9,7 @@
 #' [Twitter developer portal](https://developer.twitter.com/en/portal/projects-and-apps).
 #' See `vignette("auth", package = "rtweet")` for full details.
 #' @keywords internal
+#' @seealso [rtweet_bearer()]
 #' @export
 bearer_token <- function(token = NULL) {
   lifecycle::deprecate_stop("1.0.0", "bearer_token()", "rtweet_app()")
@@ -25,9 +26,10 @@ bearer_token <- function(token = NULL) {
 #' @references <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token>
 #' <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token>
 #' @keywords internal
+#' @seealso [rtweet_invalidate()]
 #' @export
 invalidate_bearer <- function(api_key, api_secret, client = NULL, token = NULL) {
-
+# See also rtweet_invalidate in auth.R
   if (is.null(client)) {
     client <- client_as(client)
     api_key <- client["id"]

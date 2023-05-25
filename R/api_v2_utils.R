@@ -4,7 +4,9 @@ auth_is_bearer <- function(token = NULL) {
   if (is.null(token)) {
     token <- auth_get()
   }
-  inherits(token, "rtweet_bearer")
+  # if the bearer is created with rtweet_bearer the class is different
+  bearer_httr2 <- inherits(token, "httr2_token") && is.null(token$refresh_token)
+  inherits(token, "rtweet_bearer") || bearer_httr2
 }
 
 prepare_bearer <- function(x, y) {

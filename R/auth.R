@@ -173,6 +173,54 @@ ask_pass <- function(type) {
   val
 }
 
+#' Generate a Bearer token from a client
+#'
+#' @export
+rtweet_bearer <- function(client = NULL, scopes  = set_scopes()) {
+
+  client <- client %||% client_get()
+  if (!is_client(client)) {
+    abort(c("Client not valid",
+            i = "Check out the `vignette('auth', 'rtweet')`."),
+          call = current_call())
+  }
+
+  if (!is.null(scopes) && check_scopes(scopes)) {
+    scopes <- scopes
+  } else {
+    abort("Scopes is not in the right format.", call = current_call())
+  }
+
+  token <- httr2::oauth_flow_client_credentials(client,
+                                       scope = scopes,
+                                       token_params = list(client_secret = client$secret,
+                                                           client_type = "third_party_app",
+                                                           grant_type = "refresh_token"))
+  attr(token, "app", TRUE) <- client
+  token
+}
+
+#' @seealso [invalidate_bearer()]
+rtweet_invalidate <- function(api_key, api_secret, token = NULL) {
+  if (missing(api_key)) {
+    api_key <- ask_pass("API key")
+  }
+  if (missing(api_secret)) {
+    api_secret <- ask_pass("API secret")
+  }
+
+  token <- check_token_v2(token, mechanism = "bearer")
+  if (!is.null(token$token)) {
+    abort("Not possible to invalidate bearer token generated with OAuth 1.0",
+        call = caller_call())
+  }
+  httr2::request("https://api.twitter.com/oauth2/invalidate_token") |>
+    httr2::req_method("POST") |>
+    httr2::req_auth_basic(api_key, api_secret) |>
+    httr2::req_body_form(access_token = token$access_token) |>
+    httr2::req_perform()
+}
+
 is_auth <- function(x) {
   inherits(x, "Token") || inherits(x, "rtweet_bearer") || inherits(x, "httr2_token")
 }
