@@ -460,11 +460,11 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
 # Renew token if needed
 # Makes the assumption that the right app is still in the user computer
 auth_renew <- function(token, scopes = NULL) {
-  stopifnot(auth_is_pkce(token))
+  check_token_v2(token, "pkce")
 
-  if (.POSIXct(token$expires_at) >= Sys.time()) {
-    return(token)
-  }
+  # if (.POSIXct(token$expires_at) >= Sys.time()) {
+  #   return(token)
+  # }
 
   if (!is.null(scopes) && check_scopes(scopes)) {
     scopes <- scopes
@@ -476,16 +476,33 @@ auth_renew <- function(token, scopes = NULL) {
   }
   client_name <- attr(token, "app", TRUE)
   client <- load_client(client_name)
-
   # Is possible to silently update the token
   # see https://github.com/r-lib/httr2/issues/197
-  token2 <- httr2::oauth_flow_refresh(client,
+  # Seen in https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123
+  # That it requires the client_id parameter!
+  # Still sometimes the refresh_token is not accepted
+  token2 <- tryCatch(httr2::oauth_flow_refresh(client,
                                       refresh_token = token$refresh_token,
-                                      scope = token$scope)
+                                      scope = token$scope,
+                                      token_params = list(client_id = client$id)),
+                     error = function(err){TRUE})
+
+  if (isTRUE(token2) && !interactive()) {
+    abort()
+  } else if (isTRUE(token2)) {
+    warn(c("It couldn't authomatically renew the authentication.",
+           i = "Please accept the window it will open up."))
+
+    Sys.sleep(1)
+    token2 <- rtweet_oauth2(client, get_scopes(token))
+  }
+
+  attr(token2, "app") <- client_name
+  attr(token2, "name") <- token_name(token)
   # Save token in the environment
   auth_as(token2)
   # If possible replace it in the user storage.
-  resave_token(token2, token_name(token))
+  resave_token(token2)
   token2
 }
 
@@ -498,7 +515,7 @@ token_name <- function(x){
   attr(x, "name", TRUE)
 }
 
-resave_token <- function(token, name) {
+resave_token <- function(token) {
   name <- token_name(token)
   if (is.null(name)) {
     inform(c("!" = "It was not possible to save your token",
