@@ -87,6 +87,7 @@ req_auth <- function(req, token) {
     token <- token$token
   } else if (auth_is_pkce(token)) {
     token <- auth_renew(token)
+    token <- token$access_token
   }
   httr2::req_auth_bearer_token(req, token)
 }
