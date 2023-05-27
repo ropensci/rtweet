@@ -510,9 +510,9 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
 auth_renew <- function(token, scopes = NULL) {
   check_token_v2(token, "pkce")
 
-  # if (.POSIXct(token$expires_at) >= Sys.time()) {
-  #   return(token)
-  # }
+  if (.POSIXct(token$expires_at) >= Sys.time()) {
+    return(token)
+  }
 
   if (!is.null(scopes) && check_scopes(scopes)) {
     scopes <- scopes
@@ -536,10 +536,16 @@ auth_renew <- function(token, scopes = NULL) {
                      error = function(err){TRUE})
 
   if (isTRUE(token2) && !interactive()) {
-    abort()
+    if (is_testing()) {
+      testthat::skip(paste0("Not possible to refresh the token automatically",
+           " and not in interactive environment."))
+    }
+    abort("Automatic refresh of the token was not possible.",
+          call = caller_call())
   } else if (isTRUE(token2)) {
-    warn(c("It couldn't authomatically renew the authentication.",
-           i = "Please accept the window it will open up."))
+    warn(c("It couldn't automatically renew the authentication.",
+           i = "Please accept the window it will open up."),
+         call = caller_call())
 
     Sys.sleep(1)
     token2 <- rtweet_oauth2(client, get_scopes(token))
