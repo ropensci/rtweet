@@ -100,7 +100,8 @@ post_list_create <- function(name,
                              private = FALSE,
                              token = NULL) {
 
-  stopifnot(is.atomic(name), length(name) == 1, is_logical(private))
+  stopifnot(is.atomic(name) && !is.null(name), length(name) == 1,
+            is_logical(private))
 
   if (private) {
     mode <- "private"
@@ -193,7 +194,7 @@ post_list_destroy_all <- function(users,
 my_list_params <- function(token, slug = NULL, list_id = NULL, ..., users = NULL) {
   params <- list(...)
 
-  if (!is.null(list_id) && is.null(slug)) {
+  if (!is.null(list_id) && !is.null(slug)) {
     stopifnot(is.atomic(list_id), length(list_id) == 1)
 
     params$list_id <- list_id

@@ -20,7 +20,7 @@ user_block <- function(user,
                       unblock = FALSE,
                       token = NULL) {
 
-  stopifnot(is.atomic(user), is_logical(unblock))
+  stopifnot(is.atomic(user) || is.null(user), is_logical(unblock))
 
   if (!unblock) {
     query <- "/1.1/blocks/create"

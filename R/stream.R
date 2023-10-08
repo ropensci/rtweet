@@ -170,7 +170,7 @@ whole_lines <- function(text, fragment = "") {
 
 stream_prep <- function(token, q = "", ..., filter_level = "none") {
   token <- check_token(token)
-  stopifnot(is.atomic(q) || inherits(q, "coords"))
+  stopifnot(is.atomic(q) && !is.null(q) || inherits(q, "coords"))
 
   if (identical(q, "")) {
     path <- "1.1/statuses/sample.json"
