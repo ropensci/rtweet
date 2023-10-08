@@ -1,23 +1,23 @@
 
 write_thread <- function() {
-  pt1 <- suppressMessages(post_tweet(status = paste0("first in a thread", Sys.time())))
-  pt2 <- suppressMessages(post_tweet(paste0("second in the thread", Sys.time()),
+  pt1 <- suppressMessages(tweet_post(status = paste0("first in a thread", Sys.time())))
+  pt2 <- suppressMessages(tweet_post(paste0("second in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt1)))
-  pt3 <- suppressMessages(post_tweet(paste0("3rd in the thread", Sys.time()),
+  pt3 <- suppressMessages(tweet_post(paste0("3rd in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt2)))
-  pt4 <- suppressMessages(post_tweet(paste0("4th in the thread", Sys.time()),
+  pt4 <- suppressMessages(tweet_post(paste0("4th in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt3)))
-  pt5 <- suppressMessages(post_tweet(paste0("5th in the thread", Sys.time()),
+  pt5 <- suppressMessages(tweet_post(paste0("5th in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt4)))
-  pt6 <- suppressMessages(post_tweet(paste0("6th in the thread", Sys.time()),
+  pt6 <- suppressMessages(tweet_post(paste0("6th in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt5)))
-  pt7 <- suppressMessages(post_tweet(paste0("7th in the thread", Sys.time()),
+  pt7 <- suppressMessages(tweet_post(paste0("7th in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt6)))
-  pt8 <- suppressMessages(post_tweet(paste0("8th in the thread", Sys.time()),
+  pt8 <- suppressMessages(tweet_post(paste0("8th in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt7)))
-  pt9 <- suppressMessages(post_tweet(paste0("9th in the thread", Sys.time()),
+  pt9 <- suppressMessages(tweet_post(paste0("9th in the thread", Sys.time()),
                                      in_reply_to_status_id = ids(pt8)))
-  pt10 <- suppressMessages(post_tweet(paste0("10th in the thread", Sys.time()),
+  pt10 <- suppressMessages(tweet_post(paste0("10th in the thread", Sys.time()),
                                       in_reply_to_status_id = ids(pt9)))
   c(ids(pt1), ids(pt2), ids(pt3), ids(pt4), ids(pt5),
     ids(pt6), ids(pt7), ids(pt8), ids(pt9), ids(pt10))
@@ -25,13 +25,12 @@ write_thread <- function() {
 
 delete_thread <- function(ids) {
   for (id in ids) {
-    suppressMessages(post_destroy(id))
+    suppressMessages(tweet_delete(id))
   }
 }
 
 test_that("tweet_threading works", {
   skip_if_offline()
-
   tryCatch(thread <- write_thread(), error = function(x){
     skip("Not able to post.")
   })

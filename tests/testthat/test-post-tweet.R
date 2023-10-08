@@ -56,7 +56,6 @@ test_that("post_tweet works", {
 
 test_that("post_tweet geolocated works", {
   skip_if_offline() # destroy id changes on each test
-
   # Test geolocated tweet
   msg <- paste("test geolocated", Sys.time()) # To avoid having duplicated status
   expect_message(pt <- post_tweet(msg, lat = -36.811784, long = 174.792657),
