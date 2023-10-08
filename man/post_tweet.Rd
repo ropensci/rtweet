@@ -57,7 +57,7 @@ for more information.}
 tweet refers to. Range should be between -90 and 90 (north). Note that you
 should enable the "Precise location" option in your account via \emph{Settings
 and privacy > Privacy and Safety > Location}. See
-\href{https://help.twitter.com/en/safety-and-security/twitter-location-services-for-mobile}{the official Help Center section}.}
+\href{https://help.twitter.com/en/safety-and-security/x-location-services-for-mobile}{the official Help Center section}.}
 
 \item{long}{A numeric value representing the longitude of the location the
 tweet refers to. Range should be between -180 and 180 (west). See

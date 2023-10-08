@@ -37,10 +37,6 @@ size is 200, you'll get 200 results back.}
 the first page; you can supply the result from a previous call to
 continue pagination from where it left off.}
 
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
-
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait
 until it refreshes. Most Twitter rate limits refresh every 15 minutes.
 If \code{FALSE}, and the rate limit is exceeded, the function will terminate

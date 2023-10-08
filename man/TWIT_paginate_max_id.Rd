@@ -100,10 +100,6 @@ progress?}
 \item{cursor}{Which page of results to return. The default will return
 the first page; you can supply the result from a previous call to
 continue pagination from where it left off.}
-
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
 }
 \value{
 A list with the json output of the API.

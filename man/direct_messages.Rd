@@ -36,10 +36,6 @@ continue pagination from where it left off.}
 
 \item{next_cursor}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{cursor} instead.}
 
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
-
 \item{token}{Use this to override authentication for
 a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}

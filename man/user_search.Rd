@@ -30,10 +30,6 @@ provide a list with the fields you want (create it with \code{\link[=set_fields]
 \code{\link[=rtweet_app]{rtweet_app()}}). In most cases you
 are better of changing the default for all calls via \code{\link[=auth_as]{auth_as()}}.}
 
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
-
 \item{verbose}{A logical value to provide more information about paginated queries.}
 }
 \value{

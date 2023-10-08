@@ -84,10 +84,6 @@ find tweets \strong{newer} than \code{since_id}.}
 \item{max_id}{Supply a vector of ids or a data frame of previous results to
 find tweets \strong{older} than \code{max_id}.}
 
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
-
 \item{token}{Use this to override authentication for
 a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}

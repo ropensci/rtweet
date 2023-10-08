@@ -1,7 +1,7 @@
 #' Defunct: Emojis codes and descriptions data.
 #'
 #' This data comes from "Unicode.org",
-#' <http://unicode.org/emoji/charts/full-emoji-list.html>. The data are
+#' <https://unicode.org/emoji/charts/full-emoji-list.html>. The data are
 #' codes and descriptions of Emojis.
 #'
 #' @docType data
@@ -12,7 +12,7 @@ NULL
 #' Defunct: Language codes recognized by Twitter data.
 #'
 #' This data comes from the Library of Congress,
-#' <http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt>. The data are
+#' <https://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt>. The data are
 #' descriptions and codes associated with internationally recognized languages.
 #' Variables include translations for each language represented as
 #' bibliographic, terminological, alpha, English, and French.

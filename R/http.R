@@ -95,9 +95,6 @@ TWIT_method <- function(method, token, api,
 #'   If you expect a query to take hours or days to perform, you should not
 #'   rely solely on `retryonratelimit` because it does not handle other common
 #'   failure modes like temporarily losing your internet connection.
-#' @param parse If `TRUE`, the default, returns a tidy data frame. Use `FALSE`
-#'   to return the "raw" list corresponding to the JSON returned from the
-#'   Twitter API.
 #' @param verbose Show progress bars and other messages indicating current
 #'   progress?
 #' @returns A list with the json output of the API.

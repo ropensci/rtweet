@@ -29,10 +29,6 @@ provide a list with the fields you want (create it with \code{\link[=set_fields]
 \item{token}{This endpoint accepts a OAuth2.0 authentication (can be
 created via \code{\link[=rtweet_oauth2]{rtweet_oauth2()}}) or a bearer token (can be created via \code{\link[=rtweet_app]{rtweet_app()}}).}
 
-\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
-to return the "raw" list corresponding to the JSON returned from the
-Twitter API.}
-
 \item{verbose}{A logical value to provide more information about the
 paginated queries (if any) and to store the data of each page.}
 }
