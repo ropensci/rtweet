@@ -4,7 +4,7 @@
       search_tweets(c(1:10), verbose = FALSE)
     Condition
       Error in `search_params()`:
-      ! length(q) == 1L is not TRUE
+      ! is.atomic(q) && !is.null(q) && length(q) == 1L is not TRUE
 
 ---
 

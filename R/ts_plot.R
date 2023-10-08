@@ -79,7 +79,7 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #'
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
-  stopifnot(is.data.frame(data), is.atomic(by))
+  stopifnot(is.data.frame(data), is.atomic(by) && !is.null(by))
   if (has_name_(data, "created_at")) {
     dtvar <- "created_at"
   } else {
@@ -183,7 +183,7 @@ ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
 }
 
 parse_unit <- function(by) {
-  stopifnot(is.atomic(by))
+  stopifnot(is.atomic(by) && !is.null(by))
   if (is.numeric(by)) {
     return(by)
   } else if (grepl("year", by)) {

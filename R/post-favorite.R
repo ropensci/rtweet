@@ -14,7 +14,7 @@
 #' }
 #' @family post
 #' @export
-#' @references 
+#' @references
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create>
 #' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-destroy>
 post_favorite <- function(status_id,
@@ -22,7 +22,7 @@ post_favorite <- function(status_id,
                           include_entities = FALSE,
                           token = NULL) {
 
-  stopifnot(is.atomic(status_id))
+  stopifnot(is.atomic(status_id) && !is.null(status_id))
 
   if (destroy) {
     query <- "/1.1/favorites/destroy"

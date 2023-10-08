@@ -30,7 +30,7 @@ post_follow <- function(user,
                         retweets = TRUE,
                         token = NULL) {
 
-  stopifnot(is.atomic(user), is_logical(notify))
+  stopifnot(is.atomic(user) && !is.null(user), is_logical(notify))
 
   if (all(!destroy, !retweets)) {
     query <- "/1.1/friendships/update"
@@ -89,7 +89,7 @@ post_friendship <- function(user,
                             retweets = FALSE,
                             token = NULL) {
 
-  stopifnot(is.atomic(user), is_logical(device),
+  stopifnot(is.atomic(user) && !is.null(user), is_logical(device),
             is_logical(retweets))
 
   params <- list(

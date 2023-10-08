@@ -139,7 +139,8 @@ lookup_friendships_ <- function(source,
                                 target,
                                 parse = TRUE,
                                 token = NULL) {
-  stopifnot(is.atomic(source), is.atomic(target))
+  stopifnot(is.atomic(source) && !is.null(source),
+            is.atomic(target) && !is.null(target))
 
   params <- list()
   params[[paste0("source_", user_type(source, "source"))]] <- source
