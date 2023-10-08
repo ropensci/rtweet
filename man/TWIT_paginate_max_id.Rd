@@ -105,6 +105,9 @@ continue pagination from where it left off.}
 to return the "raw" list corresponding to the JSON returned from the
 Twitter API.}
 }
+\value{
+A list with the json output of the API.
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 These are internal functions used for pagination inside of rtweet.

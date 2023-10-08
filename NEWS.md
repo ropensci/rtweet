@@ -6,6 +6,8 @@
 
 * New `tweet_post()` and `tweet_delete()` to post and delete tweets to work with the [free product](https://developer.twitter.com/en/portal/products/free).
 
+* Fix problems with changes on `is.atomic(NULL)`.
+
 # rtweet 1.2.0
 
 ## Authentication changes

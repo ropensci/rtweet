@@ -126,7 +126,7 @@ search_params <- function(q,
     q <- ""
   }
   stopifnot(is.atomic(q) && !is.null(q) && length(q) == 1L,
-            is.atomic(max_id) && length(max_id) <= 1L)
+            length(max_id) <= 1L)
   type <- arg_match(type)
 
   ## validate query length–char count might not always be same here as with
