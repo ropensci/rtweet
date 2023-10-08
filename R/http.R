@@ -1,10 +1,10 @@
 TWIT_get <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
   resp <- TWIT_method("GET",
-    token = token,
-    api = api,
-    params = params,
-    ...,
-    host = host
+                      token = token,
+                      api = api,
+                      params = params,
+                      ...,
+                      host = host
   )
 
   from_js(resp)
@@ -12,12 +12,12 @@ TWIT_get <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
 
 TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.twitter.com") {
   TWIT_method("POST",
-    token = token,
-    api = api,
-    params = params,
-    body = body,
-    ...,
-    host = host
+              token = token,
+              api = api,
+              params = params,
+              body = body,
+              ...,
+              host = host
   )
 }
 
@@ -100,6 +100,7 @@ TWIT_method <- function(method, token, api,
 #'   Twitter API.
 #' @param verbose Show progress bars and other messages indicating current
 #'   progress?
+#' @returns A list with the json output of the API.
 TWIT_paginate_max_id <- function(token, api, params,
                                  get_id = function(x) x$id_str,
                                  n = 1000,
@@ -146,8 +147,8 @@ TWIT_paginate_max_id <- function(token, api, params,
     )
     if (is_rate_limit(json)) {
       warn_early_term(json,
-        hint = paste0("Set `max_id = '", max_id, "' to continue."),
-        hint_if = !is.null(max_id)
+                      hint = paste0("Set `max_id = '", max_id, "' to continue."),
+                      hint_if = !is.null(max_id)
       )
       break
     }
@@ -482,28 +483,30 @@ handle_error <- function(x, params) {
     stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
   }
   json <- from_js(x)
-  error <- if (!is.null(json$error)) json$error else json$errors
-  if (length(error) == 1) {
-    if (any(c("screen_name", "user_id") %in% names(params))) {
-      account <- params$screen_name
-      if (is.null(account)) account <- params$user_id
-      warning("Skipping unauthorized account: ", account, call. = FALSE)
+  error <- if (!is.null(json[["error"]])) json[["error"]] else json[["errors"]]
+  if (x$status_code %in% c("401", "403") && is_developing()) {
+    testthat::skip("API v1.1 no longer works")
+    if (length(error) == 1) {
+      if (any(c("screen_name", "user_id") %in% names(params))) {
+        account <- params$screen_name
+        if (is.null(account))
+          account <- params$user_id
+        warn(paste0("Skipping unauthorized account: ", account))
+      } else {
+        warn(paste0("Something went wrong with the authentication:\n\t", error))
+      }
+    } else if (length(error) == 2) {
+      abort(c(paste0("Twitter API failed [", x$status_code, "]:"),
+              paste0(error$message, " (", error$code, ")")),
+            call. = caller_call())
     } else {
-      warning("Something went wrong with the authentication:\n\t",
-        error, call. = FALSE)
+      if (is_testing()) {
+        testthat::skip("Something went wrong with the requests")
+      }
+      warn("Something went wrong with the requests")
     }
-  } else if (length(error) == 2) {
-    stop("Twitter API failed [", x$status_code, "]. ", chk_message, " \n",
-         paste0(" * ", error$message, " (", error$code, ")"),
-         call. = FALSE)
-  } else {
-    if (is_testing()) {
-      testthat::skip("Something went wrong with the requests")
-    }
-    warning("Something went wrong with the requests", call. = FALSE)
   }
 }
-
 
 # I don't love this interface because it returns either a httr response object
 # or a condition object, but it's easy to understand and avoids having to do
@@ -525,9 +528,9 @@ warn_early_term <- function(cnd, hint, hint_if) {
 
 check_status <- function(x, api) {
   switch(resp_type(x),
-    ok = NULL,
-    rate_limit = ,
-    error = handle_error(x)
+         ok = NULL,
+         rate_limit = ,
+         error = handle_error(x)
   )
 }
 
