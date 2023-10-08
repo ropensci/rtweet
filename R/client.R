@@ -72,7 +72,7 @@ default_client <- function(client_id = NULL, client_secret = NULL) {
     # The sysdat file is in #./R and loaded automagically
     abort(c("The default rtweet client is no longer authorized.",
             i = "You'll need to register as developer in order to use the Twitter API."),
-          call = current_call())
+          call = caller_env())
     client_id <- decrypt(sysdat$e914c55d2f)
     client_secret <- decrypt(sysdat$d5571d4003)
   } else {
@@ -132,11 +132,7 @@ client_list <- function() {
 
 find_client <- function(client = NULL) {
   if (is.null(client)) {
-    if (is_developing()) {
-      load_client("academic_dev") %||% no_client()
-    } else{
-      default_cached_client()
-    }
+    no_client()
   } else if (is_client(client)) {
     client
   } else if (is_string(client)) {
