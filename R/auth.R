@@ -494,6 +494,7 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
                        auth_url = "https://twitter.com/i/oauth2/authorize",
                        pkce = TRUE,
                        scope = paste(scopes, collapse = " "),
+                       # redirect_uri = "http://127.0.0.1:1410",
                        host_name = "127.0.0.1",
                        port = 1410
                        )

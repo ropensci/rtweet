@@ -86,12 +86,11 @@ check_token_v2 <- function(token = NULL, mechanism = "bearer") {
 # Provides the required method for the token type
 req_auth <- function(req, token) {
   if (auth_is_bearer(token)) {
-    token <- token$token
+    httr2::req_auth_bearer_token(req, token$token)
   } else if (auth_is_pkce(token)) {
     token <- auth_renew(token)
     token <- token$access_token
   }
-  httr2::req_auth_bearer_token(req, token)
 }
 
 req_is_error <- function(resp) {
