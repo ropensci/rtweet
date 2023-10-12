@@ -392,7 +392,7 @@ twitter_init_oauth1.0 <- function(endpoint, app, permission = NULL,
                                   private_key = NULL) {
   # Twitter requirements only allow numbers
   # local environment for httr::oauth_callback to find the localhost IP.
-  # Which is also modified to http://127.0.0.1:1410/
+  # Which is also modified to `http://127.0.0.1:1410/`
   withr::local_envvar("HTTR_SERVER" = "127.0.0.1")
   httr::init_oauth1.0(
     endpoint,
@@ -410,7 +410,8 @@ auth_path <- function(...) {
 }
 
 #' Some endpoints require OAuth 2.0 with specific permissions in order to work.
-#' In order to work, the developer must configure the app with  callback url: `http://127.0.0.1:1410`
+#' In order to work, the developer must configure the app with  callback url:
+#' `http://127.0.0.1:1410/`
 #' @param client Which client app will be used, see [rtweet_client()] for details.
 #' @param scopes The permissions of the app, see [set_scopes()] for details.
 #' By default it uses the client's scopes. Provided here in case you want to modify them.
