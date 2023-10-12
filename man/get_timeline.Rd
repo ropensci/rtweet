@@ -60,6 +60,10 @@ find tweets \strong{older} than \code{max_id}.}
 (the default, what a user has tweeted/retweeted) or a "home" timeline
 (what the user would see if they logged into twitter).}
 
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
+
 \item{check}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{retryonratelimit}{If \code{TRUE}, and a rate limit is exhausted, will wait

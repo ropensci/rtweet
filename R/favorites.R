@@ -4,13 +4,14 @@
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams get_timeline
+#' @inheritParams stream
 #' @return A tibble with one row for each tweet.
 #' @examples
 #' if (auth_has_default()) {
 #' # get likes for a single user
 #' kfc <- get_favorites("KFC")
 #' kfc
-#' # get newer likes since last request 
+#' # get newer likes since last request
 #' newer <- get_favorites("KFC", since_id = kfc)
 #'
 #' # get likes from multiple users
@@ -28,7 +29,7 @@ get_favorites <- function(user,
                           retryonratelimit = NULL,
                           verbose = TRUE,
                           token = NULL) {
-  rt <- lapply(user, get_favorites_user, 
+  rt <- lapply(user, get_favorites_user,
     n = n,
     since_id = since_id,
     max_id = max_id,
@@ -51,7 +52,7 @@ get_favorites_user <- function(user, ..., parse = TRUE, token = NULL) {
     tweet_mode = "extended"
   )
   params[[user_type(user)]] <- user
-  
+
   results <- TWIT_paginate_max_id(token, "/1.1/favorites/list", params,
     page_size = 200,
     ...
@@ -62,6 +63,6 @@ get_favorites_user <- function(user, ..., parse = TRUE, token = NULL) {
     results$created_at <- format_date(results$created_at)
     results$favorited_by <- rep(user, nrow(results))
   }
-  
+
   results
 }

@@ -34,6 +34,7 @@
 #' }
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param type Character string specifying which type of search
 #'   results to return from Twitter's REST API. The current default is
 #'   `type = "recent"`, other valid types include `type =

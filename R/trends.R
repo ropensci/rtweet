@@ -18,6 +18,7 @@
 #' @param exclude_hashtags Logical, indicating whether or not to
 #'   exclude hashtags. Defaults to FALSE--meaning, hashtags are
 #'   included in returned trends.
+#' @inheritParams stream
 #' @examples
 #' if (auth_has_default()) {
 #'

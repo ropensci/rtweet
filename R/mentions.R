@@ -6,6 +6,7 @@
 #' your mentions on twitter.com.
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param ... Other arguments passed as parameters in composed API
 #'   query.
 #' @return Tibble of mentions data.

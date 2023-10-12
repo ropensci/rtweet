@@ -1,7 +1,7 @@
 #' Get Twitter users data for given users (user IDs or screen names).
 #'
 #' @inheritParams TWIT_paginate_max_id
-#'
+#' @inheritParams stream
 #' @param users User id or screen name of target user.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup>
 #'

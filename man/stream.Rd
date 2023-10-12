@@ -55,6 +55,10 @@ are better of changing the default for all calls via \code{\link[=auth_as]{auth_
 \item{append}{Append streaming to the file? Default does but it is
 recommended to have a new file for each call.}
 
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
+
 \item{query}{If \code{NULL} returns the current rules, else depending:
 \itemize{
 \item In stream_add_rule it should be a list of value and tag.

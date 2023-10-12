@@ -64,6 +64,10 @@ failure modes like temporarily losing your internet connection.}
 \item{verbose}{Show progress bars and other messages indicating current
 progress?}
 
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
+
 \item{...}{Other arguments used as parameters in query composition.}
 }
 \description{

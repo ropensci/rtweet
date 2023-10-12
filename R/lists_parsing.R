@@ -41,7 +41,13 @@ as_lists_users <- function(x) {
   structure(x, class = "lists_users")
 }
 
-as.data.frame.lists_users <- function(x) {
+as.data.frame.lists_users <- function(x, row.names, optional, ...) {
+  if (!missing(row.names)) {
+    warning("`row.names` argument is ignored.")
+  }
+  if (!missing(optional)) {
+    warning("`optional` argument is ignored.")
+  }
   if (has_name_(x, "lists")) {
     x <- x[["lists"]]
   }

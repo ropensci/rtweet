@@ -18,6 +18,10 @@ tweet_counts_all(query, ..., token = NULL, parse = TRUE, verbose = FALSE)
 \code{\link[=rtweet_app]{rtweet_app()}}). In most cases you
 are better of changing the default for all calls via \code{\link[=auth_as]{auth_as()}}.}
 
+\item{parse}{If \code{TRUE}, the default, returns a tidy data frame. Use \code{FALSE}
+to return the "raw" list corresponding to the JSON returned from the
+Twitter API.}
+
 \item{verbose}{A logical value to provide more information about the
 paginated queries (if any) and to store the data of each page.}
 }

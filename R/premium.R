@@ -9,6 +9,7 @@
 #' Note: The `env_name` must match the ones you set up for the token you are using.
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param q Search query on which to match/filter tweets. See details for
 #'   information about available search operators.
 #' @param continue A character string with the next results of a query. You
