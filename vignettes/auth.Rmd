@@ -32,7 +32,7 @@ If you want to collect a lot of data or implement a bot, you should instead use 
 -   **Bot authentication** allows you to create a fully automated Twitter bot that performs actions on its own behalf rather than on behalf of a human.
 
 In either case, you'll need to create your own Twitter app (yes, it can be confusing), so we'll start by discussing what an app is and how to create one on the Twitter website.
-Next, you'll learn how to use the `rtweet_app()` and `rtweet_bot()` functions to tell rtweet about your app config.
+Next, you'll learn how to use the `rtweet_app()` function to tell rtweet about your app config.
 You'll then learn how to set the default authentication mechanism for the current R session, and how to save it so you can use it in a future session.
 
 ```{r}
@@ -61,22 +61,7 @@ If you regenerate the previous values will cease to work, so do not use it to ge
 
 ## Setup
 
-Now that you have an app registered on twitter.com , you have to tell rtweet about it.
-You'll use either `rtweet_app()` or `rtweet_bot()` depending on whether you want app-style authentication or bot-style authentication as described above.
-
-### User
-
-By default `rtweet` uses a common user for all the users.
-Using the default authentication might cause problems while using rtweet.
-You are sharing the same resource with many people!
-
-If you use rtweet for more than a day or a learning how to use the package it is recommended to set up your own authentication and you don't want to set up a bot or an app you can use `auth_setup_default()`:
-
-```{r, eval=FALSE}
-auth_setup_default()
-```
-
-It will call `rtweet_user()` to use your current logged account on your default browser as the authentication used by `rtweet` and save it as "default" (See [Saving and loading](#save)).
+Now that you have an app registered on twitter.com, you have to tell rtweet about it.
 
 #### OAuth2 protocol
 
@@ -96,7 +81,7 @@ The callback URI is important as this is what rtweet will use to validate.
 The clients are under "Key and tokens" tab, check the top.
 At the last section of the tab, there is the section \"Auth 2.0 Client ID and Client Secret\":
 
-![Screenshoot showing what to look to get the OAuth credentials](oauth2.png){width="548"}
+![Screenshot showing what to look to get the OAuth credentials](oauth2.png){width="548"}
 
 Use them to set up your client app:
 
@@ -132,19 +117,6 @@ This will prompt you to enter the *bearer token* that you recorded earlier.
 
 It's good practice to only provide secrets interactively, because that makes it harder to accidentally share them in either your `.Rhistory` or an `.R` file.
 
-### Bots
-
-Bot based authentication works similarly:
-
-```{r, eval = FALSE}
-auth <- rtweet_bot()
-```
-
-But you'll need more data --- as well as the *API key* and *API secret* you recorded earlier, you'll also need to generate a "*Access token and secret*" which you can get by clicking the "Generate" button on the Keys and Tokens page:
-
-![](keys-tokens.png){width="362"}
-
-Again, you'll want to record this data in a secure place because you only get to see it once.
 
 ## Default
 
@@ -163,7 +135,7 @@ client_as(client)
 
 ## Saving and loading {#save}
 
-`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_user()`, `rtweet_app()` or `rtweet_bot()`).
+`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_app()` or `rtweet_oauth2()`).
 This would be annoying (!) so rtweet also provides a way to save and reload authentications across sessions:
 
 ```{r, eval = FALSE}

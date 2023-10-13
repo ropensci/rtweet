@@ -34,13 +34,8 @@ install.packages("rtweet", repos = 'https://ropensci.r-universe.dev')
 
 ## Usage
 
-All users must be authenticated to interact with Twitter’s APIs. The
-easiest way to authenticate is to use your personal twitter account -
-this will happen automatically (via a browser popup) the first time you
-use an rtweet function. See `auth_setup_default()` for details. Using
-your personal account is fine for casual use, but if you are trying to
-collect a lot of data it’s a good idea to authentication with your own
-Twitter “app”. See `vignette("auth", package = "rtweet")` for details.
+All users must be authenticated to interact with Twitter’s APIs. See
+`vignette("auth", package = "rtweet")` for details.
 
 ``` r
 library(rtweet)
@@ -49,80 +44,22 @@ library(rtweet)
 rtweet should be used in strict accordance with Twitter’s [developer
 terms](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases).
 
-### Search tweets or users
+## Usage
 
-Search for up to 1000 tweets containing \#rstats, the common hashtag
-used to refer to the R language, excluding retweets:
+Depending on if you are a paid user or not you can do more or less
+things.
 
-``` r
-rt <- search_tweets("#rstats", n = 1000, include_rts = FALSE)
-```
+# Free
 
-Twitter rate limits cap the number of search results returned to 18,000
-every 15 minutes. To request more than that, set
-`retryonratelimit = TRUE` and rtweet will wait for rate limit resets for
-you.
+You can post (`tweet_post()`) and retrieve information about yourself
+(`user_self()`).
 
-Search for 200 users with the \#rstats in their profile:
+# Paid
 
-``` r
-useRs <- search_users("#rstats", n = 200)
-```
-
-### Stream tweets
-
-Randomly sample (approximately 1%) from the live stream of all tweets:
-
-``` r
-random_stream <- stream_tweets("")
-```
-
-Stream all geo-located tweets from London for 60 seconds:
-
-``` r
-stream_london <- stream_tweets(location = lookup_coords("london"), timeout = 60)
-```
-
-### Get friends and followers
-
-Get all accounts followed by a user:
-
-``` r
-## get user IDs of accounts followed by R Foundation
-R_Foundation_fds <- get_friends("_R_Foundation")
-
-## lookup data on those accounts
-R_Foundation_fds_data <- lookup_users(R_Foundation_fds$to_id)
-```
-
-Get all accounts following a user:
-
-``` r
-## get user IDs of accounts following R Foundation
-R_Foundation_flw <- get_followers("_R_Foundation", n = 100)
-R_Foundation_flw_data <- lookup_users(R_Foundation_flw$from_id)
-```
-
-If you want *all* followers, you’ll need you’ll need to set `n = Inf`
-and `retryonratelimit = TRUE` but be warned that this might take a
-*long* time.
-
-### Get timelines
-
-Get the most recent 100 tweets from R Foundation:
-
-``` r
-## get most recent 100 tweets from R Foundation
-tmls <- get_timeline("_R_Foundation", n = 100)
-```
-
-### Get favorites
-
-Get the 10 most recently favorited statuses by R Foundation:
-
-``` r
-favs <- get_favorites("_R_Foundation", n = 10)
-```
+You can do all the other things: search tweets
+(`tweet_search_recent()`), retrieve your own bookmarks
+(`user_bookmarks()`), check who follows who, (`user_following()`, or
+`user_followers()`), ….
 
 ## Contact
 

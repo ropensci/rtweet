@@ -54,6 +54,7 @@ test_that("is_developing works", {
 
 test_that("rtweet_user works", {
   skip("requires manual testing")
+  skip("API v1.1 no longer works")
   # Avoid saving it but check that it is redirected in the browser.
   withr::local_options("rtweet:::config_dir" = tempfile())
   expect_error(rtweet_user(), NA)
@@ -66,10 +67,13 @@ test_that("rtweet_bot works", {
 })
 
 test_that("rtweet_oauth2 works", {
-  skip("requires manual testing")
   # Avoid saving it but check that it is redirected in the browser.
   withr::local_options("rtweet:::config_dir" = tempfile())
-  expect_error(b <- rtweet_client(app = "academic_dev"), NA)
+  expect_error(b <- rtweet_client(app = "academic_dev"))
+  skip("requires manual testing")
+  expect_error(b <- rtweet_client(client_id = "",
+                                  client_secret = "",
+                                  app = "academic_dev"), NA)
   client_as(b)
   expect_error(rtweet_oauth2(), NA)
 })
