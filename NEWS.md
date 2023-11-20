@@ -1,5 +1,7 @@
 # rtweet (development version)
 
+* Fix problem with `auth_sitrep()` not correctly handling old tokens.
+
 # rtweet 1.2.1
 
 * Fix `auth_sitrep()` to work well with OAuth2 tokens.
