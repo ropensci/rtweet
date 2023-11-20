@@ -104,9 +104,6 @@ continue pagination from where it left off.}
 \value{
 A list with the json output of the API.
 }
-\value{
-A list with the json output of the API.
-}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 These are internal functions used for pagination inside of rtweet.
