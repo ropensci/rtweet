@@ -1,3 +1,5 @@
-Update to add some functions, fix a bug and remove some links to removed documentation.
+There might be some errors following links, sometimes Twitter.com or rOpenSci block the CRAN checks of urls.
 
-Checks passed locally, in R-Hub there is a NOTE about lastMiKTeXException which apparently could be ignored. 
+This submission so close to the previous one is because there is an ERROR in one of the CRAN checks after acceptance.
+This is probably caused by a previous version not following CRAN's policy of not writing to user directory.
+The example detected a file with the pattern .rtweet_token.*rds in the user directory. 

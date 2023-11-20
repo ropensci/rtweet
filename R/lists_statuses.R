@@ -13,10 +13,11 @@
 #'   retweeted tweets is identical to the representation you see in
 #'   home_timeline.
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @family lists
 #' @family tweets
 #' @return data
-#' @examples 
+#' @examples
 #' if (auth_has_default()) {
 #'   (rladies <- lists_statuses(list_id = "839186302968848384"))
 #'   (rladies <- lists_statuses(slug = "rladies1", owner_user = "RLadiesGlobal"))
@@ -51,7 +52,7 @@ lists_statuses <- function(list_id = NULL,
     retryonratelimit = retryonratelimit,
     verbose = verbose
   )
-  
+
   if (parse) {
     results <- tweets_with_users(results)
     results$created_at <- format_date(results$created_at)

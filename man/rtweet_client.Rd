@@ -12,8 +12,8 @@ These are generally not required for \code{rtweet_user()} since the defaults wil
 the built-in rtweet app.}
 
 \item{app}{Name of the client, it helps if you make it match with the name of your app.
-On the Twitter app the Callback URI must be "http://127.0.0.1:1410/" (the trailing / must be
-included).}
+On the Twitter app the Callback URI must be \verb{http://127.0.0.1:1410/}
+(the trailing / must be included).}
 
 \item{scopes}{Default scopes allowed for users using this client.
 Leave \code{NULL} to allow everything or choose yours with \code{set_scopes()}.}

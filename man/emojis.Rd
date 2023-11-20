@@ -9,6 +9,6 @@ A tibble with two variables and 2,623 observations.
 }
 \description{
 This data comes from "Unicode.org",
-\url{http://unicode.org/emoji/charts/full-emoji-list.html}. The data are
+\url{https://unicode.org/emoji/charts/full-emoji-list.html}. The data are
 codes and descriptions of Emojis.
 }

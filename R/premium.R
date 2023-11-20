@@ -9,6 +9,7 @@
 #' Note: The `env_name` must match the ones you set up for the token you are using.
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param q Search query on which to match/filter tweets. See details for
 #'   information about available search operators.
 #' @param continue A character string with the next results of a query. You
@@ -95,7 +96,6 @@
 #' }
 #'
 #' @export
-#' @references Endpoint: <https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search>
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
                                continue = NULL,
                                env_name = NULL, premium = FALSE,

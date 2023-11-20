@@ -34,6 +34,7 @@
 #' }
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param type Character string specifying which type of search
 #'   results to return from Twitter's REST API. The current default is
 #'   `type = "recent"`, other valid types include `type =
@@ -127,6 +128,7 @@ search_params <- function(q,
   }
   stopifnot(is.atomic(q) && !is.null(q) && length(q) == 1L,
             is.atomic(max_id) && length(max_id) <= 1L)
+  stopifnot(is.atomic(q), length(q) == 1L, is.atomic(max_id))
   type <- arg_match(type)
 
   ## validate query length–char count might not always be same here as with

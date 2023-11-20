@@ -178,8 +178,8 @@ no_client <- function(call = caller_env()) {
 #' @param scopes Default scopes allowed for users using this client.
 #' Leave `NULL` to allow everything or choose yours with `set_scopes()`.
 #' @param app Name of the client, it helps if you make it match with the name of your app.
-#' On the Twitter app the Callback URI must be "http://127.0.0.1:1410/" (the trailing / must be
-#' included).
+#' On the Twitter app the Callback URI must be `http://127.0.0.1:1410/`
+#' (the trailing / must be included).
 #' @seealso scopes
 #' @export
 #' @examples

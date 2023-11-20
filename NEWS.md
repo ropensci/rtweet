@@ -1,13 +1,19 @@
 # rtweet (development version)
 
+* Fix problem with `auth_sitrep()` not correctly handling old tokens.
+
+* Since httr2 > 0.2.3, rtweet refreshes OAuth 2.0 tokens automatically, 
+  also if possible, replacing the file where they are saved. 
+
+# rtweet 1.2.1
+
 * Fix `auth_sitrep()` to work well with OAuth2 tokens.
 
 * Added new function `tweet_quoted()` to search who tweets quoting a tweet.
 
 * New `tweet_post()` and `tweet_delete()` to post and delete tweets to work with the [free product](https://developer.twitter.com/en/portal/products/free).
 
-* Since httr2 > 0.2.3, rtweet refreshes OAuth 2.0 tokens automatically, 
-  also if possible, replacing the file where they are saved. 
+* Fix problems with changes on `is.atomic(NULL)`.
 
 # rtweet 1.2.0
 

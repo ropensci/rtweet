@@ -12,7 +12,9 @@
 #' @param token These endpoints only accept a bearer token (can be created via
 #' [rtweet_app()]). In most cases you
 #' are better of changing the default for all calls via [auth_as()].
-#' @inheritParams TWIT_paginate_max_id
+#' @param parse If `TRUE`, the default, returns a tidy data frame. Use `FALSE`
+#' to return the "raw" list corresponding to the JSON returned from the
+#' Twitter API.
 #' @param timeout time, in seconds, of the recording stream.
 #' @param expansions Set `NULL` to not use any expansion, set `NA` to get all
 #' expansions, or provide a vector with the expansions you want (create it with

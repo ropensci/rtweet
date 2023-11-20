@@ -8,6 +8,7 @@
 #'   owner_user parameters.
 #' @param owner_user optional The screen name or user ID of the user
 #' @param ... Other arguments used as parameters in query composition.
+#' @inheritParams stream
 #' @examples
 #' if (auth_has_default()) {
 #'

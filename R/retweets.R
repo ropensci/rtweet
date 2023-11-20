@@ -8,7 +8,8 @@
 #' @param n Number of results to retrieve. Must be <= 100.
 #' @param ... Other arguments used as parameters in the query sent to
 #'   Twitter's rest API, for example, `trim_user = TRUE`.
-#' @return Tweets data of the most recent retweets/retweeters of a given status
+#' @return Tweets data of the most recent retweets/retweeters of a given status.
+#' @inheritParams stream
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweets-id>
 get_retweets <- function(status_id, n = 100, parse = TRUE, token = NULL, ...) {

@@ -20,7 +20,6 @@ auth_sitrep <- function() {
   old_tokens <- find_old_tokens()
   tools_tokens <- find_tools_tokens()
   all_tokens_files <- c(old_tokens, tools_tokens)
-  # FIXME: Deal with Oauth2 tokens
   if (is.null(all_tokens_files)) {
     inform("No tokens were found! See ?auth_as for more details.")
     return(NULL)
@@ -88,7 +87,12 @@ token_auth <- function(tokens) {
                    key = character(n))
   df <- as.data.frame(t(list2DF(tokens)))
   rownames(df) <- names(tokens)
-  colnames(df) <- c("app", "user_id", "key")
+  if (ncol(df) < 3L) {
+    x <- seq_len(ncol(df))
+  } else {
+    x <- 1L:3L
+  }
+  colnames(df) <- c("app", "user_id", "key")[x]
   uk <- unique(df$key)
   length_levels <- length(uk) - sum(any(uk == ""))
   df$key <- factor(df$key, labels = LETTERS[seq_len(length_levels)], exclude = "")
@@ -97,8 +101,16 @@ token_auth <- function(tokens) {
 
 #' @importFrom methods is
 type_auth <- function(tokens) {
-  class_tokens <- vapply(tokens, is, character(1L))
-  class_tokens <- ifelse(endsWith(class_tokens, "Token1.0"), "token", "bearer")
+
+  class_tokens <- vapply(tokens, function(x){is(x)[1]}, character(1L))
+  class_tokens2 <- character(length(class_tokens))
+  class_tokens2[class_tokens %in% c("Token1.0", "TwitterToken1.0")] <- "token"
+  class_tokens2[class_tokens == "rtweet_bearer"] <- "bearer"
+  class_tokens2[class_tokens == "httr2_token"] <- "httr2_token"
+  if (any(!nzchar(class_tokens2))) {
+    warn("Detected some file which doesn't seems created by rtweet.", parent = current_call())
+  }
+  class_tokens2
 }
 
 move_tokens <- function(tokens, folder) {
@@ -178,7 +190,6 @@ handle_token <- function(tokens) {
   print(token)
   action_tokens
 }
-
 
 auth_check <- function(tokens) {
   type_auth <- type_auth(tokens)

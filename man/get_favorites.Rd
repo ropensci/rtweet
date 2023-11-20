@@ -73,7 +73,7 @@ if (auth_has_default()) {
 # get likes for a single user
 kfc <- get_favorites("KFC")
 kfc
-# get newer likes since last request 
+# get newer likes since last request
 newer <- get_favorites("KFC", since_id = kfc)
 
 # get likes from multiple users

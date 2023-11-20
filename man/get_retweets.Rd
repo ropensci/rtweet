@@ -26,7 +26,7 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Twitter's rest API, for example, \code{trim_user = TRUE}.}
 }
 \value{
-Tweets data of the most recent retweets/retweeters of a given status
+Tweets data of the most recent retweets/retweeters of a given status.
 }
 \description{
 \code{get_retweets()} returns the 100 most recent retweets of a tweet;

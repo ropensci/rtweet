@@ -1,10 +1,10 @@
 TWIT_get <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
   resp <- TWIT_method("GET",
-    token = token,
-    api = api,
-    params = params,
-    ...,
-    host = host
+                      token = token,
+                      api = api,
+                      params = params,
+                      ...,
+                      host = host
   )
 
   from_js(resp)
@@ -12,12 +12,12 @@ TWIT_get <- function(token, api, params = NULL, ..., host = "api.twitter.com") {
 
 TWIT_post <- function(token, api, params = NULL, body = NULL, ..., host = "api.twitter.com") {
   TWIT_method("POST",
-    token = token,
-    api = api,
-    params = params,
-    body = body,
-    ...,
-    host = host
+              token = token,
+              api = api,
+              params = params,
+              body = body,
+              ...,
+              host = host
   )
 }
 
@@ -95,9 +95,6 @@ TWIT_method <- function(method, token, api,
 #'   If you expect a query to take hours or days to perform, you should not
 #'   rely solely on `retryonratelimit` because it does not handle other common
 #'   failure modes like temporarily losing your internet connection.
-#' @param parse If `TRUE`, the default, returns a tidy data frame. Use `FALSE`
-#'   to return the "raw" list corresponding to the JSON returned from the
-#'   Twitter API.
 #' @param verbose Show progress bars and other messages indicating current
 #'   progress?
 #' @returns A list with the json output of the API.
@@ -147,8 +144,8 @@ TWIT_paginate_max_id <- function(token, api, params,
     )
     if (is_rate_limit(json)) {
       warn_early_term(json,
-        hint = paste0("Set `max_id = '", max_id, "' to continue."),
-        hint_if = !is.null(max_id)
+                      hint = paste0("Set `max_id = '", max_id, "' to continue."),
+                      hint_if = !is.null(max_id)
       )
       break
     }
@@ -529,9 +526,9 @@ warn_early_term <- function(cnd, hint, hint_if) {
 
 check_status <- function(x, api) {
   switch(resp_type(x),
-    ok = NULL,
-    rate_limit = ,
-    error = handle_error(x)
+         ok = NULL,
+         rate_limit = ,
+         error = handle_error(x)
   )
 }
 

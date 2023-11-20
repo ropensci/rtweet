@@ -1,7 +1,7 @@
 citHeader("To cite rtweet use:")
 
-citEntry(
-    entry        = "article",
+bibentry(
+    bibtype      = "article",
     title        = "rtweet: Collecting and analyzing Twitter data",
     author       = as.person("Michael W. Kearney"),
     year         = "2019",

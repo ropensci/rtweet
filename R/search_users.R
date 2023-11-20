@@ -4,6 +4,7 @@
 #' 1,000 users.
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param q As string providing the search query. Try searching by interest,
 #'   full name, company name, or location. Exact match searches are not
 #'   supported.

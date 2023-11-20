@@ -1,7 +1,7 @@
 Type: Package
 Package: rtweet
 Title: Collecting Twitter Data
-Version: 1.2.0.9005
+Version: 1.2.1.9001
 Authors@R: c(
     person("Michael W.", "Kearney", , "kearneymw@missouri.edu", role = "aut",
            comment = c(ORCID = "0000-0002-0730-4694")),
@@ -51,7 +51,7 @@ Suggests:
     maps (>= 3.4.0),
     openssl (>= 2.0.2),
     rmarkdown (>= 2.14),
-    spelling,
+    spelling (>= 2.2.1),
     testthat (>= 3.1.0),
     vcr (>= 0.6.0),
     webshot (>= 0.5.3)

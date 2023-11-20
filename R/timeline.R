@@ -7,6 +7,7 @@
 #' At most up to 3,200 of a user's most recent Tweets can be retrieved.
 #'
 #' @inheritParams TWIT_paginate_max_id
+#' @inheritParams stream
 #' @param user Character vector of screen names or user ids.
 #'   See [as_screenname()] for more details.
 #' @param home Logical, indicating whether to return a "user" timeline

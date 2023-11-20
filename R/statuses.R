@@ -1,6 +1,7 @@
 #' Get tweets data for given statuses (status IDs).
 #'
 #' @inheritParams lookup_users
+#' @inheritParams stream
 #' @param statuses User id or screen name of target user.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @examples

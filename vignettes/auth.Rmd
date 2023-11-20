@@ -21,7 +21,7 @@ rtweet's default authentication is shared by all user.
 If it is just for a test, a workshop or a lecture it is fine.
 But if you plan to use it more than a day you will benefit of authenticating yourself.
 
-The **recommended authentication** mechanism is using `auth_setup_default()`.
+The **authentication** mechanism is using your own app authentication.
 It allows you to act on behalf of your personal Twitter account, as if you were performing actions on twitter.com.
 
 If you want to collect a lot of data or implement a bot, you should instead use one of rtweet's two other authentication mechanisms:
@@ -32,7 +32,7 @@ If you want to collect a lot of data or implement a bot, you should instead use 
 -   **Bot authentication** allows you to create a fully automated Twitter bot that performs actions on its own behalf rather than on behalf of a human.
 
 In either case, you'll need to create your own Twitter app (yes, it can be confusing), so we'll start by discussing what an app is and how to create one on the Twitter website.
-Next, you'll learn how to use the `rtweet_app()` and `rtweet_bot()` functions to tell rtweet about your app config.
+Next, you'll learn how to use the `rtweet_app()` function to tell rtweet about your app config.
 You'll then learn how to set the default authentication mechanism for the current R session, and how to save it so you can use it in a future session.
 
 ```{r}
@@ -61,24 +61,9 @@ If you regenerate the previous values will cease to work, so do not use it to ge
 
 ## Setup
 
-Now that you have an app registered on twitter.com , you have to tell rtweet about it.
-You'll use either `rtweet_app()` or `rtweet_bot()` depending on whether you want app-style authentication or bot-style authentication as described above.
+Now that you have an app registered on twitter.com, you have to tell rtweet about it.
 
-### User
-
-By default `rtweet` uses a common user for all the users.
-Using the default authentication might cause problems while using rtweet.
-You are sharing the same resource with many people!
-
-If you use rtweet for more than a day or a learning how to use the package it is recommended to set up your own authentication and you don't want to set up a bot or an app you can use `auth_setup_default()`:
-
-```{r, eval=FALSE}
-auth_setup_default()
-```
-
-It will call `rtweet_user()` to use your current logged account on your default browser as the authentication used by `rtweet` and save it as "default" (See [Saving and loading](#save)).
-
-#### Alternative authorization protocol
+#### OAuth2 protocol
 
 Some new functions require a different authentication mechanism[^1].
 This functions will need you to first set up a client, which requires your client id and secret.
@@ -89,14 +74,14 @@ You can get them in your [developer dashboard](https://developer.twitter.com/en/
 
 Choose one of the **App permissions**: Read, Read and write, or Read and write and Direct message  
 In **Type of App** select Native app  
-In **App info**  set the callback URI to: http://127.0.0.1:1410/
+In **App info**  set the callback URI to: `http://127.0.0.1:1410/`
 
 The callback URI is important as this is what rtweet will use to validate.
 
 The clients are under "Key and tokens" tab, check the top.
 At the last section of the tab, there is the section \"Auth 2.0 Client ID and Client Secret\":
 
-![Screenshoot showing what to look to get the OAuth credentials](oauth2.png){width="548"}
+![Screenshot showing what to look to get the OAuth credentials](oauth2.png){width="548"}
 
 Use them to set up your client app:
 
@@ -132,30 +117,10 @@ This will prompt you to enter the *bearer token* that you recorded earlier.
 
 It's good practice to only provide secrets interactively, because that makes it harder to accidentally share them in either your `.Rhistory` or an `.R` file.
 
-### Bots
-
-Bot based authentication works similarly:
-
-```{r, eval = FALSE}
-auth <- rtweet_bot()
-```
-
-But you'll need more data --- as well as the *API key* and *API secret* you recorded earlier, you'll also need to generate a "*Access token and secret*" which you can get by clicking the "Generate" button on the Keys and Tokens page:
-
-![](keys-tokens.png){width="362"}
-
-Again, you'll want to record this data in a secure place because you only get to see it once.
 
 ## Default
 
-Now you have an auth object that you can provide to the `token` argument of any rtweet function:
-
-```{r, eval = FALSE}
-df <- search_tweets("#rstats", token = auth)
-```
-
-It's a good idea to do this once to check that you've entered all the app data correctly, but it'd be annoying if you had to pass this object around every single time.
-Instead, you can call `auth_as()` to set this as the default for the remainder of the session:
+You can call `auth_as()` to set this as the default for the remainder of the session:
 
 ```{r, eval = FALSE}
 auth_as(auth)
@@ -170,7 +135,7 @@ client_as(client)
 
 ## Saving and loading {#save}
 
-`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_user()`, `rtweet_app()` or `rtweet_bot()`).
+`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_app()` or `rtweet_oauth2()`).
 This would be annoying (!) so rtweet also provides a way to save and reload authentications across sessions:
 
 ```{r, eval = FALSE}
@@ -188,7 +153,6 @@ You can see all the authentication options you have saved with `auth_list()`.
 `auth_list()` reports all the available authentications at the default location (See `auth_save()` details).
 If you use an authentication saved on a different path you can directly use it `auth_as("../authentications/rtweet.rds")`
 
-`auth_setup_default()` saves the authentication as default.
 So, after your initial setup you can start all your scripts with `auth_as("default")` to load it.
 
 Clients work similarly, but the client will be saved with the name of the app you provided:
@@ -249,7 +213,7 @@ First looks up old authentications rtweet saved at your home directory (`~`, or 
 Then it reports the authentications found on the new location (rtweet \>= 1.0.0).
 For each folder it reports apps and then users and bots authentications.
 It is safe to use in public, as instead of the tokens or keys it reports a letter.
-For users authentications it reports the user_id, so that you can check who is that user (`search_users("1251053384")`).
+For users authentications it reports the user_id, so that you can check who is that user (`user_search("1251053384")`).
 
 This makes it easier to see if there is a saved authentication with a name not matching the user_id.
 It also warns you if there is the same key or token for multiple files, as this indicates a misunderstanding or a duplication of the authentication.
