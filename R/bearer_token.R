@@ -26,7 +26,6 @@ bearer_token <- function(token = NULL) {
 #' @references <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token>
 #' <https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token>
 #' @keywords internal
-#' @seealso [rtweet_invalidate()]
 #' @export
 invalidate_bearer <- function(api_key, api_secret, client = NULL, token = NULL) {
 # See also rtweet_invalidate in auth.R

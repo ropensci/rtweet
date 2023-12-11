@@ -31,6 +31,7 @@
 #' @family ts_data
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
+  lifecycle::deprecate_stop("2.0.0", function_call())
   data <- ts_data(data, by, trim, tz)
   check_installed("ggplot2")
 
@@ -79,6 +80,7 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #'
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
+  lifecycle::deprecate_stop("2.0.0", function_call())
   stopifnot(is.data.frame(data), is.atomic(by) && !is.null(by))
   if (has_name_(data, "created_at")) {
     dtvar <- "created_at"

@@ -173,9 +173,8 @@ ask_pass <- function(type) {
   val
 }
 
-#' Generate a Bearer token from a client
-#'
 #' @export
+#' @rdname rtweet_user
 rtweet_bearer <- function(client = NULL, scopes  = set_scopes()) {
 
   client <- client %||% client_get()
@@ -200,7 +199,7 @@ rtweet_bearer <- function(client = NULL, scopes  = set_scopes()) {
   token
 }
 
-#' @seealso [invalidate_bearer()]
+# @seealso [invalidate_bearer()]
 rtweet_invalidate <- function(api_key, api_secret, token = NULL) {
   if (missing(api_key)) {
     api_key <- ask_pass("API key")

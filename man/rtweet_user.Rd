@@ -4,6 +4,7 @@
 \alias{rtweet_user}
 \alias{rtweet_bot}
 \alias{rtweet_app}
+\alias{rtweet_bearer}
 \alias{rtweet_oauth2}
 \title{Authentication options}
 \usage{
@@ -17,6 +18,8 @@ rtweet_user(
 rtweet_bot(api_key, api_secret, access_token, access_secret, app = "rtweet")
 
 rtweet_app(bearer_token)
+
+rtweet_bearer(client = NULL, scopes = set_scopes())
 
 rtweet_oauth2(client = NULL, scopes = NULL)
 }

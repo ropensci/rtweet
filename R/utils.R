@@ -92,3 +92,12 @@ release_bullets <- function() {
     "Check spelling with: `spelling::spell_check_package()`",
     "Run manual tests.")
 }
+
+
+function_call <- function() {
+  paste0(as.character(sys.call(sys.parent(1)))[1L], "()")
+}
+
+function_caller <- function() {
+  paste0(as.character(sys.call(1))[1L], "()")
+}

@@ -24,7 +24,4 @@ Not tested!
 \url{https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_bearer_token}
 \url{https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token}
 }
-\seealso{
-\code{\link[=rtweet_invalidate]{rtweet_invalidate()}}
-}
 \keyword{internal}
