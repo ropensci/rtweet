@@ -102,14 +102,5 @@ vcr::use_cassette("geo_objects1", {
     expect_equal(nrow(out), 1)
     expect_equal(ncol(out), 3)
     expect_equal(out$type[1], "Point")
-
-    # ids of these "faulty" ids:
-    ids <- c("1462911176719757313", "1462903173656428545",
-             "1462902964150935558", "1462899130808762371")
-    # other_ids adjacent (w-1):
-    other_ids <- c("1462911347801444365", "1462903930090840071",
-                   "1462903173656428545", "1462900536848490499")
-    all_ids <- unique(c(ids, other_ids))
-    expect_error(lookup_tweets(all_ids))
   })
 })

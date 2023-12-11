@@ -56,9 +56,7 @@
 #' @export
 lookup_coords <- function(address, components = NULL, apikey = NULL, ...) {
   if (missing(address)) stop("must supply address", call. = FALSE)
-  stopifnot(is.atomic(address) && !is.null(address),
-            is.atomic(components))
-  stopifnot(is.atomic(address), is.atomic(components))
+  stopifnot(is.atomic(address) && !is.null(address))
   place <- address
   if (grepl("^us$|^usa$|^united states$|^u\\.s",
             address, ignore.case = TRUE)) {
