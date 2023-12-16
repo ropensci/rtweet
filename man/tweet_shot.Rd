@@ -23,6 +23,7 @@ own image manipulation.}
 Provide a status id or a full Twitter link to a tweet and this function
 will capture an image of the tweet --- or tweet + thread (if there are
 Twitter-linked replies) --- from the mobile version of said tweet/thread.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
 For this to work, you will need to ensure the packages in \verb{Suggests:} are

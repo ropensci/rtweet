@@ -87,8 +87,6 @@ since the default behaviour is to use ask_pass that if possible uses
 
 \examples{
 \dontrun{
-rtweet_user()
-rtweet_bot()
 rtweet_app()
 }
 }

@@ -99,7 +99,7 @@ req_is_error <- function(resp) {
   } else {
     r <- resp
   }
-  has_name_(r, "errors")
+  has_name_(r, "errors") || httr2::resp_is_error(resp)
 }
 
 req_errors <- function(resp) {

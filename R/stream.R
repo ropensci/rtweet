@@ -1,5 +1,6 @@
 #' Collect a live stream of Twitter data
 #'
+#' `r lifecycle::badge("deprecated")`
 #' @description
 #' Streams public statuses to a file via one of the following four methods:
 #'
@@ -35,24 +36,9 @@
 #' @param verbose If `TRUE`, display a progress bar.
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
-#' @seealso [parse_stream()].
+#' @seealso [filtered_stream()].
 #' @references
 #' They were removed from the website.
-#' @examples
-#' \dontrun{
-#' # stream tweets mentioning "#rstats" for 10 seconds
-#' rstats1 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json")
-#' rstats1
-#'
-#' # Download another 10s worth of data to the same file
-#' rstats2 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json",
-#'                          append = TRUE)
-#'
-#' # stream tweets about continental USA for 10 seconds
-#' usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json",
-#'                      timeout = 10)
-#'
-#' }
 #' @return A tibble with one row per tweet
 #' @export
 #' @references
@@ -214,6 +200,7 @@ stream_params <- function(stream, ...) {
 #' Parser of stream
 #'
 #' Converts Twitter stream data (JSON file) into parsed data frame.
+#'  `r lifecycle::badge("deprecated")`
 #' @param path Character, name of JSON file with data collected by
 #'   [stream_tweets()].
 #' @param ... Unused, keeping it for back compatibility.

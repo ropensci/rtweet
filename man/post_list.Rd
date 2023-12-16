@@ -41,46 +41,7 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Response object from HTTP request.
 }
 \description{
-Create, add users, and destroy Twitter lists
-}
-\examples{
-\dontrun{
-
-## R related Twitter accounts
-users <- c("_R_Foundation", "R_dev_news", "rweekly_live", "RConsortium", "rstats4ds",
-  "icymi_r", "rstatstweet", "RLadiesGlobal")
-
-## create r-accounts list with 8 total users
-(r_lst <- post_list(users,
-  "r-accounts", description = "R related accounts"))
-
-## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
-
-## search for more rstats users
-r_users <- search_users("rstats", n = 200)
-
-## filter and select more users to add to list
-more_users <- r_users$screen_name[r_users$verified]
-
-## add more users to list- note: can only add up to 100 at a time
-post_list(users = more_users, slug = "r-accounts")
-
-## view updated list in browser (should be around 100 users)
-## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
-
-drop_users <- "icymi_r"
-
-## drop these users from the R list
-post_list(users = drop_users, slug = "r-accounts",
-  destroy = TRUE)
-
-## view updated list in browser (should be around 100 users)
-## view list in browser at https://twitter.com/<user_name>/lists/r-accounts
-
-## delete list entirely
-post_list(slug = "r-accounts", destroy = TRUE)
-
-}
+Create, add users, and destroy Twitter lists. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-create}

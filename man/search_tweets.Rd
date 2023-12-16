@@ -120,10 +120,11 @@ A tbl data frame with additional "query" column.
 }
 \description{
 Returns Twitter statuses matching a user provided search
-query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS.
+query. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 search_tweets2 Passes all arguments to search_tweets. Returns data from
 one OR MORE search queries.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
 Twitter API documentation recommends limiting searches to
@@ -133,47 +134,14 @@ It should also be noted Twitter's search API does not consist of
 an index of all Tweets. At the time of searching, the search API
 index includes between only 6-9 days of Tweets.
 }
-\examples{
-if (auth_has_default()) {
-tweets <- search_tweets("weather")
-tweets
-
-# data about the users who made those tweets
-users_data(tweets)
-
-# Retrieve all the tweets made since the previous request
-# (there might not be any if people aren't tweeting about the weather)
-newer <- search_tweets("weather", since_id = tweets)
-# Retrieve tweets made before the previous request
-older <- search_tweets("weather", max_id = tweets)
-
-# Restrict to English only, and ignore retweets
-tweets2 <- search_tweets("weather", lang = "en", include_rts = FALSE)
-}
-if (auth_has_default()) {
-
-## search using multiple queries
-st2 <- search_tweets2(
-  c("\"data science\"", "rstats OR python"),
-  n = 500
-)
-
-## preview tweets data
-st2
-
-## preview users data
-users_data(st2)
-
-## check breakdown of results by search query
-table(st2$query)
-
-}
-
-}
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets}
 }
 \seealso{
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}, \code{\link[=tweet_search_all]{tweet_search_all()}}
+
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}
+
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},

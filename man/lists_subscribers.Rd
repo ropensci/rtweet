@@ -65,13 +65,6 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \description{
 Get subscribers of a specified list.
 }
-\examples{
-if (auth_has_default()) {
-    ## get subscribers of rladies list
-    rstats <- lists_subscribers(slug = "rladies1", owner_user = "rladiesglobal")
-}
-
-}
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers}
 }

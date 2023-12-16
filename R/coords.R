@@ -44,12 +44,6 @@
 #' lnd <- lookup_coords("london")
 #' bz <- lookup_coords("brazil")
 #'
-#' ## pass a returned coords object to search_tweets
-#' bztw <- search_tweets(geocode = bz)
-#'
-#' ## or stream tweets
-#' ustw <- stream_tweets(usa, timeout = 10)
-#'
 #' }
 #'
 #' @family geo

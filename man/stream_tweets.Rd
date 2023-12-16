@@ -66,21 +66,8 @@ Streams public statuses to a file via one of the following four methods:
 
 Learn more in \code{vignette("stream", package = "rtweet")}
 }
-\examples{
-\dontrun{
-# stream tweets mentioning "#rstats" for 10 seconds
-rstats1 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json")
-rstats1
-
-# Download another 10s worth of data to the same file
-rstats2 <- stream_tweets("#rstats", timeout = 10, file_name = "rstats.json",
-                         append = TRUE)
-
-# stream tweets about continental USA for 10 seconds
-usa <- stream_tweets(location = lookup_coords("usa"), file_name = "usa.json",
-                     timeout = 10)
-
-}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 They were removed from the website.
@@ -88,5 +75,5 @@ They were removed from the website.
 The webpages describing how it used to work were removed.
 }
 \seealso{
-\code{\link[=parse_stream]{parse_stream()}}.
+\code{\link[=filtered_stream]{filtered_stream()}}.
 }

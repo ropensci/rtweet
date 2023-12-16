@@ -33,31 +33,7 @@ various network classes.
 }
 \details{
 Retrieve data to know which users are connected to which users.
-}
-\examples{
-if (auth_has_default()) {
-  ## search for #rstats tweets
-  rstats <- search_tweets("#rstats", n = 200)
-
-  ## create from-to data frame representing retweet/mention/reply connections
-  rstats_net <- network_data(rstats, c("retweet","mention","reply"))
-
-  ## view edge data frame
-  rstats_net
-
-  ## view user_id->screen_name index
-  attr(rstats_net, "idsn")
-
-  ## if igraph is installed...
-  if (requireNamespace("igraph", quietly = TRUE)) {
-
-    ## (1) convert directly to graph object representing semantic network
-    rstats_net <- network_graph(rstats)
-
-    ## (2) plot graph via igraph.plotting
-    plot(rstats_net)
-  }
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \seealso{
 network_graph

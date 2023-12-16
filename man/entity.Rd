@@ -24,17 +24,3 @@ Extract entities of the tweets linked to a tweet id.
 \details{
 The position of where does this occur is not provided.
 }
-\examples{
-if (auth_has_default()) {
-  statuses <- c(
-    "567053242429734913",
-    "266031293945503744",
-    "440322224407314432"
-  )
-
-  ## lookup tweets data for given statuses
-  tw <- lookup_tweets(statuses)
-  entity(tw, "urls")
-
-}
-}

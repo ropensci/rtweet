@@ -1,24 +1,16 @@
 #' Search for users
 #'
 #' Search for Twitter users. The Twitter API limits the results to at most
-#' 1,000 users.
+#' 1,000 users.  `r lifecycle::badge("deprecated")`
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams stream
 #' @param q As string providing the search query. Try searching by interest,
 #'   full name, company name, or location. Exact match searches are not
 #'   supported.
-#' @examples
-#' if (auth_has_default()) {
-#' users <- search_users("#rstats", n = 300)
-#' users
-#'
-#' # latest tweet from each user
-#' tweets_data(users)
-#' }
-#'
 #' @return Data frame with one row for each matching user.
 #' @family users
+#' @seealso [user_search()]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-search>
 search_users <- function(q, n = 100,

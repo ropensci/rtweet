@@ -43,26 +43,14 @@ progress?}
 A tibble of tweets data.
 }
 \description{
-Get tweets data for given statuses (status IDs).
-}
-\examples{
-
-if (auth_has_default()) {
-  statuses <- c(
-    "567053242429734913",
-    "266031293945503744",
-    "440322224407314432"
-  )
-
-  ## lookup tweets data for given statuses
-  tw <- lookup_tweets(statuses)
-  tw
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup}
 }
 \seealso{
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}
+
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},

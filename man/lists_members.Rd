@@ -73,20 +73,6 @@ Twitter API.}
 \description{
 Get Twitter list members (users on a given list).
 }
-\examples{
-if (auth_has_default()) {
-
-## get list members for a list of rstats experts using list_id
-(rstats <- lists_members("1260528710559694850"))
-
-## get list members for an rstats list using list topic slug
-## list owner's screen name
-rstats <- lists_members(slug = "r-people", owner_user = "Lluis_Revilla")
-rstats
-
-}
-
-}
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-members}
 }

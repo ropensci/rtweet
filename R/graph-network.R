@@ -1,6 +1,7 @@
 #' Network data
 #'
 #' Retrieve data to know which users are connected to which users.
+#' `r lifecycle::badge("deprecated")`
 #'
 #' @description
 #' * `network_data()` returns a data frame that can easily be converted to
@@ -16,30 +17,6 @@
 #'   default value of `c("mention", "retweet", "reply", "quote")`
 #' @return A from/to data edge data frame
 #' @seealso network_graph
-#' @examples
-#' if (auth_has_default()) {
-#'   ## search for #rstats tweets
-#'   rstats <- search_tweets("#rstats", n = 200)
-#'
-#'   ## create from-to data frame representing retweet/mention/reply connections
-#'   rstats_net <- network_data(rstats, c("retweet","mention","reply"))
-#'
-#'   ## view edge data frame
-#'   rstats_net
-#'
-#'   ## view user_id->screen_name index
-#'   attr(rstats_net, "idsn")
-#'
-#'   ## if igraph is installed...
-#'   if (requireNamespace("igraph", quietly = TRUE)) {
-#'
-#'     ## (1) convert directly to graph object representing semantic network
-#'     rstats_net <- network_graph(rstats)
-#'
-#'     ## (2) plot graph via igraph.plotting
-#'     plot(rstats_net)
-#'   }
-#' }
 #' @export
 network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   if (isTRUE(e) || (length(e) == 1 && e %in% c("semantics", "all"))) {

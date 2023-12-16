@@ -3,7 +3,7 @@
 #' Returns data on up to 200 of the most recent mentions (Tweets
 #' containing a users' screen_name) of the authenticating user.
 #' The timeline returned is the equivalent of the one seen when you view
-#' your mentions on twitter.com.
+#' your mentions on twitter.com. `r lifecycle::badge("deprecated")`
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams stream
@@ -11,14 +11,6 @@
 #'   query.
 #' @return Tibble of mentions data.
 #' @family tweets
-#' @examples
-#' if (auth_has_default()) {
-#'   tw <- get_mentions()
-#'   tw
-#'
-#'   # newer mentions
-#'   get_mentions(since_id = tw)
-#' }
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @export
 get_mentions <- function(n = 200,

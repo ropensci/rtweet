@@ -1,22 +1,15 @@
 #' Get tweets liked/favorited by one or more users
 #'
 #' Returns up to 3,000 tweets liked/favorited for each `user`.
+#' `r lifecycle::badge("deprecated")`
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams get_timeline
 #' @inheritParams stream
 #' @return A tibble with one row for each tweet.
 #' @examples
-#' if (auth_has_default()) {
-#' # get likes for a single user
-#' kfc <- get_favorites("KFC")
-#' kfc
-#' # get newer likes since last request
-#' newer <- get_favorites("KFC", since_id = kfc)
-#'
-#' # get likes from multiple users
-#' favs <- get_favorites(c("Lesdoggg", "pattonoswalt", "meganamram"))
-#' favs
+#' if (FALSE) {
+#'   get_favorites("KFC")
 #' }
 #' @family tweets
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list>

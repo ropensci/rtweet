@@ -84,8 +84,6 @@ auth_setup_default <- function() {
 #' @export
 #' @examples
 #' \dontrun{
-#' rtweet_user()
-#' rtweet_bot()
 #' rtweet_app()
 #' }
 rtweet_user <- function(client_id = NULL, client_secret = NULL,
@@ -195,7 +193,7 @@ rtweet_bearer <- function(client = NULL, scopes  = set_scopes()) {
                                        token_params = list(client_secret = client$secret,
                                                            client_type = "third_party_app",
                                                            grant_type = "refresh_token"))
-  attr(token, "app", TRUE) <- client
+  attr(token, "app") <- client
   token
 }
 

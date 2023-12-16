@@ -18,14 +18,6 @@
 #' not static and may change over longer periods of time.
 #'
 #' @param x A character vector of Twitter screen names.
-#' @examples
-#' if (auth_has_default()) {
-#' # Look up user with id
-#' lookup_users("25594077")
-#'
-#' # Look up user with name 25594077
-#' lookup_users(as_screenname("123456"))
-#' }
 #' @family users
 #' @rdname as_screenname
 #' @export

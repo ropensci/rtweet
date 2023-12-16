@@ -29,19 +29,7 @@ installed then a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} plot object.
 }
 \description{
 Creates a ggplot2 plot of the frequency of tweets over a specified
-interval of time.
-}
-\examples{
-
-if (auth_has_default()) {
-## search for tweets containing "rstats"
-rt <- search_tweets("rstats", n = 100)
-
-## plot frequency in 1 min intervals
-ts_plot(rt, "mins")
-
-## examine all Twitter activity using weekly intervals
-ts_plot(rt, "hours")
-}
+interval of time. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \concept{ts_data}
+\keyword{internal}

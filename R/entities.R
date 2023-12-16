@@ -10,19 +10,6 @@
 #' for users mentions the ids of the mentioned users are "user_id", "user_id_str"
 #' (not "id_str")
 #' @export
-#' @examples
-#' if (auth_has_default()) {
-#'   statuses <- c(
-#'     "567053242429734913",
-#'     "266031293945503744",
-#'     "440322224407314432"
-#'   )
-#'
-#'   ## lookup tweets data for given statuses
-#'   tw <- lookup_tweets(statuses)
-#'   entity(tw, "urls")
-#'
-#' }
 entity <- function(x, entity, ...) {
   UseMethod("entity")
 }

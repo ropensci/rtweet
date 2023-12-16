@@ -18,14 +18,6 @@ created via \code{\link[=rtweet_oauth2]{rtweet_oauth2()}}) or a bearer token (ca
 \description{
 Will delete a tweet
 }
-\examples{
-if (FALSE) {
-  # It requires Oauth authentication
-  tp <- tweet_post("Running examples of #rtweet")
-  td <- tweet_delete(tp$id)
-}
-
-}
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id}
 }

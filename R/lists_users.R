@@ -5,14 +5,6 @@
 #'   to be returned first. See description above for information on
 #'   how this parameter works.
 #' @return data
-#' @examples
-#' if (auth_has_default()) {
-#'
-#' ## get lists subscribed to by R_Foundation
-#' lists_users("ropensci")
-#'
-#' }
-#'
 #' @family lists
 #' @export
 lists_users <- function(user = NULL, reverse = FALSE, token = NULL, parse = TRUE) {

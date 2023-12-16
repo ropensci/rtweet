@@ -94,30 +94,15 @@ A tbl data frame of tweets data with users data attribute.
 \code{get_timeline()} returns the timeline of any Twitter user (i.e. what they
 have tweeted). \code{get_my_timeline()} returns the home timeline for the
 authenticated user (i.e. the tweets you see when you log into Twitter).
-}
-\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 At most up to 3,200 of a user's most recent Tweets can be retrieved.
-}
-\examples{
-if (auth_has_default()) {
-tw <- get_timeline("_R_Foundation")
-tw
-
-# get tweets that arrived since the last request
-get_timeline("_R_Foundation", since_id = tw)
-# get earlier tweets
-get_timeline("_R_Foundation", max_id = tw)
-
-# get timelines for multiple users
-tw <- get_timeline(c("_R_Foundation", "rOpenSci", "Bioconductor"))
-tw
-}
-
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview}
 }
 \seealso{
+\code{\link[=user_timeline]{user_timeline()}}
+
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_mentions}()},

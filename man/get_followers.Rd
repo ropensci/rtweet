@@ -68,16 +68,11 @@ followers and another one "to_id" with the user used as input.
 }
 \description{
 Returns a list of user IDs for the accounts following specified
-user.
+user. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
-if (auth_has_default()) {
+if (FALSE) {
   users <- get_followers("_R_Foundation")
-  users
-
-  # use `cursor` to find the next "page" of results
-  more_users <- get_followers("_R_Foundation", cursor = users)
-
 }
 }
 \references{

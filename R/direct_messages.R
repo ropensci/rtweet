@@ -3,7 +3,7 @@
 #'
 #' Returns all Direct Message events (both sent and received) within the last 30
 #' days. Sorted in reverse-chronological order. Includes detailed information
-#' about the sender and recipient.
+#' about the sender and recipient. `r lifecycle::badge("deprecated")`
 #'
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams stream
@@ -13,10 +13,7 @@
 #' \dontrun{
 #'
 #' ## get my direct messages
-#' dms <- direct_messages()
-#'
-#' ## inspect data structure
-#' str(dms)
+#' direct_messages()
 #'
 #' }
 #' @export
@@ -62,16 +59,8 @@ direct_messages <- function(n = 50,
 #'
 #' ## get my direct messages
 #' dms <- direct_messages_received()
-#'
-#' ## inspect data structure
-#' str(dms)
-#'
 #' ## get direct messages I've sent
 #' sdms <- direct_messages_sent()
-#'
-#' ## inspect data structure
-#' str(dms)
-#'
 #' }
 #'
 #' @details Includes detailed information about the sender and

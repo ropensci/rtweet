@@ -25,16 +25,3 @@ Showing these additional columns would clutter the default display, so
 rtweet instead stores in special attributes and allows you to show them
 with the \code{user_data()} and \code{tweets_data()} helpers.
 }
-\examples{
-if (auth_has_default()) {
-  # find users from tweets
-  tweets <- search_tweets("r")
-  users_data(tweets)
-  full_search <- cbind(tweets, users_data(tweets))
-
-  # from tweets from users
-  users <- search_users("r")
-  tweets_data(users)
-  full_users <- cbind(users, tweets_data(users))
-}
-}

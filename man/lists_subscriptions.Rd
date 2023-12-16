@@ -64,13 +64,6 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 Get list subscriptions of a given user but does not include the user's own
 lists.
 }
-\examples{
-if (auth_has_default()) {
-## get ropensci subscriptions
-rstats <- lists_subscriptions(user = "rladiesglobal", n = 1000)
-}
-
-}
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions}
 }

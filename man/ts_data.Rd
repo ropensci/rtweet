@@ -24,22 +24,6 @@ Data frame with time, n, and grouping column if applicable.
 }
 \description{
 Returns data containing the frequency of tweets over a specified
-interval of time.
+interval of time. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
-\examples{
-if (auth_has_default()) {
-
-## handles of women senators
-orgs <- c("_R_Foundation", "ropensci")
-
-## get timelines for each
-orgs_tml <- get_timeline(orgs, n = 100)
-
-## get single time series for tweets
-ts_data(orgs_tml)
-
-## using weekly intervals
-ts_data(orgs_tml, "weeks")
-}
-
-}
+\keyword{internal}

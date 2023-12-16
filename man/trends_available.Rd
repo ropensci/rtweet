@@ -20,16 +20,7 @@ Data frame with WOEID column. WOEID is a Yahoo! Where On
 Earth ID.
 }
 \description{
-Available Twitter trends along with associated WOEID.
-}
-\examples{
-if (auth_has_default()) {
-## Retrieve available trends
-trends <- trends_available()
-trends
-
-}
-
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/trends/locations-with-trending-topics/api-reference/get-trends-available}

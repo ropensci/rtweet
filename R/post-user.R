@@ -1,5 +1,6 @@
 #' Follows target Twitter user.
 #'
+#' `r lifecycle::badge("deprecated")`
 #' @inheritParams get_timeline
 #' @param destroy Logical indicating whether to post (add) or
 #'   remove (delete) target tweet as favorite.
@@ -11,11 +12,6 @@
 #' @param retweets Logical indicating whether to enable retweets
 #'   for target user. Defaults to true.
 #' @aliases follow_user
-#' @examples
-#' if (auth_has_default()) {
-#'     post_follow("_R_Foundation")
-#'     post_follow("rtweet", mute = TRUE) # Mute
-#' }
 #' @family post
 #' @export
 #' @references

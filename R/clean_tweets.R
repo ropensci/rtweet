@@ -2,19 +2,11 @@
 #'
 #' Removes from the text, users mentions, hashtags, urls and media.
 #' Some urls or other text might remain if it is not recognized as an entity by
-#' the API.
+#' the API. `r lifecycle::badge("deprecated")`
 #' @param x Tweets
 #' @param clean Type of elements to be removed.
 #' @return A vector with the text without the entities selected
 #' @export
-#' @examples
-#' if (auth_has_default()) {
-#' tweets <- search_tweets("weather")
-#' tweets
-#'
-#' # tweets
-#' clean_tweets(tweets)
-#' }
 clean_tweets <- function(x, clean = c("users", "hashtags", "urls", "media")) {
   if (is.character(x)) {
     abort("You should provide tweets with all the users and hashtags information",

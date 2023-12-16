@@ -7,6 +7,7 @@
 #'  See the info provided by Twitter and the "Developer Account" section.
 #'
 #' Note: The `env_name` must match the ones you set up for the token you are using.
+#' `r lifecycle::badge("deprecated")`
 #'
 #' @inheritParams TWIT_paginate_max_id
 #' @inheritParams stream
@@ -81,20 +82,7 @@
 #'
 #' @return A tibble data frame of Twitter data.
 #' @family premium endpoints
-#' @examples
-#'
-#' \dontrun{
-#' ## search fullarchive for up to 300 rstats tweets sent in Jan 2014
-#' rt <- search_fullarchive("#rstats", n = 300, env_name = "SetYourLabel",
-#'   fromDate = "201401010000", toDate = "201401312359")
-#'
-#' toDate <- format(Sys.time() - 60 * 60 * 24 * 7, "%Y%m%d%H%M")
-#'
-#' ## search 30day for up to 300 rstats tweets sent before the last week
-#' rt <- search_30day("#rstats", n = 300,
-#'   env_name = "SetYourLabel", toDate = toDate)
-#' }
-#'
+#' @seealso [tweet_search_recent()],  [tweet_search_all()]
 #' @export
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
                                continue = NULL,

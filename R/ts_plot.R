@@ -1,7 +1,7 @@
 #' Plots tweets data as a time series-like data object.
 #'
 #' Creates a ggplot2 plot of the frequency of tweets over a specified
-#' interval of time.
+#' interval of time. `r lifecycle::badge("deprecated")`
 #'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus one of
@@ -16,19 +16,8 @@
 #' @return If
 #'   [ggplot2](https://cran.r-project.org/package=ggplot2) is
 #'   installed then a [ggplot2::ggplot()] plot object.
-#' @examples
-#'
-#' if (auth_has_default()) {
-#' ## search for tweets containing "rstats"
-#' rt <- search_tweets("rstats", n = 100)
-#'
-#' ## plot frequency in 1 min intervals
-#' ts_plot(rt, "mins")
-#'
-#' ## examine all Twitter activity using weekly intervals
-#' ts_plot(rt, "hours")
-#' }
 #' @family ts_data
+#' @keywords internal
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
   lifecycle::deprecate_stop("2.0.0", function_call())
@@ -51,7 +40,7 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #' Converts tweets data into time series-like data object.
 #'
 #' Returns data containing the frequency of tweets over a specified
-#' interval of time.
+#' interval of time. `r lifecycle::badge("deprecated")`
 #'
 #' @param data Data frame or grouped data frame.
 #' @param by Desired interval of time expressed as numeral plus one of
@@ -62,22 +51,7 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #'   each time series
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return Data frame with time, n, and grouping column if applicable.
-#' @examples
-#' if (auth_has_default()) {
-#'
-#' ## handles of women senators
-#' orgs <- c("_R_Foundation", "ropensci")
-#'
-#' ## get timelines for each
-#' orgs_tml <- get_timeline(orgs, n = 100)
-#'
-#' ## get single time series for tweets
-#' ts_data(orgs_tml)
-#'
-#' ## using weekly intervals
-#' ts_data(orgs_tml, "weeks")
-#' }
-#'
+#' @keywords internal
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
   lifecycle::deprecate_stop("2.0.0", function_call())

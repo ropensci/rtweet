@@ -22,8 +22,10 @@ Leave \code{NULL} to allow everything or choose yours with \code{set_scopes()}.}
 Set up your client mechanism for the Twitter API.
 }
 \examples{
+\donttest{
 if (interactive()) {
   rtweet_client()
+}
 }
 }
 \seealso{

@@ -23,6 +23,7 @@ Return all statuses that are part of a thread (Replies from a user to their
 own tweets). By default the function traverses first backwards from the
 origin status_id of the thread up to the root, then checks if there are any
 child statuses that were posted after the origin status.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
 The backwards method looks up the tweet which is replying to, so it works if
@@ -30,10 +31,4 @@ starting from the last tweet of the thread.
 
 The forwards method looks for newer replies to the tweet provided. If the tweet doesn't have a reply it won't be able to find anything.
 The forwards method is limited by the timeline API (See \code{\link[=get_timeline]{get_timeline()}}).
-}
-\examples{
-if (auth_has_default()) {
-tw_thread <- tweet_threading("1461776330584956929")
-tw_thread
-}
 }

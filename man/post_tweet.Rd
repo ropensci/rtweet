@@ -68,45 +68,7 @@ been sent from. Value should be TRUE or FALSE. This parameter would apply
 only if you have provided a valid \code{lat/long} pair of valid values.}
 }
 \description{
-Posts status update to user's Twitter account
-}
-\examples{
-if (auth_has_default()) {
-## generate data to make/save plot (as a .png file)
-x <- rnorm(300)
-y <- x + rnorm(300, 0, .75)
-col <- c(rep("#002244aa", 50), rep("#440000aa", 50))
-bg <- c(rep("#6699ffaa", 50), rep("#dd6666aa", 50))
-
-## create temporary file name
-tmp <- tempfile(fileext = ".png")
-
-## save as png
-png(tmp, 6, 6, "in", res = 127.5)
-par(tcl = -.15, family = "Inconsolata",
-    font.main = 2, bty = "n", xaxt = "l", yaxt = "l",
-    bg = "#f0f0f0", mar = c(3, 3, 2, 1.5))
-plot(x, y, xlab = NULL, ylab = NULL, pch = 21, cex = 1,
-     bg = bg, col = col,
-     main = "This image was uploaded by rtweet")
-grid(8, lwd = .15, lty = 2, col = "#00000088")
-dev.off()
-
-## post tweet with media attachment
-post_tweet("a tweet with media attachment", media = tmp,
-           media_alt_text = "Random  points example of rtweet::post_tweet.
-           rtweet requires alt text with all media")
-
-# example of replying within a thread
-## first post
-pt <- post_tweet(status="first in a thread")
-
-reply_id <- ids(pt)
-
-## post reply
-post_tweet("second in the thread",
-  in_reply_to_status_id = reply_id)
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 Tweet: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update}
@@ -115,6 +77,8 @@ Media: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-me
 Alt-text: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create}
 }
 \seealso{
+\code{\link[=tweet_post]{tweet_post()}}
+
 Other post: 
 \code{\link{post_favorite}()},
 \code{\link{post_follow}()},

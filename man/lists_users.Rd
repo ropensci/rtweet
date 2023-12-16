@@ -28,15 +28,6 @@ data
 \description{
 Get all lists a specified user subscribes to, including their own.
 }
-\examples{
-if (auth_has_default()) {
-
-## get lists subscribed to by R_Foundation
-lists_users("ropensci")
-
-}
-
-}
 \seealso{
 Other lists: 
 \code{\link{lists_members}()},

@@ -183,8 +183,10 @@ no_client <- function(call = caller_env()) {
 #' @seealso scopes
 #' @export
 #' @examples
+#' \donttest{
 #' if (interactive()) {
 #'   rtweet_client()
+#' }
 #' }
 rtweet_client <- function(client_id, client_secret,
                           app, scopes = NULL) {
