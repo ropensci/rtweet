@@ -1,7 +1,7 @@
 #' Get user IDs of accounts followed by target user(s).
 #'
 #' Returns a list of user IDs for the accounts following BY one or
-#' more specified users.
+#' more specified users. `r lifecycle::badge("deprecated")`
 #'
 #' Generally, you should not need to set `n` to more than 5,000 since Twitter
 #' limits the number of people that you can follow (i.e. to follow more than
@@ -18,9 +18,8 @@
 #'   retrieved.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
 #' @examples
-#' if (auth_has_default()) {
-#' users <- get_friends("ropensci")
-#' users
+#' if (FALSE) {
+#'   get_friends("ropensci")
 #' }
 #' @return A tibble data frame with two columns, "from_id" for name or ID of target
 #'   user and "to_id" for accounts ID they follow.
@@ -102,7 +101,7 @@ my_friendships <- function(user,
                            token = NULL) {
 
   if (!isFALSE(parse)) {
-    abort("`my_friendships()` can only return unparsed data")
+    abort("`my_friendships()` can only return unparsed data", call = current_call())
   }
 
   params <- list()

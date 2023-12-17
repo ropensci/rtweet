@@ -15,13 +15,3 @@ links(x, ...)
 create the links from the rtweet data present.
 Depending on the object type it returns either users links,  tweet links or rules links.
 }
-\examples{
-if (auth_has_default()) {
-  users <- lookup_users(c("twitter", "rladiesglobal", "_R_Foundation"))
-  links(users)
-  followers <- get_followers("_R_Foundation")
-  head(links(followers))
-  friends <- get_friends("_R_Foundation")
-  head(links(friends))
-}
-}

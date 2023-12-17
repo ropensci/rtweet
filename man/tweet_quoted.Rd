@@ -50,6 +50,3 @@ if (FALSE){
 \references{
 One tweet: \url{https://developer.twitter.com/en/docs/twitter-api/tweets/quote-tweets/api-reference/get-tweets-id-quote_tweets}
 }
-\seealso{
-\code{\link[=lookup_tweets]{lookup_tweets()}} \code{\link[=tweet_get]{tweet_get()}}
-}

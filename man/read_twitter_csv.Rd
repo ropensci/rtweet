@@ -18,15 +18,7 @@ A tbl data frame of Twitter data
 }
 \description{
 Reads Twitter data that was previously saved as a CSV file.
-}
-\examples{
-
-\dontrun{
-
-## read in data.csv
-rt <- read_twitter_csv("data.csv")
-
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \seealso{
 Other datafiles: 

@@ -20,29 +20,6 @@ functions.
 }
 \description{
 Row bind lists of tweets/users data whilst also preserving and binding
-users/tweets attribute data.
-}
-\examples{
-
-if (auth_has_default()) {
-
-## lapply through three different search queries
-lrt <- lapply(
-  c("rstats OR tidyverse", "data science", "python"),
-  search_tweets,
-  n = 100
-)
-
-## convert list object into single parsed data rame
-rt <- do_call_rbind(lrt)
-
-## preview tweets data
-rt
-
-## preview users data
-users_data(rt)
-
-}
-
+users/tweets attribute data. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \concept{parsing}

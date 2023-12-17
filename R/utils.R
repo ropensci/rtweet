@@ -62,11 +62,11 @@ is_id <- function(x) {
   is.character(x) && all(nchar(x) >= 18) && all(grepl("[0-9]{18,}", x)) || is.numeric(x)
 }
 
-is_user_id <- function(x, call = caller_env()) {
+is_user_id <- function(x) {
     is.character(x) && all(nchar(x) >= 8) && all(grepl("[0-9]{8,}", x)) || is.numeric(x)
 }
 
-is_list_id <- function(x, call = caller_env()) {
+is_list_id <- function(x) {
     is.character(x) && all(nchar(x) >= 17) && all(grepl("[0-9]{17,}", x)) || is.numeric(x)
 }
 
@@ -91,4 +91,13 @@ release_bullets <- function() {
   c("Run vignette/precompute.R",
     "Check spelling with: `spelling::spell_check_package()`",
     "Run manual tests.")
+}
+
+
+function_call <- function() {
+  paste0(as.character(sys.call(sys.parent(1)))[1L], "()")
+}
+
+function_caller <- function() {
+  paste0(as.character(sys.call(1))[1L], "()")
 }

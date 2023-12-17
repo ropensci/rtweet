@@ -41,22 +41,14 @@ Data frame with one row for each matching user.
 }
 \description{
 Search for Twitter users. The Twitter API limits the results to at most
-1,000 users.
-}
-\examples{
-if (auth_has_default()) {
-users <- search_users("#rstats", n = 300)
-users
-
-# latest tweet from each user
-tweets_data(users)
-}
-
+1,000 users.  \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-search}
 }
 \seealso{
+\code{\link[=user_search]{user_search()}}
+
 Other users: 
 \code{\link{as_screenname}()},
 \code{\link{lists_subscribers}()},

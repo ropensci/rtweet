@@ -184,20 +184,12 @@ unx_ids <- function(x) {
 #' Read comma separated value Twitter data.
 #'
 #' Reads Twitter data that was previously saved as a CSV file.
-#'
+#' `r lifecycle::badge("deprecated")`
 #' @param file Name of CSV file.
 #' @param unflatten Logical indicating whether to unflatten (separate hasthags
 #'   and mentions columns on space, converting characters to lists), defaults
 #'   to FALSE.
 #' @return A tbl data frame of Twitter data
-#' @examples
-#'
-#' \dontrun{
-#'
-#' ## read in data.csv
-#' rt <- read_twitter_csv("data.csv")
-#'
-#' }
 #' @family datafiles
 #' @export
 read_twitter_csv <- function(file, unflatten = FALSE) {

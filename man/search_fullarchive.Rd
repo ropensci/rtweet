@@ -90,6 +90,7 @@ See the info provided by Twitter and the "Developer Account" section.
 }
 \details{
 Note: The \code{env_name} must match the ones you set up for the token you are using.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \section{Developer Account}{
 
@@ -154,19 +155,7 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 }
 }
 
-\examples{
-
-\dontrun{
-## search fullarchive for up to 300 rstats tweets sent in Jan 2014
-rt <- search_fullarchive("#rstats", n = 300, env_name = "SetYourLabel",
-  fromDate = "201401010000", toDate = "201401312359")
-
-toDate <- format(Sys.time() - 60 * 60 * 24 * 7, "\%Y\%m\%d\%H\%M")
-
-## search 30day for up to 300 rstats tweets sent before the last week
-rt <- search_30day("#rstats", n = 300,
-  env_name = "SetYourLabel", toDate = toDate)
-}
-
+\seealso{
+\code{\link[=tweet_search_recent]{tweet_search_recent()}},  \code{\link[=tweet_search_all]{tweet_search_all()}}
 }
 \concept{premium endpoints}

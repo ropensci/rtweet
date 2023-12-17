@@ -4,12 +4,6 @@
 #' @inheritParams stream
 #' @param list_id required The numerical id of the list.
 #' @param slug,owner_user The list name (slug) and owner.
-#' @examples
-#' if (auth_has_default()) {
-#'     ## get subscribers of rladies list
-#'     rstats <- lists_subscribers(slug = "rladies1", owner_user = "rladiesglobal")
-#' }
-#'
 #' @family lists
 #' @family users
 #' @export

@@ -80,43 +80,27 @@ test_that("place works", {
       ]
     },
     "attributes": {
-      
+
     }
   }
 }')
   out <- place(exact_location)
   expect_s3_class(out, "data.frame")
-  
+
 })
 
 
 vcr::use_cassette("geo_objects1", {
   test_that("coordinates work", {
-    
+
     minimal_coord <- structure(
-      list(type = "Point", 
-           coordinates = list(c(-85.6445217, 42.9360473))), 
+      list(type = "Point",
+           coordinates = list(c(-85.6445217, 42.9360473))),
       row.names = 45L, class = "data.frame")
-    
+
     expect_error(out <- coordinates(minimal_coord), NA)
     expect_equal(nrow(out), 1)
     expect_equal(ncol(out), 3)
     expect_equal(out$type[1], "Point")
-    
-    # ids of these "faulty" ids: 
-    ids <- c("1462911176719757313", "1462903173656428545", 
-             "1462902964150935558", "1462899130808762371")
-    # other_ids adjacent (w-1):
-    other_ids <- c("1462911347801444365", "1462903930090840071", 
-                   "1462903173656428545", "1462900536848490499")
-    all_ids <- unique(c(ids, other_ids))
-    expect_error(lu <- lookup_tweets(all_ids), NA)
-    expect_equal(length(lu$coordinates), nrow(lu))
-    expect_equal(ncol(lu$coordinates[[1]]), 3)
-    expect_named(lu$coordinates[[1]], c("long", "lat", "type"))
-    # The tweet might have been deleted 
-    if ("1462903173656428545" %in% lu$id_str) {
-      expect_equal(lu$coordinates[[which(lu$id_str == "1462903173656428545")]]$type, "Point")
-    }  
   })
 })

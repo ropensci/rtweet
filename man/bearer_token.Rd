@@ -15,4 +15,7 @@ in the bearer token directly from the
 \href{https://developer.twitter.com/en/portal/projects-and-apps}{Twitter developer portal}.
 See \code{vignette("auth", package = "rtweet")} for full details.
 }
+\seealso{
+\code{\link[=rtweet_bearer]{rtweet_bearer()}}
+}
 \keyword{internal}

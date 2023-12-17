@@ -2,6 +2,9 @@
 
 * Fix problem with `auth_sitrep()` not correctly handling old tokens.
 
+* Since httr2 > 0.2.3, rtweet refreshes OAuth 2.0 tokens automatically, 
+  also if possible, replacing the file where they are saved. 
+
 # rtweet 1.2.1
 
 * Fix `auth_sitrep()` to work well with OAuth2 tokens.

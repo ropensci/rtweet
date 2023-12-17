@@ -1,24 +1,13 @@
 #' Get tweets data for given statuses (status IDs).
 #'
+#' `r lifecycle::badge("deprecated")`
 #' @inheritParams lookup_users
 #' @inheritParams stream
 #' @param statuses User id or screen name of target user.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup>
-#' @examples
-#'
-#' if (auth_has_default()) {
-#'   statuses <- c(
-#'     "567053242429734913",
-#'     "266031293945503744",
-#'     "440322224407314432"
-#'   )
-#'
-#'   ## lookup tweets data for given statuses
-#'   tw <- lookup_tweets(statuses)
-#'   tw
-#' }
 #' @return A tibble of tweets data.
 #' @family tweets
+#' @seealso [tweet_search_recent()]
 #' @export
 lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
                           retryonratelimit = NULL, verbose = TRUE) {
@@ -176,13 +165,6 @@ check_reply_settings <- function(options) {
 #' @seealso [tweet_post()], [tweet_search_recent()], [user_timeline()]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id>
-#' @examples
-#' if (FALSE) {
-#'   # It requires Oauth authentication
-#'   tp <- tweet_post("Running examples of #rtweet")
-#'   td <- tweet_delete(tp$id)
-#' }
-#'
 tweet_delete <- function(id, verbose = FALSE, token = NULL) {
   stopifnot("Requires valid ids." = is_id(id))
   if (length(id) == 1) {
@@ -211,7 +193,6 @@ tweet_delete <- function(id, verbose = FALSE, token = NULL) {
 #' @inheritParams tweet_get
 #' @inheritParams tweet_search_recent
 #' @param id At least a tweet id.
-#' @seealso [lookup_tweets()] [tweet_get()]
 #' @references
 #' One tweet: <https://developer.twitter.com/en/docs/twitter-api/tweets/quote-tweets/api-reference/get-tweets-id-quote_tweets>
 #' @export

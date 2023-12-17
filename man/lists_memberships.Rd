@@ -72,18 +72,6 @@ Due to deleted or removed lists, the returned number of memberships
 is often less than the provided n value. This is a reflection of the API and
 not a unique quirk of rtweet.
 }
-\examples{
-if (auth_has_default()) {
-
-## get up to 1000 Twitter lists that include Nate Silver
-R_foundation <- lists_memberships("_R_Foundation", n = 1000)
-
-## view data
-R_foundation
-
-}
-
-}
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships}
 }

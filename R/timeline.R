@@ -3,7 +3,7 @@
 #' `get_timeline()` returns the timeline of any Twitter user (i.e. what they
 #' have tweeted). `get_my_timeline()` returns the home timeline for the
 #' authenticated user (i.e. the tweets you see when you log into Twitter).
-#'
+#' `r lifecycle::badge("deprecated")`
 #' At most up to 3,200 of a user's most recent Tweets can be retrieved.
 #'
 #' @inheritParams TWIT_paginate_max_id
@@ -17,22 +17,8 @@
 #' @param ... Further arguments passed on as parameters in API query.
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
-#' @examples
-#' if (auth_has_default()) {
-#' tw <- get_timeline("_R_Foundation")
-#' tw
-#'
-#' # get tweets that arrived since the last request
-#' get_timeline("_R_Foundation", since_id = tw)
-#' # get earlier tweets
-#' get_timeline("_R_Foundation", max_id = tw)
-#'
-#' # get timelines for multiple users
-#' tw <- get_timeline(c("_R_Foundation", "rOpenSci", "Bioconductor"))
-#' tw
-#' }
-#'
 #' @family tweets
+#' @seealso [user_timeline()]
 #' @export
 get_timeline <- function(user = NULL,
                          n = 100,

@@ -1,7 +1,7 @@
 #' Get user IDs for accounts following target user.
 #'
 #' Returns a list of user IDs for the accounts following specified
-#' user.
+#' user. `r lifecycle::badge("deprecated")`
 #'
 #' @inheritParams TWIT_paginate_cursor
 #' @inheritParams get_timeline
@@ -9,13 +9,8 @@
 #' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
-#' if (auth_has_default()) {
+#' if (FALSE) {
 #'   users <- get_followers("_R_Foundation")
-#'   users
-#'
-#'   # use `cursor` to find the next "page" of results
-#'   more_users <- get_followers("_R_Foundation", cursor = users)
-#'
 #' }
 #' @return A tibble data frame with one column named "from_id" with the
 #' followers and another one "to_id" with the user used as input.

@@ -12,7 +12,7 @@ lookup_collections <- function(id, n = 200,
                                parse = TRUE,
                                token = NULL,
                                ...) {
-  lifecycle::deprecate_stop("1.0.0", "lookup_collections()")
+  lifecycle::deprecate_stop("1.0.0", function_call())
 }
 
 #' @export
@@ -24,5 +24,5 @@ get_collections <- function(user = NULL,
                             parse = TRUE,
                             token = NULL) {
 
-  lifecycle::deprecate_stop("1.0.0", "get_collections()")
+  lifecycle::deprecate_stop("1.0.0", function_call())
 }

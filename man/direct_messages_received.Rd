@@ -43,16 +43,8 @@ this endpoint.
 
 ## get my direct messages
 dms <- direct_messages_received()
-
-## inspect data structure
-str(dms)
-
 ## get direct messages I've sent
 sdms <- direct_messages_sent()
-
-## inspect data structure
-str(dms)
-
 }
 
 }

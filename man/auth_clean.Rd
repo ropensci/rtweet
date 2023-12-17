@@ -14,6 +14,7 @@ auth_clean(old = TRUE, new = FALSE)
 \value{
 An invisible logical value showing the success of the operation.
 If no tokens need to be deleted it will return FALSE too.
+\code{NULL} if there is nothing to do.
 }
 \description{
 If there is a file with saved tokens it will delete it.
@@ -23,5 +24,5 @@ This functions helps to comply with CRAN policy to remove files created by
 the package.
 }
 \examples{
-auth_clean()
+auth_clean(FALSE, FALSE)
 }

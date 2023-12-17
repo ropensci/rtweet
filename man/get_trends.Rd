@@ -47,39 +47,7 @@ Twitter API.}
 Tibble data frame of trends data for a given geographical area.
 }
 \description{
-Get Twitter trends data.
-}
-\examples{
-if (auth_has_default()) {
-
-## Retrieve available trends
-trends <- trends_available()
-trends
-
-## Store WOEID for Worldwide trends
-worldwide <- trends$woeid[grep("world", trends$name, ignore.case = TRUE)[1]]
-
-## Retrieve worldwide trends datadata
-ww_trends <- get_trends(worldwide)
-
-## Preview trends data
-ww_trends
-
-## Retrieve trends data using latitude, longitude near New York City
-nyc_trends <- get_trends(lat = 40.7, lng = -74.0)
-
-## should be same result if lat/long supplied as first argument
-nyc_trends <- get_trends(c(40.7, -74.0))
-
-## Preview trends data
-nyc_trends
-
-## Provide a city or location name using a regular expression string to
-## have the function internals do the WOEID lookup/matching for you
-(luk <- get_trends("london"))
-
-}
-
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \seealso{
 Other trends: 

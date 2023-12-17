@@ -1,5 +1,6 @@
 #' Favorites target status id.
 #'
+#' `r lifecycle::badge("deprecated")`
 #' @inheritParams lookup_users
 #' @param status_id Status id of target tweet.
 #' @param destroy Logical indicating whether to post (add) or
@@ -7,11 +8,6 @@
 #' @param include_entities Logical indicating whether to
 #'   include entities object in return.
 #' @aliases post_favourite favorite_tweet
-#' @examples
-#' if (auth_has_default()) {
-#'    rt <- search_tweets("#rstats", n = 1)
-#'    post_favorite(rt$id_str)
-#' }
 #' @family post
 #' @export
 #' @references

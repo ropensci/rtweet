@@ -34,10 +34,8 @@ You should not need to use these function in the usual operation of rtweet
 because all paginated functions will wait on your behalf if you set
 \code{retryonratelimit = TRUE}.
 }
-\examples{
-if (auth_has_default()) {
-rate_limit()
-}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status}

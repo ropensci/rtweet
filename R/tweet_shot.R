@@ -3,6 +3,7 @@
 #' Provide a status id or a full Twitter link to a tweet and this function
 #' will capture an image of the tweet --- or tweet + thread (if there are
 #' Twitter-linked replies) --- from the mobile version of said tweet/thread.
+#'  `r lifecycle::badge("deprecated")`
 #'
 #' For this to work, you will need to ensure the packages in `Suggests:` are
 #' installed as they will be loaded upon the first invocation of this function.

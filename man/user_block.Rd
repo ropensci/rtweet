@@ -23,13 +23,7 @@ default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 \description{
 \code{user_block(...)} blocks or unblocks a target twitter user.
 \code{user_unblock(...)} is synonymous to \code{user_block(..., unblock=TRUE)}.
-}
-\examples{
-if (auth_has_default()) {
-  user_block("rtweet")
-  user_unblock("rtweet")
-  user_block("rtweet", unblock=TRUE) #<-same as the above
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 Block: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create}

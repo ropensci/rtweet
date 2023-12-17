@@ -5,7 +5,7 @@
 #' Adds single-point latitude and longitude variables to tweets data.
 #'
 #' Appends parsed Twitter data with latitude and longitude variables
-#' using all available geolocation information.
+#' using all available geolocation information. `r lifecycle::badge("deprecated")`
 #'
 #' @param x Parsed Twitter data as returned by various rtweet
 #'   functions. This should be a data frame with variables such as
@@ -28,19 +28,6 @@
 #' @return Returns updated data object with full information latitude
 #'   and longitude vars.
 #' @family geo
-#' @examples
-#'
-#' if (auth_has_default()) {
-#'
-#' ## stream tweets sent from the US
-#' rt <- search_tweets(geocode = lookup_coords("usa"))
-#'
-#' ## use lat_lng to recover full information geolocation data
-#' rtl_loc <- lat_lng(rt)
-#' rtl_loc
-#' }
-#'
-#' @export
 lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"), prefs = "bbox_coords") {
   stopifnot(is.data.frame(x))
   coords <- match.arg(coords, several.ok = TRUE)

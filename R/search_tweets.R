@@ -1,7 +1,7 @@
 #' Get tweets data on statuses identified via search query.
 #'
 #' Returns Twitter statuses matching a user provided search
-#' query. ONLY RETURNS DATA FROM THE PAST 6-9 DAYS.
+#' query. `r lifecycle::badge("deprecated")`
 #'
 #' @param q Query to be searched, used to filter and select tweets to
 #'   return from Twitter's REST API. Must be a character string not to
@@ -58,26 +58,10 @@
 #'   It should also be noted Twitter's search API does not consist of
 #'   an index of all Tweets. At the time of searching, the search API
 #'   index includes between only 6-9 days of Tweets.
-#' @examples
-#' if (auth_has_default()) {
-#' tweets <- search_tweets("weather")
-#' tweets
-#'
-#' # data about the users who made those tweets
-#' users_data(tweets)
-#'
-#' # Retrieve all the tweets made since the previous request
-#' # (there might not be any if people aren't tweeting about the weather)
-#' newer <- search_tweets("weather", since_id = tweets)
-#' # Retrieve tweets made before the previous request
-#' older <- search_tweets("weather", max_id = tweets)
-#'
-#' # Restrict to English only, and ignore retweets
-#' tweets2 <- search_tweets("weather", lang = "en", include_rts = FALSE)
-#' }
 #' @return List object with tweets and users each returned as a
 #'   data frame.
 #' @family tweets
+#' @seealso [tweet_search_recent()], [tweet_search_all()]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets>
 search_tweets <- function(q, n = 100,
@@ -127,7 +111,8 @@ search_params <- function(q,
     q <- ""
   }
   stopifnot(is.atomic(q) && !is.null(q) && length(q) == 1L,
-            length(max_id) <= 1L)
+            is.atomic(max_id) && length(max_id) <= 1L)
+  stopifnot(is.atomic(q), length(q) == 1L, is.atomic(max_id))
   type <- arg_match(type)
 
   ## validate query length–char count might not always be same here as with
@@ -165,29 +150,11 @@ search_params <- function(q,
 #'
 #' search_tweets2 Passes all arguments to search_tweets. Returns data from
 #' one OR MORE search queries.
+#' `r lifecycle::badge("deprecated")`
 #'
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
-#' @examples
-#' if (auth_has_default()) {
-#'
-#' ## search using multiple queries
-#' st2 <- search_tweets2(
-#'   c("\"data science\"", "rstats OR python"),
-#'   n = 500
-#' )
-#'
-#' ## preview tweets data
-#' st2
-#'
-#' ## preview users data
-#' users_data(st2)
-#'
-#' ## check breakdown of results by search query
-#' table(st2$query)
-#'
-#' }
-#'
+#' @seealso [tweet_search_recent()]
 #' @export
 search_tweets2 <- function(...) {
   dots <- match_fun(list(...), "search_tweets")

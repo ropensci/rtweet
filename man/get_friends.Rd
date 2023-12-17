@@ -69,7 +69,7 @@ user and "to_id" for accounts ID they follow.
 }
 \description{
 Returns a list of user IDs for the accounts following BY one or
-more specified users.
+more specified users. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
 Generally, you should not need to set \code{n} to more than 5,000 since Twitter
@@ -81,9 +81,8 @@ If a user is protected the API will omit all requests so you'll need
 to find which user is protected. rtweet will warn you and the output will be \code{NA}.
 }
 \examples{
-if (auth_has_default()) {
-users <- get_friends("ropensci")
-users
+if (FALSE) {
+  get_friends("ropensci")
 }
 }
 \references{

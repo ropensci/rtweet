@@ -27,13 +27,7 @@ a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{
-Favorites target status id.
-}
-\examples{
-if (auth_has_default()) {
-   rt <- search_tweets("#rstats", n = 1)
-   post_favorite(rt$id_str)
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create}

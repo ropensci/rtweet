@@ -14,6 +14,7 @@ parse_stream(path, ...)
 }
 \description{
 Converts Twitter stream data (JSON file) into parsed data frame.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 \dontrun{

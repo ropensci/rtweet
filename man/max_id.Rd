@@ -13,16 +13,4 @@ max_id(x)
 These internal helpers extract the ids passed on to the \code{max_id}
 and \code{since_id} arguments to functions that use \code{\link[=TWIT_paginate_max_id]{TWIT_paginate_max_id()}}.
 }
-\examples{
-if (auth_has_default()) {
-tw <- search_tweets("#rstats")
-
-# retrieve older tweets
-older <- search_tweets("#rstats", max_id = tw)
-even_older <- search_tweets("#rstats", max_id = older)
-
-# retrieve newer tweets
-newer <- search_tweets("#rstats", since_id = tw)
-}
-}
 \keyword{internal}

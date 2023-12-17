@@ -27,6 +27,9 @@ TWIT_method <- function(method, token, api,
                         retryonratelimit = NULL,
                         verbose = TRUE,
                         ...) {
+  lifecycle::deprecate_stop("2.0.0", function_caller(),
+                            details = c("The removal of API v1.1 made this function obsolete.",
+                                        "See the new vignette about the new requirements and functions."))
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
   withr::local_options(scipen = 14, encoding = "UTF-8")
@@ -477,7 +480,8 @@ handle_codes <- function(x) {
 handle_error <- function(x, params) {
   chk_message <- "Check error message at https://developer.twitter.com/en/support/twitter-api/error-troubleshooting"
   if (is.null(x$headers[["content-type"]])) {
-    stop("Twitter API failed [", x$status_code, "]\n", chk_message, call. = FALSE)
+    abort(paste0("Twitter API failed [", x$status_code, "]\n", chk_message),
+          call = caller_call())
   }
   json <- from_js(x)
   error <- if (!is.null(json[["error"]])) json[["error"]] else json[["errors"]]
@@ -536,9 +540,13 @@ check_token <- function(token = NULL) {
 
   if (inherits(token, "Token1.0")) {
     token
-  } else if (inherits(token, "rtweet_bearer")) {
+  } else if (auth_is_bearer(token)) {
     httr::add_headers(Authorization = paste0("Bearer ", token$token))
+  } else if (auth_is_pkce(token)) {
+    abort(c("This OAuth 2.0 `token` is not a valid access token",
+            "i" = "Please use a bearer token via `rtweet_app()`."),
+          call = caller_call())
   } else {
-    abort("`token` is not a valid access token")
+    abort("`token` is not a valid access token", call = caller_call())
   }
 }

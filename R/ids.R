@@ -5,15 +5,6 @@
 #' @param x An object of the rtweet package.
 #' @param ... Other arguments currently unused.
 #' @export
-#' @examples
-#' if (auth_has_default()) {
-#'   users <- lookup_users(c("twitter", "rladiesglobal", "_R_Foundation"))
-#'   ids(users)
-#'   followers <- get_followers("_R_Foundation")
-#'   head(ids(followers))
-#'   friends <- get_friends("_R_Foundation")
-#'   head(ids(friends))
-#' }
 ids <- function(x, ...) {
   UseMethod("ids")
 }
@@ -23,7 +14,7 @@ ids.default <- function(x, ...) {
   out <- x[["id_str"]]
   if (is.null(out)) {
     stop("Ids are not present. Are you sure this is a rtweet object?",
-         call. = FALSE)
+         call = caller_call())
   }
   out
 }
@@ -62,7 +53,7 @@ ids.page <- function(x, ...) {
 #' @export
 ids.post_tweet <- function(x, ...) {
   if (httr::status_code(x) != 200L) {
-    stop("Your message has not been posted!", call. = FALSE)
+    abort("Your message has not been posted!", call = caller_call())
   }
   cpt <- httr::content(x)
   cpt$id_str

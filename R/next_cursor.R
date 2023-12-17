@@ -4,12 +4,6 @@
 #' `cursor` argument of the functions that use [TWIT_paginate_cursor()].
 #'
 #' @keywords internal
-#' @examples
-#' if (auth_has_default()) {
-#' page1 <- get_followers("_R_Foundation")
-#' page2 <- get_followers("_R_Foundation", cursor = page1)
-#' }
-#' @keywords internal
 #' @export
 next_cursor <- function(x) {
   if (is_string(x) || is_null(x)) {
@@ -35,7 +29,7 @@ copy_cursor <- function(to, from) {
 
 #' Previous cursor
 #'
-#' @description 
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' Reverse pagination is no longer supported.
 #'
@@ -46,24 +40,13 @@ previous_cursor <- function(x) {
 }
 
 #' Extract min/max id (for id based pagination)
-#' 
+#'
 #' These internal helpers extract the ids passed on to the `max_id`
 #' and `since_id` arguments to functions that use [TWIT_paginate_max_id()].
-#' 
+#'
 #' @keywords internal
 #' @param x Either a data frame of tweets or a character vector of status ids.
 #' @export
-#' @examples 
-#' if (auth_has_default()) {
-#' tw <- search_tweets("#rstats")
-#' 
-#' # retrieve older tweets
-#' older <- search_tweets("#rstats", max_id = tw)
-#' even_older <- search_tweets("#rstats", max_id = older)
-#' 
-#' # retrieve newer tweets
-#' newer <- search_tweets("#rstats", since_id = tw)
-#' }
 max_id <- function(x) {
   id <- find_id(x, "max_id")
   as.character(min(bit64::as.integer64(id)) - 1L)

@@ -4,6 +4,7 @@
 #' own tweets). By default the function traverses first backwards from the
 #' origin status_id of the thread up to the root, then checks if there are any
 #' child statuses that were posted after the origin status.
+#'  `r lifecycle::badge("deprecated")`
 #'
 #' The backwards method looks up the tweet which is replying to, so it works if
 #' starting from the last tweet of the thread.
@@ -16,11 +17,6 @@
 #' It is not recommended to change the default if you don't know at which point of a thread you are starting.
 #' @param verbose logical, output to console status of traverse.
 #' @return Tweets in a structure like [lookup_tweets()].
-#' @examples
-#' if (auth_has_default()) {
-#' tw_thread <- tweet_threading("1461776330584956929")
-#' tw_thread
-#' }
 #' @export
 tweet_threading <- function(tw, traverse = c("backwards", "forwards"), verbose = FALSE) {
 

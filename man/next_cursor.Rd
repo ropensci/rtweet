@@ -13,10 +13,4 @@ since_id(x)
 This internal helper extracts the cursor from the object passed to the
 \code{cursor} argument of the functions that use \code{\link[=TWIT_paginate_cursor]{TWIT_paginate_cursor()}}.
 }
-\examples{
-if (auth_has_default()) {
-page1 <- get_followers("_R_Foundation")
-page2 <- get_followers("_R_Foundation", cursor = page1)
-}
-}
 \keyword{internal}

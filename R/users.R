@@ -7,13 +7,9 @@
 #'
 #' @examples
 #'
-#' if (auth_has_default()) {
+#' if (FALSE) {
 #'     users <- c("twitter", "rladiesglobal", "_R_Foundation")
 #'     users <- lookup_users(users)
-#'     users
-#'
-#'     # latest tweet from each user
-#'     tweets_data(users)
 #' }
 #'
 #' @return A tibble of users data.

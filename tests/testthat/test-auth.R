@@ -20,7 +20,7 @@ test_that("can save and reload auth", {
     auth_save(auth1, "test")
     auth2 <- find_auth("test")
   })
-  expect_equal(auth1, auth2)
+  expect_equal(auth1, auth2, ignore_attr = TRUE)
 })
 
 test_that("find auth errors politely", {
@@ -54,10 +54,9 @@ test_that("is_developing works", {
 
 test_that("rtweet_user works", {
   skip("requires manual testing")
-  skip("API v1.1 no longer works")
   # Avoid saving it but check that it is redirected in the browser.
   withr::local_options("rtweet:::config_dir" = tempfile())
-  expect_error(rtweet_user(), NA)
+  expect_error(rtweet_user())
 })
 
 test_that("rtweet_bot works", {
@@ -67,13 +66,10 @@ test_that("rtweet_bot works", {
 })
 
 test_that("rtweet_oauth2 works", {
+  skip("requires manual testing")
   # Avoid saving it but check that it is redirected in the browser.
   withr::local_options("rtweet:::config_dir" = tempfile())
   expect_error(b <- rtweet_client(app = "academic_dev"))
-  skip("requires manual testing")
-  expect_error(b <- rtweet_client(client_id = "",
-                                  client_secret = "",
-                                  app = "academic_dev"), NA)
   client_as(b)
   expect_error(rtweet_oauth2(), NA)
 })

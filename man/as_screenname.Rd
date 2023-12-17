@@ -27,15 +27,6 @@ tell rtweet that it's actually a screen name.
 Note that in general, you are best off using user ids; screen names are
 not static and may change over longer periods of time.
 }
-\examples{
-if (auth_has_default()) {
-# Look up user with id 
-lookup_users("25594077") 
-
-# Look up user with name 25594077
-lookup_users(as_screenname("123456"))
-}
-}
 \seealso{
 Other users: 
 \code{\link{lists_subscribers}()},

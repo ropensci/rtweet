@@ -15,13 +15,3 @@ ids(x, ...)
 Extract the ids of the rtweet data if present.
 Depending on the object type it returns either users ids,  tweet ids or rules ids.
 }
-\examples{
-if (auth_has_default()) {
-  users <- lookup_users(c("twitter", "rladiesglobal", "_R_Foundation"))
-  ids(users)
-  followers <- get_followers("_R_Foundation")
-  head(ids(followers))
-  friends <- get_friends("_R_Foundation")
-  head(ids(friends))
-}
-}

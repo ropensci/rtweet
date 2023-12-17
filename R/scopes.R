@@ -43,34 +43,34 @@ set_scopes <- function(read = TRUE, write = TRUE, tweet_moderate = TRUE, regener
   scopes
 }
 
-get_scopes <- function(token, call = caller_env()) {
-  token <- check_token_v2(token, "pkce", call)
+get_scopes <- function(token) {
+  token <- check_token_v2(token, "pkce")
   strsplit(token$scope, " ")[[1]]
 }
 
-check_scopes <- function(scopes, required = NULL, call = caller_env()) {
+check_scopes <- function(scopes, required = NULL) {
   if (is.null(required)) {
     diff <- setdiff(scopes, all_scopes)
     if (length(diff) != 0) {
       msg <- paste0("Scopes required are not valid: ",
                     paste0(sQuote(diff), collapse = ", "))
-      abort(msg, call = call)
+      abort(msg, call = current_call())
     }
   }
   missing <- setdiff(required, scopes)
   if (length(missing) != 0) {
     msg <- c("This endpoint requires missing scopes.",
              paste0("Authenticate with scopes:", paste0(sQuote(missing), collapse = ", ")))
-    abort(msg, call = call)
+    abort(msg, call = current_call())
   }
   TRUE
 }
 
-check_scopes_token <- function(token, required, call = caller_env()) {
+check_scopes_token <- function(token, required) {
   if (!auth_is_pkce(token)) {
     return(TRUE)
   }
-  check_scopes(required, call = call)
-  check_scopes(get_scopes(token), required, call = call)
+  check_scopes(required)
+  check_scopes(get_scopes(token), required)
   TRUE
 }

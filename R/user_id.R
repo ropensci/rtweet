@@ -1,31 +1,23 @@
 #' Mark a user id as a screen name
-#' 
-#' @description 
+#'
+#' @description
 #' There are two ways to identify a Twitter user: a screen name (e.g.
 #' "justinbieber") or a user identifier (e.g. "27260086"). User identifiers
-#' look like regular numbers, but are actually 64-bit integers which can't be 
-#' stored in R's numeric vectors. For this reason, rtweet always returns ids as 
+#' look like regular numbers, but are actually 64-bit integers which can't be
+#' stored in R's numeric vectors. For this reason, rtweet always returns ids as
 #' strings.
-#' 
-#' Unfortunately this introduces an ambiguity, because user names can 
+#'
+#' Unfortunately this introduces an ambiguity, because user names can
 #' also consist solely of numbers (e.g. "123456") so it's not obvious whether
-#' a string consisting only of numbers is a screen name or a user id. By 
+#' a string consisting only of numbers is a screen name or a user id. By
 #' default, rtweet will assume its a user id, so if you have a screen name
 #' that consists only of numbers, you'll need to use `as_screenname()` to
 #' tell rtweet that it's actually a screen name.
-#' 
+#'
 #' Note that in general, you are best off using user ids; screen names are
-#' not static and may change over longer periods of time. 
-#' 
+#' not static and may change over longer periods of time.
+#'
 #' @param x A character vector of Twitter screen names.
-#' @examples
-#' if (auth_has_default()) {
-#' # Look up user with id 
-#' lookup_users("25594077") 
-#' 
-#' # Look up user with name 25594077
-#' lookup_users(as_screenname("123456"))
-#' }
 #' @family users
 #' @rdname as_screenname
 #' @export
@@ -68,7 +60,8 @@ user_type <- function(x, arg_name = "user") {
       "screen_name"
     }
   } else {
-    stop("`", arg_name, "` must be a screen name or user id", call. = FALSE)
+    abort(paste0("`", arg_name, "` must be a screen name or user id"),
+          call = caller_call())
   }
 }
 

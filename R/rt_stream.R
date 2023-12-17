@@ -72,7 +72,7 @@ filtered_stream <- function(timeout, file = tempfile(),
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
   if (file.exists(file) && isFALSE(append)) {
-    stop("File already exists and append = FALSE", call. = FALSE)
+    abort("File already exists and append = FALSE",  call = caller_call())
   }
   out <- stream(req_stream, file, timeout = timeout)
   if (!parse) {
@@ -165,8 +165,8 @@ handle_rules_resp <- function(x) {
   df
 }
 
-stream_rules <- function(query = NULL, token = NULL, ..., call = caller_env()) {
-  token <- check_token_v2(token, call = call)
+stream_rules <- function(query = NULL, token = NULL, ...) {
+  token <- check_token_v2(token)
   req <- endpoint_v2(token, "tweets/search/stream/rules", 450 / (15 * 60))
 
   if (!is.null(query)) {
@@ -177,24 +177,24 @@ stream_rules <- function(query = NULL, token = NULL, ..., call = caller_env()) {
 
 is_rule <- function(q) {
   if (!has_name(q, "value")) {
-    stop("Please add value for filtering and a tag", call. = FALSE)
+    abort("Please add value for filtering and a tag", call = current_call())
   }
   nc <- nchar(q[["value"]])
   if (any(nc > 1024)) {
-    stop("Value cannot be longer than 1024 characters", call. = FALSE)
+    abort("Value cannot be longer than 1024 characters", call = current_call())
   } else if (any(nc > 512)) {
-    warning("Requires academic research access.", call. = FALSE)
+    warn("Requires academic research access.")
   }
 
   if (length(nc) > 1000) {
-    stop("Impossible to have more than 1000 rules", call. = FALSE)
+    abort("Impossible to have more than 1000 rules", call = current_call())
   } else if (length(nc) > 5) {
-    warning("Requires elevated or academic research access", call. = FALSE)
+    warn("Requires elevated or academic research access")
   }
 
   if (is.null(q[["tag"]]) || any(nchar(q[["tag"]]) == 0)) {
-    stop("Add tags for the rules for better handling of the streaming output",
-         call. = FALSE)
+    abort("Add tags for the rules for better handling of the streaming output",
+          call = current_call())
   }
   q
 }
@@ -215,7 +215,7 @@ check_stream_remove <- function(q) {
   }
 
   if (!any(grepl("^[0-9]{19}$", q))) {
-    stop("Streaming ids should be 19 numbers long", call. = FALSE)
+    abort("Streaming ids should be 19 numbers long", call = caller_call())
   }
   if (length(q) == 1) {
     list(delete = list(ids = list(q)))
@@ -285,7 +285,7 @@ sample_stream <- function(timeout, file = tempfile(),
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
   if (file.exists(file) && isFALSE(append)) {
-    stop("File already exists and append = FALSE", call. = FALSE)
+    abort("File already exists and append = FALSE", call = caller_call())
   }
   out <- stream(req_stream, file, timeout = timeout)
   if (!parse) {

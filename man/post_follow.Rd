@@ -44,13 +44,7 @@ a single API call. In many cases you are better off changing the
 default for all calls. See \code{\link[=auth_as]{auth_as()}} for details.}
 }
 \description{
-Follows target Twitter user.
-}
-\examples{
-if (auth_has_default()) {
-    post_follow("_R_Foundation")
-    post_follow("rtweet", mute = TRUE) # Mute
-}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \references{
 Update: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update}
