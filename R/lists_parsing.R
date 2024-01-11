@@ -41,6 +41,7 @@ as_lists_users <- function(x) {
   structure(x, class = "lists_users")
 }
 
+#' @export
 as.data.frame.lists_users <- function(x, row.names, optional, ...) {
   if (!missing(row.names)) {
     warning("`row.names` argument is ignored.")
