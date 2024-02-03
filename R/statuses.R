@@ -93,10 +93,7 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
   }
 
   # Rates from the website app and user limits
-  token <- check_token_v2(token, c("bearer", "pkce"))
-  check_scopes_token(token, c("tweet.read", "users.read"))
-  rate <- check_rate(token, 300 /( 60 * 15), 900 / (60 * 15))
-  req_archive <- endpoint_v2(token, url, rate)
+  req_archive <- endpoint_v2(url, 900 / (60 * 15), c("tweet.read", "users.read"))
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, 1, length(ids), verbose = verbose)
   if (!parse) {
@@ -130,7 +127,7 @@ tweet_post <- function(text, ..., token = NULL) {
   }
 
   if ("for_super_followers_only" %in% names(options) && !is_logical(options[["for_super_followers_only"]])) {
-      abort("Provide only TRUE or FALSE for for_super_followers_only")
+      abort("Provide only TRUE or FALSE for 'for_super_followers_only'")
   }
   if (check_reply_settings(options)) {
     abort(c("Provide a valid reply_setting option:",
@@ -141,10 +138,7 @@ tweet_post <- function(text, ..., token = NULL) {
   }
 
   # Rates from the website app and user limits
-  token <- check_token_v2(token, "pkce")
-  check_scopes_token(token, c("tweet.read", "users.read", "tweet.write"))
-  rate <- check_rate(token, 200/(60*15), 200/(60*15))
-  req_archive <- endpoint_v2(token, "tweets", rate)
+  req_archive <- endpoint_v2("tweets", 200/(60*15), c("tweet.read", "users.read", "tweet.write"))
   req_final <- httr2::req_body_json(req_archive, options)
   resp <- httr2::req_perform(req_final)
   r <- resp(resp)
@@ -174,10 +168,8 @@ tweet_delete <- function(id, verbose = FALSE, token = NULL) {
   }
 
   # Rates from the website app and user limits
-  token <- check_token_v2(token, "pkce")
-  check_scopes_token(token, c("tweet.read", "users.read", "tweet.write"))
-  rate <- 50 / (60 * 15)
-  req_archive <- endpoint_v2(token, url, rate)
+  req_archive <- endpoint_v2(url, 50 / (60 * 15),
+                             c("tweet.read", "users.read", "tweet.write"))
   req_final <- httr2::req_url_query(req_archive)
 
   r <- httr2::req_perform(httr2::req_method(req_final, "DELETE"))
@@ -225,10 +217,7 @@ tweet_quoted <- function(id, n = 100, expansions = NULL, fields = NULL, ..., tok
   }
 
   # Rates from the website app and user limits
-  token <- check_token_v2(token, c("bearer", "pkce"))
-  check_scopes_token(token, c("tweet.read", "users.read"))
-  rate <- check_rate(token, 75 / ( 60 * 15), 75 / (60 * 15))
-  req_archive <- endpoint_v2(token, url, rate)
+  req_archive <- endpoint_v2(url, 75 / (60 * 15), c("tweet.read", "users.read"))
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, n_pages, n, verbose = verbose)
   if (!parse) {

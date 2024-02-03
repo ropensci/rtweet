@@ -35,9 +35,7 @@ user_timeline <- function(id, n = 100, expansions = NULL, fields = NULL, ...,
   data <- c(max_results = max_results, data)
 
   # Rates from the website app and user limits
-  token <- check_token_v2(token, "pkce")
-  check_scopes_token(token, c("tweet.read", "users.read"))
-  req_archive <- endpoint_v2(token, url, 180/(60*15))
+  req_archive <- endpoint_v2(url, 180/(60*15), c("tweet.read", "users.read"))
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, n_pages, n, verbose)
   if (!parse) {

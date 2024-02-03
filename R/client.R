@@ -169,7 +169,7 @@ no_client <- function(call = caller_env()) {
   if (is_testing()) {
     testthat::skip("Client not available")
   } else {
-    abort("Could not find client", call = sys.call(1))
+    abort(c("Could not find client", i = "Find which you have with `client_list()`"), call = sys.call(1))
   }
 }
 

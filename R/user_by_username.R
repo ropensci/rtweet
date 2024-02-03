@@ -42,10 +42,7 @@ user_by_username <- function(username, expansions = NULL, fields = NULL, ...,
   data <- data[data != ""]
 
   # Rates from the website app and user limits
-  token <- check_token_v2(token, c("bearer", "pkce"))
-  check_scopes_token(token, c("tweet.read", "users.read"))
-  rate <- check_rate(token, 300/(60*15), 900/(60*15))
-  req_archive <- endpoint_v2(token, url, rate)
+  req_archive <- endpoint_v2(url, 900/(60*15), c("tweet.read", "users.read"))
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, 1, 1, verbose)
   if (!parse) {

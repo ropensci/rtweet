@@ -16,10 +16,7 @@ job_compliance <- function(ids, name, type, resumable = TRUE, token = NULL) {
   type <- match.arg(type, c("tweets", "users"))
   stopifnot(is_logical(resumable))
   stopifnot(is.character(name) && length(name) == 1)
-  token <- check_token_v2(token)
-
-  rate <- 150/(60*15)
-  req_jobs <- endpoint_v2(token, "compliance/jobs", rate)
+  req_jobs <- endpoint_v2("compliance/jobs", 150/(60*15), c("tweets", "users"))
   resp <- httr2::req_perform(req_jobs)
 }
 
@@ -30,18 +27,14 @@ upload_ids <- function(upload_url, ids) {
 
 job_status <- function(job_id, token = NULL) {
   url <- paste0("compliance/jobs/", job_id)
-  rate <- 150/(60*15)
-  token <- check_token_v2(token)
-  req_jobs <- endpoint_v2(token, url, rate)
+  req_jobs <- endpoint_v2(url, 150/(60*15), c("tweets", "users"))
 }
 
 job_list <- function(type, status = "all", token = NULL) {
   type <- match.arg(type, c("tweets", "users"))
   status <- match.arg(type, c("created", "in_progress", "failed", "complete", "all"))
-  url <- "compliance/jobs"
-  rate <- 150/(60*15)
-  token <- check_token_v2(token)
-  req_jobs <- endpoint_v2(token, url, rate)
+  req_jobs <- endpoint_v2("compliance/jobs",
+                          150/(60*15), set_scopes())
   # Add expiration date of jobs (1 week after creation)
 }
 

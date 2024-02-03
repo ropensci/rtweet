@@ -28,9 +28,7 @@ tweet_search_all <- function(query, n = 500, expansions = NULL, fields = NULL,
   data <- c(query = query, max_results = max_results, data)
   data <- data[data != ""]
   # Rates from the website app and user limits
-  token <- check_token_v2(token)
-  rate <- max(300/(60*15), 1)
-  req_archive <- endpoint_v2(token, "tweets/search/all", rate)
+  req_archive <- endpoint_v2("tweets/search/all", 1, set_scopes())
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, n_pages, n, verbose)
   if (!parse) {
@@ -69,10 +67,8 @@ tweet_search_recent <- function(query, n = 100, expansions = NULL, fields = NULL
   data <- c(query = query, max_results = max_results, data)
   data <- data[data != ""]
   # Rates from the website app and user limits
-  token <- check_token_v2(token, c("bearer", "pkce"))
-  check_scopes_token(token, c("tweet.read", "users.read"))
-  rate <- check_rate(token, 450/(15*60), 180/(15*60))
-  req_archive <- endpoint_v2(token, "tweets/search/recent", rate)
+  req_archive <- endpoint_v2("tweets/search/recent", 180/(15*60),
+                             c("tweet.read", "users.read"))
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, n_pages, n, verbose)
   if (!parse) {

@@ -23,8 +23,7 @@ tweet_counts_recent <- function(query, ..., token = NULL, parse = TRUE,
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- c(query = query, data)
   # Rates from the website app and user limits
-  token <- check_token_v2(token, "bearer")
-  req_archive <- endpoint_v2(token, "tweets/counts/recent", 300/(15*60))
+  req_archive <- endpoint_v2("tweets/counts/recent", 300/(15*60), set_scopes())
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, Inf, Inf, verbose)
   if (!parse) {
@@ -48,8 +47,7 @@ tweet_counts_all <- function(query, ..., token = NULL, parse = TRUE,
   data <- unlist(prepare_params(data), recursive = FALSE)
   data <- c(query = query, data)
   # Rates from the website app and user limits
-  token <- check_token_v2(token, "bearer")
-  req_archive <- endpoint_v2(token, "tweets/counts/all", 300/(15*60))
+  req_archive <- endpoint_v2("tweets/counts/all", 300/(15*60), set_scopes())
   req_final <- httr2::req_url_query(req_archive, !!!data)
   p <- pagination(req_final, Inf, Inf, verbose)
   if (!parse) {

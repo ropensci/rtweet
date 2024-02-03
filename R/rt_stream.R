@@ -66,8 +66,7 @@ filtered_stream <- function(timeout, file = tempfile(),
   expansions <- check_expansions(arg_def(expansions, set_expansions(list = NULL)))
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
-  token <- check_token_v2(token)
-  req_stream <- endpoint_v2(token, "tweets/search/stream", 50 / (60*15))
+  req_stream <- endpoint_v2("tweets/search/stream", 50 / (60*15), set_scopes())
   data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
   req_stream <- httr2::req_url_query(req_stream, !!!data)
@@ -166,8 +165,7 @@ handle_rules_resp <- function(x) {
 }
 
 stream_rules <- function(query = NULL, token = NULL, ...) {
-  token <- check_token_v2(token)
-  req <- endpoint_v2(token, "tweets/search/stream/rules", 450 / (15 * 60))
+  req <- endpoint_v2("tweets/search/stream/rules", 450 / (15 * 60), set_scopes())
 
   if (!is.null(query)) {
     req <- httr2::req_body_json(req, data = query, ...)
@@ -278,8 +276,7 @@ sample_stream <- function(timeout, file = tempfile(),
   fields <- check_fields(arg_def(fields, set_fields()), metrics = NULL)
   expansions_for_fields(expansions, fields)
   parsing(parse, expansions, fields)
-  token <- check_token_v2(token)
-  req_stream <- endpoint_v2(token, "tweets/sample/stream", 50 / (60*15))
+  req_stream <- endpoint_v2("tweets/sample/stream", 50 / (60*15), set_scopes())
 
   data <- c(list(expansions = expansions), fields, ...)
   data <- unlist(prepare_params(data), recursive = FALSE)
