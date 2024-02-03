@@ -14,6 +14,9 @@ Status](https://codecov.io/gh/ropensci/rtweet/branch/master/graph/badge.svg)](ht
 [![ZENODO](https://zenodo.org/badge/64161359.svg)](https://zenodo.org/badge/latestdoi/64161359)
 [![rOpenSci](https://badges.ropensci.org/302_status.svg)](https://github.com/ropensci/software-review/issues/302)
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.01829/status.svg)](https://doi.org/10.21105/joss.01829)
+[![“Buy Me A
+Coffee”](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/llrs)
+
 <!-- badges: end -->
 
 Use twitter from R. Get started by reading `vignette("rtweet")`.
