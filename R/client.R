@@ -134,12 +134,14 @@ find_client <- function(client = NULL) {
   if (is.null(client)) {
     no_client()
   } else if (is_client(client)) {
-    client
+    client <- client
   } else if (is_string(client)) {
-    load_client(client)
+    client <- load_client(client)
   } else {
     abort("Unrecognised input to `client`", call = current_call())
   }
+  inform(paste("Using client", client$name))
+  client
 }
 
 
@@ -167,7 +169,7 @@ no_client <- function(call = caller_env()) {
   if (is_testing()) {
     testthat::skip("Client not available")
   } else {
-    abort("Could not find client", call = current_call())
+    abort("Could not find client", call = sys.call(1))
   }
 }
 
@@ -219,7 +221,6 @@ rtweet_client <- function(client_id, client_secret,
     token_url = "https://api.twitter.com/2/oauth2/token",
     auth = "header",
     name = app)
-  attr(client, "app") <- app
   attr(client, "scopes") <- scopes
   client
 }

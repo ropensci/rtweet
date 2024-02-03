@@ -19,7 +19,7 @@ This function uses the API v2 to post tweets.
 }
 \examples{
 if (FALSE) {
- # It reqruires the Oauth2.0 Authentication
+ # It requires the Oauth2.0 Authentication
   tp_id <- tweet_post("Posting from #rtweet with the basic plan")
   tweet_post()
 }

@@ -9,7 +9,7 @@ They will be removed in the next version of this package.
 \itemize{
 \item \code{clean_tweets()}: No replacement.
 \item \code{collections()}: No replacement.
-\item \code{direct_messages()}: No replacement (yet?).
+\item \code{direct_messages()}: No replacement.
 \item \code{do_call_rbind()}: No replacement (if any it will be a method).
 \item \code{get_favorites()}: Use \code{tweet_liking_users()}.
 \item \code{get_followers()}: Use \code{user_follwing()}.
@@ -18,15 +18,15 @@ They will be removed in the next version of this package.
 \item \code{lat_lng()}: No replacement.
 \item \code{list_memberships()}: Use \code{list_users()}.
 \item \code{get_mentions()}: Use \code{user_mentions()}
-\item \code{user_block()}:
-\item \code{post_favorite()}:
+\item \code{user_block()}: No replacement.
+\item \code{post_favorite()}: No replacement.
 \item \code{post_list()}: \code{lists_subscribers()}, \code{list_subscriptions()}, \code{list_members()}, \code{lists_users()}
 \item \code{post_tweet()}: Use \code{tweet_post()}.
-\item \code{post_follow()}:
+\item \code{post_follow()}: No replacement.
 \item \code{post_destroy()}: Use \code{tweet_delete()}.
 \item \code{search_fullarchive()}: Use \code{tweet_search_all()}.
 \item \code{search_30d()}: Use \code{tweet_search_recent()}.
-\item \code{rate_limit()}: No replacement (already implemented now).
+\item \code{rate_limit()}: No replacement (already implemented inside the calls).
 \item \code{save_as_csv()}: No replacement.
 \item \code{search_tweets()}: Use \code{tweet_search_recent()}.
 \item \code{search_tweets2()}: Use \code{tweet_search_recent()}.
@@ -38,7 +38,7 @@ They will be removed in the next version of this package.
 \item \code{get_token()}: Use \code{auth_get()}.
 \item \code{get_tokens()}: Use \code{auth_get()}.
 \item \code{get_trends()}: No replacement.
-\item \code{trends_available()}: No replacement.
+\item \code{trends_available()} and \code{trends_closest()}: No replacement.
 \item \code{ts_data()}: No replacement.
 \item \code{ts_plot()}: No replacement.
 \item \code{tweet_shot()}: No replacement.

@@ -19,7 +19,7 @@ rtweet_bot(api_key, api_secret, access_token, access_secret, app = "rtweet")
 
 rtweet_app(bearer_token)
 
-rtweet_bearer(client = NULL, scopes = set_scopes())
+rtweet_bearer(client = NULL, scopes = NULL)
 
 rtweet_oauth2(client = NULL, scopes = NULL)
 }

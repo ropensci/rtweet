@@ -173,7 +173,7 @@ ask_pass <- function(type) {
 
 #' @export
 #' @rdname rtweet_user
-rtweet_bearer <- function(client = NULL, scopes  = set_scopes()) {
+rtweet_bearer <- function(client = NULL, scopes  = NULL) {
 
   client <- client %||% client_get()
   if (!is_client(client)) {
@@ -184,6 +184,8 @@ rtweet_bearer <- function(client = NULL, scopes  = set_scopes()) {
 
   if (!is.null(scopes) && check_scopes(scopes)) {
     scopes <- scopes
+  } else if (is.null(scopes)) {
+    scopes <- set_scopes(tweet_moderate = FALSE)
   } else {
     abort("Scopes is not in the right format.", call = current_call())
   }
@@ -219,7 +221,7 @@ rtweet_invalidate <- function(api_key, api_secret, token = NULL) {
 }
 
 is_auth <- function(x) {
-  inherits(x, "Token") || inherits(x, "rtweet_bearer") || inherits(x, "httr2_token")
+  inherits(x, "Token") || inherits(x, "rtweet_bearer") || inherits(x, "httr2_token") || inherits(x, "httr2_oauth_client")
 }
 
 #' @export
@@ -456,7 +458,8 @@ twitter_init_oauth1.0 <- function(endpoint, app, permission = NULL,
 auth_path <- function(...) {
   # Use private option to make testing easier
   path <- getOption("rtweet:::config_dir", tools::R_user_dir("rtweet", "config"))
-  file.path(path, ...)
+  full_path <- file.path(path, ...)
+  full_path
 }
 
 #' Some endpoints require OAuth 2.0 with specific permissions in order to work.
@@ -469,6 +472,7 @@ auth_path <- function(...) {
 #' @export
 #' @rdname rtweet_user
 rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
+  .Defunct(msg = "No longer needed, httr2 handles it automatically", package = "rtweet")
   client <- client %||% client_get()
   if (!is_client(client)) {
     abort(c("Client not valid",

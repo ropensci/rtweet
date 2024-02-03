@@ -116,7 +116,7 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets>
 #' @examples
 #' if (FALSE) {
-#'  # It reqruires the Oauth2.0 Authentication
+#'  # It requires the Oauth2.0 Authentication
 #'   tp_id <- tweet_post("Posting from #rtweet with the basic plan")
 #'   tweet_post()
 #' }

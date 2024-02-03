@@ -42,7 +42,7 @@ auth_is_pkce <- function(token = NULL) {
 check_token_v2 <- function(token = NULL, mechanism = "bearer") {
 
   token <- token %||% auth_get()
-
+  return(token)
   mechanism <- match.arg(mechanism, c("bearer", "pkce"), several.ok = TRUE)
 
   # For endpoints that accept both authentications methods
@@ -126,10 +126,24 @@ req_errors <- function(resp) {
 # Prepare the requests ####
 # General function to create the requests for Twitter API v2 with retry limits
 # and error handling
-req_v2 <- function(token = NULL) {
+req_v2 <- function(scopes) {
+  client <- client_get()
+  scopes_client <- client_scopes(client)
   req <- httr2::request("https://api.twitter.com/2")
   req_agent <- httr2::req_user_agent(req, "rtweet (https://docs.ropensci.org/rtweet)")
-  req_authorized <- req_auth(req_agent, token)
+  # req_authorized <- req_auth(req_agent, token)
+  check_scopes(scopes_client, scopes)
+  # httr2 looks for this path.
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
+  req_authorized <- httr2::req_oauth_auth_code(req_agent,
+                             client = client,
+                             auth_url = "https://twitter.com/i/oauth2/authorize",
+                             pkce = TRUE,
+                             scope = paste(scopes_client, collapse = " "),
+                             redirect_uri = "http://127.0.0.1:1410"
+                             # redirect_uri = "http://localhost:1410"
+  )
+
   req_content <- httr2::req_headers(req_authorized,
                              `Content-type` = "application/json")
   req_try <- httr2::req_retry(req_content,
@@ -150,9 +164,9 @@ twitter_after <- function(resp) {
 }
 
 
-endpoint_v2 <- function(token, path, throttle) {
+endpoint_v2 <- function(path, throttle, scopes) {
 
-  req <- httr2::req_url_path_append(req_v2(token), path)
+  req <- httr2::req_url_path_append(req_v2(scopes), path)
   httr2::req_throttle(req, throttle, realm = path)
 }
 
