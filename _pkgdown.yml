@@ -21,6 +21,9 @@ authors:
     href: https://llrs.dev
 
 reference:
+- title: Updates of API
+- contents:
+  - rtweet-deprecated
 - title: API functions
 - contents:
   - direct_messages
@@ -107,5 +110,3 @@ reference:
   - links
   - rules
   - ids
-
-
