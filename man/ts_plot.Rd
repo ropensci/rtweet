@@ -31,5 +31,8 @@ installed then a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} plot object.
 Creates a ggplot2 plot of the frequency of tweets over a specified
 interval of time. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}
 \concept{ts_data}
 \keyword{internal}

@@ -78,6 +78,8 @@ if (FALSE) {
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other tweets: 
 \code{\link{get_mentions}()},
 \code{\link{get_timeline}()},

@@ -47,7 +47,7 @@ Search for Twitter users. The Twitter API limits the results to at most
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-search}
 }
 \seealso{
-\code{\link[=user_search]{user_search()}}
+\code{\link[=user_search]{user_search()}}, \code{\link{rtweet-deprecated}}
 
 Other users: 
 \code{\link{as_screenname}()},

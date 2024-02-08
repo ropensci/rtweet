@@ -9,6 +9,7 @@
 #'   include entities object in return.
 #' @aliases post_favourite favorite_tweet
 #' @family post
+#' @seealso [`rtweet-deprecated`]
 #' @export
 #' @references
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create>

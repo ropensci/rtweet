@@ -5,6 +5,7 @@
 #' the API. `r lifecycle::badge("deprecated")`
 #' @param x Tweets
 #' @param clean Type of elements to be removed.
+#' @seealso [`rtweet-deprecated`]
 #' @return A vector with the text without the entities selected
 #' @export
 clean_tweets <- function(x, clean = c("users", "hashtags", "urls", "media")) {

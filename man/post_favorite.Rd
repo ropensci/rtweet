@@ -34,6 +34,8 @@ Create: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-an
 Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-destroy}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other post: 
 \code{\link{post_follow}()},
 \code{\link{post_friendship}()},

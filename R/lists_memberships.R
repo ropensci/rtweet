@@ -12,6 +12,7 @@
 #'   `cursor` instead.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships>
 #' @export
+#' @seealso [`rtweet-deprecated`]
 lists_memberships <- function(user = NULL,
                               n = 200,
                               cursor = "-1",

@@ -13,6 +13,7 @@
 #'   for target user. Defaults to true.
 #' @aliases follow_user
 #' @family post
+#' @seealso [`rtweet-deprecated`]
 #' @export
 #' @references
 #' Update: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update>

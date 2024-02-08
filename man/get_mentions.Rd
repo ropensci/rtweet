@@ -75,6 +75,8 @@ your mentions on twitter.com. \ifelse{html}{\href{https://lifecycle.r-lib.org/ar
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other tweets: 
 \code{\link{get_favorites}()},
 \code{\link{get_timeline}()},

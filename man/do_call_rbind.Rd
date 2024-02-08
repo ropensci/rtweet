@@ -22,4 +22,7 @@ functions.
 Row bind lists of tweets/users data whilst also preserving and binding
 users/tweets attribute data. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}
 \concept{parsing}

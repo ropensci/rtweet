@@ -75,5 +75,5 @@ They were removed from the website.
 The webpages describing how it used to work were removed.
 }
 \seealso{
-\code{\link[=filtered_stream]{filtered_stream()}}.
+\code{\link[=filtered_stream]{filtered_stream()}}, \code{\link{rtweet-deprecated}}
 }

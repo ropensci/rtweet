@@ -191,6 +191,7 @@ unx_ids <- function(x) {
 #'   to FALSE.
 #' @return A tbl data frame of Twitter data
 #' @family datafiles
+#' @seealso [`rtweet-deprecated`]
 #' @export
 read_twitter_csv <- function(file, unflatten = FALSE) {
   lifecycle::deprecate_stop("1.0.0", "read_twitter_csv()",

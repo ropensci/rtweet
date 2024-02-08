@@ -23,5 +23,5 @@ parse_stream("stream.json")
 }
 }
 \seealso{
-\code{\link[=stream_tweets]{stream_tweets()}}
+\code{\link[=stream_tweets]{stream_tweets()}}, \code{\link{rtweet-deprecated}}
 }

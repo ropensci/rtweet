@@ -11,6 +11,7 @@
 #'   query.
 #' @return Tibble of mentions data.
 #' @family tweets
+#' @seealso [`rtweet-deprecated`]
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @export
 get_mentions <- function(n = 200,

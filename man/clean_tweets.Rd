@@ -19,3 +19,6 @@ Removes from the text, users mentions, hashtags, urls and media.
 Some urls or other text might remain if it is not recognized as an entity by
 the API. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}

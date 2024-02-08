@@ -19,6 +19,7 @@
 #'     own image manipulation.
 #' @return `magick` object
 #' @export
+#' @seealso [`rtweet-deprecated`]
 #' @examples
 #' \dontrun{
 #' if (auth_has_default()) {

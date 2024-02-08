@@ -78,3 +78,6 @@ direct_messages()
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/list-events}
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}

@@ -36,5 +36,5 @@ Retrieve data to know which users are connected to which users.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \seealso{
-network_graph
+\code{\link[=network_graph]{network_graph()}} \code{\link{rtweet-deprecated}}
 }

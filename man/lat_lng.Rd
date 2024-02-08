@@ -31,7 +31,7 @@ and longitude vars.
 }
 \description{
 Appends parsed Twitter data with latitude and longitude variables
-using all available geolocation information. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+using all available geolocation information.
 }
 \details{
 On occasion values may appear to be outliers given a

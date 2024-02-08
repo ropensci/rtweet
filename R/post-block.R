@@ -8,6 +8,7 @@
 #' @param unblock Logical indicating whether to unblock the intended
 #'   friend.
 #' @aliases user_unblock
+#' @seealso [`rtweet-deprecated`]
 #' @export
 #' @references
 #' Block: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create>

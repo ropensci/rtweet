@@ -27,9 +27,9 @@ TWIT_method <- function(method, token, api,
                         retryonratelimit = NULL,
                         verbose = TRUE,
                         ...) {
-  lifecycle::deprecate_stop("2.0.0", function_caller(),
-                            details = c("The removal of API v1.1 made this function obsolete.",
-                                        "See the new vignette about the new requirements and functions."))
+  lifecycle::deprecate_warn("2.0.0", function_caller(),
+                            details = c("This function might work until your bot/app/user is blocked or fail randomly!",
+                                        i = "See the new vignette about the new requirements and functions."))
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
   withr::local_options(scipen = 14, encoding = "UTF-8")

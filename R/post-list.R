@@ -14,6 +14,7 @@
 #' @param list_id Optional, numeric ID of list.
 #' @param slug Optional, list slug.
 #' @return Response object from HTTP request.
+#' @seealso [`rtweet-deprecated`]
 #' @references
 #' Create: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-create>
 #' Destroy: <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy>

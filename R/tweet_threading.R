@@ -17,6 +17,7 @@
 #' It is not recommended to change the default if you don't know at which point of a thread you are starting.
 #' @param verbose logical, output to console status of traverse.
 #' @return Tweets in a structure like [lookup_tweets()].
+#' @seealso [`rtweet-deprecated`], [lookup_tweets()]
 #' @export
 tweet_threading <- function(tw, traverse = c("backwards", "forwards"), verbose = FALSE) {
 

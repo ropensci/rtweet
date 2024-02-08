@@ -16,7 +16,7 @@
 #'   "semantic" are assumed to mean all edge types, which is equivalent to the
 #'   default value of `c("mention", "retweet", "reply", "quote")`
 #' @return A from/to data edge data frame
-#' @seealso network_graph
+#' @seealso [network_graph()] [`rtweet-deprecated`]
 #' @export
 network_data <- function(x, e = c("mention", "retweet", "reply", "quote")) {
   if (isTRUE(e) || (length(e) == 1 && e %in% c("semantics", "all"))) {

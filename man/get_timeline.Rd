@@ -101,7 +101,7 @@ At most up to 3,200 of a user's most recent Tweets can be retrieved.
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview}
 }
 \seealso{
-\code{\link[=user_timeline]{user_timeline()}}
+\code{\link[=user_timeline]{user_timeline()}}, \code{\link{rtweet-deprecated}}
 
 Other tweets: 
 \code{\link{get_favorites}()},

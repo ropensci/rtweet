@@ -138,9 +138,9 @@ index includes between only 6-9 days of Tweets.
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets}
 }
 \seealso{
-\code{\link[=tweet_search_recent]{tweet_search_recent()}}, \code{\link[=tweet_search_all]{tweet_search_all()}}
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}, \code{\link[=tweet_search_all]{tweet_search_all()}}, \code{\link{rtweet-deprecated}}
 
-\code{\link[=tweet_search_recent]{tweet_search_recent()}}
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}, \code{\link{rtweet-deprecated}}
 
 Other tweets: 
 \code{\link{get_favorites}()},

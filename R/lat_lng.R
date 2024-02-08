@@ -5,7 +5,7 @@
 #' Adds single-point latitude and longitude variables to tweets data.
 #'
 #' Appends parsed Twitter data with latitude and longitude variables
-#' using all available geolocation information. `r lifecycle::badge("deprecated")`
+#' using all available geolocation information.
 #'
 #' @param x Parsed Twitter data as returned by various rtweet
 #'   functions. This should be a data frame with variables such as

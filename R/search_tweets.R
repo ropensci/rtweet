@@ -61,7 +61,7 @@
 #' @return List object with tweets and users each returned as a
 #'   data frame.
 #' @family tweets
-#' @seealso [tweet_search_recent()], [tweet_search_all()]
+#' @seealso [tweet_search_recent()], [tweet_search_all()], [`rtweet-deprecated`]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets>
 search_tweets <- function(q, n = 100,
@@ -154,7 +154,7 @@ search_params <- function(q,
 #'
 #' @return A tbl data frame with additional "query" column.
 #' @rdname search_tweets
-#' @seealso [tweet_search_recent()]
+#' @seealso [tweet_search_recent()], [`rtweet-deprecated`]
 #' @export
 search_tweets2 <- function(...) {
   dots <- match_fun(list(...), "search_tweets")

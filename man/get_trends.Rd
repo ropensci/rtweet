@@ -50,6 +50,8 @@ Tibble data frame of trends data for a given geographical area.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other trends: 
 \code{\link{trends_available}()}
 }

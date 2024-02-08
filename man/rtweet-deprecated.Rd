@@ -4,18 +4,16 @@
 \alias{rtweet-deprecated}
 \title{Deprecated functions in rtweet}
 \description{
-These functions do not work due to the drop of API v1 in favor of API v2.
-They will be removed in the next version of this package.
+These functions might not work due to the drop of API v1 in favor of API v2.
 \itemize{
 \item \code{clean_tweets()}: No replacement.
-\item \code{collections()}: No replacement.
+\item \code{collections()}: No replacement (It hasn't worked for a while).
 \item \code{direct_messages()}: No replacement.
 \item \code{do_call_rbind()}: No replacement (if any it will be a method).
 \item \code{get_favorites()}: Use \code{tweet_liking_users()}.
-\item \code{get_followers()}: Use \code{user_follwing()}.
+\item \code{get_followers()}: Use \code{user_following()}.
 \item \code{get_friends()}: Use \code{user_followers()}.
 \item \code{network_data()} and \code{network_graph()}: No replacement.
-\item \code{lat_lng()}: No replacement.
 \item \code{list_memberships()}: Use \code{list_users()}.
 \item \code{get_mentions()}: Use \code{user_mentions()}
 \item \code{user_block()}: No replacement.
@@ -39,9 +37,8 @@ They will be removed in the next version of this package.
 \item \code{get_tokens()}: Use \code{auth_get()}.
 \item \code{get_trends()}: No replacement.
 \item \code{trends_available()} and \code{trends_closest()}: No replacement.
-\item \code{ts_data()}: No replacement.
-\item \code{ts_plot()}: No replacement.
+\item \code{ts_data()} and \code{ts_plot()}: No replacement.
 \item \code{tweet_shot()}: No replacement.
-\item \code{tweet_threading()}: Use \code{tweet_get()}.
+\item \code{tweet_threading()}: Use \code{tweet_get()} with conversation ID.
 }
 }

@@ -22,6 +22,7 @@
 #' @inheritParams stream
 #' @return Tibble data frame of trends data for a given geographical area.
 #' @family trends
+#' @seealso [`rtweet-deprecated`]
 #' @export
 get_trends <- function(woeid = 1,
                        lat = NULL,
@@ -120,6 +121,7 @@ format_trend_date <- function(x) {
 #' @return Data frame with WOEID column. WOEID is a Yahoo! Where On
 #'   Earth ID.
 #' @family trends
+#' @seealso [`rtweet-deprecated`]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/trends/locations-with-trending-topics/api-reference/get-trends-available>
 trends_available <- function(token = NULL, parse = TRUE) {

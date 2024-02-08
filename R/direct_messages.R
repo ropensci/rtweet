@@ -17,6 +17,7 @@
 #'
 #' }
 #' @export
+#' @seealso [`rtweet-deprecated`]
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/list-events>
 direct_messages <- function(n = 50,
                             cursor = NULL,

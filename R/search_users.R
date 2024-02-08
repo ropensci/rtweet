@@ -10,7 +10,7 @@
 #'   supported.
 #' @return Data frame with one row for each matching user.
 #' @family users
-#' @seealso [user_search()]
+#' @seealso [user_search()], [`rtweet-deprecated`]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-search>
 search_users <- function(q, n = 100,

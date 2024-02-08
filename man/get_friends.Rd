@@ -88,3 +88,6 @@ if (FALSE) {
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids}
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}

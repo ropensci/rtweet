@@ -75,3 +75,6 @@ not a unique quirk of rtweet.
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships}
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}

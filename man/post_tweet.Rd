@@ -77,7 +77,7 @@ Media: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-me
 Alt-text: \url{https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-metadata-create}
 }
 \seealso{
-\code{\link[=tweet_post]{tweet_post()}}
+\code{\link[=tweet_post]{tweet_post()}}, \code{\link{rtweet-deprecated}}
 
 Other post: 
 \code{\link{post_favorite}()},

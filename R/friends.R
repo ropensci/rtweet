@@ -17,6 +17,7 @@
 #'   user IDs of friends (accounts followed BY target user) will be
 #'   retrieved.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids>
+#' @seealso [`rtweet-deprecated`]
 #' @examples
 #' if (FALSE) {
 #'   get_friends("ropensci")

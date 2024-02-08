@@ -9,7 +9,7 @@
 #' [Twitter developer portal](https://developer.twitter.com/en/portal/projects-and-apps).
 #' See `vignette("auth", package = "rtweet")` for full details.
 #' @keywords internal
-#' @seealso [rtweet_bearer()]
+#' @seealso [rtweet_bearer()], [`rtweet-deprecated`]
 #' @export
 bearer_token <- function(token = NULL) {
   lifecycle::deprecate_stop("1.0.0", "bearer_token()", "rtweet_app()")

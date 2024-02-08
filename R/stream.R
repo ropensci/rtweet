@@ -36,7 +36,7 @@
 #' @param verbose If `TRUE`, display a progress bar.
 #' @param parse Use `FALSE` to opt-out of parsing the tweets.
 #' @param ... Other arguments passed in to query parameters.
-#' @seealso [filtered_stream()].
+#' @seealso [filtered_stream()], [`rtweet-deprecated`]
 #' @references
 #' They were removed from the website.
 #' @return A tibble with one row per tweet
@@ -205,7 +205,7 @@ stream_params <- function(stream, ...) {
 #'   [stream_tweets()].
 #' @param ... Unused, keeping it for back compatibility.
 #' @export
-#' @seealso [stream_tweets()]
+#' @seealso [stream_tweets()], [`rtweet-deprecated`]
 #' @examples
 #' \dontrun{
 #' stream_tweets(timeout = 1, file_name = "stream.json", parse = FALSE)
@@ -267,6 +267,7 @@ parse_stream <- function(path, ...) {
 #'   function.
 #' @export
 #' @keywords internal
+#' @seealso [`rtweet-deprecated`]
 stream_tweets2 <- function(..., dir = NULL, append = FALSE) {
   lifecycle::deprecate_stop("1.0.0", "stream_tweets2()","stream_tweets()")
 }

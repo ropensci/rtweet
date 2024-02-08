@@ -41,6 +41,8 @@ because all paginated functions will wait on your behalf if you set
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other tokens: 
 \code{\link{create_token}()},
 \code{\link{get_token}()}

@@ -16,6 +16,6 @@ in the bearer token directly from the
 See \code{vignette("auth", package = "rtweet")} for full details.
 }
 \seealso{
-\code{\link[=rtweet_bearer]{rtweet_bearer()}}
+\code{\link[=rtweet_bearer]{rtweet_bearer()}}, \code{\link{rtweet-deprecated}}
 }
 \keyword{internal}

@@ -18,7 +18,7 @@
 #' @return A tbl data frame of tweets data with users data attribute.
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/overview>
 #' @family tweets
-#' @seealso [user_timeline()]
+#' @seealso [user_timeline()], [`rtweet-deprecated`]
 #' @export
 get_timeline <- function(user = NULL,
                          n = 100,

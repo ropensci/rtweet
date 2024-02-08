@@ -7,6 +7,7 @@
 #' @inheritParams get_timeline
 #' @inheritParams stream
 #' @param page `r lifecycle::badge("deprecated")` Please use `cursor` instead.
+#' @seealso [`rtweet-deprecated`]
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids>
 #' @examples
 #' if (FALSE) {

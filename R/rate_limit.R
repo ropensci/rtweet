@@ -17,6 +17,7 @@
 #' @param endpoint Name of Twitter endpoint like `"lookup/users"`,
 #'   `"/media/upload"`, or `"/feedback/show/:id"`.
 #' @family tokens
+#' @seealso [`rtweet-deprecated`]
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status>
 rate_limit <- function(resource_match = NULL, token = NULL) {

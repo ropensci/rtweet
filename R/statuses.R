@@ -7,7 +7,7 @@
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup>
 #' @return A tibble of tweets data.
 #' @family tweets
-#' @seealso [tweet_search_recent()]
+#' @seealso [tweet_search_recent()], [`rtweet-deprecated`]
 #' @export
 lookup_tweets <- function(statuses, parse = TRUE, token = NULL,
                           retryonratelimit = NULL, verbose = TRUE) {

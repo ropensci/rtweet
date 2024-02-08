@@ -156,6 +156,6 @@ followed by a word or quoted phrase (if appropriate)–e.g.,} \code{lang:en}
 }
 
 \seealso{
-\code{\link[=tweet_search_recent]{tweet_search_recent()}},  \code{\link[=tweet_search_all]{tweet_search_all()}}
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}, \code{\link[=tweet_search_all]{tweet_search_all()}}, \code{\link{rtweet-deprecated}}
 }
 \concept{premium endpoints}

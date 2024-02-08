@@ -26,6 +26,8 @@ Earth ID.
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/trends/locations-with-trending-topics/api-reference/get-trends-available}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other trends: 
 \code{\link{get_trends}()}
 }

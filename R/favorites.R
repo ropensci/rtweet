@@ -12,6 +12,7 @@
 #'   get_favorites("KFC")
 #' }
 #' @family tweets
+#' @seealso [`rtweet-deprecated`]
 #' @references <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list>
 #' @export
 get_favorites <- function(user,

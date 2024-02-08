@@ -37,7 +37,7 @@
 #'   only if you have provided a valid `lat/long` pair of valid values.
 #' @family post
 #' @aliases post_status
-#' @seealso [tweet_post()]
+#' @seealso [tweet_post()], [`rtweet-deprecated`]
 #' @export
 #' @references
 #' Tweet: <https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update>

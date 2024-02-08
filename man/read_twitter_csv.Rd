@@ -21,6 +21,8 @@ Reads Twitter data that was previously saved as a CSV file.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other datafiles: 
 \code{\link{flatten}()},
 \code{\link{write_as_csv}()}

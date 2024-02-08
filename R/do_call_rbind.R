@@ -13,6 +13,7 @@
 #'   [users_data()] or [tweets_data()] extractor
 #'   functions.
 #' @family parsing
+#' @seealso [`rtweet-deprecated`]
 #' @export
 do_call_rbind <- function(x) {
   do.call(rbind, x)

@@ -17,6 +17,7 @@
 #'   [ggplot2](https://cran.r-project.org/package=ggplot2) is
 #'   installed then a [ggplot2::ggplot()] plot object.
 #' @family ts_data
+#' @seealso [`rtweet-deprecated`]
 #' @keywords internal
 #' @export
 ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
@@ -52,6 +53,7 @@ ts_plot <- function(data, by = "days", trim = 0L, tz ="UTC", ...) {
 #' @param tz Time zone to be used, defaults to "UTC" (Twitter default)
 #' @return Data frame with time, n, and grouping column if applicable.
 #' @keywords internal
+#' @seealso [`rtweet-deprecated`]
 #' @export
 ts_data <- function(data, by = "days", trim = 0L, tz ="UTC") {
   lifecycle::deprecate_stop("2.0.0", function_call())

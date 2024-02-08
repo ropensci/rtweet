@@ -1,17 +1,15 @@
 #' Deprecated functions in rtweet
 #'
-#' These functions do not work due to the drop of API v1 in favor of API v2.
-#' They will be removed in the next version of this package.
+#' These functions might not work due to the drop of API v1 in favor of API v2.
 #' \itemize{
 #'  \item `clean_tweets()`: No replacement.
-#'  \item `collections()`: No replacement.
+#'  \item `collections()`: No replacement (It hasn't worked for a while).
 #'  \item `direct_messages()`: No replacement.
 #'  \item `do_call_rbind()`: No replacement (if any it will be a method).
 #'  \item `get_favorites()`: Use `tweet_liking_users()`.
 #'  \item `get_followers()`: Use `user_following()`.
 #'  \item `get_friends()`: Use `user_followers()`.
 #'  \item `network_data()` and `network_graph()`: No replacement.
-#'  \item `lat_lng()`: No replacement.
 #'  \item `list_memberships()`: Use `list_users()`.
 #'  \item `get_mentions()`: Use `user_mentions()`
 #'  \item `user_block()`: No replacement.

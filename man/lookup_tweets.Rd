@@ -49,7 +49,7 @@ A tibble of tweets data.
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-lookup}
 }
 \seealso{
-\code{\link[=tweet_search_recent]{tweet_search_recent()}}
+\code{\link[=tweet_search_recent]{tweet_search_recent()}}, \code{\link{rtweet-deprecated}}
 
 Other tweets: 
 \code{\link{get_favorites}()},

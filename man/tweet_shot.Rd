@@ -42,3 +42,6 @@ if (auth_has_default()) {
 }
 }
 }
+\seealso{
+\code{\link{rtweet-deprecated}}
+}

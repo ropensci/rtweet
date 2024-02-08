@@ -53,6 +53,8 @@ Destroy: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-
 Mute: \url{https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create}
 }
 \seealso{
+\code{\link{rtweet-deprecated}}
+
 Other post: 
 \code{\link{post_favorite}()},
 \code{\link{post_friendship}()},

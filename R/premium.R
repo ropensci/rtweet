@@ -82,7 +82,7 @@
 #'
 #' @return A tibble data frame of Twitter data.
 #' @family premium endpoints
-#' @seealso [tweet_search_recent()],  [tweet_search_all()]
+#' @seealso [tweet_search_recent()], [tweet_search_all()], [`rtweet-deprecated`]
 #' @export
 search_fullarchive <- function(q, n = 100, fromDate = NULL, toDate = NULL,
                                continue = NULL,

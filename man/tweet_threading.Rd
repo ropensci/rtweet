@@ -32,3 +32,6 @@ starting from the last tweet of the thread.
 The forwards method looks for newer replies to the tweet provided. If the tweet doesn't have a reply it won't be able to find anything.
 The forwards method is limited by the timeline API (See \code{\link[=get_timeline]{get_timeline()}}).
 }
+\seealso{
+\code{\link{rtweet-deprecated}}, \code{\link[=lookup_tweets]{lookup_tweets()}}
+}
