@@ -14,24 +14,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-
 ## Installing and loading package
 
 Prior to streaming, make sure to install and load rtweet.
 This vignette assumes users have already setup app access tokens (see: the "auth" vignette, `vignette("auth", package = "rtweet")`).
 
-
 ```r
 ## Load rtweet
 library(rtweet)
+client_as("my_app")
 ```
-
-
 
 ## Overview
 
-In addition to accessing Twitter's REST API (e.g., `search_tweets`, `get_timeline`), rtweet makes it possible to capture live streams of Twitter data[^1]. This requires an app authentication see `vignette("auth", package = "rtweet")`.
+rtweet makes it possible to capture live streams of Twitter data[^1]. 
 
 [^1]: Till November 2022 it was possible with API v1.1, currently this is no longer possible and uses API v2.
 
@@ -135,7 +131,9 @@ The `sample_stream()` function doesn't need rules or anything.
 
 ```r
 stream_random <- sample_stream(timeout = streamtime, file = filename, parse = FALSE)
-#>  Found 316 records... Imported 316 records. Simplifying...
+#> 
+ Found 316 records...
+ Imported 316 records. Simplifying...
 length(stream_random)
 #> [1] 316
 ```

@@ -7,6 +7,8 @@
 
 * Document the deprecated functions. 
 
+* This is a major release to signal the end of API v1.1 functions. 
+
 # rtweet 1.2.1
 
 * Fix `auth_sitrep()` to work well with OAuth2 tokens.
