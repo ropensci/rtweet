@@ -33,7 +33,7 @@ library(rtweet)
 
 ## Creating a Twitter app
 
-You're already familiar with using twitter, either through [the website](https://twitter.com) or an app that you installed on your phone or computer.
+You're already familiar with using twitter, either through the website or an app that you installed on your phone or computer.
 To use twitter from R, you'll need to learn a little more about what's going on behind the scenes.
 The first important concept to grasp is that every request to the Twitter API has to go through an "app".
 Normally, someone else has created the app for you, but now that you're using twitter programmatically, you can create your own app.
