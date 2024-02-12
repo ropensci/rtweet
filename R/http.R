@@ -29,7 +29,9 @@ TWIT_method <- function(method, token, api,
                         ...) {
   lifecycle::deprecate_warn("2.0.0", function_caller(),
                             details = c("This function might work until your bot/app/user is blocked or fail randomly!",
-                                        i = "See the new vignette about the new requirements and functions."))
+                                        "!" = "The API has been deprecated and the new API v2.2 requires subscriptions for most endpoints.",
+                                        i = "See updates of function and API: help('rtweet-deprecated', 'rtweet' )"
+                                        ))
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
   withr::local_options(scipen = 14, encoding = "UTF-8")
