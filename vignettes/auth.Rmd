@@ -90,20 +90,8 @@ client <- rtweet_client(app = "my app")
 ```
 
 Once you get your client you'll need to tell rtweet to use it (that's why we use `client_as()`).
-But first you'll need to authorize it via `rtweet_oauth2()`: 
-It will ask your default browser to authorize the client.
-You should have a Twitter session to authorize rtweet.
 
-```{r rtweet_oauth2}
-user_oauth2 <- rtweet_oauth2()
-## Waiting for authentication in browser...
-## Press Esc/Ctrl + C to abort
-auth_as(user_oauth2)
-auth_save(user_oauth2, "oauth2_authentication")
-```
-
-This authentication only last for 2 hours.
-You'll be asked to renew the authorization if it is expired. 
+This authentication only last for 2 hours, you'll be asked to renew the authorization if it is expired. 
 
 ### Apps
 
@@ -135,7 +123,7 @@ client_as(client)
 
 ## Saving and loading {#save}
 
-`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_app()` or `rtweet_oauth2()`).
+`auth_as()` only lasts for a single session; if you close and re-open R, you'd need to repeat the whole process (generate the tokens and pass them to `rtweet_app()`).
 This would be annoying (!) so rtweet also provides a way to save and reload authentications across sessions:
 
 ```{r, eval = FALSE}
