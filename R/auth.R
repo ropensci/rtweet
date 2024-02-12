@@ -508,42 +508,32 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
 
 # Renew token if needed
 # Makes the assumption that the right app is still in the user computer
-auth_renew <- function(token, scopes = NULL) {
+auth_renew <- function() {
+
+  client <- client_get()
+  scopes_client <- client_scopes(client)
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
+  token <- httr2::oauth_token_cached(client, httr2::oauth_flow_auth_code,
+                                     flow_params = list(
+                                       auth_url = "https://twitter.com/i/oauth2/authorize",
+                                       pkce = TRUE,
+                                       scope = paste(scopes_client, collapse = " "),
+                                       redirect_uri = "http://127.0.0.1:1410"
+                                     ))
   check_token_v2(token, "pkce")
 
   if (.POSIXct(token$expires_at) >= Sys.time()) {
     return(token)
   }
 
-  if (!is.null(scopes) && check_scopes(scopes)) {
-    scopes <- scopes
-  } else if (is.null(scopes)) {
-    scopes <- strsplit(token$scope, " ", fixed = TRUE)[[1]]
-  } else {
-    abort("Scopes is not in the right format.",
-          call = current_call())
-  }
-  client_name <- attr(token, "app", TRUE)
-  client <- load_client(client_name)
-  # Is possible to silently update the token
-  # see https://github.com/r-lib/httr2/issues/197
-  # Seen in https://twittercommunity.com/t/unable-to-obtain-new-access-token-by-using-refresh-token/164123
-  # That it requires the client_id parameter!
-  # Still sometimes the refresh_token is not accepted
-  token2 <- tryCatch(httr2::oauth_flow_refresh(client,
-                                      refresh_token = token$refresh_token,
-                                      scope = token$scope,
-                                      token_params = list(client_id = client$id)),
-                     error = function(err){TRUE})
-
-  if (isTRUE(token2) && !interactive()) {
+  if (!interactive()) {
     if (is_testing()) {
       testthat::skip(paste0("Not possible to refresh the token automatically",
            " and not in interactive environment."))
     }
     abort("Automatic refresh of the token was not possible.",
           call = caller_call())
-  } else if (isTRUE(token2)) {
+  } else {
     warn(c("It couldn't automatically renew the authentication.",
            i = "Please accept the window it will open up."),
          call = caller_call())
