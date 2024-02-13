@@ -1,5 +1,3 @@
 There might be some errors following links, sometimes Twitter.com or rOpenSci block the CRAN checks of urls.
 
-This submission so close to the previous one is because there is an ERROR in one of the CRAN checks after acceptance.
-This is probably caused by a previous version not following CRAN's policy of not writing to user directory.
-The example detected a file with the pattern .rtweet_token.*rds in the user directory. 
+With this submission I request to orphanate the package, I've been looking for a new maintainer for a year, but given the situation of the upstream API it hasn't been possible.
