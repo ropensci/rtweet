@@ -1,8 +1,8 @@
 #' Defunct: Emojis codes and descriptions data.
 #'
-#' This data comes from "Unicode.org",
-#' <https://unicode.org/emoji/charts/full-emoji-list.html>. The data are
-#' codes and descriptions of Emojis.
+#' This data comes from "Unicode.org":
+#' <https://unicode.org/emoji/charts/full-emoji-list.html>.
+#' The data are codes and descriptions of Emojis.
 #'
 #' @docType data
 #' @name emojis

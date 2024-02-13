@@ -512,6 +512,19 @@ auth_renew <- function() {
 
   client <- client_get()
   scopes_client <- client_scopes(client)
+
+  if (!interactive()) {
+    if (is_testing()) {
+      testthat::skip(paste0("Not possible to refresh the token automatically",
+                            " and not in interactive environment."))
+    }
+    abort("Automatic refresh of the token was not possible.",
+          call = caller_call())
+  } else {
+    warn(c("It couldn't automatically renew the authentication."),
+         call = caller_call())
+  }
+
   withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   token <- httr2::oauth_token_cached(client, httr2::oauth_flow_auth_code,
                                      flow_params = list(
@@ -520,35 +533,9 @@ auth_renew <- function() {
                                        scope = paste(scopes_client, collapse = " "),
                                        redirect_uri = "http://127.0.0.1:1410"
                                      ))
-  check_token_v2(token, "pkce")
-
-  if (.POSIXct(token$expires_at) >= Sys.time()) {
-    return(token)
-  }
-
-  if (!interactive()) {
-    if (is_testing()) {
-      testthat::skip(paste0("Not possible to refresh the token automatically",
-           " and not in interactive environment."))
-    }
-    abort("Automatic refresh of the token was not possible.",
-          call = caller_call())
-  } else {
-    warn(c("It couldn't automatically renew the authentication.",
-           i = "Please accept the window it will open up."),
-         call = caller_call())
-
-    Sys.sleep(1)
-    token2 <- rtweet_oauth2(client, get_scopes(token))
-  }
-
-  attr(token2, "app") <- client_name
-  attr(token2, "name") <- token_name(token)
-  # Save token in the environment
-  auth_as(token2)
   # If possible replace it in the user storage.
-  resave_token(token2)
-  token2
+  resave_token(token)
+  token
 }
 
 decrypt <- function(x) {
