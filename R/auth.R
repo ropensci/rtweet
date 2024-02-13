@@ -472,7 +472,9 @@ auth_path <- function(...) {
 #' @export
 #' @rdname rtweet_user
 rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
-  .Defunct(msg = "No longer needed, httr2 handles it automatically", package = "rtweet")
+  lifecycle::deprecate_stop("2.0.0", what = "rtweet_oatuh2()",
+                            details = c("No longer needed, httr2 handles it automatically",
+                                        i = "Register your client with `client_as('my_client')` and make your requests"))
   client <- client %||% client_get()
   if (!is_client(client)) {
     abort(c("Client not valid",

@@ -61,7 +61,6 @@ post_tweet <- function(status = "my first rtweet #rstats",
     lifecycle::deprecate_warn("1.0.0", "post_tweet(destroy_id)", "post_destroy()")
     return(post_destroy(destroy_id, token=token))
   }
-  .Defunct("tweet_post", "rtweet", "Due to API changes use tweet_post()")
 
   ## if retweet
   if (!is.null(retweet_id)) {

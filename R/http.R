@@ -31,7 +31,8 @@ TWIT_method <- function(method, token, api,
                             details = c("This function might work until your bot/app/user is blocked or fail randomly!",
                                         "!" = "The API has been deprecated and the new API v2.2 requires subscriptions for most endpoints.",
                                         i = "See updates of function and API: help('rtweet-deprecated', 'rtweet' )"
-                                        ))
+                                        ),
+                            always = TRUE)
   # need scipen to ensure large IDs are not displayed in scientific notation
   # need ut8-encoding for the comma separated IDs
   withr::local_options(scipen = 14, encoding = "UTF-8")
