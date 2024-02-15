@@ -25,7 +25,7 @@ pagination <- function(req, n_pages, count, verbose = TRUE) {
   tmp <- tempfile("rtweet_tmp", fileext = ".rds")
 
   all_results <- vector("list", length = n_pages)
-  resp <- httr2::req_perform(req)
+  resp <- httr2::req_perform(req, error_call = sys.call(1))
   x0 <- resp(resp)
   all_results[[1]] <- x0
 
