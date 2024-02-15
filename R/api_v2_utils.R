@@ -110,7 +110,11 @@ req_errors <- function(resp) {
   }
 
   if (any(lengths(r$errors) > 1)) {
-    errors <- do.call(rbind, lapply(r$errors, list2DF))
+    if (is.data.frame(r$errors[[1]])) {
+      errors <- do.call(rbind, r$errors)
+    } else {
+      errors <- do.call(rbind, lapply(r$errors, list2DF))
+    }
   }  else {
     errors <- r$errors
   }
