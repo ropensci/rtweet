@@ -275,3 +275,15 @@ client_app <- function(client) {
   stopifnot(is_client(client))
   attr(client, "app", exact = TRUE)
 }
+
+#' Clean clients
+#'
+#' Removes the rtweet clients directory.
+#' @returns Either TRUE if folder could be deleted or FALSE.
+#' @export
+#' @examples
+#' client_clean()
+client_clean <- function() {
+  out <- unlink(client_path(), recursive = TRUE, force = TRUE)
+  invisible(out == 0L)
+}

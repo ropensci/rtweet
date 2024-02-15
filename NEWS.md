@@ -1,13 +1,15 @@
 # rtweet (development version)
 
-* Fix problem with `auth_sitrep()` not correctly handling old tokens.
+* This is a major release to signal the end of API v1.1 functions. 
+
+* Fix a problem with `auth_sitrep()` not correctly handling old tokens.
 
 * Since httr2 > 0.2.3, rtweet refreshes OAuth 2.0 tokens automatically.
   It is no longer needed to user `rtweet_oauth2()`, authentication is fully handled by httr2.
 
-* Document the deprecated functions. 
+* Document the deprecated functions from API v1.1 to API v2: see `help("rtweet-deprecated", "rtweet")`.
 
-* This is a major release to signal the end of API v1.1 functions. 
+* New function `client_clean()` to remove client's data (together with `auth_clean()` they leave the user cache empty).
 
 # rtweet 1.2.1
 

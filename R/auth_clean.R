@@ -12,7 +12,7 @@
 #' `NULL` if there is nothing to do.
 #' @export
 #' @examples
-#' auth_clean(FALSE, FALSE)
+#' auth_clean(TRUE, TRUE)
 auth_clean <- function(old = TRUE, new = FALSE) {
   stopifnot(is_logical(old))
   stopifnot(is_logical(new))

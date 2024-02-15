@@ -24,5 +24,5 @@ This functions helps to comply with CRAN policy to remove files created by
 the package.
 }
 \examples{
-auth_clean(FALSE, FALSE)
+auth_clean(TRUE, TRUE)
 }
