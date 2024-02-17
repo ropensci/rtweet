@@ -12,7 +12,8 @@
 #' Jobs list: <https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs>
 #' @keywords internal
 job_compliance <- function(ids, name, type, resumable = TRUE, token = NULL) {
-
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   type <- match.arg(type, c("tweets", "users"))
   stopifnot(is_logical(resumable))
   stopifnot(is.character(name) && length(name) == 1)

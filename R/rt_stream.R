@@ -120,6 +120,8 @@ stream <- function(req, file, timeout) {
 #' @describeIn stream Add rules for the filtered streaming.
 #' @export
 stream_add_rule <- function(query, dry = FALSE, token = NULL) {
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   if (!is.null(query)) {
     query <- list(add = check_stream_add(query))
   }
@@ -135,6 +137,8 @@ stream_add_rule <- function(query, dry = FALSE, token = NULL) {
 #' @describeIn stream Remove rules from the filtered streaming
 #' @export
 stream_rm_rule <- function(query, dry = FALSE, token = NULL) {
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   if (!is.null(query)) {
     query <- check_stream_remove(query)
   }

@@ -18,6 +18,8 @@ list_minus <- function(l, minus) {
 # Pagination should be consistent across API v2
 # <https://developer.twitter.com/en/docs/twitter-api/pagination>
 pagination <- function(req, n_pages, count, verbose = TRUE) {
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   if (is.infinite(n_pages)) {
     n_pages <- 8
   }

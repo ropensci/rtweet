@@ -201,6 +201,8 @@ rtweet_bearer <- function(client = NULL, scopes  = NULL) {
 
 # @seealso [invalidate_bearer()]
 rtweet_invalidate <- function(api_key, api_secret, token = NULL) {
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   if (missing(api_key)) {
     api_key <- ask_pass("API key")
   }

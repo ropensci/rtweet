@@ -28,7 +28,9 @@ bearer_token <- function(token = NULL) {
 #' @keywords internal
 #' @export
 invalidate_bearer <- function(api_key, api_secret, client = NULL, token = NULL) {
-# See also rtweet_invalidate in auth.R
+  # See also rtweet_invalidate in auth.R
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   if (is.null(client)) {
     client <- client_as(client)
     api_key <- client["id"]

@@ -118,7 +118,8 @@ tweet_get <- function(id, expansions = NULL, fields = NULL, ..., token = NULL,
 #'   tweet_post()
 #' }
 tweet_post <- function(text, ..., token = NULL) {
-
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   options <- list(text = text, ...)
 
   if (sum(c("media", "quote_tweet_id", "poll") %in% names(options) ) > 1) {
@@ -160,6 +161,8 @@ check_reply_settings <- function(options) {
 #' @export
 #' @references <https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id>
 tweet_delete <- function(id, verbose = FALSE, token = NULL) {
+  # To store the token at the right place: see ?httr2::oauth_cache_path
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
   stopifnot("Requires valid ids." = is_id(id))
   if (length(id) == 1) {
     url <- paste0("tweets/", id)
