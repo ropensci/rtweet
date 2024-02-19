@@ -111,7 +111,7 @@ req_errors <- function(resp) {
 
   if (any(lengths(r$errors) > 1)) {
     if (is.data.frame(r$errors[[1]])) {
-      errors <- do.call(rbind, r$errors)
+      errors <- r$errors
     } else {
       errors <- do.call(rbind, lapply(r$errors, list2DF))
     }
@@ -144,7 +144,8 @@ req_v2 <- function(scopes) {
                              auth_url = "https://twitter.com/i/oauth2/authorize",
                              pkce = TRUE,
                              scope = paste(scopes_client, collapse = " "),
-                             redirect_uri = "http://127.0.0.1:1410"
+                             redirect_uri = "http://127.0.0.1:1410",
+                             cache_disk = TRUE
                              # redirect_uri = "http://localhost:1410"
   )
 
@@ -153,7 +154,7 @@ req_v2 <- function(scopes) {
   req_try <- httr2::req_retry(req_content,
                               is_transient = twitter_is_transient,
                               after = twitter_after)
-  req <- httr2::req_error(req_try, is_error = req_is_error, body = req_errors)
+  req <- httr2::req_error(req_try, is_error = httr2::resp_is_error, body = req_errors)
   req
 }
 
