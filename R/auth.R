@@ -513,33 +513,47 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
 # Renew token if needed
 # Makes the assumption that the right app is still in the user computer
 auth_renew <- function() {
+  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
 
   client <- client_get()
-  scopes_client <- client_scopes(client)
+  token <- httr2::oauth_token_cached(
+    client = client,
+    flow = httr2::oauth_flow_refresh,
+    flow_params = list(
+      scope = paste(client_scopes(client), collapse = " "),
+      token_params = list(client_id = client$id)
+    ),
+    cache_disk = TRUE
+  )
+  token_file <- list.files(pattern = client$name, path = auth_path(),
+                           full.names = TRUE, include.dirs = FALSE)
+  token <- readRDS(token_file)
+  # Somehow the time doesn't look fine
+  loc <- Sys.setlocale("LC_TIME", locale = "C")
+  expires <- .POSIXct(token$expires_at) >= Sys.time()
+  Sys.setlocale("LC_TIME", locale = loc)
 
-  if (!interactive()) {
+
+
+  if (expires && !interactive()) {
     if (is_testing()) {
       testthat::skip(paste0("Not possible to refresh the token automatically",
                             " and not in interactive environment."))
     }
-    abort("Automatic refresh of the token was not possible.",
+    warn("Automatic refresh of the token was not possible.",
           call = caller_call())
   } else {
-    warn(c("It couldn't automatically renew the authentication."),
-         call = caller_call())
+    return(NULL)
   }
 
-  withr::local_envvar(HTTR2_OAUTH_CACHE = auth_path())
-  token <- httr2::oauth_token_cached(client, httr2::oauth_flow_auth_code,
-                                     flow_params = list(
-                                       auth_url = "https://twitter.com/i/oauth2/authorize",
-                                       pkce = TRUE,
-                                       scope = paste(scopes_client, collapse = " "),
-                                       redirect_uri = "http://127.0.0.1:1410"
-                                     ))
-  # If possible replace it in the user storage.
-  resave_token(token)
-  token
+
+
+  token <- httr2::oauth_flow_refresh(client,
+                             refresh_token = token$refresh_token,
+                             scope = token$scope,
+                             token_params = list(client_id = client$id))
+  saveRDS(token, token_file)
+  message("Automatic refereshing of token")
 }
 
 decrypt <- function(x) {
