@@ -28,6 +28,8 @@
 #' @return Returns updated data object with full information latitude
 #'   and longitude vars.
 #' @family geo
+# Used by Twitmo
+#' @export
 lat_lng <- function(x, coords = c("coords_coords", "bbox_coords", "geo_coords"), prefs = "bbox_coords") {
   stopifnot(is.data.frame(x))
   coords <- match.arg(coords, several.ok = TRUE)
