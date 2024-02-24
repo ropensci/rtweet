@@ -1,4 +1,4 @@
-# rtweet (development version)
+# rtweet 2.0.0
 
 * This is a major release to signal the end of API v1.1 functions. 
 
