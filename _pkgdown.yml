@@ -9,7 +9,7 @@ development:
 news:
  releases:
  - text: "rtweet 2.0.0"
-   href: https://llrs.dev/post/2024/02/30/
+   href: https://llrs.dev/post/2024/02/16/new-rtweet-release-2-0-0/
  - text: "rtweet 1.2.0"
    href: https://llrs.dev/post/2023/03/20/rtweet-starts-using-api-v2/
  - text: "rtweet 1.0.0"
