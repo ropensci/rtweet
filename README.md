@@ -19,7 +19,14 @@ Coffee”](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)
 
 <!-- badges: end -->
 
-Use twitter from R. Get started by reading `vignette("rtweet")`.
+Use twitter from R.
+
+**This package is no longer updated and no fixes can be expected.**  
+A request to Orphan the package on CRAN was sent!
+
+The maintainer cannot longer check most of the output of the
+functionality provided. If you want to volunteer reach out to the
+maintainer.
 
 ## Installation
 
