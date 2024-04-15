@@ -115,7 +115,7 @@ default_cached_client <- function() {
 #' }
 client_save <- function(client) {
   stopifnot(is_client(client))
-  name <- paste0(attr(client, "app"), ".rds")
+  name <- paste0(client$name, ".rds")
   path <- client_path(name)
   inform(paste0("Saving client to '", path, "'"))
   dir.create(client_path(), showWarnings = FALSE, recursive = TRUE)
@@ -273,7 +273,7 @@ client_scopes <- function(client) {
 
 client_app <- function(client) {
   stopifnot(is_client(client))
-  attr(client, "app", exact = TRUE)
+  client$name
 }
 
 #' Clean clients

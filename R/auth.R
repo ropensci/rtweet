@@ -506,7 +506,7 @@ rtweet_oauth2 <- function(client = NULL, scopes = NULL) {
   # Example of valid url for authorization (created via client_as("academic_dev");rtweet_oauth2() )
   # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Tm5FWFA3OGFUVUMxTjhUREwzZzQ6MTpjaQ&redirect_uri=http%3A%2F%2F127.0.0.1%3A1410%2F&scope=tweet.read%20tweet.write%20tweet.moderate.write%20users.read%20follows.read%20follows.write%20offline.access%20space.read%20mute.read%20mute.write%20like.read%20like.write%20list.read%20list.write%20block.read%20block.write%20bookmark.read%20bookmark.write&state=PVgWK3MviQ5MBsfj0Iy5D89HBFR4mPwTl0yumjSPlWo&code_challenge=FNcGvupIzNIbWOL8rdJOrxsVS_b2R01vIbynF_iQIMQ&code_challenge_method=S256
   # # Note that the client_id should match in the url
-  attr(token, "app") <- attr(client, "app")
+  attr(token, "app") <- client$name
   token
 }
 
